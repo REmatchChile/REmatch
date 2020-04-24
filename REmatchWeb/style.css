@@ -1,0 +1,283 @@
+/* BEGIN IMPORTS */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
+@import url("scroll.css");
+/* END IMPORTS */
+/* BEGIN VARS */
+/* END VARS */
+/* BEGIN LAYOUT */
+.tippy-box {
+  text-align: left;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif !important;
+  padding: .5rem;
+}
+
+.tippy-box hr {
+  border-top: 1px solid #c8c8c8;
+}
+
+html {
+  background-color: #353535;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: -ms-grid;
+  display: grid;
+  grid-row-gap: .5rem;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+  -ms-grid-rows: min-content min-content auto 45vh;
+      grid-template-rows: -webkit-min-content -webkit-min-content auto 45vh;
+      grid-template-rows: min-content min-content auto 45vh;
+}
+
+.container .buttonContainer {
+  cursor: default;
+}
+
+.container .buttonContainer #fileInput {
+  display: none;
+}
+
+.container .queryContainer .CodeMirror {
+  font-size: 24px;
+  height: 2.5rem;
+}
+
+.container #textEditor {
+  overflow: auto;
+}
+
+.container #textEditor .CodeMirror {
+  font-size: 24px;
+  height: 100%;
+  width: 100%;
+}
+
+.container #textEditor .CodeMirror-scrollbar-filler, .container #textEditor .CodeMirror-gutter-filler {
+  background-color: #212121;
+}
+
+.container #textEditor .CodeMirror-code > div:last-child > pre > span::after {
+  content: "" !important;
+}
+
+.container .results {
+  overflow: auto;
+  color: #EEFFFF;
+  padding: .5rem;
+  background-color: #212121;
+  font-family: monospace;
+  font-size: 24px;
+}
+
+.container .results .resultline {
+  padding: .5rem 0;
+}
+
+.container .results .resultline:hover {
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
+  background-color: rgba(255, 255, 255, 0.2);
+  outline: 1px solid white;
+  cursor: pointer;
+}
+
+/* END LAYOUT */
+/* BEGIN COLORS */
+.btC1 {
+  text-transform: uppercase;
+  white-space: normal;
+  word-wrap: break-word;
+  margin: .25rem .1rem;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  background: none;
+  border-radius: .125rem;
+  color: #0a90f0;
+  border: 2px solid #0a90f0;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.btC1:hover {
+  background-color: #0a90f0;
+  color: black;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+}
+
+.resultC1 {
+  color: #0a90f0;
+}
+
+.markC1 {
+  background-color: #0a90f0;
+  color: black;
+}
+
+.markC1:hover {
+  outline: 2px solid white;
+}
+
+.btC2 {
+  text-transform: uppercase;
+  white-space: normal;
+  word-wrap: break-word;
+  margin: .25rem .1rem;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  background: none;
+  border-radius: .125rem;
+  color: #ec1216;
+  border: 2px solid #ec1216;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.btC2:hover {
+  background-color: #ec1216;
+  color: black;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+}
+
+.resultC2 {
+  color: #ec1216;
+}
+
+.markC2 {
+  background-color: #ec1216;
+  color: black;
+}
+
+.markC2:hover {
+  outline: 2px solid white;
+}
+
+.btC3 {
+  text-transform: uppercase;
+  white-space: normal;
+  word-wrap: break-word;
+  margin: .25rem .1rem;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  background: none;
+  border-radius: .125rem;
+  color: #31e611;
+  border: 2px solid #31e611;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.btC3:hover {
+  background-color: #31e611;
+  color: black;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+}
+
+.resultC3 {
+  color: #31e611;
+}
+
+.markC3 {
+  background-color: #31e611;
+  color: black;
+}
+
+.markC3:hover {
+  outline: 2px solid white;
+}
+
+.btC4 {
+  text-transform: uppercase;
+  white-space: normal;
+  word-wrap: break-word;
+  margin: .25rem .1rem;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  background: none;
+  border-radius: .125rem;
+  color: #f0cf12;
+  border: 2px solid #f0cf12;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.btC4:hover {
+  background-color: #f0cf12;
+  color: black;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+}
+
+.resultC4 {
+  color: #f0cf12;
+}
+
+.markC4 {
+  background-color: #f0cf12;
+  color: black;
+}
+
+.markC4:hover {
+  outline: 2px solid white;
+}
+
+.btC5 {
+  text-transform: uppercase;
+  white-space: normal;
+  word-wrap: break-word;
+  margin: .25rem .1rem;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  background: none;
+  border-radius: .125rem;
+  color: #d30fec;
+  border: 2px solid #d30fec;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.btC5:hover {
+  background-color: #d30fec;
+  color: black;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+}
+
+.resultC5 {
+  color: #d30fec;
+}
+
+.markC5 {
+  background-color: #d30fec;
+  color: black;
+}
+
+.markC5:hover {
+  outline: 2px solid white;
+}
+
+button:focus {
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+  outline: none;
+}
+
+/* END COLORS */
+/*# sourceMappingURL=style.css.map */

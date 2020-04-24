@@ -1,0 +1,146 @@
+/* BEGIN IMPORTS */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+@import url('scroll.css');
+/* END IMPORTS */
+
+/* BEGIN VARS */
+$c-0: #0a90f0;
+$c-1: #ec1216;
+$c-2: #31e611;
+$c-3: #f0cf12;
+$c-4: #d30fec;
+$colors: $c-0,
+$c-1,
+$c-2,
+$c-3,
+$c-4;
+
+$base-dark: #212121;
+$base-light: #353535;
+
+/* END VARS */
+
+/* BEGIN LAYOUT */
+.tippy-box {
+    text-align: left;
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif !important;
+    padding: .5rem;
+    hr {
+        border-top: 1px solid rgb(200, 200, 200);
+    }
+}
+
+html {
+    background-color: $base-light;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-row-gap: .5rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content min-content auto 45vh;
+
+    .buttonContainer {
+        cursor: default;
+
+        #fileInput {
+            display: none;
+        }
+    }
+
+    .queryContainer {
+        .CodeMirror {
+            font-size: 24px;
+            height: 2.5rem;
+        }
+
+    }
+
+    #textEditor {
+        overflow: auto;
+
+        .CodeMirror {
+            font-size: 24px;
+            height: 100%;
+            width: 100%;
+        }
+        .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {
+            background-color: $base-dark;
+        }
+
+        .CodeMirror-code>div:last-child>pre>span::after {
+            content: "" !important;
+        }
+    }
+
+    .results {
+        overflow: auto;
+        color: #EEFFFF;
+        padding: .5rem;
+        background-color: $base-dark;
+        font-family: monospace;
+        font-size: 24px;
+        .resultline {
+            padding: .5rem 0;
+            &:hover {
+                transition: all .2s ease;
+                background-color: rgba(255, 255, 255, 0.2);
+                outline: 1px solid white;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+/* END LAYOUT */
+
+/* BEGIN COLORS */
+@for $i from 1 to length($colors)+1 {
+    .btC#{$i} {
+        text-transform: uppercase;
+        white-space: normal;
+        word-wrap: break-word;
+        margin: .25rem .1rem;
+        padding: 1rem 1.25rem;
+        cursor: pointer;
+        background: none;
+        border-radius: .125rem;
+        color: nth($colors, $i);
+        border: 2px solid nth($colors, $i);
+        transition: all 0.15s ease;
+        font-family: 'Roboto', sans-serif !important;
+        &:hover {
+            background-color: nth($colors, $i);
+            color: black;
+            transition: all 0.15s ease;
+        }
+    }
+
+    .resultC#{$i} {
+        color: nth($colors, $i);
+    }
+
+    .markC#{$i} {
+        background-color: nth($colors, $i);
+        color: black;
+        &:hover {
+            outline: 2px solid white;
+        }
+    }
+}
+
+button:focus {
+    transition: all 0.15s ease;
+    outline: none;
+}
+
+/* END COLORS */

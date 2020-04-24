@@ -1,0 +1,263 @@
+<html lang="spn">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- JQuery -->
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <!-- CodeMirror -->
+    <script src="node_modules/codemirror/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="node_modules/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="node_modules/codemirror/theme/material-darker.css">
+    <script src="node_modules/codemirror/addon/mode/simple.js"></script>
+    <script src="node_modules/codemirror/addon/edit/closebrackets.js"></script>
+    <!-- PaginationJS -->
+    <script src="node_modules/paginationjs/dist/pagination.js"></script>
+    <link rel="stylesheet" href="node_modules/paginationjs/dist/pagination.css">
+    <!-- TippyJS -->
+    <script src="node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+    <script src="node_modules/tippy.js/dist/tippy-bundle.umd.js"></script>
+    <link rel="stylesheet" href="node_modules/tippy.js/dist/tippy.css">
+    <link rel="stylesheet" href="node_modules/tippy.js/themes/light.css">
+    <!-- REmatch WASM -->
+    <script src="spanners_interface.js"></script>
+    <!-- Style -->
+    <link rel="stylesheet" href="style.css">
+    <title>REmatch v1.0.0</title>
+</head>
+
+<body class="container">
+    <div class="buttonContainer">
+        <button type="button" class="btC1" onclick="$('#fileInput').click()">Upload file</button>
+        <input id="fileInput" type="file" onchange="handleFiles(this.files[0])" />
+        <button type="button" class="btC2" onclick="runQuery()">Run query</button>
+        <button type="button" class="btC3">Export results [WIP]</button>
+        <button type="button" class="btC4">Examples [WIP]</button>
+    </div>
+
+    <div class="queryContainer">
+        <div id="queryEditor"></div>
+    </div>
+
+    <div id="textEditor"></div>
+    <div class="results">
+        <div id="paginationContainer"></div>
+        <div id="dataContainer"></div>
+    </div>
+</body>
+
+<script>
+    /* BEGIN GLOBAL */
+    const CHUNK_SIZE = 128 * 2 ** 20;
+    let allSpans = [];
+    let schema = [];
+    var resultCount = 0;
+    var lastTooltip = false;
+
+    /* END GLOBAL */
+
+    /* BEGIN CODEMIRROR */
+    const TextEditor = CodeMirror($('#textEditor')[0], {
+        mode: null,
+        theme: "material-darker",
+        smartIndent: false,
+        indentWithTabs: true,
+        showInvisibles: true,
+        lineWrapping: false,
+        lineNumbers: true,
+        firstLineNumber: 0,
+        undoDepth: 100,
+        value:
+            `REmatch is cool!
+REmatch is awesome!
+REmatch is pretty!
+REmatch is useful!
+REmatch is cool!
+REmatch is awesome!
+REmatch is pretty!
+REmatch is useful!
+REmatch is cool!
+REmatch is awesome!
+REmatch is pretty!
+REmatch is useful!`,
+        viewportMargin: 10, // Lines rendered up and down [MEMORY]
+    });
+
+    CodeMirror.defineSimpleMode("rematchQuery", {
+        start: [
+            { regex: /(\.\+|\.\*|\.|\+)/, token: "keyword" },
+            { regex: /(\\d)|(\\w)|(\\s)|(\\t)|(\\r)|(\\n)|(\\\()|(\\\))|(\\\[)|(\\\])|(\\\{)|(\\\})|(\\\.)|(\\\-)|(\\\_)/i, token: "string" },
+            { regex: /(![A-Za-z0-9]+\{|\})/, token: "number" },
+            { regex: /(\(|\)|\||\[|\]|\-)/, token: "operator" }
+        ]
+    });
+
+    const QueryEditor = CodeMirror($('#queryEditor')[0], {
+        mode: "rematchQuery",
+        theme: "material-darker",
+        showInvisibles: false,
+        value: "!a{RE}!b{match} !c{is} !d{[a-z]+}!e{!}",
+        autoCloseBrackets: true,
+    });
+
+    /* END CODEMIRROR */
+
+    /* BEGIN PAGINATION */
+    function paginate(content) {
+        $('#paginationContainer').pagination({
+            dataSource: content,
+            pageSize: 9,
+            showNavigator: true,
+            showGoInput: true,
+            showGoButton: true,
+            callback: function (data, pagination) {
+                var html = data.join("");
+                $('#dataContainer').html(html);
+            }
+        });
+    };
+
+    function clearResults() {
+        $('#paginationContainer').html("");
+        $('#dataContainer').html("");
+    };
+    /* END PAGINATION */
+
+    /* BEGIN FILE READER */
+    async function handleFiles(file) {
+        TextEditor.setValue("");
+        clearResults();
+        allSpans = [];
+        schema = [];
+
+        $('#dataContainer').html("");
+        var t0 = Date.now();
+        var start = 0;
+        var end = CHUNK_SIZE;
+
+        while (start < file.size) {
+            var text = await file.slice(start, end).text()
+                .then((text) => TextEditor.replaceRange(text, { line: Infinity }))
+                .then(() => {
+                    start = end;
+                    end += CHUNK_SIZE;
+                })
+        }
+
+        console.log(`Read '${file.name}' in ${(Date.now() - t0) / 1000}s. (about ${Math.round(file.size / 10 ** 6)}MB)`);
+    };
+
+    /* END FILE READER */
+
+    /* BEGIN QUERY */
+    function getSpanText(spans) {
+        var textPreview = "";
+        var curr = "";
+        var count = 1;
+        for (var i = 0; i < spans.length; i++) {
+            curr = TextEditor.getRange(TextEditor.posFromIndex(spans[i][0]),
+                TextEditor.posFromIndex(spans[i][1])
+            );
+            textPreview += `<span class="resultC${count}">${curr}</span>`
+            count++;
+        }
+        return textPreview;
+    };
+
+    function setResults(data) {
+        var buttonArr = [];
+        for (var i = 0; i < data.length; i++) {
+            buttonArr.push(`<div class="resultLine" data-spans="${data[i]}">${getSpanText(data[i])}</div>`);
+        }
+        if (buttonArr.length > 0) {
+            paginate(buttonArr);
+        } else {
+            $('#paginationContainer').html("");
+            $('#dataContainer').html("No matches.");
+        }
+    };
+
+    function runQuery() {
+        var t0 = Date.now();
+        TextEditor.setValue(TextEditor.getValue());
+        clearResults();
+        resultCount = 0;
+        allSpans = [];
+        schema = [];
+
+
+        instance = new Module.WasmInterface(TextEditor.getValue(), `.*${QueryEditor.getValue()}.*`);
+        instance.init();
+        var tempSchema = instance.getOutputSchema();
+        for (var i = 0; i < tempSchema.size(); i++) {
+            schema.push(tempSchema.get(i));
+        }
+        while (instance.hasNext()) {
+            spanList = [];
+            curr = instance.next();
+            for (i = 0; i < schema.length; i++) {
+                spanList.push(curr.get(i));
+            }
+            allSpans = allSpans.concat([spanList]);
+            resultCount++;
+        }
+        instance.delete();
+        var t1 = Date.now();
+        console.log(`Query done in ${(t1 - t0) / 1000}s.`);
+        if (allSpans) {
+            setResults(allSpans);
+        }
+        console.log(`Matches printed in ${(t1 - t0) / 1000}s.`);
+    };
+
+    /* END QUERY */
+
+    /* BEGIN HIGHLIGHT */
+    $(document).on('click', '.resultLine', function () {
+        TextEditor.setValue(TextEditor.getValue());
+
+        var arr = this.dataset.spans.split(",").map(Number);
+        var start, end, markStart, markEnd, currClass;
+        var colorId = 1;
+        for (var i = 1; i < arr.length; i += 2) {
+            currClass = `markC${colorId}`;
+            start = arr[i - 1];
+            end = arr[i];
+            markStart = TextEditor.posFromIndex(start);
+            markEnd = TextEditor.posFromIndex(end);
+            TextEditor.markText(
+                markStart,
+                markEnd,
+                {
+                    className: currClass,
+                    attributes: { "data-range": [start, end, colorId] },
+                },
+            );
+            colorId++;
+        }
+        TextEditor.scrollIntoView(markStart, 200);
+    });
+
+    $(document).on('mouseenter', 'span[class*=" markC"]', function () {
+        var range = this.dataset.range.split(",").map(Number);
+        if (lastTooltip) {
+            lastTooltip.destroy();
+        }
+        lastTooltip = tippy($(this)[0], {
+            content: `<b>range:</b> [${range[0]}, ${range[1]})<br>
+                      <hr>
+                      <b>group:</b> #${range[2]} <b>${schema[range[2]-1]}</b>`,
+            allowHTML: true,
+            maxWidth: 'none',
+            duration: 0,
+            theme: 'light',
+            placement: 'bottom',
+        });
+    });    
+    /* END HIGHLIGHT */
+
+
+</script>
+
+</html>
