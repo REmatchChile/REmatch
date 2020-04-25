@@ -4,6 +4,39 @@
 /* END IMPORTS */
 /* BEGIN VARS */
 /* END VARS */
+/* BEGIN THEMES */
+.container.lite {
+  background-color: #FFFFFF !important;
+}
+
+.container.lite .results {
+  background-color: #f5f5f5 !important;
+  color: #6e6e6e;
+}
+
+.container.lite .results .resultline:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  outline: 1px solid #6e6e6e;
+}
+
+.container.cl {
+  background-color: #000294 !important;
+}
+
+.container.cl .results {
+  background-color: #860000 !important;
+}
+
+.container.cl .results .resultline {
+  color: #bdbcbc;
+}
+
+.container.cl .results .resultline:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  outline: 1px solid #bdbcbc;
+}
+
+/* END THEMES */
 /* BEGIN LAYOUT */
 .tippy-box {
   text-align: left;
@@ -17,7 +50,6 @@
 }
 
 html {
-  background-color: #353535;
   padding: 0;
   margin: 0;
   width: 100%;
@@ -37,10 +69,16 @@ html {
   -ms-grid-rows: min-content min-content auto 45vh;
       grid-template-rows: -webkit-min-content -webkit-min-content auto 45vh;
       grid-template-rows: min-content min-content auto 45vh;
+  background-color: #353535;
 }
 
 .container .buttonContainer {
+  padding: 0 .25rem;
   cursor: default;
+}
+
+.container .buttonContainer #themeSelector {
+  float: right;
 }
 
 .container .buttonContainer #fileInput {
@@ -87,7 +125,7 @@ html {
   -webkit-transition: all .2s ease;
   transition: all .2s ease;
   background-color: rgba(255, 255, 255, 0.2);
-  outline: 1px solid white;
+  outline: 1px solid #EEFFFF;
   cursor: pointer;
 }
 
@@ -102,31 +140,31 @@ html {
   cursor: pointer;
   background: none;
   border-radius: .125rem;
-  color: #0a90f0;
-  border: 2px solid #0a90f0;
+  color: #0095ff;
+  border: 2px solid #0095ff;
   -webkit-transition: all 0.15s ease;
   transition: all 0.15s ease;
   font-family: 'Roboto', sans-serif !important;
 }
 
 .btC1:hover {
-  background-color: #0a90f0;
+  background-color: #0095ff;
   color: black;
   -webkit-transition: all 0.15s ease;
   transition: all 0.15s ease;
 }
 
 .resultC1 {
-  color: #0a90f0;
+  color: #0095ff;
 }
 
 .markC1 {
-  background-color: #0a90f0;
+  background-color: #0095ff;
   color: black;
 }
 
 .markC1:hover {
-  outline: 2px solid white;
+  outline: 2px solid #33aaff;
 }
 
 .btC2 {
@@ -138,31 +176,31 @@ html {
   cursor: pointer;
   background: none;
   border-radius: .125rem;
-  color: #ec1216;
-  border: 2px solid #ec1216;
+  color: #ff0004;
+  border: 2px solid #ff0004;
   -webkit-transition: all 0.15s ease;
   transition: all 0.15s ease;
   font-family: 'Roboto', sans-serif !important;
 }
 
 .btC2:hover {
-  background-color: #ec1216;
+  background-color: #ff0004;
   color: black;
   -webkit-transition: all 0.15s ease;
   transition: all 0.15s ease;
 }
 
 .resultC2 {
-  color: #ec1216;
+  color: #ff0004;
 }
 
 .markC2 {
-  background-color: #ec1216;
+  background-color: #ff0004;
   color: black;
 }
 
 .markC2:hover {
-  outline: 2px solid white;
+  outline: 2px solid #ff3336;
 }
 
 .btC3 {
@@ -174,31 +212,31 @@ html {
   cursor: pointer;
   background: none;
   border-radius: .125rem;
-  color: #31e611;
-  border: 2px solid #31e611;
+  color: #33cf17;
+  border: 2px solid #33cf17;
   -webkit-transition: all 0.15s ease;
   transition: all 0.15s ease;
   font-family: 'Roboto', sans-serif !important;
 }
 
 .btC3:hover {
-  background-color: #31e611;
+  background-color: #33cf17;
   color: black;
   -webkit-transition: all 0.15s ease;
   transition: all 0.15s ease;
 }
 
 .resultC3 {
-  color: #31e611;
+  color: #33cf17;
 }
 
 .markC3 {
-  background-color: #31e611;
+  background-color: #33cf17;
   color: black;
 }
 
 .markC3:hover {
-  outline: 2px solid white;
+  outline: 2px solid #4de831;
 }
 
 .btC4 {
@@ -210,31 +248,31 @@ html {
   cursor: pointer;
   background: none;
   border-radius: .125rem;
-  color: #f0cf12;
-  border: 2px solid #f0cf12;
+  color: #ffa600;
+  border: 2px solid #ffa600;
   -webkit-transition: all 0.15s ease;
   transition: all 0.15s ease;
   font-family: 'Roboto', sans-serif !important;
 }
 
 .btC4:hover {
-  background-color: #f0cf12;
+  background-color: #ffa600;
   color: black;
   -webkit-transition: all 0.15s ease;
   transition: all 0.15s ease;
 }
 
 .resultC4 {
-  color: #f0cf12;
+  color: #ffa600;
 }
 
 .markC4 {
-  background-color: #f0cf12;
+  background-color: #ffa600;
   color: black;
 }
 
 .markC4:hover {
-  outline: 2px solid white;
+  outline: 2px solid #ffb833;
 }
 
 .btC5 {
@@ -270,7 +308,7 @@ html {
 }
 
 .markC5:hover {
-  outline: 2px solid white;
+  outline: 2px solid #de3bf3;
 }
 
 button:focus {

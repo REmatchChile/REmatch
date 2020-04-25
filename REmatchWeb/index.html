@@ -1,4 +1,4 @@
-<html lang="spn">
+<html>
 
 <head>
     <!-- Required meta tags -->
@@ -10,6 +10,7 @@
     <script src="node_modules/codemirror/lib/codemirror.js"></script>
     <link rel="stylesheet" href="node_modules/codemirror/lib/codemirror.css">
     <link rel="stylesheet" href="node_modules/codemirror/theme/material-darker.css">
+    <link rel="stylesheet" href="node_modules/codemirror/theme/base16-light.css">
     <script src="node_modules/codemirror/addon/mode/simple.js"></script>
     <script src="node_modules/codemirror/addon/edit/closebrackets.js"></script>
     <!-- PaginationJS -->
@@ -27,13 +28,14 @@
     <title>REmatch v1.0.0</title>
 </head>
 
-<body class="container">
+<body class="container nite">
     <div class="buttonContainer">
         <button type="button" class="btC1" onclick="$('#fileInput').click()">Upload file</button>
         <input id="fileInput" type="file" onchange="handleFiles(this.files[0])" />
         <button type="button" class="btC2" onclick="runQuery()">Run query</button>
-        <button type="button" class="btC3">Export results [WIP]</button>
-        <button type="button" class="btC4">Examples [WIP]</button>
+        <!--<button type="button" class="btC3">Export results [WIP]</button>-->
+        <!--<button type="button" class="btC4">Examples [WIP]</button>-->
+        <button id="themeSelector" type="button" class="btC5" onclick="switchTheme()">Switch Theme!</button>
     </div>
 
     <div class="queryContainer">
@@ -52,15 +54,47 @@
     const CHUNK_SIZE = 128 * 2 ** 20;
     let allSpans = [];
     let schema = [];
-    var resultCount = 0;
-    var lastTooltip = false;
+    let resultCount = 0;
+    let lastTooltip = false;
 
+    let SKIN = localStorage.SKIN;
+    let TIPPY = localStorage.TIPPY;
+    let CMSKIN = localStorage.CMSKIN;
+    console.log(SKIN, TIPPY, CMSKIN);
+    if (!SKIN || !TIPPY || !CMSKIN) {
+        localStorage.SKIN = "nite";
+        localStorage.TIPPY = "light";
+        localStorage.CMSKIN = "cm-s-material-darker"
+    }
     /* END GLOBAL */
+    
+
+    /* BEGIN THEMES */
+    function loadTheme(skin, tippy, cmskin) {
+        $('.container')[0].className = `container ${skin}`
+            $('.CodeMirror').each( function() {
+                this.className = `CodeMirror ${cmskin}`;                
+            });
+        SKIN = skin;
+        TIPPY = tippy;
+        CMSKIN = cmskin;
+        localStorage.SKIN = skin;
+        localStorage.TIPPY = tippy;
+        localStorage.CMSKIN = cmskin;
+    }
+
+    function switchTheme() {
+        if (localStorage.SKIN == "nite") {
+            loadTheme("lite", "default", "cm-s-base16-light");
+        } else {
+            loadTheme("nite", "light", "cm-s-material-darker");
+        }
+    }
+    /* END THEMES */
 
     /* BEGIN CODEMIRROR */
     const TextEditor = CodeMirror($('#textEditor')[0], {
         mode: null,
-        theme: "material-darker",
         smartIndent: false,
         indentWithTabs: true,
         showInvisibles: true,
@@ -95,12 +129,13 @@ REmatch is useful!`,
 
     const QueryEditor = CodeMirror($('#queryEditor')[0], {
         mode: "rematchQuery",
-        theme: "material-darker",
         showInvisibles: false,
         value: "!a{RE}!b{match} !c{is} !d{[a-z]+}!e{!}",
         autoCloseBrackets: true,
     });
 
+    
+    loadTheme(localStorage.SKIN, localStorage.TIPPY, localStorage.CMSKIN);
     /* END CODEMIRROR */
 
     /* BEGIN PAGINATION */
@@ -247,15 +282,23 @@ REmatch is useful!`,
         lastTooltip = tippy($(this)[0], {
             content: `<b>range:</b> [${range[0]}, ${range[1]})<br>
                       <hr>
-                      <b>group:</b> #${range[2]} <b>${schema[range[2]-1]}</b>`,
+                      <b>group:</b> #${range[2]} <b>${schema[range[2] - 1]}</b>`,
             allowHTML: true,
             maxWidth: 'none',
             duration: 0,
-            theme: 'light',
+            theme: localStorage.TIPPY,
             placement: 'bottom',
         });
-    });    
+    });
     /* END HIGHLIGHT */
+
+    /* BEGIN EGG */
+    function egg(theme) {
+        if (theme == "cl") {
+            loadTheme("cl", "default", "cm-s-base16-light");
+        }
+    }
+    /* END EGG */
 
 
 </script>
