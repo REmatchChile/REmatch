@@ -21,6 +21,8 @@
     <script src="node_modules/tippy.js/dist/tippy-bundle.umd.js"></script>
     <link rel="stylesheet" href="node_modules/tippy.js/dist/tippy.css">
     <link rel="stylesheet" href="node_modules/tippy.js/themes/light.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.css">
     <!-- REmatch WASM -->
     <script src="spanners_interface.js"></script>
     <!-- Style -->
@@ -30,19 +32,17 @@
 
 <body class="container nite">
     <div class="buttonContainer">
-        <button type="button" class="btC1" onclick="$('#fileInput').click()">Upload file</button>
+        <button type="button" class="btC1" onclick="$('#fileInput').click()"><i class="fas fa-lg fa-folder-open" style="margin-right: .5rem;"></i>Open</button>
         <input id="fileInput" type="file" onchange="handleFiles(this.files[0])" />
-        <button type="button" class="btC2" onclick="runQuery()">Run query</button>
+        <button type="button" class="btC2" onclick="runQuery()"><i class="fas fa-lg fa-play" style="margin-right: .5rem;"></i>Query</button>
         <!--<button type="button" class="btC3">Export results [WIP]</button>-->
         <!--<button type="button" class="btC4">Examples [WIP]</button>-->
-        <button id="themeSelector" type="button" class="btC5" onclick="switchTheme()">Switch Theme!</button>
+        <button id="themeSelector" type="button" class="btTheme" onclick="switchTheme()"><i class="fas fa-lg fa-sun"></i></button>
     </div>
 
-    <div class="queryContainer">
-        <div id="queryEditor"></div>
-    </div>
-
+    <div id="queryEditor"></div>
     <div id="textEditor"></div>
+
     <div class="results">
         <div id="paginationContainer"></div>
         <div id="dataContainer"></div>
@@ -293,9 +293,14 @@ REmatch is useful!`,
     /* END HIGHLIGHT */
 
     /* BEGIN EGG */
+    const cl = "cl"
+    const mag = "mag"
     function egg(theme) {
-        if (theme == "cl") {
-            loadTheme("cl", "default", "cm-s-base16-light");
+        if (theme == cl) {
+            loadTheme("cl", "light", "cm-s-base16-light");
+        }
+        if (theme == mag) {
+            loadTheme("mag", "light", "cm-s-base16-light");
         }
     }
     /* END EGG */

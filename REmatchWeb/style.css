@@ -9,9 +9,24 @@
   background-color: #FFFFFF !important;
 }
 
+.container.lite .btTheme {
+  color: black;
+  border: 2px solid black;
+}
+
+.container.lite .btTheme:hover {
+  background-color: black;
+  color: white;
+}
+
+.container.lite #queryEditor, .container.lite #textEditor {
+  outline: 1px solid #6e6e6e;
+}
+
 .container.lite .results {
   background-color: #f5f5f5 !important;
   color: #6e6e6e;
+  outline: 1px solid #6e6e6e;
 }
 
 .container.lite .results .resultline:hover {
@@ -28,12 +43,48 @@
 }
 
 .container.cl .results .resultline {
-  color: #bdbcbc;
+  color: #EEFFFF;
 }
 
 .container.cl .results .resultline:hover {
   background-color: rgba(255, 255, 255, 0.1);
-  outline: 1px solid #bdbcbc;
+  outline: 1px solid #EEFFFF;
+}
+
+.container.mag {
+  background-color: #EEFFFF;
+}
+
+.container.mag .btTheme {
+  color: black;
+  border: 2px solid black;
+}
+
+.container.mag .btTheme:hover {
+  background-color: black;
+  color: white;
+}
+
+.container.mag .CodeMirror {
+  color: #EEFFFF;
+  background-color: #0f12da;
+}
+
+.container.mag .CodeMirror .CodeMirror-gutters {
+  background-color: #0f12da;
+}
+
+.container.mag .results {
+  background-color: #ffea31 !important;
+}
+
+.container.mag .results .resultline {
+  color: #EEFFFF;
+}
+
+.container.mag .results .resultline:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  outline: 1px solid #EEFFFF;
 }
 
 /* END THEMES */
@@ -47,6 +98,25 @@
 
 .tippy-box hr {
   border-top: 1px solid #c8c8c8;
+}
+
+.btTheme {
+  color: #EEFFFF;
+  background-color: transparent;
+  cursor: pointer;
+  margin: .25rem .1rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid #EEFFFF;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+  padding: 1.1rem;
+}
+
+.btTheme:hover {
+  background-color: #EEFFFF;
+  color: black;
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
 }
 
 html {
@@ -85,9 +155,13 @@ html {
   display: none;
 }
 
-.container .queryContainer .CodeMirror {
+.container #queryEditor {
+  overflow: auto;
+}
+
+.container #queryEditor .CodeMirror {
   font-size: 24px;
-  height: 2.5rem;
+  height: 2.75rem;
 }
 
 .container #textEditor {
@@ -124,7 +198,7 @@ html {
 .container .results .resultline:hover {
   -webkit-transition: all .2s ease;
   transition: all .2s ease;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: transparent;
   outline: 1px solid #EEFFFF;
   cursor: pointer;
 }
@@ -138,7 +212,7 @@ html {
   margin: .25rem .1rem;
   padding: 1rem 1.25rem;
   cursor: pointer;
-  background: none;
+  background: transparent;
   border-radius: .125rem;
   color: #0095ff;
   border: 2px solid #0095ff;
@@ -174,7 +248,7 @@ html {
   margin: .25rem .1rem;
   padding: 1rem 1.25rem;
   cursor: pointer;
-  background: none;
+  background: transparent;
   border-radius: .125rem;
   color: #ff0004;
   border: 2px solid #ff0004;
@@ -210,7 +284,7 @@ html {
   margin: .25rem .1rem;
   padding: 1rem 1.25rem;
   cursor: pointer;
-  background: none;
+  background: transparent;
   border-radius: .125rem;
   color: #33cf17;
   border: 2px solid #33cf17;
@@ -246,33 +320,33 @@ html {
   margin: .25rem .1rem;
   padding: 1rem 1.25rem;
   cursor: pointer;
-  background: none;
+  background: transparent;
   border-radius: .125rem;
-  color: #ffa600;
-  border: 2px solid #ffa600;
+  color: #ff8800;
+  border: 2px solid #ff8800;
   -webkit-transition: all 0.15s ease;
   transition: all 0.15s ease;
   font-family: 'Roboto', sans-serif !important;
 }
 
 .btC4:hover {
-  background-color: #ffa600;
+  background-color: #ff8800;
   color: black;
   -webkit-transition: all 0.15s ease;
   transition: all 0.15s ease;
 }
 
 .resultC4 {
-  color: #ffa600;
+  color: #ff8800;
 }
 
 .markC4 {
-  background-color: #ffa600;
+  background-color: #ff8800;
   color: black;
 }
 
 .markC4:hover {
-  outline: 2px solid #ffb833;
+  outline: 2px solid #ffa033;
 }
 
 .btC5 {
@@ -282,7 +356,7 @@ html {
   margin: .25rem .1rem;
   padding: 1rem 1.25rem;
   cursor: pointer;
-  background: none;
+  background: transparent;
   border-radius: .125rem;
   color: #d30fec;
   border: 2px solid #d30fec;

@@ -7,7 +7,7 @@
 $c-0: #0095ff;
 $c-1: #ff0004;
 $c-2: #33cf17;
-$c-3: #ffa600;
+$c-3: #ff8800;
 $c-4: #d30fec;
 $colors: $c-0,
 $c-1,
@@ -17,29 +17,43 @@ $c-4;
 
 $nite-bg: #212121;
 $nite-cont: #353535;
-$nite-text: #EEFFFF;
+$nite-inv: #EEFFFF;
 
 $lite-bg: #FFFFFF;
 $lite-cont: #f5f5f5;
-$lite-text: rgb(110, 110, 110);
+$lite-inv: rgb(110, 110, 110);
 
 $cl-bg: rgb(0, 2, 148);
 $cl-cont: rgb(134, 0, 0);
-$cl-text: rgb(189, 188, 188);
+$cl-inv: #EEFFFF;
 
-
+$mag-bg: rgb(15, 18, 218);
+$mag-cont: rgb(255, 234, 49);
+$mag-inv: #EEFFFF;
 /* END VARS */
 
 /* BEGIN THEMES */
 .container.lite {
+    .btTheme {
+        color: black;
+        border: 2px solid black;
+        &:hover {
+            background-color: black;
+            color: white;
+        }
+    }
     background-color: $lite-bg !important;
+    #queryEditor, #textEditor {
+        outline: 1px solid $lite-inv;
+    }
     .results { 
         background-color: $lite-cont !important;
-        color: $lite-text;
+        color: $lite-inv;
+        outline: 1px solid $lite-inv;
         .resultline {
             &:hover {
                 background-color: rgba(0, 0, 0, 0.1);
-                outline: 1px solid $lite-text;
+                outline: 1px solid $lite-inv;
             }
         }
     }
@@ -50,10 +64,39 @@ $cl-text: rgb(189, 188, 188);
     .results { 
         background-color: $cl-cont !important;
         .resultline {
-            color: $cl-text;
+            color: $cl-inv;
             &:hover {
                 background-color: rgba(255, 255, 255, 0.1);
-                outline: 1px solid $cl-text;
+                outline: 1px solid $cl-inv;
+            }
+        }
+    }
+}
+
+.container.mag {
+    background-color: $mag-inv;
+    .btTheme {
+        color: black;
+        border: 2px solid black;
+        &:hover {
+            background-color: black;
+            color: white;
+        }
+    }
+    .CodeMirror {
+        color: $mag-inv;
+        background-color: $mag-bg;
+        .CodeMirror-gutters {
+            background-color: $mag-bg;
+        }
+    }
+    .results { 
+        background-color: $mag-cont !important;
+        .resultline {
+            color: $mag-inv;
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+                outline: 1px solid $mag-inv;
             }
         }
     }
@@ -68,6 +111,22 @@ $cl-text: rgb(189, 188, 188);
     padding: .5rem;
     hr {
         border-top: 1px solid rgb(200, 200, 200);
+    }
+}
+
+.btTheme {
+    color: $nite-inv;
+    background-color: transparent;
+    cursor: pointer;
+    margin: .25rem .1rem;
+    padding: 1rem 1.25rem;
+    border: 2px solid $nite-inv;
+    transition: all 0.15s ease;
+    padding: 1.1rem;
+    &:hover {
+        background-color: $nite-inv;
+        color: black;
+        transition: all 0.15s ease;
     }
 }
 
@@ -99,12 +158,12 @@ html {
         }
     }
 
-    .queryContainer {
+    #queryEditor {
+        overflow: auto;
         .CodeMirror {
             font-size: 24px;
-            height: 2.5rem;
+            height: 2.75rem;
         }
-
     }
 
     #textEditor {
@@ -126,7 +185,7 @@ html {
 
     .results {
         overflow: auto;
-        color: $nite-text;
+        color: $nite-inv;
         padding: .5rem;
         background-color: $nite-bg;
         font-family: monospace;
@@ -135,8 +194,8 @@ html {
             padding: .5rem 0;
             &:hover {
                 transition: all .2s ease;
-                background-color: rgba(255, 255, 255, 0.2);
-                outline: 1px solid $nite-text;
+                background-color: transparent;
+                outline: 1px solid $nite-inv;
                 cursor: pointer;
             }
         }
@@ -154,7 +213,7 @@ html {
         margin: .25rem .1rem;
         padding: 1rem 1.25rem;
         cursor: pointer;
-        background: none;
+        background: transparent;
         border-radius: .125rem;
         color: nth($colors, $i);
         border: 2px solid nth($colors, $i);
