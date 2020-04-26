@@ -32,9 +32,12 @@
 
 <body class="container nite">
     <div class="buttonContainer">
-        <button type="button" class="btC1" onclick="$('#fileInput').click()"><i class="fas fa-lg fa-folder-open" style="margin-right: .5rem;"></i>Open</button>
+        <a href="https://domagojvrgoc.github.io/REmatch/REmatchWeb/">
+            <img src="assets/logo.png" alt="REmatch"/>
+        </a>    
         <input id="fileInput" type="file" onchange="handleFiles(this.files[0])" />
         <button type="button" class="btC2" onclick="runQuery()"><i class="fas fa-lg fa-play" style="margin-right: .5rem;"></i>Query</button>
+        <button type="button" class="btC1" onclick="$('#fileInput').click()"><i class="fas fa-lg fa-folder-open" style="margin-right: .5rem;"></i>Open</button>
         <!--<button type="button" class="btC3">Export results [WIP]</button>-->
         <!--<button type="button" class="btC4">Examples [WIP]</button>-->
         <button id="themeSelector" type="button" class="btTheme" onclick="switchTheme()"><i class="fas fa-lg fa-sun"></i></button>
@@ -120,6 +123,7 @@ REmatch is useful!`,
 
     CodeMirror.defineSimpleMode("rematchQuery", {
         start: [
+            
             { regex: /(\.\+|\.\*|\.|\+)/, token: "keyword" },
             { regex: /(\\d)|(\\w)|(\\s)|(\\t)|(\\r)|(\\n)|(\\\()|(\\\))|(\\\[)|(\\\])|(\\\{)|(\\\})|(\\\.)|(\\\-)|(\\\_)/i, token: "string" },
             { regex: /(![A-Za-z0-9]+\{|\})/, token: "number" },
@@ -274,8 +278,10 @@ REmatch is useful!`,
         TextEditor.scrollIntoView(markStart, 200);
     });
 
-    $(document).on('mouseenter', 'span[class*=" markC"]', function () {
+    $(document).on('mouseenter', 'span[class*="markC"]', function () {
         var range = this.dataset.range.split(",").map(Number);
+        //this.className += " outlined";
+        $(`.${$.trim(this.className)}`).addClass('hovered');
         if (lastTooltip) {
             lastTooltip.destroy();
         }
@@ -290,6 +296,10 @@ REmatch is useful!`,
             placement: 'bottom',
         });
     });
+
+    $(document).on('mouseleave', '.hovered', function() {
+        $(`.${$.trim(this.className.replace('hovered', ''))}`).removeClass('hovered');
+    })
     /* END HIGHLIGHT */
 
     /* BEGIN EGG */

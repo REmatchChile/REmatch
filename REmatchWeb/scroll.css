@@ -9,8 +9,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #e1e1e1;
-    border: 0px none #ffffff;
+    background: #adadad;
     border-radius: 0px;
 }
 
@@ -24,7 +23,6 @@
 
 ::-webkit-scrollbar-track {
     background: #666666;
-    border: 0px none #ffffff;
     border-radius: 0px;
 }
 

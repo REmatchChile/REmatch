@@ -147,6 +147,10 @@ html {
   cursor: default;
 }
 
+.container .buttonContainer img {
+  vertical-align: middle;
+}
+
 .container .buttonContainer #themeSelector {
   float: right;
 }
@@ -161,7 +165,7 @@ html {
 
 .container #queryEditor .CodeMirror {
   font-size: 24px;
-  height: 2.75rem;
+  height: 2.25rem;
 }
 
 .container #textEditor {
@@ -183,12 +187,12 @@ html {
 }
 
 .container .results {
+  font-size: 24px;
   overflow: auto;
   color: #EEFFFF;
   padding: .5rem;
   background-color: #212121;
   font-family: monospace;
-  font-size: 24px;
 }
 
 .container .results .resultline {
@@ -198,7 +202,7 @@ html {
 .container .results .resultline:hover {
   -webkit-transition: all .2s ease;
   transition: all .2s ease;
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.1);
   outline: 1px solid #EEFFFF;
   cursor: pointer;
 }
@@ -213,7 +217,6 @@ html {
   padding: 1rem 1.25rem;
   cursor: pointer;
   background: transparent;
-  border-radius: .125rem;
   color: #0095ff;
   border: 2px solid #0095ff;
   -webkit-transition: all 0.15s ease;
@@ -237,8 +240,8 @@ html {
   color: black;
 }
 
-.markC1:hover {
-  outline: 2px solid #33aaff;
+.markC1.hovered {
+  outline: 2px solid #4db5ff;
 }
 
 .btC2 {
@@ -249,7 +252,6 @@ html {
   padding: 1rem 1.25rem;
   cursor: pointer;
   background: transparent;
-  border-radius: .125rem;
   color: #ff0004;
   border: 2px solid #ff0004;
   -webkit-transition: all 0.15s ease;
@@ -273,8 +275,8 @@ html {
   color: black;
 }
 
-.markC2:hover {
-  outline: 2px solid #ff3336;
+.markC2.hovered {
+  outline: 2px solid #ff4d4f;
 }
 
 .btC3 {
@@ -285,7 +287,6 @@ html {
   padding: 1rem 1.25rem;
   cursor: pointer;
   background: transparent;
-  border-radius: .125rem;
   color: #33cf17;
   border: 2px solid #33cf17;
   -webkit-transition: all 0.15s ease;
@@ -309,8 +310,8 @@ html {
   color: black;
 }
 
-.markC3:hover {
-  outline: 2px solid #4de831;
+.markC3.hovered {
+  outline: 2px solid #61eb48;
 }
 
 .btC4 {
@@ -321,7 +322,6 @@ html {
   padding: 1rem 1.25rem;
   cursor: pointer;
   background: transparent;
-  border-radius: .125rem;
   color: #ff8800;
   border: 2px solid #ff8800;
   -webkit-transition: all 0.15s ease;
@@ -345,8 +345,8 @@ html {
   color: black;
 }
 
-.markC4:hover {
-  outline: 2px solid #ffa033;
+.markC4.hovered {
+  outline: 2px solid #ffac4d;
 }
 
 .btC5 {
@@ -357,7 +357,6 @@ html {
   padding: 1rem 1.25rem;
   cursor: pointer;
   background: transparent;
-  border-radius: .125rem;
   color: #d30fec;
   border: 2px solid #d30fec;
   -webkit-transition: all 0.15s ease;
@@ -381,8 +380,8 @@ html {
   color: black;
 }
 
-.markC5:hover {
-  outline: 2px solid #de3bf3;
+.markC5.hovered {
+  outline: 2px solid #e253f4;
 }
 
 button:focus {

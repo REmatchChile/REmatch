@@ -4,6 +4,8 @@
 /* END IMPORTS */
 
 /* BEGIN VARS */
+$font-text: 24px;
+
 $c-0: #0095ff;
 $c-1: #ff0004;
 $c-2: #33cf17;
@@ -150,6 +152,9 @@ html {
     .buttonContainer {
         padding: 0 .25rem;
         cursor: default;
+        img {
+            vertical-align: middle;
+        }
         #themeSelector {
             float: right;
         }
@@ -161,8 +166,8 @@ html {
     #queryEditor {
         overflow: auto;
         .CodeMirror {
-            font-size: 24px;
-            height: 2.75rem;
+            font-size: $font-text;
+            height: 2.25rem;
         }
     }
 
@@ -170,7 +175,7 @@ html {
         overflow: auto;
 
         .CodeMirror {
-            font-size: 24px;
+            font-size: $font-text;
             height: 100%;
             width: 100%;
         }
@@ -184,17 +189,17 @@ html {
     }
 
     .results {
+        font-size: $font-text;
         overflow: auto;
         color: $nite-inv;
         padding: .5rem;
         background-color: $nite-bg;
         font-family: monospace;
-        font-size: 24px;
         .resultline {
             padding: .5rem 0;
             &:hover {
                 transition: all .2s ease;
-                background-color: transparent;
+                background-color: rgba(255, 255, 255, .1);
                 outline: 1px solid $nite-inv;
                 cursor: pointer;
             }
@@ -214,7 +219,7 @@ html {
         padding: 1rem 1.25rem;
         cursor: pointer;
         background: transparent;
-        border-radius: .125rem;
+        //border-radius: .125rem;
         color: nth($colors, $i);
         border: 2px solid nth($colors, $i);
         transition: all 0.15s ease;
@@ -233,8 +238,8 @@ html {
     .markC#{$i} {
         background-color: nth($colors, $i);
         color: black;
-        &:hover {
-            outline: 2px solid lighten(nth($colors, $i), 10% );
+        &.hovered {
+            outline: 2px solid lighten(nth($colors, $i), 15% );
         }
     }
 }
