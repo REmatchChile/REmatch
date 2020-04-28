@@ -165,9 +165,13 @@ html {
 
     #queryEditor {
         overflow: auto;
-        .CodeMirror {
+        .CodeMirror {   
             font-size: $font-text;
             height: 2.25rem;
+            pre::after, pre::before {
+                content: ".*";
+                color: $nite-cont;
+            }
         }
     }
 
