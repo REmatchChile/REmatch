@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- JQuery -->
     <script src="node_modules/jquery/dist/jquery.js"></script>
+    <link rel="icon" href="assets/icon.ico">
     <!-- CodeMirror -->
     <script src="node_modules/codemirror/lib/codemirror.js"></script>
     <link rel="stylesheet" href="node_modules/codemirror/lib/codemirror.css">
@@ -27,14 +28,12 @@
     <script src="spanners_interface.js"></script>
     <!-- Style -->
     <link rel="stylesheet" href="style.css">
-    <title>REmatch v1.0.0</title>
+    <title>REmatch</title>
 </head>
 
 <body class="container nite">
     <div class="buttonContainer">
-        <a href="https://domagojvrgoc.github.io/REmatch/REmatchWeb/">
-            <img src="assets/logo.png" alt="REmatch"/>
-        </a>    
+        <img src="assets/logo.svg" alt="!RE{match}"/>
         <input id="fileInput" type="file" onchange="handleFiles(this.files[0])" />
         <button type="button" class="btC2" onclick="runQuery()"><i class="fas fa-lg fa-play" style="margin-right: .5rem;"></i>Query</button>
         <button type="button" class="btC1" onclick="$('#fileInput').click()"><i class="fas fa-lg fa-folder-open" style="margin-right: .5rem;"></i>Open</button>
@@ -63,7 +62,6 @@
     let SKIN = localStorage.SKIN;
     let TIPPY = localStorage.TIPPY;
     let CMSKIN = localStorage.CMSKIN;
-    console.log(SKIN, TIPPY, CMSKIN);
     if (!SKIN || !TIPPY || !CMSKIN) {
         localStorage.SKIN = "nite";
         localStorage.TIPPY = "light";
@@ -314,8 +312,21 @@ REmatch is useful!`,
         }
     }
     /* END EGG */
-
-
+    function createWorker(text, query) {
+        w = new Worker('work.js');
+        w.addEventListener('message', (m) => {
+            if (m.data == "finished") {
+                console.log("WORKER FINISHED!")
+                w.terminate();
+            } else {
+                console.log(m.data);
+            }
+        });
+        w.postMessage({text: text, query: query});
+    }
+    function workTest() {
+        createWorker(TextEditor.getValue(), `.*${QueryEditor.getValue()}.*`);
+    }
 </script>
 
 </html>
