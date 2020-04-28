@@ -168,6 +168,11 @@ html {
   height: 2.25rem;
 }
 
+.container #queryEditor .CodeMirror pre::after, .container #queryEditor .CodeMirror pre::before {
+  content: ".*";
+  color: #353535;
+}
+
 .container #textEditor {
   overflow: auto;
 }

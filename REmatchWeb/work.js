@@ -13,8 +13,6 @@ onmessage = (m) => {
         for (var i = 0; i < tempSchema.size(); i++) {
             schema.push(tempSchema.get(i));
         }
-        postMessage(`SCHEMA = ${schema}`);
-
         while (instance.hasNext()) {
             spanList = [];
             curr = instance.next();
@@ -24,8 +22,12 @@ onmessage = (m) => {
             allSpans = allSpans.concat([spanList]);
         }
         instance.delete();
-        postMessage(allSpans);
-        postMessage(`${allSpans.length} results in ${(Date.now() - t0)/1000}s.`);
-        postMessage('finished');
+        postMessage(
+            {   
+                schema: schema,
+                spans: allSpans, 
+                log: `${allSpans.length} results in ${(Date.now() - t0) / 1000}s.`,
+            }
+        )
     }
 }

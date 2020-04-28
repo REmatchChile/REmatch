@@ -25,7 +25,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.css">
     <!-- REmatch WASM -->
-    <script src="spanners_interface.js"></script>
+    <!--<script src="spanners_interface.js"></script>
     <!-- Style -->
     <link rel="stylesheet" href="style.css">
     <title>REmatch</title>
@@ -35,11 +35,11 @@
     <div class="buttonContainer">
         <img src="assets/logo.svg" alt="!RE{match}"/>
         <input id="fileInput" type="file" onchange="handleFiles(this.files[0])" />
-        <button type="button" class="btC2" onclick="runQuery()"><i class="fas fa-lg fa-play" style="margin-right: .5rem;"></i>Query</button>
+        <button id="buttonQuery" type="button" class="btC2" onclick="runQuery()"><i class="fas fa-lg fa-play" style="margin-right: .5rem;"></i>Query</button>
         <button type="button" class="btC1" onclick="$('#fileInput').click()"><i class="fas fa-lg fa-folder-open" style="margin-right: .5rem;"></i>Open</button>
         <!--<button type="button" class="btC3">Export results [WIP]</button>-->
         <!--<button type="button" class="btC4">Examples [WIP]</button>-->
-        <button id="themeSelector" type="button" class="btTheme" onclick="switchTheme()"><i class="fas fa-lg fa-sun"></i></button>
+        <button id="themeSelector" type="button" class="btTheme" onclick="switchTheme()"><i class="fas fa-lg fa-moon"></i></button>
     </div>
 
     <div id="queryEditor"></div>
@@ -54,9 +54,7 @@
 <script>
     /* BEGIN GLOBAL */
     const CHUNK_SIZE = 128 * 2 ** 20;
-    let allSpans = [];
     let schema = [];
-    let resultCount = 0;
     let lastTooltip = false;
 
     let SKIN = localStorage.SKIN;
@@ -135,7 +133,19 @@ REmatch is useful!`,
         value: "!a{RE}!b{match} !c{is} !d{[a-z]+}!e{!}",
         autoCloseBrackets: true,
     });
+    // Disables newline
+    QueryEditor.on('beforeChange', function(instance, change) {
+        var line = change.text.join("").replace(/\n/g, "");
+        change.update(change.from, change.to, [line]);
+        return true;
+    });
 
+    $('#queryEditor').keyup(function(e) {
+        if (e.which === 13) {
+            $('#buttonQuery').click();
+            return;
+        }
+    });
     
     loadTheme(localStorage.SKIN, localStorage.TIPPY, localStorage.CMSKIN);
     /* END CODEMIRROR */
@@ -165,7 +175,6 @@ REmatch is useful!`,
     async function handleFiles(file) {
         TextEditor.setValue("");
         clearResults();
-        allSpans = [];
         schema = [];
 
         $('#dataContainer').html("");
@@ -216,36 +225,12 @@ REmatch is useful!`,
     };
 
     function runQuery() {
-        var t0 = Date.now();
         TextEditor.setValue(TextEditor.getValue());
         clearResults();
         resultCount = 0;
-        allSpans = [];
         schema = [];
 
-
-        instance = new Module.WasmInterface(TextEditor.getValue(), `.*${QueryEditor.getValue()}.*`);
-        instance.init();
-        var tempSchema = instance.getOutputSchema();
-        for (var i = 0; i < tempSchema.size(); i++) {
-            schema.push(tempSchema.get(i));
-        }
-        while (instance.hasNext()) {
-            spanList = [];
-            curr = instance.next();
-            for (i = 0; i < schema.length; i++) {
-                spanList.push(curr.get(i));
-            }
-            allSpans = allSpans.concat([spanList]);
-            resultCount++;
-        }
-        instance.delete();
-        var t1 = Date.now();
-        console.log(`Query done in ${(t1 - t0) / 1000}s.`);
-        if (allSpans) {
-            setResults(allSpans);
-        }
-        console.log(`Matches printed in ${(t1 - t0) / 1000}s.`);
+        workStart();
     };
 
     /* END QUERY */
@@ -314,17 +299,24 @@ REmatch is useful!`,
     /* END EGG */
     function createWorker(text, query) {
         w = new Worker('work.js');
+        console.log("%c####################\nWork started!", "color: red")
         w.addEventListener('message', (m) => {
-            if (m.data == "finished") {
-                console.log("WORKER FINISHED!")
-                w.terminate();
-            } else {
-                console.log(m.data);
-            }
+            console.log(m.data.log);
+            w.terminate();
+            console.log("%cWork finished!", "color: red");
+
+            if (m.data.schema) {
+                console.log("%cPrint started!", "color: cyan");
+                var t0 = Date.now();
+                schema = m.data.schema;
+                setResults(m.data.spans.slice(0, 1000));
+                console.log(`Matches printed in ${(Date.now() - t0) / 1000}s.`);
+                console.log("%cPrint finished!\n####################", "color: cyan");
+            }            
         });
         w.postMessage({text: text, query: query});
     }
-    function workTest() {
+    function workStart() {
         createWorker(TextEditor.getValue(), `.*${QueryEditor.getValue()}.*`);
     }
 </script>
