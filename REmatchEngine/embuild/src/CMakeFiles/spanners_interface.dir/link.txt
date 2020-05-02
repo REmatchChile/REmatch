@@ -1,0 +1,1 @@
+/home/nicovsj/.emsdk/upstream/emscripten/em++  -DNDEBUG -O2 -O3  -O2  --bind -s ERROR_ON_UNDEFINED_SYMBOLS=0 @CMakeFiles/spanners_interface.dir/objects1.rsp  -o ../../bin/spanners_interface.js @CMakeFiles/spanners_interface.dir/linklibs.rsp

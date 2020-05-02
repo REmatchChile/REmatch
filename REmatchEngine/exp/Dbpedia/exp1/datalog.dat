@@ -1,0 +1,1 @@
+P(?x) :- /any("R")/next(")/?x:next(")/, ?x.".*(OPTIONAL|optional).*";

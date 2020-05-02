@@ -1,0 +1,1 @@
+.*!x{sparql!y{[^\n]*OPTIONAL[^\n]*\n}}.*

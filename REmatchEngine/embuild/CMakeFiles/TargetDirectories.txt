@@ -1,0 +1,8 @@
+/home/nicovsj/repos/SpannersConst/embuild/CMakeFiles/rebuild_cache.dir
+/home/nicovsj/repos/SpannersConst/embuild/CMakeFiles/edit_cache.dir
+/home/nicovsj/repos/SpannersConst/embuild/CMakeFiles/test.dir
+/home/nicovsj/repos/SpannersConst/embuild/src/CMakeFiles/rebuild_cache.dir
+/home/nicovsj/repos/SpannersConst/embuild/src/CMakeFiles/edit_cache.dir
+/home/nicovsj/repos/SpannersConst/embuild/src/CMakeFiles/test.dir
+/home/nicovsj/repos/SpannersConst/embuild/src/CMakeFiles/spanners_interface.dir
+/home/nicovsj/repos/SpannersConst/embuild/src/CMakeFiles/rematchlib.dir

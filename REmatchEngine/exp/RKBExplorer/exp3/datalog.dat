@@ -1,0 +1,1 @@
+P(?x) :- /any(\n)/?y:next(:)/next(sparql)/?x:next(\n)/, ?x.".*FILTER.*", ?y.".*12";
