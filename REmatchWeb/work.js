@@ -4,8 +4,8 @@ var spanList = [];
 var curr;
 var allSpans = [];
 
-onmessage = (m) => {
-    Module['onRuntimeInitialized'] = () => {
+Module['onRuntimeInitialized'] = () => {
+    onmessage = (m) => {
         var t0 = Date.now();
         var instance = new Module.WasmInterface(m.data.text, m.data.query);
         instance.init();
