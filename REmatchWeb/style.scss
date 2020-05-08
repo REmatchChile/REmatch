@@ -17,6 +17,8 @@ $c-2,
 $c-3,
 $c-4;
 
+$disabled: #888888;
+
 $nite-bg: #212121;
 $nite-cont: #353535;
 $nite-inv: #EEFFFF;
@@ -55,7 +57,6 @@ $mag-inv: #EEFFFF;
         .resultline {
             &:hover {
                 background-color: rgba(0, 0, 0, 0.1);
-                outline: 1px solid $lite-inv;
             }
         }
     }
@@ -69,7 +70,6 @@ $mag-inv: #EEFFFF;
             color: $cl-inv;
             &:hover {
                 background-color: rgba(255, 255, 255, 0.1);
-                outline: 1px solid $cl-inv;
             }
         }
     }
@@ -98,7 +98,6 @@ $mag-inv: #EEFFFF;
             color: $mag-inv;
             &:hover {
                 background-color: rgba(255, 255, 255, 0.1);
-                outline: 1px solid $mag-inv;
             }
         }
     }
@@ -120,15 +119,16 @@ $mag-inv: #EEFFFF;
     color: $nite-inv;
     background-color: transparent;
     cursor: pointer;
+    border-radius: .125rem;
     margin: .25rem .1rem;
     padding: 1rem 1.25rem;
     border: 2px solid $nite-inv;
-    transition: all 0.15s ease;
+    transition: all .2s ease;
     padding: 1.1rem;
     &:hover {
         background-color: $nite-inv;
         color: black;
-        transition: all 0.15s ease;
+        transition: all .2s ease;
     }
 }
 
@@ -200,11 +200,9 @@ html {
         background-color: $nite-bg;
         font-family: monospace;
         .resultline {
-            padding: .5rem 0;
+            padding: .5rem 0;    
             &:hover {
-                transition: all .2s ease;
                 background-color: rgba(255, 255, 255, .1);
-                outline: 1px solid $nite-inv;
                 cursor: pointer;
             }
         }
@@ -219,6 +217,7 @@ html {
         text-transform: uppercase;
         white-space: normal;
         word-wrap: break-word;
+        border-radius: .125rem;
         margin: .25rem .1rem;
         padding: 1rem 1.25rem;
         cursor: pointer;
@@ -226,12 +225,20 @@ html {
         //border-radius: .125rem;
         color: nth($colors, $i);
         border: 2px solid nth($colors, $i);
-        transition: all 0.15s ease;
+        transition: all .2s ease;
         font-family: 'Roboto', sans-serif !important;
         &:hover {
             background-color: nth($colors, $i);
-            color: black;
-            transition: all 0.15s ease;
+            color: white;
+            transition: all 0.2s ease;
+        }
+        &:disabled {
+            color: $disabled;
+            border-color: $disabled;
+            &:hover {
+                cursor: default;
+                background: none;
+            }
         }
     }
 
@@ -248,8 +255,7 @@ html {
     }
 }
 
-button:focus {
-    transition: all 0.15s ease;
+button:focus {    
     outline: none;
 }
 

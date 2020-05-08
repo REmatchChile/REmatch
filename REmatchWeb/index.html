@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="node_modules/tippy.js/themes/light.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.css">
+    <!-- Ripplet.js -->
+    <script src="node_modules/ripplet.js/umd/ripplet-declarative.min.js"></script>
     <!-- Style -->
     <link rel="stylesheet" href="style.css">
     <title>REmatch</title>
@@ -32,9 +34,9 @@
 <body class="container nite">
     <div class="buttonContainer">
         <img src="assets/logo.svg" alt="!RE{match}"/>
-        <input id="fileInput" type="file" onchange="handleFiles(this.files[0])"/>
-        <button id="buttonQuery" type="button" class="btC2" onclick="runQuery()"><i class="fas fa-lg fa-play" style="margin-right: .5rem;"></i>Query</button>
-        <button id="buttonFile" type="button" class="btC1" onclick="$('#fileInput').click()"><i class="fas fa-lg fa-folder-open" style="margin-right: .5rem;"></i>Open</button>
+        <input id="fileInput" type="file" onchange="handleFiles(this.files[0])" />
+        <button data-ripplet="color: rgba(255,255,255,.5)" id="buttonQuery" type="button" class="btC2" onclick="runQuery()"><i class="fas fa-lg fa-play" style="margin-right: .5rem;"></i>Query</button>
+        <button data-ripplet="color: rgba(255,255,255,.5)" id="buttonFile" type="button" class="btC1" onclick="$('#fileInput').click()"><i class="fas fa-lg fa-folder-open" style="margin-right: .5rem;"></i>Open</button>
         <!--<button type="button" class="btC3">Export results [WIP]</button>-->
         <!--<button type="button" class="btC4">Examples [WIP]</button>-->
         <button id="themeSelector" type="button" class="btTheme" onclick="switchTheme()"><i class="fas fa-lg fa-moon"></i></button>
@@ -51,7 +53,6 @@
 
 <script>
     /* BEGIN GLOBAL */
-    let workerWASM;
     const CHUNK_SIZE = 128 * 2 ** 20;
     let schema = [];
     let lastTooltip = false;
@@ -65,7 +66,7 @@
         localStorage.CMSKIN = "cm-s-material-darker"
     }
     /* END GLOBAL */
-    /* START WORKER */
+
     function runWorker() {
         console.log("%cWork started!", "color: red");
         workerWASM.postMessage({text: TextEditor.getValue(), query: `.*${QueryEditor.getValue()}.*`});
@@ -93,8 +94,7 @@
             workStart();            
         });
     }
-    workStart();
-    /* END WORKER */
+    workStart();    
 
     /* BEGIN THEMES */
     function loadTheme(skin, tippy, cmskin) {
@@ -200,9 +200,9 @@ REmatch is useful!`,
 
     /* BEGIN FILE READER */
     async function handleFiles(file) {
-        //$('#buttonFile')[0].disabled = true;
-        //$('#buttonQuery')[0].disabled = true;
-
+        $('#buttonQuery').prop('disabled', true);
+        $('#buttonFile').prop('disabled', true);
+        
         TextEditor.setValue("");
         clearResults();
         schema = [];
@@ -220,9 +220,8 @@ REmatch is useful!`,
                     end += CHUNK_SIZE;
                 })
         }
-
-        //$('#buttonFile')[0].disabled = false;
-        //$('#buttonQuery')[0].disabled = true;
+        $('#buttonQuery').prop('disabled', false);
+        $('#buttonFile').prop('disabled', false);
         console.log(`Read '${file.name}' in ${(Date.now() - t0) / 1000}s. (about ${Math.round(file.size / 10 ** 6)}MB)`);
     };
 
