@@ -31,7 +31,6 @@
 
 .container.lite .results .resultline:hover {
   background-color: rgba(0, 0, 0, 0.1);
-  outline: 1px solid #6e6e6e;
 }
 
 .container.cl {
@@ -48,7 +47,6 @@
 
 .container.cl .results .resultline:hover {
   background-color: rgba(255, 255, 255, 0.1);
-  outline: 1px solid #EEFFFF;
 }
 
 .container.mag {
@@ -84,7 +82,6 @@
 
 .container.mag .results .resultline:hover {
   background-color: rgba(255, 255, 255, 0.1);
-  outline: 1px solid #EEFFFF;
 }
 
 /* END THEMES */
@@ -104,19 +101,20 @@
   color: #EEFFFF;
   background-color: transparent;
   cursor: pointer;
+  border-radius: .125rem;
   margin: .25rem .1rem;
   padding: 1rem 1.25rem;
   border: 2px solid #EEFFFF;
-  -webkit-transition: all 0.15s ease;
-  transition: all 0.15s ease;
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
   padding: 1.1rem;
 }
 
 .btTheme:hover {
   background-color: #EEFFFF;
   color: black;
-  -webkit-transition: all 0.15s ease;
-  transition: all 0.15s ease;
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
 }
 
 html {
@@ -205,10 +203,7 @@ html {
 }
 
 .container .results .resultline:hover {
-  -webkit-transition: all .2s ease;
-  transition: all .2s ease;
   background-color: rgba(255, 255, 255, 0.1);
-  outline: 1px solid #EEFFFF;
   cursor: pointer;
 }
 
@@ -218,22 +213,33 @@ html {
   text-transform: uppercase;
   white-space: normal;
   word-wrap: break-word;
+  border-radius: .125rem;
   margin: .25rem .1rem;
   padding: 1rem 1.25rem;
   cursor: pointer;
   background: transparent;
   color: #0095ff;
   border: 2px solid #0095ff;
-  -webkit-transition: all 0.15s ease;
-  transition: all 0.15s ease;
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
   font-family: 'Roboto', sans-serif !important;
 }
 
 .btC1:hover {
   background-color: #0095ff;
-  color: black;
-  -webkit-transition: all 0.15s ease;
-  transition: all 0.15s ease;
+  color: white;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.btC1:disabled {
+  color: #888888;
+  border-color: #888888;
+}
+
+.btC1:disabled:hover {
+  cursor: default;
+  background: none;
 }
 
 .resultC1 {
@@ -253,22 +259,33 @@ html {
   text-transform: uppercase;
   white-space: normal;
   word-wrap: break-word;
+  border-radius: .125rem;
   margin: .25rem .1rem;
   padding: 1rem 1.25rem;
   cursor: pointer;
   background: transparent;
   color: #ff0004;
   border: 2px solid #ff0004;
-  -webkit-transition: all 0.15s ease;
-  transition: all 0.15s ease;
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
   font-family: 'Roboto', sans-serif !important;
 }
 
 .btC2:hover {
   background-color: #ff0004;
-  color: black;
-  -webkit-transition: all 0.15s ease;
-  transition: all 0.15s ease;
+  color: white;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.btC2:disabled {
+  color: #888888;
+  border-color: #888888;
+}
+
+.btC2:disabled:hover {
+  cursor: default;
+  background: none;
 }
 
 .resultC2 {
@@ -288,22 +305,33 @@ html {
   text-transform: uppercase;
   white-space: normal;
   word-wrap: break-word;
+  border-radius: .125rem;
   margin: .25rem .1rem;
   padding: 1rem 1.25rem;
   cursor: pointer;
   background: transparent;
   color: #33cf17;
   border: 2px solid #33cf17;
-  -webkit-transition: all 0.15s ease;
-  transition: all 0.15s ease;
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
   font-family: 'Roboto', sans-serif !important;
 }
 
 .btC3:hover {
   background-color: #33cf17;
-  color: black;
-  -webkit-transition: all 0.15s ease;
-  transition: all 0.15s ease;
+  color: white;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.btC3:disabled {
+  color: #888888;
+  border-color: #888888;
+}
+
+.btC3:disabled:hover {
+  cursor: default;
+  background: none;
 }
 
 .resultC3 {
@@ -323,22 +351,33 @@ html {
   text-transform: uppercase;
   white-space: normal;
   word-wrap: break-word;
+  border-radius: .125rem;
   margin: .25rem .1rem;
   padding: 1rem 1.25rem;
   cursor: pointer;
   background: transparent;
   color: #ff8800;
   border: 2px solid #ff8800;
-  -webkit-transition: all 0.15s ease;
-  transition: all 0.15s ease;
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
   font-family: 'Roboto', sans-serif !important;
 }
 
 .btC4:hover {
   background-color: #ff8800;
-  color: black;
-  -webkit-transition: all 0.15s ease;
-  transition: all 0.15s ease;
+  color: white;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.btC4:disabled {
+  color: #888888;
+  border-color: #888888;
+}
+
+.btC4:disabled:hover {
+  cursor: default;
+  background: none;
 }
 
 .resultC4 {
@@ -358,22 +397,33 @@ html {
   text-transform: uppercase;
   white-space: normal;
   word-wrap: break-word;
+  border-radius: .125rem;
   margin: .25rem .1rem;
   padding: 1rem 1.25rem;
   cursor: pointer;
   background: transparent;
   color: #d30fec;
   border: 2px solid #d30fec;
-  -webkit-transition: all 0.15s ease;
-  transition: all 0.15s ease;
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
   font-family: 'Roboto', sans-serif !important;
 }
 
 .btC5:hover {
   background-color: #d30fec;
-  color: black;
-  -webkit-transition: all 0.15s ease;
-  transition: all 0.15s ease;
+  color: white;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.btC5:disabled {
+  color: #888888;
+  border-color: #888888;
+}
+
+.btC5:disabled:hover {
+  cursor: default;
+  background: none;
 }
 
 .resultC5 {
@@ -390,8 +440,6 @@ html {
 }
 
 button:focus {
-  -webkit-transition: all 0.15s ease;
-  transition: all 0.15s ease;
   outline: none;
 }
 
