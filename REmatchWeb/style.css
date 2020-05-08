@@ -129,11 +129,11 @@
   transition: all .2s ease;
 }
 
-html {
+html, body {
   padding: 0;
   margin: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
 }
 
 .container {
@@ -150,6 +150,28 @@ html {
       grid-template-rows: -webkit-min-content -webkit-min-content auto 45vh;
       grid-template-rows: min-content min-content auto 45vh;
   background-color: #353535;
+}
+
+.container .exportOverlay {
+  z-index: 200;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 0;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  overflow: hidden;
+  -webkit-transition: all .4s ease;
+  transition: all .4s ease;
 }
 
 .container .CodeMirror-selected {
@@ -195,12 +217,12 @@ html {
 .container #textEditor .editorOverlay {
   visibility: hidden;
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 100;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -212,11 +234,12 @@ html {
           justify-content: center;
   text-align: center;
   font-family: 'Roboto', sans-serif !important;
+  font-size: 22px;
   color: white;
 }
 
 .container #textEditor .editorOverlay img {
-  width: 6rem;
+  width: 4rem;
   margin-bottom: 1rem;
 }
 

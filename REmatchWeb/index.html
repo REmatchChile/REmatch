@@ -32,22 +32,88 @@
 </head>
 
 <body class="container nite">
+    <div class="exportOverlay">
+        <div class='exportContainer'>
+            <button 
+                class="BtC3"
+                onclick="exportResults('csv')">
+                <i 
+                    class="fas fa-lg fa-file-csv" 
+                    style="margin-right: .5rem;">
+                </i>
+                csv
+            </button>
+            <button 
+                class="BtC2"
+                onclick="exportResults('json')">
+                { } json
+            </button>
+        </div>
+    </div>
     <div class="buttonContainer">
         <img src="assets/logo.png" alt="!RE{match}"/>
         <input id="fileInput" type="file" onchange="handleFiles(this.files[0])" />
-        <button data-ripplet="color: rgba(255,255,255,.4)" id="buttonQuery" type="button" class="btC2" onclick="runQuery()"><i class="fas fa-lg fa-play" style="margin-right: .5rem;"></i>Query</button>
-        <button data-ripplet="color: rgba(255,255,255,.4)" id="buttonFile" type="button" class="btC1" onclick="$('#fileInput').click()"><i class="fas fa-lg fa-folder-open" style="margin-right: .5rem;"></i>Open</button>
-        <button data-ripplet="color: rgba(255,255,255,.4)" type="button" class="btC3"><i class="fas fa-lg fa-download" style="margin-right: .5rem;"></i>Export [WIP]</button>
-        <button data-ripplet="color: rgba(255,255,255,.4)" type="button" class="btC4"><i class="fas fa-lg fa-lightbulb" style="margin-right: .5rem;"></i>Examples [WIP]</button>
-        <button id="themeSelector" type="button" class="btTheme" onclick="switchTheme()"><i class="fas fa-lg fa-moon"></i></button>
+        <button 
+            data-ripplet="color: rgba(255,255,255,.4)" 
+            id="buttonQuery" type="button" class="btC2" 
+            onclick="runQuery()">
+                <i 
+                    class="fas fa-lg fa-play" 
+                    style="margin-right: .5rem;">
+                </i>
+            Query
+        </button>
+        <button 
+            data-ripplet="color: rgba(255,255,255,.4)" 
+            id="buttonFile" 
+            type="button" 
+            class="btC1" 
+            onclick="$('#fileInput').click()">
+                <i 
+                    class="fas fa-lg fa-folder-open" 
+                    style="margin-right: .5rem;">
+                </i>
+            Open
+        </button>
+        <button 
+            data-ripplet="color: rgba(255,255,255,.4)" 
+            id="buttonExport" 
+            type="button" 
+            class="btC3">
+                <i
+                    class="fas fa-lg fa-download" 
+                    style="margin-right: .5rem;">
+                </i>
+            Export
+        </button>
+        <button 
+            data-ripplet="color: rgba(255,255,255,.4)" 
+            type="button" 
+            class="btC4">
+                <i 
+                    class="fas fa-lg fa-lightbulb" 
+                    style="margin-right: .5rem;">
+                </i>
+            Examples
+        </button>
+        <!--<button data-ripplet="color: rgba(255,255,255,.4)" type="button" class="btC5"><i class="fas fa-lg fa-cogs" style="margin-right: .5rem;"></i>About</button>-->
+        <button 
+            id="themeSelector" 
+            type="button" 
+            class="btTheme" 
+            onclick="switchTheme()">
+                <i 
+                    class="fas fa-lg fa-moon">
+                </i>
+        </button>
     </div>
 
     <div id="queryEditor"></div>
     <div id="textEditor">
         <div class="editorOverlay">
             <div>
-                <img src="assets/loading.svg" alt="Loading..."/>
-                <div>Loading file</div>
+                <img src="https://samherbert.net/svg-loaders/svg-loaders/grid.svg" alt="Loading..."/>
+                <div id="loadingPercent"></div>
             </div>
         </div>
     </div>
@@ -212,6 +278,7 @@ REmatch is useful!`,
         if (!file) {return};
         document.getElementById('buttonQuery').disabled = true;
         document.getElementById('buttonFile').disabled = true;
+        $('#loadingPercent').html('Loading (0%)');
         $('.editorOverlay').css('visibility','visible');
         
         TextEditor.setValue("");
@@ -228,6 +295,7 @@ REmatch is useful!`,
             var text = await file.slice(start, end).text()
                 .then((text) => TextEditor.replaceRange(text, { line: Infinity }))
                 .then(() => {
+                    $('#loadingPercent').html(`Loading (${(start*100/file.size).toFixed()}%)`);
                     start = end;
                     end += CHUNKSIZE;
                 })
@@ -323,6 +391,25 @@ REmatch is useful!`,
         $(`.${$.trim(this.className.replace('hovered', ''))}`).removeClass('hovered');
     })
     /* END HIGHLIGHT */
+
+    /* BEGIN EXPORT OVERLAY */
+    $(document).on('click', '#buttonExport', function () {
+        $('.exportOverlay').css('height', '100vh');
+    });
+
+    $(document).on('click', '.exportOverlay', function () {
+        $('.exportOverlay').css('height', '0')
+    });
+
+    function exportResults(type) {
+        if (type == 'csv') {
+            alert('WIP');
+        } else 
+        if (type == 'json') {
+            alert('WIP');
+        }
+    }
+    /* END EXPORT OVERLAY */
 
     /* BEGIN EGG */
     const cl = "cl"

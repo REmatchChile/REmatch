@@ -4,7 +4,7 @@
 /* END IMPORTS */
 
 /* BEGIN VARS */
-$font-text: 22px;
+$font-size-global: 22px;
 
 $c-0: #0095ff;
 $c-1: #ff0004;
@@ -116,7 +116,7 @@ $mag-inv: #EEFFFF;
 /* BEGIN LAYOUT */
 .tippy-box {
     text-align: left;
-    font-size: $font-text*.75;
+    font-size: $font-size-global*.75;
     font-family: 'Roboto', sans-serif !important;
     padding: .5rem;
     hr {
@@ -141,14 +141,28 @@ $mag-inv: #EEFFFF;
     }
 }
 
-html {
+html,body {
     padding: 0;
     margin: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
 }
 
 .container {
+    .exportOverlay {
+        z-index: 200;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 0;
+        width: 100vw;
+        background-color: rgba(0, 0, 0, .8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        transition: all .4s ease;
+    }
     .CodeMirror-selected {
         background-color: rgba($nite-inv, .3);
     }
@@ -178,7 +192,7 @@ html {
     #queryEditor {
         overflow: auto;
         .CodeMirror {   
-            font-size: $font-text;
+            font-size: $font-size-global;
             height: 2.25rem;
             pre::after, pre::before {
                 content: ".*";
@@ -193,25 +207,26 @@ html {
         .editorOverlay {
             visibility: hidden;
             position: absolute;
-            background-color: rgba(0,0,0,.5);
+            background-color: rgba(0,0,0,.7);
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
-            z-index: 1000;
+            z-index: 100;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             font-family: 'Roboto', sans-serif !important;
+            font-size: $font-size-global;
             color: white;
             img {
-                width: 6rem;
+                width: 4rem;
                 margin-bottom: 1rem;
             }
         }
         .CodeMirror {
-            font-size: $font-text;
+            font-size: $font-size-global;
             height: 100%;
             width: 100%;
         }
@@ -225,7 +240,7 @@ html {
     }
 
     .results {
-        font-size: $font-text;
+        font-size: $font-size-global;
         overflow: auto;
         color: $nite-inv;
         padding: .5rem;
@@ -292,5 +307,4 @@ html {
 button:focus {    
     outline: none;
 }
-
 /* END COLORS */
