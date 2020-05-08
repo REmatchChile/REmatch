@@ -4,7 +4,7 @@
 /* END IMPORTS */
 
 /* BEGIN VARS */
-$font-text: 24px;
+$font-text: 22px;
 
 $c-0: #0095ff;
 $c-1: #ff0004;
@@ -38,6 +38,9 @@ $mag-inv: #EEFFFF;
 
 /* BEGIN THEMES */
 .container.lite {
+    .CodeMirror-selected {
+        background-color: rgba($nite-bg, .3);
+    }
     .btTheme {
         color: black;
         border: 2px solid black;
@@ -63,6 +66,9 @@ $mag-inv: #EEFFFF;
 }
 
 .container.cl {
+    .CodeMirror-selected {
+        background-color: rgba($cl-bg, .2);
+    }
     background-color: $cl-bg !important;
     .results { 
         background-color: $cl-cont !important;
@@ -76,6 +82,9 @@ $mag-inv: #EEFFFF;
 }
 
 .container.mag {
+    .CodeMirror-selected {
+        background-color: rgba($mag-inv, .2);
+    }
     background-color: $mag-inv;
     .btTheme {
         color: black;
@@ -107,7 +116,7 @@ $mag-inv: #EEFFFF;
 /* BEGIN LAYOUT */
 .tippy-box {
     text-align: left;
-    font-size: 18px;
+    font-size: $font-text*.75;
     font-family: 'Roboto', sans-serif !important;
     padding: .5rem;
     hr {
@@ -140,6 +149,9 @@ html {
 }
 
 .container {
+    .CodeMirror-selected {
+        background-color: rgba($nite-inv, .3);
+    }
     width: 100%;
     height: 100%;
     margin: 0;
@@ -177,7 +189,27 @@ html {
 
     #textEditor {
         overflow: auto;
-
+        position: relative;
+        .editorOverlay {
+            visibility: hidden;
+            position: absolute;
+            background-color: rgba(0,0,0,.5);
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-family: 'Roboto', sans-serif !important;
+            color: white;
+            img {
+                width: 6rem;
+                margin-bottom: 1rem;
+            }
+        }
         .CodeMirror {
             font-size: $font-text;
             height: 100%;
@@ -244,6 +276,8 @@ html {
 
     .resultC#{$i} {
         color: nth($colors, $i);
+        display: inline-block;
+        width: 12rem;
     }
 
     .markC#{$i} {
@@ -252,7 +286,7 @@ html {
         &.hovered {
             outline: 2px solid lighten(nth($colors, $i), 15% );
         }
-    }
+    }    
 }
 
 button:focus {    

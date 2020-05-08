@@ -9,6 +9,10 @@
   background-color: #FFFFFF !important;
 }
 
+.container.lite .CodeMirror-selected {
+  background-color: rgba(33, 33, 33, 0.3);
+}
+
 .container.lite .btTheme {
   color: black;
   border: 2px solid black;
@@ -37,6 +41,10 @@
   background-color: #000294 !important;
 }
 
+.container.cl .CodeMirror-selected {
+  background-color: rgba(0, 2, 148, 0.2);
+}
+
 .container.cl .results {
   background-color: #860000 !important;
 }
@@ -51,6 +59,10 @@
 
 .container.mag {
   background-color: #EEFFFF;
+}
+
+.container.mag .CodeMirror-selected {
+  background-color: rgba(238, 255, 255, 0.2);
 }
 
 .container.mag .btTheme {
@@ -88,7 +100,7 @@
 /* BEGIN LAYOUT */
 .tippy-box {
   text-align: left;
-  font-size: 18px;
+  font-size: 16.5px;
   font-family: 'Roboto', sans-serif !important;
   padding: .5rem;
 }
@@ -140,6 +152,10 @@ html {
   background-color: #353535;
 }
 
+.container .CodeMirror-selected {
+  background-color: rgba(238, 255, 255, 0.3);
+}
+
 .container .buttonContainer {
   padding: 0 .25rem;
   cursor: default;
@@ -162,7 +178,7 @@ html {
 }
 
 .container #queryEditor .CodeMirror {
-  font-size: 24px;
+  font-size: 22px;
   height: 2.25rem;
 }
 
@@ -173,10 +189,39 @@ html {
 
 .container #textEditor {
   overflow: auto;
+  position: relative;
+}
+
+.container #textEditor .editorOverlay {
+  visibility: hidden;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
+  font-family: 'Roboto', sans-serif !important;
+  color: white;
+}
+
+.container #textEditor .editorOverlay img {
+  width: 6rem;
+  margin-bottom: 1rem;
 }
 
 .container #textEditor .CodeMirror {
-  font-size: 24px;
+  font-size: 22px;
   height: 100%;
   width: 100%;
 }
@@ -190,7 +235,7 @@ html {
 }
 
 .container .results {
-  font-size: 24px;
+  font-size: 22px;
   overflow: auto;
   color: #EEFFFF;
   padding: .5rem;
@@ -244,6 +289,8 @@ html {
 
 .resultC1 {
   color: #0095ff;
+  display: inline-block;
+  width: 12rem;
 }
 
 .markC1 {
@@ -290,6 +337,8 @@ html {
 
 .resultC2 {
   color: #ff0004;
+  display: inline-block;
+  width: 12rem;
 }
 
 .markC2 {
@@ -336,6 +385,8 @@ html {
 
 .resultC3 {
   color: #33cf17;
+  display: inline-block;
+  width: 12rem;
 }
 
 .markC3 {
@@ -382,6 +433,8 @@ html {
 
 .resultC4 {
   color: #ff8800;
+  display: inline-block;
+  width: 12rem;
 }
 
 .markC4 {
@@ -428,6 +481,8 @@ html {
 
 .resultC5 {
   color: #d30fec;
+  display: inline-block;
+  width: 12rem;
 }
 
 .markC5 {

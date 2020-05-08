@@ -33,17 +33,24 @@
 
 <body class="container nite">
     <div class="buttonContainer">
-        <img src="assets/logo.svg" alt="!RE{match}"/>
+        <img src="assets/logo.png" alt="!RE{match}"/>
         <input id="fileInput" type="file" onchange="handleFiles(this.files[0])" />
-        <button data-ripplet="color: rgba(255,255,255,.5)" id="buttonQuery" type="button" class="btC2" onclick="runQuery()"><i class="fas fa-lg fa-play" style="margin-right: .5rem;"></i>Query</button>
-        <button data-ripplet="color: rgba(255,255,255,.5)" id="buttonFile" type="button" class="btC1" onclick="$('#fileInput').click()"><i class="fas fa-lg fa-folder-open" style="margin-right: .5rem;"></i>Open</button>
-        <!--<button type="button" class="btC3">Export results [WIP]</button>-->
-        <!--<button type="button" class="btC4">Examples [WIP]</button>-->
+        <button data-ripplet="color: rgba(255,255,255,.4)" id="buttonQuery" type="button" class="btC2" onclick="runQuery()"><i class="fas fa-lg fa-play" style="margin-right: .5rem;"></i>Query</button>
+        <button data-ripplet="color: rgba(255,255,255,.4)" id="buttonFile" type="button" class="btC1" onclick="$('#fileInput').click()"><i class="fas fa-lg fa-folder-open" style="margin-right: .5rem;"></i>Open</button>
+        <button data-ripplet="color: rgba(255,255,255,.4)" type="button" class="btC3"><i class="fas fa-lg fa-download" style="margin-right: .5rem;"></i>Export [WIP]</button>
+        <button data-ripplet="color: rgba(255,255,255,.4)" type="button" class="btC4"><i class="fas fa-lg fa-lightbulb" style="margin-right: .5rem;"></i>Examples [WIP]</button>
         <button id="themeSelector" type="button" class="btTheme" onclick="switchTheme()"><i class="fas fa-lg fa-moon"></i></button>
     </div>
 
     <div id="queryEditor"></div>
-    <div id="textEditor"></div>
+    <div id="textEditor">
+        <div class="editorOverlay">
+            <div>
+                <img src="assets/loading.svg" alt="Loading..."/>
+                <div>Loading file</div>
+            </div>
+        </div>
+    </div>
 
     <div class="results">
         <div id="paginationContainer"></div>
@@ -53,7 +60,7 @@
 
 <script>
     /* BEGIN GLOBAL */
-    const CHUNK_SIZE = 128 * 2 ** 20;
+    const CHUNKSIZE = 1*10**8; // 100MB
     let schema = [];
     let lastTooltip = false;
 
@@ -80,7 +87,7 @@
             workerWASM.terminate();
             console.log("%cWork finished!", "color: red");
             
-            if (m.data.spans) {
+            if (m.data.spans.length > 0) {
                 console.log("%cPrint started!", "color: cyan");
                 var t0 = Date.now();
                 schema = m.data.schema;
@@ -91,12 +98,13 @@
                 $('#paginationContainer').html("");
                 $('#dataContainer').html("No matches.");
             }
-            workStart();            
+            workStart();
         });
     }
     workStart();    
 
     /* BEGIN THEMES */
+
     function loadTheme(skin, tippy, cmskin) {
         $('.container')[0].className = `container ${skin}`
             $('.CodeMirror').each( function() {
@@ -169,7 +177,7 @@ REmatch is useful!`,
 
     $('#queryEditor').keyup(function(e) {
         if (e.which === 13) {
-            $('#buttonQuery').click();
+            runQuery();
             return;
         }
     });
@@ -200,28 +208,33 @@ REmatch is useful!`,
 
     /* BEGIN FILE READER */
     async function handleFiles(file) {
-        $('#buttonQuery').prop('disabled', true);
-        $('#buttonFile').prop('disabled', true);
+        // IDEA: WebWorker that reads the file by chunks and send messages with them to main thread. (performance++) ??
+        if (!file) {return};
+        document.getElementById('buttonQuery').disabled = true;
+        document.getElementById('buttonFile').disabled = true;
+        $('.editorOverlay').css('visibility','visible');
         
         TextEditor.setValue("");
         clearResults();
         schema = [];
-
         $('#dataContainer').html("");
+
         var t0 = Date.now();
+        
         var start = 0;
-        var end = CHUNK_SIZE;
+        var end = CHUNKSIZE;
 
         while (start < file.size) {
             var text = await file.slice(start, end).text()
                 .then((text) => TextEditor.replaceRange(text, { line: Infinity }))
                 .then(() => {
                     start = end;
-                    end += CHUNK_SIZE;
+                    end += CHUNKSIZE;
                 })
         }
-        $('#buttonQuery').prop('disabled', false);
-        $('#buttonFile').prop('disabled', false);
+        document.getElementById('buttonQuery').disabled = false;
+        document.getElementById('buttonFile').disabled = false;
+        $('.editorOverlay').css('visibility','hidden');
         console.log(`Read '${file.name}' in ${(Date.now() - t0) / 1000}s. (about ${Math.round(file.size / 10 ** 6)}MB)`);
     };
 
@@ -247,9 +260,7 @@ REmatch is useful!`,
         for (var i = 0; i < data.length; i++) {
             buttonArr.push(`<div class="resultLine" data-spans="${data[i]}">${getSpanText(data[i])}</div>`);
         }
-        if (buttonArr.length > 0) {
-            paginate(buttonArr);
-        }
+        paginate(buttonArr);
     };
 
     function runQuery() {
@@ -325,7 +336,7 @@ REmatch is useful!`,
         }
     }
     /* END EGG */
-    
+
 </script>
 
 </html>
