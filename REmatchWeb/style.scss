@@ -162,6 +162,17 @@ html,body {
         justify-content: center;
         overflow: hidden;
         transition: all .4s ease;
+        .exportContainer {
+            width: 90%;
+            height: 70%;
+            #formatEditor {
+                overflow: auto;
+                .CodeMirror {   
+                    font-size: $font-size-global;
+                    height: 2.25rem;
+                }
+            }
+        }
     }
     .CodeMirror-selected {
         background-color: rgba($nite-inv, .3);
@@ -179,6 +190,7 @@ html,body {
         padding: 0 .25rem;
         cursor: default;
         img {
+            margin-left: .25rem;
             vertical-align: middle;
         }
         #themeSelector {

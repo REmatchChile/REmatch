@@ -33,7 +33,7 @@
 
 <body class="container nite">
     <div class="exportOverlay">
-        <div class='exportContainer'>
+        <div class="exportContainer" style="background-color: rgb(50,50,50);">
             <button 
                 class="BtC3"
                 onclick="exportResults('csv')">
@@ -41,13 +41,23 @@
                     class="fas fa-lg fa-file-csv" 
                     style="margin-right: .5rem;">
                 </i>
-                csv
+                csv wrap
             </button>
             <button 
                 class="BtC2"
                 onclick="exportResults('json')">
-                { } json
+                { } json wrap
             </button>
+            <button 
+                class="BtC1"
+                onclick="exportResults('plain')">
+                <i 
+                class="fas fa-lg fa-file-alt" 
+                style="margin-right: .5rem;">
+                </i>
+                Plain wrap
+            </button>
+            <div id="formatEditor"></div>
         </div>
     </div>
     <div class="buttonContainer">
@@ -149,20 +159,26 @@
         console.log("%cWorker is waiting for tasks :)", "color: orange");
         workerWASM = new Worker('work.js');
         workerWASM.addEventListener('message', (m) => {
-            console.log(m.data.log);
-            workerWASM.terminate();
-            console.log("%cWork finished!", "color: red");
-            
-            if (m.data.spans.length > 0) {
-                console.log("%cPrint started!", "color: cyan");
-                var t0 = Date.now();
-                schema = m.data.schema;
-                setResults(m.data.spans.slice(0, 1000));
-                console.log(`All matches printed in ${(Date.now() - t0) / 1000}s.`);
-                console.log("%cPrint finished!", "color: cyan");
+            if (m.data.error) {
+                console.log(`Error: ${m.data.error}`);
+                alert(`Error: ${m.data.error}`);
+                workerWASM.terminate();
             } else {
-                $('#paginationContainer').html("");
-                $('#dataContainer').html("No matches.");
+                console.log(m.data.log);
+                workerWASM.terminate();
+                console.log("%cWork finished!", "color: red");
+                
+                if (m.data.spans.length > 0) {
+                    console.log("%cPrint started!", "color: cyan");
+                    var t0 = Date.now();
+                    schema = m.data.schema;
+                    setResults(m.data.spans.slice(0, 1000));
+                    console.log(`All matches printed in ${(Date.now() - t0) / 1000}s.`);
+                    console.log("%cPrint finished!", "color: cyan");
+                } else {
+                    $('#paginationContainer').html("");
+                    $('#dataContainer').html("No matches.");
+                }
             }
             workStart();
         });
@@ -228,14 +244,32 @@ REmatch is useful!`,
         ]
     });
 
+    CodeMirror.defineSimpleMode("rematchFormat", {
+        start: [
+            { regex: /(\&[A-Za-z0-9]+)/, token: "number" },
+        ]
+    });
+
     const QueryEditor = CodeMirror($('#queryEditor')[0], {
         mode: "rematchQuery",
         showInvisibles: false,
         value: "!a{RE}!b{match} !c{is} !d{[a-z]+}!e{!}",
         autoCloseBrackets: true,
     });
+
+    const FormatEditor = CodeMirror($('#formatEditor')[0], {
+        mode: "rematchFormat",
+        showInvisibles: false,
+        value: "aa",
+        autoCloseBrackets: false,
+    });
     // Disables newline
     QueryEditor.on('beforeChange', function(instance, change) {
+        var line = change.text.join("").replace(/\n/g, "");
+        change.update(change.from, change.to, [line]);
+        return true;
+    });
+    FormatEditor.on('beforeChange', function(instance, change) {
         var line = change.text.join("").replace(/\n/g, "");
         change.update(change.from, change.to, [line]);
         return true;
@@ -334,7 +368,6 @@ REmatch is useful!`,
     function runQuery() {
         TextEditor.setValue(TextEditor.getValue());
         clearResults();
-        resultCount = 0;
         schema = [];
 
         runWorker();
@@ -398,7 +431,7 @@ REmatch is useful!`,
     });
 
     $(document).on('click', '.exportOverlay', function () {
-        $('.exportOverlay').css('height', '0')
+       // OJO $('.exportOverlay').css('height', '0')
     });
 
     function exportResults(type) {
@@ -407,9 +440,14 @@ REmatch is useful!`,
         } else 
         if (type == 'json') {
             alert('WIP');
+        // PLAIN
+        } else {
+            console.log();
         }
     }
     /* END EXPORT OVERLAY */
+
+
 
     /* BEGIN EGG */
     const cl = "cl"
