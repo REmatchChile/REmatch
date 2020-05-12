@@ -9,6 +9,14 @@
   background-color: #FFFFFF !important;
 }
 
+.container.lite .logo-dark {
+  display: none !important;
+}
+
+.container.lite .logo-light {
+  display: inline-block !important;
+}
+
 .container.lite .CodeMirror-selected {
   background-color: rgba(33, 33, 33, 0.3);
 }
@@ -59,6 +67,14 @@
 
 .container.mag {
   background-color: #EEFFFF;
+}
+
+.container.mag .logo-dark {
+  display: none !important;
+}
+
+.container.mag .logo-light {
+  display: inline-block !important;
 }
 
 .container.mag .CodeMirror-selected {
@@ -152,7 +168,7 @@ html, body {
   background-color: #353535;
 }
 
-.container .exportOverlay {
+.container .fullOverlay {
   z-index: 200;
   position: absolute;
   top: 0;
@@ -174,16 +190,16 @@ html, body {
   transition: all .4s ease;
 }
 
-.container .exportOverlay .exportContainer {
-  width: 90%;
-  height: 70%;
+.container .fullOverlay .fullOverlayContainer {
+  width: 85%;
+  height: 80%;
 }
 
-.container .exportOverlay .exportContainer #formatEditor {
+.container .fullOverlay .fullOverlayContainer #formatEditor {
   overflow: auto;
 }
 
-.container .exportOverlay .exportContainer #formatEditor .CodeMirror {
+.container .fullOverlay .fullOverlayContainer #formatEditor .CodeMirror {
   font-size: 22px;
   height: 2.25rem;
 }
@@ -198,8 +214,17 @@ html, body {
 }
 
 .container .buttonContainer img {
+  height: 2.75rem;
   margin-left: .25rem;
   vertical-align: middle;
+}
+
+.container .buttonContainer .logo-dark {
+  display: inline-block;
+}
+
+.container .buttonContainer .logo-light {
+  display: none;
 }
 
 .container .buttonContainer #themeSelector {

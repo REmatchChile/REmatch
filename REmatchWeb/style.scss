@@ -38,6 +38,12 @@ $mag-inv: #EEFFFF;
 
 /* BEGIN THEMES */
 .container.lite {
+    .logo-dark {
+        display: none !important;
+    }
+    .logo-light {
+        display: inline-block !important;
+    }
     .CodeMirror-selected {
         background-color: rgba($nite-bg, .3);
     }
@@ -82,6 +88,12 @@ $mag-inv: #EEFFFF;
 }
 
 .container.mag {
+    .logo-dark {
+        display: none !important;
+    }
+    .logo-light {
+        display: inline-block !important;
+    }
     .CodeMirror-selected {
         background-color: rgba($mag-inv, .2);
     }
@@ -149,7 +161,7 @@ html,body {
 }
 
 .container {
-    .exportOverlay {
+    .fullOverlay {
         z-index: 200;
         position: absolute;
         top: 0;
@@ -162,9 +174,9 @@ html,body {
         justify-content: center;
         overflow: hidden;
         transition: all .4s ease;
-        .exportContainer {
-            width: 90%;
-            height: 70%;
+        .fullOverlayContainer {
+            width: 85%;
+            height: 80%;
             #formatEditor {
                 overflow: auto;
                 .CodeMirror {   
@@ -190,8 +202,15 @@ html,body {
         padding: 0 .25rem;
         cursor: default;
         img {
+            height: 2.75rem;
             margin-left: .25rem;
             vertical-align: middle;
+        }
+        .logo-dark {
+            display: inline-block;
+        }
+        .logo-light {
+            display: none;
         }
         #themeSelector {
             float: right;

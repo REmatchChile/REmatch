@@ -32,8 +32,9 @@
 </head>
 
 <body class="container nite">
-    <div class="exportOverlay">
-        <div class="exportContainer" style="background-color: rgb(50,50,50);">
+    <!-- BEGIN EXPORT OVERLAY -->
+    <div id="exportOverlay" class="fullOverlay">
+        <div class="fullOverlayContainer" style="background-color: rgb(50,50,50);">
             <button 
                 class="BtC3"
                 onclick="exportResults('csv')">
@@ -60,8 +61,18 @@
             <div id="formatEditor"></div>
         </div>
     </div>
+    <!-- END EXPORT OVERLAY -->
+    <!-- BEGIN EXAMPLES OVERLAY -->
+    <div id="examplesOverlay" class="fullOverlay">
+        <div class="fullOverlayContainer" style="background-color: rgb(50,50,50);">
+            aaa
+        </div>
+    </div>
+    <!-- END EXAMPLES OVERLAY -->
+
     <div class="buttonContainer">
-        <img src="assets/logo.png" alt="!RE{match}"/>
+        <img class="logo-dark" src="assets/logo-dark.png" alt="!RE{match}"/>
+        <img class="logo-light" src="assets/logo-light.png" alt="!RE{match}"/>
         <input id="fileInput" type="file" onchange="handleFiles(this.files[0])" />
         <button 
             data-ripplet="color: rgba(255,255,255,.4)" 
@@ -98,6 +109,7 @@
         </button>
         <button 
             data-ripplet="color: rgba(255,255,255,.4)" 
+            id="buttonExamples" 
             type="button" 
             class="btC4">
                 <i 
@@ -425,13 +437,22 @@ REmatch is useful!`,
     })
     /* END HIGHLIGHT */
 
-    /* BEGIN EXPORT OVERLAY */
+    /* BEGIN FULL OVERLAY */
+    // Export
     $(document).on('click', '#buttonExport', function () {
-        $('.exportOverlay').css('height', '100vh');
+        $('#exportOverlay').css('height', '100vh');
     });
 
-    $(document).on('click', '.exportOverlay', function () {
-       // OJO $('.exportOverlay').css('height', '0')
+    $(document).on('click', '#buttonExport', function () {
+       // OJO $('.fullOverlay').css('height', '0')
+    });
+    // Examples
+    $(document).on('click', '#buttonExamples', function () {
+        $('#examplesOverlay').css('height', '100vh');
+    });
+
+    $(document).on('click', '#buttonExamples', function () {
+       // OJO $('.fullOverlay').css('height', '0')
     });
 
     function exportResults(type) {
@@ -445,7 +466,7 @@ REmatch is useful!`,
             console.log();
         }
     }
-    /* END EXPORT OVERLAY */
+    /* END FULL OVERLAY */
 
 
 
