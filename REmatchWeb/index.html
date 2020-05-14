@@ -32,18 +32,113 @@
 </head>
 
 <body class="container nite">
+    <!-- BEGIN EXPORT OVERLAY -->
+    <div id="exportOverlay" class="fullOverlay">
+        <div class="fullOverlayContainer" style="background-color: rgb(50,50,50);">
+            <button 
+                class="BtC3"
+                onclick="exportResults('csv')">
+                <i 
+                    class="fas fa-lg fa-file-csv" 
+                    style="margin-right: .5rem;">
+                </i>
+                csv wrap
+            </button>
+            <button 
+                class="BtC2"
+                onclick="exportResults('json')">
+                { } json wrap
+            </button>
+            <button 
+                class="BtC1"
+                onclick="exportResults('plain')">
+                <i 
+                class="fas fa-lg fa-file-alt" 
+                style="margin-right: .5rem;">
+                </i>
+                Plain wrap
+            </button>
+            <div id="formatEditor"></div>
+        </div>
+    </div>
+    <!-- END EXPORT OVERLAY -->
+    <!-- BEGIN EXAMPLES OVERLAY -->
+    <div id="examplesOverlay" class="fullOverlay">
+        <div class="fullOverlayContainer" style="background-color: rgb(50,50,50);">
+            aaa
+        </div>
+    </div>
+    <!-- END EXAMPLES OVERLAY -->
+
     <div class="buttonContainer">
-        <img src="assets/logo.svg" alt="!RE{match}"/>
+        <img class="logo-dark" src="assets/logo-dark.png" alt="!RE{match}"/>
+        <img class="logo-light" src="assets/logo-light.png" alt="!RE{match}"/>
         <input id="fileInput" type="file" onchange="handleFiles(this.files[0])" />
-        <button data-ripplet="color: rgba(255,255,255,.5)" id="buttonQuery" type="button" class="btC2" onclick="runQuery()"><i class="fas fa-lg fa-play" style="margin-right: .5rem;"></i>Query</button>
-        <button data-ripplet="color: rgba(255,255,255,.5)" id="buttonFile" type="button" class="btC1" onclick="$('#fileInput').click()"><i class="fas fa-lg fa-folder-open" style="margin-right: .5rem;"></i>Open</button>
-        <!--<button type="button" class="btC3">Export results [WIP]</button>-->
-        <!--<button type="button" class="btC4">Examples [WIP]</button>-->
-        <button id="themeSelector" type="button" class="btTheme" onclick="switchTheme()"><i class="fas fa-lg fa-moon"></i></button>
+        <button 
+            data-ripplet="color: rgba(255,255,255,.4)" 
+            id="buttonQuery" type="button" class="btC2" 
+            onclick="runQuery()">
+                <i 
+                    class="fas fa-lg fa-play" 
+                    style="margin-right: .5rem;">
+                </i>
+            Query
+        </button>
+        <button 
+            data-ripplet="color: rgba(255,255,255,.4)" 
+            id="buttonFile" 
+            type="button" 
+            class="btC1" 
+            onclick="$('#fileInput').click()">
+                <i 
+                    class="fas fa-lg fa-folder-open" 
+                    style="margin-right: .5rem;">
+                </i>
+            Open
+        </button>
+        <button 
+            data-ripplet="color: rgba(255,255,255,.4)" 
+            id="buttonExport" 
+            type="button" 
+            class="btC3">
+                <i
+                    class="fas fa-lg fa-download" 
+                    style="margin-right: .5rem;">
+                </i>
+            Export
+        </button>
+        <button 
+            data-ripplet="color: rgba(255,255,255,.4)" 
+            id="buttonExamples" 
+            type="button" 
+            class="btC4">
+                <i 
+                    class="fas fa-lg fa-lightbulb" 
+                    style="margin-right: .5rem;">
+                </i>
+            Examples
+        </button>
+        <!--<button data-ripplet="color: rgba(255,255,255,.4)" type="button" class="btC5"><i class="fas fa-lg fa-cogs" style="margin-right: .5rem;"></i>About</button>-->
+        <button 
+            id="themeSelector" 
+            type="button" 
+            class="btTheme" 
+            onclick="switchTheme()">
+                <i 
+                    class="fas fa-lg fa-moon">
+                </i>
+        </button>
     </div>
 
     <div id="queryEditor"></div>
-    <div id="textEditor"></div>
+    <div id="textEditor">
+        <div class="editorOverlay">
+            <div>
+                <img src="https://samherbert.net/svg-loaders/svg-loaders/grid.svg" alt="Loading..."/>
+                <div id="loadingPercent"></div>
+            </div>
+        </div>
+    </div>
 
     <div class="results">
         <div id="paginationContainer"></div>
@@ -53,7 +148,7 @@
 
 <script>
     /* BEGIN GLOBAL */
-    const CHUNK_SIZE = 128 * 2 ** 20;
+    const CHUNKSIZE = 1*10**8; // 100MB
     let schema = [];
     let lastTooltip = false;
 
@@ -76,27 +171,34 @@
         console.log("%cWorker is waiting for tasks :)", "color: orange");
         workerWASM = new Worker('work.js');
         workerWASM.addEventListener('message', (m) => {
-            console.log(m.data.log);
-            workerWASM.terminate();
-            console.log("%cWork finished!", "color: red");
-            
-            if (m.data.spans) {
-                console.log("%cPrint started!", "color: cyan");
-                var t0 = Date.now();
-                schema = m.data.schema;
-                setResults(m.data.spans.slice(0, 1000));
-                console.log(`All matches printed in ${(Date.now() - t0) / 1000}s.`);
-                console.log("%cPrint finished!", "color: cyan");
+            if (m.data.error) {
+                console.log(`Error: ${m.data.error}`);
+                alert(`Error: ${m.data.error}`);
+                workerWASM.terminate();
             } else {
-                $('#paginationContainer').html("");
-                $('#dataContainer').html("No matches.");
+                console.log(m.data.log);
+                workerWASM.terminate();
+                console.log("%cWork finished!", "color: red");
+                
+                if (m.data.spans.length > 0) {
+                    console.log("%cPrint started!", "color: cyan");
+                    var t0 = Date.now();
+                    schema = m.data.schema;
+                    setResults(m.data.spans.slice(0, 1000));
+                    console.log(`All matches printed in ${(Date.now() - t0) / 1000}s.`);
+                    console.log("%cPrint finished!", "color: cyan");
+                } else {
+                    $('#paginationContainer').html("");
+                    $('#dataContainer').html("No matches.");
+                }
             }
-            workStart();            
+            workStart();
         });
     }
     workStart();    
 
     /* BEGIN THEMES */
+
     function loadTheme(skin, tippy, cmskin) {
         $('.container')[0].className = `container ${skin}`
             $('.CodeMirror').each( function() {
@@ -154,11 +256,24 @@ REmatch is useful!`,
         ]
     });
 
+    CodeMirror.defineSimpleMode("rematchFormat", {
+        start: [
+            { regex: /(\&[A-Za-z0-9]+)/, token: "number" },
+        ]
+    });
+
     const QueryEditor = CodeMirror($('#queryEditor')[0], {
         mode: "rematchQuery",
         showInvisibles: false,
         value: "!a{RE}!b{match} !c{is} !d{[a-z]+}!e{!}",
         autoCloseBrackets: true,
+    });
+
+    const FormatEditor = CodeMirror($('#formatEditor')[0], {
+        mode: "rematchFormat",
+        showInvisibles: false,
+        value: "aa",
+        autoCloseBrackets: false,
     });
     // Disables newline
     QueryEditor.on('beforeChange', function(instance, change) {
@@ -166,10 +281,15 @@ REmatch is useful!`,
         change.update(change.from, change.to, [line]);
         return true;
     });
+    FormatEditor.on('beforeChange', function(instance, change) {
+        var line = change.text.join("").replace(/\n/g, "");
+        change.update(change.from, change.to, [line]);
+        return true;
+    });
 
     $('#queryEditor').keyup(function(e) {
         if (e.which === 13) {
-            $('#buttonQuery').click();
+            runQuery();
             return;
         }
     });
@@ -200,28 +320,35 @@ REmatch is useful!`,
 
     /* BEGIN FILE READER */
     async function handleFiles(file) {
-        $('#buttonQuery').prop('disabled', true);
-        $('#buttonFile').prop('disabled', true);
+        // IDEA: WebWorker that reads the file by chunks and send messages with them to main thread. (performance++) ??
+        if (!file) {return};
+        document.getElementById('buttonQuery').disabled = true;
+        document.getElementById('buttonFile').disabled = true;
+        $('#loadingPercent').html('Loading (0%)');
+        $('.editorOverlay').css('visibility','visible');
         
         TextEditor.setValue("");
         clearResults();
         schema = [];
-
         $('#dataContainer').html("");
+
         var t0 = Date.now();
+        
         var start = 0;
-        var end = CHUNK_SIZE;
+        var end = CHUNKSIZE;
 
         while (start < file.size) {
             var text = await file.slice(start, end).text()
                 .then((text) => TextEditor.replaceRange(text, { line: Infinity }))
                 .then(() => {
+                    $('#loadingPercent').html(`Loading (${(start*100/file.size).toFixed()}%)`);
                     start = end;
-                    end += CHUNK_SIZE;
+                    end += CHUNKSIZE;
                 })
         }
-        $('#buttonQuery').prop('disabled', false);
-        $('#buttonFile').prop('disabled', false);
+        document.getElementById('buttonQuery').disabled = false;
+        document.getElementById('buttonFile').disabled = false;
+        $('.editorOverlay').css('visibility','hidden');
         console.log(`Read '${file.name}' in ${(Date.now() - t0) / 1000}s. (about ${Math.round(file.size / 10 ** 6)}MB)`);
     };
 
@@ -247,15 +374,12 @@ REmatch is useful!`,
         for (var i = 0; i < data.length; i++) {
             buttonArr.push(`<div class="resultLine" data-spans="${data[i]}">${getSpanText(data[i])}</div>`);
         }
-        if (buttonArr.length > 0) {
-            paginate(buttonArr);
-        }
+        paginate(buttonArr);
     };
 
     function runQuery() {
         TextEditor.setValue(TextEditor.getValue());
         clearResults();
-        resultCount = 0;
         schema = [];
 
         runWorker();
@@ -313,6 +437,39 @@ REmatch is useful!`,
     })
     /* END HIGHLIGHT */
 
+    /* BEGIN FULL OVERLAY */
+    // Export
+    $(document).on('click', '#buttonExport', function () {
+        $('#exportOverlay').css('height', '100vh');
+    });
+
+    $(document).on('click', '#buttonExport', function () {
+       // OJO $('.fullOverlay').css('height', '0')
+    });
+    // Examples
+    $(document).on('click', '#buttonExamples', function () {
+        $('#examplesOverlay').css('height', '100vh');
+    });
+
+    $(document).on('click', '#buttonExamples', function () {
+       // OJO $('.fullOverlay').css('height', '0')
+    });
+
+    function exportResults(type) {
+        if (type == 'csv') {
+            alert('WIP');
+        } else 
+        if (type == 'json') {
+            alert('WIP');
+        // PLAIN
+        } else {
+            console.log();
+        }
+    }
+    /* END FULL OVERLAY */
+
+
+
     /* BEGIN EGG */
     const cl = "cl"
     const mag = "mag"
@@ -325,7 +482,7 @@ REmatch is useful!`,
         }
     }
     /* END EGG */
-    
+
 </script>
 
 </html>
