@@ -17,11 +17,11 @@ ExtendedVA :: ExtendedVA(LogicalVA &A):
 
 	adaptReachableStates(A);
 
-	std::cout << pprint() << "\n\n";
+	// std::cout << pprint() << "\n\n";
 
 	// offsetOpt();
 
-	std::cout << "EvA after:\n" << pprint() << "\n\n";
+	// std::cout << "EvA after:\n" << pprint() << "\n\n";
 
 	captureClosure();
 
