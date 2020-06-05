@@ -1,7 +1,7 @@
 #include "rematch.hpp"
 #include "parser/parser.hpp"
 
-namespace REmatch {
+namespace rematch {
 
 RExpr::RExpr(std::string re) {
   extended_automaton_ = new ExtendedVA(regex2LVA(re));

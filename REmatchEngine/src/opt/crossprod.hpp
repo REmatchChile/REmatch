@@ -6,17 +6,17 @@
 #include "automata/eva.hpp"
 #include "automata/lvastate.hpp"
 
-// Computes the inplace cross product of an ExtendedVA with the two-state 
+// Computes the inplace cross product of an ExtendedVA with the two-state
 // automaton defined by:
 //
 //    state | filter   capture
 //   --------------------------
 //      0   |   1         0
 //      1   |   0         1
-// 
-// This is an optimization for the evaluation algorithm. It permits to 
-// leave out the need to check correct NodeList transpassing between 
-// transitioning DetStates at reading() step. 
+//
+// This is an optimization for the evaluation algorithm. It permits to
+// leave out the need to check correct NodeList transpassing between
+// transitioning DetStates at reading() step.
 void crossProdOpt(ExtendedVA &A) {
 
     // --- Duplicate states --- //
@@ -31,7 +31,7 @@ void crossProdOpt(ExtendedVA &A) {
         states0.push_back(new LVAState());
         states1.push_back(new LVAState());
 
-        // Store state's ptr corresponding index 
+        // Store state's ptr corresponding index
         ptr2index[A.states[i]] = i;
 
         if(A.states[i] == A.initState)
@@ -60,30 +60,30 @@ void crossProdOpt(ExtendedVA &A) {
             q0New = states0[qOldIdx]; q1New = states1[qOldIdx];
 
             p0New->addFilter(filter->code, q1New);
-            p1New->addFilter(filter->code, q0New);            
+            p1New->addFilter(filter->code, q0New);
         }
         for (auto const &capture: pOld->c) {
-            qOld = capture.next;
+            qOld = capture->next;
             qOldIdx = ptr2index[qOld];
 
             q0New = states0[qOldIdx]; q1New = states1[qOldIdx];
 
-            p0New->addCapture(capture.code, q0New);
-            p1New->addCapture(capture.code, q1New);   
+            p0New->addCapture(capture->code, q0New);
+            p1New->addCapture(capture->code, q1New);
         }
 
     }
 
     // --- Set new states and prune unreachable states --- //
 
-    // Concat both vectors 
+    // Concat both vectors
     states0.insert(states0.end(), states1.begin(), states1.end());
 
     A.initState = states0[initStateIdx]; // Init state is (q0, 0)
     A.states = std::move(states0);
     A.pruneUselessStates();
 
-    
+
 }
 
 #endif // OPT__CROSSPROD__HPP

@@ -22,6 +22,8 @@ Node* Node::reset(std::bitset<32> S, int i, Node* head, Node* tail) {
   /* Same as constructor but inplace on an already constructed object */
 
    // Remove a refCount from head and tail of list
+
+  std::cout << this->start<<'\n';
   this->start->refCount--;
   this->end->refCount--;
 

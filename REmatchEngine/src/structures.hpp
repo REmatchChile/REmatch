@@ -6,7 +6,7 @@
 
 #include <bitset>
 
-#include "factories.hpp"
+#include "factories/factories.hpp"
 
 class NodeList;
 

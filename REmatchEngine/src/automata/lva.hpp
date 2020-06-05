@@ -28,11 +28,17 @@ class LogicalVA {
 
     // Atomic LogicalVA construction
     LogicalVA(const char &a);
-    LogicalVA(const char &a, VariableFactory &vFact, FilterFactory &fFact); 
-    LogicalVA(int spec, bool negated, VariableFactory &vFact, FilterFactory &fFact); 
+    LogicalVA(const char &a, VariableFactory &vFact, FilterFactory &fFact);
+    LogicalVA(int spec, bool negated, VariableFactory &vFact, FilterFactory &fFact);
+
+    // Copy constructor
+    // LogicalVA(const LogicalVA &A);
+
+    // Computes epsilon transitions between capture states.
+    void adapt_capture_jumping();
 
     // LogicalVA operations, all modify the current LogicalVA to get the result
-    // (the operations are inplace) 
+    // (the operations are inplace)
 
     void cat(LogicalVA &a2);                 // Equivalent to R1.R2 in VarRegEx
     void alter(LogicalVA &a2);               // Equivalent to R1|R2 in VarRegEx

@@ -4,7 +4,7 @@
 #include "automata/eva.hpp"
 #include "automata/detstate.hpp"
 #include "automata/lvastate.hpp"
-#include "factories.hpp"
+#include "factories/factories.hpp"
 #include "setstate.hpp"
 #include "structs/vector.hpp"
 #include "captures.hpp"
@@ -19,16 +19,11 @@
 #include <stack>
 #include <random>
 
-#ifndef __EMSCRIPTEN__
-
-#include <boost/serialization/nvp.hpp>
-
 #include <boost/multiprecision/cpp_int.hpp>
 #include <boost/multiprecision/cpp_bin_float.hpp>
 
 using namespace boost::multiprecision;
 
-#endif
 
 DetManager :: DetManager(ExtendedVA *A,
 						 DetAutomaton *detA,
@@ -166,8 +161,6 @@ char DetManager :: chooseFromCharBitset(BitsetWrapper bs) {
 
 }
 
-#ifndef __EMSCRIPTEN__
-
 std::string DetManager :: uniformSample(size_t n) {
   // Timer t;
 	std::unordered_map<DetState*, std::pair<std::vector<BitsetWrapper>, cpp_int>> T, Tprim;
@@ -177,7 +170,7 @@ std::string DetManager :: uniformSample(size_t n) {
 	std::vector<BitsetWrapper> *w, *u;
 	cpp_int N, M, S;
 
-  cpp_bin_float_quad prob;
+  cpp_bin_float_oct prob;
 
 	double c;
 
@@ -203,7 +196,7 @@ std::string DetManager :: uniformSample(size_t n) {
 				}
 				else {
 					u = &Tprim[q].first; M = Tprim[q].second;
-					c = dis(gen); prob = cpp_bin_float_quad(M)/cpp_bin_float_quad(M+N*S);
+					c = dis(gen); prob = cpp_bin_float_oct(M)/cpp_bin_float_oct(M+N*S);
 					if ( c <= prob) {
 						std::vector<BitsetWrapper> ua = *u;
 						Tprim[q] = std::make_pair(ua, M+N*S);
@@ -228,7 +221,7 @@ std::string DetManager :: uniformSample(size_t n) {
 	for(auto &state_pair: T) {
 		p = state_pair.first; w = &state_pair.second.first; N = state_pair.second.second;
 		if(p->isFinal) {
-			c = dis(gen); prob = cpp_bin_float_quad(N)/cpp_bin_float_quad(M+N);
+			c = dis(gen); prob = cpp_bin_float_oct(N)/cpp_bin_float_oct(M+N);
 			if (c <= prob)
 				u = w;
 			M += N;
@@ -251,8 +244,6 @@ std::string DetManager :: uniformSample(size_t n) {
 
 	return ss.str();
 }
-
-#endif
 
 DetState* DetManager :: getNextSubset(SetState* ss, BitsetWrapper charBitset) {
 	/* Gets next subset from a subset ss if filter bitset b is read */
@@ -302,13 +293,13 @@ void DetManager :: computeCaptures(DetState* q) {
 	for(auto &extState: q->ss->subset) {
 		for(auto &capture: extState->c) {
 
-			it = captureList.find(capture.code);
+			it = captureList.find(capture->code);
 
 
 			if(it == captureList.end()) {
-				it = captureList.emplace(capture.code, std::set<LVAState*>()).first;
+				it = captureList.emplace(capture->code, std::set<LVAState*>()).first;
 			}
-			it->second.insert(capture.next);
+			it->second.insert(capture->next);
 		}
 	}
 
@@ -327,6 +318,8 @@ void DetManager :: computeCaptures(DetState* q) {
 			if (nq->isFinal) {
 				detA->finalStates.push_back(nq);
 			}
+
+      computeCaptures(nq);
 
 		}
 

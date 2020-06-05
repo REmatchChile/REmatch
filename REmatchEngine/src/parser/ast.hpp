@@ -1,7 +1,7 @@
 /*
-Author: 
+Author:
     nicovsj
-Description: 
+Description:
     Module defining the structs used at parsing-time.
 */
 
@@ -30,8 +30,8 @@ struct charset {
     using range = std::tuple<char, char>;
     using element = variant<char, range>;
 
-    std::set<element> elements;  
-}; 
+    std::set<element> elements;
+};
 
 // Special classes
 struct anychar {};
@@ -45,13 +45,13 @@ struct anywhitespace {};
 struct parenthesis;
 struct assignation;
 
-// Atom 
-typedef boost::variant<charset, char, anychar, anydigit, nondigit, 
+// Atom
+typedef boost::variant<charset, char, anychar, anydigit, nondigit,
                         anyword, nonword, anywhitespace> atom;
 // Group
 typedef boost::variant<
-    boost::recursive_wrapper<parenthesis>, 
-    boost::recursive_wrapper<assignation>, 
+    boost::recursive_wrapper<parenthesis>,
+    boost::recursive_wrapper<assignation>,
     atom> group;
 
 // Iter
@@ -90,7 +90,7 @@ BOOST_FUSION_ADAPT_STRUCT(ast::charset,
         (std::set<ast::charset::element>, elements))
 
 BOOST_FUSION_ADAPT_STRUCT(ast::iter,
-        (ast::group, expr) 
+        (ast::group, expr)
         (std::vector<char>, repetitions))
 
 BOOST_FUSION_ADAPT_STRUCT(ast::assignation,

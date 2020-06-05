@@ -13,22 +13,32 @@ Usage:
 		std::cout << "Time elapsed: " << t.elapsed() << " seconds\n"
 */
 {
-	private:
-		using clock_t = std::chrono::high_resolution_clock;
-		using second_t = std::chrono::duration<double, std::ratio<1> >;
 
-		std::chrono::time_point<clock_t>  m_beg;
+ public:
+		Timer(): start_time_(take_time_stamp()) {}
 
-	public:
-		inline Timer(): m_beg(clock_t::now()) {};
-
-		inline void reset() { 
-			m_beg = clock_t::now();
+		void reset() {
+			start_time_ = take_time_stamp();
 		}
 
-		inline double elapsed() const {
-			return std::chrono::duration_cast<second_t>(clock_t::now() - m_beg).count();
+		double elapsed() const {
+			return double((take_time_stamp() - start_time_) * 1e-9);
 		}
+
+    std::uint64_t elapsed_nanoseconds() const {
+      return take_time_stamp() - start_time_;
+    }
+
+ protected:
+  static std::uint64_t take_time_stamp() {
+    return std::uint64_t(
+      std::chrono::high_resolution_clock::now().time_since_epoch().count()
+    );
+  }
+
+ private:
+  std::uint64_t start_time_;
+
 };
 
 #endif
