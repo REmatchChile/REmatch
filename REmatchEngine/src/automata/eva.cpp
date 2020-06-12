@@ -128,11 +128,9 @@ void ExtendedVA :: utilEpsilonClosure(LVAState *from, LVAState *current) {
 		from->isFinal = true;
 	}
 	for(auto &capture: current->c) {
-		// TODO: Check if the transition already exists
 		from->addCapture(capture->code, capture->next);
 	}
 	for(auto &filter: current->f) {
-		// TODO: Check if the transition already exists
 		from->addFilter(filter->code, filter->next);
 	}
 
@@ -222,22 +220,14 @@ void ExtendedVA :: captureClosure() {
 		itState = topOrder.front();
 		topOrder.pop();
 
-		// std::cout << "Currently at state " << itState->id << " at queue.\n";
-
 		std::bitset<32> newCode;
 
 		std::vector<LVACapture*>::iterator it1, it2;
 
 		for(auto &capture1: itState->c) {
-			// std::cout << "\tState " << itState->id << " has a capture pointing to " << capture1.next->id << " with code " << vFact->getVarUtil(capture1.code) << std::endl;
 			for(auto &capture2: capture1->next->c) {
-				// TODO: Check if transition already exists
-				// std::cout << "\t\tState " << capture1.next->id << " has a capture pointing to " << capture2.next->id << " with code " << vFact->getVarUtil(capture2.code) << std::endl;
-
 				newCode = (capture1->code | capture2->code);
 				itState->addCapture(newCode, capture2->next);
-
-				// std::cout << "\t\tState " << itState->id << " connected to " << capture2.next->id << " by capture with code " << vFact->getVarUtil(newCode) << std::endl;
 			}
 		}
 	} // while(!topOrder.empty())
@@ -540,9 +530,6 @@ std::string ExtendedVA :: pprint() {
       nid = filter->next->id;
       S = filter->code;
 
-      // TODO: Get the correct transition name
-
-      // ss << "t " << cid << ' ' << fFact->getFilter(current->f[i]->code).print() << ' ' << nid << '\n';
       ss << "t " << cid << ' ' << fFact->getFilter(filter->code).print() << ' ' << nid << '\n';
 
       // If not visited enqueue and add to visited

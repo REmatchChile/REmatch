@@ -121,9 +121,6 @@ LogicalVA& regex2LVA :: operator()(ast::anywhitespace const &a) const {
 	return *A;
 }
 
-
-		// TODO: "Singleton" variable factory
-
 VariableFactory& regex2vars :: operator()(ast::altern const &a) const {
 	VariableFactory& V = (*this)(a.front());
 	if(a.size()>1) {

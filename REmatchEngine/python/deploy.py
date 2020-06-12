@@ -168,14 +168,14 @@ FILES = {
             'regexstr' : r"$\Sigma^*c!x\{a^+c\}\Sigma^*$",
             'docstr' : r"$(ca^nc)^r$"
         },
-        17 : { # TODO: Variacion exp13
+        17 : {
             'rematch' : lambda n: ".*c!x{{{0}{1}}}c.*".format('a'*n, "a?"*n) ,
             're2' : lambda n: "c({0}{1})c".format('a'*n, "a?"*n),
             'doc' : lambda n, r : "c{}c".format('a'*floor(3/2*n)) * r,
             'regexstr' : r"$\Sigma^*c!x\{a^n(a?)^n\}c\Sigma^*$",
             'docstr' : r"$(ca^{3/2n}c)^r$"
         },
-        16 : { # TODO: Variacion exp14, mirar memoria
+        16 : {
             'rematch' : lambda n: ".*c!x{(a|b)*b(a|b)*}c.*" ,
             're2' : lambda n: "c((?:a|b)*b(?:a|b)*)c",
             'doc' : lambda n, r : "c{}c".format(gen_all(n)+'b'+gen_all(n)) * r,

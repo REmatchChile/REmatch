@@ -50,8 +50,6 @@ struct regex2LVA : boost::static_visitor<LogicalVA&> {
 };
 
 struct regex2vars : boost::static_visitor<VariableFactory&> {
-		// TODO: "Singleton" variable factory
-
 		VariableFactory &operator()(ast::altern const &a) const;
 		VariableFactory &operator()(ast::concat const &c) const;
 		VariableFactory &operator()(ast::iter const &it) const;

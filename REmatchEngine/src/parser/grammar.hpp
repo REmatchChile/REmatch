@@ -13,7 +13,7 @@ namespace qi  = boost::spirit::qi;
 namespace ascii = boost::spirit::ascii;
 namespace phoenix = boost::phoenix;
 
-template <typename It> // It : Iterator type 
+template <typename It> // It : Iterator type
 struct parser : qi::grammar<It, ast::altern()> // altern : type returned at parsing
 {
     parser() : parser::base_type(altern_) // Starting rule
@@ -49,7 +49,7 @@ struct parser : qi::grammar<It, ast::altern()> // altern : type returned at pars
         ////  GRAMMAR RULES  ////
         /////////////////////////
 
-        altern_ = concat_ % '|';  
+        altern_ = concat_ % '|';
 
         concat_ = +(iter_);
 
@@ -63,26 +63,26 @@ struct parser : qi::grammar<It, ast::altern()> // altern : type returned at pars
 
         assign_ =   '!' >> var_  >> '{' >> altern_ >> '}';
 
-        atom_ =  ( 
+        atom_ =  (
                   charset_
-                | "\\d" >> attr(ast::anydigit()) 
-                | "\\D" >> attr(ast::nondigit()) 
+                | "\\d" >> attr(ast::anydigit())
+                | "\\D" >> attr(ast::nondigit())
                 | "\\w" >> attr(ast::anyword())
                 | "\\W" >> attr(ast::nonword())
                 | "\\s" >> attr(ast::anywhitespace())
-                | "." >> attr(ast::anychar()) 
+                | "." >> attr(ast::anychar())
                 | symb_
                 ) ; // Here we construct the atomic automaton
 
         // TODO: Revisar
         symb_ = (unesc_char |
-                "\\" > char_ | 
+                "\\" > char_ |
                 ~char_("\\+*?(){}[]|.-") // Anything but '+*?(){}[]|.'
                 );
 
-        charset_ = '[' 
-                  >> ('^' >> attr(true) | attr(false)) 
-                  >> *(range_ | symb_) > 
+        charset_ = '['
+                  >> ('^' >> attr(true) | attr(false))
+                  >> *(range_ | symb_) >
                   ']';
 
         range_ = symb_ >> '-' >> symb_;
@@ -127,8 +127,8 @@ struct parser : qi::grammar<It, ast::altern()> // altern : type returned at pars
 
         debug(altern_);
         debug(concat_);
-        debug(iter_); 
-        debug(group_); 
+        debug(iter_);
+        debug(group_);
         debug(parenthesis_);
         debug(rep_);
         debug(var_);
@@ -153,7 +153,7 @@ struct parser : qi::grammar<It, ast::altern()> // altern : type returned at pars
     qi::rule<It, char()> symb_;
     qi::rule<It, ast::charset::range()> range_;
     qi::symbols<char const, char const> unesc_char;
-    
+
 };
 
 
