@@ -2,49 +2,50 @@
 #include <sstream>
 #include <bitset>
 
+#include "match.hpp"
 #include "enumeration.hpp"
 #include "structures.hpp"
-#include "factories.hpp"
+#include "factories/factories.hpp"
 
 
 
-Enumerator :: Enumerator(std::ostream &os, VariableFactory* vf, MemManager* mem):
-  startList(nullptr), vf(vf), memManager(mem), os(os), numOfMappings(0) {
-    outputSchema = vf->getOutputSchema();
-  }
+Enumerator :: Enumerator(std::string &doc, VariableFactory &vf, MemManager &mem):
+    doc_(doc), vf_(vf), mem_manager_(mem), n_mappings_(0) {
+      data_.resize(vf_.size());
+      for(auto &elem: data_) {
+        elem.fill(0);
+      }
+    }
 
 
 void Enumerator :: addNodeList(NodeList &startList) {
   if(!startList.empty()){
     std::map<std::string, std::pair<size_t,size_t>> ret;
-    depthStack.emplace(startList.head, ret, startList.tail);
-    memManager->addPossibleGarbage(startList.head);
+    depth_stack_.emplace_back(startList.head, startList.tail);
+    mem_manager_.addPossibleGarbage(startList.head);
   }
 }
 
-std::map<std::string, std::pair<size_t,size_t>> 
-Enumerator :: next() {
-  while(!depthStack.empty()) {
-    auto current = depthStack.top();
-    Node* node = std::get<0>(current);
-    std::string label = vf->getVarUtil(node->S);
+rematch::Match Enumerator :: next() {
+  while(!depth_stack_.empty()) {
+    auto current = depth_stack_.back();
+    Node* node = current.current_node;
 
-    depthStack.pop();
+    depth_stack_.pop_back();
 
-    if(node != std::get<2>(current)) {
-      // std::vector<pair_> mov(std::move(current.second));
-      depthStack.push(std::make_tuple(node->next, std::get<1>(current), std::get<2>(current)));
+    if(node != current.end_node) {
+      depth_stack_.emplace_back(node->next, current.end_node);
     }
 
     if(node->isNodeEmpty()) {
-      numOfMappings++;
-      return std::get<1>(current);
+      n_mappings_++;
+      return rematch::Match(&doc_, data_, vf_.getOutputSchema());
     }
 
     if(node->start != nullptr) {
-      auto ret(std::get<1>(current)); // Copy constructor
-      vf->fillPartialMapping(ret, node->S, node->i);
-      depthStack.emplace(node->start, ret, node->end);
+      // TODO: Implement FillPartialMapping inside enumeration
+      vf_.fillPartialMapping(node->S, node->i, &data_);
+      depth_stack_.emplace_back(node->start, node->end);
     }
 
   }
@@ -54,6 +55,6 @@ Enumerator :: next() {
 
 
 bool Enumerator :: hasNext() {
-  return !depthStack.empty();
+  return !depth_stack_.empty();
 }
 

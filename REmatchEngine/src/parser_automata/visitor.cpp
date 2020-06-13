@@ -1,9 +1,9 @@
 #include "visitor.hpp"
 #include "ast.hpp"
-#include "../automata/lva.hpp"
-#include "../automata/lvastate.hpp"
-#include "../factories.hpp"
-#include "../charclass.hpp"
+#include "automata/lva.hpp"
+#include "automata/lvastate.hpp"
+#include "factories/factories.hpp"
+#include "charclass.hpp"
 
 #include <iostream>
 #include <bitset>

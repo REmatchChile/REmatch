@@ -11,7 +11,7 @@
 #include "detautomaton.hpp"
 #include "structures.hpp"
 #include "captures.hpp"
-#include "factories.hpp"
+#include "factories/factories.hpp"
 #include "detstate.hpp"
 #include "automata/eva.hpp"
 

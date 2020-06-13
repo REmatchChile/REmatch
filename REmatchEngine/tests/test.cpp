@@ -118,7 +118,7 @@ void check_spanners(LogicalVA &A, std::string document_file, std::string spanner
     std::ifstream spanner_fstream(spanners_file);
 	ExtendedVA B = ExtendedVA(A);
 	std::stringstream output_sstream;
-	Evaluation eval(&B, *document_isteam, output_sstream, true, false);
+	Evaluation eval(&B, &B, *document_isteam, output_sstream, true, false);
 
     std::set<std::set<std::string>> expected_results;
     for (std::string line; getline(spanner_fstream, line);) {

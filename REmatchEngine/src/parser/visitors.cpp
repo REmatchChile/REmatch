@@ -10,7 +10,7 @@
 #include "ast.hpp"
 #include "automata/lvastate.hpp"
 #include "automata/lva.hpp"
-#include "factories.hpp"
+#include "factories/factories.hpp"
 
 using boost::get;
 

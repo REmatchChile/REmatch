@@ -14,7 +14,9 @@ class VariableFactory;
 class FilterFactory;
 class LogicalVA;
 class CharClass;
+class LVACapture;
 
+// FIXME: Add docstrings and refine declarations.
 class ExtendedVA {
 
 public:
@@ -34,6 +36,11 @@ public:
 
 	ExtendedVA(LogicalVA &A);
 	ExtendedVA();
+
+	// ~ExtendedVA();
+
+	// Copy constructor for copying states accordingly
+	ExtendedVA(const ExtendedVA &extended_automaton);
 
 
 	void addFilter(LVAState* state, CharClass cs, LVAState* next);
@@ -60,6 +67,20 @@ public:
 	bool utilSearchSuperFinals(LVAState *state);
 
 	std::set<LVAState*> getSubset(BitsetWrapper bs) const;
+
+	// Returns a vector of pointers to the LVACaptures present in the automaton
+	// sorted accoding to an inverse topological sort for the automaton graph.
+	// Used for capture offset optimization.
+	std::vector<std::shared_ptr<LVACapture>> getInvTopSortCaptures();
+
+	std::vector<std::list<std::shared_ptr<LVACapture>>> classifySingleCaptures();
+
+	bool offsetPossible(std::shared_ptr<LVACapture> capture);
+	bool offsetPossible(std::list<std::shared_ptr<LVACapture>> &captureList);
+
+	void computeOffset(std::list<std::shared_ptr<LVACapture>> &captureList, int codeIndex);
+
+	void offsetOpt();
 };
 
 #endif

@@ -129,11 +129,11 @@ public:
 			newNode = freeHead->reset(S, i, head, tail);
 
 			// Append to freelist new garbage
-			if(listHead != nullptr && listHead->refCount == 0) {
+			if(listHead != nullptr && listHead->refCount == 0 && !listHead->isNodeEmpty()) {
 				listHead->nextFree = freeHead->nextFree;
 				freeHead->nextFree = listHead;
 			}
-			if(adyacentNext != nullptr && adyacentNext->refCount == 0) {
+			if(adyacentNext != nullptr && adyacentNext->refCount == 0 && !listHead->isNodeEmpty()) {
 				adyacentNext->nextFree = freeHead->nextFree;
 				freeHead->nextFree = adyacentNext;
 			}
@@ -170,7 +170,9 @@ public:
 	}
 
 	void addPossibleGarbage(Node* node) {
-		if(node->refCount == 0) {
+		if(node->isNodeEmpty())
+			// std::cout << "Node empty...\n";
+		if(node->refCount == 0 && !node->isNodeEmpty()) {
 			addFreeHead(node);
 		}
 	}

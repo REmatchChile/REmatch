@@ -12,13 +12,13 @@
 #include <map>
 #include <list>
 
+#include "match.hpp"
 #include "automata/eva.hpp"
 #include "automata/detautomaton.hpp"
 #include "enumeration.hpp"
 #include "det/detmanager.hpp"
-
 #include "structures.hpp"
-#include "factories.hpp"
+#include "factories/factories.hpp"
 #include "memmanager.hpp"
 #include "mapping.hpp"
 #include "structs/vector.hpp"
@@ -27,17 +27,23 @@ class DetState;
 
 class Evaluation {
   public:
-    DetAutomaton *detA;
+    DetAutomaton *detA, *auxDetA;
 
     std::istream &inputStream;
     std::string inputString;
     std::ostream &outputStream;
 
     MemManager *memManager;
-    DetManager *detManager;
+    DetManager *detManager, *auxDetManager;
 
-    long i;
-    long il;
+    uint64_t i;
+    uint64_t il;
+    uint64_t nextsep;
+
+    uint32_t nlines;
+    uint32_t nmatchedlines;
+
+    double match_probability_;
 
     bool earlyOutput;
     bool lineByLine;
@@ -50,20 +56,20 @@ class Evaluation {
     Enumerator *enumerator;
     NodeList outputList;
 
-    Evaluation(ExtendedVA *A, std::istream &is, std::ostream &os,
+    Evaluation(ExtendedVA *A, ExtendedVA *auxA, std::istream &is, std::ostream &os,
                bool c, bool l);
 
     void initLineByLine();
     void initNoLineByLine();
 
-    void initAutomaton(long i);
-    void capture(long i);
-    void reading(char a, long i);
+    void initAutomaton(uint64_t i);
+    void capture(uint64_t i);
+    void reading(char a, uint64_t i);
 
-    void readingEO(char a, long i);
-    void captureEO(long i);
+    void readingEO(char a, uint64_t i);
+    void captureEO(uint64_t i);
 
-    std::map<std::string, std::pair<size_t, size_t>> next();
+    rematch::Match next();
     std::string pnext();
 
     bool hasNext00();
@@ -73,6 +79,7 @@ class Evaluation {
 
     void evaluate();
     bool match();
+    bool searchAndMatch(char c);
 
     std::vector<std::string> getOutputSchema();
 

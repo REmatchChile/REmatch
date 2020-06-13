@@ -8,7 +8,7 @@
 
 #include <string>
 
-namespace REmatch {
+namespace rematch {
 
   class RExpr {
 

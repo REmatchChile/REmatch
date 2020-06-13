@@ -4,6 +4,7 @@
 #include <list>
 #include <set>
 #include <bitset>
+#include <memory>
 
 class LVAState;
 
@@ -12,8 +13,11 @@ public:
   LVAState* from;
   LVAState* next;
   std::bitset<32> code;
+  bool flag;
 
   LVACapture(LVAState* from, std::bitset<32> coding, LVAState* next);
+
+  void reset_states(LVAState* insiding, LVAState *to) {from = insiding; next=to;}
 
   bool operator==(const LVACapture &rhs) const;
 
@@ -22,10 +26,18 @@ public:
 
 class LVAFilter {
 public:
+  LVAState* from;
   LVAState* next;
   unsigned int code;
+  bool flag;
 
-  LVAFilter(unsigned int coding, LVAState* next): next(next), code(coding) {}
+  LVAFilter(LVAState* from, unsigned int coding, LVAState* next): from(from), next(next), code(coding) {}
+
+  void reset_states(LVAState *s) {next = s;}
+
+  bool operator==(const LVAFilter &rhs) const {
+    return (from == rhs.from) && (next == rhs.next) && (code == rhs.code);
+  }
 
 };
 
@@ -33,29 +45,31 @@ class LVAEpsilon {
 public:
   LVAState* next;
   LVAEpsilon(LVAState* next): next(next) {}
+
+  void reset_states(LVAState *s) {next = s;}
 };
 
 class LVAState {
   private:
-    static unsigned int ID; // Static var to make sequential id's 
+    static unsigned int ID; // Static var to make sequential id's
   public:
-    unsigned int id;               // id 
+    unsigned int id;               // id
 
-    std::list<LVAFilter*> f;    // Filter array
-    std::set<LVACapture> c;  // Capture pointers array
-    std::list<LVAEpsilon*> e; // Epsilon transitions
+    std::list<std::shared_ptr<LVAFilter>> f;    // Filter array
+    std::list<std::shared_ptr<LVACapture>> c;  // Capture pointers array
+    std::list<std::shared_ptr<LVAEpsilon>> e; // Epsilon transitions
 
     bool tempMark; // Booleans for graph algorithms
-    char colorMark; 
+    char colorMark;
 
-    long visitedBy; 
+    long visitedBy;
 
     bool isFinal;
     bool isInit;
     bool isSuperFinal;
 
-    std::set<LVACapture> incidentCaptures;
-    std::list<LVAFilter*> incidentFilters;
+    std::list<std::shared_ptr<LVACapture>> incidentCaptures;
+    std::list<std::shared_ptr<LVAFilter>> incidentFilters;
 
     LVAState();
     void init();

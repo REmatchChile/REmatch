@@ -1,16 +1,25 @@
 #include "evaluation.hpp"
+
+#include "effolkronium/random.hpp"
+
 #include "automata/detstate.hpp"
 #include "captures.hpp"
 #include "det/setstate.hpp"
 #include "mapping.hpp"
 
-Evaluation :: Evaluation(ExtendedVA *A, std::istream &is, std::ostream &os,
+
+using Random = effolkronium::random_static;
+
+Evaluation :: Evaluation(ExtendedVA *A, ExtendedVA *auxA, std::istream &is, std::ostream &os,
                          bool cont, bool lbl)
   : inputStream(is),
     inputString(),
     outputStream(os),
     i(0),
     il(0),
+    nlines(0),
+    nmatchedlines(0),
+    match_probability_(1),
     earlyOutput(cont),
     lineByLine(lbl),
     kNoCaptures(A->vFact->size() == 0)
@@ -22,9 +31,11 @@ Evaluation :: Evaluation(ExtendedVA *A, std::istream &is, std::ostream &os,
   };
 
   detA = new DetAutomaton(A->vFact);
+  auxDetA = new DetAutomaton(auxA->vFact);
   detManager = new DetManager(A, detA, arr);
+  auxDetManager = new DetManager(auxA, auxDetA, arr);
   memManager = new MemManager();
-  enumerator = new Enumerator(os, A->vFact, memManager);
+  enumerator = new Enumerator(inputString, *A->vFact, *memManager);
   (lineByLine) ? initLineByLine() : initNoLineByLine();
 }
 
@@ -40,15 +51,18 @@ inline void Evaluation :: initNoLineByLine() {
 // Init on case lineByLine it's true
 inline void Evaluation :: initLineByLine() {
   std::getline(inputStream, inputString);
+  inputString += '\n';
+  nlines++;
   initAutomaton(0);
 }
 
 // Evaluation algorithm initialization, here the argument i
 // represents the document position at which to initialize
 // (useful in line by line processing)
-inline void Evaluation :: initAutomaton(long i) {
+inline void Evaluation :: initAutomaton(uint64_t i) {
   detA->initState->visited = i;
-  detA->initState->currentL->add(memManager->alloc());
+  if( i == 0)
+    detA->initState->currentL->add(memManager->alloc());
 
   currentStates.clear();
   currentStates.push_back(detA->initState);
@@ -61,14 +75,14 @@ inline void Evaluation :: initAutomaton(long i) {
 }
 
 
-std::map<std::string, std::pair<size_t, size_t>> Evaluation :: next() {
-    return this->enumerator->next();
+rematch::Match Evaluation :: next() {
+    return enumerator->next();
 }
 
-inline std::string Evaluation :: pnext() {
-  auto mapping = next();
+std::string Evaluation :: pnext() {
+  auto match = next();
   std::stringstream ss;
-  for(auto const& keyValue : mapping) {
+  for(auto const& keyValue : match.data()) {
     ss << keyValue.first << " = |" << keyValue.second.first << "," << keyValue.second.second << ">\t";
   }
   ss << "\n";
@@ -79,29 +93,65 @@ std::vector<std::string> Evaluation :: getOutputSchema() {
   return detA->vFact->getOutputSchema();
 }
 
+
+// Checks if the regex matches the whole string.
 bool Evaluation :: match() {
   char a;
   DetState *nextState, *currentState;
-  currentState = currentStates[0];
 
-  while( i < inputString.size() ) {
-    a = (char) inputString[i];
+  currentState = auxDetA->initState;
 
+  uint64_t it = 0;
+
+  while( it < inputString.size() ) {
+    // std::cout << "it = " << it << "size = " << inputString.size() << '\n';
+    a = (char) inputString[it];
     // nextState is reached from currentState by reading the character
     nextState = currentState->nextState(a);
 
     if(nextState == nullptr) // Then maybe a determinization is needed
-      nextState = detManager->getNextDetState(currentState, a);
+      nextState = auxDetManager->getNextDetState(currentState, a);
 
-    if (nextState->isSuperFinal) {
+    if (nextState->isSuperFinal)
       return true;
-    }
 
     if (nextState->ss->isNonEmpty)  // Check if not empty set
       currentState = nextState;
     else
       return false;
+    it++;
+  }
 
+  return currentState->isFinal;
+}
+
+// Searches for character c from the current position, changing the positional
+// pointer. Returns whether the auxDFA matches or not.
+bool Evaluation :: searchAndMatch(char c) {
+  char a;
+  DetState *nextState, *currentState;
+
+  bool match = false;
+
+  currentState = auxDetA->initState;
+
+  while((a = inputString[i]) != c) {
+    nextState = currentState->nextState(a);
+
+    if(nextState == nullptr) // Then maybe a determinization is needed
+      nextState = auxDetManager->getNextDetState(currentState, a);
+
+    if (nextState->isSuperFinal) {
+      i = inputString.find(c, i);
+      return true;
+    }
+
+    if (nextState->ss->isNonEmpty)  // Check if not empty set
+      currentState = nextState;
+    else {
+      i = inputString.find(c, i);
+      return false;
+    }
     i++;
   }
 
@@ -111,38 +161,29 @@ bool Evaluation :: match() {
 void Evaluation :: evaluate() {
   bool(Evaluation::*hasNext)(); // Function pointer declare
   if(kNoCaptures) { //
-    detManager->computeFullDetAutomaton();
+    // detManager->computeFullDetAutomaton();
     // std::cout << detA->pprint() << '\n';
     // std::cout << "Uniform sample: " << detManager->uniformSample(20) << '\n';
-    if(match()) enumerator->numOfMappings++;
+    if(match()) enumerator->n_mappings_++;
     return;
   }
   if(earlyOutput) {
-    if (lineByLine) {
+    if (lineByLine)
       hasNext = &Evaluation::hasNext11;
-    }
-    else {
+    else
       hasNext = &Evaluation::hasNext10;
-    }
   }
   else {
-    if(lineByLine) {
+    if(lineByLine)
       hasNext = &Evaluation::hasNext01;
-    }
-    else {
+    else
       hasNext = &Evaluation::hasNext00;
-    }
   }
-  // detManager->computeFullDetAutomaton();
-
 
   while((this->*hasNext)()) {
     this->outputStream << this->pnext();
   }
 
-
-  // std::cout << detA->pprint() << '\n';
-  // std::cout << "Uniform sample: " << detManager->uniformSample(20) << '\n';
 }
 
 // The 00 in hasNext00 represents no early output and no
@@ -153,8 +194,8 @@ bool Evaluation :: hasNext00() {
     outputList.reset();
     while(i < this->inputString.size()) {
       a = (char) inputString[i];
+      // std::cout << "char: "<< a << "; pos: " << i << "; strsize: "<< inputString.size() <<"\n";
       reading(a, i);
-      // addToHistogram(captureStates.size());
       this->currentStates.swap(this->newStates);
       capture(i+1);
       i++;
@@ -196,6 +237,7 @@ inline bool Evaluation :: hasNext10() {
 // The 01 in hasNext01 represents no early output and
 // line by line processing.
 inline bool Evaluation :: hasNext01() {
+ Loop:
   if(!enumerator->hasNext() && (i - il) < this->inputString.size()) {
     char a;
     outputList.reset();
@@ -216,11 +258,31 @@ inline bool Evaluation :: hasNext01() {
       this->enumerator->addNodeList(outputList);
   }
   if (!enumerator->hasNext()) {
+   Nextline:
     if(std::getline(this->inputStream, this->inputString)) {
+      inputString += '\n';
       i++;
       il = i;
-      initAutomaton(il);
-      return hasNext01();
+
+      // uint32_t c = Random::get<uint32_t>(1, nlines);
+
+      // nlines++;
+
+      // if( c > nmatchedlines) {
+        if(!match()) {
+          i += inputString.size()-1;
+          goto Nextline;
+        }
+        else {
+          // nmatchedlines++;
+          initAutomaton(il);
+          goto Loop;
+        }
+      // }
+      // else {
+        // initAutomaton(il);
+        // goto Loop;
+      // }
     }
   }
   return enumerator->hasNext();
@@ -260,7 +322,7 @@ inline bool Evaluation :: hasNext11() {
 }
 
 
-inline void Evaluation :: reading(char a, long ip) {
+inline void Evaluation :: reading(char a, uint64_t ip) {
   this->captureStates.clear();
   this->newStates.clear();
   DetState *nextState, *currentState;
@@ -324,7 +386,7 @@ inline void Evaluation :: reading(char a, long ip) {
   // addToHistogram(nfa_current_states);
 }
 
-inline void Evaluation :: readingEO(char a, long ip) {
+inline void Evaluation :: readingEO(char a, uint64_t ip) {
   this->captureStates.clear();
   this->newStates.clear();
   DetState* nextState;
@@ -369,7 +431,7 @@ inline void Evaluation :: readingEO(char a, long ip) {
   }
 }
 
-inline void Evaluation :: capture(long ip) {
+inline void Evaluation :: capture(uint64_t ip) {
   DetState* nextState;
   Node* newNode;
 
@@ -383,12 +445,13 @@ inline void Evaluation :: capture(long ip) {
 
       nextState = capture->next;
 
-      newNode = memManager->alloc(capture->S, ip, currentState->copiedList->head,
-                                                currentState->copiedList->tail);
+      std::string S_str = this->detA->vFact->getVarUtil(capture->S);
 
-        if (nextState->visited < ip) {
+      newNode = memManager->alloc(capture->S, ip, currentState->copiedList->head, currentState->copiedList->tail);
+
+        if (nextState->visited <= ip) {
           nextState->currentL->resetAndAdd(newNode);
-          nextState->visited = ip;
+          nextState->visited = ip+1;
 
           this->currentStates.push_back(nextState);
         }
@@ -399,7 +462,7 @@ inline void Evaluation :: capture(long ip) {
   }
 } // capture()
 
-inline void Evaluation :: captureEO(long ip) {
+inline void Evaluation :: captureEO(uint64_t ip) {
   DetState* nextState;
   Node* newNode;
 
@@ -419,9 +482,9 @@ inline void Evaluation :: captureEO(long ip) {
         this->outputList.add(newNode);
       }
       else {
-        if (nextState->visited < ip) {
+        if (nextState->visited <= ip) {
           nextState->currentL->resetAndAdd(newNode);
-          nextState->visited = ip;
+          nextState->visited = ip+1;
 
           this->currentStates.push_back(nextState);
         }

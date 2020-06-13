@@ -14,7 +14,7 @@
 /****** CONSTRUCTORS ********/
 
 DetState :: DetState()
-  : visited(-1),
+  : visited(0),
     currentL(new NodeList()),
     copiedList(new NodeList()),
 #ifdef NOPT_CROSSPROD
@@ -25,7 +25,6 @@ DetState :: DetState()
      {
 
   id = ID++;
-  this->visited = -1;
   label = "{0}";
   for (size_t i = 0; i < 128; i++)
   {
@@ -35,7 +34,7 @@ DetState :: DetState()
 }
 
 DetState :: DetState(SetState* ss):
-  visited(-1),
+  visited(0),
   currentL(new NodeList()),
   copiedList(new NodeList()),
 #ifdef NOPT_CROSSPROD
@@ -46,7 +45,6 @@ DetState :: DetState(SetState* ss):
   id = ID++;
   isFinal = ss->isFinal;
   isSuperFinal = ss->isSuperFinal;
-  visited = -1;
   mark = false;
   std::stringstream s;
   s << *(ss);

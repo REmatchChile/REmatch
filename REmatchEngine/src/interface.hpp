@@ -27,6 +27,7 @@ class Interface {
 	std::istream *document_stream_;
 	std::string document_filename_;
 	LogicalVA lv_automaton_;
+	LogicalVA aux_automaton_;
 	rematch::Options options_;
 };
 

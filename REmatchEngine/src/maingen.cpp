@@ -24,7 +24,7 @@ int main(int argc, char const *argv[]) {
   if(sopt->count())
     regex = file2str(script_path);
 
-  REmatch::RExpr regexp(regex);
+  rematch::RExpr regexp(regex);
 
   std::cout << regexp.uniformGenerate(n) << '\n';
 

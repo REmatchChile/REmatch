@@ -26,14 +26,18 @@ Interface::Interface(std::string docFile, std::string input,
 	switch (options_.input_option()) {
 	case RGXSTR:
 		lv_automaton_ = regex2LVA(input);
+		aux_automaton_ = regex2LVA(input);
 		break;
 	case RGXFILE:
 		lv_automaton_ = regex2LVA(file2str(input));
+		aux_automaton_ = regex2LVA(file2str(input));
 		break;
 	case NFAFILE:
 		lv_automaton_ = parse_automata_file(input);
+		aux_automaton_ = parse_automata_file(input);
 		break;
 	}
+	aux_automaton_.adapt_capture_jumping();
 }
 
 void Interface::run() {
@@ -45,22 +49,25 @@ void Interface::run() {
 }
 
 void Interface::normalRun() {
-	ExtendedVA B = ExtendedVA(lv_automaton_);
+	// LogicalVA A(lv_automaton_);
+	// LogicalVA C = lv_automaton_;
+	ExtendedVA B(lv_automaton_);
+	ExtendedVA R(aux_automaton_);
 	if(options_.output_option() == QUIET) {
 		std::stringstream s;
-		Evaluation eval(&B, *document_stream_, s,
+		Evaluation eval(&B, &R, *document_stream_, s,
 						options_.early_output(), options_.line_by_line());
 		eval.evaluate();
 	}
 	else if(options_.output_option() == NMAPPINGS) {
 		std::stringstream s;
-		Evaluation eval(&B, *document_stream_, s,
+		Evaluation eval(&B, &R, *document_stream_, s,
 						options_.early_output(), options_.line_by_line());
 		eval.evaluate();
-		std::cout << eval.enumerator->numOfMappings << "\n";
+		std::cout << eval.enumerator->numMappings() << "\n";
 	}
 	else {
-		Evaluation eval(&B, *document_stream_, std::cout,
+		Evaluation eval(&B, &R, *document_stream_, std::cout,
 						options_.early_output(), options_.line_by_line());
 		eval.evaluate();
 	}
@@ -77,18 +84,22 @@ void Interface::benchmarkRun() {
 
 	Timer t; 								// Start timer for automata creation
 
-	if(options_.output_option() == DEBUG)
+	if(options_.output_option() == DEBUG) {
 		std::cout << "LVA:\n" << lv_automaton_.pprint() << "\n\n";
+		std::cout << "auxLVA:\n" << aux_automaton_.pprint() << "\n\n";
+	}
 
 	ExtendedVA B = ExtendedVA(lv_automaton_);
+	ExtendedVA R(aux_automaton_);
 
 	if(options_.output_option() == DEBUG) {
 		std::cout << "Filter fact:\n" <<  B.fFact->pprint() << "\n";
 		std::cout << "Var fact:\n" <<  B.vFact->pprint() << "\n";
 		std::cout << "eVA:\n" << B.pprint() << "\n\n";
+		std::cout << "auxeVA:\n" << R.pprint() << "\n\n";
 	}
 
-	Evaluation eval(&B, *document_stream_, output,
+	Evaluation eval(&B, &R, *document_stream_, output,
 					options_.early_output(), options_.line_by_line());
 
 	initAutomataTime = t.elapsed(); 		// Automata creation time
@@ -101,6 +112,7 @@ void Interface::benchmarkRun() {
 	if(options_.output_option() == DEBUG) {
 		std::cout << "Evaluation successful\n";
 		std::cout << "\ndetA:\n" << eval.detA->pprint() << "\n\n";
+		std::cout << "\nauxDetA:\n" << eval.auxDetA->pprint() << "\n\n";
 	}
 
 	/************************** Get Measurments **************************/
@@ -110,7 +122,7 @@ void Interface::benchmarkRun() {
 	eVASize = B.size();
 	detASize = eval.detA->size();
 
-	numOfSpans = eval.enumerator->numOfMappings;
+	numOfSpans = eval.enumerator->numMappings();
 
 	numOfNodes = eval.memManager->totNodes();
 	numOfNodeArenas = eval.memManager->totNodeArenas();
