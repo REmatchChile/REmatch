@@ -1,6 +1,7 @@
 const XRegExp = require('xregexp');
 const Module = require('./spanners_interface.js');
 const fs = require('fs');
+var readline = require('readline-sync');
 
 
 Module['onRuntimeInitialized'] = () => {
@@ -70,7 +71,7 @@ Module['onRuntimeInitialized'] = () => {
 
         const test_a_file = (combo, query, iterations) => {
             if (query == 0) {
-                let query = queries[2]
+                query = queries[1]
             }
 
             const doc = fs.readFileSync('RKBExplorer/sparql.log.combo.' + combo, "latin1");
@@ -83,11 +84,12 @@ Module['onRuntimeInitialized'] = () => {
             try {
                 for (var i = 0; i <= iterations - 1; i++) {
                     let exp = f(doc, query);
+                    console.log('si')
                     times.push(exp);
                 }
             }
             catch (err) {
-                console.log(err)
+                console.log('Error: ', err)
             }
             
             // XRegExp
@@ -119,10 +121,12 @@ Module['onRuntimeInitialized'] = () => {
             }
         }
 
-        const test_all_combos = (query, iterations) => {
+        const test_all_files = (query, iterations) => {
             for (var i = 0; i <= 10; i++) {
                     combo = (i + 1).toString();
+                    console.log('*************', combo, '*************')
                     test = test_a_file(combo, query, iterations)
+                    
                 }
         }
 
@@ -132,10 +136,30 @@ Module['onRuntimeInitialized'] = () => {
                     test = test_a_file(combo, query, iterations)
                 }
         }
-        test_a_file('1', 0, 1)
+        
+		var choice = readline.question("[0] Test all files\n[1] Test a file\n[2] Test all queries\n>");
+
+		if (choice == '0') {
+			var query = readline.question("Ingrese consulta ([0] para usar default): ");
+			var iterations = Number(readline.question("Iteraciones: "));
+			test_all_files(query, iterations);
+
+		} 
+		if (choice == '1') {
+			var combo = readline.question("Ingrese el número del combo: ");
+			var query = readline.question("Ingrese consulta ([0] para usar default): ");
+			var iterations = Number(readline.question("Iteraciones: "));
+			test_a_file(combo, query, iterations);
+		}
+		else {
+			var combo = readline.question("Ingrese el número del combo: ");
+			var iterations = Number(readline.question("Iteraciones: "));
+			test_all_queries(combo, iterations);
+		}
+
     }
     catch(err) {
-        console.log(err)
+        console.log('Error: ', err)
     }
    
     }
