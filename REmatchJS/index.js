@@ -8,6 +8,8 @@ Module['onRuntimeInitialized'] = () => {
 
     try {
         const f = (text, regex) => {
+        	console.log(regex, text.slice(0, 50))
+        	// text = text.slice(0, 800)
             let start = Date.now();
             let usedVars = [];
             let spanList = [];
@@ -35,7 +37,7 @@ Module['onRuntimeInitialized'] = () => {
             var end = Date.now();
             const time = end - start
             console.log('Time REmatch: ', time)
-            console.log('Outputs: ', allSpans.length);
+            console.log('Total outputs: ', allSpans.length);
             return time
         }
 
@@ -52,6 +54,7 @@ Module['onRuntimeInitialized'] = () => {
 
         const Str_exp = (doc, query) => {
             let start = Date.now();
+            query = new RegExp(query, 'g')
             const exp = doc.match(query);
             let end = Date.now();
             const time = end - start;
@@ -62,29 +65,32 @@ Module['onRuntimeInitialized'] = () => {
         }
 
 
-        const queries = ['.*sparql!x{[^\n]*OPTIONAL[^\n]*\n}.*', 
+        const queries_rm = ['.*sparql!x{[^\n]*OPTIONAL[^\n]*\n}.*', 
         '.*sparql!x{[^\n]*OPTIONAL[^\n]*OPTIONAL[^\n]*\n}.*',
         '.*.................12[^\n]*sparql!x{[^\n]*FILTER[^\n]*\n}.*',
         '.*!y{[^\+]*\+}[^\n]*sparql!x{[^\n]*OPTIONAL[^\n]*OPTIONAL[^\n]*\n}.*'];
 
-        
+        const queries_rx = ['sparql([^\n]*OPTIONAL[^\n]*\n)', 
+        'sparql([^\n]*OPTIONAL[^\n]*OPTIONAL[^\n]*\n)',
+        '.................12[^\n]*sparql([^\n]*FILTER[^\n]*\n)',
+        '([^\+]*\n)[^\+]*sparql([^\n]*OPTIONAL[^\n]*OPTIONAL[^\n]*\n)'];
 
-        const test_a_file = (combo, query, iterations) => {
-            if (query == 0) {
-                query = queries[1]
-            }
 
-            const doc = fs.readFileSync('RKBExplorer/sparql.log.combo.' + combo, "latin1");
+        const test_a_file = (combo, nro_query, iterations) => {
+            
+            query_rm = queries_rm[nro_query]
+            query_rx = queries_rx[nro_query]
+         
+
+            const doc = fs.readFileSync('../../RKBExplorer/sparql.log.combo.' + combo, "latin1");
             
             // REmatch
-            // let rows = [];
             let times = [];
             console.log("---" + "Iniciando REmatch" + "---" );
 
             try {
                 for (var i = 0; i <= iterations - 1; i++) {
-                    let exp = f(doc, query);
-                    console.log('si')
+                    let exp = f(doc, query_rm);
                     times.push(exp);
                 }
             }
@@ -97,7 +103,7 @@ Module['onRuntimeInitialized'] = () => {
             console.log("---" + "Iniciando XRegExp" + "---");
 
             for (var i = 0; i <= iterations - 1; i++) {
-                let exp = XRegExp_exp(doc, '[^\n]*OPTIONAL[^\n]*\n');
+                let exp = XRegExp_exp(doc, query_rx);
                 times_XRegExp.push(exp);
             }
             
@@ -107,7 +113,7 @@ Module['onRuntimeInitialized'] = () => {
 
             
             for (var i = 0; i <= iterations - 1; i++) {
-                let exp = Str_exp(doc, /[^\n]*OPTIONAL[^\n]*\n/g);
+                let exp = Str_exp(doc, query_rx);
                 times_String.push(exp);
             }
             console.log('-------------------------')
@@ -121,33 +127,42 @@ Module['onRuntimeInitialized'] = () => {
             }
         }
 
-        const test_all_files = (query, iterations) => {
+        const test_all_files = (nro_query, iterations) => {
             for (var i = 0; i <= 10; i++) {
                     combo = (i + 1).toString();
                     console.log('*************', combo, '*************')
-                    test = test_a_file(combo, query, iterations)
+                    test = test_a_file(combo, nro_query, iterations)
+                    
                     
                 }
         }
 
         const test_all_queries = (combo, iterations) => {
-            for (var i = 0; i <= queries.length - 1; i++) {
-                    query = queries[i];
-                    test = test_a_file(combo, query, iterations)
-                }
+            for (var i = 0; i <= 3; i++) {
+                test = test_a_file(combo, i, iterations)
+            }
         }
         
 		var choice = readline.question("[0] Test all files\n[1] Test a file\n[2] Test all queries\n>");
 
 		if (choice == '0') {
-			var query = readline.question("Ingrese consulta ([0] para usar default): ");
+			console.log('[0] sparql!x{[^\\n]*OPTIONAL[^\\n]*\\n}')
+			console.log('[1] sparql!x{[^\\n]*OPTIONAL[^\\n]*OPTIONAL[^\\n]*\\n}')
+			console.log('[2] .................12[^\\n]*sparql!x{[^\\n]*FILTER[^\\n]*\\n}')
+			console.log('[3] !y{[^\+]*\+}[^\\n]*sparql!x{[^\\n]*OPTIONAL[^\\n]*OPTIONAL[^\\n]*\\n}')
+			var query = readline.question("Ingrese consulta: ");
 			var iterations = Number(readline.question("Iteraciones: "));
 			test_all_files(query, iterations);
 
 		} 
 		if (choice == '1') {
+
 			var combo = readline.question("Ingrese el número del combo: ");
-			var query = readline.question("Ingrese consulta ([0] para usar default): ");
+			console.log('[0] sparql!x{[^\\n]*OPTIONAL[^\\n]*\\n}')
+			console.log('[1] sparql!x{[^\\n]*OPTIONAL[^\\n]*OPTIONAL[^\\n]*\\n}')
+			console.log('[2] .................12[^\\n]*sparql!x{[^\\n]*FILTER[^\\n]*\\n}')
+			console.log('[3] !y{[^\+]*\+}[^\\n]*sparql!x{[^\\n]*OPTIONAL[^\\n]*OPTIONAL[^\\n]*\\n}')
+			var query = readline.question("Ingrese consulta: ");
 			var iterations = Number(readline.question("Iteraciones: "));
 			test_a_file(combo, query, iterations);
 		}
