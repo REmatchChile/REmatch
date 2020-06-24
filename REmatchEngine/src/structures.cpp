@@ -6,12 +6,12 @@
 
 
 Node::Node()
-  : S(0), i(-1), next(nullptr), start(nullptr), end(nullptr), 
+  : S(0), i(-1), next(nullptr), start(nullptr), end(nullptr),
     refCount(0), nextFree(nullptr) {}
 
 
 Node::Node(std::bitset<32> S, int i, Node* head, Node* tail)
-  : S(S), i(i), next(nullptr), start(head), end(tail), 
+  : S(S), i(i), next(nullptr), start(head), end(tail),
     refCount(0), nextFree(nullptr) {
 
     start->refCount++;
@@ -67,7 +67,7 @@ Node* Node::reset() {
 }
 
 void Node::getNodeContent(int content[2]) {
-  // Get's the S and the i in the content array/ 
+  // Get's the S and the i in the content array/
   content[0] = this->S.to_ulong();
   content[1] = this->i;
 };

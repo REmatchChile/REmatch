@@ -1,24 +1,25 @@
+#include "enumeration.hpp"
+
 #include <iostream>
 #include <sstream>
 #include <bitset>
 
 #include "match.hpp"
-#include "enumeration.hpp"
 #include "structures.hpp"
 #include "factories/factories.hpp"
+#include "regex/regex.hpp"
+
+namespace rematch {
+
+Enumerator::Enumerator(RegEx &rgx, std::string &doc, MemManager &mem)
+    : doc_(doc),
+      mem_manager_(mem),
+      rgx_(rgx),
+      n_mappings_(0),
+      data_(rgx_.varCount(), std::pair<size_t, size_t>(0, 0)) {}
 
 
-
-Enumerator :: Enumerator(std::string &doc, VariableFactory &vf, MemManager &mem):
-    doc_(doc), vf_(vf), mem_manager_(mem), n_mappings_(0) {
-      data_.resize(vf_.size());
-      for(auto &elem: data_) {
-        elem.fill(0);
-      }
-    }
-
-
-void Enumerator :: addNodeList(NodeList &startList) {
+void Enumerator::addNodeList(NodeList &startList) {
   if(!startList.empty()){
     std::map<std::string, std::pair<size_t,size_t>> ret;
     depth_stack_.emplace_back(startList.head, startList.tail);
@@ -26,7 +27,7 @@ void Enumerator :: addNodeList(NodeList &startList) {
   }
 }
 
-rematch::Match Enumerator :: next() {
+std::unique_ptr<Match> Enumerator :: next() {
   while(!depth_stack_.empty()) {
     auto current = depth_stack_.back();
     Node* node = current.current_node;
@@ -39,12 +40,16 @@ rematch::Match Enumerator :: next() {
 
     if(node->isNodeEmpty()) {
       n_mappings_++;
-      return rematch::Match(&doc_, data_, vf_.getOutputSchema());
+      return std::make_unique<Match>(&doc_, data_, rgx_.varScheme());
     }
 
     if(node->start != nullptr) {
-      // TODO: Implement FillPartialMapping inside enumeration
-      vf_.fillPartialMapping(node->S, node->i, &data_);
+      for(size_t j=0; j < data_.size(); j++) {
+        if(node->S[2*j])
+          data_[j].first = node->i;
+        if(node->S[2*j+1])
+          data_[j].second = node->i;
+      }
       depth_stack_.emplace_back(node->start, node->end);
     }
 
@@ -57,4 +62,6 @@ rematch::Match Enumerator :: next() {
 bool Enumerator :: hasNext() {
   return !depth_stack_.empty();
 }
+
+} // end namespace rematch
 

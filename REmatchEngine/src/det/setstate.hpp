@@ -11,9 +11,7 @@ class ExtendedVA;
 class LVAState;
 
 class SetState {
-public:
-
-	ExtendedVA *eVA;
+ public:
 	std::set<LVAState*> subset;
 	BitsetWrapper bitstring;
 
@@ -21,7 +19,7 @@ public:
 
 	friend std::ostream & operator<<(std::ostream &os, SetState const &ss);
 
-	SetState(ExtendedVA *eVA, std::set<LVAState*> l);
+	SetState(ExtendedVA &eVA, std::set<LVAState*> l);
 };
 
 std::ostream & operator<<(std::ostream &os, SetState const &ss);

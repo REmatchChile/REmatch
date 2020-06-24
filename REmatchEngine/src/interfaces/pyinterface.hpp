@@ -1,14 +1,14 @@
 #ifndef PYINTERFACE_HPP
 #define PYINTERFACE_HPP
 
-#include "evaluation.hpp"
+#include "regex/regex.hpp"
 
 namespace rematch {
 
 class PyInterface {
 
  public:
-  PyInterface(const std::string &doc, std::string rgx);
+  PyInterface();
 
   // TODO: Check case with no capture.
   Match next();

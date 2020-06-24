@@ -28,8 +28,8 @@ endif()
 
 # add_definitions(-DNOPT_CROSSPROD)
 
-include_directories (src)
-include_directories (SYSTEM include)
+include_directories(src)
+include_directories(SYSTEM include)
 
 if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
 	find_package(Boost 1.58)
@@ -41,9 +41,4 @@ add_subdirectory(src)
 
 if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten" AND NOT SWIG)
 	add_subdirectory(tests)
-endif()
-
-# Check if compiling with emscripten
-if (${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
-	set_target_properties(spanners_interface PROPERTIES LINK_FLAGS " --bind -s ERROR_ON_UNDEFINED_SYMBOLS=0")
 endif()

@@ -81,7 +81,7 @@ LogicalVA& regex2LVA :: operator()(ast::charset const &cs) const {
 
 	CharClass chs = CharClass(cs);
 
-	A->initState->addFilter(fFact.getCode(chs), fState);
+	A->initState()->addFilter(fFact.getCode(chs), fState);
 
 	return *A;
 }
@@ -124,7 +124,7 @@ LogicalVA& regex2LVA :: operator()(ast::anywhitespace const &a) const {
 VariableFactory& regex2vars :: operator()(ast::altern const &a) const {
 	VariableFactory& V = (*this)(a.front());
 	if(a.size()>1) {
-		for (size_t i = 1; i < a.size(); ++i) 
+		for (size_t i = 1; i < a.size(); ++i)
 			if(!(V == (*this)(a[i]))) {
 				throw bad_regex();
 			}; // Check for functional regex

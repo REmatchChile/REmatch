@@ -3,7 +3,6 @@
 
 #include "cli.hpp"
 #include "interface.hpp"
-#include "interfaces/wasminterface.hpp"
 #include "options.hpp"
 
 using namespace rematch;

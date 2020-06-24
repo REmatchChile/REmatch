@@ -8,7 +8,7 @@
 #include "opt/crossprod.hpp"
 
 ExtendedVA :: ExtendedVA(LogicalVA &A):
-	vFact(A.vFact), fFact(A.fFact), currentID(0) {
+	variable_factory_(A.varFactory()), filter_factory_(A.filterFactory()), currentID(0) {
 	/* Constructs an extended-VA from a logical-VA */
 
 	// Get rid off e-transitions
@@ -47,17 +47,17 @@ ExtendedVA :: ExtendedVA(LogicalVA &A):
 
 
 ExtendedVA :: ExtendedVA():
-	vFact(new VariableFactory()), fFact(new FilterFactory) {
+	variable_factory_(new VariableFactory()), filter_factory_(new FilterFactory()) {
 
-		initState = new LVAState();
-		states.push_back(initState);
+		init_state_ = new LVAState();
+		states.push_back(init_state_);
 
 }
 
 ExtendedVA::ExtendedVA(const ExtendedVA &A)
 	: idMap(A.idMap),
-		vFact(A.vFact),
-		fFact(A.fFact),
+		variable_factory_(A.varFactory()),
+		filter_factory_(A.filterFactory()),
 		currentID(0) {
 
 	// Mantain a map from the original states to their copies
@@ -76,7 +76,7 @@ ExtendedVA::ExtendedVA(const ExtendedVA &A)
 	}
 
 	// Update init state
-	initState = copy_table[A.initState];
+	init_state_ = copy_table[A.initState()];
 
 	// Update transition table
 	for(const auto &state: this->states) {
@@ -90,8 +90,8 @@ ExtendedVA::ExtendedVA(const ExtendedVA &A)
 }
 
 void ExtendedVA :: addFilter(LVAState* state, CharClass cs, LVAState* next) {
-	fFact->addFilter(cs);
-	state->addFilter(fFact->getCode(cs), next);
+	filter_factory_->addFilter(cs);
+	state->addFilter(filter_factory_->getCode(cs), next);
 }
 
 void ExtendedVA :: addCapture(LVAState* state, std::bitset<32> bs, LVAState* next) {
@@ -150,10 +150,10 @@ void ExtendedVA :: adaptReachableStates(LogicalVA &A) {
 	states.reserve(A.states.size());
 	finalStates.reserve(A.finalStates.size());
 
-	initState = A.initState;
-	initState->isInit = true;
+	init_state_ = A.initState();
+	init_state_->isInit = true;
 
-	utilCleanUnreachable(A.initState);
+	utilCleanUnreachable(A.initState());
 }
 
 void ExtendedVA :: pruneUselessStates() {
@@ -162,7 +162,7 @@ void ExtendedVA :: pruneUselessStates() {
 	}
 
 	std::vector<LVAState*> tmp;
-	pruneDFS(initState, tmp);
+	pruneDFS(init_state_, tmp);
 	states = std::move(tmp);
 	finalStates.clear();
 	for(auto const &state: states) {
@@ -280,7 +280,7 @@ void ExtendedVA::offsetOpt() {
 	for(auto &capture: getInvTopSortCaptures()) {
 
 		// Search the corresponding list in the classifier
-		for(size_t i=0; i < 2*vFact->size(); i++) {
+		for(size_t i=0; i < 2*variable_factory_->size(); i++) {
 			if(capture->code[i]) {
 				computeOffset(classifier[i], i); // Compute offset in bulk
 				break;
@@ -318,7 +318,7 @@ void ExtendedVA::computeOffset(std::list<std::shared_ptr<LVACapture>> &captureLi
 			captureList.insert(it, q->c.back());
 		}
 
-		vFact->getOffset(codeIndex)++;
+		variable_factory_->getOffset(codeIndex)++;
 	}
 }
 
@@ -360,7 +360,7 @@ bool ExtendedVA::offsetPossible(std::shared_ptr<LVACapture> capture) {
 std::vector<std::list<std::shared_ptr<LVACapture>>> ExtendedVA::classifySingleCaptures() {
 	std::vector<std::list<std::shared_ptr<LVACapture>>> classifier;
 
-	classifier.resize(2*vFact->size());
+	classifier.resize(2*variable_factory_->size());
 
 	for(auto &state: states) {
 		for(auto &capture: state->c) {
@@ -368,7 +368,7 @@ std::vector<std::list<std::shared_ptr<LVACapture>>> ExtendedVA::classifySingleCa
 
 				// Search for the variable code position and store the capture at
 				// that position in the classifier
-				for(size_t i=0; i < 2*vFact->size(); i++) {
+				for(size_t i=0; i < 2*variable_factory_->size(); i++) {
 					if(capture->code[i]) {
 						classifier[i].push_back(capture);
 						break;
@@ -457,7 +457,7 @@ void ExtendedVA :: relabelStates() {
 
 	idMap.clear();
 
-	utilRelabelStates(initState);
+	utilRelabelStates(init_state_);
 }
 
 void ExtendedVA :: utilRelabelStates(LVAState *state) {
@@ -499,8 +499,8 @@ std::string ExtendedVA :: pprint() {
   std::list<LVAState*> queue;
 
   // Start on the init LVAState
-  visited.insert(initState->id);
-  queue.push_back(initState);
+  visited.insert(init_state_->id);
+  queue.push_back(init_state_);
 
 
 
@@ -516,7 +516,7 @@ std::string ExtendedVA :: pprint() {
 
       nid = capture->next->id;
 
-      ss << "t " << cid << " " << vFact->getVarUtil(S) << " " << nid << '\n';
+      ss << "t " << cid << " " << variable_factory_->getVarUtil(S) << " " << nid << '\n';
 
       // If not visited enqueue and add to visited
       if (visited.find(nid) == visited.end()) {
@@ -530,7 +530,7 @@ std::string ExtendedVA :: pprint() {
       nid = filter->next->id;
       S = filter->code;
 
-      ss << "t " << cid << ' ' << fFact->getFilter(filter->code).print() << ' ' << nid << '\n';
+      ss << "t " << cid << ' ' << filter_factory_->getFilter(filter->code).print() << ' ' << nid << '\n';
 
       // If not visited enqueue and add to visited
       if (visited.find(nid) == visited.end()) {
@@ -548,7 +548,7 @@ std::string ExtendedVA :: pprint() {
   }
 
   // Code initial LVAState
-  ss << "i " << initState->id;
+  ss << "i " << init_state_->id;
 
   return ss.str();
 }
@@ -568,7 +568,7 @@ bool ExtendedVA :: utilSearchSuperFinals(LVAState *s) {
 	s->colorMark = 'g'; // Mark as grey
 
 	for(auto &filter: s->f) {
-		if(fFact->getFilter(filter->code).label == "." && filter->next->isFinal) {
+		if(filter_factory_->getFilter(filter->code).label == "." && filter->next->isFinal) {
 			if(filter->next->colorMark == 'g' || filter->next->isSuperFinal) {
 				s->isSuperFinal = true;
 				superFinalStates.push_back(s);

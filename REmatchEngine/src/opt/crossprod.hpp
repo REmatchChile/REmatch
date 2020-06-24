@@ -34,7 +34,7 @@ void crossProdOpt(ExtendedVA &A) {
         // Store state's ptr corresponding index
         ptr2index[A.states[i]] = i;
 
-        if(A.states[i] == A.initState)
+        if(A.states[i] == A.initState())
             initStateIdx = i;
 
         // Set final states
@@ -79,7 +79,7 @@ void crossProdOpt(ExtendedVA &A) {
     // Concat both vectors
     states0.insert(states0.end(), states1.begin(), states1.end());
 
-    A.initState = states0[initStateIdx]; // Init state is (q0, 0)
+    A.set_initState(states0[initStateIdx]); // Init state is (q0, 0)
     A.states = std::move(states0);
     A.pruneUselessStates();
 

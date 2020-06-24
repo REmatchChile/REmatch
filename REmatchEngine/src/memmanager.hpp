@@ -11,12 +11,12 @@ size_t const STARTING_SIZE = 2048;
 
 class MiniPool {
 
-private:
+ private:
 	size_t m_capacity;
 	std::vector<Node> minipool;
 	MiniPool *next;
 
-public:
+ public:
 
 	MiniPool(size_t size): m_capacity(size) {
 		minipool.reserve(m_capacity);
@@ -58,7 +58,7 @@ private:
 
 public:
 
-	MemManager() 
+	MemManager()
 	  : current(new MiniPool(STARTING_SIZE)), freeHead(nullptr), totElements(0),
 		totArenas(1), totElementsReused(0) {}
 
@@ -66,7 +66,7 @@ public:
 
 	if(current->isFull()) {
 		// GARBAGE COLLECTION
-		if(freeHead != nullptr) { 
+		if(freeHead != nullptr) {
 			Node *oldNext, *listHead, *adyacentNext, *newNode;
 
 			// Pointer labeling
@@ -104,7 +104,7 @@ public:
 			totArenas++;
 
 		}
-		
+
 	}
 
 	totElements++;
@@ -117,7 +117,7 @@ public:
 
 	if(current->isFull()) {
 		// GARBAGE COLLECTION
-		if(freeHead != nullptr) { 
+		if(freeHead != nullptr) {
 			Node *oldNext, *listHead, *adyacentNext, *newNode;
 
 			// Pointer labeling
@@ -155,7 +155,7 @@ public:
 			totArenas++;
 
 		}
-		
+
 	}
 
 	totElements++;

@@ -1,33 +1,33 @@
 #ifndef REMATCH_HPP
 #define REMATCH_HPP
 
-#include "det/detmanager.hpp"
-#include "automata/eva.hpp"
-#include "automata/detautomaton.hpp"
-#include "memmanager.hpp"
-
 #include <string>
+
+#include "regex/regex.hpp"
+#include "match.hpp"
 
 namespace rematch {
 
-  class RExpr {
+enum Anchor {
+  UNANCHORED,
+  ANCHOR_START,
+  ANCHOR_BOTH
+};
 
-   public:
-    RExpr(std::string regex_);
+std::unique_ptr<RegEx> compile(std::string pattern, RegExOptions opt);
+std::unique_ptr<RegEx> compile(std::string pattern);
 
-    std::string uniformGenerate(uint32_t n);
-    std::string getRegex();
+std::unique_ptr<Match> find(std::string pattern, std::string &text);
+std::unique_ptr<Match> find(std::string pattern, std::string &text, Anchor anchor);
 
-   private:
-    ExtendedVA *extended_automaton_;
-    DetAutomaton *det_automaton_;
+std::vector<Match> findAll(std::string pattern, std::string &text);
 
-    DetManager *det_man_;
+std::unique_ptr<Match> findIter(std::string pattern, std::string &text);
 
-    bool full_dfa_;
-
-  }; // class RExpr
+bool doFind(std::string pattern, std::string &text,
+            Anchor anchor, RegExOptions opt);
 
 } // namespace rematch
+
 
 #endif // REMATCH_HPP

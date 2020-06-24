@@ -6,6 +6,8 @@ import googleutils
 
 import subprocess
 
+os.chdir(os.path.dirname(os.path.realpath(__file__)))
+
 with open("settings.json") as jsonFile:
 		data = json.load(jsonFile)
 

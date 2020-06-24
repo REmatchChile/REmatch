@@ -16,11 +16,11 @@
 #include "automata/eva.hpp"
 
 DetAutomaton :: DetAutomaton(VariableFactory* vf)
-  : initState(new DetState()), vFact(vf)  {states.push_back(initState);}
+  : init_state_(new DetState()), variable_factory_(vf)  {states.push_back(init_state_);}
 
 DetAutomaton::DetAutomaton(ExtendedVA &a)
- : initState(new DetState()), vFact(a.vFact) {
-   states.push_back(initState);
+ : init_state_(new DetState()), variable_factory_(a.varFactory()) {
+   states.push_back(init_state_);
 }
 
 void DetAutomaton :: computeOneReached() {
@@ -36,7 +36,7 @@ void DetAutomaton :: computeOneReached() {
 
 std::string DetAutomaton :: pprint() {
   /* Gives a codification for the automaton that can be used to visualize it
-     at https://puc-iic2223.github.io . It uses Breath-First Search 
+     at https://puc-iic2223.github.io . It uses Breath-First Search
      to get every labeled transition in the automaton with the unique ids for
      each state */
 
@@ -47,14 +47,14 @@ std::string DetAutomaton :: pprint() {
   std::bitset<32> S;
 
   // Typical set construction for keeping visited states
-  std::unordered_set<unsigned int> visited; 
+  std::unordered_set<unsigned int> visited;
 
   // Use of list to implement a FIFO queue
   std::list<DetState*> queue;
-  
+
   // Start on the init state
-  visited.insert(initState->id);
-  queue.push_back(initState);
+  visited.insert(init_state_->id);
+  queue.push_back(init_state_);
 
   // Start BFS
   while(!queue.empty()) {
@@ -67,7 +67,7 @@ std::string DetAutomaton :: pprint() {
 
       nid = current->c[i]->next->id;
 
-      ss << "t " << *current << ' ' << vFact->getVarUtil(S) << ' ' << *(current->c[i]->next) << '\n';
+      ss << "t " << *current << ' ' << variable_factory_->getVarUtil(S) << ' ' << *(current->c[i]->next) << '\n';
 
       // If not visited enqueue and add to visited
       if (visited.find(nid) == visited.end()) {
@@ -128,7 +128,7 @@ std::string DetAutomaton :: pprint() {
   }
 
   // Code initial state
-  ss << "i " << *initState; 
+  ss << "i " << *init_state_;
 
   return ss.str();
 }

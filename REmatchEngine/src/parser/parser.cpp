@@ -15,7 +15,7 @@ bool doParse(const std::string& input, ast::altern &data)
     {
         auto f(begin(input)), l(end(input));
         bool ok = qi::parse(f,l,p, data);
-        if (!ok)   
+        if (!ok)
             std::cerr << "parse failed: '" << std::string(f,l) << "'\n";
 
         if (f!=l) std::cerr << "trailing unparsed: '" << std::string(f,l) << "'\n";
@@ -41,6 +41,6 @@ LogicalVA& regex2LVA(std::string regex) {
 
 	VariableFactory& v = visitors::regex2vars()(tree);
 	FilterFactory& f = visitors::regex2filters()(tree);
-	
+
 	return visitors::regex2LVA(v,f)(tree);
 }

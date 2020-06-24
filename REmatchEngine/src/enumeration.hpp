@@ -8,12 +8,17 @@
 #include <string>
 #include <stack>
 #include <utility>
+#include <memory>
 
 #include "match.hpp"
+// #include "regex/regex.hpp"
 #include "structures.hpp"
 #include "factories/factories.hpp"
 #include "memmanager.hpp"
 
+namespace rematch {
+
+class RegEx;
 
 // Interface for enumerating the DAG-like structure obtained after
 // the evaluation step (preprocessing the ourput). It uses the common
@@ -25,11 +30,10 @@ class Enumerator {
   using SpanMap = std::map<std::string, std::pair<size_t, size_t>>;
 
   public:
-    // TODO: Simplify the parameters, a single object would be better.
-    Enumerator(std::string &doc, VariableFactory &vf, MemManager &mem);
+    Enumerator(RegEx &rgx, std::string &doc, MemManager &mem);
 
     // Get the next match according to the current state of the depth stack.
-    rematch::Match next();
+    std::unique_ptr<Match> next();
 
     // Returns if there is a next match according to the current state of
     // the depth stack.
@@ -62,10 +66,13 @@ class Enumerator {
   std::vector<EnumState> depth_stack_;  // Stack for DFS in the DAG-like struct
   uint64_t n_mappings_;                 // Total num of mappings
 
-  VariableFactory& vf_;
   MemManager& mem_manager_;
-  std::vector<std::array<size_t, 2>> data_;
+  RegEx& rgx_;
+
+  std::vector<std::pair<size_t, size_t>> data_;
 
 }; // end class Enumerator
+
+} // end namespace rematch
 
 #endif // ENUMERATION_H

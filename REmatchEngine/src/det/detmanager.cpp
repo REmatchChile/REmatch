@@ -1,91 +1,54 @@
 #include "detmanager.hpp"
-#include "automata/detautomaton.hpp"
-#include "automata/lva.hpp"
-#include "automata/eva.hpp"
-#include "automata/detstate.hpp"
-#include "automata/lvastate.hpp"
-#include "factories/factories.hpp"
-#include "setstate.hpp"
-#include "structs/vector.hpp"
-#include "captures.hpp"
-#include "automata/eva.hpp"
 
-#include "timer.hpp"
-
-#include <unordered_map>
 #include <string>
-#include <vector>
-#include <bitset>
+#include <functional>
 #include <stack>
 #include <random>
+
+#include "parser/parser.hpp"
+#include "automata/eva.hpp"
+#include "automata/detautomaton.hpp"
+#include "automata/detstate.hpp"
+#include "det/setstate.hpp"
 
 #include <boost/multiprecision/cpp_int.hpp>
 #include <boost/multiprecision/cpp_bin_float.hpp>
 
 using namespace boost::multiprecision;
 
+DetManager::DetManager(std::string pattern, bool raw_automata) {
+	LogicalVA lva = regex2LVA(pattern);
 
-DetManager :: DetManager(ExtendedVA *A,
-						 DetAutomaton *detA,
-						 std::array<rematch::vector<DetState*>*, 3> vectors):
-	eVA(A),
-	detA(detA),
-	dependentVectors(vectors),
-	numDetStatesThreshold(A->states.size()*2),
-  vector_connection(true)
+	if (raw_automata) lva.adapt_capture_jumping();
 
-{
-	// Set init reserve space for dependent vectors
-	for(auto &vect: dependentVectors) {
-		vect->reserve(numDetStatesThreshold);
-	}
+	nfa_ = std::make_unique<ExtendedVA>(lva);
+	dfa_ = std::make_unique<DetAutomaton>(*nfa_);
 
-	std::set<LVAState*> newSubset;
-	newSubset.insert(eVA->initState);
+	variable_factory_ = nfa_->varFactory();
+	filter_factory_ = nfa_->filterFactory();
 
-	SetState* ss = new SetState(eVA, newSubset);
-	DetState *q = detA->initState;
+	// Init determinization
+	std::set<LVAState*> new_subset;
+	new_subset.insert(nfa_->initState());
+
+	SetState* ss = new SetState(*nfa_, new_subset);
+	DetState *q = dfa_->initState();
 	q->setSubset(ss);
 
-	setStatesMap[ss->bitstring] = q;
+	dstates_table_[ss->bitstring] = q;
 
 	if(q->isFinal) {
-		detA->finalStates.push_back(q);
+		dfa_->finalStates.push_back(q);
 	}
-
 	computeCaptures(q);
 }
-
-DetManager :: DetManager(ExtendedVA *A, DetAutomaton *detA):
-	eVA(A), detA(detA), vector_connection(false)
-{
-
-	std::set<LVAState*> newSubset;
-	newSubset.insert(eVA->initState);
-
-	SetState* ss = new SetState(eVA, newSubset);
-	DetState *q = detA->initState;
-	q->setSubset(ss);
-
-  allCharBitsets = eVA->fFact->allPossibleCharBitsets();
-
-	setStatesMap[ss->bitstring] = q;
-
-	if(q->isFinal) {
-		detA->finalStates.push_back(q);
-	}
-
-	computeCaptures(q);
-}
-
 
 void DetManager :: computeFullDetAutomaton() {
-  // Timer t;
 	std::stack<DetState*> stateList;
-	stateList.push(detA->initState);
+	stateList.push(dfa_->initState());
 	DetState* currState;
-	size_t numFilters = eVA->fFact->size();
-	size_t numStates = eVA->size();
+	size_t numFilters = variable_factory_->size();
+	size_t numStates = nfa_->size();
 
 	// Get all possible transitions
 	BitsetWrapper newSubsetBitset(numStates);
@@ -112,7 +75,7 @@ void DetManager :: computeFullDetAutomaton() {
 			}
 		}
 
-		for(auto &chrbset: allCharBitsets) {
+		for(auto &chrbset: all_chars_table_) {
 			newSubsetBitset.clear();
 			newSubsetBitset.resize(numStates);
 			for(auto &keyValue : nextSubsetMap) {
@@ -123,19 +86,19 @@ void DetManager :: computeFullDetAutomaton() {
 			// std::cout << "Charbset: " << chrbset << "\n";
 
 			// Look for DetState in hashtable
-			auto found = setStatesMap.find(newSubsetBitset);
+			auto found = dstates_table_.find(newSubsetBitset);
 
 			// If not found add to hashtable
-			if (found == setStatesMap.end()) {
-				SetState *ss = new SetState(eVA, eVA->getSubset(newSubsetBitset));
+			if (found == dstates_table_.end()) {
+				SetState *ss = new SetState(*nfa_, nfa_->getSubset(newSubsetBitset));
 				DetState *nq = new DetState(ss);
 
-				found = setStatesMap.insert({ss->bitstring, nq}).first;
+				found = dstates_table_.insert({ss->bitstring, nq}).first;
 
-				detA->states.push_back(nq);
+				dfa_->states.push_back(nq);
 
 				if(nq->isFinal)
-					detA->finalStates.push_back(nq);
+					dfa_->finalStates.push_back(nq);
 
 				computeCaptures(nq);
 
@@ -152,7 +115,7 @@ void DetManager :: computeFullDetAutomaton() {
 }
 
 char DetManager :: chooseFromCharBitset(BitsetWrapper bs) {
-  std::vector<char> &intersection = allCharBitsets[bs];
+  std::vector<char> &intersection = all_chars_table_[bs];
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<> dis(0, intersection.size()-1);
@@ -164,13 +127,14 @@ char DetManager :: chooseFromCharBitset(BitsetWrapper bs) {
 std::string DetManager :: uniformSample(size_t n) {
   // Timer t;
 	std::unordered_map<DetState*, std::pair<std::vector<BitsetWrapper>, cpp_int>> T, Tprim;
-	T.insert({detA->initState, std::make_pair(std::vector<BitsetWrapper>(), 1)});
+	T.insert({dfa_->initState(), std::make_pair(std::vector<BitsetWrapper>(), 1)});
 	DetState *q, *p;
 	const BitsetWrapper *a;
 	std::vector<BitsetWrapper> *w, *u;
 	cpp_int N, M, S;
 
-  cpp_bin_float_oct prob;
+	// FIXME: Change logic to only cpp_int usage
+  double prob;
 
 	double c;
 
@@ -178,7 +142,7 @@ std::string DetManager :: uniformSample(size_t n) {
 	std::mt19937 gen(rd());
 	std::uniform_real_distribution<> dis(0.0, 1.0);
 
-	detA->computeOneReached();
+	dfa_->computeOneReached();
 
   // std::cout << "Init algo: " << t.elapsed() << '\n';
   // t.reset();
@@ -188,7 +152,7 @@ std::string DetManager :: uniformSample(size_t n) {
 			p = state_pair.first; w = &state_pair.second.first; N = state_pair.second.second;
 			for(auto &bset_state: p->oneReached) {
 				a = &bset_state.first; q = bset_state.second;
-        S = allCharBitsets[*a].size();
+        S = all_chars_table_[*a].size();
 				if(!Tprim.count(q)) {
 					std::vector<BitsetWrapper> wa = *w;
 					wa.push_back(*a);
@@ -196,7 +160,7 @@ std::string DetManager :: uniformSample(size_t n) {
 				}
 				else {
 					u = &Tprim[q].first; M = Tprim[q].second;
-					c = dis(gen); prob = cpp_bin_float_oct(M)/cpp_bin_float_oct(M+N*S);
+					c = dis(gen); prob = double(M)/double(M+N*S);
 					if ( c <= prob) {
 						std::vector<BitsetWrapper> ua = *u;
 						Tprim[q] = std::make_pair(ua, M+N*S);
@@ -221,7 +185,7 @@ std::string DetManager :: uniformSample(size_t n) {
 	for(auto &state_pair: T) {
 		p = state_pair.first; w = &state_pair.second.first; N = state_pair.second.second;
 		if(p->isFinal) {
-			c = dis(gen); prob = cpp_bin_float_oct(N)/cpp_bin_float_oct(M+N);
+			c = dis(gen); prob = double(N)/double(M+N);
 			if (c <= prob)
 				u = w;
 			M += N;
@@ -249,7 +213,7 @@ DetState* DetManager :: getNextSubset(SetState* ss, BitsetWrapper charBitset) {
 	/* Gets next subset from a subset ss if filter bitset b is read */
 
 	std::set<LVAState*> newSubset;  // Store the next subset
-	BitsetWrapper subsetBitset(eVA->size());  // Subset bitset representation
+	BitsetWrapper subsetBitset(nfa_->size());  // Subset bitset representation
 
 	for(auto &state: ss->subset) {
 		for(auto &filter: state->f) {
@@ -261,24 +225,24 @@ DetState* DetManager :: getNextSubset(SetState* ss, BitsetWrapper charBitset) {
 		}
 	}
 
-	auto found = setStatesMap.find(subsetBitset);
+	auto found = dstates_table_.find(subsetBitset);
 
-	if(found == setStatesMap.end()) { // Check if already stored subset
-		SetState* ss = new SetState(eVA, newSubset);
+	if(found == dstates_table_.end()) { // Check if already stored subset
+		SetState* ss = new SetState(*nfa_, newSubset);
 		DetState* nq = new DetState(ss);
 
-		setStatesMap[ss->bitstring] = nq;
+		dstates_table_[ss->bitstring] = nq;
 
-		detA->states.push_back(nq);
+		dfa_->states.push_back(nq);
 
 		if(nq->isFinal) {
-			detA->finalStates.push_back(nq);
+			dfa_->finalStates.push_back(nq);
 		}
 
 		computeCaptures(nq);
 	}
 
-	return setStatesMap[subsetBitset];
+	return dstates_table_[subsetBitset];
 }
 
 
@@ -306,17 +270,17 @@ void DetManager :: computeCaptures(DetState* q) {
 
 
 	for(std::pair<std::bitset<32>, std::set<LVAState*>> el: captureList){
-		SetState* nss = new SetState(eVA, el.second);
+		SetState* nss = new SetState(*nfa_, el.second);
 
 		/* Check if subset is not on hash table */
-		if(!setStatesMap.count(nss->bitstring)) {
+		if(!dstates_table_.count(nss->bitstring)) {
 			DetState* nq = new DetState(nss);
-			setStatesMap[nss->bitstring] = nq;
+			dstates_table_[nss->bitstring] = nq;
 
-			detA->states.push_back(nq);
+			dfa_->states.push_back(nq);
 
 			if (nq->isFinal) {
-				detA->finalStates.push_back(nq);
+				dfa_->finalStates.push_back(nq);
 			}
 
       computeCaptures(nq);
@@ -325,7 +289,7 @@ void DetManager :: computeCaptures(DetState* q) {
 
 		// TODO: Delete nss if subset was already on hash table
 
-		DetState* p = setStatesMap[nss->bitstring]; // This is the deterministic state where the capture reaches
+		DetState* p = dstates_table_[nss->bitstring]; // This is the deterministic state where the capture reaches
 
 		q->addCapture(el.first, p);
 	}
@@ -356,19 +320,6 @@ DetState* DetManager :: getNextDetState(DetState* &s , char a, size_t idx) {
 	if(q != nullptr) {
 		return q;
 	}
-
-	// Need to check if current number of DetStates
-  if(vector_connection) {
-    if(detA->states.size() == numDetStatesThreshold) {
-		numDetStatesThreshold *= 2;
-		for(auto &vect: dependentVectors) {
-			vect->reserve(numDetStatesThreshold);
-		}
-
-		// IMPORTANT! dependentVectors[0] needs to be Evaluation::currentStates
-		s = (*dependentVectors[0])[idx];
-	  }
-  }
 
 	// Compute determinization for that transition
 	q = getNextSubset(s->ss, charBitset);
@@ -410,5 +361,5 @@ DetState* DetManager ::getNextDetState(DetState* s, char a) {
 }
 
 BitsetWrapper DetManager :: applyFilters(char a) {
-	return eVA->fFact->applyFilters(a);
+	return filter_factory_->applyFilters(a);
 }

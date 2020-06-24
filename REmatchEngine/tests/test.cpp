@@ -7,7 +7,8 @@
 #include "parser_automata/parser.hpp"
 #include "parser/parser.hpp"
 #include "automata/eva.hpp"
-#include "evaluation.hpp"
+#include "regex/regex.hpp"
+#include "match.hpp"
 
 #include <sstream>
 #include <istream>
@@ -95,8 +96,8 @@ std::set<std::string> parse_set(std::string str) {
 }
 
 std::set<std::string> flatten_set(std::set<std::set<std::string>> cont) {
-    // Flattens the set of sets of "<var>[<int>,<int>]" strings to a set of 
-    // "(<var>[<int>,<int>])*" strings. Kind of the reverse of 
+    // Flattens the set of sets of "<var>[<int>,<int>]" strings to a set of
+    // "(<var>[<int>,<int>])*" strings. Kind of the reverse of
     std::set<std::string> outp;
     for(auto setelem: cont) {
         std::stringstream ss;
@@ -113,12 +114,10 @@ std::set<std::string> flatten_set(std::set<std::set<std::string>> cont) {
     MAIN TEST FUNCTION
 */
 
-void check_spanners(LogicalVA &A, std::string document_file, std::string spanners_file) {
-    std::istream *document_isteam = new std::ifstream(document_file);
+void check_spanners(rematch::RegEx &rgx, std::string document_file, std::string spanners_file) {
+    std::istream *document_istream = new std::ifstream(document_file);
     std::ifstream spanner_fstream(spanners_file);
-	ExtendedVA B = ExtendedVA(A);
 	std::stringstream output_sstream;
-	Evaluation eval(&B, &B, *document_isteam, output_sstream, true, false);
 
     std::set<std::set<std::string>> expected_results;
     for (std::string line; getline(spanner_fstream, line);) {
@@ -126,9 +125,9 @@ void check_spanners(LogicalVA &A, std::string document_file, std::string spanner
     }
 
     std::set<std::set<std::string>> real_results;
-    // TODO: Need to use a better interface than this
-    while (eval.hasNext00()) {
-        std::string output = eval.pnext();
+    std::unique_ptr<rematch::Match> match_ptr;
+    while(match_ptr = rgx.findIter(*document_istream)) {
+        std::string output = match_ptr->print();
         real_results.insert(parse_set(strip(output)));
     }
 
@@ -153,44 +152,44 @@ void check_spanners(LogicalVA &A, std::string document_file, std::string spanner
 }
 
 /*
-  TEST CASE 1: 
+  TEST CASE 1:
     - Name: test_input_automata_file
-    - Description: load the automata from automata.txt, process document.txt and check if 
+    - Description: load the automata from automata.txt, process document.txt and check if
         given spanners are the same than those in spanners.txt
     - Tests folder: /tests/test_input_automata_file/
     - Test specific folder: every folder that starts with "test" inside de tests folder
     - Test specific folder files: automata.txt, document.txt, spanners.txt
 */
 
-const std::string test_input_automata_file_folder = "tests/test_input_automata_file";
-const std::vector<std::string> test_input_automata = get_test_folders(test_input_automata_file_folder);
+// const std::string test_input_automata_file_folder = "tests/test_input_automata_file";
+// const std::vector<std::string> test_input_automata = get_test_folders(test_input_automata_file_folder);
 
-BOOST_DATA_TEST_CASE(
-    test_input_automata_file,
-    data::make(test_input_automata),
-    test_folder)
-{
-    std::string current_test_folder = test_input_automata_file_folder + "/" + test_folder + "/";
-    BOOST_TEST_MESSAGE("RUNNING TEST " + current_test_folder + "\n");
+// BOOST_DATA_TEST_CASE(
+//     test_input_automata_file,
+//     data::make(test_input_automata),
+//     test_folder)
+// {
+//     std::string current_test_folder = test_input_automata_file_folder + "/" + test_folder + "/";
+//     BOOST_TEST_MESSAGE("RUNNING TEST " + current_test_folder + "\n");
 
-    std::string automata_file = current_test_folder + "automata.txt";
-    std::string document_file = current_test_folder + "document.txt";
-    std::string spanners_file = current_test_folder + "spanners.txt";
-    BOOST_TEST_REQUIRE(file_exists(automata_file), "automata.txt missing");
-    BOOST_TEST_REQUIRE(file_exists(document_file), "document.txt missing");
-    BOOST_TEST_REQUIRE(file_exists(spanners_file), "spanners.txt missing");
+//     std::string automata_file = current_test_folder + "automata.txt";
+//     std::string document_file = current_test_folder + "document.txt";
+//     std::string spanners_file = current_test_folder + "spanners.txt";
+//     BOOST_TEST_REQUIRE(file_exists(automata_file), "automata.txt missing");
+//     BOOST_TEST_REQUIRE(file_exists(document_file), "document.txt missing");
+//     BOOST_TEST_REQUIRE(file_exists(spanners_file), "spanners.txt missing");
 
-    LogicalVA A = parse_automata_file(automata_file);
-    check_spanners(A, document_file, spanners_file);
+//     LogicalVA A = parse_automata_file(automata_file);
+//     check_spanners(A, document_file, spanners_file);
 
-    BOOST_TEST_MESSAGE("=== SUCCESS!\n");
-}
+//     BOOST_TEST_MESSAGE("=== SUCCESS!\n");
+// }
 
 
 /*
-  TEST CASE 2: 
+  TEST CASE 2:
     - Name: test_input_regex_file
-    - Description: load the automata from regex.txt, process document.txt and check if 
+    - Description: load the automata from regex.txt, process document.txt and check if
         given spanners are the same than those in spanners.txt
     - Tests folder: /tests/test_input_regex_file/
     - Test specific folder: every folder that starts with "test" inside de tests folder
@@ -216,8 +215,8 @@ BOOST_DATA_TEST_CASE(
     BOOST_TEST_REQUIRE(file_exists(spanners_file), "spanners.txt missing.");
 
 	std::string regex = read_file(regex_file);
-    LogicalVA A = regex2LVA(regex);
-    check_spanners(A, document_file, spanners_file);
+    rematch::RegEx rgx(regex);
+    check_spanners(rgx, document_file, spanners_file);
 
     BOOST_TEST_MESSAGE("=== SUCCESS!\n");
 }

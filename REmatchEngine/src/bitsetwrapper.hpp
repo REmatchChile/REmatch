@@ -50,7 +50,7 @@ private:
 	size_t bitsetSize;
 
 public:
-	
+
 	BitsetWrapper(size_t size);
 	void set(size_t pos, bool val);
 	bool get(size_t pos) const;
@@ -71,7 +71,7 @@ public:
 	boost::dynamic_bitset<> *getDynamic() const;
 	extended_bitset *getExtended() const;
 
-};	
+};
 
 
 std::ostream& operator<<(std::ostream &os, extended_bitset const &bs);
@@ -113,7 +113,7 @@ namespace std {
 					hash_combine(res, s);
 				return res;
 			}
-			
+
 		}
 	};
 }

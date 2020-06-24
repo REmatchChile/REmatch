@@ -5,39 +5,19 @@
 #include <string>
 #include <vector>
 #include <bitset>
-#include <array>
 
 #include "bitsetwrapper.hpp"
-#include "structs/vector.hpp"
-
-class SetState;
-class DetState;
-
-class ExtendedVA;
-class DetAutomaton;
+#include "det/setstate.hpp"
+#include "automata/detautomaton.hpp"
+#include "automata/detstate.hpp"
 
 class DetManager {
 
-public:
+	using DFAStatesTable = std::unordered_map<BitsetWrapper, DetState*>;
+	using VectorCharTable = std::unordered_map<BitsetWrapper, std::vector<char>>;
 
-	ExtendedVA *eVA;
-	DetAutomaton *detA;
-
-	std::unordered_map<BitsetWrapper, DetState*> setStatesMap;
-
-	// Array of vectors that need to resize given DetManager's command
-	std::array<rematch::vector<DetState*>*, 3> dependentVectors;
-
-	SetState* initSetState;
-
-	size_t numDetStatesThreshold;
-
-  bool vector_connection;
-
-  std::unordered_map<BitsetWrapper, std::vector<char>> allCharBitsets;
-
-	DetManager(ExtendedVA*, DetAutomaton*, std::array<rematch::vector<DetState*>*, 3>);
-  DetManager(ExtendedVA*, DetAutomaton*);
+ public:
+	DetManager(std::string pattern, bool raw_automata=false);
 
 	DetState* getNextSubset(SetState* ss, BitsetWrapper charBitset);
 	void computeCaptures(DetState* q);
@@ -50,6 +30,28 @@ public:
 
 	std::string uniformSample(size_t n);
 	char chooseFromCharBitset(BitsetWrapper bs);
+
+	std::shared_ptr<VariableFactory> varFactory() const {return variable_factory_;}
+	std::shared_ptr<FilterFactory> filterFactory() const {return filter_factory_;}
+
+	DetAutomaton& DFA() {return *dfa_;}
+
+ private:
+	// ExtendedVA representation of the given pattern.
+	std::unique_ptr<ExtendedVA> nfa_;
+
+	// Determinization of the eVA computed on-the-fly.
+	std::unique_ptr<DetAutomaton> dfa_;
+
+	// Access to regex's factories
+	std::shared_ptr<VariableFactory> variable_factory_;
+	std::shared_ptr<FilterFactory> filter_factory_;
+
+	// Hash table for the mapping between bitstring subset representation of
+	// NFA states to DFA states
+	DFAStatesTable dstates_table_;
+
+	VectorCharTable all_chars_table_;
 };
 
 #endif

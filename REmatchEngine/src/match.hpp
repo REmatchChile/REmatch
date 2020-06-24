@@ -6,8 +6,14 @@
 #include <utility>
 #include <stdexcept>
 #include <vector>
+#include <iostream>
 
 namespace rematch {
+
+
+using Span = std::pair<size_t, size_t>;
+using SpanMap = std::map<std::string, Span>;
+using SpanVect = std::vector<std::pair<size_t,size_t>>;
 
 // Represents a match for easy access to the captured spans and substrings.
 // It doesn't store the correspondings substrings, so it's assumed that the
@@ -15,11 +21,10 @@ namespace rematch {
 class Match {
 
  public:
-  using Span = std::pair<size_t, size_t>;
-  using SpanMap = std::map<std::string, Span>;
-  using SpanVect = std::vector<std::array<size_t, 2>>;
 
   Match() = default;
+
+  operator bool() const {return !data_.empty();}
 
   Match(std::string *d): doc_(d) {}
 
@@ -27,37 +32,30 @@ class Match {
 
   Match(std::string *d, SpanVect s, std::vector<std::string> output_scheme): doc_(d) {
     for(size_t i=0; i < output_scheme.size(); i++) {
-      size_t a = s[i][0], b = s[i][1];
-      data_[output_scheme[i]] = std::make_pair(s[i][0], s[i][1]);
+      data_[output_scheme[i]] = std::make_pair(s[i].first, s[i].second);
     }
   }
+
+  size_t start(std::string varname) const {return span(varname).first;}
+  size_t end(std::string varname) const {return span(varname).second;}
 
   // Returns a std::pair<uint64_t, uint64_t> correspoding to a variable's span.
-  Span getSpan(std::string var) const {
-    auto search = data_.find(var);
-
-    if (search != data_.end())
-      return (*search).second;
-
-    throw std::logic_error("No mapping assigned to variable.");
-  }
+  Span span(std::string var) const;
 
   // Returns a variable's captured substring
-  std::string getSubstr(std::string var) const {
-    auto search = data_.find(var);
-
-    if (search != data_.end()) {
-      auto &span = (*search).second;
-      return doc_->substr(span.first, span.second - span.first);
-    }
-
-    throw std::logic_error("No mapping assigned to variable.");
-  }
+  std::string group(std::string var) const;
 
   // Returns referece to the sublaying document.
   std::string * doc() const {return doc_;}
 
+  // Returns a vector with the variable names in order
+  std::vector<std::string> variables() const;
+
   SpanMap & data() {return data_;}
+
+  std::string print();
+
+  friend std::ostream& operator<<(std::ostream &os, Match &m);
 
  private:
 

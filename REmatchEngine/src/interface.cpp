@@ -8,11 +8,12 @@
 #include "interface.hpp"
 #include "parser/parser.hpp"
 #include "automata/eva.hpp"
-#include "evaluation.hpp"
 #include "automata/detautomaton.hpp"
 #include "memmanager.hpp"
 #include "parser_automata/parser.hpp"
 #include "timer.hpp"
+#include "regex/regex.hpp"
+#include "regex/regex_options.hpp"
 
 using namespace rematch;
 
@@ -25,19 +26,16 @@ Interface::Interface(std::string docFile, std::string input,
 
 	switch (options_.input_option()) {
 	case RGXSTR:
-		lv_automaton_ = regex2LVA(input);
-		aux_automaton_ = regex2LVA(input);
+		pattern_ = input;
 		break;
 	case RGXFILE:
-		lv_automaton_ = regex2LVA(file2str(input));
-		aux_automaton_ = regex2LVA(file2str(input));
+		pattern_ = file2str(input);
 		break;
-	case NFAFILE:
-		lv_automaton_ = parse_automata_file(input);
-		aux_automaton_ = parse_automata_file(input);
-		break;
+	// case NFAFILE:
+	// 	lv_automaton_ = parse_automata_file(input);
+	// 	aux_automaton_ = parse_automata_file(input);
+	// 	break;
 	}
-	aux_automaton_.adapt_capture_jumping();
 }
 
 void Interface::run() {
@@ -49,27 +47,21 @@ void Interface::run() {
 }
 
 void Interface::normalRun() {
-	// LogicalVA A(lv_automaton_);
-	// LogicalVA C = lv_automaton_;
-	ExtendedVA B(lv_automaton_);
-	ExtendedVA R(aux_automaton_);
-	if(options_.output_option() == QUIET) {
-		std::stringstream s;
-		Evaluation eval(&B, &R, *document_stream_, s,
-						options_.early_output(), options_.line_by_line());
-		eval.evaluate();
-	}
-	else if(options_.output_option() == NMAPPINGS) {
-		std::stringstream s;
-		Evaluation eval(&B, &R, *document_stream_, s,
-						options_.early_output(), options_.line_by_line());
-		eval.evaluate();
-		std::cout << eval.enumerator->numMappings() << "\n";
+	RegExOptions rgx_opt;
+	rgx_opt.set_line_by_line(options_.line_by_line());
+	RegEx regex(pattern_, rgx_opt);
+	std::unique_ptr<Match> match_ptr;
+	if(options_.output_option() == NMAPPINGS) {
+		size_t noutputs = 0;
+		while(match_ptr = regex.findIter(*document_stream_)) {
+			noutputs++;
+		}
+		std::cout << noutputs << '\n';
 	}
 	else {
-		Evaluation eval(&B, &R, *document_stream_, std::cout,
-						options_.early_output(), options_.line_by_line());
-		eval.evaluate();
+		while(match_ptr = regex.findIter(*document_stream_)) {
+			std::cout << *match_ptr << '\n';
+		}
 	}
 }
 
@@ -84,49 +76,47 @@ void Interface::benchmarkRun() {
 
 	Timer t; 								// Start timer for automata creation
 
-	if(options_.output_option() == DEBUG) {
-		std::cout << "LVA:\n" << lv_automaton_.pprint() << "\n\n";
-		std::cout << "auxLVA:\n" << aux_automaton_.pprint() << "\n\n";
-	}
+	// if(options_.output_option() == DEBUG) {
+	// 	std::cout << "LVA:\n" << lv_automaton_.pprint() << "\n\n";
+	// 	std::cout << "auxLVA:\n" << aux_automaton_.pprint() << "\n\n";
+	// }
 
-	ExtendedVA B = ExtendedVA(lv_automaton_);
-	ExtendedVA R(aux_automaton_);
+	// ExtendedVA B = ExtendedVA(lv_automaton_);
+	// ExtendedVA R(aux_automaton_);
 
-	if(options_.output_option() == DEBUG) {
-		std::cout << "Filter fact:\n" <<  B.fFact->pprint() << "\n";
-		std::cout << "Var fact:\n" <<  B.vFact->pprint() << "\n";
-		std::cout << "eVA:\n" << B.pprint() << "\n\n";
-		std::cout << "auxeVA:\n" << R.pprint() << "\n\n";
-	}
+	// if(options_.output_option() == DEBUG) {
+	// 	std::cout << "Filter fact:\n" <<  B.filterFactory()->pprint() << "\n";
+	// 	std::cout << "Var fact:\n" <<  B.varFactory()->pprint() << "\n";
+	// 	std::cout << "eVA:\n" << B.pprint() << "\n\n";
+	// 	std::cout << "auxeVA:\n" << R.pprint() << "\n\n";
+	// }
 
-	Evaluation eval(&B, &R, *document_stream_, output,
-					options_.early_output(), options_.line_by_line());
+	RegExOptions rgx_opt;
+	rgx_opt.set_line_by_line(options_.line_by_line());
+	RegEx regex(pattern_, rgx_opt);
+	std::unique_ptr<Match> match_ptr;
 
 	initAutomataTime = t.elapsed(); 		// Automata creation time
 	t.reset(); 								// Start timer for evaluation time
 
-	eval.evaluate();
+	numOfSpans = 0;
+
+	while(match_ptr = regex.findIter(*document_stream_)) {
+		numOfSpans++;
+	}
 
 	evaluateTime = t.elapsed(); 			// Evaluation time
-
-	if(options_.output_option() == DEBUG) {
-		std::cout << "Evaluation successful\n";
-		std::cout << "\ndetA:\n" << eval.detA->pprint() << "\n\n";
-		std::cout << "\nauxDetA:\n" << eval.auxDetA->pprint() << "\n\n";
-	}
 
 	/************************** Get Measurments **************************/
 
 	totTime = initAutomataTime + evaluateTime;
 
-	eVASize = B.size();
-	detASize = eval.detA->size();
+	eVASize = 0;
+	detASize = 0;
 
-	numOfSpans = eval.enumerator->numMappings();
-
-	numOfNodes = eval.memManager->totNodes();
-	numOfNodeArenas = eval.memManager->totNodeArenas();
-	numOfNodesReused = eval.memManager->totNodesReused();
+	// numOfNodes = eval.memManager->totNodes();
+	// numOfNodeArenas = eval.memManager->totNodeArenas();
+	// numOfNodesReused = eval.memManager->totNodesReused();
 
 	// GET MEMORY USAGE
 	struct rusage usage;

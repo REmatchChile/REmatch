@@ -6,8 +6,8 @@
 #include "automata/lvastate.hpp"
 #include "automata/eva.hpp"
 
-SetState :: SetState(ExtendedVA *eVA, std::set<LVAState*> l): 
-	subset(l), bitstring(eVA->size()) {
+SetState :: SetState(ExtendedVA &eVA, std::set<LVAState*> l):
+	subset(l), bitstring(eVA.size()) {
 	/* Construct the bitstring inmediately */
 	isFinal = false;
 	isSuperFinal = false;

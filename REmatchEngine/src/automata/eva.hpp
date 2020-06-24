@@ -19,8 +19,7 @@ class LVACapture;
 // FIXME: Add docstrings and refine declarations.
 class ExtendedVA {
 
-public:
-	LVAState* initState;
+ public:
 
 	// TODO: Maybe have only a hash tables instead of vectors
 	std::vector<LVAState*> states;
@@ -28,10 +27,6 @@ public:
 	std::vector<LVAState*> superFinalStates;
 
 	std::unordered_map<unsigned int, LVAState*> idMap;
-
-	VariableFactory *vFact;
-	FilterFactory *fFact;
-
 	size_t currentID;
 
 	ExtendedVA(LogicalVA &A);
@@ -39,9 +34,14 @@ public:
 
 	// ~ExtendedVA();
 
+	// FIXME: Not working properly
 	// Copy constructor for copying states accordingly
 	ExtendedVA(const ExtendedVA &extended_automaton);
 
+	LVAState* initState() const {return init_state_;}
+	void set_initState(LVAState* s) {init_state_ = s;}
+	std::shared_ptr<VariableFactory> varFactory() const {return variable_factory_;}
+	std::shared_ptr<FilterFactory> filterFactory() const {return filter_factory_;}
 
 	void addFilter(LVAState* state, CharClass cs, LVAState* next);
 
@@ -81,6 +81,13 @@ public:
 	void computeOffset(std::list<std::shared_ptr<LVACapture>> &captureList, int codeIndex);
 
 	void offsetOpt();
+
+ private:
+	LVAState* init_state_;
+
+	std::shared_ptr<VariableFactory> variable_factory_;
+	std::shared_ptr<FilterFactory> filter_factory_;
+
 };
 
 #endif
