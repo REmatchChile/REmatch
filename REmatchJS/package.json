@@ -1,5 +1,5 @@
 {
-  "name": "newlibraryjs",
+  "name": "REmatchJS",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,5 +11,9 @@
   "license": "ISC",
   "devDependencies": {
     "mocha": "^7.1.1"
+  },
+  "dependencies": {
+    "readline-sync": "^1.4.10",
+    "xregexp": "^4.3.0"
   }
 }
