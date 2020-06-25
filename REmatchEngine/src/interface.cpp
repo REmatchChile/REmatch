@@ -51,15 +51,16 @@ void Interface::normalRun() {
 	rgx_opt.set_line_by_line(options_.line_by_line());
 	RegEx regex(pattern_, rgx_opt);
 	std::unique_ptr<Match> match_ptr;
+	std::string doc(file2str(document_filename_));
 	if(options_.output_option() == NMAPPINGS) {
 		size_t noutputs = 0;
-		while(match_ptr = regex.findIter(*document_stream_)) {
+		while((match_ptr = regex.findIter(doc))) {
 			noutputs++;
 		}
 		std::cout << noutputs << '\n';
 	}
 	else {
-		while(match_ptr = regex.findIter(*document_stream_)) {
+		while((match_ptr = regex.findIter(doc))) {
 			std::cout << *match_ptr << '\n';
 		}
 	}
@@ -95,13 +96,14 @@ void Interface::benchmarkRun() {
 	rgx_opt.set_line_by_line(options_.line_by_line());
 	RegEx regex(pattern_, rgx_opt);
 	std::unique_ptr<Match> match_ptr;
+	std::string doc(file2str(document_filename_));
 
 	initAutomataTime = t.elapsed(); 		// Automata creation time
 	t.reset(); 								// Start timer for evaluation time
 
 	numOfSpans = 0;
 
-	while(match_ptr = regex.findIter(*document_stream_)) {
+	while((match_ptr = regex.findIter(doc))) {
 		numOfSpans++;
 	}
 

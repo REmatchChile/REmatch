@@ -7,7 +7,7 @@
 %include <std_pair.i>
 
 %{
-#include "interfaces/pyinterface.hpp"
+#include "regex/regex.hpp"
 using namespace rematch;
 %}
 
@@ -18,6 +18,7 @@ typedef long unsigned int size_t;
 %template(PairSize) std::pair<size_t,size_t>;
 
 %include "match.hpp"
-%include "interfaces/pyinterface.hpp"
+%include "regex/regex.hpp"
+%include "regex/regex_options.hpp"
 
 #endif // SWIG

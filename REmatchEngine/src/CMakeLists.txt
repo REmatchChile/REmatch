@@ -9,12 +9,6 @@ file(GLOB sources
         ${CMAKE_CURRENT_SOURCE_DIR}/structs/*.cpp
 )
 
-foreach(item ${sources})
-  if(${item} MATCHES "^.*(interfaces|main)/.*\\.cpp$")
-    list(REMOVE_ITEM sources ${item})
-  endif(${item} MATCHES "^.*(interfaces|main)/.*\\.cpp$")
-endforeach(item ${sources})
-
 set(BUILD_TARGETS
   rematch
   generate
@@ -36,10 +30,10 @@ else()
 
   if(${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
     set(target "rematch_wasm")
-    add_executable(${target} regex/regex.cpp)
+    add_executable(${target} interfaces/wasm.cpp)
     target_link_libraries(${target} ${project_LIBS})
     set_property(TARGET ${target} PROPERTY CXX_STANDARD 14)
-    set_target_properties(${target} PROPERTIES LINK_FLAGS " --bind -s ERROR_ON_UNDEFINED_SYMBOLS=0")
+    set_target_properties(${target} PROPERTIES LINK_FLAGS "--bind")
   else()
     foreach(target ${BUILD_TARGETS})
       add_executable(${target} ${CMAKE_CURRENT_SOURCE_DIR}/main/${target}.cpp)

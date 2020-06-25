@@ -47,9 +47,9 @@ class RegEx {
   };
 
   // Calls the evaluator to get first
-  std::unique_ptr<Match> find(std::istream &text, uint8_t eval_flags = 0);
+  std::unique_ptr<Match> find(const std::string &text, uint8_t eval_flags = 0);
 
-  std::unique_ptr<Match> findIter(std::istream &text, uint8_t eval_flags = 0);
+  std::unique_ptr<Match> findIter(const std::string &text, uint8_t eval_flags = 0);
 
   int varCount() const {return dman_.varFactory()->size();}
 

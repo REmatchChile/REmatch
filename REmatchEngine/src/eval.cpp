@@ -17,7 +17,7 @@ Evaluator::Evaluator(RegEx &rgx, std::istream& input,
   init();
 }
 
-Evaluator::Evaluator(RegEx &rgx, std::string &text,
+Evaluator::Evaluator(RegEx &rgx, const std::string &text,
                      uint8_t flags)
     : rgx_(rgx),
       input_stream_(new std::istringstream(text)),

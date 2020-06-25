@@ -25,7 +25,7 @@ class Evaluator {
   };
 
   Evaluator(RegEx& rgx, std::istream& input, uint8_t eval_options=0);
-  Evaluator(RegEx& rgx, std::string& input, uint8_t eval_options=0);
+  Evaluator(RegEx& rgx, const std::string& input, uint8_t eval_options=0);
 
   std::unique_ptr<Match> next();
 

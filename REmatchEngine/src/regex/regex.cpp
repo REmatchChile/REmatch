@@ -2,10 +2,6 @@
 #include "parser/parser.hpp"
 #include "eval.hpp"
 
-#ifdef __EMSCRIPTEN__
-#include <emscripten/bind.h>
-#endif
-
 namespace rematch {
 
 RegEx::RegEx(std::string pattern, rematch::RegExOptions rgx_opts)
@@ -27,7 +23,7 @@ std::string RegEx::uniformGenerate(uint32_t n) {
 }
 
 
-std::unique_ptr<Match> RegEx::findIter(std::istream &text, uint8_t eval_flags) {
+std::unique_ptr<Match> RegEx::findIter(const std::string &text, uint8_t eval_flags) {
   if(eval_ == nullptr) {
     eval_ = std::make_unique<Evaluator>(*this, text, Evaluator::kAllFlags & flags_);
   }
@@ -35,7 +31,7 @@ std::unique_ptr<Match> RegEx::findIter(std::istream &text, uint8_t eval_flags) {
 }
 
 
-std::unique_ptr<Match> RegEx::find(std::istream &text, uint8_t eval_flags) {
+std::unique_ptr<Match> RegEx::find(const std::string &text, uint8_t eval_flags) {
   return Evaluator(*this, text, eval_flags & Evaluator::kEarlyOutput).next();
 }
 
@@ -52,42 +48,5 @@ uint8_t RegEx::parseFlags(rematch::RegExOptions rgx_opts) {
 } // end namespace rematch
 
 
-// Make VSCode Linter ignore the include error
-#ifdef __EMSCRIPTEN__
 
-EMSCRIPTEN_BINDINGS(my_class_example) {
-  emscripten::register_vector<std::string>("VectorStr");
-
-  emscripten::value_array<std::pair<size_t, size_t>>("pair")
-     .element(&std::pair<size_t, size_t>::first)
-     .element(&std::pair<size_t, size_t>::second)
-     ;
-
-  emscripten::class_<rematch::Match>("Match")
-    .constructor<>()
-    .function("span", &rematch::Match::span)
-    .function("start", &rematch::Match::start)
-    .function("end", &rematch::Match::end)
-    .function("group", &rematch::Match::group)
-    .function("variables", &rematch::Match::variables)
-    ;
-
-  emscripten::class_<rematch::RegExOptions>("RegExOptions")
-    .constructor<>()
-    .property("multi_line", &rematch::RegExOptions::multi_line, &rematch::RegExOptions::set_multi_line)
-    .property("line_by_line", &rematch::RegExOptions::line_by_line, &rematch::RegExOptions::set_line_by_line)
-    .property("dot_nl", &rematch::RegExOptions::dot_nl, &rematch::RegExOptions::set_dot_nl)
-    .property("early_output", &rematch::RegExOptions::early_output, &rematch::RegExOptions::set_early_output)
-    .property("save_anchors", &rematch::RegExOptions::save_anchors, &rematch::RegExOptions::set_save_anchors)
-    ;
-
-  emscripten::class_<rematch::RegEx>("RegEx")
-    .constructor<std::string, rematch::RegExOptions>()
-    .function("findIter", &rematch::RegEx::findIter)
-    .function("find", &rematch::RegEx::find)
-    .function("pattern", &rematch::RegEx::pattern)
-    ;
-}
-
-#endif
 

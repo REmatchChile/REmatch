@@ -109,13 +109,25 @@ std::set<std::string> flatten_set(std::set<std::set<std::string>> cont) {
     return outp;
 }
 
-
+std::string file2str(std::string filename) {
+	std::ifstream in(filename, std::ios::in | std::ios::binary);
+	if (in) {
+		std::string contents;
+		in.seekg(0, in.end);
+		contents.resize(in.tellg());
+		in.seekg(0, in.beg);
+		in.read(&contents[0], contents.size());
+		in.close();
+		return contents;
+	}
+	throw std::runtime_error("Error loading file");
+}
 /*
     MAIN TEST FUNCTION
 */
 
 void check_spanners(rematch::RegEx &rgx, std::string document_file, std::string spanners_file) {
-    std::istream *document_istream = new std::ifstream(document_file);
+    std::string doc(file2str(document_file));
     std::ifstream spanner_fstream(spanners_file);
 	std::stringstream output_sstream;
 
@@ -126,7 +138,7 @@ void check_spanners(rematch::RegEx &rgx, std::string document_file, std::string 
 
     std::set<std::set<std::string>> real_results;
     std::unique_ptr<rematch::Match> match_ptr;
-    while(match_ptr = rgx.findIter(*document_istream)) {
+    while(match_ptr = rgx.findIter(doc)) {
         std::string output = match_ptr->print();
         real_results.insert(parse_set(strip(output)));
     }
