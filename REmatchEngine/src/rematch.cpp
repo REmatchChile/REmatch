@@ -16,7 +16,7 @@ std::unique_ptr<RegEx> compile(string pattern, RegExOptions opt) {
   return std::make_unique<RegEx>(pattern);
 }
 
-std::unique_ptr<Match> find(string pattern, string &text) {
+Match_ptr find(string pattern, string &text) {
   RegEx compiled_rgx(pattern);
   stringstream ss(text);
 

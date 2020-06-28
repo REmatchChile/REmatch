@@ -27,7 +27,7 @@ void Enumerator::addNodeList(NodeList &startList) {
   }
 }
 
-std::unique_ptr<Match> Enumerator :: next() {
+Match_ptr Enumerator :: next() {
   while(!depth_stack_.empty()) {
     auto current = depth_stack_.back();
     Node* node = current.current_node;
@@ -40,7 +40,11 @@ std::unique_ptr<Match> Enumerator :: next() {
 
     if(node->isNodeEmpty()) {
       n_mappings_++;
+#ifndef SWIG
       return std::make_unique<Match>(&doc_, data_, rgx_.varScheme());
+#else
+      return new Match(&doc_, data_, rgx_.varScheme());
+#endif
     }
 
     if(node->start != nullptr) {

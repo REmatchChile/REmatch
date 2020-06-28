@@ -23,7 +23,7 @@ std::string RegEx::uniformGenerate(uint32_t n) {
 }
 
 
-std::unique_ptr<Match> RegEx::findIter(const std::string &text, uint8_t eval_flags) {
+Match_ptr RegEx::findIter(const std::string &text, uint8_t eval_flags) {
   if(eval_ == nullptr) {
     eval_ = std::make_unique<Evaluator>(*this, text, Evaluator::kAllFlags & flags_);
   }
@@ -31,7 +31,7 @@ std::unique_ptr<Match> RegEx::findIter(const std::string &text, uint8_t eval_fla
 }
 
 
-std::unique_ptr<Match> RegEx::find(const std::string &text, uint8_t eval_flags) {
+Match_ptr RegEx::find(const std::string &text, uint8_t eval_flags) {
   return Evaluator(*this, text, eval_flags & Evaluator::kEarlyOutput).next();
 }
 

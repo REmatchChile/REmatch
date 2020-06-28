@@ -25,7 +25,6 @@ class RegEx {
 
   RegEx(std::string regex, RegExOptions opt = RegExOptions());
 
-
   ~RegEx();
 
   std::string uniformGenerate(uint32_t n);
@@ -47,9 +46,9 @@ class RegEx {
   };
 
   // Calls the evaluator to get first
-  std::unique_ptr<Match> find(const std::string &text, uint8_t eval_flags = 0);
+  Match_ptr find(const std::string &text, uint8_t eval_flags = 0);
 
-  std::unique_ptr<Match> findIter(const std::string &text, uint8_t eval_flags = 0);
+  Match_ptr findIter(const std::string &text, uint8_t eval_flags = 0);
 
   int varCount() const {return dman_.varFactory()->size();}
 
@@ -87,5 +86,8 @@ class RegEx {
 }; // end class Regex
 
 } // end namespace rematch
+
+
+
 
 #endif // RGX_HPP

@@ -17,12 +17,12 @@ enum Anchor {
 std::unique_ptr<RegEx> compile(std::string pattern, RegExOptions opt);
 std::unique_ptr<RegEx> compile(std::string pattern);
 
-std::unique_ptr<Match> find(std::string pattern, std::string &text);
-std::unique_ptr<Match> find(std::string pattern, std::string &text, Anchor anchor);
+Match_ptr find(std::string pattern, std::string &text);
+Match_ptr find(std::string pattern, std::string &text, Anchor anchor);
 
 std::vector<Match> findAll(std::string pattern, std::string &text);
 
-std::unique_ptr<Match> findIter(std::string pattern, std::string &text);
+Match_ptr findIter(std::string pattern, std::string &text);
 
 bool doFind(std::string pattern, std::string &text,
             Anchor anchor, RegExOptions opt);

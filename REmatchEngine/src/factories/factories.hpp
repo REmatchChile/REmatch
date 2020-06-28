@@ -9,6 +9,7 @@
 #include <ostream>
 #include <bitset>
 #include <map>
+#include <utility>
 
 #include "parser/ast.hpp"
 #include "bitsetwrapper.hpp"
@@ -66,8 +67,6 @@ class VariableFactory {
 		// Given a bitset outputs the corresponding opening and closing variables
 		// as a string
 		string getVarUtil(std::bitset<32> code);
-
-		void fillPartialMapping(std::bitset<32> S, int i, std::vector<std::array<size_t, 2>> *mapping_data);
 
 		std::vector<string> getOutputSchema();
 

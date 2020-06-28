@@ -6,6 +6,7 @@
 #include <bitset>
 #include <unordered_map>
 #include <set>
+#include <list>
 
 #include "bitsetwrapper.hpp"
 

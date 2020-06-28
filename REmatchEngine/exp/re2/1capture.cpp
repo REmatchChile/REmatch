@@ -38,7 +38,7 @@ int main(int argc, char const *argv[])
 
 	// std::cout << "DOC: " << input << "\n";
 
-  	std::string match;
+  std::string match;
 
 	int count = 0;
 	while (RE2::FindAndConsume(&input, rgx, &match)) {

@@ -7,8 +7,17 @@
 #include <stdexcept>
 #include <vector>
 #include <iostream>
+#include <memory>
 
 namespace rematch {
+
+class Match;
+
+#ifdef SWIG
+using Match_ptr = Match*;
+#else
+using Match_ptr = std::unique_ptr<Match>;
+#endif
 
 
 using Span = std::pair<size_t, size_t>;

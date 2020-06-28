@@ -11,7 +11,6 @@
 
 using namespace std;
 
-
 VariableFactory :: VariableFactory()
 	:numVars(0) {}
 
@@ -72,15 +71,6 @@ vector<string> VariableFactory :: getOutputSchema() {
 		ret[i] = varMap[i];
 	}
 	return ret;
-}
-
-void VariableFactory :: fillPartialMapping(std::bitset<32> code, int i, std::vector<std::array<size_t, 2>> *mapping_data) {
-	for(size_t j=0; j < size(); j++) {
-		if(code[2*j])
-			(*mapping_data)[j][0] = i;
-		if(code[2*j+1])
-			(*mapping_data)[j][1] = i;
-	}
 }
 
 string VariableFactory :: getVarUtil(bitset<32> code) {

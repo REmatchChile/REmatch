@@ -62,9 +62,9 @@ void Evaluator::initAutomaton(size_t i) {
   else              captureF(i);
 }
 
-std::unique_ptr<Match> Evaluator::next() {
+Match_ptr Evaluator::next() {
   // Decide which next to use.
-  static std::unique_ptr<Match> (Evaluator::*nexts[])() = {
+  static Match_ptr (Evaluator::*nexts[])() = {
     &Evaluator::nextFF,
     &Evaluator::nextFT,
     &Evaluator::nextTF,
@@ -76,7 +76,7 @@ std::unique_ptr<Match> Evaluator::next() {
   return (this->*nexts[index])();
 }
 
-inline std::unique_ptr<Match>
+inline Match_ptr
 Evaluator::inlinedNext(bool early_output, bool line_by_line) {
 
   if(enumerator_->hasNext())
@@ -110,8 +110,11 @@ Evaluator::inlinedNext(bool early_output, bool line_by_line) {
       if(state->isFinal)
         output_nodelist_.append(state->currentL);
     }
-    if(! output_nodelist_.empty())
+    if(! output_nodelist_.empty()) //TODO: CHECK IF THERE IS A BETTER WAY
       enumerator_->addNodeList(output_nodelist_);
+
+
+      // ^$
 
     if((i_pos_-i_start_) == text_.size()) {
       if(line_by_line_) {
@@ -256,16 +259,16 @@ inline void Evaluator::reading(char a, size_t i, bool early_output) {
 
 // Callers of inline versions
 
-std::unique_ptr<Match> Evaluator::nextFF() {
+Match_ptr Evaluator::nextFF() {
   return inlinedNext(0, 0);
 }
-std::unique_ptr<Match> Evaluator::nextFT() {
+Match_ptr Evaluator::nextFT() {
   return inlinedNext(0, 1);
 }
-std::unique_ptr<Match> Evaluator::nextTF() {
+Match_ptr Evaluator::nextTF() {
   return inlinedNext(1, 0);
 }
-std::unique_ptr<Match> Evaluator::nextTT() {
+Match_ptr Evaluator::nextTT() {
   return inlinedNext(1, 1);
 }
 void Evaluator::captureT(size_t i) {

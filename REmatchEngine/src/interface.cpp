@@ -50,7 +50,7 @@ void Interface::normalRun() {
 	RegExOptions rgx_opt;
 	rgx_opt.set_line_by_line(options_.line_by_line());
 	RegEx regex(pattern_, rgx_opt);
-	std::unique_ptr<Match> match_ptr;
+	Match_ptr match_ptr;
 	std::string doc(file2str(document_filename_));
 	if(options_.output_option() == NMAPPINGS) {
 		size_t noutputs = 0;
@@ -95,7 +95,7 @@ void Interface::benchmarkRun() {
 	RegExOptions rgx_opt;
 	rgx_opt.set_line_by_line(options_.line_by_line());
 	RegEx regex(pattern_, rgx_opt);
-	std::unique_ptr<Match> match_ptr;
+	Match_ptr match_ptr;
 	std::string doc(file2str(document_filename_));
 
 	initAutomataTime = t.elapsed(); 		// Automata creation time

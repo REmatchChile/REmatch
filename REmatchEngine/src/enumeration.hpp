@@ -11,7 +11,6 @@
 #include <memory>
 
 #include "match.hpp"
-// #include "regex/regex.hpp"
 #include "structures.hpp"
 #include "factories/factories.hpp"
 #include "memmanager.hpp"
@@ -33,7 +32,7 @@ class Enumerator {
     Enumerator(RegEx &rgx, std::string &doc, MemManager &mem);
 
     // Get the next match according to the current state of the depth stack.
-    std::unique_ptr<Match> next();
+    Match_ptr next();
 
     // Returns if there is a next match according to the current state of
     // the depth stack.

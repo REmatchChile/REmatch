@@ -11,10 +11,10 @@
 #include "automata/detstate.hpp"
 #include "det/setstate.hpp"
 
-#include <boost/multiprecision/cpp_int.hpp>
-#include <boost/multiprecision/cpp_bin_float.hpp>
+// #include <boost/multiprecision/cpp_int.hpp>
+// #include <boost/multiprecision/cpp_bin_float.hpp>
 
-using namespace boost::multiprecision;
+// using namespace boost::multiprecision;
 
 DetManager::DetManager(std::string pattern, bool raw_automata) {
 	LogicalVA lva = regex2LVA(pattern);
@@ -126,82 +126,82 @@ char DetManager :: chooseFromCharBitset(BitsetWrapper bs) {
 
 std::string DetManager :: uniformSample(size_t n) {
   // Timer t;
-	std::unordered_map<DetState*, std::pair<std::vector<BitsetWrapper>, cpp_int>> T, Tprim;
-	T.insert({dfa_->initState(), std::make_pair(std::vector<BitsetWrapper>(), 1)});
-	DetState *q, *p;
-	const BitsetWrapper *a;
-	std::vector<BitsetWrapper> *w, *u;
-	cpp_int N, M, S;
+	// std::unordered_map<DetState*, std::pair<std::vector<BitsetWrapper>, cpp_int>> T, Tprim;
+	// T.insert({dfa_->initState(), std::make_pair(std::vector<BitsetWrapper>(), 1)});
+	// DetState *q, *p;
+	// const BitsetWrapper *a;
+	// std::vector<BitsetWrapper> *w, *u;
+	// cpp_int N, M, S;
 
-	// FIXME: Change logic to only cpp_int usage
-  double prob;
+	// // FIXME: Change logic to only cpp_int usage
+  // double prob;
 
-	double c;
+	// double c;
 
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_real_distribution<> dis(0.0, 1.0);
+	// std::random_device rd;
+	// std::mt19937 gen(rd());
+	// std::uniform_real_distribution<> dis(0.0, 1.0);
 
-	dfa_->computeOneReached();
+	// dfa_->computeOneReached();
 
-  // std::cout << "Init algo: " << t.elapsed() << '\n';
-  // t.reset();
+  // // std::cout << "Init algo: " << t.elapsed() << '\n';
+  // // t.reset();
 
-	for(size_t i=1; i <= n; i++) {
-		for(auto &state_pair: T) {
-			p = state_pair.first; w = &state_pair.second.first; N = state_pair.second.second;
-			for(auto &bset_state: p->oneReached) {
-				a = &bset_state.first; q = bset_state.second;
-        S = all_chars_table_[*a].size();
-				if(!Tprim.count(q)) {
-					std::vector<BitsetWrapper> wa = *w;
-					wa.push_back(*a);
-					Tprim[q] = std::make_pair(wa, N*S);
-				}
-				else {
-					u = &Tprim[q].first; M = Tprim[q].second;
-					c = dis(gen); prob = double(M)/double(M+N*S);
-					if ( c <= prob) {
-						std::vector<BitsetWrapper> ua = *u;
-						Tprim[q] = std::make_pair(ua, M+N*S);
-					}
-					else {
-						std::vector<BitsetWrapper> wa = *w;
-						wa.push_back(*a);
-						Tprim[q] = std::make_pair(wa, M+N*S);
-					}
-				}
-			}
-		}
+	// for(size_t i=1; i <= n; i++) {
+	// 	for(auto &state_pair: T) {
+	// 		p = state_pair.first; w = &state_pair.second.first; N = state_pair.second.second;
+	// 		for(auto &bset_state: p->oneReached) {
+	// 			a = &bset_state.first; q = bset_state.second;
+  //       S = all_chars_table_[*a].size();
+	// 			if(!Tprim.count(q)) {
+	// 				std::vector<BitsetWrapper> wa = *w;
+	// 				wa.push_back(*a);
+	// 				Tprim[q] = std::make_pair(wa, N*S);
+	// 			}
+	// 			else {
+	// 				u = &Tprim[q].first; M = Tprim[q].second;
+	// 				c = dis(gen); prob = double(M)/double(M+N*S);
+	// 				if ( c <= prob) {
+	// 					std::vector<BitsetWrapper> ua = *u;
+	// 					Tprim[q] = std::make_pair(ua, M+N*S);
+	// 				}
+	// 				else {
+	// 					std::vector<BitsetWrapper> wa = *w;
+	// 					wa.push_back(*a);
+	// 					Tprim[q] = std::make_pair(wa, M+N*S);
+	// 				}
+	// 			}
+	// 		}
+	// 	}
 
-		T = Tprim;
-		Tprim.clear();
-	}
+	// 	T = Tprim;
+	// 	Tprim.clear();
+	// }
 
-  // std::cout << "Populate hash tables: " << t.elapsed() << '\n';
-  // t.reset();
+  // // std::cout << "Populate hash tables: " << t.elapsed() << '\n';
+  // // t.reset();
 
-	M = 0; u = nullptr;
-	for(auto &state_pair: T) {
-		p = state_pair.first; w = &state_pair.second.first; N = state_pair.second.second;
-		if(p->isFinal) {
-			c = dis(gen); prob = double(N)/double(M+N);
-			if (c <= prob)
-				u = w;
-			M += N;
-		}
-	}
+	// M = 0; u = nullptr;
+	// for(auto &state_pair: T) {
+	// 	p = state_pair.first; w = &state_pair.second.first; N = state_pair.second.second;
+	// 	if(p->isFinal) {
+	// 		c = dis(gen); prob = double(N)/double(M+N);
+	// 		if (c <= prob)
+	// 			u = w;
+	// 		M += N;
+	// 	}
+	// }
 
   // std::cout << "Get bitset string: " << t.elapsed() << '\n';
   // t.reset();
 
 	std::stringstream ss;
-	char d;
-	if(u != nullptr) {
-		for(auto &bs: *u) {
-			ss << chooseFromCharBitset(bs);
-		}
-	}
+	// char d;
+	// if(u != nullptr) {
+	// 	for(auto &bs: *u) {
+	// 		ss << chooseFromCharBitset(bs);
+	// 	}
+	// }
 
   // std::cout << "Get full string: " << t.elapsed() << '\n';
   // t.reset();
