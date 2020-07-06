@@ -46,9 +46,9 @@ class RegEx {
   };
 
   // Calls the evaluator to get first
-  Match_ptr find(const std::string &text, uint8_t eval_flags = 0);
+  Match_ptr find(const std::string &text);
 
-  Match_ptr findIter(const std::string &text, uint8_t eval_flags = 0);
+  Match_ptr findIter(const std::string &text);
 
   int varCount() const {return dman_.varFactory()->size();}
 
