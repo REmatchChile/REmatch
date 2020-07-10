@@ -29,6 +29,7 @@ typedef long unsigned int size_t;
 wrap_unique_ptr(MatchUniquePtr, Match);
 
 using Span = std::pair<size_t, size_t>;
+using Match_ptr = std::unique_ptr<Match>;
 
 class RegExOptions {
  public:
@@ -64,8 +65,8 @@ class RegEx {
  public:
   RegEx(std::string regex, RegExOptions opt = RegExOptions());
   ~RegEx();
-  std::unique_ptr<Match> find(const std::string &text, uint8_t flags = 0);
-  std::unique_ptr<Match> findIter(const std::string &text, uint8_t flags = 0);
+  Match_ptr find(const std::string &text);
+  Match_ptr findIter(const std::string &text);
   int varCount() const;
   std::vector<std::string> varScheme();
   std::string pattern() const;

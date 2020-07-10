@@ -18,7 +18,6 @@ std::string RegEx::uniformGenerate(uint32_t n) {
     dman_.computeFullDetAutomaton();
     full_dfa_ = true;
   }
-
   return dman_.uniformSample(n);
 }
 

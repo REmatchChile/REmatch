@@ -162,6 +162,25 @@ void LogicalVA::alter(LogicalVA &a2) {
 void LogicalVA :: kleene() {
   /* Extends the LogicalVA for kleene closure (0 or more times) */
 
+  if(states.size() == 2 && init_state_->f.size() == 1) {
+    if(init_state_->f.front()->next->isFinal) {
+      for(auto it=states.begin(); it != states.end(); it++) {
+        if(!(*it)->isInit) {
+          states.erase(it); break;
+        }
+      }
+
+      auto fcode = init_state_->f.front()->code;
+      init_state_->f.clear();
+
+      init_state_->addFilter(fcode, init_state_);
+      finalStates.clear();
+      finalStates.push_back(init_state_);
+      init_state_->setFinal(true);
+      return;
+    }
+  }
+
   // Connect final states to new init LVAState
   for(std::size_t i=0;i<finalStates.size();i++){
     finalStates[i]->addEpsilon(init_state_);

@@ -81,12 +81,15 @@ string VariableFactory :: getVarUtil(bitset<32> code) {
 
 	for(size_t i=0; i < 16; i++) {
 		if(code[2*i]) {
-			ss << varMap[i] << "<";
+			ss << varMap[i];
+			if(offsetMap[2*i]) ss << "(-" << offsetMap[2*i] << ")";
+			ss << "<";
 			container.push_back(ss.str());
 			ss.str(string()); // Erase the stringstream
 		}
 		if(code[2*i+1]) {
 			ss << ">"  << varMap[i];
+			if(offsetMap[2*i+1]) ss << "(-" << offsetMap[2*i] << ")";
 			container.push_back(ss.str());
 			ss.str(string()); // Erase the stringstream
 		}
@@ -118,6 +121,9 @@ void VariableFactory :: merge(VariableFactory &rhs) {
 			assert(numVars < MAX_VARS);
 			codeMap[it.first] = numVars;
 			varMap[numVars] = it.first;
+
+			offsetMap.push_back(0);
+			offsetMap.push_back(0);
 
 		  numVars++;
 		} else {

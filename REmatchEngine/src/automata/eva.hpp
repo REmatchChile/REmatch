@@ -17,6 +17,10 @@ class LogicalVA;
 class CharClass;
 class LVACapture;
 
+using CaptureVector = std::vector<std::shared_ptr<LVACapture>>;
+using CaptureList = std::list<std::shared_ptr<LVACapture>>;
+using CapturePtr = std::shared_ptr<LVACapture>;
+
 // FIXME: Add docstrings and refine declarations.
 class ExtendedVA {
 
@@ -72,18 +76,21 @@ class ExtendedVA {
 	// Returns a vector of pointers to the LVACaptures present in the automaton
 	// sorted accoding to an inverse topological sort for the automaton graph.
 	// Used for capture offset optimization.
-	std::vector<std::shared_ptr<LVACapture>> getInvTopSortCaptures();
+	CaptureVector getInvTopSortCaptures();
 
-	std::vector<std::list<std::shared_ptr<LVACapture>>> classifySingleCaptures();
+	std::vector<CaptureList> classifySingleCaptures();
 
-	bool offsetPossible(std::shared_ptr<LVACapture> capture);
-	bool offsetPossible(std::list<std::shared_ptr<LVACapture>> &captureList);
+	bool offsetPossible(CapturePtr capture);
+	bool offsetPossible(CaptureList &captureList);
 
-	void computeOffset(std::list<std::shared_ptr<LVACapture>> &captureList, int codeIndex);
+	void computeOffset(CaptureList &captureList, int codeIndex);
 
 	void offsetOpt();
 
  private:
+	void getInvTopSortCapturesUtil(CapturePtr &cap, CaptureVector &L);
+	CaptureVector reachableCaptures(CapturePtr &cap);
+
 	LVAState* init_state_;
 
 	std::shared_ptr<VariableFactory> variable_factory_;

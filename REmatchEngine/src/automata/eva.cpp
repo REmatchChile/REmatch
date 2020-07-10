@@ -13,13 +13,17 @@ ExtendedVA :: ExtendedVA(LogicalVA &A):
 
 	// Get rid off e-transitions
 
+	// std::cout << "LVA:\n" << A.pprint() << "\n\n";
+
 	epsilonClosure(A);
 
 	adaptReachableStates(A);
 
 	// std::cout << pprint() << "\n\n";
 
-	// offsetOpt();
+	offsetOpt();
+
+	pruneUselessStates();
 
 	// std::cout << "EvA after:\n" << pprint() << "\n\n";
 
@@ -33,7 +37,7 @@ ExtendedVA :: ExtendedVA(LogicalVA &A):
 
 	cleanUselessCaptureTransitions();
 
-	// std::cout << pprint() << "\n\n";
+	// std::cout << "EvA afterer:\n" << pprint() << "\n\n";
 
   #ifndef NOPT_CROSSPROD
 	  crossProdOpt(*this);
@@ -42,6 +46,8 @@ ExtendedVA :: ExtendedVA(LogicalVA &A):
 	relabelStates();
 
 	searchSuperFinals();
+
+	// std::cout << "EvA aftererer:\n" << pprint() << "\n\n";
 
 }
 
@@ -112,7 +118,6 @@ void ExtendedVA :: epsilonClosure(LogicalVA &A) {
 	}
 
 	for(auto &state: A.states) {
-
 		state->visitedBy = state->id;
 		for(auto &epsilon: state->e) {
 			utilEpsilonClosure(state, epsilon->next);
@@ -145,6 +150,8 @@ void ExtendedVA :: utilEpsilonClosure(LVAState *from, LVAState *current) {
 void ExtendedVA :: adaptReachableStates(LogicalVA &A) {
 	for(auto &state: A.states) {
 		state->tempMark = false;
+		state->incidentCaptures.clear();
+		state->incidentFilters.clear();
 	}
 
 	states.reserve(A.states.size());
@@ -191,10 +198,12 @@ void ExtendedVA :: utilCleanUnreachable(LVAState *state) {
 	state->tempMark = true;
 
 	for(auto &capture: state->c) {
+		capture->next->incidentCaptures.push_back(capture);
 		if(!capture->next->tempMark)
 			utilCleanUnreachable(capture->next);
 	}
 	for(auto &filter: state->f) {
+		filter->next->incidentFilters.push_back(filter);
 		if(!filter->next->tempMark)
 			utilCleanUnreachable(filter->next);
 	}
@@ -274,11 +283,10 @@ void ExtendedVA :: cleanUselessCaptureTransitions() {
 
 void ExtendedVA::offsetOpt() {
 	// Vector of lists of capture transitions with the same code
-	std::vector<std::list<std::shared_ptr<LVACapture>>> classifier = classifySingleCaptures();
+	std::vector<CaptureList> classifier = classifySingleCaptures();
 
-	// Iterate through captures in topological order from the final states
+	// Iterate through captures in inverse topological order
 	for(auto &capture: getInvTopSortCaptures()) {
-
 		// Search the corresponding list in the classifier
 		for(size_t i=0; i < 2*variable_factory_->size(); i++) {
 			if(capture->code[i]) {
@@ -289,40 +297,47 @@ void ExtendedVA::offsetOpt() {
 	}
 }
 
-void ExtendedVA::computeOffset(std::list<std::shared_ptr<LVACapture>> &captureList, int codeIndex) {
+void ExtendedVA::computeOffset(CaptureList &captureList, int codeIndex) {
 	std::shared_ptr<LVAFilter> filter;
-	std::shared_ptr<LVACapture> capture;
+	CapturePtr capture;
 	LVAState *p, *q, *r;
 
 	while(offsetPossible(captureList)) {
 		for(auto it = captureList.begin(); it != captureList.end();) {
 			capture = *it;
 			p = capture->from; q = capture->next;
-			filter = q->f.front(); // Front exists because offset is possible
-			r = filter->next;
 
-			auto captureCopy = *capture;
-			auto filterCopy = *filter;
+			for(auto &filter: q->f) {
+				r = filter->next;
 
-			// // Transformation
-			// p->c.remove(captureCopy);
-			// q->f.remove(filterCopy);
+				// Create new state
+				LVAState* q_prim = new LVAState();
+				states.push_back(q_prim);
 
-			// q->incidentCaptures.remove(captureCopy); // Destroys the pointed capture
-			// r->incidentFilters.remove(filterCopy);
+				filter->next = q_prim;
+				q_prim->addCapture(capture->code, r);
 
-			p->addFilter(filterCopy.code, q);
-			q->addCapture(captureCopy.code, r);
+				captureList.push_front(q_prim->c.front());
+				p->addFilter(filter->code, q_prim);
+
+				if(q->incidentFilters.empty())
+					r->incidentFilters.remove(filter);
+			}
+
+			p->c.remove(capture);
+			q->incidentCaptures.remove(capture);
+
+			p->addEpsilon(q);
 
 			it = captureList.erase(it);
-			captureList.insert(it, q->c.back());
+
 		}
 
 		variable_factory_->getOffset(codeIndex)++;
 	}
 }
 
-bool ExtendedVA::offsetPossible(std::list<std::shared_ptr<LVACapture>> &captureList) {
+bool ExtendedVA::offsetPossible(CaptureList &captureList) {
 	for(auto &capture: captureList) {
 		if(!offsetPossible(capture))
 			return false;
@@ -330,7 +345,7 @@ bool ExtendedVA::offsetPossible(std::list<std::shared_ptr<LVACapture>> &captureL
 	return true;
 }
 
-bool ExtendedVA::offsetPossible(std::shared_ptr<LVACapture> capture) {
+bool ExtendedVA::offsetPossible(CapturePtr capture) {
 	// We want the following:
 	// (q) ---[capture]---> (p) -----[filter]----> (r)
 	// So we can then change it to:
@@ -338,27 +353,31 @@ bool ExtendedVA::offsetPossible(std::shared_ptr<LVACapture> capture) {
 	// So we need to check:
 	// 	1. Capture has only one variable involved.
 	//  2. (p) can't be a final state.
-	//	3. (p) has 1, and only 1 filter transition.
-	//  4. If (p) has only one capture and no filter transition, then ask
-	//     to the next capture.
+	//	3. (p) has at least 1 filter transition and no capture transitions.
+
+	LVAState *q, *p;
+
+	q = capture->from;
+	p = capture->next;
 
  	if(capture->code.count() != 1)
 		return false;
-	if(capture->next->isFinal)
+	if(p->isFinal)
 		return false;
-	// if(capture->next->c.size() == 1 && capture->next->f.empty())
-	// 	return offsetPossible(&capture->next->c.front());
-	if(capture->next->f.size() != 1 )
+	if(p->f.size() == 0 || p->c.size() > 0)
 		return false;
-	if(capture->next->c.empty())
+	if(p->incidentCaptures.size() != 1)
 		return false;
-	// TODO: (p) debería tener solo una transicion entrando (capture)
+	for(auto &filter: p->f) {
+		if(filter->next == p)
+			return false;
+	}
 
 	return true;
 }
 
-std::vector<std::list<std::shared_ptr<LVACapture>>> ExtendedVA::classifySingleCaptures() {
-	std::vector<std::list<std::shared_ptr<LVACapture>>> classifier;
+std::vector<CaptureList> ExtendedVA::classifySingleCaptures() {
+	std::vector<CaptureList> classifier;
 
 	classifier.resize(2*variable_factory_->size());
 
@@ -382,41 +401,74 @@ std::vector<std::list<std::shared_ptr<LVACapture>>> ExtendedVA::classifySingleCa
 }
 
 
+
+
+
 // It's assumed that there is no epsilon transitions anymore.
-std::vector<std::shared_ptr<LVACapture>> ExtendedVA::getInvTopSortCaptures() {
-	// Unset flag for each state.
+CaptureVector ExtendedVA::getInvTopSortCaptures() {
+
+	CaptureVector totCaptures;
+	// Unset flag for each capture and push capture to container.
 	for(auto &state: states) {
-		state->tempMark = false;
-	}
-	std::vector<LVAState*> stack; // DFS stack
-	std::vector<std::shared_ptr<LVACapture>> captureStack; // Returning stack
-	for(auto &fState: finalStates) {
-		fState->tempMark = true;
-		stack.push_back(fState);
+		for(auto &capture: state->c) {
+			capture->flag = false;
+			totCaptures.push_back(capture);
+		}
 	}
 
-	LVAState *currentState;
+	CaptureVector L; // Returning container
+	CapturePtr currCap;
+
+	if(totCaptures.empty()) return L;
+
+	do {
+		currCap = totCaptures.back(); totCaptures.pop_back();
+		if(!currCap->flag)
+			getInvTopSortCapturesUtil(currCap, L);
+
+	} while(!totCaptures.empty());
+
+	return L;
+}
+
+void ExtendedVA::getInvTopSortCapturesUtil(CapturePtr &cap, CaptureVector &L) {
+	if(cap->flag)
+		return;
+
+	cap->flag = true;
+
+	for(auto &reachedCap: reachableCaptures(cap)) {
+		getInvTopSortCapturesUtil(reachedCap, L);
+	}
+
+	L.push_back(cap);
+}
+
+CaptureVector ExtendedVA::reachableCaptures(CapturePtr &cap) {
+	for(auto &state: states)
+		state->tempMark = false;
+
+	std::vector<LVAState*> stack;
+	stack.push_back(cap->next);
+
+	CaptureVector ret;
+
+	LVAState* s;
 
 	while(!stack.empty()) {
-		currentState = stack.back(); stack.pop_back();
-
-		for(auto &capture: currentState->incidentCaptures) {
-			if(capture->code.count() == 1) // Single variable opened/closed
-				captureStack.push_back(capture);
-			if(!capture->from->tempMark) {
-				capture->from->tempMark = true;
-				stack.push_back(capture->from);
-			}
+		s = stack.back() ; stack.pop_back();
+		s->tempMark = true;
+		for(auto &capture: s->c) {
+			ret.push_back(capture);
 		}
-		for(auto &filter: currentState->incidentFilters) {
-			if(!filter->from->tempMark) {
-				filter->from->tempMark = true;
-				stack.push_back(filter->from);
+		for(auto &filter: s->f) {
+			if(!filter->next->tempMark) {
+				stack.push_back(filter->next);
 			}
 		}
 	}
 
-	return captureStack;
+	return ret;
 }
 
 

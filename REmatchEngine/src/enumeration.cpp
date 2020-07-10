@@ -50,9 +50,9 @@ Match_ptr Enumerator :: next() {
     if(node->start != nullptr) {
       for(size_t j=0; j < data_.size(); j++) {
         if(node->S[2*j])
-          data_[j].first = node->i;
+          data_[j].first = node->i - rgx_.detManager().varFactory()->getOffset(2*j);
         if(node->S[2*j+1])
-          data_[j].second = node->i;
+          data_[j].second = node->i - rgx_.detManager().varFactory()->getOffset(2*j+1);
       }
       depth_stack_.emplace_back(node->start, node->end);
     }

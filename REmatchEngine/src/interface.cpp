@@ -63,6 +63,8 @@ void Interface::normalRun() {
 		while((match_ptr = regex.findIter(doc))) {
 			std::cout << *match_ptr << '\n';
 		}
+
+		// std::cout << "DFA: \n" << regex.detManager().DFA().pprint() << "\n\n";
 	}
 }
 
@@ -131,16 +133,17 @@ void Interface::benchmarkRun() {
 
 	/************************ Output Measurments ************************/
 
-	std::cout 	<< "ExtendedVA size\t\t\t"			<< 	eVASize					<< 	'\n'
-				<< "DetVA size\t\t\t" 				<< 	detASize				<<	'\n'
+	std::cout
+				<< "ExtendedVA size\t\t\t"			<< 	eVASize						<< 	'\n'
+				<< "DetVA size\t\t\t" 					<< 	detASize					<<	'\n'
 				<< "Number of mappings\t\t" 		<< 	numOfSpans				<<	'\n'
 				<< "Number of nodes\t\t\t"			<<	numOfNodes 				<< 	'\n'
-				<< "Number of node arenas\t\t"		<<	numOfNodeArenas 		<< 	'\n'
-				<< "Memory used \t\t\t"				<<	memoryUsed	 			<< 	'\n'
-				<< "Nodes reused\t\t\t"				<<	numOfNodesReused 		<< 	'\n'
-				<< "Init Automata time\t\t"			<<	initAutomataTime 		<< 	"s\n"
-				<< "Evaluate time\t\t\t"			<<	evaluateTime			<< 	"s\n"
-				<< "Total time\t\t\t"				<<	totTime 				<< 	"s\n";
+				<< "Number of node arenas\t\t"	<<	numOfNodeArenas 	<< 	'\n'
+				<< "Memory used \t\t\t"					<<	memoryUsed	 			<< 	'\n'
+				<< "Nodes reused\t\t\t"					<<	numOfNodesReused 	<< 	'\n'
+				<< "Init Automata time\t\t"			<<	initAutomataTime 	<< 	"s\n"
+				<< "Evaluate time\t\t\t"				<<	evaluateTime			<< 	"s\n"
+				<< "Total time\t\t\t"						<<	totTime 					<< 	"s\n";
 
 }
 

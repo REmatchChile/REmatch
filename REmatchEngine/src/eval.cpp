@@ -47,7 +47,7 @@ void Evaluator::init() {
 }
 
 void Evaluator::initAutomaton(size_t i) {
-  DFA().initState()->visited = i;
+  DFA().initState()->visited = i+1;
   if( i == 0)
     DFA().initState()->currentL->add(memory_manager_.alloc());
 
@@ -113,9 +113,6 @@ Evaluator::inlinedNext(bool early_output, bool line_by_line) {
     if(! output_nodelist_.empty()) //TODO: CHECK IF THERE IS A BETTER WAY
       enumerator_->addNodeList(output_nodelist_);
 
-
-      // ^$
-
     if((i_pos_-i_start_) == text_.size()) {
       if(line_by_line_) {
         while(!(document_ended_ = !((bool) std::getline(*input_stream_, text_)))) {
@@ -155,7 +152,6 @@ bool Evaluator::match() {
   size_t it = 0;
 
   while( it < text_.size() ) {
-    // std::cout << "it = " << it << "size = " << text_.size() << '\n';
     a = (char) text_[it];
     // nextState is reached from currentState by reading the character
     nextState = currentState->nextState(a);
@@ -197,7 +193,7 @@ inline void Evaluator::capture(size_t i, bool early_output) {
       if(early_output && nextState->isSuperFinal)
         output_nodelist_.add(newNode);
       else {
-        if (nextState->visited <= i) {
+        if (nextState->visited < i+1) {
           nextState->currentL->resetAndAdd(newNode);
           nextState->visited = i+1;
 
@@ -215,8 +211,16 @@ inline void Evaluator::reading(char a, size_t i, bool early_output) {
   capture_states_.clear();
   new_states_.clear();
   DetState* nextState;
+  NodeList* prevList;
 
   for (auto &currentState: current_states_) {
+
+#ifdef NOPT_CROSSPROD
+    if(currentState->visited == i+2)
+      prevList = currentState->oldL;
+    else
+#endif
+      prevList = currentState->currentL;
 
     // nextState is reached from currentState by reading the character
     nextState = currentState->nextState(a);
@@ -226,16 +230,21 @@ inline void Evaluator::reading(char a, size_t i, bool early_output) {
     }
 
     if(early_output && nextState->isSuperFinal) {  // Early Output check
-      output_nodelist_.append(currentState->currentL);
+      output_nodelist_.append(prevList);
     }
     else {
       if (nextState->ss->isNonEmpty) {  // Check if not empty set
-        if (nextState->visited <= i) { // If not already visited
-          nextState->visited = i+1; // Mark as visited
+        if (nextState->visited <= i+1) { // If not already visited
+          nextState->visited = i+2; // Mark as visited
+
+#ifdef NOPT_CROSSPROD
+          nextState->oldL->head = nextState->currentL->head;
+          nextState->oldL->tail = nextState->currentL->tail;
+#endif
 
           // Pass the list to nextState
-          nextState->currentL->head = currentState->currentL->head;
-          nextState->currentL->tail = currentState->currentL->tail;
+          nextState->currentL->head = prevList->head;
+          nextState->currentL->tail = prevList->tail;
 
           this->new_states_.push_back(nextState);
 
@@ -245,12 +254,12 @@ inline void Evaluator::reading(char a, size_t i, bool early_output) {
         }
         else { // If already visited
           // Append (concat) nextState's currentL with previous list
-          nextState->currentL->append(currentState->currentL);
+          nextState->currentL->append(prevList);
         }
       }
       else { // If empty set is reached then consider adding to garbage collection
-        currentState->currentL->resetRefs();
-        memory_manager_.addPossibleGarbage(currentState->currentL->head);
+        prevList->resetRefs();
+        memory_manager_.addPossibleGarbage(prevList->head);
       }
     }
   }
