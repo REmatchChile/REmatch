@@ -20,7 +20,8 @@ embuild/
 bin/
 results/
 credentials.json
-token.pickle
+*.pickle
+scripts/*/settings.json
 datasets
 tmp
 .vscode
