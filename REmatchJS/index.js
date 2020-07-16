@@ -1,5 +1,5 @@
 const XRegExp = require('xregexp');
-const Module = require('./spanners_interface.js');
+const Module = require('../REmatchEngine/bin/rematch_wasm.js');
 const fs = require('fs');
 var readline = require('readline-sync');
 
@@ -82,8 +82,9 @@ Module['onRuntimeInitialized'] = () => {
             query_rx = queries_rx[nro_query]
          
 
-            const doc = fs.readFileSync('../../RKBExplorer/sparql.log.combo.' + combo, "latin1");
-            
+            // const doc = fs.readFileSync('../../RKBExplorer/sparql.log.combo.' + combo, "latin1");
+            const doc = 'kjslad OPTIONAL jkjsdkjahds \
+            lasdkas'
             // REmatch
             let times = [];
             console.log("---" + "Iniciando REmatch" + "---" );
