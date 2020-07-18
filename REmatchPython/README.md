@@ -2,7 +2,7 @@
 
 Interfaz desarrollada para hacer uso en python de la librería de expresiones regulares `REmatch` creada en c++. 
 
-Esta interfaz es creada para tener una sintaxis similar a la librería `Re` encontrada por defecto en python, sin embargo, algunas funciones no tiene el mismo comportamiento por lo que se recomienda leer la documentación de forma detallada.
+Esta interfaz está adaptada para tener una sintaxis similar a la librería `Re` encontrada por defecto en python, sin embargo, algunas funciones no tiene el mismo comportamiento por lo que se recomienda leer la documentación de forma detallada.
 
 Es importante mencionar que las expresiones regulares deben estar entre `.*` para ser compiladas, por ejemplo:
     
