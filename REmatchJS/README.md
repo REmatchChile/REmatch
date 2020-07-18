@@ -7,7 +7,7 @@ Los patrones de expresión regular que utiliza REmatch siguen la siguiente sinta
 
     '.*abc!nombre_variable{defg}.*'
 
-Donde la variable ´nombre_variable´ guarda información relativa al match de su patrón. Más adelante se explica con más detalle como se puede acceder a esta información a través del objeto ´Match´. El comportamiento es similar a los ´groups´ normalmente utilizados en expresiones regulares compiladas en la librería ´re´ de Python.
+Donde la variable `nombre_variable` guarda información relativa al match de su patrón. Más adelante se explica con más detalle como se puede acceder a esta información a través del objeto `Match`. El comportamiento es similar a los `groups` normalmente utilizados en expresiones regulares compiladas en la librería `re` de Python.
 
 ## Forma de uso
 
@@ -21,17 +21,17 @@ También, se pueden utilizar los métodos directamente desde la librería:
 
     let match = REmatch.find(pattern, string, flags);
 
-Sin embargo, se recomienda utilizar la primera forma dado que será mucho más eficiente si se quiere evaluar el mismo ´pattern´ sobre varios documentos distintos.
+Sin embargo, se recomienda utilizar la primera forma dado que será mucho más eficiente si se quiere evaluar el mismo `pattern` sobre varios documentos distintos.
 
 ## Flags (No disponibles)
 
 El comportamiento de la expresión regular puede ser modificado si se especifican algunas de las siguientes flags. Sin embargo, por ahora no causan la modificación que deberían dado que no están implementados. Aún así, por default cada una es false.
 
-* ´multi_line´: Se utiliza para que ´^´ y ´$´ hagan match con otras líneas al hacer ´\n´.
-* ´dot_nl´: Se utiliza para que el símbolo ´.´ haga match con otras líneas al hacer ´\n´.
-* ´line_by_line´: Se utiliza para que la evaluación se haga línea por línea.
-* ´early_output´: El algoritmo entregará outputs a medida que los encuentra, de otra forma el algoritmo escanea todo el documento y luego retorna los resultados.
-* ´save_anchors´: Por default la librería guarda las variables o grupos desde el índice 1, sin embargo, si se activa esta flag se tendrá acceso al grupo de índice 0, y este almacenará la captura de todo el patrón de la expresión regular. 
+* `multi_line`: Se utiliza para que `^` y `$` hagan match con otras líneas al hacer `\n`.
+* `dot_nl`: Se utiliza para que el símbolo `.` haga match con otras líneas al hacer `\n`.
+* `line_by_line`: Se utiliza para que la evaluación se haga línea por línea.
+* `early_output`: El algoritmo entregará outputs a medida que los encuentra, de otra forma el algoritmo escanea todo el documento y luego retorna los resultados.
+* `save_anchors`: Por default la librería guarda las variables o grupos desde el índice 1, sin embargo, si se activa esta flag se tendrá acceso al grupo de índice 0, y este almacenará la captura de todo el patrón de la expresión regular. 
 
 ### Ejemplo de utilización
 
@@ -39,27 +39,27 @@ El comportamiento de la expresión regular puede ser modificado si se especifica
 
 ## Métodos
 
-* ´find(string)´: Realiza una búsqueda anchored del primer match. Si encuentra una coincidencia, retorna un objeto ´Match´, sino retorna ´null´.
-* ´findIter(string)´: Entrega un iterador de JavaScript de todos los matches encontrados en el texto.
-* ´findall(string)´: Realiza una búsqueda anchored de todos los match del string con el patrón de la expresión regular. Retorna un lista con los objetos ´Match´ correspondientes.
-* ´search(string)´: Realiza una búsqueda anchored del primer match. Si encuentra una coincidencia retorna un objeto ´Match´, sino retorna ´null´. Este método si bien tiene el mismo comportamiento que ´find´, se incluye para tener mayor compatibilidad con los métodos típicos para búsqueda con expresiones regulares.
-* ´match(string)´: Si los caracteres al inicio del ´string´ hacen match con el patrón de la expresión regular, retorna el correspondiente objeto ´Match´. Si no es así, se retorna ´null´. (Para esta versión, falta la resolución de algunos errores, por ende no se encuentra disponible para su uso por ahora).
-* ´fullmatch(string)´: Si todo el string hace match con el patrón de la expresión regular, entonces retorna el respectivo objeto ´Match´. Si no, retorna ´null´. (Con este método ocurre lo mismo que con ´search´, es decir no está disponible por ahora).
+* `find(string)`: Realiza una búsqueda anchored del primer match. Si encuentra una coincidencia, retorna un objeto `Match`, sino retorna `null`.
+* `findIter(string)`: Entrega un iterador de JavaScript de todos los matches encontrados en el texto.
+* `findall(string)`: Realiza una búsqueda anchored de todos los match del string con el patrón de la expresión regular. Retorna un lista con los objetos `Match` correspondientes.
+* `search(string)`: Realiza una búsqueda anchored del primer match. Si encuentra una coincidencia retorna un objeto `Match`, sino retorna `null`. Este método si bien tiene el mismo comportamiento que `find`, se incluye para tener mayor compatibilidad con los métodos típicos para búsqueda con expresiones regulares.
+* `match(string)`: Si los caracteres al inicio del `string` hacen match con el patrón de la expresión regular, retorna el correspondiente objeto `Match`. Si no es así, se retorna `null`. (Para esta versión, falta la resolución de algunos errores, por ende no se encuentra disponible para su uso por ahora).
+* `fullmatch(string)`: Si todo el string hace match con el patrón de la expresión regular, entonces retorna el respectivo objeto `Match`. Si no, retorna `null`. (Con este método ocurre lo mismo que con `search`, es decir no está disponible por ahora).
 
-Se sugiere utilizar los métodos ´find´,´findIter´ y ´findall´, ya que los los demás sólo se incluyen para tener compatibilidad con los métodos típicos utilizados para expresiones regulares.
+Se sugiere utilizar los métodos `find`,`findIter` y `findall`, ya que los los demás sólo se incluyen para tener compatibilidad con los métodos típicos utilizados para expresiones regulares.
 
 ## Objeto Match
 
-Este objeto contiene toda la información relativa a la coincidencia encontrada según el patrón de la expresión regular entregado. Como ya se ha explicado antes, con REmatch se pueden indicar variables o grupos que encapsulan cierta información, los que se guardan por defecto desde el índice 1. A continuación, se referirá a estos sólo como variables, se indicará ´var_id´ al índice, y ´var_name´ al nombre de esta. Sin embargo, por ahora sólo se puede utilizar el ´var_name´ para acceder a la información de la variable.
+Este objeto contiene toda la información relativa a la coincidencia encontrada según el patrón de la expresión regular entregado. Como ya se ha explicado antes, con REmatch se pueden indicar variables o grupos que encapsulan cierta información, los que se guardan por defecto desde el índice 1. A continuación, se referirá a estos sólo como variables, se indicará `var_id` al índice, y `var_name` al nombre de esta. Sin embargo, por ahora sólo se puede utilizar el `var_name` para acceder a la información de la variable.
 
-Los métodos que posee ´Match´ son los siguientes:
+Los métodos que posee `Match` son los siguientes:
 
-* ´start(var_name)´: Retorna la posición en el string donde comienza el span de la variable.
-* ´end(var_name)´: Retorna la posición en el string donde termina el span de la variable.
-* ´span(var_name)´: Retorna una array con el par del incio y término del span de la variable.
-* ´group(var_name)´: Entrega el string que hizo match con el patrón contenido en la variable.
-* ´groups()´: Retorna un array, indexado por los ´var_id´, con los strings capturados por cada una de las variables. (Falta arreglar un error para terminar la implementación de este método, por ende no está disponible por ahora)
-* ´group_dict()´: Entrega un diccionario que tiene como ´keys´ los nombres de las variables, y los ´values´ son los strings capturados por las variables. (Con este método ocurre lo mismo que con ´groups()´, por lo tanto no está disponible).
+* `start(var_name)`: Retorna la posición en el string donde comienza el span de la variable.
+* `end(var_name)`: Retorna la posición en el string donde termina el span de la variable.
+* `span(var_name)`: Retorna una array con el par del incio y término del span de la variable.
+* `group(var_name)`: Entrega el string que hizo match con el patrón contenido en la variable.
+* `groups()`: Retorna un array, indexado por los `var_id`, con los strings capturados por cada una de las variables. (Falta arreglar un error para terminar la implementación de este método, por ende no está disponible por ahora)
+* `group_dict()`: Entrega un diccionario que tiene como `keys` los nombres de las variables, y los `values` son los strings capturados por las variables. (Con este método ocurre lo mismo que con `groups()`, por lo tanto no está disponible).
 
 ## Ejemplos
 
