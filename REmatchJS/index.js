@@ -82,9 +82,8 @@ Module['onRuntimeInitialized'] = () => {
             query_rx = queries_rx[nro_query]
          
 
-            // const doc = fs.readFileSync('../../RKBExplorer/sparql.log.combo.' + combo, "latin1");
-            const doc = 'kjslad OPTIONAL jkjsdkjahds \
-            lasdkas'
+            const doc = fs.readFileSync('../../RKBExplorer/sparql.log.combo.' + combo, "latin1");
+            
             // REmatch
             let times = [];
             console.log("---" + "Iniciando REmatch" + "---" );

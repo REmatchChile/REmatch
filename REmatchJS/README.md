@@ -75,15 +75,16 @@ Los métodos que posee `Match` son los siguientes:
 
     >> let rgx2 = REmatch.compile('.*!x{ly}.*');
     >> const text = "He was carefully disguised but captured quickly by police.";
-    >> console.log(rgx.findIter(text).next());
-    >> console.log(rgx.findIter(text).next());
-    >> console.log(rgx.findIter(text).next());
+    >> console.log(rgx2.findIter(text).next());
+    >> console.log(rgx2.findIter(text).next());
+    >> console.log(rgx2.findIter(text).next());
     { value: Match { obj: Match {} }, done: false }
     { value: Match { obj: Match {} }, done: false }
     { value: undefined, done: true }
 
 ### findall(string)
-
+    Si se quieren encontrar todos los adverbios en un texto, se puede hacer de la siguiente forma:
+    
     >> const text = "He was carefully disguised but captured quickly by police.";
     >> let rgx3 = REmatch.compile('.*!adverb{ [a-zA-Z]+ly}.*')
     >> let list = rgx3.findall(text);

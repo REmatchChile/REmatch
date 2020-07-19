@@ -1,16 +1,4 @@
-// Importación de REmatch
 const Module = require('./rematch_wasm.js');
-
-// const { RegEx, RegExOptions } = Module;
-// let match;
-// let rgxOptions = new RegExOptions();
-// rgxOptions.early_output = true;
-// let rgx = new RegEx('.*!x{a}.*', rgxOptions);
-// console.log('Matches:')
-// while(match = rgx.findIter('aaaa')) {
-//   console.log(match.span('x'));
-// }
-
 
 const { RegEx, RegExOptions } = Module;
 
@@ -20,15 +8,19 @@ let multi_line;
 let dot_nl;
 let save_anchors;
 
-/* Regex object */
+// Regex object
 class Regex {
   constructor(pattern, options) {
     this.pattern = pattern
-    this.rgx_object = new RegEx(pattern, options)
+    this.rgx_object = new RegEx(pattern)
     this.options = options
   }
   find(string) {
-    return new Match(this.rgx_object.find(string));
+    let result = new Match(this.rgx_object.find(string));
+    if (result.obj == null) {
+      return null
+    }
+    return result
   }
 
   *findIter(string) {
@@ -49,10 +41,15 @@ class Regex {
     if (m.group(0) == string.slice(0, m.group(0).length + 1)) {
       return m
     }
+    return null
 
   }
   search(string) {
-    return new Match(this.rgx_object.find(string));
+    let result = new Match(this.rgx_object.find(string));
+    if (result.obj == null) {
+      return null
+    }
+    return result
   }
   fullmatch(string) {
     throw new Error('Method not available')
@@ -62,6 +59,7 @@ class Regex {
     if (m.group(0) == string) {
       return m
     }
+    return null
   }
   findall(string) {
     let vector = [];
@@ -74,7 +72,7 @@ class Regex {
   }
 }
 
-/* Match object */
+//  Match object 
 class Match {
   constructor(obj) {
     this.obj = obj
@@ -126,7 +124,7 @@ class Match {
 
 }
 
-/* Compile */
+//  Compile
 const compile = function (pattern, ...flags) {
   let rgxOptions = new RegExOptions();
   if (multi_line) {
@@ -154,7 +152,7 @@ const compile = function (pattern, ...flags) {
   return rgx
 }
 
-/* Direct methods */
+//  Direct methods 
 const find = function (pattern, string, ...flags) {
   let rgx = compile(pattern, ...flags);
   return rgx.find(string)
@@ -179,8 +177,7 @@ const fullmatch = function (pattern, string, ...flags) {
   let rgx = compile(pattern, ...flags);
   return rgx.fullmatch(string)
 }
-// archivos grandes: find no funciona
-// username en correos de más de 4 caracteres sale output raro, caracteres extraños
+
 module.exports = {
   compile: compile,
   match: match,
