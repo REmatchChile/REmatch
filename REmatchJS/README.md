@@ -83,8 +83,8 @@ Los métodos que posee `Match` son los siguientes:
     { value: undefined, done: true }
 
 ### findall(string)
-    Si se quieren encontrar todos los adverbios en un texto, se puede hacer de la siguiente forma:
-    
+Si se quieren encontrar todos los adverbios en un texto, se puede hacer de la siguiente forma:
+
     >> const text = "He was carefully disguised but captured quickly by police.";
     >> let rgx3 = REmatch.compile('.*!adverb{ [a-zA-Z]+ly}.*')
     >> let list = rgx3.findall(text);
