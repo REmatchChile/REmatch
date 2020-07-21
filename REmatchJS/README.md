@@ -9,13 +9,23 @@ Los patrones de expresión regular que utiliza REmatch siguen la siguiente sinta
 
 Donde la variable `nombre_variable` guarda información relativa al match de su patrón. Más adelante se explica con más detalle como se puede acceder a esta información a través del objeto `Match`. El comportamiento es similar a los `groups` normalmente utilizados en expresiones regulares compiladas en la librería `re` de Python.
 
+## Futura instalación
+
+Para instalar Rematch usando `npm` se debe correr lo siguiente:
+
+    npm install rematch
+
+Luego se podrá cargar en proyectos usando:
+
+    const REmatch = require('rematch');
+
 ## Forma de uso
 
 En primer lugar, se comienza con la compilación del patrón de la expresión regular en un objeto de expresión regular:
 
     let rgx = REmatch.compile(pattern, flags);
 
-Las flags son opcionales. El objeto que retornará tiene los métodos que se explicarán en la sección Métodos.
+Las flags son opcionales. El objeto que retornará tiene los métodos que se explicarán en la sección Métodos, y estos serán los que que reciben el texto sobre el cual se requiere hacer la búsqueda.
 
 También, se pueden utilizar los métodos directamente desde la librería:
 
@@ -41,12 +51,12 @@ El comportamiento de la expresión regular puede ser modificado si se especifica
 
 * `find(string)`: Realiza una búsqueda anchored del primer match. Si encuentra una coincidencia, retorna un objeto `Match`, sino retorna `null`.
 * `findIter(string)`: Entrega un iterador de JavaScript de todos los matches encontrados en el texto.
-* `findall(string)`: Realiza una búsqueda anchored de todos los match del string con el patrón de la expresión regular. Retorna un lista con los objetos `Match` correspondientes.
+* `findall(string)`: Realiza una búsqueda anchored de todos los match del string con el patrón de la expresión regular. Retorna una lista con los objetos `Match` correspondientes.
 * `search(string)`: Realiza una búsqueda anchored del primer match. Si encuentra una coincidencia retorna un objeto `Match`, sino retorna `null`. Este método si bien tiene el mismo comportamiento que `find`, se incluye para tener mayor compatibilidad con los métodos típicos para búsqueda con expresiones regulares.
 * `match(string)`: Si los caracteres al inicio del `string` hacen match con el patrón de la expresión regular, retorna el correspondiente objeto `Match`. Si no es así, se retorna `null`. (Para esta versión, falta la resolución de algunos errores, por ende no se encuentra disponible para su uso por ahora).
 * `fullmatch(string)`: Si todo el string hace match con el patrón de la expresión regular, entonces retorna el respectivo objeto `Match`. Si no, retorna `null`. (Con este método ocurre lo mismo que con `search`, es decir no está disponible por ahora).
 
-Se sugiere utilizar los métodos `find`,`findIter` y `findall`, ya que los los demás sólo se incluyen para tener compatibilidad con los métodos típicos utilizados para expresiones regulares.
+Se sugiere utilizar los métodos `find`,`findIter` y `findall`, ya que los demás sólo se incluyen para tener compatibilidad con los métodos típicos utilizados para expresiones regulares.
 
 ## Objeto Match
 
@@ -56,7 +66,7 @@ Los métodos que posee `Match` son los siguientes:
 
 * `start(var_name)`: Retorna la posición en el string donde comienza el span de la variable.
 * `end(var_name)`: Retorna la posición en el string donde termina el span de la variable.
-* `span(var_name)`: Retorna una array con el par del incio y término del span de la variable.
+* `span(var_name)`: Retorna un array con el par del inicio y término del span de la variable.
 * `group(var_name)`: Entrega el string que hizo match con el patrón contenido en la variable.
 * `groups()`: Retorna un array, indexado por los `var_id`, con los strings capturados por cada una de las variables. (Falta arreglar un error para terminar la implementación de este método, por ende no está disponible por ahora)
 * `group_dict()`: Entrega un diccionario que tiene como `keys` los nombres de las variables, y los `values` son los strings capturados por las variables. (Con este método ocurre lo mismo que con `groups()`, por lo tanto no está disponible).
@@ -83,7 +93,7 @@ Los métodos que posee `Match` son los siguientes:
     { value: undefined, done: true }
 
 ### findall(string)
-Si se quieren encontrar todos los adverbios en un texto, se puede hacer de la siguiente forma:
+Si se quieren encontrar todos los adverbios en medio de un texto, se puede hacer de la siguiente forma:
 
     >> const text = "He was carefully disguised but captured quickly by police.";
     >> let rgx3 = REmatch.compile('.*!adverb{ [a-zA-Z]+ly}.*')

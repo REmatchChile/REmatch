@@ -148,7 +148,7 @@ const compile = function (pattern, ...flags) {
     rgxOptions.save_anchors = true;
   }
 
-  let rgx = new Regex(pattern);
+  let rgx = new Regex(pattern, rgxOptions);
   return rgx
 }
 
