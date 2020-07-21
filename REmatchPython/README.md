@@ -66,7 +66,7 @@ Si la expresion regular es capaz de hacer match con todo el string, retorna el c
 
 Escanea el string de iquierda a derecha encontrando todos los substring que produzcan match con la expresion regular. Retorna una lista de `match object` en el orden en que fueron encontrados. En caso de no producir ningun match retorna una lista vacia.
 
-    >> pattern = rematch.compile('.*x!{teen}.*')
+    >> pattern = rematch.compile('.*!x{teen}.*')
     >> matches = pattern.findall('fifteen, sixteen, seventeen,...')
     [<REmatch.Match object at 0x7f163ba14b10>, <REmatch.Match object at 0x7f163ba1e150>, <REmatch.Match object at 0x7f163ba2abd0>]
     >>
@@ -80,7 +80,7 @@ Escanea el string de iquierda a derecha encontrando todos los substring que prod
 
 Mismo comportamiento de `findall`. Retorna un `iterator` de `match objects` en el orden que fueron encontrados. En caso de no producir ningun match retorna un iterador vacio.
  
-    >> pattern = rematch.compile('.*x!{teen}.*')
+    >> pattern = rematch.compile('.*!x{teen}.*')
     >> matches = pattern.finditer('fifteen, sixteen, seventeen,...')
     <generator object Regex.finditer at 0x7f08c46d3850>
     >>
