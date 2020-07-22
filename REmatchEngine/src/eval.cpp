@@ -1,8 +1,11 @@
 #include "eval.hpp"
 
 #include "automata/detstate.hpp"
+#include "memmanager.hpp"
 
 namespace rematch {
+
+MemManager Evaluator::memory_manager_{};
 
 Evaluator::Evaluator(RegEx &rgx, std::istream& input,
                      uint8_t flags)
@@ -11,6 +14,7 @@ Evaluator::Evaluator(RegEx &rgx, std::istream& input,
       early_output_(flags & kEarlyOutput),
       line_by_line_(flags & kLineByLine),
       document_ended_(false),
+      direct_text_(false),
       i_pos_(0),
       i_start_(0),
       nlines_(0) {
@@ -20,10 +24,12 @@ Evaluator::Evaluator(RegEx &rgx, std::istream& input,
 Evaluator::Evaluator(RegEx &rgx, const std::string &text,
                      uint8_t flags)
     : rgx_(rgx),
-      input_stream_(new std::istringstream(text)),
+      input_stream_(new std::istringstream()),
+      text_(text),
       early_output_(flags & kEarlyOutput),
       line_by_line_(flags & kLineByLine),
       document_ended_(false),
+      direct_text_(true),
       i_pos_(0),
       i_start_(0),
       nlines_(0) {
@@ -31,17 +37,19 @@ Evaluator::Evaluator(RegEx &rgx, const std::string &text,
 }
 
 void Evaluator::init() {
-  enumerator_ = std::make_unique<Enumerator>(rgx_, text_, memory_manager_);
-  if(line_by_line_) {
-    std::getline(*input_stream_, text_);
-    text_ += '\n';
-    nlines_++;
-  }
-  else {
-    input_stream_->seekg(0, input_stream_->end);
-    text_.resize(input_stream_->tellg());
-    input_stream_->seekg(0, input_stream_->beg);
-    input_stream_->read(&text_[0], text_.size());
+  enumerator_ = std::make_unique<Enumerator>(rgx_, text_);
+  if(!direct_text_) {
+    if(line_by_line_) {
+      std::getline(*input_stream_, text_);
+      text_ += '\n';
+      nlines_++;
+    }
+    else {
+      input_stream_->seekg(0, input_stream_->end);
+      text_.resize(input_stream_->tellg());
+      input_stream_->seekg(0, input_stream_->beg);
+      input_stream_->read(&text_[0], text_.size());
+    }
   }
   initAutomaton(i_pos_);
 }
@@ -49,7 +57,7 @@ void Evaluator::init() {
 void Evaluator::initAutomaton(size_t i) {
   DFA().initState()->visited = i+1;
   if( i == 0)
-    DFA().initState()->currentL->add(memory_manager_.alloc());
+    DFA().initState()->currentL->add(Evaluator::memory_manager_.alloc());
 
   current_states_.clear();
   current_states_.push_back(DFA().initState());
@@ -110,10 +118,13 @@ Evaluator::inlinedNext(bool early_output, bool line_by_line) {
       if(state->isFinal)
         output_nodelist_.append(state->currentL);
     }
-    if(! output_nodelist_.empty()) //TODO: CHECK IF THERE IS A BETTER WAY
+    if(!output_nodelist_.empty()) {
       enumerator_->addNodeList(output_nodelist_);
+      Evaluator::memory_manager_.addPossibleGarbage(output_nodelist_.head);
+    }
 
     if((i_pos_-i_start_) == text_.size()) {
+      // Evaluator::memory_manager_.reset();
       if(line_by_line_) {
         while(!(document_ended_ = !((bool) std::getline(*input_stream_, text_)))) {
           text_ += '\n';
@@ -186,7 +197,7 @@ inline void Evaluator::capture(size_t i, bool early_output) {
 
       nextState = capture->next;
 
-      newNode = memory_manager_.alloc(capture->S, i,
+      newNode = Evaluator::memory_manager_.alloc(capture->S, i,
                                        currentState->copiedList->head,
                                        currentState->copiedList->tail);
       // Early output case
@@ -259,7 +270,7 @@ inline void Evaluator::reading(char a, size_t i, bool early_output) {
       }
       else { // If empty set is reached then consider adding to garbage collection
         prevList->resetRefs();
-        memory_manager_.addPossibleGarbage(prevList->head);
+        Evaluator::memory_manager_.addPossibleGarbage(prevList->head);
       }
     }
   }

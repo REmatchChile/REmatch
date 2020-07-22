@@ -47,7 +47,7 @@ void DetManager :: computeFullDetAutomaton() {
 	std::stack<DetState*> stateList;
 	stateList.push(dfa_->initState());
 	DetState* currState;
-	size_t numFilters = variable_factory_->size();
+	// size_t numFilters = variable_factory_->size();
 	size_t numStates = nfa_->size();
 
 	// Get all possible transitions

@@ -11,9 +11,8 @@
 
 namespace rematch {
 
-Enumerator::Enumerator(RegEx &rgx, std::string &doc, MemManager &mem)
+Enumerator::Enumerator(RegEx &rgx, std::string &doc)
     : doc_(doc),
-      mem_manager_(mem),
       rgx_(rgx),
       n_mappings_(0),
       data_(rgx_.varCount(), std::pair<size_t, size_t>(0, 0)) {}
@@ -23,7 +22,6 @@ void Enumerator::addNodeList(NodeList &startList) {
   if(!startList.empty()){
     std::map<std::string, std::pair<size_t,size_t>> ret;
     depth_stack_.emplace_back(startList.head, startList.tail);
-    mem_manager_.addPossibleGarbage(startList.head);
   }
 }
 
@@ -41,7 +39,7 @@ Match_ptr Enumerator :: next() {
     if(node->isNodeEmpty()) {
       n_mappings_++;
 #ifndef SWIG
-      return std::make_unique<Match>(&doc_, data_, rgx_.varScheme());
+      return std::make_unique<Match>(doc_, data_, rgx_.varScheme());
 #else
       return new Match(&doc_, data_, rgx_.varScheme());
 #endif

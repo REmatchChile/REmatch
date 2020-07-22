@@ -15,28 +15,28 @@ class Match:
         if capture.isnumeric():
             capture = self.variables[capture - 1]
         return self.match_object.start(capture)
-    
+
     def end(self, capture):
         if capture.isnumeric():
             capture = self.variables[capture - 1]
         return self.match_object.end(capture)
-    
+
     def span(self, capture):
         if capture.isnumeric():
             capture = self.variables[capture - 1]
         return self.match_object.span(capture)
-    
+
     def group(self, capture):
         if capture.isnumeric():
             capture = self.variables[capture - 1]
         return self.match_object.group(capture)
-    
+
     def groups(self):
         matches = list()
         for var in self.variables:
             matches.append(self.match_object.group(var))
         return matches
-    
+
     def groupdict(self):
         matches = dict()
         for var in self.variables:
@@ -49,7 +49,7 @@ class Regex:
         self.pattern = pattern
         self.rgx_opts = self.set_flags(flags) #Probar si se pasan todas las flags o es necesario poner **
         self.RegEx = rematch.RegEx(pattern, self.rgx_opts)
-    
+
     def set_flags(self, flags):
         rgx_opts = rematch.RegExOptions()
         for key, value in flags.items():
@@ -92,10 +92,10 @@ class Regex:
 
     def search(self, string):
         return self.find(string)
-    
+
     def match(self, string):
         self.rgx_opts.set_save_anchors(True)
-        self.RegEx = rematch.RegEx(pattern, self.rgx_opts)
+        self.RegEx = rematch.RegEx(self.pattern, self.rgx_opts)
         match = self.RegEx.find(string)
         if match.group(0) == string[:len(match.gruop(0))]:
             return Match(match)
@@ -103,7 +103,7 @@ class Regex:
 
     def fullmatch(self, string):
         self.rgx_opts.set_save_anchors(True)
-        self.RegEx = rematch.RegEx(pattern, self.rgx_opts)
+        self.RegEx = rematch.RegEx(self.pattern, self.rgx_opts)
         match = self.RegEx.find(string)
         if match.group(0) == string:
             return Match(match)

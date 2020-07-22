@@ -14,10 +14,10 @@ int main(int argc, char const *argv[]) {
                                      "Input script file")->check(CLI::ExistingFile);
 
   int n{0};
-  CLI::Option *nopt = app.add_option("-n,number", n, "Output length");
+  app.add_option("-n,number", n, "Output length");
 
   std::string regex;
-  CLI::Option *eopt = app.add_option("-e,--expression", regex, "Input regex")->excludes(sopt);
+  app.add_option("-e,--expression", regex, "Input regex")->excludes(sopt);
 
   CLI11_PARSE(app, argc, argv);
 

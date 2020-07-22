@@ -49,7 +49,6 @@ void crossProdOpt(ExtendedVA &A) {
     // Here p and q represent transition p->q
     LVAState *pOld, *qOld, *p0New, *p1New, *q0New, *q1New;
     size_t qOldIdx; // Needed for pairing new states to old states
-    unsigned int filterCode;
     for (size_t i = 0; i < A.states.size(); ++i) {
         pOld = A.states[i];
         p0New = states0[i]; p1New = states1[i];

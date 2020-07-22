@@ -15,12 +15,15 @@ class MiniPool {
 	size_t m_capacity;
 	std::vector<Node> minipool;
 	MiniPool *next;
+	MiniPool *prev;
 
  public:
 
-	MiniPool(size_t size): m_capacity(size) {
+	MiniPool(size_t size): m_capacity(size), next(nullptr), prev(nullptr) {
 		minipool.reserve(m_capacity);
 	}
+
+	~MiniPool() = default;
 
 	bool isFull() const {return minipool.size() >= m_capacity;}
 
@@ -39,6 +42,10 @@ class MiniPool {
 	}
 
 	void setNext(MiniPool *m) {next = m;}
+
+	void setPrev(MiniPool *m) {prev = m;}
+
+	MiniPool* getPrev() {return prev;}
 
 	size_t size() const {return m_capacity;}
 
@@ -67,10 +74,9 @@ public:
 	if(current->isFull()) {
 		// GARBAGE COLLECTION
 		if(freeHead != nullptr) {
-			Node *oldNext, *listHead, *adyacentNext, *newNode;
+			Node *listHead, *adyacentNext, *newNode;
 
 			// Pointer labeling
-			oldNext = freeHead->nextFree;
 			listHead = freeHead->start;
 			adyacentNext = freeHead->next;
 
@@ -99,6 +105,7 @@ public:
 		else {
 			MiniPool *new_minipool = new MiniPool(current->size() * 2);
 			current->setNext(new_minipool);
+			new_minipool->setPrev(current);
 
 			current = new_minipool;
 			totArenas++;
@@ -118,10 +125,9 @@ public:
 	if(current->isFull()) {
 		// GARBAGE COLLECTION
 		if(freeHead != nullptr) {
-			Node *oldNext, *listHead, *adyacentNext, *newNode;
+			Node *listHead, *adyacentNext, *newNode;
 
 			// Pointer labeling
-			oldNext = freeHead->nextFree;
 			listHead = freeHead->start;
 			adyacentNext = freeHead->next;
 
@@ -182,6 +188,21 @@ public:
 	size_t totNodeArenas() {return totArenas;}
 
 	size_t totNodesReused() { return totElementsReused;}
+
+	void reset() {
+		MiniPool* pool_ptr = current, *aux;
+		while(pool_ptr != nullptr) {
+			aux = pool_ptr->getPrev();
+			delete pool_ptr;
+			pool_ptr = aux;
+		}
+
+		current = new MiniPool(STARTING_SIZE),
+		freeHead = nullptr;
+		totElements = 0;
+		totArenas = 1;
+		totElementsReused = 0;
+	}
 
 };
 

@@ -31,10 +31,10 @@ Interface::Interface(std::string docFile, std::string input,
 	case RGXFILE:
 		pattern_ = file2str(input);
 		break;
-	// case NFAFILE:
+	case NFAFILE:
 	// 	lv_automaton_ = parse_automata_file(input);
 	// 	aux_automaton_ = parse_automata_file(input);
-	// 	break;
+		break;
 	}
 }
 
@@ -54,13 +54,13 @@ void Interface::normalRun() {
 	std::string doc(file2str(document_filename_));
 	if(options_.output_option() == NMAPPINGS) {
 		size_t noutputs = 0;
-		while((match_ptr = regex.findIter(doc))) {
+		while((match_ptr = regex.findIter(*document_stream_))) {
 			noutputs++;
 		}
 		std::cout << noutputs << '\n';
 	}
 	else {
-		while((match_ptr = regex.findIter(doc))) {
+		while((match_ptr = regex.findIter(*document_stream_))) {
 			std::cout << *match_ptr << '\n';
 		}
 
@@ -74,38 +74,22 @@ void Interface::benchmarkRun() {
 	size_t eVASize, detASize, numOfSpans,
 		numOfNodes, numOfNodeArenas,
 		numOfNodesReused;
-	double initAutomataTime, evaluateTime, totTime, memoryUsage;
+	double initAutomataTime, evaluateTime, totTime;
 	/**************************** Run Algorithm ****************************/
 
 	Timer t; 								// Start timer for automata creation
-
-	// if(options_.output_option() == DEBUG) {
-	// 	std::cout << "LVA:\n" << lv_automaton_.pprint() << "\n\n";
-	// 	std::cout << "auxLVA:\n" << aux_automaton_.pprint() << "\n\n";
-	// }
-
-	// ExtendedVA B = ExtendedVA(lv_automaton_);
-	// ExtendedVA R(aux_automaton_);
-
-	// if(options_.output_option() == DEBUG) {
-	// 	std::cout << "Filter fact:\n" <<  B.filterFactory()->pprint() << "\n";
-	// 	std::cout << "Var fact:\n" <<  B.varFactory()->pprint() << "\n";
-	// 	std::cout << "eVA:\n" << B.pprint() << "\n\n";
-	// 	std::cout << "auxeVA:\n" << R.pprint() << "\n\n";
-	// }
 
 	RegExOptions rgx_opt;
 	rgx_opt.set_line_by_line(options_.line_by_line());
 	RegEx regex(pattern_, rgx_opt);
 	Match_ptr match_ptr;
-	std::string doc(file2str(document_filename_));
 
 	initAutomataTime = t.elapsed(); 		// Automata creation time
 	t.reset(); 								// Start timer for evaluation time
 
 	numOfSpans = 0;
 
-	while((match_ptr = regex.findIter(doc))) {
+	while((match_ptr = regex.findIter(*document_stream_))) {
 		numOfSpans++;
 	}
 
@@ -117,10 +101,6 @@ void Interface::benchmarkRun() {
 
 	eVASize = 0;
 	detASize = 0;
-
-	// numOfNodes = eval.memManager->totNodes();
-	// numOfNodeArenas = eval.memManager->totNodeArenas();
-	// numOfNodesReused = eval.memManager->totNodesReused();
 
 	// GET MEMORY USAGE
 	struct rusage usage;

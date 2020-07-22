@@ -19,9 +19,11 @@ ExtendedVA :: ExtendedVA(LogicalVA &A):
 
 	adaptReachableStates(A);
 
-	// std::cout << pprint() << "\n\n";
+	// std::cout << "EvA before:\n" << pprint() << "\n\n";
 
+	#ifndef NOPT_OFFSET
 	offsetOpt();
+	#endif
 
 	pruneUselessStates();
 
@@ -355,9 +357,7 @@ bool ExtendedVA::offsetPossible(CapturePtr capture) {
 	//  2. (p) can't be a final state.
 	//	3. (p) has at least 1 filter transition and no capture transitions.
 
-	LVAState *q, *p;
-
-	q = capture->from;
+	LVAState *p;
 	p = capture->next;
 
  	if(capture->code.count() != 1)
@@ -369,11 +369,33 @@ bool ExtendedVA::offsetPossible(CapturePtr capture) {
 	if(p->incidentCaptures.size() != 1)
 		return false;
 	for(auto &filter: p->f) {
-		if(filter->next == p)
+		if(isReachable(filter->next, p))
 			return false;
 	}
 
 	return true;
+}
+
+bool ExtendedVA::isReachable(LVAState *from, LVAState *end) {
+	for(auto &state: states)
+		state->tempMark = false;
+
+	std::vector<LVAState*> stack;
+	for(auto &filter: from->f)
+		stack.push_back(filter->next);
+
+	while(!stack.empty()) {
+		LVAState* currentState = stack.back(); stack.pop_back();
+		if(currentState == end)
+			return true;
+		if(currentState->tempMark)
+			continue;
+		currentState->tempMark = true;
+		for(auto &filter: currentState->f)
+			stack.push_back(filter->next);
+	}
+
+	return false;
 }
 
 std::vector<CaptureList> ExtendedVA::classifySingleCaptures() {

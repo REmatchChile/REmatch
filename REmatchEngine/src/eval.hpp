@@ -58,7 +58,7 @@ class Evaluator {
 
   RegEx &rgx_;
   std::unique_ptr<Enumerator> enumerator_;
-  MemManager memory_manager_;
+  static MemManager memory_manager_;
 
   std::istream* input_stream_;
   std::string text_;
@@ -73,6 +73,7 @@ class Evaluator {
   bool line_by_line_;
 
   bool document_ended_;
+  bool direct_text_;
 
   size_t i_pos_;
   size_t i_start_;

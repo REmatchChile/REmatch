@@ -37,16 +37,16 @@ struct automata_parser : qi::grammar<Iterator, automata::any(), ascii::space_typ
             | qi::graph - char_("\\")
             ;
 
-        range_rule = 
+        range_rule =
             char_("a-z") >> lit("-") >> char_("a-z")
             | char_("A-Z") >> lit("-") >> char_("A-Z")
             | char_("0-9") >> lit("-") >> char_("0-9")
             ;
 
         charset_rule =            // Set of character as in regex (i.e [a-zA-Z0-9] or [agk] or [^g-z] or [ \t\n\r])
-            lit('[')  
+            lit('[')
             >> -char_('^')
-            >> +(range_rule | single_char_rule - char_("]") | char_(" "))
+            >> +(range_rule | (single_char_rule - char_("]")) | char_(" "))
             >> lit(']')
             ;
 
@@ -67,53 +67,53 @@ struct automata_parser : qi::grammar<Iterator, automata::any(), ascii::space_typ
 
         state_rule = +char_("a-zA-Z0-9,");
 
-        opening_variable_rule = 
+        opening_variable_rule =
             lit('<')
             >> +char_("a-zA-Z0-9")
             >> qi::attr(true)
             ;
-        
+
         closing_variable_rule =
             +char_("a-zA-Z0-9")
             >> lit('>')
             >> qi::attr(false)
             ;
 
-        variable_set_rule = 
-            (opening_variable_rule | closing_variable_rule) 
+        variable_set_rule =
+            (opening_variable_rule | closing_variable_rule)
             % lit(',')
             ;
 
-        char_transition_rule = 
+        char_transition_rule =
             lit('t')
             >> state_rule
             >> charclass_rule
             >> state_rule
             ;
 
-        epsilon_transition_rule = 
+        epsilon_transition_rule =
             lit('e')
             >> state_rule
             >> state_rule
             ;
 
-        variable_transition_rule = 
+        variable_transition_rule =
             lit('v')
             >> state_rule
             >> variable_set_rule
             >> state_rule
             ;
-        
-        initial_state_rule = 
+
+        initial_state_rule =
             lit('i')
             >> state_rule
             ;
-        
-        final_state_rule = 
+
+        final_state_rule =
             lit('f')
             >> state_rule
             ;
-        
+
         start =
             char_transition_rule
             | variable_transition_rule

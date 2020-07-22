@@ -49,6 +49,7 @@ class RegEx {
   Match_ptr find(const std::string &text);
 
   Match_ptr findIter(const std::string &text);
+  Match_ptr findIter(std::istream& is);
 
   int varCount() const {return dman_.varFactory()->size();}
 

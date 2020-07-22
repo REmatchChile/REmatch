@@ -32,7 +32,6 @@ class ExtendedVA {
 	std::vector<LVAState*> superFinalStates;
 
 	std::unordered_map<unsigned int, LVAState*> idMap;
-	size_t currentID;
 
 	ExtendedVA(LogicalVA &A);
 	ExtendedVA();
@@ -90,11 +89,14 @@ class ExtendedVA {
  private:
 	void getInvTopSortCapturesUtil(CapturePtr &cap, CaptureVector &L);
 	CaptureVector reachableCaptures(CapturePtr &cap);
+	bool isReachable(LVAState* from, LVAState* to);
 
 	LVAState* init_state_;
 
 	std::shared_ptr<VariableFactory> variable_factory_;
 	std::shared_ptr<FilterFactory> filter_factory_;
+
+	size_t currentID;
 
 };
 

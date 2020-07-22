@@ -24,12 +24,12 @@ class RegEx;
 // methods next() and hasNext() for obtaining the outputs.
 class Enumerator {
 
-  friend class Evaluation;
+  friend class Evaluator;
 
   using SpanMap = std::map<std::string, std::pair<size_t, size_t>>;
 
   public:
-    Enumerator(RegEx &rgx, std::string &doc, MemManager &mem);
+    Enumerator(RegEx &rgx, std::string &doc);
 
     // Get the next match according to the current state of the depth stack.
     Match_ptr next();
@@ -63,10 +63,11 @@ class Enumerator {
 
   std::string& doc_;                    // Sublaying document
   std::vector<EnumState> depth_stack_;  // Stack for DFS in the DAG-like struct
-  uint64_t n_mappings_;                 // Total num of mappings
 
-  MemManager& mem_manager_;
+
   RegEx& rgx_;
+
+  uint64_t n_mappings_;                 // Total num of mappings
 
   std::vector<std::pair<size_t, size_t>> data_;
 

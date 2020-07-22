@@ -14,7 +14,6 @@ class Capture {
 
     Node* getNewNode(int i, NodeList* copiedList);
     Capture(std::bitset<32> S, DetState* next);
-
 };
 
 #endif
