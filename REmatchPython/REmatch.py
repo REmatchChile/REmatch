@@ -12,31 +12,31 @@ class Match:
         # self.__end = end
 
     def start(self, capture):
-        if capture.isnumeric():
+        if str(capture).isnumeric():
             capture = self.variables[capture - 1]
         return self.match_object.start(capture)
 
     def end(self, capture):
-        if capture.isnumeric():
+        if str(capture).isnumeric():
             capture = self.variables[capture - 1]
         return self.match_object.end(capture)
 
     def span(self, capture):
-        if capture.isnumeric():
+        if str(capture).isnumeric():
             capture = self.variables[capture - 1]
         return self.match_object.span(capture)
 
     def group(self, capture):
-        if capture.isnumeric():
+        if str(capture).isnumeric():
             capture = self.variables[capture - 1]
         return self.match_object.group(capture)
 
     def groups(self):
-        matches = list()
+        matches = []
         for var in self.variables:
             matches.append(self.match_object.group(var))
-        return matches
-
+        return tuple(matches)
+    
     def groupdict(self):
         matches = dict()
         for var in self.variables:
@@ -68,14 +68,12 @@ class Regex:
     def find(self, string):
         return Match(self.RegEx.find(string))
 
-    def findall(self, string):
-        self.rgx_opts.set_save_anchors(True)
-        self.RegEx = rematch.RegEx(pattern, self.rgx_opts)
+    def findall(self, string): # Retornar objetos match 
         matches = list()
         while True:
             match = self.RegEx.findIter(string)
             if match:
-                matches.append(match.group(0)) # ¿Es gruop(0) para todo el match?
+                matches.append(Match(match)) 
             else:
                 break
         return matches
@@ -83,12 +81,12 @@ class Regex:
     def finditer(self, string):
         matches = list()
         while True:
-            match = self.RegEx.findIter(string)
-            if match:
-                matches.append(Match(match))
-            else:
+            match = self.RegEx.findIter(string) #yield
+            if not match:
                 break
-        return iter(matches)
+            else:
+                yield match
+        # return match
 
     def search(self, string):
         return self.find(string)

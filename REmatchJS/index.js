@@ -1,5 +1,5 @@
 const XRegExp = require('xregexp');
-const Module = require('./spanners_interface.js');
+const Module = require('../REmatchEngine/bin/rematch_wasm.js');
 const fs = require('fs');
 var readline = require('readline-sync');
 
