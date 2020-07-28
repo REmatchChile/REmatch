@@ -1,1 +1,1 @@
-(?m)^.{17}12.*sparql(.*FILTER.*)$
+(?m)^.{17}12.*(sparql.*FILTER.*)$

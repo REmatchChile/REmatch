@@ -10,6 +10,7 @@
 #include "enumeration.hpp"
 #include "automata/detautomaton.hpp"
 #include "memmanager.hpp"
+#include "document.hpp"
 
 class DetState;
 
@@ -60,8 +61,8 @@ class Evaluator {
   std::unique_ptr<Enumerator> enumerator_;
   static MemManager memory_manager_;
 
-  std::istream* input_stream_;
-  std::string text_;
+  std::unique_ptr<Document> text_;
+  std::string line_;
 
   std::vector<DetState*> current_states_;
   std::vector<DetState*> new_states_;

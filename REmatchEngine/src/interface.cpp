@@ -51,20 +51,33 @@ void Interface::normalRun() {
 	rgx_opt.set_line_by_line(options_.line_by_line());
 	RegEx regex(pattern_, rgx_opt);
 	Match_ptr match_ptr;
-	std::string doc(file2str(document_filename_));
-	if(options_.output_option() == NMAPPINGS) {
-		size_t noutputs = 0;
-		while((match_ptr = regex.findIter(*document_stream_))) {
-			noutputs++;
+	if(!options_.line_by_line()) {
+		std::string doc(file2str(document_filename_));
+		if(options_.output_option() == NMAPPINGS) {
+			size_t noutputs = 0;
+			while((match_ptr = regex.findIter(doc))) {
+				noutputs++;
+			}
+			std::cout << noutputs << '\n';
 		}
-		std::cout << noutputs << '\n';
-	}
-	else {
-		while((match_ptr = regex.findIter(*document_stream_))) {
-			std::cout << *match_ptr << '\n';
+		else {
+			while((match_ptr = regex.findIter(doc))) {
+				std::cout << *match_ptr << '\n';
+			}
 		}
-
-		// std::cout << "DFA: \n" << regex.detManager().DFA().pprint() << "\n\n";
+	} else {
+		if(options_.output_option() == NMAPPINGS) {
+			size_t noutputs = 0;
+			while((match_ptr = regex.findIter(*document_stream_))) {
+				noutputs++;
+			}
+			std::cout << noutputs << '\n';
+		}
+		else {
+			while((match_ptr = regex.findIter(*document_stream_))) {
+				std::cout << *match_ptr << '\n';
+			}
+		}
 	}
 }
 

@@ -10,7 +10,7 @@ MemManager Evaluator::memory_manager_{};
 Evaluator::Evaluator(RegEx &rgx, std::istream& input,
                      uint8_t flags)
     : rgx_(rgx),
-      input_stream_(&input),
+      text_(std::make_unique<FileDocument>(input)),
       early_output_(flags & kEarlyOutput),
       line_by_line_(flags & kLineByLine),
       document_ended_(false),
@@ -24,8 +24,7 @@ Evaluator::Evaluator(RegEx &rgx, std::istream& input,
 Evaluator::Evaluator(RegEx &rgx, const std::string &text,
                      uint8_t flags)
     : rgx_(rgx),
-      input_stream_(new std::istringstream()),
-      text_(text),
+      text_(std::make_unique<StrDocument>(text)),
       early_output_(flags & kEarlyOutput),
       line_by_line_(flags & kLineByLine),
       document_ended_(false),
@@ -37,19 +36,12 @@ Evaluator::Evaluator(RegEx &rgx, const std::string &text,
 }
 
 void Evaluator::init() {
-  enumerator_ = std::make_unique<Enumerator>(rgx_, text_);
-  if(!direct_text_) {
-    if(line_by_line_) {
-      std::getline(*input_stream_, text_);
-      text_ += '\n';
-      nlines_++;
-    }
-    else {
-      input_stream_->seekg(0, input_stream_->end);
-      text_.resize(input_stream_->tellg());
-      input_stream_->seekg(0, input_stream_->beg);
-      input_stream_->read(&text_[0], text_.size());
-    }
+  std::string str_ = "";
+  enumerator_ = std::make_unique<Enumerator>(rgx_, str_);
+  if(line_by_line_) {
+    text_->getline(line_);
+    line_ += '\n';
+    nlines_++;
   }
   initAutomaton(i_pos_);
 }
@@ -95,8 +87,11 @@ Evaluator::inlinedNext(bool early_output, bool line_by_line) {
     char a;
     output_nodelist_.reset();
 
-    while((i_pos_-i_start_) < text_.size()) { // Main search loop
-      a = (char) text_[i_pos_-i_start_];
+    while(((i_pos_-i_start_) < line_.size() &&  line_by_line_) ||
+          (i_pos_ < text_->size()             && !line_by_line_)) { // Main search loop
+
+      if(line_by_line_)   a = line_[i_pos_-i_start_];
+      else                a = text_->get();
 
       if(early_output_)   readingT(a, i_pos_);
       else                readingF(a, i_pos_);
@@ -123,16 +118,16 @@ Evaluator::inlinedNext(bool early_output, bool line_by_line) {
       Evaluator::memory_manager_.addPossibleGarbage(output_nodelist_.head);
     }
 
-    if((i_pos_-i_start_) == text_.size()) {
-      // Evaluator::memory_manager_.reset();
+    if(((i_pos_-i_start_) == line_.size()   &&  line_by_line_) ||
+       (i_pos_ == text_->size()             && !line_by_line_)) {
       if(line_by_line_) {
-        while(!(document_ended_ = !((bool) std::getline(*input_stream_, text_)))) {
-          text_ += '\n';
+        while(!(document_ended_ = !((bool) text_->getline(line_)))) {
+          line_ += '\n';
           i_pos_++;
           i_start_ = i_pos_;
 
           if(!match()) {
-            i_pos_ += text_.size() - 1;
+            i_pos_ += line_.size() - 1;
             continue;
           }
           else {
@@ -162,8 +157,8 @@ bool Evaluator::match() {
 
   size_t it = 0;
 
-  while( it < text_.size() ) {
-    a = (char) text_[it];
+  while( it < line_.size() ) {
+    a = (char) line_[it];
     // nextState is reached from currentState by reading the character
     nextState = currentState->nextState(a);
 

@@ -1,1 +1,1 @@
-(?m)^.*sparql(.*OPTIONAL.*)$
+(?m)^.*(sparql.*OPTIONAL.*)$

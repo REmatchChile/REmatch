@@ -22,9 +22,9 @@ EXP_CLASSES = ["1var", "2vars"]
 
 COMMANDS = {
     "rematch" :
-        "{0}/bin/rematch -l -o nmappings -d {0}/datasets/syn/{1}/exp{2:02d}/r{3}/n{4}.txt -r {0}/exp/syn/{1}/exp{2:02d}/rematch.rgx",
+        "{0}/build/Release/bin/rematch -l -o nmappings -d {0}/datasets/syn/{1}/exp{2:02d}/r{3}/n{4}.txt -r {0}/exp/syn/{1}/exp{2:02d}/rematch.rgx",
     "re2" :
-        "{0}/bin/re2test-1capture {0}/datasets/syn/{1}/exp{2:02d}/r{3}/n{4}.txt {0}/exp/syn/{1}/exp{2:02d}/re2.rgx"
+        "{0}/build/Release/bin/test-re2 {0}/datasets/syn/{1}/exp{2:02d}/r{3}/n{4}.txt {0}/exp/syn/{1}/exp{2:02d}/re2.rgx"
 }
 
 MARKERS = {
@@ -35,7 +35,7 @@ MARKERS = {
 DOC_REPS = (10, 25, 50, 100, 200, 400)
 # DOC_REPS = (10, 25, 50)
 N_RANGE = (1, 200)
-EXPS_TO_RUN = (18,)
+EXPS_TO_RUN = (1,)
 EXPCLASSES_TO_RUN = ("1var",)
 N_EXP = 60
 SLEEP = 0

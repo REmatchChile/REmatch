@@ -1,1 +1,1 @@
-.*sparql!x{[^\n]*OPTIONAL[^\n]*OPTIONAL[^\n]*\n}
+.*!x{sparql[^\n]*OPTIONAL[^\n]*OPTIONAL[^\n]*\n}

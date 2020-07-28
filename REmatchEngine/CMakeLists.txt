@@ -9,7 +9,7 @@ if(NOT CMAKE_BUILD_TYPE)
 	message(STATUS "Build type not specified. Using Release by default.")
 endif()
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Og -g3")

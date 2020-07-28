@@ -43,6 +43,10 @@ def writeInCell(service, ss_id, cellRange, value):
 	else:
 		print('[{} cells updated]'.format(result.get('updatedCells')))
 
+def get_rgx(rgx_path):
+	with open(rgx_path, 'r') as file_path:
+		rgx =  file_path.read()
+	return rgx
 
 def main():
 	"""Shows basic usage of the Sheets API.
@@ -60,6 +64,18 @@ def main():
 																												 spreadsheet_name)
 
 	for query in TOT_QUERIES:
+		writeInCell(SHEETS_SERVICE,
+		            spreadsheet_id,
+								"Query {}!D16".format(query),
+								get_rgx("{0}/exp/{1}/exp{2}/regex.rgx".format(HOME_DIR, DATASET, query)))
+		writeInCell(SHEETS_SERVICE,
+		            spreadsheet_id,
+								"Query {}!D17".format(query),
+								get_rgx("{0}/exp/{1}/exp{2}/re2regex.rgx".format(HOME_DIR, DATASET, query)))
+		# writeInCell(SHEETS_SERVICE,
+		#             spreadsheet_id,
+		# 						"Query {}!D18".format(query),
+		# 						get_rgx("{0}/exp/{1}/exp{2}/script.awk".format(HOME_DIR, DATASET, query)))
 		for row in TOT_ROWS:
 			for col in TOT_COLS:
 				current_range = 'Query {0}!{1}{2}'.format(query, col, row+2)
@@ -83,12 +99,12 @@ def main():
 
 				writeInCell(SHEETS_SERVICE,
 									  spreadsheet_id,
-									  "Query {0}!{1}{2}".format(query, BINARIES[col]['output_col'], row+2),
+									  "Query {0}!{1}{2}".format(query, chr(ord(col)+2*len(BINARIES)), row+2),
 										nout)
 
 				writeInCell(SHEETS_SERVICE,
 										spreadsheet_id,
-										"Query {0}!{1}{2}".format(query, BINARIES[col]['memory_col'], row+2),
+										"Query {0}!{1}{2}".format(query, chr(ord(col)+len(BINARIES)), row+2),
 										mem)
 
 				print("\tIteration {0} -> t={1:.2f}s".format(1, float(t)))

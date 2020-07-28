@@ -66,7 +66,7 @@ std::string read_file(std::string file_path) {
 std::string strip(std::string in) {
     // Returns a copy of the given string without all space characters
     std::string final;
-    for (int i = 0; i < in.length(); i++) {
+    for (size_t i = 0; i < in.length(); i++) {
         if(!isspace(in[i])) final += in[i];
     }
     return final;
