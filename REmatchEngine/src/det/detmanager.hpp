@@ -19,16 +19,11 @@ class DetManager {
  public:
 	DetManager(std::string pattern, bool raw_automata=false);
 
-	DetState* getNextSubset(SetState* ss, BitsetWrapper charBitset);
-	void computeCaptures(DetState* q);
-	void computeFullDetAutomaton();
-  void computeFullDetAutomatonSingles();
-	DetState* getNextDetState(DetState* s, BitsetWrapper charBitset);
-	DetState* getNextDetState(DetState* &s, char a, size_t idx);
-	DetState* getNextDetState(DetState* s, char a);
-	BitsetWrapper applyFilters(char a);
 
-	std::string uniformSample(size_t n);
+	std::vector<Capture*>& next_captures(DetState* q, char a);
+
+	void computeCaptures(DetState* p, DetState* q, char a);
+
 	char chooseFromCharBitset(BitsetWrapper bs);
 
 	std::shared_ptr<VariableFactory> varFactory() const {return variable_factory_;}

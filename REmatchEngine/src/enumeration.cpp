@@ -15,12 +15,12 @@ Enumerator::Enumerator(RegEx &rgx, std::string &doc)
     : doc_(doc),
       rgx_(rgx),
       n_mappings_(0),
-      data_(rgx_.varCount(), std::pair<size_t, size_t>(0, 0)) {}
+      data_(rgx_.varCount(), std::pair<int64_t, int64_t>(0, 0)) {}
 
 
 void Enumerator::addNodeList(NodeList &startList) {
   if(!startList.empty()){
-    std::map<std::string, std::pair<size_t,size_t>> ret;
+    std::map<std::string, std::pair<int64_t,int64_t>> ret;
     depth_stack_.emplace_back(startList.head, startList.tail);
   }
 }
@@ -38,11 +38,7 @@ Match_ptr Enumerator :: next() {
 
     if(node->isNodeEmpty()) {
       n_mappings_++;
-#ifndef SWIG
       return std::make_unique<Match>(doc_, data_, rgx_.varScheme());
-#else
-      return new Match(&doc_, data_, rgx_.varScheme());
-#endif
     }
 
     if(node->start != nullptr) {

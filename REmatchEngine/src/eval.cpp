@@ -46,20 +46,17 @@ void Evaluator::init() {
   initAutomaton(i_pos_);
 }
 
-void Evaluator::initAutomaton(size_t i) {
-  DFA().initState()->visited = i+1;
+void Evaluator::initAutomaton(int64_t i) {
   if( i == 0)
     DFA().initState()->currentL->add(Evaluator::memory_manager_.alloc());
 
   current_states_.clear();
   current_states_.push_back(DFA().initState());
 
-  capture_states_.clear();
-  if(!DFA().initState()->c.empty())
-      capture_states_.push_back(DFA().initState());
+  if(early_output_) readingT(0, i-1);
+  else              readingF(0, i-1);
 
-  if(early_output_) captureT(i);
-  else              captureF(i);
+  current_states_.swap(new_states_);
 }
 
 Match_ptr Evaluator::next() {
@@ -83,23 +80,19 @@ Evaluator::inlinedNext(bool early_output, bool line_by_line) {
       return enumerator_->next();
 
   while (!document_ended_) {
-
     char a;
     output_nodelist_.reset();
 
     while(((i_pos_-i_start_) < line_.size() &&  line_by_line_) ||
-          (i_pos_ < text_->size()             && !line_by_line_)) { // Main search loop
+          (i_pos_ < text_->size()           && !line_by_line_)) { // Main search loop
 
       if(line_by_line_)   a = line_[i_pos_-i_start_];
-      else                a = text_->get();
+      else                text_->get(a);
 
       if(early_output_)   readingT(a, i_pos_);
       else                readingF(a, i_pos_);
 
       current_states_.swap(new_states_);
-
-      if(early_output_)   captureT(i_pos_+1);
-      else                captureF(i_pos_+1);
 
       i_pos_++;
 
@@ -123,7 +116,6 @@ Evaluator::inlinedNext(bool early_output, bool line_by_line) {
       if(line_by_line_) {
         while(!(document_ended_ = !((bool) text_->getline(line_)))) {
           line_ += '\n';
-          i_pos_++;
           i_start_ = i_pos_;
 
           if(!match()) {
@@ -132,6 +124,7 @@ Evaluator::inlinedNext(bool early_output, bool line_by_line) {
           }
           else {
             initAutomaton(i_start_);
+            nlines_++;
             break;
           }
         }
@@ -150,20 +143,25 @@ Evaluator::inlinedNext(bool early_output, bool line_by_line) {
 }
 
 bool Evaluator::match() {
-  char a;
+  char a = 0;
   DetState *nextState, *currentState;
 
   currentState = rawDFA().initState();
 
-  size_t it = 0;
+  int64_t it = -1;
 
   while( it < line_.size() ) {
-    a = (char) line_[it];
-    // nextState is reached from currentState by reading the character
-    nextState = currentState->nextState(a);
 
-    if(nextState == nullptr) // Then maybe a determinization is needed
-      nextState = rgx_.rawDetManager().getNextDetState(currentState, a);
+    // nextState is reached from currentState by reading the character
+    auto &nextCaptures = currentState->next_captures(a);
+
+    if(nextCaptures.empty()) // Then maybe a determinization is needed
+      nextCaptures = rgx_.rawDetManager().next_captures(currentState, a);
+
+    // TODO: Remove this once it's working
+    assert(nextCaptures.size() == 1);
+
+    nextState = nextCaptures[0]->next;
 
     if (nextState->isSuperFinal)
       return true;
@@ -173,104 +171,64 @@ bool Evaluator::match() {
     else
       return false;
     it++;
+    a = (char) line_[it];
   }
 
   return currentState->isFinal;
 }
 
-inline void Evaluator::capture(size_t i, bool early_output) {
-  DetState* nextState;
-  Node* newNode;
 
-  for (auto &currentState: capture_states_) {
-    currentState->copiedList->head = currentState->currentL->head;
-    currentState->copiedList->tail = currentState->currentL->tail;
-  }
-
-  for (auto &currentState: capture_states_) {
-    for (auto &capture: currentState->c) {
-
-      nextState = capture->next;
-
-      newNode = Evaluator::memory_manager_.alloc(capture->S, i,
-                                       currentState->copiedList->head,
-                                       currentState->copiedList->tail);
-      // Early output case
-      if(early_output && nextState->isSuperFinal)
-        output_nodelist_.add(newNode);
-      else {
-        if (nextState->visited < i+1) {
-          nextState->currentL->resetAndAdd(newNode);
-          nextState->visited = i+1;
-
-          current_states_.push_back(nextState);
-        }
-        else {
-          nextState->currentL->add(newNode);
-        }
-      }
-    }
-  }
-}
-
-inline void Evaluator::reading(char a, size_t i, bool early_output) {
-  capture_states_.clear();
+inline void Evaluator::reading(char a, int64_t i, bool early_output) {
   new_states_.clear();
   DetState* nextState;
   NodeList* prevList;
+  Node* newNode;
 
   for (auto &currentState: current_states_) {
+    prevList = currentState->currentL;
+    // nextCaptures are reached from currentState by reading the character
+    auto nextCaptures = currentState->next_captures(a);
 
-#ifdef NOPT_CROSSPROD
-    if(currentState->visited == i+2)
-      prevList = currentState->oldL;
-    else
-#endif
-      prevList = currentState->currentL;
-
-    // nextState is reached from currentState by reading the character
-    nextState = currentState->nextState(a);
-
-    if(nextState == nullptr) { // Then maybe a determinization is needed
-      nextState = rgx_.detManager().getNextDetState(currentState, a);
+    if(nextCaptures.empty()) { // Then maybe a determinization is needed
+      nextCaptures = rgx_.detManager().next_captures(currentState, a);
     }
 
-    if(early_output && nextState->isSuperFinal) {  // Early Output check
-      output_nodelist_.append(prevList);
-    }
-    else {
-      if (nextState->ss->isNonEmpty) {  // Check if not empty set
-        if (nextState->visited <= i+1) { // If not already visited
-          nextState->visited = i+2; // Mark as visited
+    for(auto &capture: nextCaptures) {
+      nextState = capture->next;
 
-#ifdef NOPT_CROSSPROD
-          nextState->oldL->head = nextState->currentL->head;
-          nextState->oldL->tail = nextState->currentL->tail;
-#endif
-
-          // Pass the list to nextState
-          nextState->currentL->head = prevList->head;
-          nextState->currentL->tail = prevList->tail;
-
-          this->new_states_.push_back(nextState);
-
-          if (!nextState->c.empty())
-            this->capture_states_.push_back(nextState);
-
-        }
-        else { // If already visited
-          // Append (concat) nextState's currentL with previous list
-          nextState->currentL->append(prevList);
+      if(early_output && nextState->isSuperFinal) {  // Early Output check
+        output_nodelist_.append(prevList);
+      } else {
+        if (!nextState->ss->isNonEmpty) {  // Check if not empty set
+          prevList->resetRefs();
+          Evaluator::memory_manager_.addPossibleGarbage(prevList->head);
+        } else {
+          if(capture->S.none()) {
+            if(nextState->visited <= i+1) {
+              nextState->visited = i+2;
+              nextState->currentL->head = prevList->head;
+              nextState->currentL->tail = prevList->tail;
+              new_states_.push_back(nextState);
+            } else {
+              nextState->currentL->append(prevList);
+            }
+          } else {
+            newNode = Evaluator::memory_manager_.alloc(capture->S, i+1,
+                                              currentState->currentL->head,
+                                              currentState->currentL->tail);
+            if(nextState->visited <= i+1) {
+              nextState->currentL->resetAndAdd(newNode);
+              nextState->visited = i+2;
+              new_states_.push_back(nextState);
+            } else {
+              nextState->currentL->add(newNode);
+            }
+          }
         }
       }
-      else { // If empty set is reached then consider adding to garbage collection
-        prevList->resetRefs();
-        Evaluator::memory_manager_.addPossibleGarbage(prevList->head);
-      }
-    }
+    } // for(capture : nextCaptures)
   }
 }
-
 
 // Callers of inline versions
 
@@ -286,16 +244,10 @@ Match_ptr Evaluator::nextTF() {
 Match_ptr Evaluator::nextTT() {
   return inlinedNext(1, 1);
 }
-void Evaluator::captureT(size_t i) {
-  capture(i, 1);
-}
-void Evaluator::captureF(size_t i) {
-  capture(i, 0);
-}
-void Evaluator::readingT(char a, size_t i) {
+void Evaluator::readingT(char a, int64_t i) {
   reading(a, i, 1);
 }
-void Evaluator::readingF(char a, size_t i) {
+void Evaluator::readingF(char a, int64_t i) {
   reading(a, i, 0);
 }
 

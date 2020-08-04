@@ -10,7 +10,7 @@ Node::Node()
     refCount(0), nextFree(nullptr) {}
 
 
-Node::Node(std::bitset<32> S, int i, Node* head, Node* tail)
+Node::Node(std::bitset<32> S, int64_t i, Node* head, Node* tail)
   : S(S), i(i), next(nullptr), start(head), end(tail),
     refCount(0), nextFree(nullptr) {
 
@@ -18,7 +18,7 @@ Node::Node(std::bitset<32> S, int i, Node* head, Node* tail)
     end->refCount++;
   };
 
-Node* Node::reset(std::bitset<32> S, int i, Node* head, Node* tail) {
+Node* Node::reset(std::bitset<32> S, int64_t i, Node* head, Node* tail) {
   /* Same as constructor but inplace on an already constructed object */
 
    // Remove a refCount from head and tail of list

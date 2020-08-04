@@ -13,13 +13,13 @@ RegEx::RegEx(std::string pattern, rematch::RegExOptions rgx_opts)
 // Explicitly declared here for correct use of unique_ptr later
 RegEx::~RegEx() {}
 
-std::string RegEx::uniformGenerate(uint32_t n) {
-  if(!full_dfa_) {
-    dman_.computeFullDetAutomaton();
-    full_dfa_ = true;
-  }
-  return dman_.uniformSample(n);
-}
+// std::string RegEx::uniformGenerate(uint32_t n) {
+//   if(!full_dfa_) {
+//     dman_.computeFullDetAutomaton();
+//     full_dfa_ = true;
+//   }
+//   return dman_.uniformSample(n);
+// }
 
 
 Match_ptr RegEx::findIter(const std::string &text) {

@@ -26,7 +26,7 @@ int main(int argc, char const *argv[]) {
 
   rematch::RegEx regexp(regex);
 
-  std::cout << regexp.uniformGenerate(n) << '\n';
+  // std::cout << regexp.uniformGenerate(n) << '\n';
 
   return 0;
 }

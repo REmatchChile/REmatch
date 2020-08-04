@@ -33,6 +33,7 @@ class DetAutomaton {
   size_t size() const {return states.size();}
 
  private:
+  void print_transition(std::ostream& os, DetState* from, char a, DetState* to, std::bitset<32> S);
   DetState* init_state_;
   std::shared_ptr<VariableFactory> variable_factory_;
 

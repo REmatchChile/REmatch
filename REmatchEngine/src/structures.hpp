@@ -18,7 +18,7 @@ public:
   variable is being open (x𝈩), 10 means that it is being closed (𝈅x) and 11
   means that both opening and closing markers are in S. By being a long there is
   guaranteed enough bits for 16 variables.*/
-  int i;
+  int64_t i;
   Node* next;
 
   // NodeList replacement
@@ -31,8 +31,8 @@ public:
   Node* nextFree;
 
   Node(); // Class constructor
-  Node(std::bitset<32> S_val, int, Node* head, Node* tail);
-  Node *reset(std::bitset<32> S_val, int i_val, Node* head, Node* tail);
+  Node(std::bitset<32> S_val, int64_t i, Node* head, Node* tail);
+  Node *reset(std::bitset<32> S_val, int64_t i_val, Node* head, Node* tail);
   Node *reset();
   void getNodeContent(int content[2]);
   bool isNodeEmpty();

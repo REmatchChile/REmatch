@@ -181,7 +181,7 @@ bool CharClass :: check(char a) {
 	if(special) {
 		switch(special) {
 			case 1:
-				return true;
+				return a != 0x0; // Null char reserved
 			case 2:
 				return !!isdigit(a) != negated;
 			case 3:

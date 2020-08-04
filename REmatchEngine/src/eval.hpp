@@ -39,18 +39,18 @@ class Evaluator {
   Match_ptr nextFT();
   Match_ptr nextFF();
 
-  void captureT(size_t i);
-  void captureF(size_t i);
+  void captureT(int64_t i);
+  void captureF(int64_t i);
 
-  void readingT(char a, size_t i);
-  void readingF(char a, size_t i);
+  void readingT(char a, int64_t i);
+  void readingF(char a, int64_t i);
 
   inline Match_ptr inlinedNext(bool early_output, bool line_by_line);
 
-  inline void capture(size_t i, bool early_output);
-  inline void reading(char a, size_t i, bool early_output);
+  inline void capture(int64_t i, bool early_output);
+  inline void reading(char a, int64_t i, bool early_output);
 
-  void initAutomaton(size_t i);
+  void initAutomaton(int64_t i);
 
   bool match();
 
@@ -66,7 +66,6 @@ class Evaluator {
 
   std::vector<DetState*> current_states_;
   std::vector<DetState*> new_states_;
-  std::vector<DetState*> capture_states_;
 
   NodeList output_nodelist_;
 
@@ -76,9 +75,9 @@ class Evaluator {
   bool document_ended_;
   bool direct_text_;
 
-  size_t i_pos_;
-  size_t i_start_;
-  size_t nlines_;
+  int64_t i_pos_;
+  int64_t i_start_;
+  int64_t nlines_;
 }; // end class Evaluator
 
 } // namespace rematch

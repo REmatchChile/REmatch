@@ -16,7 +16,7 @@ class Document {
   using iterator = Document::const_iterator;
   using sz_t = size_t;
 
-  virtual const_ref get() = 0;
+  virtual void get(char &c) = 0;
   virtual void reset() = 0;
   virtual sz_t size() const = 0;
   virtual bool getline(std::string &str) = 0;
@@ -41,7 +41,7 @@ class StrDocument : public Document {
 
   virtual Document::sz_t size() const {return size_;}
 
-  virtual Document::const_ref get() {return *current_++;}
+  virtual void get(char &c) {c=*current_++;}
 
   virtual bool getline(std::string &str) {
       if(current_ == end()) return false;
@@ -74,10 +74,10 @@ class FileDocument : public Document {
 
   virtual Document::sz_t size() const {return size_;}
 
-  virtual Document::const_ref get() {return data_->get();}
+  virtual void get(char &c) {data_->get(c);}
 
   virtual bool getline(std::string &str) {
-      return !std::getline(*data_ ,str).eof();
+      return !(std::getline(*data_ ,str).fail());
   }
 
   virtual void reset() {data_->seekg(0);}

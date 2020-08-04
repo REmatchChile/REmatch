@@ -27,7 +27,7 @@ class RegEx {
 
   ~RegEx();
 
-  std::string uniformGenerate(uint32_t n);
+  // std::string uniformGenerate(uint32_t n);
   std::string getRegex();
 
   enum RegExFlags {

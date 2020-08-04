@@ -64,6 +64,7 @@ void Interface::normalRun() {
 			while((match_ptr = regex.findIter(doc))) {
 				std::cout << *match_ptr << '\n';
 			}
+			// std::cout << "DFA:\n" << regex.detManager().DFA().pprint() << '\n';
 		}
 	} else {
 		if(options_.output_option() == NMAPPINGS) {
@@ -77,6 +78,7 @@ void Interface::normalRun() {
 			while((match_ptr = regex.findIter(*document_stream_))) {
 				std::cout << *match_ptr << '\n';
 			}
+			// std::cout << "DFA:\n" << regex.detManager().DFA().pprint() << '\n';
 		}
 	}
 }
@@ -105,6 +107,8 @@ void Interface::benchmarkRun() {
 	while((match_ptr = regex.findIter(*document_stream_))) {
 		numOfSpans++;
 	}
+
+	// std::cout << regex.detManager().DFA().pprint() << '\n';
 
 	evaluateTime = t.elapsed(); 			// Evaluation time
 

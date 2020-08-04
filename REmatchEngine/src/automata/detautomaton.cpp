@@ -23,17 +23,6 @@ DetAutomaton::DetAutomaton(ExtendedVA &a)
    states.push_back(init_state_);
 }
 
-void DetAutomaton :: computeOneReached() {
-  for (auto &state: states) {
-    state->oneReached = state->filters;
-    for(auto &capture: state->c) {
-      for(auto &bitset_detstate: capture->next->filters) {
-        state->oneReached[bitset_detstate.first] = bitset_detstate.second;
-      }
-    }
-  }
-}
-
 std::string DetAutomaton :: pprint() {
   /* Gives a codification for the automaton that can be used to visualize it
      at https://puc-iic2223.github.io . It uses Breath-First Search
@@ -61,61 +50,35 @@ std::string DetAutomaton :: pprint() {
     current = queue.front();
     queue.pop_front();
 
-    // For every capture transition
-    for (size_t i = 0; i < current->c.size(); i++) {
-      S = current->c[i]->S;
-
-      nid = current->c[i]->next->id;
-
-      ss << "t " << *current << ' ' << variable_factory_->getVarUtil(S) << ' ' << *(current->c[i]->next) << '\n';
-
-      // If not visited enqueue and add to visited
-      if (visited.find(nid) == visited.end()) {
-        visited.insert(nid);
-        queue.push_back(current->c[i]->next);
-      }
-    }
-
-    // For every filter transition
-    for (auto &it: current->filters) {
-      // std::cout << "This is a filter transition:" <<  '\n';
-      nid = it.second->id;
-      ss << "t " << *current << ' ';
-      if(it.first == '\n')
-        ss << "\\n";
-      else
-        ss << it.first;
-
-      ss << ' ' << *(it.second) << '\n';
-
-      // If not visited enqueue and add to visited
-      if (visited.find(nid) == visited.end()) {
-        visited.insert(nid);
-        queue.push_back(it.second);
-      }
-    }
     for (size_t i = 0; i < 128; i++) {
-      DetState* it = current->singleFilters[i];
-      if(it == nullptr)
-        continue;
-      nid = it->id;
-      ss << "t " << *current << ' ' ;
+      for(auto &capture: current->transitions_[i]) {
+        DetState* it = capture->next;
+        if(it == nullptr)
+          continue;
+        nid = it->id;
+        ss << "t " << *current << ' ' ;
 
-      if((char)i == '\n')
-        ss << "\\n";
-      else if((char)i == ' ')
-        ss << "' '";
-      else if((char)i == '\t')
-        ss << "\\t";
-      else
-        ss << (char)i;
+        if(i == 0)
+          ss << "0x0";
+        else if((char)i == '\n')
+          ss << "\\n";
+        else if((char)i == ' ')
+          ss << "' '";
+        else if((char)i == '\t')
+          ss << "\\t";
+        else
+          ss << (char)i;
 
-      ss  << ' ' << *it << '\n';
+        if(capture->S.any())
+          ss << '/' << variable_factory_->getVarUtil(capture->S);
 
-      // If not visited enqueue and add to visited
-      if (visited.find(nid) == visited.end()) {
-        visited.insert(nid);
-        queue.push_back(it);
+        ss  << ' ' << *it << '\n';
+
+        // If not visited enqueue and add to visited
+        if (visited.find(nid) == visited.end()) {
+          visited.insert(nid);
+          queue.push_back(it);
+        }
       }
     }
   }

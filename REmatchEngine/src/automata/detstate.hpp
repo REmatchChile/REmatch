@@ -12,85 +12,45 @@
 #include "det/setstate.hpp"
 #include "captures.hpp"
 
-
-// class DetState {
-//   friend class DFA;
-//  public:
-//   DetState();
-//   DetState(SetState &ss);
-
-//   DetState* next_state(BitsetWrapper char_bitset) const;
-//   // Obtain the next state after reading byte c.
-//   DetState* next_state(char c) const;
-
-//   // Previous list is used at evaluation context.
-//   NodeList* get_previous_list(int i) const;
-
-//   void set_final(bool b);
-//   void set_subset(SetState &ss);
-
-//   std::string label() const {return label_;}
-
-//   friend std::ostream& operator<<(std::ostream &os, DetState const &state);
-
-//  private:
-//   // Adds a capture transition to a state.
-//   bool add_capture(std::bitset<32> S, DetState* state);
-
-//   // Adds a filter transition to a state.
-//   bool add_filter(char c, DetState* state);
-
-//   uint_fast32_t id_;
-
-//   std::string label_;
-
-//   std::unordered_map<BitsetWrapper, DetState*> filters_;
-//   std::unordered_map<BitsetWrapper, DetState*> one_reached_:
-
-// }; // class DetState
-
 class DetState {
   private:
     static unsigned int ID; // Static var to make sequential id's
   public:
     /* Unique ID*/
     unsigned int id;                              // id
+
+    // Transitions to other states
+    // TODO: Maybe it's better performance to have a union of 1-capture vs multi-capture
+    std::array<std::vector<Capture*>, 128> transitions_;
+
+    // Indices of currently held capture-transitions. Used for faster iteration.
+    // TODO: This is memory intensive. Imagine a state with a dot transition,
+    //       then transition-wise it'll allocate 128*(1+4*Captures) bytes.
+    // TODO: Measure memory used by the DFA.
+    // TODO: Maybe think about using filter-wise indexing instead of byte-wise.
+    std::vector<uint8_t> capture_indices_;
+
+    // Label used for debugging
     std::string label;
 
-    /* Transitions */
-    std::vector<Capture*> c;                    // Capture pointers array
-
-    std::unordered_map<BitsetWrapper, DetState*> filters;
-
-    std::unordered_map<BitsetWrapper, DetState*> oneReached;
-
-
-    /* Evaluation algorithm vars */
-    uint64_t visited;  // Mark the reading iteration for which the State is prepared
+    int64_t visited;  // Mark the reading iteration for which the State is prepared
     NodeList* currentL;
     NodeList* copiedList;
 
-    #ifdef NOPT_CROSSPROD
-    NodeList* oldL;
-    #endif
-
-    /* Determination variables*/
     SetState* ss;
 
-
     bool isFinal, isSuperFinal, mark;
-
-    DetState  *singleFilters[128];
 
     DetState();
     DetState(SetState* ss);
 
+    std::vector<Capture*>& next_captures(char a);
+
+    void add_transition(char a, std::bitset<32> S, DetState* state);
+
     DetState* nextState(BitsetWrapper charBitset);
     DetState* nextState(char a);
     NodeList* getPreviousList(int i);
-    void addCapture(std::bitset<32> S, DetState* next);
-    void addFilter(BitsetWrapper charBitset, DetState* nextState);
-    void addFilter(char a, DetState *nextState);
     void setFinal(bool b);
     void setSubset(SetState* newss);
     std::string pprint();

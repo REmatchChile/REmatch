@@ -89,7 +89,7 @@ string VariableFactory :: getVarUtil(bitset<32> code) {
 		}
 		if(code[2*i+1]) {
 			ss << ">"  << varMap[i];
-			if(offsetMap[2*i+1]) ss << "(-" << offsetMap[2*i] << ")";
+			if(offsetMap[2*i+1]) ss << "(-" << offsetMap[2*i+1] << ")";
 			container.push_back(ss.str());
 			ss.str(string()); // Erase the stringstream
 		}

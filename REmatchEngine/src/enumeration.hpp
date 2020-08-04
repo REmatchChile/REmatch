@@ -26,7 +26,7 @@ class Enumerator {
 
   friend class Evaluator;
 
-  using SpanMap = std::map<std::string, std::pair<size_t, size_t>>;
+  using SpanMap = std::map<std::string, std::pair<int64_t, int64_t>>;
 
   public:
     Enumerator(RegEx &rgx, std::string &doc);
@@ -69,7 +69,7 @@ class Enumerator {
 
   uint64_t n_mappings_;                 // Total num of mappings
 
-  std::vector<std::pair<size_t, size_t>> data_;
+  std::vector<std::pair<int64_t, int64_t>> data_;
 
 }; // end class Enumerator
 
