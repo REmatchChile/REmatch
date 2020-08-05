@@ -83,8 +83,8 @@ Evaluator::inlinedNext(bool early_output, bool line_by_line) {
     char a;
     output_nodelist_.reset();
 
-    while(((i_pos_-i_start_) < line_.size() &&  line_by_line_) ||
-          (i_pos_ < text_->size()           && !line_by_line_)) { // Main search loop
+    while(((i_pos_-i_start_) < (int64_t)line_.size() &&  line_by_line_) ||
+          (i_pos_ < (int64_t)text_->size()           && !line_by_line_)) { // Main search loop
 
       if(line_by_line_)   a = line_[i_pos_-i_start_];
       else                text_->get(a);
@@ -111,12 +111,13 @@ Evaluator::inlinedNext(bool early_output, bool line_by_line) {
       Evaluator::memory_manager_.addPossibleGarbage(output_nodelist_.head);
     }
 
-    if(((i_pos_-i_start_) == line_.size()   &&  line_by_line_) ||
-       (i_pos_ == text_->size()             && !line_by_line_)) {
+    if(((i_pos_-i_start_) == (int64_t)line_.size()   &&  line_by_line_) ||
+       (i_pos_ == (int64_t)text_->size()             && !line_by_line_)) {
       if(line_by_line_) {
         while(!(document_ended_ = !((bool) text_->getline(line_)))) {
           line_ += '\n';
           i_start_ = i_pos_;
+          nlines_++;
 
           if(!match()) {
             i_pos_ += line_.size() - 1;
@@ -124,7 +125,6 @@ Evaluator::inlinedNext(bool early_output, bool line_by_line) {
           }
           else {
             initAutomaton(i_start_);
-            nlines_++;
             break;
           }
         }
@@ -143,14 +143,16 @@ Evaluator::inlinedNext(bool early_output, bool line_by_line) {
 }
 
 bool Evaluator::match() {
-  char a = 0;
+  char a;
   DetState *nextState, *currentState;
 
   currentState = rawDFA().initState();
 
-  int64_t it = -1;
+  int64_t it = 0;
 
-  while( it < line_.size() ) {
+  while( it < (int64_t)line_.size() ) {
+
+    a = (char) line_[it];
 
     // nextState is reached from currentState by reading the character
     auto &nextCaptures = currentState->next_captures(a);
@@ -171,7 +173,7 @@ bool Evaluator::match() {
     else
       return false;
     it++;
-    a = (char) line_[it];
+
   }
 
   return currentState->isFinal;

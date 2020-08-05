@@ -16,7 +16,7 @@ class Document {
   using iterator = Document::const_iterator;
   using sz_t = size_t;
 
-  virtual void get(char &c) = 0;
+  virtual void get(value_t &c) = 0;
   virtual void reset() = 0;
   virtual sz_t size() const = 0;
   virtual bool getline(std::string &str) = 0;

@@ -27,8 +27,10 @@ public:
 
   // Garbage Collection
   // TODO: Union this
+  union {
   unsigned int refCount;
   Node* nextFree;
+  };
 
   Node(); // Class constructor
   Node(std::bitset<32> S_val, int64_t i, Node* head, Node* tail);

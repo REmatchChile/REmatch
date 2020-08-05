@@ -7,12 +7,12 @@
 
 Node::Node()
   : S(0), i(-1), next(nullptr), start(nullptr), end(nullptr),
-    refCount(0), nextFree(nullptr) {}
+    refCount(0) {}
 
 
 Node::Node(std::bitset<32> S, int64_t i, Node* head, Node* tail)
   : S(S), i(i), next(nullptr), start(head), end(tail),
-    refCount(0), nextFree(nullptr) {
+    refCount(0) {
 
     start->refCount++;
     end->refCount++;
