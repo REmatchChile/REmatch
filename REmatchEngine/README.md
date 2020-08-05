@@ -27,9 +27,25 @@ After building, the binary file will be located in the `build/Release/bin` folde
 build/Release/bin/rematch --help
 ```
 
+#### Examples:
+
+Get all spans corresponding to a single letter `a`:
+```
+build/Release/bin/rematch -d document.txt -e '.*!x{a}.*'
+```
+Get all spans corresponding to a pattern in a file:
+```
+build/Release/bin/rematch -d document.txt -r regex.txt
+```
+Get benchmark stats (execution time, number of outputs, memory usage, etc.):
+```
+build/Release/bin/rematch -d document.txt -r regex.txt -o benchmark
+```
+
+
 ### Testing
 
 We are using Boost.Test for unit testing.
 
-To add more tests, add a new folder inside `tests/[test_name_folder]/` that starts with the word _test_ as a 
+To add more tests, add a new folder inside `tests/[test_name_folder]/` that starts with the word _test_ as a
 prefix. Follow the same structure (same file names) of the other folders.
