@@ -92,7 +92,7 @@ void DetManager :: computeCaptures(DetState* p, DetState* q, char a) {
 
 std::vector<Capture*>& DetManager::next_captures(DetState *q, char a) {
 
-	a &= 0xFF; // Only ASCII chars for now
+	a &= 0x7F; // Only ASCII chars for now
 
 	BitsetWrapper charBitset = filter_factory_->applyFilters(a);
 

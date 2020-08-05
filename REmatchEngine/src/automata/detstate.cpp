@@ -55,7 +55,7 @@ void DetState::add_transition(char a, std::bitset<32> S, DetState* state) {
 
 
 std::vector<Capture*> & DetState::next_captures(char a) {
-  a &= 0xFF;
+  a &= 0x7F;
   return transitions_[a];
 }
 
