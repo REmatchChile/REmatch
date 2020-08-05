@@ -12,10 +12,6 @@ file(GLOB sources
 set(BUILD_TARGETS
   rematch
   generate
-  test-pcre
-  test-re2
-  test-onig
-  test-hscan
 )
 
 if(SWIG) # Only set shared library target
