@@ -47,14 +47,19 @@ void Evaluator::init() {
 }
 
 void Evaluator::initAutomaton(int64_t i) {
-  if( i == 0)
+  int64_t pos;
+  if(i == 0) {
     DFA().initState()->currentL->add(Evaluator::memory_manager_.alloc());
+    pos = i-1;
+  } else {
+    pos = i;
+  }
 
   current_states_.clear();
   current_states_.push_back(DFA().initState());
 
-  if(early_output_) readingT(0, i-1);
-  else              readingF(0, i-1);
+  if(early_output_) readingT(0, pos);
+  else              readingF(0, pos);
 
   current_states_.swap(new_states_);
 }
@@ -155,15 +160,12 @@ bool Evaluator::match() {
     a = (char) line_[it];
 
     // nextState is reached from currentState by reading the character
-    auto &nextCaptures = currentState->next_captures(a);
+    auto nextTransition = currentState->next_transition(a);
 
-    if(nextCaptures.empty()) // Then maybe a determinization is needed
-      nextCaptures = rgx_.rawDetManager().next_captures(currentState, a);
+    if(nextTransition == nullptr) // Then maybe a determinization is needed
+      nextTransition = rgx_.rawDetManager().next_transition(currentState, a);
 
-    // TODO: Remove this once it's working
-    assert(nextCaptures.size() == 1);
-
-    nextState = nextCaptures[0]->next;
+    nextState = (dynamic_cast<NoCapture*>(nextTransition))->next();
 
     if (nextState->isSuperFinal)
       return true;
@@ -182,53 +184,18 @@ bool Evaluator::match() {
 
 inline void Evaluator::reading(char a, int64_t i, bool early_output) {
   new_states_.clear();
-  DetState* nextState;
   NodeList* prevList;
-  Node* newNode;
 
   for (auto &currentState: current_states_) {
     prevList = currentState->currentL;
     // nextCaptures are reached from currentState by reading the character
-    auto nextCaptures = currentState->next_captures(a);
+    auto nextTransition = currentState->next_transition(a);
 
-    if(nextCaptures.empty()) { // Then maybe a determinization is needed
-      nextCaptures = rgx_.detManager().next_captures(currentState, a);
+    if(nextTransition == nullptr) { // Then maybe a determinization is needed
+      nextTransition = rgx_.detManager().next_transition(currentState, a);
     }
 
-    for(auto &capture: nextCaptures) {
-      nextState = capture->next;
-
-      if(early_output && nextState->isSuperFinal) {  // Early Output check
-        output_nodelist_.append(prevList);
-      } else {
-        if (!nextState->ss->isNonEmpty) {  // Check if not empty set
-          prevList->resetRefs();
-          Evaluator::memory_manager_.addPossibleGarbage(prevList->head);
-        } else {
-          if(capture->S.none()) {
-            if(nextState->visited <= i+1) {
-              nextState->visited = i+2;
-              nextState->currentL->head = prevList->head;
-              nextState->currentL->tail = prevList->tail;
-              new_states_.push_back(nextState);
-            } else {
-              nextState->currentL->append(prevList);
-            }
-          } else {
-            newNode = Evaluator::memory_manager_.alloc(capture->S, i+1,
-                                              currentState->currentL->head,
-                                              currentState->currentL->tail);
-            if(nextState->visited <= i+1) {
-              nextState->currentL->resetAndAdd(newNode);
-              nextState->visited = i+2;
-              new_states_.push_back(nextState);
-            } else {
-              nextState->currentL->add(newNode);
-            }
-          }
-        }
-      }
-    } // for(capture : nextCaptures)
+    nextTransition->visit(i, prevList, new_states_);
   }
 }
 

@@ -41,7 +41,7 @@ DetManager::DetManager(std::string pattern, bool raw_automata) {
 		dfa_->finalStates.push_back(q);
 	}
 	computeCaptures(q, q, 0);
-	q->add_transition(0, std::bitset<32>(), q);
+	q->add_direct(0, q);
 }
 
 
@@ -85,12 +85,12 @@ void DetManager :: computeCaptures(DetState* p, DetState* q, char a) {
 
 		DetState* r = dstates_table_[nss->bitstring]; // This is the deterministic state where the capture reaches
 
-		p->add_transition(a, el.first, r);
+		p->add_capture(a, el.first, r);
 	}
 }
 
 
-std::vector<Capture*>& DetManager::next_captures(DetState *q, char a) {
+rematch::Transition* DetManager::next_transition(DetState *q, char a) {
 
 	a &= 0x7F; // Only ASCII chars for now
 
@@ -127,7 +127,7 @@ std::vector<Capture*>& DetManager::next_captures(DetState *q, char a) {
 		nq = found->second;
 	}
 	computeCaptures(q, nq, a);
-	q->add_transition(a, std::bitset<32>(), nq);
+	q->add_direct(a, nq);
 
-	return q->next_captures(a);
+	return q->next_transition(a);
 }

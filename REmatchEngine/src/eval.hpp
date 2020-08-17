@@ -11,13 +11,21 @@
 #include "automata/detautomaton.hpp"
 #include "memmanager.hpp"
 #include "document.hpp"
+#include "automata/transition.hpp"
 
 class DetState;
 
 namespace rematch {
 
 class Evaluator {
+
  public:
+
+  friend class NoCapture;
+  friend class OneCapture;
+  friend class MultiCapture;
+  friend class NoOneCapture;
+  friend class NoMultiCapture;
 
   enum EvalOptions {
     kLineByLine    = 1<<2,

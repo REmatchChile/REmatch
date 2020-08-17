@@ -10,6 +10,7 @@
 #include "det/setstate.hpp"
 #include "automata/detautomaton.hpp"
 #include "automata/detstate.hpp"
+#include "automata/transition.hpp"
 
 class DetManager {
 
@@ -19,8 +20,7 @@ class DetManager {
  public:
 	DetManager(std::string pattern, bool raw_automata=false);
 
-
-	std::vector<Capture*>& next_captures(DetState* q, char a);
+	rematch::Transition* next_transition(DetState* q, char a);
 
 	void computeCaptures(DetState* p, DetState* q, char a);
 

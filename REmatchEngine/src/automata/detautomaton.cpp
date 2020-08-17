@@ -1,3 +1,5 @@
+#include "detautomaton.hpp"
+
 #include <string>
 #include <sstream>
 #include <algorithm>
@@ -7,13 +9,12 @@
 #include <cassert>
 #include <map>
 
-
-#include "detautomaton.hpp"
 #include "structures.hpp"
 #include "captures.hpp"
 #include "factories/factories.hpp"
 #include "detstate.hpp"
 #include "automata/eva.hpp"
+#include "automata/transition.hpp"
 
 DetAutomaton :: DetAutomaton(VariableFactory* vf)
   : init_state_(new DetState()), variable_factory_(vf)  {states.push_back(init_state_);}
@@ -51,7 +52,8 @@ std::string DetAutomaton :: pprint() {
     queue.pop_front();
 
     for (size_t i = 0; i < 128; i++) {
-      for(auto &capture: current->transitions_[i]) {
+      if(current->transitions_[i] == nullptr) continue;
+      for(auto &capture: current->transitions_[i]->captures()) {
         DetState* it = capture->next;
         if(it == nullptr)
           continue;

@@ -12,6 +12,12 @@
 #include "det/setstate.hpp"
 #include "captures.hpp"
 
+namespace rematch {
+  class Transition;
+}
+
+using namespace rematch;
+
 class DetState {
   private:
     static unsigned int ID; // Static var to make sequential id's
@@ -20,15 +26,7 @@ class DetState {
     unsigned int id;                              // id
 
     // Transitions to other states
-    // TODO: Maybe it's better performance to have a union of 1-capture vs multi-capture
-    std::array<std::vector<Capture*>, 128> transitions_;
-
-    // Indices of currently held capture-transitions. Used for faster iteration.
-    // TODO: This is memory intensive. Imagine a state with a dot transition,
-    //       then transition-wise it'll allocate 128*(1+4*Captures) bytes.
-    // TODO: Measure memory used by the DFA.
-    // TODO: Maybe think about using filter-wise indexing instead of byte-wise.
-    std::vector<uint8_t> capture_indices_;
+    std::array<Transition*, 128> transitions_;
 
     // Label used for debugging
     std::string label;
@@ -44,9 +42,10 @@ class DetState {
     DetState();
     DetState(SetState* ss);
 
-    std::vector<Capture*>& next_captures(char a);
+    Transition* next_transition(char a);
 
-    void add_transition(char a, std::bitset<32> S, DetState* state);
+    void add_capture(char a, std::bitset<32> S, DetState* state);
+    void add_direct(char a, DetState* state);
 
     DetState* nextState(BitsetWrapper charBitset);
     DetState* nextState(char a);

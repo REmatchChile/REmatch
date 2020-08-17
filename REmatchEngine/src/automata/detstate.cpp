@@ -10,6 +10,9 @@
 #include "captures.hpp"
 #include "det/setstate.hpp"
 #include "bitsetwrapper.hpp"
+#include "automata/transition.hpp"
+
+using namespace rematch;
 
 unsigned int DetState :: ID = 0;
 
@@ -47,14 +50,24 @@ void DetState :: setSubset(SetState* newss) {
 }
 
 
-void DetState::add_transition(char a, std::bitset<32> S, DetState* state) {
-  if(S.count())
-    capture_indices_.push_back(a);
-  transitions_[a].emplace_back(new Capture(S, state));
+void DetState::add_capture(char a, std::bitset<32> S, DetState* state) {
+  if(transitions_[a] == nullptr) {
+    transitions_[a] = new OneCapture(new Capture(S, state));
+  } else {
+    transitions_[a] = transitions_[a]->add_capture(new Capture(S, state));
+  }
+}
+
+void DetState::add_direct(char a, DetState* state) {
+  if(transitions_[a] == nullptr) {
+    transitions_[a] = new NoCapture(state);
+  } else {
+    transitions_[a] = transitions_[a]->add_direct(state);
+  }
 }
 
 
-std::vector<Capture*> & DetState::next_captures(char a) {
+Transition* DetState::next_transition(char a) {
   a &= 0x7F;
   return transitions_[a];
 }
