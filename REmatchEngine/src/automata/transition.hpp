@@ -17,6 +17,8 @@ class Transition {
   virtual std::vector<Capture*> captures() const = 0;
   virtual Transition* add_capture(Capture* capture) = 0;
   virtual Transition* add_direct(DetState* state) = 0;
+
+  int type_;
 }; // class Transition
 
 class NoCapture : public Transition {
@@ -31,6 +33,7 @@ class NoCapture : public Transition {
   virtual Transition* add_direct(DetState* state);
 
   DetState* next() {return next_;}
+
  private:
   DetState* next_;
 }; // class NoCapture
@@ -46,6 +49,7 @@ class OneCapture : public Transition {
   virtual std::vector<Capture*> captures() const;
   virtual Transition* add_capture(Capture* capture);
   virtual Transition* add_direct(DetState* state);
+
  private:
   Capture *capture_;
 }; // class OneCapture
@@ -60,6 +64,7 @@ class MultiCapture : public Transition {
   virtual std::vector<Capture*> captures() const;
   virtual Transition* add_capture(Capture* capture);
   virtual Transition* add_direct(DetState* state);
+
  private:
   std::vector<Capture*> captures_;
 }; // class MultiCapture
@@ -75,6 +80,7 @@ class NoOneCapture : public Transition {
   virtual std::vector<Capture*> captures() const;
   virtual Transition* add_capture(Capture* capture);
   virtual Transition* add_direct(DetState* state);
+
  private:
   Capture *capture_;
   DetState *next_;
@@ -90,6 +96,7 @@ class NoMultiCapture : public Transition {
   virtual std::vector<Capture*> captures() const;
   virtual Transition* add_capture(Capture* capture);
   virtual Transition* add_direct(DetState* state);
+
  private:
   std::vector<Capture*> captures_;
   DetState *next_;

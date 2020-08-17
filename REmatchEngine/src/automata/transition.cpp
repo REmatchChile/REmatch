@@ -7,7 +7,7 @@
 
 namespace rematch {
 
-NoCapture::NoCapture(DetState* next_state): next_(next_state) {}
+NoCapture::NoCapture(DetState* next_state): next_(next_state) {type_ = 1;}
 
 void NoCapture::visit(int64_t i, NodeList *prev_list, DetStates &new_states) {
   if(!next_->ss->isNonEmpty) {
@@ -40,7 +40,7 @@ Transition* NoCapture::add_direct(DetState* state) {
   throw std::logic_error("Can't add direct to already present direct.");
 }
 
-OneCapture::OneCapture(Capture* capture): capture_(capture) {}
+OneCapture::OneCapture(Capture* capture): capture_(capture) {type_ = 2;}
 
 void OneCapture::visit(int64_t i, NodeList *prev_list, DetStates &new_states) {
   if(!capture_->next->ss->isNonEmpty) {
@@ -70,6 +70,7 @@ Transition* OneCapture::add_direct(DetState* state) {
 }
 
 MultiCapture::MultiCapture(OneCapture &transition, Capture* second_capture) {
+  type_ = 3;
   captures_.push_back(transition.capture_);
   captures_.push_back(second_capture);
 }
@@ -105,10 +106,10 @@ Transition* MultiCapture::add_direct(DetState* state) {
 }
 
 NoOneCapture::NoOneCapture(OneCapture &transition, DetState* next_state)
-  : capture_(transition.capture_), next_(next_state) {}
+  : capture_(transition.capture_), next_(next_state) {type_ = 4;}
 
 NoOneCapture::NoOneCapture(NoCapture &transition, Capture* capture)
-  : capture_(capture), next_(transition.next_) {}
+  : capture_(capture), next_(transition.next_) {type_ = 4;}
 
 void NoOneCapture::visit(int64_t i, NodeList *prev_list, DetStates &new_states) {
   if(!next_->ss->isNonEmpty) {
@@ -156,12 +157,13 @@ Transition* NoOneCapture::add_direct(DetState* state) {
 
 NoMultiCapture::NoMultiCapture(NoOneCapture& transition, Capture* second_capture)
   : next_(transition.next_) {
+  type_ = 5;
   captures_.push_back(transition.capture_);
   captures_.push_back(second_capture);
 }
 
 NoMultiCapture::NoMultiCapture(MultiCapture& transition, DetState* next_state)
-  : captures_(transition.captures_), next_(next_state) {}
+  : captures_(transition.captures_), next_(next_state) {type_ = 5;}
 
 void NoMultiCapture::visit(int64_t i, NodeList *prev_list, DetStates &new_states) {
   if(!next_->ss->isNonEmpty) {

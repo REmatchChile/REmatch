@@ -26,7 +26,7 @@ class DetState {
     unsigned int id;                              // id
 
     // Transitions to other states
-    std::array<Transition*, 128> transitions_;
+    std::array<Transition*, 128> transitions_{};
 
     // Label used for debugging
     std::string label;
