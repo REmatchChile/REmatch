@@ -66,6 +66,10 @@ void DetState::add_direct(char a, DetState* state) {
   }
 }
 
+void DetState::add_empty(char a, DetState* state) {
+  transitions_[a] = new EmptyTransition();
+}
+
 
 Transition* DetState::next_transition(char a) {
   a &= 0x7F;

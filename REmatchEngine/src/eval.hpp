@@ -26,6 +26,7 @@ class Evaluator {
   friend class MultiCapture;
   friend class NoOneCapture;
   friend class NoMultiCapture;
+  friend class EmptyTransition;
 
   enum EvalOptions {
     kLineByLine    = 1<<2,

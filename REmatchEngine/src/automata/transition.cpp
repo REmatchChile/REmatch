@@ -7,24 +7,36 @@
 
 namespace rematch {
 
+void EmptyTransition::visit(int64_t i, NodeList *prev_list, DetStates &new_states) {
+  prev_list->resetRefs();
+  Evaluator::memory_manager_.addPossibleGarbage(prev_list->head);
+}
+
+std::vector<Capture*> EmptyTransition::captures() const {
+  return std::vector<Capture*>();
+}
+
+Transition* EmptyTransition::add_capture(Capture* capture) {
+  throw std::logic_error("Can't add capture to empty transition.");
+}
+
+Transition* EmptyTransition::add_direct(DetState* state) {
+  throw std::logic_error("Can't add direct to empty transition.");
+}
+
 NoCapture::NoCapture(DetState* next_state): next_(next_state) {type_ = 1;}
 
 void NoCapture::visit(int64_t i, NodeList *prev_list, DetStates &new_states) {
-  if(!next_->ss->isNonEmpty) {
-    prev_list->resetRefs();
-    Evaluator::memory_manager_.addPossibleGarbage(prev_list->head);
+  if(next_->visited <= i+1) {
+    next_->visited = i+2;
+
+    // Lazy copy
+    next_->currentL->head = prev_list->head;
+    next_->currentL->tail = prev_list->tail;
+
+    new_states.push_back(next_);
   } else {
-    if(next_->visited <= i+1) {
-      next_->visited = i+2;
-
-      // Lazy copy
-      next_->currentL->head = prev_list->head;
-      next_->currentL->tail = prev_list->tail;
-
-      new_states.push_back(next_);
-    } else {
-      next_->currentL->append(prev_list);
-    }
+    next_->currentL->append(prev_list);
   }
 }
 
@@ -43,22 +55,17 @@ Transition* NoCapture::add_direct(DetState* state) {
 OneCapture::OneCapture(Capture* capture): capture_(capture) {type_ = 2;}
 
 void OneCapture::visit(int64_t i, NodeList *prev_list, DetStates &new_states) {
-  if(!capture_->next->ss->isNonEmpty) {
-    prev_list->resetRefs();
-    Evaluator::memory_manager_.addPossibleGarbage(prev_list->head);
-  } else {
-    Node* new_node = Evaluator::memory_manager_.alloc(capture_->S,
-                                                    i+1,
-                                                    prev_list->head,
-                                                    prev_list->tail);
-    if(capture_->next->visited <= i+1) {
-        capture_->next->visited = i+2;
-        capture_->next->currentL->resetAndAdd(new_node);
-        new_states.push_back(capture_->next);
-      } else {
-        capture_->next->currentL->add(new_node);
-      }
-  }
+  Node* new_node = Evaluator::memory_manager_.alloc(capture_->S,
+                                                  i+1,
+                                                  prev_list->head,
+                                                  prev_list->tail);
+  if(capture_->next->visited <= i+1) {
+      capture_->next->visited = i+2;
+      capture_->next->currentL->resetAndAdd(new_node);
+      new_states.push_back(capture_->next);
+    } else {
+      capture_->next->currentL->add(new_node);
+    }
 }
 
 Transition* OneCapture::add_capture(Capture* capture) {
@@ -77,21 +84,16 @@ MultiCapture::MultiCapture(OneCapture &transition, Capture* second_capture) {
 
 void MultiCapture::visit(int64_t i, NodeList *prev_list, DetStates &new_states) {
   for(auto &capture: captures_) {
-    if(!capture->next->ss->isNonEmpty) {
-      prev_list->resetRefs();
-      Evaluator::memory_manager_.addPossibleGarbage(prev_list->head);
+    Node* new_node = Evaluator::memory_manager_.alloc(capture->S,
+                                                      i+1,
+                                                      prev_list->head,
+                                                      prev_list->tail);
+    if(capture->next->visited <= i+1) {
+      capture->next->visited = i+2;
+      capture->next->currentL->resetAndAdd(new_node);
+      new_states.push_back(capture->next);
     } else {
-      Node* new_node = Evaluator::memory_manager_.alloc(capture->S,
-                                                        i+1,
-                                                        prev_list->head,
-                                                        prev_list->tail);
-      if(capture->next->visited <= i+1) {
-        capture->next->visited = i+2;
-        capture->next->currentL->resetAndAdd(new_node);
-        new_states.push_back(capture->next);
-      } else {
-        capture->next->currentL->add(new_node);
-      }
+      capture->next->currentL->add(new_node);
     }
   }
 }
@@ -112,38 +114,28 @@ NoOneCapture::NoOneCapture(NoCapture &transition, Capture* capture)
   : capture_(capture), next_(transition.next_) {type_ = 4;}
 
 void NoOneCapture::visit(int64_t i, NodeList *prev_list, DetStates &new_states) {
-  if(!next_->ss->isNonEmpty) {
-    prev_list->resetRefs();
-    Evaluator::memory_manager_.addPossibleGarbage(prev_list->head);
+  if(next_->visited <= i+1) {
+    next_->visited = i+2;
+
+    // Lazy copy
+    next_->currentL->head = prev_list->head;
+    next_->currentL->tail = prev_list->tail;
+
+    new_states.push_back(next_);
   } else {
-    if(next_->visited <= i+1) {
-      next_->visited = i+2;
-
-      // Lazy copy
-      next_->currentL->head = prev_list->head;
-      next_->currentL->tail = prev_list->tail;
-
-      new_states.push_back(next_);
-    } else {
-      next_->currentL->append(prev_list);
-    }
+    next_->currentL->append(prev_list);
   }
 
-  if(!capture_->next->ss->isNonEmpty) {
-    prev_list->resetRefs();
-    Evaluator::memory_manager_.addPossibleGarbage(prev_list->head);
+  Node* new_node = Evaluator::memory_manager_.alloc(capture_->S,
+                                                    i+1,
+                                                    prev_list->head,
+                                                    prev_list->tail);
+  if(capture_->next->visited <= i+1) {
+    capture_->next->visited = i+2;
+    capture_->next->currentL->resetAndAdd(new_node);
+    new_states.push_back(capture_->next);
   } else {
-    Node* new_node = Evaluator::memory_manager_.alloc(capture_->S,
-                                                      i+1,
-                                                      prev_list->head,
-                                                      prev_list->tail);
-    if(capture_->next->visited <= i+1) {
-      capture_->next->visited = i+2;
-      capture_->next->currentL->resetAndAdd(new_node);
-      new_states.push_back(capture_->next);
-    } else {
-      capture_->next->currentL->add(new_node);
-    }
+    capture_->next->currentL->add(new_node);
   }
 }
 
@@ -166,38 +158,28 @@ NoMultiCapture::NoMultiCapture(MultiCapture& transition, DetState* next_state)
   : captures_(transition.captures_), next_(next_state) {type_ = 5;}
 
 void NoMultiCapture::visit(int64_t i, NodeList *prev_list, DetStates &new_states) {
-  if(!next_->ss->isNonEmpty) {
-    prev_list->resetRefs();
-    Evaluator::memory_manager_.addPossibleGarbage(prev_list->head);
+  if(next_->visited <= i+1) {
+    next_->visited = i+2;
+
+    // Lazy copy
+    next_->currentL->head = prev_list->head;
+    next_->currentL->tail = prev_list->tail;
+
+    new_states.push_back(next_);
   } else {
-    if(next_->visited <= i+1) {
-      next_->visited = i+2;
-
-      // Lazy copy
-      next_->currentL->head = prev_list->head;
-      next_->currentL->tail = prev_list->tail;
-
-      new_states.push_back(next_);
-    } else {
-      next_->currentL->append(prev_list);
-    }
+    next_->currentL->append(prev_list);
   }
   for(auto &capture: captures_) {
-    if(!capture->next->ss->isNonEmpty) {
-      prev_list->resetRefs();
-      Evaluator::memory_manager_.addPossibleGarbage(prev_list->head);
+    Node* new_node = Evaluator::memory_manager_.alloc(capture->S,
+                                                      i+1,
+                                                      prev_list->head,
+                                                      prev_list->tail);
+    if(capture->next->visited <= i+1) {
+      capture->next->visited = i+2;
+      capture->next->currentL->resetAndAdd(new_node);
+      new_states.push_back(capture->next);
     } else {
-      Node* new_node = Evaluator::memory_manager_.alloc(capture->S,
-                                                        i+1,
-                                                        prev_list->head,
-                                                        prev_list->tail);
-      if(capture->next->visited <= i+1) {
-        capture->next->visited = i+2;
-        capture->next->currentL->resetAndAdd(new_node);
-        new_states.push_back(capture->next);
-      } else {
-        capture->next->currentL->add(new_node);
-      }
+      capture->next->currentL->add(new_node);
     }
   }
 }

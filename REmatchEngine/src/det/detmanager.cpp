@@ -126,8 +126,12 @@ rematch::Transition* DetManager::next_transition(DetState *q, char a) {
 	} else {
 		nq = found->second;
 	}
-	computeCaptures(q, nq, a);
-	q->add_direct(a, nq);
+	if(nq->ss->isNonEmpty) {
+		computeCaptures(q, nq, a);
+		q->add_direct(a, nq);
+	} else {
+		q->add_empty(a, nq);
+	}
 
 	return q->next_transition(a);
 }

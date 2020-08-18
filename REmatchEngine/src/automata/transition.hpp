@@ -21,6 +21,16 @@ class Transition {
   int type_;
 }; // class Transition
 
+class EmptyTransition : public Transition {
+ public:
+  EmptyTransition() = default;
+
+  virtual void visit(int64_t i, NodeList *prev_list, DetStates &new_states);
+  virtual std::vector<Capture*> captures() const;
+  virtual Transition* add_capture(Capture* capture);
+  virtual Transition* add_direct(DetState* state);
+}; // class EmptyTransition
+
 class NoCapture : public Transition {
  public:
   friend class NoOneCapture;

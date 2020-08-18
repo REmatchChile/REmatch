@@ -46,6 +46,7 @@ class DetState {
 
     void add_capture(char a, std::bitset<32> S, DetState* state);
     void add_direct(char a, DetState* state);
+    void add_empty(char a, DetState* state);
 
     DetState* nextState(BitsetWrapper charBitset);
     DetState* nextState(char a);
