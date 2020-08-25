@@ -93,6 +93,15 @@ class Evaluator {
 
   size_t capture_counter_;
   size_t reading_counter_;
+
+  size_t direct_c_;
+  size_t single_c_;
+  size_t direct_single_c_;
+  size_t direct_multi_c_;
+  size_t multi_c_;
+  size_t empty_c_;
+
+  size_t det_c_;
 }; // end class Evaluator
 
 } // namespace rematch

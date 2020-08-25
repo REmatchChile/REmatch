@@ -59,6 +59,30 @@ size_t RegEx::reading_counter() const {
   return eval_->reading_counter_;
 }
 
+size_t RegEx::direct_counter() const {
+  return eval_->direct_c_;
+}
+
+size_t RegEx::single_counter() const {
+  return eval_->single_c_;
+}
+size_t RegEx::direct_single_counter() const {
+  return eval_->direct_single_c_;
+}
+size_t RegEx::direct_multi_counter() const {
+  return eval_->direct_multi_c_;
+}
+size_t RegEx::multi_counter() const {
+  return eval_->multi_c_;
+}
+size_t RegEx::empty_counter() const {
+  return eval_->empty_c_;
+}
+
+size_t RegEx::det_counter() const {
+  return eval_->det_c_;
+}
+
 } // end namespace rematch
 
 
