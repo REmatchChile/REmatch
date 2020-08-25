@@ -17,7 +17,9 @@ Evaluator::Evaluator(RegEx &rgx, std::istream& input,
       direct_text_(false),
       i_pos_(0),
       i_start_(0),
-      nlines_(0) {
+      nlines_(0),
+      capture_counter_(0),
+      reading_counter_(0) {
   init();
 }
 
@@ -31,7 +33,9 @@ Evaluator::Evaluator(RegEx &rgx, const std::string &text,
       direct_text_(true),
       i_pos_(0),
       i_start_(0),
-      nlines_(0) {
+      nlines_(0),
+      capture_counter_(0),
+      reading_counter_(0) {
   init();
 }
 
@@ -236,6 +240,9 @@ inline void Evaluator::visitEmpty(int64_t i, Transition* t, NodeList *prev_list)
 }
 
 inline void Evaluator::visitDirect(int64_t i, Transition* t, NodeList *prev_list) {
+
+  reading_counter_++;
+
   if(t->direct_->visited <= i+1) {
     t->direct_->visited = i+2;
 
@@ -250,6 +257,10 @@ inline void Evaluator::visitDirect(int64_t i, Transition* t, NodeList *prev_list
 }
 
 inline void Evaluator::visitSingleCapture(int64_t i, Transition* t, NodeList *prev_list) {
+
+  capture_counter_++;
+  reading_counter_++;
+
   Node* new_node = Evaluator::memory_manager_.alloc(t->capture_->S,
                                                   i+1,
                                                   prev_list->head,
@@ -264,6 +275,9 @@ inline void Evaluator::visitSingleCapture(int64_t i, Transition* t, NodeList *pr
 }
 
 inline void Evaluator::visitDirectSingleCapture(int64_t i, Transition* t, NodeList *prev_list) {
+
+  reading_counter_++;
+
  if(t->direct_->visited <= i+1) {
     t->direct_->visited = i+2;
 
@@ -275,6 +289,9 @@ inline void Evaluator::visitDirectSingleCapture(int64_t i, Transition* t, NodeLi
   } else {
     t->direct_->currentL->append(prev_list);
   }
+
+  capture_counter_++;
+  reading_counter_++;
 
   Node* new_node = Evaluator::memory_manager_.alloc(t->capture_->S,
                                                   i+1,
@@ -291,6 +308,10 @@ inline void Evaluator::visitDirectSingleCapture(int64_t i, Transition* t, NodeLi
 
 inline void Evaluator::visitMultiCapture(int64_t i, Transition* t, NodeList *prev_list) {
   for(auto &capture: t->captures_) {
+
+    capture_counter_++;
+    reading_counter_++;
+
     Node* new_node = Evaluator::memory_manager_.alloc(capture->S,
                                                       i+1,
                                                       prev_list->head,
@@ -306,6 +327,7 @@ inline void Evaluator::visitMultiCapture(int64_t i, Transition* t, NodeList *pre
 }
 
 inline void Evaluator::visitDirectMultiCapture(int64_t i, Transition* t, NodeList *prev_list) {
+  reading_counter_++;
   if(t->direct_->visited <= i+1) {
     t->direct_->visited = i+2;
 
@@ -319,6 +341,10 @@ inline void Evaluator::visitDirectMultiCapture(int64_t i, Transition* t, NodeLis
   }
 
   for(auto &capture: t->captures_) {
+
+    capture_counter_++;
+    reading_counter_++;
+
     Node* new_node = Evaluator::memory_manager_.alloc(capture->S,
                                                       i+1,
                                                       prev_list->head,

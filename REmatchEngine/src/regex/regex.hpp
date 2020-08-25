@@ -64,6 +64,10 @@ class RegEx {
   DetManager& detManager() {return dman_;};
   DetManager& rawDetManager() {return raw_dman_;};
 
+
+  size_t capture_counter() const;
+  size_t reading_counter() const;
+
   private:
 
   static flags_t parseFlags(RegExOptions rgx_opt);

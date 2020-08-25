@@ -51,6 +51,14 @@ uint8_t RegEx::parseFlags(rematch::RegExOptions rgx_opts) {
   return ret;
 }
 
+size_t RegEx::capture_counter() const {
+  return eval_->capture_counter_;
+}
+
+size_t RegEx::reading_counter() const {
+  return eval_->reading_counter_;
+}
+
 } // end namespace rematch
 
 
