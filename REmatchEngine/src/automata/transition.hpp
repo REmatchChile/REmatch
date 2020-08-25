@@ -24,36 +24,36 @@ struct Transition {
     kDirectMultiCapture   = 5
   };
 
-  Type type_;
+  int type_;
   DetState* direct_;
   std::unique_ptr<Capture> capture_;
   Captures captures_;
 
   // Default = EmptyTransition
-  Transition(): type_(Type::kEmpty) {}
+  Transition(): type_(0) {}
 
   Transition(std::unique_ptr<Capture> capture)
-    : type_(Type::kSingleCapture),
+    : type_(2),
       capture_(std::move(capture)) {}
 
-  Transition(DetState* state): type_(Type::kDirect), direct_(state) {}
+  Transition(DetState* state): type_(1), direct_(state) {}
 
   void add_capture(std::unique_ptr<Capture> capture) {
     switch (type_) {
-      case Type::kEmpty:
+      case 0:
         throw std::logic_error("Can't add capture to empty transition.");
         break;
-      case Type::kDirect:
-        type_ = Type::kDirectSingleCapture;
+      case 1:
+        type_ = 3;
         capture_ = std::move(capture);
         break;
-      case Type::kSingleCapture:
-        type_ = Type::kMultiCapture;
+      case 2:
+        type_ = 4;
         captures_.push_back(std::move(capture_));
         captures_.push_back(std::move(capture));
         break;
-      case Type::kDirectSingleCapture:
-        type_ = Type::kDirectMultiCapture;
+      case 3:
+        type_ = 5;
         captures_.push_back(std::move(capture_));
         captures_.push_back(std::move(capture));
         break;
@@ -65,20 +65,20 @@ struct Transition {
 
   void add_direct(DetState* state) {
     switch (type_) {
-      case Type::kEmpty:
+      case 0:
         throw std::logic_error("Can't add direct to empty transition.");
         break;
-      case Type::kDirect:
-      case Type::kDirectSingleCapture:
-      case Type::kDirectMultiCapture:
+      case 1:
+      case 3:
+      case 5:
         throw std::logic_error("Can't add direct because a direct is already present.");
         break;
-      case Type::kSingleCapture:
-        type_ = Type::kDirectSingleCapture;
+      case 2:
+        type_ = 3;
         direct_ = state;
         break;
-      case Type::kMultiCapture:
-        type_ = Type::kDirectMultiCapture;
+      case 4:
+        type_ = 5;
         direct_ = state;
         break;
     }

@@ -129,13 +129,20 @@ void Interface::benchmarkRun() {
 	/************************ Output Measurments ************************/
 
 	std::cout
-				<< "Number of mappings\t\t" 		<< 	numOfSpans				<<	'\n'
-				<< "Memory used \t\t\t"					<<	memoryUsed	 			<< 	'\n'
-				<< "Num of Captures \t\t"				<< 	numOfCaptures			<<	'\n'
-				<< "Num of Readings \t\t"				<< 	numOfReadings			<<	'\n'
-				<< "Init Automata time\t\t"			<<	initAutomataTime 	<< 	"s\n"
-				<< "Evaluate time\t\t\t"				<<	evaluateTime			<< 	"s\n"
-				<< "Total time\t\t\t"						<<	totTime 					<< 	"s\n";
+	<< "Number of mappings\t\t" 			<< 	pwc(numOfSpans)											<<	'\n'
+	<< "Memory used \t\t\t"						<<	memoryUsed	 												<< 	'\n'
+	<< "Num of Captures \t\t"					<< 	pwc(numOfCaptures)									<<	'\n'
+	<< "Num of Readings \t\t"					<< 	pwc(numOfReadings)									<<	'\n'
+	<< "Num of Direct \t\t\t"					<< 	pwc(regex.direct_counter())					<<	'\n'
+	<< "Num of Single \t\t\t"					<< 	pwc(regex.single_counter())					<<	'\n'
+	<< "Num of Direct-Single \t\t"		<< 	pwc(regex.direct_single_counter())	<<	'\n'
+	<< "Num of Direct-Multi \t\t"			<< 	pwc(regex.direct_multi_counter())		<<	'\n'
+	<< "Num of Multi \t\t\t"					<< 	pwc(regex.multi_counter())					<<	'\n'
+	<< "Num of Empty \t\t\t"					<< 	pwc(regex.empty_counter())					<<	'\n'
+	<< "Num of determinizations\t\t"	<< 	pwc(regex.det_counter())						<<	'\n'
+	<< "Init Automata time\t\t"				<<	initAutomataTime 										<< 	"s\n"
+	<< "Evaluate time\t\t\t"					<<	evaluateTime												<< 	"s\n"
+	<< "Total time\t\t\t"							<<	totTime 														<< 	"s\n";
 
 }
 
@@ -157,6 +164,17 @@ std::string Interface::formatMem(size_t sizeInBytes) {
 	ss << sizeForm << units[counter];
 
 	return ss.str();
+}
+
+
+std::string Interface::pwc(size_t value) {
+	string numWithCommas = to_string(value);
+	int insertPosition = numWithCommas.length() - 3;
+	while (insertPosition > 0) {
+			numWithCommas.insert(insertPosition, ",");
+			insertPosition-=3;
+	}
+	return numWithCommas;
 }
 
 std::string Interface::file2str(std::string filename) {

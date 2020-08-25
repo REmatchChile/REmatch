@@ -44,12 +44,12 @@ class Evaluator {
   Match_ptr nextFT();
   Match_ptr nextFF();
 
-  void visitEmpty(int64_t i, Transition *t, NodeList *prev_list);
-  void visitDirect(int64_t i, Transition* t, NodeList *prev_list);
-  void visitSingleCapture(int64_t i, Transition* t, NodeList *prev_list);
-  void visitDirectSingleCapture(int64_t i, Transition* t, NodeList *prev_list);
-  void visitMultiCapture(int64_t i, Transition* t, NodeList *prev_list);
-  void visitDirectMultiCapture(int64_t i, Transition* t, NodeList *prev_list);
+  void visitEmpty(int64_t &i, Transition *t, NodeList *prev_list);
+  void visitDirect(int64_t &i, Transition *t, NodeList *prev_list);
+  void visitSingleCapture(int64_t &i, Transition *t, NodeList *prev_list);
+  void visitDirectSingleCapture(int64_t &i, Transition *t, NodeList *prev_list);
+  void visitMultiCapture(int64_t &i, Transition *t, NodeList *prev_list);
+  void visitDirectMultiCapture(int64_t &i, Transition *t, NodeList *prev_list);
 
   void captureT(int64_t i);
   void captureF(int64_t i);
@@ -93,6 +93,15 @@ class Evaluator {
 
   size_t capture_counter_;
   size_t reading_counter_;
+
+  size_t direct_c_;
+  size_t single_c_;
+  size_t direct_single_c_;
+  size_t direct_multi_c_;
+  size_t multi_c_;
+  size_t empty_c_;
+
+  size_t det_c_;
 }; // end class Evaluator
 
 } // namespace rematch

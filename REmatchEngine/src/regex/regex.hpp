@@ -67,6 +67,13 @@ class RegEx {
 
   size_t capture_counter() const;
   size_t reading_counter() const;
+  size_t direct_counter() const;
+  size_t single_counter() const;
+  size_t direct_single_counter() const;
+  size_t direct_multi_counter() const;
+  size_t multi_counter() const;
+  size_t empty_counter() const;
+  size_t det_counter() const;
 
   private:
 

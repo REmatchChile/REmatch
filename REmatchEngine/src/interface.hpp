@@ -24,6 +24,9 @@ class Interface {
 	std::string formatMem(size_t sizeInBytes);
 	std::string file2str(std::string filename);
 
+	// Prints value with commas (e.g. 34,523,003)
+	std::string pwc(size_t value);
+
 	std::istream *document_stream_;
 	std::string document_filename_;
 	std::string pattern_;
