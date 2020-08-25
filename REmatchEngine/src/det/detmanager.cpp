@@ -92,8 +92,6 @@ void DetManager :: computeCaptures(DetState* p, DetState* q, char a) {
 
 rematch::Transition* DetManager::next_transition(DetState *q, char a) {
 
-	a &= 0x7F; // Only ASCII chars for now
-
 	BitsetWrapper charBitset = filter_factory_->applyFilters(a);
 
 	std::set<LVAState*> newSubset;  // Store the next subset

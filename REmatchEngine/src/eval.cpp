@@ -94,6 +94,8 @@ Evaluator::inlinedNext(bool early_output, bool line_by_line) {
       if(line_by_line_)   a = line_[i_pos_-i_start_];
       else                text_->get(a);
 
+      a &= 0x7F;
+
       if(early_output_)   readingT(a, i_pos_);
       else                readingF(a, i_pos_);
 
@@ -157,7 +159,7 @@ bool Evaluator::match() {
 
   while( it < (int64_t)line_.size() ) {
 
-    a = (char) line_[it];
+    a = (char) line_[it] & 0x7F;
 
     // nextState is reached from currentState by reading the character
     auto nextTransition = currentState->next_transition(a);
@@ -165,17 +167,16 @@ bool Evaluator::match() {
     if(nextTransition == nullptr) // Then maybe a determinization is needed
       nextTransition = rgx_.rawDetManager().next_transition(currentState, a);
 
+    if (nextTransition->type_ == Transition::Type::kEmpty)
+      return false;
+
     nextState = nextTransition->direct_;
 
     if (nextState->isSuperFinal)
       return true;
 
-    if (nextState->ss->isNonEmpty)  // Check if not empty set
-      currentState = nextState;
-    else
-      return false;
+    currentState = nextState;
     it++;
-
   }
 
   return currentState->isFinal;
@@ -229,12 +230,12 @@ void Evaluator::readingF(char a, int64_t i) {
   reading(a, i, 0);
 }
 
-void Evaluator::visitEmpty(int64_t i, Transition* t, NodeList *prev_list) {
+inline void Evaluator::visitEmpty(int64_t i, Transition* t, NodeList *prev_list) {
   prev_list->resetRefs();
   Evaluator::memory_manager_.addPossibleGarbage(prev_list->head);
 }
 
-void Evaluator::visitDirect(int64_t i, Transition* t, NodeList *prev_list) {
+inline void Evaluator::visitDirect(int64_t i, Transition* t, NodeList *prev_list) {
   if(t->direct_->visited <= i+1) {
     t->direct_->visited = i+2;
 
@@ -248,7 +249,7 @@ void Evaluator::visitDirect(int64_t i, Transition* t, NodeList *prev_list) {
   }
 }
 
-void Evaluator::visitSingleCapture(int64_t i, Transition* t, NodeList *prev_list) {
+inline void Evaluator::visitSingleCapture(int64_t i, Transition* t, NodeList *prev_list) {
   Node* new_node = Evaluator::memory_manager_.alloc(t->capture_->S,
                                                   i+1,
                                                   prev_list->head,
@@ -262,7 +263,7 @@ void Evaluator::visitSingleCapture(int64_t i, Transition* t, NodeList *prev_list
   }
 }
 
-void Evaluator::visitDirectSingleCapture(int64_t i, Transition* t, NodeList *prev_list) {
+inline void Evaluator::visitDirectSingleCapture(int64_t i, Transition* t, NodeList *prev_list) {
  if(t->direct_->visited <= i+1) {
     t->direct_->visited = i+2;
 
@@ -288,7 +289,7 @@ void Evaluator::visitDirectSingleCapture(int64_t i, Transition* t, NodeList *pre
   }
 }
 
-void Evaluator::visitMultiCapture(int64_t i, Transition* t, NodeList *prev_list) {
+inline void Evaluator::visitMultiCapture(int64_t i, Transition* t, NodeList *prev_list) {
   for(auto &capture: t->captures_) {
     Node* new_node = Evaluator::memory_manager_.alloc(capture->S,
                                                       i+1,
@@ -304,7 +305,7 @@ void Evaluator::visitMultiCapture(int64_t i, Transition* t, NodeList *prev_list)
   }
 }
 
-void Evaluator::visitDirectMultiCapture(int64_t i, Transition* t, NodeList *prev_list) {
+inline void Evaluator::visitDirectMultiCapture(int64_t i, Transition* t, NodeList *prev_list) {
   if(t->direct_->visited <= i+1) {
     t->direct_->visited = i+2;
 

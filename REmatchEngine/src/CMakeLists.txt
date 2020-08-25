@@ -14,6 +14,13 @@ set(BUILD_TARGETS
   generate
 )
 
+set(BENCHMARK_TARGETS
+  test-onig
+  test-hscan
+  test-pcre
+  test-re2
+)
+
 if(SWIG) # Only set shared library target
   set(project_LIB "${PROJECT_NAME}swiglib")
   set_property(SOURCE interfaces/rematch.swg PROPERTY CPLUSPLUS ON)
@@ -41,6 +48,13 @@ else()
       target_link_libraries(${target} ${project_LIBS})
       set_property(TARGET ${target} PROPERTY CXX_STANDARD 17)
     endforeach(target ${BUILD_TARGETS})
+    if(BUILD_BENCHMARKS)
+    foreach(target ${BENCHMARK_TARGETS})
+      add_executable(${target} ${CMAKE_CURRENT_SOURCE_DIR}/benchmark/${target}.cpp)
+      target_link_libraries(${target} ${project_LIBS} pcrecpp onig hs re2)
+      set_property(TARGET ${target} PROPERTY CXX_STANDARD 17)
+    endforeach(target ${BENCHMARK_TARGETS})
+    endif()
   endif()
 
 endif()

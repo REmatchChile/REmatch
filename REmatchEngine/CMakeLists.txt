@@ -30,6 +30,8 @@ endif()
 # add_definitions(-DNOPT_CROSSPROD)
 # add_definitions(-DNOPT_OFFSET)
 
+set(BUILD_BENCHMARKS TRUE)
+
 include_directories(src)
 include_directories(SYSTEM thirdparty)
 

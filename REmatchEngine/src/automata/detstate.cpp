@@ -54,7 +54,7 @@ void DetState :: setSubset(SetState* newss) {
 
 void DetState::add_capture(char a, std::bitset<32> S, DetState* state) {
   if(transitions_[a] == nullptr) {
-    transitions_[a] = new Transition(std::make_unique<Capture>(S, state));
+    transitions_[a] = std::make_unique<Transition>(std::make_unique<Capture>(S, state));
   } else {
     transitions_[a]->add_capture(std::make_unique<Capture>(S, state));
   }
@@ -62,20 +62,19 @@ void DetState::add_capture(char a, std::bitset<32> S, DetState* state) {
 
 void DetState::add_direct(char a, DetState* state) {
   if(transitions_[a] == nullptr) {
-    transitions_[a] = new Transition(state);
+    transitions_[a] = std::make_unique<Transition>(state);
   } else {
     transitions_[a]->add_direct(state);
   }
 }
 
 void DetState::add_empty(char a, DetState* state) {
-  transitions_[a] = new Transition();
+  transitions_[a] = std::make_unique<Transition>();
 }
 
 
 Transition* DetState::next_transition(char a) {
-  a &= 0x7F;
-  return transitions_[a];
+  return transitions_[a].get();
 }
 
 std::ostream & operator<<(std::ostream &os, DetState const &q) {
