@@ -14,19 +14,13 @@
 #include "automata/transition.hpp"
 
 class DetState;
+struct Transition;
 
 namespace rematch {
 
 class Evaluator {
 
  public:
-
-  friend class NoCapture;
-  friend class OneCapture;
-  friend class MultiCapture;
-  friend class NoOneCapture;
-  friend class NoMultiCapture;
-  friend class EmptyTransition;
 
   enum EvalOptions {
     kLineByLine    = 1<<2,
@@ -47,6 +41,13 @@ class Evaluator {
   Match_ptr nextTF();
   Match_ptr nextFT();
   Match_ptr nextFF();
+
+  void visitEmpty(int64_t i, Transition *t, NodeList *prev_list);
+  void visitDirect(int64_t i, Transition* t, NodeList *prev_list);
+  void visitSingleCapture(int64_t i, Transition* t, NodeList *prev_list);
+  void visitDirectSingleCapture(int64_t i, Transition* t, NodeList *prev_list);
+  void visitMultiCapture(int64_t i, Transition* t, NodeList *prev_list);
+  void visitDirectMultiCapture(int64_t i, Transition* t, NodeList *prev_list);
 
   void captureT(int64_t i);
   void captureF(int64_t i);

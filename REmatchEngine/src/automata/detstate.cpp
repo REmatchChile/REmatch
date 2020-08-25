@@ -52,22 +52,22 @@ void DetState :: setSubset(SetState* newss) {
 
 void DetState::add_capture(char a, std::bitset<32> S, DetState* state) {
   if(transitions_[a] == nullptr) {
-    transitions_[a] = new OneCapture(new Capture(S, state));
+    transitions_[a] = new Transition(new Capture(S, state));
   } else {
-    transitions_[a] = transitions_[a]->add_capture(new Capture(S, state));
+    transitions_[a]->add_capture(new Capture(S, state));
   }
 }
 
 void DetState::add_direct(char a, DetState* state) {
   if(transitions_[a] == nullptr) {
-    transitions_[a] = new NoCapture(state);
+    transitions_[a] = new Transition(state);
   } else {
-    transitions_[a] = transitions_[a]->add_direct(state);
+    transitions_[a]->add_direct(state);
   }
 }
 
 void DetState::add_empty(char a, DetState* state) {
-  transitions_[a] = new EmptyTransition();
+  transitions_[a] = new Transition();
 }
 
 

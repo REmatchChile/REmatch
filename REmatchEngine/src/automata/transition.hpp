@@ -11,106 +11,74 @@ using DetStates = std::vector<DetState*>;
 
 namespace rematch {
 
-class Transition {
- public:
-  virtual void visit(int64_t i, NodeList *prev_list, DetStates &new_states) = 0;
-  virtual std::vector<Capture*> captures() const = 0;
-  virtual Transition* add_capture(Capture* capture) = 0;
-  virtual Transition* add_direct(DetState* state) = 0;
+struct Transition {
+  enum class Type {
+    kEmpty                = 0,
+    kDirect               = 1,
+    kSingleCapture        = 2,
+    kDirectSingleCapture  = 3,
+    kMultiCapture         = 4,
+    kDirectMultiCapture   = 5
+  };
 
-  int type_;
-}; // class Transition
-
-class EmptyTransition : public Transition {
- public:
-  EmptyTransition() = default;
-
-  virtual void visit(int64_t i, NodeList *prev_list, DetStates &new_states);
-  virtual std::vector<Capture*> captures() const;
-  virtual Transition* add_capture(Capture* capture);
-  virtual Transition* add_direct(DetState* state);
-}; // class EmptyTransition
-
-class NoCapture : public Transition {
- public:
-  friend class NoOneCapture;
-
-  NoCapture(DetState* next_state);
-
-  virtual void visit(int64_t i, NodeList *prev_list, DetStates &new_states);
-  virtual std::vector<Capture*> captures() const;
-  virtual Transition* add_capture(Capture* capture);
-  virtual Transition* add_direct(DetState* state);
-
-  DetState* next() {return next_;}
-
- private:
-  DetState* next_;
-}; // class NoCapture
-
-class OneCapture : public Transition {
- public:
-  friend class NoOneCapture;
-  friend class MultiCapture;
-
-  OneCapture(Capture* capture);
-
-  virtual void visit(int64_t i, NodeList *prev_list, DetStates &new_states);
-  virtual std::vector<Capture*> captures() const;
-  virtual Transition* add_capture(Capture* capture);
-  virtual Transition* add_direct(DetState* state);
-
- private:
-  Capture *capture_;
-}; // class OneCapture
-
-class MultiCapture : public Transition {
- public:
-  friend class NoMultiCapture;
-
-  MultiCapture(OneCapture &transition, Capture* second_capture);
-
-  virtual void visit(int64_t i, NodeList *prev_list, DetStates &new_states);
-  virtual std::vector<Capture*> captures() const;
-  virtual Transition* add_capture(Capture* capture);
-  virtual Transition* add_direct(DetState* state);
-
- private:
+  Type type_;
+  DetState* direct_;
+  Capture* capture_;
   std::vector<Capture*> captures_;
-}; // class MultiCapture
 
-class NoOneCapture : public Transition {
- public:
-  friend class NoMultiCapture;
+  // Default = EmptyTransition
+  Transition(): type_(Type::kEmpty) {}
 
-  NoOneCapture(OneCapture &transition, DetState* next_state);
-  NoOneCapture(NoCapture &transition, Capture* second_capture);
+  Transition(Capture* capture): type_(Type::kSingleCapture), capture_(capture) {}
 
-  virtual void visit(int64_t i, NodeList *prev_list, DetStates &new_states);
-  virtual std::vector<Capture*> captures() const;
-  virtual Transition* add_capture(Capture* capture);
-  virtual Transition* add_direct(DetState* state);
+  Transition(DetState* state): type_(Type::kDirect), direct_(state) {}
 
- private:
-  Capture *capture_;
-  DetState *next_;
-}; // class NoOneCapture
+  void add_capture(Capture* capture) {
+    switch (type_) {
+      case Type::kEmpty:
+        throw std::logic_error("Can't add capture to empty transition.");
+        break;
+      case Type::kDirect:
+        type_ = Type::kDirectSingleCapture;
+        capture_ = capture;
+        break;
+      case Type::kSingleCapture:
+        type_ = Type::kMultiCapture;
+        captures_.push_back(capture_);
+        captures_.push_back(capture);
+        break;
+      case Type::kDirectSingleCapture:
+        type_ = Type::kDirectMultiCapture;
+        captures_.push_back(capture_);
+        captures_.push_back(capture);
+        break;
+      default:
+        captures_.push_back(capture);
+        break;
+    }
+  }
 
-class NoMultiCapture : public Transition {
- public:
-
-  NoMultiCapture(NoOneCapture& transition, Capture* second_capture);
-  NoMultiCapture(MultiCapture& transition, DetState* next_state);
-
-  virtual void visit(int64_t i, NodeList *prev_list, DetStates &new_states);
-  virtual std::vector<Capture*> captures() const;
-  virtual Transition* add_capture(Capture* capture);
-  virtual Transition* add_direct(DetState* state);
-
- private:
-  std::vector<Capture*> captures_;
-  DetState *next_;
-}; // class NoMultiCapture
+  void add_direct(DetState* state) {
+    switch (type_) {
+      case Type::kEmpty:
+        throw std::logic_error("Can't add direct to empty transition.");
+        break;
+      case Type::kDirect:
+      case Type::kDirectSingleCapture:
+      case Type::kDirectMultiCapture:
+        throw std::logic_error("Can't add direct because a direct is already present.");
+        break;
+      case Type::kSingleCapture:
+        type_ = Type::kDirectSingleCapture;
+        direct_ = state;
+        break;
+      case Type::kMultiCapture:
+        type_ = Type::kDirectMultiCapture;
+        direct_ = state;
+        break;
+    }
+  }
+}; // end struct Transition
 
 } // namespace rematch
 

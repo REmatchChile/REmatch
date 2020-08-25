@@ -53,7 +53,7 @@ std::string DetAutomaton :: pprint() {
 
     for (size_t i = 0; i < 128; i++) {
       if(current->transitions_[i] == nullptr) continue;
-      for(auto &capture: current->transitions_[i]->captures()) {
+      for(auto &capture: current->transitions_[i]->captures_) {
         DetState* it = capture->next;
         if(it == nullptr)
           continue;
