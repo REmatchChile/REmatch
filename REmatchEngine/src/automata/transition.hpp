@@ -1,6 +1,8 @@
 #ifndef AUTOMATA__TRANSITION_HPP
 #define AUTOMATA__TRANSITION_HPP
 
+#include <memory>
+
 #include "automata/detstate.hpp"
 #include "captures.hpp"
 
@@ -8,6 +10,7 @@ class DetState;
 class NodeList;
 
 using DetStates = std::vector<DetState*>;
+using Captures = std::vector<std::unique_ptr<Capture>>;
 
 namespace rematch {
 
@@ -23,37 +26,39 @@ struct Transition {
 
   Type type_;
   DetState* direct_;
-  Capture* capture_;
-  std::vector<Capture*> captures_;
+  std::unique_ptr<Capture> capture_;
+  Captures captures_;
 
   // Default = EmptyTransition
   Transition(): type_(Type::kEmpty) {}
 
-  Transition(Capture* capture): type_(Type::kSingleCapture), capture_(capture) {}
+  Transition(std::unique_ptr<Capture> capture)
+    : type_(Type::kSingleCapture),
+      capture_(std::move(capture)) {}
 
   Transition(DetState* state): type_(Type::kDirect), direct_(state) {}
 
-  void add_capture(Capture* capture) {
+  void add_capture(std::unique_ptr<Capture> capture) {
     switch (type_) {
       case Type::kEmpty:
         throw std::logic_error("Can't add capture to empty transition.");
         break;
       case Type::kDirect:
         type_ = Type::kDirectSingleCapture;
-        capture_ = capture;
+        capture_ = std::move(capture);
         break;
       case Type::kSingleCapture:
         type_ = Type::kMultiCapture;
-        captures_.push_back(capture_);
-        captures_.push_back(capture);
+        captures_.push_back(std::move(capture_));
+        captures_.push_back(std::move(capture));
         break;
       case Type::kDirectSingleCapture:
         type_ = Type::kDirectMultiCapture;
-        captures_.push_back(capture_);
-        captures_.push_back(capture);
+        captures_.push_back(std::move(capture_));
+        captures_.push_back(std::move(capture));
         break;
       default:
-        captures_.push_back(capture);
+        captures_.push_back(std::move(capture));
         break;
     }
   }

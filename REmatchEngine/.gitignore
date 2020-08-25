@@ -20,13 +20,13 @@ embuild/
 bin/
 results/
 credentials.json
-drive_token.pickle
+*.pickle
 scripts/*/settings.json
 datasets
 tmp
 .vscode
-.VSCodeCounter/
-python/settings.json
+.VSCodeCounter
+scripts/py/settings.json
 callgrind.out.*
 exp/re2/.vscode
 exp/syn
