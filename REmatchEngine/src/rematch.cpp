@@ -20,7 +20,9 @@ Match_ptr find(string pattern, string &text) {
   RegEx compiled_rgx(pattern);
   stringstream ss(text);
 
-  Evaluator eval(compiled_rgx, ss, Evaluator::kEarlyOutput);
+  FileDocument doc(ss);
+
+  Evaluator eval(compiled_rgx, doc, Evaluator::kEarlyOutput);
 
   return eval.next();
 }

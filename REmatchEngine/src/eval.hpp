@@ -18,7 +18,6 @@ namespace rematch {
 
 class Evaluator {
  public:
-
   friend class RegEx;
 
   enum EvalOptions {
@@ -27,8 +26,7 @@ class Evaluator {
     kAllFlags      = kEarlyOutput | kLineByLine
   };
 
-  Evaluator(RegEx& rgx, std::istream& input, uint8_t eval_options=0);
-  Evaluator(RegEx& rgx, const std::string& input, uint8_t eval_options=0);
+  Evaluator(RegEx& rgx, Document& doc, uint8_t eval_options=0);
 
   Match_ptr next();
 
@@ -63,7 +61,7 @@ class Evaluator {
   std::unique_ptr<Enumerator> enumerator_;
   static MemManager memory_manager_;
 
-  std::unique_ptr<Document> text_;
+  Document &text_;
   std::string line_;
 
   std::vector<DetState*> current_states_;
@@ -74,9 +72,6 @@ class Evaluator {
 
   bool early_output_;
   bool line_by_line_;
-
-  bool document_ended_;
-  bool direct_text_;
 
   size_t i_pos_;
   size_t i_start_;

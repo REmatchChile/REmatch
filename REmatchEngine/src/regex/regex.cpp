@@ -1,6 +1,7 @@
 #include "regex.hpp"
 #include "parser/parser.hpp"
 #include "eval.hpp"
+#include "document.hpp"
 
 namespace rematch {
 
@@ -23,22 +24,25 @@ std::string RegEx::uniformGenerate(uint32_t n) {
 
 
 Match_ptr RegEx::findIter(const std::string &text) {
+  StrDocument doc(text);
   if(eval_ == nullptr) {
-    eval_ = std::make_unique<Evaluator>(*this, text, Evaluator::kAllFlags & flags_);
+    eval_ = std::make_unique<Evaluator>(*this, doc, Evaluator::kAllFlags & flags_);
   }
   return eval_->next();
 }
 
 Match_ptr RegEx::findIter(std::istream &is) {
+  FileDocument doc(is);
   if(eval_ == nullptr) {
-    eval_ = std::make_unique<Evaluator>(*this, is, Evaluator::kAllFlags & flags_);
+    eval_ = std::make_unique<Evaluator>(*this, doc, Evaluator::kAllFlags & flags_);
   }
   return eval_->next();
 }
 
 
 Match_ptr RegEx::find(const std::string &text) {
-  return Evaluator(*this, text, flags_ & Evaluator::kEarlyOutput).next();
+  StrDocument doc(text);
+  return Evaluator(*this, doc, flags_ & Evaluator::kEarlyOutput).next();
 }
 
 

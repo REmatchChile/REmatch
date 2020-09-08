@@ -7,30 +7,11 @@ namespace rematch {
 
 MemManager Evaluator::memory_manager_{};
 
-Evaluator::Evaluator(RegEx &rgx, std::istream& input,
-                     uint8_t flags)
+Evaluator::Evaluator(RegEx &rgx, Document& doc, uint8_t flags)
     : rgx_(rgx),
-      text_(std::make_unique<FileDocument>(input)),
+      text_(doc),
       early_output_(flags & kEarlyOutput),
       line_by_line_(flags & kLineByLine),
-      document_ended_(false),
-      direct_text_(false),
-      i_pos_(0),
-      i_start_(0),
-      nlines_(0),
-      capture_counter_(0),
-      reading_counter_(0) {
-  init();
-}
-
-Evaluator::Evaluator(RegEx &rgx, const std::string &text,
-                     uint8_t flags)
-    : rgx_(rgx),
-      text_(std::make_unique<StrDocument>(text)),
-      early_output_(flags & kEarlyOutput),
-      line_by_line_(flags & kLineByLine),
-      document_ended_(false),
-      direct_text_(true),
       i_pos_(0),
       i_start_(0),
       nlines_(0),
@@ -42,17 +23,13 @@ Evaluator::Evaluator(RegEx &rgx, const std::string &text,
 void Evaluator::init() {
   std::string str_ = "";
   enumerator_ = std::make_unique<Enumerator>(rgx_, str_);
-  if(line_by_line_) {
-    text_->getline(line_);
-    line_ += '\n';
-    nlines_++;
-  }
   initAutomaton(i_pos_);
 }
 
 void Evaluator::initAutomaton(size_t i) {
   DFA().initState()->visited = i+1;
   if( i == 0)
+    // Alloc the empty node
     DFA().initState()->currentL->add(Evaluator::memory_manager_.alloc());
 
   current_states_.clear();
@@ -81,79 +58,59 @@ Match_ptr Evaluator::next() {
 }
 
 inline Match_ptr
-Evaluator::inlinedNext(bool early_output, bool line_by_line) {
+Evaluator::inlinedNext(bool early_output, bool dfa_prefiltering, bool chunk_document) {
 
   if(enumerator_->hasNext())
       return enumerator_->next();
 
-  while (!document_ended_) {
-
-    char a;
-    output_nodelist_.reset();
-
-    while(((i_pos_-i_start_) < line_.size() &&  line_by_line_) ||
-          (i_pos_ < text_->size()             && !line_by_line_)) { // Main search loop
-
-      if(line_by_line_)   a = line_[i_pos_-i_start_];
-      else                text_->get(a);
-
-      if(early_output_)   readingT(a, i_pos_);
-      else                readingF(a, i_pos_);
-
-      current_states_.swap(new_states_);
-
-      if(early_output_)   captureT(i_pos_+1);
-      else                captureF(i_pos_+1);
-
-      i_pos_++;
-
-      if(early_output_) {
-        if(!output_nodelist_.empty())
-          break;
-      }
-    }
-
-    for(auto &state: current_states_) {
-      if(state->isFinal)
-        output_nodelist_.append(state->currentL);
-    }
-    if(!output_nodelist_.empty()) {
-      enumerator_->addNodeList(output_nodelist_);
-      Evaluator::memory_manager_.addPossibleGarbage(output_nodelist_.head);
-    }
-
-    if(((i_pos_-i_start_) == line_.size()   &&  line_by_line_) ||
-       (i_pos_ == text_->size()             && !line_by_line_)) {
-      if(line_by_line_) {
-        while(!(document_ended_ = !((bool) text_->getline(line_)))) {
-          line_ += '\n';
-          i_pos_++;
-          i_start_ = i_pos_;
-
-          if(!match()) {
-            i_pos_ += line_.size() - 1;
-            continue;
-          }
-          else {
-            initAutomaton(i_start_);
-            break;
-          }
-        }
-      }
-      else {
-        document_ended_ = true;
-      }
+  if(dfa_prefiltering && text_.at_start()) {
+    if(match()) {
+      text_.reset();
+      if(!chunk_document) initAutomaton(i_pos_);
+    } else {
+      text_.terminate();
     }
   }
 
-    if(enumerator_->hasNext())
-      return enumerator_->next();
+  if(text_.at_end()) return nullptr;
 
-    return nullptr;
+  char a;
 
+  while (!text_.ended()) {
+    output_nodelist_.reset();
+
+    text_.get(a);
+
+    if(early_output_)   readingT(a, i_pos_);
+    else                readingF(a, i_pos_);
+
+    current_states_.swap(new_states_);
+
+    if(early_output_)   captureT(i_pos_+1);
+    else                captureF(i_pos_+1);
+
+    i_pos_++;
+
+    if(early_output_ && !output_nodelist_.empty()) break;
+  }
+
+  for(auto &state: current_states_) {
+    if(state->isFinal) output_nodelist_.append(state->currentL);
+  }
+
+  if(!output_nodelist_.empty()) {
+    enumerator_->addNodeList(output_nodelist_);
+    Evaluator::memory_manager_.addPossibleGarbage(output_nodelist_.head);
+  }
+
+  if(enumerator_->hasNext())
+    return enumerator_->next();
+
+  return nullptr;
 }
 
 bool Evaluator::match() {
+  // Assumes text_ is at start.
   char a;
   DetState *nextState, *currentState;
 
@@ -161,8 +118,8 @@ bool Evaluator::match() {
 
   size_t it = 0;
 
-  while( it < line_.size() ) {
-    a = (char) line_[it];
+  while(!text_.ended()) {
+    text_.get(a);
     // nextState is reached from currentState by reading the character
     nextState = currentState->nextState(a);
 
@@ -194,7 +151,7 @@ inline void Evaluator::capture(size_t i, bool early_output) {
   for (auto &currentState: capture_states_) {
     for (auto &capture: currentState->c) {
 
-      capture_counter_++;
+      // capture_counter_++;
       nextState = capture->next;
 
       newNode = Evaluator::memory_manager_.alloc(capture->S, i,
@@ -226,7 +183,7 @@ inline void Evaluator::reading(char a, size_t i, bool early_output) {
 
   for (auto &currentState: current_states_) {
 
-    reading_counter_++;
+    // reading_counter_++;
 
 #ifdef NOPT_CROSSPROD
     if(currentState->visited == i+2)

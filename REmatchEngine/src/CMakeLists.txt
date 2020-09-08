@@ -12,6 +12,7 @@ file(GLOB sources
 set(BUILD_TARGETS
   rematch
   generate
+  test-chunks
 )
 
 if(SWIG) # Only set shared library target
