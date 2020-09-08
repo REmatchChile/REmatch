@@ -1,1 +1,0 @@
-B(?x) :- /any(\n)/?y:next(+)/next(sparql)/?x:next(\n)/, ?x.".*OPTIONAL.*OPTIONAL.*";

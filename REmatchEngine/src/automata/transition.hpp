@@ -15,13 +15,13 @@ using Captures = std::vector<std::unique_ptr<Capture>>;
 namespace rematch {
 
 struct Transition {
-  enum class Type {
+  enum Type {
     kEmpty                = 0,
-    kDirect               = 1,
-    kSingleCapture        = 2,
-    kDirectSingleCapture  = 3,
-    kMultiCapture         = 4,
-    kDirectMultiCapture   = 5
+    kDirect               = 1<<1,
+    kSingleCapture        = 1<<2,
+    kDirectSingleCapture  = kDirect & kSingleCapture,
+    kMultiCapture         = 1<<3,
+    kDirectMultiCapture   = kDirect & kMultiCapture
   };
 
   int type_;

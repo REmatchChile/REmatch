@@ -108,7 +108,7 @@ void LogicalVA::adapt_capture_jumping() {
       if(!reached_state->f.empty() || !reached_state->e.empty() || reached_state->isFinal)
         state->addEpsilon(reached_state);
       for(auto &capture: reached_state->c) {
-        if(!reached_state->tempMark)
+        if(!capture->next->tempMark)
           stack.push_back(capture->next);
       }
     }
