@@ -30,6 +30,7 @@ class DetManager {
 	std::shared_ptr<FilterFactory> filterFactory() const {return filter_factory_;}
 
 	DetAutomaton& DFA() {return *dfa_;}
+	ExtendedVA& NFA() {return *nfa_;}
 
  private:
 	// ExtendedVA representation of the given pattern.

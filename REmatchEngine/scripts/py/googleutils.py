@@ -14,7 +14,7 @@ DRIVE_SCOPES = ['https://www.googleapis.com/auth/drive']
 SHEETS_SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
 
-def get_or_create_spreadsheet(drive_service, name):
+def get_or_create_spreadsheet(drive_service, parent_folder, name, template=TEMPLATE_FILE):
     """Looks for a spreadsheet (not trashed) given a parentId and a name.
     If nothing is found then copies a spreadsheet from copyFromId and sets
     the parentId as a parent.
@@ -25,11 +25,13 @@ def get_or_create_spreadsheet(drive_service, name):
     query = ("mimeType='application/vnd.google-apps.spreadsheet' and "
              "name='{0}' and "
              "'{1}' in parents and "
-             "trashed = false").format(name, PARENT_FOLDER)
+             "trashed = false").format(name, parent_folder)
 
     response = drive_service.files().list(q=query,
                                           spaces='drive',
-                                          fields='nextPageToken, files(id, name)').execute()
+                                          fields='nextPageToken, files(id, name)',
+                                          supportsAllDrives=True,
+                                          includeItemsFromAllDrives=True).execute()
     files = response.get('files', [])
     if len(files) > 1:
         raise ValueError("Found 2 or more spreadsheets with same name.")
@@ -39,11 +41,12 @@ def get_or_create_spreadsheet(drive_service, name):
         data = {
             'mimeType' : 'application/vnd.google-apps.spreadsheet',
             'name' : name,
-            'parents' : [PARENT_FOLDER]
+            'parents' : [parent_folder]
         }
 
-        sheet = drive_service.files().copy(fileId=TEMPLATE_FILE,
-                                           body=data).execute()
+        sheet = drive_service.files().copy(fileId=template,
+                                           body=data,
+                                           supportsAllDrives=True).execute()
         return sheet['id']
 
 def get_sheets_service():
@@ -98,7 +101,7 @@ def main():
 
     DRIVE = get_drive_service()
 
-    id_ = get_or_create_spreadsheet(DRIVE, "test")
+    id_ = get_or_create_spreadsheet(DRIVE, PARENT_FOLDER, "test")
 
     print(id_)
 

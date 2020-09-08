@@ -33,7 +33,6 @@ std::string DetAutomaton :: pprint() {
   // Declarations
   std::stringstream ss, cond;
   DetState *current;
-  int nid;  // cid: current state id; nid : next state id
   std::bitset<32> S;
 
   // Typical set construction for keeping visited states
@@ -53,14 +52,10 @@ std::string DetAutomaton :: pprint() {
 
     for (size_t i = 0; i < 128; i++) {
       if(current->transitions_[i] == nullptr) continue;
-      for(auto &capture: current->transitions_[i]->captures_) {
-        DetState* it = capture->next;
-        if(it == nullptr)
-          continue;
-        nid = it->id;
-        ss << "t " << *current << ' ' ;
-
-        if(i == 0)
+      auto trans = current->transitions_[i].get();
+      cond.clear();
+      cond << "t " << *current << ' ' ;
+      if(i == 0)
           ss << "0x0";
         else if((char)i == '\n')
           ss << "\\n";
@@ -70,16 +65,30 @@ std::string DetAutomaton :: pprint() {
           ss << "\\t";
         else
           ss << (char)i;
-
-        if(capture->S.any())
-          ss << '/' << variable_factory_->getVarUtil(capture->S);
-
-        ss  << ' ' << *it << '\n';
-
-        // If not visited enqueue and add to visited
-        if (visited.find(nid) == visited.end()) {
-          visited.insert(nid);
-          queue.push_back(it);
+      std::string prefix = cond.str();
+      if(trans->type_ & Transition::Type::kDirect) {// Direct type
+        ss << prefix << ' ' << trans->direct_->id;
+        if (visited.find(trans->direct_->id) == visited.end()) {
+          visited.insert(trans->direct_->id);
+          queue.push_back(trans->direct_);
+        }
+      }
+      if(trans->type_ & Transition::Type::kSingleCapture) {
+        ss << prefix << '/' << variable_factory_->getVarUtil(trans->capture_->S)
+                     << ' ' << trans->capture_->next->id;
+        if (visited.find(trans->capture_->next->id) == visited.end()) {
+          visited.insert(trans->capture_->next->id);
+          queue.push_back(trans->capture_->next);
+        }
+      } // Single capture
+      if(trans->type_ & Transition::Type::kMultiCapture) {
+        for(auto &capture: trans->captures_) {
+          ss << prefix << '/' << variable_factory_->getVarUtil(capture->S)
+                       << ' ' << capture->next->id;
+          if (visited.find(capture->next->id) == visited.end()) {
+            visited.insert(capture->next->id);
+            queue.push_back(capture->next);
+          }
         }
       }
     }

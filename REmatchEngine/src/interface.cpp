@@ -109,7 +109,8 @@ void Interface::benchmarkRun() {
 	numOfCaptures = regex.capture_counter();
 	numOfReadings = regex.reading_counter();
 
-	// std::cout << regex.detManager().DFA().pprint() << '\n';
+	// std::cout << "\nRaw DFA:\n" <<  regex.detManager().DFA().pprint() << '\n';
+	// std::cout << "\nRaw NFA:\n" <<  regex.detManager().NFA().pprint() << '\n';
 
 	evaluateTime = t.elapsed(); 			// Evaluation time
 

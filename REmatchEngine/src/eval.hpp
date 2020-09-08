@@ -39,25 +39,25 @@ class Evaluator {
 
   void init();
 
-  Match_ptr nextTT();
-  Match_ptr nextTF();
-  Match_ptr nextFT();
-  Match_ptr nextFF();
+  // Match_ptr nextTT();
+  // Match_ptr nextTF();
+  // Match_ptr nextFT();
+  // Match_ptr nextFF();
 
-  void visitEmpty(int64_t &i, Transition *t, NodeList *prev_list);
-  void visitDirect(int64_t &i, Transition *t, NodeList *prev_list);
-  void visitSingleCapture(int64_t &i, Transition *t, NodeList *prev_list);
-  void visitDirectSingleCapture(int64_t &i, Transition *t, NodeList *prev_list);
-  void visitMultiCapture(int64_t &i, Transition *t, NodeList *prev_list);
-  void visitDirectMultiCapture(int64_t &i, Transition *t, NodeList *prev_list);
+  void visitEmpty(int64_t i, Transition *t, NodeList *prev_list);
+  void visitDirect(int64_t i, Transition *t, NodeList *prev_list);
+  void visitSingleCapture(int64_t i, Transition *t, NodeList *prev_list);
+  void visitDirectSingleCapture(int64_t i, Transition *t, NodeList *prev_list);
+  void visitMultiCapture(int64_t i, Transition *t, NodeList *prev_list);
+  void visitDirectMultiCapture(int64_t i, Transition *t, NodeList *prev_list);
 
-  void captureT(int64_t i);
-  void captureF(int64_t i);
+  // void captureT(int64_t i);
+  // void captureF(int64_t i);
 
-  void readingT(char a, int64_t i);
-  void readingF(char a, int64_t i);
+  // void readingT(char a, int64_t i);
+  // void readingF(char a, int64_t i);
 
-  inline Match_ptr inlinedNext(bool early_output, bool line_by_line);
+  // inline Match_ptr inlinedNext(bool early_output, bool line_by_line);
 
   inline void capture(int64_t i, bool early_output);
   inline void reading(char a, int64_t i, bool early_output);

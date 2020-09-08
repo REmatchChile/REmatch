@@ -3,6 +3,8 @@
 #include "automata/detstate.hpp"
 #include "memmanager.hpp"
 
+#define	FORCE_INLINE inline __attribute__((always_inline))
+
 namespace rematch {
 
 MemManager Evaluator::memory_manager_{};
@@ -76,29 +78,35 @@ void Evaluator::initAutomaton(int64_t i) {
   current_states_.clear();
   current_states_.push_back(DFA().initState());
 
-  if(early_output_) readingT(0, pos);
-  else              readingF(0, pos);
+  new_states_.clear();
+  NodeList* prevList;
+
+  static void (Evaluator::*visits[])(int64_t, Transition*, NodeList *) = {
+    &Evaluator::visitEmpty,
+    &Evaluator::visitDirect,
+    &Evaluator::visitSingleCapture,
+    &Evaluator::visitDirectSingleCapture,
+    &Evaluator::visitMultiCapture,
+    &Evaluator::visitDirectMultiCapture,
+  };
+
+  for(auto &currentState: current_states_) {
+    prevList = currentState->currentL;
+    // nextCaptures are reached from currentState by reading the character
+    auto nextTransition = currentState->next_transition(0);
+
+    if(nextTransition == nullptr) { // Then maybe a determinization is needed
+      nextTransition = rgx_.detManager().next_transition(currentState, 0);
+      det_c_++;
+    }
+
+    (this->*visits[nextTransition->type_])(pos, nextTransition, prevList);
+  }
 
   current_states_.swap(new_states_);
 }
 
 Match_ptr Evaluator::next() {
-  // Decide which next to use.
-  static Match_ptr (Evaluator::*nexts[])() = {
-    &Evaluator::nextFF,
-    &Evaluator::nextFT,
-    &Evaluator::nextTF,
-    &Evaluator::nextTT,
-  };
-  int index = 2 * line_by_line_ +
-              1 * early_output_;
-
-  return (this->*nexts[index])();
-}
-
-inline Match_ptr
-Evaluator::inlinedNext(bool early_output, bool line_by_line) {
-
   if(enumerator_->hasNext())
       return enumerator_->next();
 
@@ -106,25 +114,40 @@ Evaluator::inlinedNext(bool early_output, bool line_by_line) {
     char a;
     output_nodelist_.reset();
 
-    while(((i_pos_-i_start_) < (int64_t)line_.size() &&  line_by_line_) ||
-          (i_pos_ < (int64_t)text_->size()           && !line_by_line_)) { // Main search loop
+    while((i_pos_-i_start_) < (int64_t)line_.size()) { // Main search loop
 
-      if(line_by_line_)   a = line_[i_pos_-i_start_];
-      else                text_->get(a);
+      a = line_[i_pos_-i_start_];
 
       a &= 0x7F;  // Only ASCII chars for now
 
-      if(early_output_)   readingT(a, i_pos_);
-      else                readingF(a, i_pos_);
+      new_states_.clear();
+      NodeList* prevList;
+
+      static void (Evaluator::*visits[])(int64_t, Transition*, NodeList *) = {
+        &Evaluator::visitEmpty,
+        &Evaluator::visitDirect,
+        &Evaluator::visitSingleCapture,
+        &Evaluator::visitDirectSingleCapture,
+        &Evaluator::visitMultiCapture,
+        &Evaluator::visitDirectMultiCapture,
+      };
+
+      for(auto &currentState: current_states_) {
+        prevList = currentState->currentL;
+        // nextCaptures are reached from currentState by reading the character
+        auto nextTransition = currentState->next_transition(a);
+
+        if(nextTransition == nullptr) { // Then maybe a determinization is needed
+          nextTransition = rgx_.detManager().next_transition(currentState, a);
+          det_c_++;
+        }
+
+        (this->*visits[nextTransition->type_])(i_pos_, nextTransition, prevList);
+      }
 
       current_states_.swap(new_states_);
 
       i_pos_++;
-
-      if(early_output_) {
-        if(!output_nodelist_.empty())
-          break;
-      }
     }
 
     for(auto &state: current_states_) {
@@ -136,26 +159,20 @@ Evaluator::inlinedNext(bool early_output, bool line_by_line) {
       Evaluator::memory_manager_.addPossibleGarbage(output_nodelist_.head);
     }
 
-    if(((i_pos_-i_start_) == (int64_t)line_.size()   &&  line_by_line_) ||
-       (i_pos_ == (int64_t)text_->size()             && !line_by_line_)) {
-      if(line_by_line_) {
-        while(!(document_ended_ = !((bool) text_->getline(line_)))) {
-          line_ += '\n';
-          i_start_ = i_pos_;
-          nlines_++;
+    if((i_pos_-i_start_) == (int64_t)line_.size()) {
+      while(!(document_ended_ = !((bool) text_->getline(line_)))) {
+        line_ += '\n';
+        i_start_ = i_pos_;
+        nlines_++;
 
-          if(!match()) {
-            i_pos_ += line_.size() - 1;
-            continue;
-          }
-          else {
-            initAutomaton(i_start_);
-            break;
-          }
+        if(!match()) {
+          i_pos_ += line_.size() - 1;
+          continue;
         }
-      }
-      else {
-        document_ended_ = true;
+        else {
+          initAutomaton(i_start_);
+          break;
+        }
       }
     }
   }
@@ -201,61 +218,13 @@ bool Evaluator::match() {
 }
 
 
-inline void Evaluator::reading(char a, int64_t i, bool early_output) {
-  new_states_.clear();
-  NodeList* prevList;
-
-  static void (Evaluator::*visits[])(int64_t&, Transition*, NodeList *) = {
-    &Evaluator::visitEmpty,
-    &Evaluator::visitDirect,
-    &Evaluator::visitSingleCapture,
-    &Evaluator::visitDirectSingleCapture,
-    &Evaluator::visitMultiCapture,
-    &Evaluator::visitDirectMultiCapture,
-  };
-
-  for(auto &currentState: current_states_) {
-    prevList = currentState->currentL;
-    // nextCaptures are reached from currentState by reading the character
-    auto nextTransition = currentState->next_transition(a);
-
-    if(nextTransition == nullptr) { // Then maybe a determinization is needed
-      nextTransition = rgx_.detManager().next_transition(currentState, a);
-      det_c_++;
-    }
-
-    (this->*visits[nextTransition->type_])(i, nextTransition, prevList);
-  }
-}
-
-// Callers of inline versions
-
-Match_ptr Evaluator::nextFF() {
-  return inlinedNext(0, 0);
-}
-Match_ptr Evaluator::nextFT() {
-  return inlinedNext(0, 1);
-}
-Match_ptr Evaluator::nextTF() {
-  return inlinedNext(1, 0);
-}
-Match_ptr Evaluator::nextTT() {
-  return inlinedNext(1, 1);
-}
-void Evaluator::readingT(char a, int64_t i) {
-  reading(a, i, 1);
-}
-void Evaluator::readingF(char a, int64_t i) {
-  reading(a, i, 0);
-}
-
-inline void Evaluator::visitEmpty(int64_t &i, Transition *t, NodeList *prev_list) {
+FORCE_INLINE void Evaluator::visitEmpty(int64_t i, Transition *t, NodeList *prev_list) {
   empty_c_++;
   prev_list->resetRefs();
   Evaluator::memory_manager_.addPossibleGarbage(prev_list->head);
 }
 
-inline void Evaluator::visitDirect(int64_t &i, Transition *t, NodeList *prev_list) {
+FORCE_INLINE void Evaluator::visitDirect(int64_t i, Transition *t, NodeList *prev_list) {
 
   reading_counter_++;
 
@@ -274,7 +243,7 @@ inline void Evaluator::visitDirect(int64_t &i, Transition *t, NodeList *prev_lis
   }
 }
 
-inline void Evaluator::visitSingleCapture(int64_t &i, Transition *t, NodeList *prev_list) {
+FORCE_INLINE void Evaluator::visitSingleCapture(int64_t i, Transition *t, NodeList *prev_list) {
 
   capture_counter_++;
   reading_counter_++;
@@ -294,7 +263,7 @@ inline void Evaluator::visitSingleCapture(int64_t &i, Transition *t, NodeList *p
   }
 }
 
-inline void Evaluator::visitDirectSingleCapture(int64_t &i, Transition *t, NodeList *prev_list) {
+FORCE_INLINE void Evaluator::visitDirectSingleCapture(int64_t i, Transition *t, NodeList *prev_list) {
 
  if(t->direct_->visited <= i+1) {
     t->direct_->visited = i+2;
@@ -326,7 +295,7 @@ inline void Evaluator::visitDirectSingleCapture(int64_t &i, Transition *t, NodeL
   }
 }
 
-inline void Evaluator::visitMultiCapture(int64_t &i, Transition *t, NodeList *prev_list) {
+FORCE_INLINE void Evaluator::visitMultiCapture(int64_t i, Transition *t, NodeList *prev_list) {
   reading_counter_++;
   multi_c_++;
   for(auto &capture: t->captures_) {
@@ -347,7 +316,7 @@ inline void Evaluator::visitMultiCapture(int64_t &i, Transition *t, NodeList *pr
   }
 }
 
-inline void Evaluator::visitDirectMultiCapture(int64_t &i, Transition *t, NodeList *prev_list) {
+FORCE_INLINE void Evaluator::visitDirectMultiCapture(int64_t i, Transition *t, NodeList *prev_list) {
   reading_counter_++;
   direct_multi_c_++;
   if(t->direct_->visited <= i+1) {

@@ -1,1 +1,0 @@
-Consulta a las 12hrs con un FILTER
