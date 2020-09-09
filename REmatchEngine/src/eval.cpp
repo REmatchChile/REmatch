@@ -106,7 +106,8 @@ void Evaluator::initAutomaton(int64_t i) {
   current_states_.swap(new_states_);
 }
 
-Match_ptr Evaluator::next() {
+Match_ptr
+Evaluator::next() {
   if(enumerator_->hasNext())
       return enumerator_->next();
 
