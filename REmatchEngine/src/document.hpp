@@ -20,6 +20,7 @@ class Document {
   virtual void reset() = 0;
   virtual void terminate() = 0;
   virtual sz_t size() const = 0;
+  virtual const_iterator data() const = 0;
   virtual bool getline(std::string &str) = 0;
   virtual bool at_end() const = 0;
   virtual bool at_start() const = 0;
@@ -43,6 +44,7 @@ class StrDocument : public Document {
   Document::const_iterator end() const {return data_ + size_;}
 
   virtual Document::sz_t size() const {return size_;}
+  Document::const_iterator data() const {return data_;}
 
   virtual void get(Document::ref c) {c = *current_++;}
 
@@ -88,11 +90,13 @@ class ChunkDocument : public Document {
     Document::const_iterator end() const {return data_ + size_;}
 
     virtual Document::sz_t size() const {return size_;}
+    Document::const_iterator data() const {return data_;}
 
     virtual void reset() {current_ = data_;}
     virtual void terminate() {current_ = data_ + size_;}
 
-    virtual bool ended() const {return current_ == end();}
+    virtual bool at_end() const {return current_ == end();}
+    virtual bool at_start() const {return current_ == begin();}
 
     virtual std::string_view get_view(size_t pos, size_t endpos) {
         return std::string_view(data_+pos, endpos-pos);

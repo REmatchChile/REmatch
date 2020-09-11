@@ -56,8 +56,6 @@ class Match {
   size_t start(std::string varname) const;
   size_t end(std::string varname) const;
   Span span(std::string var) const;
-  std::string group(std::string var) const;
-  std::string * doc() const;
   std::vector<std::string> variables() const;
 }; // end class Match
 

@@ -1,10 +1,11 @@
 #include "regex/regex.hpp"
 #include "document.hpp"
 #include "eval.hpp"
+#include "util.hpp"
 
 int main(int argc, char *argv[]) {
   ChunkDocument doc;
-  rematch::RegEx rgx(".*!x{a*}.*");
+  rematch::RegEx rgx(".*!x{a+}.*");
   rematch::Evaluator eval(rgx, doc);
 
   std::unique_ptr<rematch::Match> match;
@@ -15,12 +16,11 @@ int main(int argc, char *argv[]) {
 
   for(auto &chunk: chunks) {
     doc.feed(chunk);
+    std::cout << "chunk: " << chunk << '\n';
     while(match = eval.next()) {
       std::cout << '|' << match->start("x") << ',' << match->end("x") << ">\n";
       count++;
     }
-
-    std::cout << "chunk: " << chunk << '\n';
   }
 
   std::cout << "Count: " << count << '\n';

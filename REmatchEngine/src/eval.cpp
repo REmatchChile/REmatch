@@ -21,8 +21,7 @@ Evaluator::Evaluator(RegEx &rgx, Document& doc, uint8_t flags)
 }
 
 void Evaluator::init() {
-  std::string str_ = "";
-  enumerator_ = std::make_unique<Enumerator>(rgx_, str_);
+  enumerator_ = std::make_unique<Enumerator>(rgx_);
   initAutomaton(i_pos_);
 }
 
@@ -57,8 +56,9 @@ Match_ptr Evaluator::next() {
   return (this->*nexts[index])();
 }
 
-inline Match_ptr
-Evaluator::inlinedNext(bool early_output, bool dfa_prefiltering, bool chunk_document) {
+inline Match_ptr Evaluator::inlinedNext(bool early_output, bool dfa_prefiltering) {
+
+  StrDocument *text_str = dynamic_cast<StrDocument*>(&text_);
 
   if(enumerator_->hasNext())
       return enumerator_->next();
@@ -66,7 +66,7 @@ Evaluator::inlinedNext(bool early_output, bool dfa_prefiltering, bool chunk_docu
   if(dfa_prefiltering && text_.at_start()) {
     if(match()) {
       text_.reset();
-      if(!chunk_document) initAutomaton(i_pos_);
+      initAutomaton(i_pos_);
     } else {
       text_.terminate();
     }
@@ -76,7 +76,7 @@ Evaluator::inlinedNext(bool early_output, bool dfa_prefiltering, bool chunk_docu
 
   char a;
 
-  while (!text_.ended()) {
+  while (!text_.at_end()) {
     output_nodelist_.reset();
 
     text_.get(a);
@@ -95,7 +95,10 @@ Evaluator::inlinedNext(bool early_output, bool dfa_prefiltering, bool chunk_docu
   }
 
   for(auto &state: current_states_) {
-    if(state->isFinal) output_nodelist_.append(state->currentL);
+    if(state->isFinal) {
+      output_nodelist_.append(state->currentL);
+      state->currentL->reset();
+    }
   }
 
   if(!output_nodelist_.empty()) {
@@ -118,7 +121,7 @@ bool Evaluator::match() {
 
   size_t it = 0;
 
-  while(!text_.ended()) {
+  while(!text_.at_end()) {
     text_.get(a);
     // nextState is reached from currentState by reading the character
     nextState = currentState->nextState(a);

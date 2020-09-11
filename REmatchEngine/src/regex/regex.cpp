@@ -14,6 +14,21 @@ RegEx::RegEx(std::string pattern, rematch::RegExOptions rgx_opts)
 // Explicitly declared here for correct use of unique_ptr later
 RegEx::~RegEx() {}
 
+void RegEx::feed(const std::string& text) {
+  ChunkDocument *chunk_doc = dynamic_cast<ChunkDocument*>(doc_.get());
+  chunk_doc->feed(text);
+  if(eval_ == nullptr) {
+    eval_ = std::make_unique<Evaluator>(*this, *doc_, Evaluator::kAllFlags & flags_);
+  }
+}
+
+Match_ptr RegEx::internalFindIter() {
+  if(eval_ == nullptr) {
+    eval_ = std::make_unique<Evaluator>(*this, *doc_, Evaluator::kAllFlags & flags_);
+  }
+  return eval_->next();
+}
+
 std::string RegEx::uniformGenerate(uint32_t n) {
   if(!full_dfa_) {
     dman_.computeFullDetAutomaton();
@@ -22,21 +37,33 @@ std::string RegEx::uniformGenerate(uint32_t n) {
   return dman_.uniformSample(n);
 }
 
-
 Match_ptr RegEx::findIter(const std::string &text) {
-  StrDocument doc(text);
-  if(eval_ == nullptr) {
-    eval_ = std::make_unique<Evaluator>(*this, doc, Evaluator::kAllFlags & flags_);
+  if(!doc_) {
+    doc_ = std::make_unique<StrDocument>(text);
+    eval_ = std::make_unique<Evaluator>(*this, *doc_, Evaluator::kAllFlags & flags_);
+  } else if(doc_->data() != text.data() || doc_->size() != text.size()) {
+    doc_ = std::make_unique<StrDocument>(text);
+    eval_ = std::make_unique<Evaluator>(*this, *doc_, Evaluator::kAllFlags & flags_);
   }
   return eval_->next();
 }
 
-Match_ptr RegEx::findIter(std::istream &is) {
-  FileDocument doc(is);
+Match_ptr RegEx::findIterFP(std::istream &is) {
+  ChunkDocument doc;
   if(eval_ == nullptr) {
     eval_ = std::make_unique<Evaluator>(*this, doc, Evaluator::kAllFlags & flags_);
+    std::getline(is, buffer_);
+    doc.feed(std::as_const(buffer_));
   }
-  return eval_->next();
+
+  Match_ptr res = eval_->next();
+
+  if(!res && !std::getline(is, buffer_)){
+    doc.feed(std::as_const(buffer_));
+    res = eval_->next();
+  }
+
+  return res;
 }
 
 

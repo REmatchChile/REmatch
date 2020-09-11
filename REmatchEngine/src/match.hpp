@@ -15,11 +15,11 @@ namespace rematch {
 
 class Match;
 
-#ifdef SWIG
-using Match_ptr = Match*;
-#else
+// #ifdef SWIG
+// using Match_ptr = Match*;
+// #else
 using Match_ptr = unique_ptr<Match>;
-#endif
+// #endif
 
 
 using Span = pair<size_t, size_t>;
@@ -33,24 +33,17 @@ class Match {
  public:
   operator bool() const {return !data_.empty();}
 
-  Match(string const &d): doc_(d) {}
+  Match() = default;
 
-  Match(string const &d, SpanMap s): doc_(d), data_(s) {}
+  Match(SpanMap s): data_(s) {}
 
-  Match(string const &d, SpanVect s,
-        vector<string> output_scheme);
+  Match(SpanVect s, vector<string> output_scheme);
 
   size_t start(string varname) const {return span(varname).first;}
   size_t end(string varname) const {return span(varname).second;}
 
   // Returns a pair<uint64_t, uint64_t> correspoding to a variable's span.
   Span span(string var) const;
-
-  // Returns a variable's captured substring
-  string group(string var) const;
-
-  // Returns referece to the sublaying document.
-  const string& doc() const {return doc_;}
 
   // Returns a vector with the variable names in order
   vector<string> variables() const;
@@ -66,8 +59,6 @@ class Match {
   // If var already in table raise exception
   void addMapping(string var, Span span);
 
-
-  const string &doc_;     // Access to context document.
   SpanMap data_;          // Mappings table.
 
 }; // end class Match

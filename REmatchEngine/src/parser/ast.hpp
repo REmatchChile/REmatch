@@ -17,9 +17,6 @@ Description:
 #include <boost/variant.hpp>     // for tree nodes
 #include <boost/optional.hpp>    // for multiplicity upperbound
 
-using boost::variant;
-using std::vector;
-
 namespace ast {
 
 struct charset {
@@ -28,7 +25,7 @@ struct charset {
     bool negated;  // Is a negated charset ?
 
     using range = std::tuple<char, char>;
-    using element = variant<char, range>;
+    using element = boost::variant<char, range>;
 
     std::set<element> elements;
 };

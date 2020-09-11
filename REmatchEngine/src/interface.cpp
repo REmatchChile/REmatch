@@ -68,13 +68,13 @@ void Interface::normalRun() {
 	} else {
 		if(options_.output_option() == NMAPPINGS) {
 			size_t noutputs = 0;
-			while((match_ptr = regex.findIter(*document_stream_))) {
+			while((match_ptr = regex.findIterFP(*document_stream_))) {
 				noutputs++;
 			}
 			std::cout << noutputs << '\n';
 		}
 		else {
-			while((match_ptr = regex.findIter(*document_stream_))) {
+			while((match_ptr = regex.findIterFP(*document_stream_))) {
 				std::cout << *match_ptr << '\n';
 			}
 		}
@@ -100,7 +100,7 @@ void Interface::benchmarkRun() {
 
 	numOfSpans = 0;
 
-	while((match_ptr = regex.findIter(*document_stream_))) {
+	while((match_ptr = regex.findIterFP(*document_stream_))) {
 		numOfSpans++;
 	}
 

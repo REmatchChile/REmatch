@@ -4,9 +4,7 @@
 
 namespace rematch {
 
-Match::Match(std::string const &d, SpanVect s,
-             std::vector<std::string> output_scheme)
-    : doc_(d) {
+Match::Match(SpanVect s, std::vector<std::string> output_scheme) {
   for(size_t i=0; i < output_scheme.size(); i++) {
     data_[output_scheme[i]] = std::make_pair(s[i].first, s[i].second);
   }
@@ -27,17 +25,6 @@ Span Match::span(std::string var) const {
 
   if (search != data_.end())
     return (*search).second;
-
-  throw std::logic_error("No mapping assigned to variable.");
-}
-
-std::string Match::group(std::string var) const {
-  auto search = data_.find(var);
-
-  if (search != data_.end()) {
-    auto &span = (*search).second;
-    return doc_.substr(span.first, span.second - span.first);
-  }
 
   throw std::logic_error("No mapping assigned to variable.");
 }

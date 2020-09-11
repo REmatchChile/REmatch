@@ -115,6 +115,7 @@ void NodeList::add(Node *node) {
 // };
 
 void NodeList::append(NodeList* list) {
+  if(list->empty()) return;
   if (this->tail == nullptr) {
     this->head = list->head;
     this->tail = list->tail;

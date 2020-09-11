@@ -4,11 +4,11 @@ from time import time_ns
 import timeit
 from math import floor
 import re
-import re2
+# import re2
 import pandas as pd
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(os.path.abspath(dir_path + '/' + '../../bin/SWIG'))
+sys.path.append(os.path.abspath(dir_path + '/' + '../../build/Debug/bin/SWIG'))
 
 import rematch
 

@@ -5,6 +5,7 @@
 #include "regex/regex.hpp"
 #include "regex/regex_options.hpp"
 #include "match.hpp"
+#include "document.hpp"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten/bind.h>
@@ -24,7 +25,7 @@ EMSCRIPTEN_BINDINGS() {
     .function("span", &rematch::Match::span)
     .function("start", &rematch::Match::start)
     .function("end", &rematch::Match::end)
-    .function("group", &rematch::Match::group)
+    // .function("group", &rematch::Match::group)
     .function("variables", &rematch::Match::variables)
     ;
 
@@ -41,6 +42,8 @@ EMSCRIPTEN_BINDINGS() {
     .constructor<std::string, rematch::RegExOptions>()
     .constructor<std::string>()
     .function("findIter", &rematch::RegEx::findIter)
+    .function("internalFindIter", &rematch::RegEx::internalFindIter)
+    .function("feed", &rematch::RegEx::feed)
     .function("find", &rematch::RegEx::find)
     .function("pattern", &rematch::RegEx::pattern)
     ;

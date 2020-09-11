@@ -29,7 +29,7 @@ class Enumerator {
   using SpanMap = std::map<std::string, std::pair<size_t, size_t>>;
 
   public:
-    Enumerator(RegEx &rgx, std::string &doc);
+    Enumerator(RegEx &rgx);
 
     // Get the next match according to the current state of the depth stack.
     Match_ptr next();
@@ -60,10 +60,7 @@ class Enumerator {
 
   }; // end struct EnumeratorNode
 
-
-  std::string& doc_;                    // Sublaying document
   std::vector<EnumState> depth_stack_;  // Stack for DFS in the DAG-like struct
-
 
   RegEx& rgx_;
 

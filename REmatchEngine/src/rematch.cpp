@@ -18,9 +18,8 @@ std::unique_ptr<RegEx> compile(string pattern, RegExOptions opt) {
 
 Match_ptr find(string pattern, string &text) {
   RegEx compiled_rgx(pattern);
-  stringstream ss(text);
 
-  FileDocument doc(ss);
+  StrDocument doc(text);
 
   Evaluator eval(compiled_rgx, doc, Evaluator::kEarlyOutput);
 

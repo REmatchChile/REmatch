@@ -12,6 +12,7 @@
 #include "automata/detautomaton.hpp"
 #include "regex/regex_options.hpp"
 #include "automata/lva.hpp"
+#include "document.hpp"
 
 namespace rematch {
 
@@ -45,11 +46,15 @@ class RegEx {
     ANCHOR_BOTH
   };
 
+  // Makes the regex have an internal text to evaluate
+  void feed(const std::string &text);
+
   // Calls the evaluator to get first
   Match_ptr find(const std::string &text);
 
   Match_ptr findIter(const std::string &text);
-  Match_ptr findIter(std::istream& is);
+  Match_ptr findIterFP(std::istream& is);
+  Match_ptr internalFindIter();
 
   int varCount() const {return dman_.varFactory()->size();}
 
@@ -69,11 +74,13 @@ class RegEx {
   size_t capture_counter() const;
   size_t reading_counter() const;
 
-  private:
+ private:
 
   static flags_t parseFlags(RegExOptions rgx_opt);
 
   const std::string pattern_;
+
+  std::string buffer_;
 
   // DetManager for capture automaton.
   DetManager dman_;
@@ -88,6 +95,8 @@ class RegEx {
   bool full_dfa_;
 
   std::unique_ptr<Evaluator> eval_;
+
+  std::unique_ptr<Document> doc_;
 
 }; // end class Regex
 
