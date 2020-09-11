@@ -29,6 +29,7 @@ endif()
 
 # add_definitions(-DNOPT_CROSSPROD)
 # add_definitions(-DNOPT_OFFSET)
+add_definitions(-D_LIBCPP_ENABLE_CXX17_REMOVED_AUTO_PTR)
 
 include_directories(src)
 include_directories(SYSTEM thirdparty)
