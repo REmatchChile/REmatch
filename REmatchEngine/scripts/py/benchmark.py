@@ -37,8 +37,7 @@ def formatMem(sizeInKb):
 	return '{0}{1}'.format(round(sizeInKb, 2), units[counter])
 
 
-def writeInCell(service, ss_id, cellRange, value):
-	values = [[value]]
+def writeInCell(service, ss_id, cellRange, values):
 	body = {'values' : values}
 	sheet = service.spreadsheets()
 	sheet.values().update(spreadsheetId=ss_id,
@@ -108,7 +107,8 @@ def main():
 																												 TEMPLATE_FILE)
 	num_bins = len(BINARIES)
 
-	current_range = 'RKBExplorer!{0}{1}'
+	current_range = 'RKBExplorer!{0}{1}:{2}{3}'
+	single_range = 'RKBExplorer!{0}{1}'
 
 	doc_path = "{0}/datasets/RKBExplorer/sparql.head".format(HOME_DIR)
 
@@ -121,28 +121,31 @@ def main():
 
 			rem_rgx_path = "{0}/exp/RKBExplorer/{1}/rematch.rgx".format(HOME_DIR, experiment)
 
-			writeInCell(SHEETS_SERVICE, spreadsheet_id, current_range.format(rgx_col, row), get_rgx(rem_rgx_path))
+			writeInCell(SHEETS_SERVICE, spreadsheet_id, single_range.format(rgx_col, row), [[get_rgx(rem_rgx_path)]])
 
 			print("\nStarting query:", get_rgx(rem_rgx_path))
+
+			row_values = [[0 for _ in range(num_bins * 3)]]
+
+			leftmost_col = chr(ord(START_COL) + 1)
+			rightmost_col = chr(ord(leftmost_col) + num_bins*3)
 
 			for j, binary in enumerate(BINARIES):
 
 				print("\n  Testing lib:", binary)
-
-				col_int = ord(START_COL) + j + 1
-
-				time_col = chr(col_int + 0*num_bins)
-				mem_col = chr(col_int + 1*num_bins)
-				nout_col = chr(col_int + 2*num_bins)
 
 				rgx_path = "{0}/exp/RKBExplorer/{1}/{2}.rgx".format(HOME_DIR, experiment, BINARIES[binary]["rgx_type"])
 
 				time, memory, noutputs = run_bench(binary, doc_path, rgx_path, NEXP)
 
 				# Write data to cells
-				writeInCell(SHEETS_SERVICE, spreadsheet_id, current_range.format(time_col, row), time)
-				writeInCell(SHEETS_SERVICE, spreadsheet_id, current_range.format(mem_col, row), memory)
-				writeInCell(SHEETS_SERVICE, spreadsheet_id, current_range.format(nout_col, row), noutputs)
+				row_values[0][num_bins*0 + j] = time
+				row_values[0][num_bins*1 + j] = memory
+				row_values[0][num_bins*2 + j] = noutputs
+
+			writeInCell(SHEETS_SERVICE, spreadsheet_id,
+								  current_range.format(leftmost_col, row, rightmost_col, row),
+								  row_values)
 
 if __name__ == '__main__':
 	main()
