@@ -15,6 +15,9 @@ RegEx::RegEx(std::string pattern, rematch::RegExOptions rgx_opts)
 RegEx::~RegEx() {}
 
 void RegEx::feed(const std::string& text) {
+  if(!doc_) {
+    doc_ = std::make_unique<ChunkDocument>();
+  }
   ChunkDocument *chunk_doc = dynamic_cast<ChunkDocument*>(doc_.get());
   chunk_doc->feed(text);
   if(eval_ == nullptr) {

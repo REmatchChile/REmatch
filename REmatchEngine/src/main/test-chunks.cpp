@@ -15,10 +15,10 @@ int main(int argc, char *argv[]) {
   std::vector<std::string> chunks{"aaa", "aaabaa", "aaac", "aaaa", "aaaaa"};
 
   for(auto &chunk: chunks) {
-    doc.feed(chunk);
+    rgx.feed(chunk);
     std::cout << "chunk: " << chunk << '\n';
-    while(match = eval.next()) {
-      std::cout << '|' << match->start("x") << ',' << match->end("x") << ">\n";
+    while(match = rgx.internalFindIter()) {
+      std::cout << *match << "\n";
       count++;
     }
   }
