@@ -4,7 +4,7 @@
 #include <string>
 
 #include "match.hpp"
-#include "memmanager.hpp"
+#include "memory/pool.hpp"
 #include "enumeration.hpp"
 
 #include "det/detmanager.hpp"

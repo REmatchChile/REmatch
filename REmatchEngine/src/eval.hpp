@@ -9,7 +9,7 @@
 #include "match.hpp"
 #include "enumeration.hpp"
 #include "automata/detautomaton.hpp"
-#include "memmanager.hpp"
+#include "memory/pool.hpp"
 #include "document.hpp"
 
 class DetState;
@@ -59,7 +59,9 @@ class Evaluator {
 
   RegEx &rgx_;
   std::unique_ptr<Enumerator> enumerator_;
-  static MemManager memory_manager_;
+
+  // A Memory Pool in charge of allocating and managing the lifetimes of Nodes
+  Pool<Node> allocator_;
 
   Document &text_;
   std::string line_;
