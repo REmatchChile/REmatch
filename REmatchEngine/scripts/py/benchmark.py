@@ -40,17 +40,30 @@ def formatMem(sizeInKb):
 def writeInCell(service, ss_id, cellRange, values):
 	body = {'values' : values}
 	sheet = service.spreadsheets()
-	sheet.values().update(spreadsheetId=ss_id,
+	result = sheet.values().update(spreadsheetId=ss_id,
 		range=cellRange, valueInputOption='USER_ENTERED', body=body).execute()
-	# if result.get('updatedCells') == 1:
-	# 	print('[cell {} updated]'.format(cellRange))
-	# else:
-	# 	print('[{} cells updated]'.format(result.get('updatedCells')))
+	if result.get('updatedCells') == 1:
+		print('[cell {} updated]'.format(cellRange))
+	else:
+		print('[{} cells updated at {}]'.format(result.get('updatedCells'), cellRange))
 
 def get_rgx(rgx_path):
 	with open(rgx_path, 'r') as file_path:
 		rgx =  file_path.read()
 	return rgx
+
+def docstats(doc_path):
+	command = "wc -ml {0} | awk '{{print $1, $2}}'".format(doc_path)
+	process = subprocess.run(command, shell=True, check=True,
+	                         capture_output=True, universal_newlines=True)
+	nlines, nchars = process.stdout.split()
+	command = "du -h {0} | awk '{{print $1}}'".format(doc_path)
+	process = subprocess.run(command, shell=True, check=True,
+	                         capture_output=True, universal_newlines=True)
+	filesize = process.stdout.replace('\n', '')
+
+	return filesize, int(nchars), int(nlines)
+
 
 def run_bench(binary, doc_path, rgx_path, nexp):
 	mem_command = "/usr/bin/time -f \"%M\" {0}"
@@ -107,45 +120,62 @@ def main():
 																												 TEMPLATE_FILE)
 	num_bins = len(BINARIES)
 
-	current_range = 'RKBExplorer!{0}{1}:{2}{3}'
-	single_range = 'RKBExplorer!{0}{1}'
+	current_range = 'Data!{0}{1}:{2}{3}'
+	single_range = 'Data!{0}{1}'
 
-	doc_path = "{0}/datasets/RKBExplorer/sparql.head".format(HOME_DIR)
+	exps_path = "{0}/exp/benchmark".format(HOME_DIR)
 
-	exps_path = "{0}/exp/RKBExplorer".format(HOME_DIR)
+	ndocstats = 3
 
-	for query, experiment in enumerate(sorted(next(os.walk(exps_path))[1])):
+	row_counter = START_ROW
 
-			row = START_ROW + query
+	for dataset in next(os.walk(exps_path))[1]:
+
+		writeInCell(SHEETS_SERVICE, spreadsheet_id, single_range.format(START_COL, row_counter), [["!!" + dataset]])
+		row_counter += 1
+
+		for experiment in sorted(map(lambda x: x[0], filter(lambda x: bool(x[2]), os.walk(os.path.join(exps_path, dataset))))):
+
+			print("On experiment:", experiment)
+
 			rgx_col = chr(ord(START_COL))
 
-			rem_rgx_path = "{0}/exp/RKBExplorer/{1}/rematch.rgx".format(HOME_DIR, experiment)
+			rem_rgx_path = os.path.join(experiment,"rematch.rgx")
 
-			writeInCell(SHEETS_SERVICE, spreadsheet_id, single_range.format(rgx_col, row), [[get_rgx(rem_rgx_path)]])
+			writeInCell(SHEETS_SERVICE, spreadsheet_id, single_range.format(rgx_col, row_counter), [[get_rgx(rem_rgx_path)]])
 
 			print("\nStarting query:", get_rgx(rem_rgx_path))
 
-			row_values = [[0 for _ in range(num_bins * 3)]]
+			row_values = [[0 for _ in range(3 + num_bins * 3 + 2)]]
 
 			leftmost_col = chr(ord(START_COL) + 1)
-			rightmost_col = chr(ord(leftmost_col) + num_bins*3)
+			rightmost_col = chr(ord(leftmost_col) + 3 + num_bins*3 + 2)
+
+			doc_path = os.path.join(experiment,"doc.txt")
+
+			filesize, nchars, nlines = docstats(doc_path)
+
+			row_values[0][0] = filesize
+			row_values[0][1] = nchars
+			row_values[0][2] = nlines
 
 			for j, binary in enumerate(BINARIES):
 
 				print("\n  Testing lib:", binary)
 
-				rgx_path = "{0}/exp/RKBExplorer/{1}/{2}.rgx".format(HOME_DIR, experiment, BINARIES[binary]["rgx_type"])
+				rgx_path = os.path.join(experiment,"{0}.rgx".format(BINARIES[binary]["rgx_type"]))
 
 				time, memory, noutputs = run_bench(binary, doc_path, rgx_path, NEXP)
 
 				# Write data to cells
-				row_values[0][num_bins*0 + j] = time
-				row_values[0][num_bins*1 + j] = memory
-				row_values[0][num_bins*2 + j] = noutputs
+				row_values[0][ndocstats + num_bins*0 + j] = time
+				row_values[0][ndocstats + num_bins*1 + j] = memory
+				row_values[0][ndocstats + num_bins*2 + j] = noutputs
 
 			writeInCell(SHEETS_SERVICE, spreadsheet_id,
-								  current_range.format(leftmost_col, row, rightmost_col, row),
+								  current_range.format(leftmost_col, row_counter, rightmost_col, row_counter),
 								  row_values)
+			row_counter += 1
 
 if __name__ == '__main__':
 	main()

@@ -1,1 +1,0 @@
-Consulta con 2 OPTIONAL y el tiempo de la ejecución

@@ -1,1 +1,0 @@
-P(?x) :- /any(\n)/?x:next(\n)/any(\n)/&x:next(\n)/, not ?x.".*\n.*";
