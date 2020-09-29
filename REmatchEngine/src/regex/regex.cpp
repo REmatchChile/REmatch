@@ -78,10 +78,17 @@ size_t RegEx::multi_counter() const {
 size_t RegEx::empty_counter() const {
   return eval_->empty_c_;
 }
-
 size_t RegEx::det_counter() const {
   return eval_->det_c_;
 }
+size_t RegEx::dfa_counter() {
+  return dman_.DFA().size();
+}
+size_t RegEx::nfa_counter() {
+  return dman_.NFA().size();
+}
+
+
 
 } // end namespace rematch
 

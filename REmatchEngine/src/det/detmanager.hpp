@@ -18,6 +18,7 @@ class DetManager {
 	using VectorCharTable = std::unordered_map<BitsetWrapper, std::vector<char>>;
 
  public:
+
 	DetManager(std::string pattern, bool raw_automata=false);
 
 	rematch::Transition* next_transition(DetState* q, char a);

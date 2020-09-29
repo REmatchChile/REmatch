@@ -75,6 +75,9 @@ class RegEx {
   size_t empty_counter() const;
   size_t det_counter() const;
 
+  size_t dfa_counter();
+  size_t nfa_counter();
+
   private:
 
   static flags_t parseFlags(RegExOptions rgx_opt);

@@ -33,6 +33,11 @@
 			"command" : "{0}/build/Release/bin/test-onig",
 			"args" : "{0} {1}",
 			"rgx_type" : "perl"
+		},
+		"REmatchOld" : {
+			"command" : "{0}/build/Release/bin/rematch-old",
+			"args" : "-l -o nmappings -d {0} -r {1}",
+			"rgx_type" : "rematch"
 		}
 	}
 }

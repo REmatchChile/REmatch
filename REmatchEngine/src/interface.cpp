@@ -86,7 +86,7 @@ void Interface::normalRun() {
 void Interface::benchmarkRun() {
     std::stringstream output;
 
-	size_t numOfSpans, numOfCaptures, numOfReadings;
+	size_t numOfSpans, numOfCaptures, numOfReadings, detSize, nfaSize;
 	double initAutomataTime, evaluateTime, totTime;
 	/**************************** Run Algorithm ****************************/
 
@@ -108,6 +108,9 @@ void Interface::benchmarkRun() {
 
 	numOfCaptures = regex.capture_counter();
 	numOfReadings = regex.reading_counter();
+
+	detSize = regex.dfa_counter();
+	nfaSize = regex.nfa_counter();
 
 	// std::cout << "\nRaw DFA:\n" <<  regex.detManager().DFA().pprint() << '\n';
 	// std::cout << "\nRaw NFA:\n" <<  regex.detManager().NFA().pprint() << '\n';
@@ -132,6 +135,8 @@ void Interface::benchmarkRun() {
 	std::cout
 	<< "Number of mappings\t\t" 			<< 	pwc(numOfSpans)											<<	'\n'
 	<< "Memory used \t\t\t"						<<	memoryUsed	 												<< 	'\n'
+	<< "DetSize \t\t\t"								<<	detSize															<<	'\n'
+	<< "eVASize \t\t\t"								<<	nfaSize															<< 	'\n'
 	<< "Num of Captures \t\t"					<< 	pwc(numOfCaptures)									<<	'\n'
 	<< "Num of Readings \t\t"					<< 	pwc(numOfReadings)									<<	'\n'
 	<< "Num of Direct \t\t\t"					<< 	pwc(regex.direct_counter())					<<	'\n'

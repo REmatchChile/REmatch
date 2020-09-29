@@ -7,6 +7,8 @@ import googleutils
 
 import subprocess
 
+import re
+
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
 with open("benchmark.json") as jsonFile:
@@ -62,7 +64,26 @@ def docstats(doc_path):
 	                         capture_output=True, universal_newlines=True)
 	filesize = process.stdout.replace('\n', '')
 
-	return filesize, int(nchars), int(nlines)
+	return filesize, int(nchars), int(nlines)+1
+
+def automata_stats(doc_path, rgx_path):
+	command = "{0}/build/Release/bin/rematch -l -o benchmark -d {1} -r {2}".format(HOME_DIR, doc_path, rgx_path)
+	process = subprocess.run(command, shell=True, check=True,
+	                         capture_output=True, universal_newlines=True)
+
+	dsize = int(re.search(r'DetSize\s+(\d+)', process.stdout).group(1))
+	esize = int(re.search(r'eVASize\s+(\d+)', process.stdout).group(1))
+
+	return dsize, esize
+
+def re2_algo(doc_path, rgx_path):
+	command = "{0}/build/Release/bin/re2-algo {1} {2}".format(HOME_DIR, doc_path, rgx_path)
+	process = subprocess.run(command, shell=True, check=True,
+	                         capture_output=True, universal_newlines=True)
+	print(process.stdout)
+
+	return process.stdout
+
 
 
 def run_bench(binary, doc_path, rgx_path, nexp):
@@ -146,10 +167,10 @@ def main():
 
 			print("\nStarting query:", get_rgx(rem_rgx_path))
 
-			row_values = [[0 for _ in range(3 + num_bins * 3 + 2)]]
+			row_values = [[0 for _ in range(3 + num_bins * 3 + 2 + 1)]]
 
 			leftmost_col = chr(ord(START_COL) + 1)
-			rightmost_col = chr(ord(leftmost_col) + 3 + num_bins*3 + 2)
+			rightmost_col = chr(ord(leftmost_col) + 3 + num_bins*3 + 2 + 1)
 
 			doc_path = os.path.join(experiment,"doc.txt")
 
@@ -158,6 +179,13 @@ def main():
 			row_values[0][0] = filesize
 			row_values[0][1] = nchars
 			row_values[0][2] = nlines
+
+			dsize, esize = automata_stats(doc_path, os.path.join(experiment,"rematch.rgx"))
+
+			row_values[0][-2] = esize
+			row_values[0][-3] = dsize
+
+			row_values[0][-1] = re2_algo(doc_path, os.path.join(experiment,"perl.rgx"))
 
 			for j, binary in enumerate(BINARIES):
 
