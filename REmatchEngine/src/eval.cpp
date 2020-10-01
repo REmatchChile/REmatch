@@ -27,7 +27,7 @@ void Evaluator::init() {
 
 void Evaluator::initAutomaton(size_t i) {
   DFA().initState()->visited = i+1;
-  if( i == 0)
+  if(i == 0)
     // Alloc the empty node
     DFA().initState()->currentL->add(Evaluator::memory_manager_.alloc());
 
@@ -58,7 +58,7 @@ Match_ptr Evaluator::next() {
 
 inline Match_ptr Evaluator::inlinedNext(bool early_output, bool dfa_prefiltering) {
 
-  StrDocument *text_str = dynamic_cast<StrDocument*>(&text_);
+  // StrDocument *text_str = dynamic_cast<StrDocument*>(&text_);
 
   if(enumerator_->hasNext())
       return enumerator_->next();

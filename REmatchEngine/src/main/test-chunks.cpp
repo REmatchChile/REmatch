@@ -6,7 +6,6 @@
 int main(int argc, char *argv[]) {
   ChunkDocument doc;
   rematch::RegEx rgx(".*!x{a+}.*");
-  rematch::Evaluator eval(rgx, doc);
 
   std::unique_ptr<rematch::Match> match;
 

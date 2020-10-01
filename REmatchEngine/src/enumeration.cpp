@@ -31,13 +31,13 @@ Match_ptr Enumerator :: next() {
 
     depth_stack_.pop_back();
 
-    if(node != current.end_node) {
-      depth_stack_.emplace_back(node->next, current.end_node);
-    }
-
     if(node->isNodeEmpty()) {
       n_mappings_++;
       return std::make_unique<Match>(data_, rgx_.varScheme());
+    }
+
+    if(node != current.end_node) {
+      depth_stack_.emplace_back(node->next, current.end_node);
     }
 
     if(node->start != nullptr) {
