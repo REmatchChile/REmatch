@@ -1,10 +1,7 @@
-#include <sys/resource.h>
-
 #include "regex.hpp"
 #include "parser/parser.hpp"
 #include "eval.hpp"
 #include "document.hpp"
-#include "util.hpp"
 
 namespace rematch {
 

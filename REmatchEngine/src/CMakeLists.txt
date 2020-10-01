@@ -15,7 +15,6 @@ set(BUILD_TARGETS
   test-chunks
   test-simple
   test-lines
-  test-feed
 )
 
 if(SWIG) # Only set shared library target

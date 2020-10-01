@@ -1,9 +1,11 @@
 #include "eval.hpp"
 
 #include "automata/detstate.hpp"
-#include "memory/pool.hpp"
+#include "memmanager.hpp"
 
 namespace rematch {
+
+MemManager Evaluator::memory_manager_{};
 
 Evaluator::Evaluator(RegEx &rgx, Document& doc, uint8_t flags)
     : rgx_(rgx),
@@ -27,7 +29,7 @@ void Evaluator::initAutomaton(size_t i) {
   DFA().initState()->visited = i+1;
   if( i == 0)
     // Alloc the empty node
-    DFA().initState()->currentL->add(allocator_.alloc());
+    DFA().initState()->currentL->add(Evaluator::memory_manager_.alloc());
 
   current_states_.clear();
   current_states_.push_back(DFA().initState());
@@ -56,8 +58,7 @@ Match_ptr Evaluator::next() {
 
 inline Match_ptr Evaluator::inlinedNext(bool early_output, bool dfa_prefiltering) {
 
-  // Debugging prouposes:
-  // StrDocument *text_str = dynamic_cast<StrDocument*>(&text_);
+  StrDocument *text_str = dynamic_cast<StrDocument*>(&text_);
 
   if(enumerator_->hasNext())
       return enumerator_->next();
@@ -102,7 +103,7 @@ inline Match_ptr Evaluator::inlinedNext(bool early_output, bool dfa_prefiltering
 
   if(!output_nodelist_.empty()) {
     enumerator_->addNodeList(output_nodelist_);
-    allocator_.addPossibleGarbage(output_nodelist_.head);
+    Evaluator::memory_manager_.addPossibleGarbage(output_nodelist_.head);
   }
 
   if(enumerator_->hasNext())
@@ -156,7 +157,7 @@ inline void Evaluator::capture(size_t i, bool early_output) {
       // capture_counter_++;
       nextState = capture->next;
 
-      newNode = allocator_.alloc(capture->S, i,
+      newNode = Evaluator::memory_manager_.alloc(capture->S, i,
                                        currentState->copiedList->head,
                                        currentState->copiedList->tail);
       // Early output case
@@ -231,7 +232,7 @@ inline void Evaluator::reading(char a, size_t i, bool early_output) {
       }
       else { // If empty set is reached then consider adding to garbage collection
         prevList->resetRefs();
-        allocator_.addPossibleGarbage(prevList->head);
+        Evaluator::memory_manager_.addPossibleGarbage(prevList->head);
       }
     }
   }

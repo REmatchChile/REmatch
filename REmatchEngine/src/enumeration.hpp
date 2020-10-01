@@ -13,7 +13,7 @@
 #include "match.hpp"
 #include "structures.hpp"
 #include "factories/factories.hpp"
-#include "memory/pool.hpp"
+#include "memmanager.hpp"
 
 namespace rematch {
 

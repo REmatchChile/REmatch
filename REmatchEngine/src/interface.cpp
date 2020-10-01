@@ -9,11 +9,11 @@
 #include "parser/parser.hpp"
 #include "automata/eva.hpp"
 #include "automata/detautomaton.hpp"
+#include "memmanager.hpp"
 #include "parser_automata/parser.hpp"
 #include "timer.hpp"
 #include "regex/regex.hpp"
 #include "regex/regex_options.hpp"
-#include "util.hpp"
 
 using namespace rematch;
 
@@ -133,4 +133,38 @@ void Interface::benchmarkRun() {
 				<< "Evaluate time\t\t\t"				<<	evaluateTime			<< 	"s\n"
 				<< "Total time\t\t\t"						<<	totTime 					<< 	"s\n";
 
+}
+
+std::string Interface::formatMem(size_t sizeInBytes) {
+    /**
+	 * Format size in bytes to readable form in Kb, Mb or Gb
+	 */
+
+	std::stringstream ss;
+	double sizeForm = (double)sizeInBytes;
+	std::string units[4] = {"", "K", "M", "G"};
+	int counter = 0;
+
+	while(sizeForm > 1024) {
+		sizeForm /= 1024;
+		counter++;
+	}
+
+	ss << sizeForm << units[counter];
+
+	return ss.str();
+}
+
+std::string Interface::file2str(std::string filename) {
+	std::ifstream in(filename, std::ios::in | std::ios::binary);
+	if (in) {
+		std::string contents;
+		in.seekg(0, in.end);
+		contents.resize(in.tellg());
+		in.seekg(0, in.beg);
+		in.read(&contents[0], contents.size());
+		in.close();
+		return contents;
+	}
+	throw std::runtime_error("Error loading file");
 }
