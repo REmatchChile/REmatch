@@ -71,43 +71,17 @@ void Evaluator::initAutomaton(int64_t i) {
   if(i == 0) {
     DFA().initState()->currentL->add(Evaluator::memory_manager_.alloc());
     pos = i-1;
+    macro_dfa_.set_as_init(macro_dfa_.add_state(DFA().initState()));
   } else {
     pos = i;
   }
 
-  current_states_.clear();
-  current_states_.push_back(DFA().initState());
+  current_state_ = &macro_dfa_.get_init_state();
 
-  new_states_.clear();
-  NodeList* prevList;
-
-  static void (Evaluator::*visits[])(int64_t, Transition*, NodeList *) = {
-    &Evaluator::visitEmpty,
-    &Evaluator::visitDirect,
-    &Evaluator::visitSingleCapture,
-    &Evaluator::visitDirectSingleCapture,
-    &Evaluator::visitMultiCapture,
-    &Evaluator::visitDirectMultiCapture,
-  };
-
-  for(auto &currentState: current_states_) {
-    prevList = currentState->currentL;
-    // nextCaptures are reached from currentState by reading the character
-    auto nextTransition = currentState->next_transition(0);
-
-    if(nextTransition == nullptr) { // Then maybe a determinization is needed
-      nextTransition = rgx_.detManager().next_transition(currentState, 0);
-      // det_c_++;
-    }
-
-    (this->*visits[nextTransition->type_])(pos, nextTransition, prevList);
-  }
-
-  current_states_.swap(new_states_);
+  reading(0, pos, 0);
 }
 
-Match_ptr
-Evaluator::next() {
+Match_ptr Evaluator::next() {
   if(enumerator_->hasNext())
       return enumerator_->next();
 
@@ -121,134 +95,12 @@ Evaluator::next() {
 
       a &= 0x7F;  // Only ASCII chars for now
 
-      new_states_.clear();
-      NodeList* prev_list;
-
-
-      for(auto &currentState: current_states_) {
-        prev_list = currentState->currentL;
-        // nextCaptures are reached from currentState by reading the character
-        auto nextTransition = currentState->next_transition(a);
-
-        if(nextTransition == nullptr) { // Then maybe a determinization is needed
-          nextTransition = rgx_.detManager().next_transition(currentState, a);
-          // det_c_++;
-        }
-
-        if(nextTransition->type_ == Transition::Type::kDirect) {
-          // direct_c_++;
-          if(nextTransition->direct_->visited <= i_pos_+1) {
-            nextTransition->direct_->visited = i_pos_+2;
-
-            // Lazy copy
-            nextTransition->direct_->currentL->head = prev_list->head;
-            nextTransition->direct_->currentL->tail = prev_list->tail;
-
-            new_states_.push_back(nextTransition->direct_);
-          } else {
-            nextTransition->direct_->currentL->append(prev_list);
-          }
-        }
-        else if(nextTransition->type_ == Transition::kDirectSingleCapture) {
-          // direct_single_c_++;
-          if(nextTransition->direct_->visited <= i_pos_+1) {
-            nextTransition->direct_->visited = i_pos_+2;
-
-            // Lazy copy
-            nextTransition->direct_->currentL->head = prev_list->head;
-            nextTransition->direct_->currentL->tail = prev_list->tail;
-
-            new_states_.push_back(nextTransition->direct_);
-          } else {
-            nextTransition->direct_->currentL->append(prev_list);
-          }
-
-          Node* new_node = Evaluator::memory_manager_.alloc(nextTransition->capture_->S,
-                                                  i_pos_+1,
-                                                  prev_list->head,
-                                                  prev_list->tail);
-          if(nextTransition->capture_->next->visited <= i_pos_+1) {
-            nextTransition->capture_->next->visited = i_pos_+2;
-            nextTransition->capture_->next->currentL->resetAndAdd(new_node);
-            new_states_.push_back(nextTransition->capture_->next);
-          } else {
-            nextTransition->capture_->next->currentL->add(new_node);
-          }
-        }
-        else if(nextTransition->type_ == Transition::Type::kEmpty) {
-          // empty_c_++;
-          prev_list->resetRefs();
-          Evaluator::memory_manager_.addPossibleGarbage(prev_list->head);
-          continue;
-        }
-        else if(nextTransition->type_ == Transition::Type::kSingleCapture) {
-          // single_c_++;
-          Node* new_node = Evaluator::memory_manager_.alloc(nextTransition->capture_->S,
-                                                  i_pos_+1,
-                                                  prev_list->head,
-                                                  prev_list->tail);
-          if(nextTransition->capture_->next->visited <= i_pos_+1) {
-            nextTransition->capture_->next->visited = i_pos_+2;
-            nextTransition->capture_->next->currentL->resetAndAdd(new_node);
-            new_states_.push_back(nextTransition->capture_->next);
-          } else {
-            nextTransition->capture_->next->currentL->add(new_node);
-          }
-        }
-        else if(nextTransition->type_  == Transition::Type::kDirectMultiCapture) {
-          // direct_multi_c_++;
-          if(nextTransition->direct_->visited <= i_pos_+1) {
-            nextTransition->direct_->visited = i_pos_+2;
-
-            // Lazy copy
-            nextTransition->direct_->currentL->head = prev_list->head;
-            nextTransition->direct_->currentL->tail = prev_list->tail;
-
-            new_states_.push_back(nextTransition->direct_);
-          } else {
-            nextTransition->direct_->currentL->append(prev_list);
-          }
-
-          for(auto &capture: *nextTransition->captures_) {
-
-            Node* new_node = Evaluator::memory_manager_.alloc(capture->S,
-                                                              i_pos_+1,
-                                                              prev_list->head,
-                                                              prev_list->tail);
-            if(capture->next->visited <= i_pos_+1) {
-              capture->next->visited = i_pos_+2;
-              capture->next->currentL->resetAndAdd(new_node);
-              new_states_.push_back(capture->next);
-            } else {
-              capture->next->currentL->add(new_node);
-            }
-          }
-        }
-        else {
-          // multi_c_++;
-          for(auto &capture: *nextTransition->captures_) {
-
-            Node* new_node = Evaluator::memory_manager_.alloc(capture->S,
-                                                              i_pos_+1,
-                                                              prev_list->head,
-                                                              prev_list->tail);
-            if(capture->next->visited <= i_pos_+1) {
-              capture->next->visited = i_pos_+2;
-              capture->next->currentL->resetAndAdd(new_node);
-              new_states_.push_back(capture->next);
-            } else {
-              capture->next->currentL->add(new_node);
-            }
-          }
-        }
-      }
-
-      current_states_.swap(new_states_);
+      reading(a, i_pos_, 0);
 
       i_pos_++;
     }
 
-    for(auto &state: current_states_) {
+    for(auto &state: current_state_->states()) {
       if(state->isFinal)
         output_nodelist_.append(state->currentL);
     }
@@ -315,136 +167,46 @@ bool Evaluator::match() {
   return currentState->isFinal;
 }
 
+FORCE_INLINE void Evaluator::reading(char a, int64_t i,  bool early_output) {
+  auto nextTransition = current_state_->next_transition(a);
 
-FORCE_INLINE void Evaluator::visitEmpty(int64_t i, Transition *t, NodeList *prev_list) {
-  // empty_c_++;
-  prev_list->resetRefs();
-  Evaluator::memory_manager_.addPossibleGarbage(prev_list->head);
-}
-
-FORCE_INLINE void Evaluator::visitDirect(int64_t i, Transition *t, NodeList *prev_list) {
-
-  // reading_counter_++;
-
-  // direct_c_++;
-
-  if(t->direct_->visited <= i+1) {
-    t->direct_->visited = i+2;
-
-    // Lazy copy
-    t->direct_->currentL->head = prev_list->head;
-    t->direct_->currentL->tail = prev_list->tail;
-
-    new_states_.push_back(t->direct_);
-  } else {
-    t->direct_->currentL->append(prev_list);
-  }
-}
-
-FORCE_INLINE void Evaluator::visitSingleCapture(int64_t i, Transition *t, NodeList *prev_list) {
-
-  // capture_counter_++;
-  // reading_counter_++;
-
-  // single_c_++;
-
-  Node* new_node = Evaluator::memory_manager_.alloc(t->capture_->S,
-                                                  i+1,
-                                                  prev_list->head,
-                                                  prev_list->tail);
-  if(t->capture_->next->visited <= i+1) {
-    t->capture_->next->visited = i+2;
-    t->capture_->next->currentL->resetAndAdd(new_node);
-    new_states_.push_back(t->capture_->next);
-  } else {
-    t->capture_->next->currentL->add(new_node);
-  }
-}
-
-FORCE_INLINE void Evaluator::visitDirectSingleCapture(int64_t i, Transition *t, NodeList *prev_list) {
-
- if(t->direct_->visited <= i+1) {
-    t->direct_->visited = i+2;
-
-    // Lazy copy
-    t->direct_->currentL->head = prev_list->head;
-    t->direct_->currentL->tail = prev_list->tail;
-
-    new_states_.push_back(t->direct_);
-  } else {
-    t->direct_->currentL->append(prev_list);
+  if(nextTransition == nullptr) {
+    nextTransition = rgx_.detManager().next_macro_transition(current_state_, a);
   }
 
-  // capture_counter_++;
-  // reading_counter_++;
-
-  // direct_single_c_++;
-
-  Node* new_node = Evaluator::memory_manager_.alloc(t->capture_->S,
-                                                  i+1,
-                                                  prev_list->head,
-                                                  prev_list->tail);
-  if(t->capture_->next->visited <= i+1) {
-    t->capture_->next->visited = i+2;
-    t->capture_->next->currentL->resetAndAdd(new_node);
-    new_states_.push_back(t->capture_->next);
-  } else {
-    t->capture_->next->currentL->add(new_node);
-  }
-}
-
-FORCE_INLINE void Evaluator::visitMultiCapture(int64_t i, Transition *t, NodeList *prev_list) {
-  // reading_counter_++;
-  // multi_c_++;
-  for(auto &capture: *t->captures_) {
-
-    // capture_counter_++;
-
-    Node* new_node = Evaluator::memory_manager_.alloc(capture->S,
-                                                      i+1,
-                                                      prev_list->head,
-                                                      prev_list->tail);
-    if(capture->next->visited <= i+1) {
-      capture->next->visited = i+2;
-      capture->next->currentL->resetAndAdd(new_node);
-      new_states_.push_back(capture->next);
+  for(auto &direct: nextTransition->directs()) {
+    if(direct.to.visited <= i_pos_+1) {
+      direct.to.visited = i_pos_+2;
+      // Lazy copy
+      direct.to.currentL->head = direct.from.currentL->head;
+      direct.to.currentL->tail = direct.from.currentL->tail;
     } else {
-      capture->next->currentL->add(new_node);
+      direct.to.currentL->append(direct.from.currentL);
     }
   }
-}
 
-FORCE_INLINE void Evaluator::visitDirectMultiCapture(int64_t i, Transition *t, NodeList *prev_list) {
-  // reading_counter_++;
-  // direct_multi_c_++;
-  if(t->direct_->visited <= i+1) {
-    t->direct_->visited = i+2;
-
-    // Lazy copy
-    t->direct_->currentL->head = prev_list->head;
-    t->direct_->currentL->tail = prev_list->tail;
-
-    new_states_.push_back(t->direct_);
-  } else {
-    t->direct_->currentL->append(prev_list);
-  }
-
-  for(auto &capture: *t->captures_) {
-
-    // capture_counter_++;
-
-    Node* new_node = Evaluator::memory_manager_.alloc(capture->S,
-                                                      i+1,
-                                                      prev_list->head,
-                                                      prev_list->tail);
-    if(capture->next->visited <= i+1) {
-      capture->next->visited = i+2;
-      capture->next->currentL->resetAndAdd(new_node);
-      new_states_.push_back(capture->next);
+  for(auto &capture: nextTransition->captures()) {
+    if(capture.to.visited <= i_pos_+1) {
+      capture.to.visited = i_pos_+2;
+      // Lazy copy
+      capture.to.currentL->head = capture.from.currentL->head;
+      capture.to.currentL->tail = capture.from.currentL->tail;
     } else {
-      capture->next->currentL->add(new_node);
+      capture.to.currentL->append(capture.from.currentL);
+    }
+    Node* new_node = Evaluator::memory_manager_.alloc(capture.S,
+                                                      i_pos_+1,
+                                                      capture.from.currentL->head,
+                                                      capture.from.currentL->tail);
+    if(capture.to.visited <= i_pos_+1) {
+      capture.to.visited = i_pos_+2;
+      capture.to.currentL->resetAndAdd(new_node);
+    } else {
+      capture.to.currentL->add(new_node);
     }
   }
+
+  current_state_ = nextTransition->next_state();
 }
 
 } // end namespace rematch

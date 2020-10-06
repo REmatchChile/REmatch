@@ -11,11 +11,13 @@
 #include "automata/detautomaton.hpp"
 #include "automata/detstate.hpp"
 #include "automata/transition.hpp"
+#include "automata/macrodfa/macrodfa.hpp"
 
 class DetManager {
 
 	using DFAStatesTable = std::unordered_map<BitsetWrapper, DetState*>;
 	using VectorCharTable = std::unordered_map<BitsetWrapper, std::vector<char>>;
+	using MacroStatesTable = std::unordered_map<BitsetWrapper, MacroState*>;
 
  public:
 
@@ -23,9 +25,7 @@ class DetManager {
 
 	rematch::Transition* next_transition(DetState* q, char a);
 
-	void computeCaptures(DetState* p, DetState* q, char a);
-
-	char chooseFromCharBitset(BitsetWrapper bs);
+	MacroTransition* next_macro_transition(MacroState *ms, char a);
 
 	std::shared_ptr<VariableFactory> varFactory() const {return variable_factory_;}
 	std::shared_ptr<FilterFactory> filterFactory() const {return filter_factory_;}
@@ -34,11 +34,16 @@ class DetManager {
 	ExtendedVA& NFA() {return *nfa_;}
 
  private:
+	void computeCaptures(DetState* p, DetState* q, char a);
+
+	char chooseFromCharBitset(BitsetWrapper bs);
 	// ExtendedVA representation of the given pattern.
 	std::unique_ptr<ExtendedVA> nfa_;
 
 	// Determinization of the eVA computed on-the-fly.
 	std::unique_ptr<DetAutomaton> dfa_;
+
+	std::unique_ptr<MacroDFA> mdfa_;
 
 	// Access to regex's factories
 	std::shared_ptr<VariableFactory> variable_factory_;
@@ -47,6 +52,8 @@ class DetManager {
 	// Hash table for the mapping between bitstring subset representation of
 	// NFA states to DFA states
 	DFAStatesTable dstates_table_;
+
+
 
 	VectorCharTable all_chars_table_;
 };

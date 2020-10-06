@@ -13,6 +13,9 @@
 #include "document.hpp"
 #include "automata/transition.hpp"
 
+#include "automata/macrodfa/macrodfa.hpp"
+#include "automata/macrodfa/macrostate.hpp"
+
 class DetState;
 struct Transition;
 
@@ -76,7 +79,9 @@ class Evaluator {
   std::unique_ptr<Document> text_;
   std::string line_;
 
-  std::vector<DetState*> current_states_;
+  MacroDFA macro_dfa_;
+
+  MacroState* current_state_;
   std::vector<DetState*> new_states_;
 
   NodeList output_nodelist_;

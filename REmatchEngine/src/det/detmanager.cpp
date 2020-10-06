@@ -11,11 +11,6 @@
 #include "automata/detstate.hpp"
 #include "det/setstate.hpp"
 
-// #include <boost/multiprecision/cpp_int.hpp>
-// #include <boost/multiprecision/cpp_bin_float.hpp>
-
-// using namespace boost::multiprecision;
-
 DetManager::DetManager(std::string pattern, bool raw_automata) {
 	LogicalVA lva = regex2LVA(pattern);
 
@@ -137,4 +132,22 @@ rematch::Transition* DetManager::next_transition(DetState *q, char a) {
 	}
 
 	return q->next_transition(a);
+}
+
+MacroTransition* DetManager::next_macro_transition(MacroState *ms, char a) {
+
+	// std::set<LVAState*> newSubset;  // Store the next subset
+	// BitsetWrapper subsetBitset(nfa_->size());  // Subset bitset representation
+
+	// FIXME: Need to be able to represent a macrostate, but we need
+	// 2^(nfa_->size()) bits to do that.
+
+	for(auto &state: ms->states()) {
+		auto nextTransition = state->next_transition(a);
+		if(nextTransition == nullptr) {
+			nextTransition = this->next_transition(state, a);
+		}
+	}
+
+	// auto found = dstates_table_.find(subsetBitset);
 }
