@@ -15,7 +15,7 @@ RegEx::~RegEx() {}
 
 // std::string RegEx::uniformGenerate(uint32_t n) {
 //   if(!full_dfa_) {
-//     dman_.computeFullDetAutomaton();
+//     dman_.computeFullDFA();
 //     full_dfa_ = true;
 //   }
 //   return dman_.uniformSample(n);
@@ -82,10 +82,10 @@ size_t RegEx::det_counter() const {
   return eval_->det_c_;
 }
 size_t RegEx::dfa_counter() {
-  return dman_.DFA().size();
+  return dman_.dfa().size();
 }
 size_t RegEx::nfa_counter() {
-  return dman_.NFA().size();
+  return dman_.dfa().size();
 }
 
 

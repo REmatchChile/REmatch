@@ -12,7 +12,7 @@
 #include "captures.hpp"
 #include "det/setstate.hpp"
 #include "bitsetwrapper.hpp"
-#include "automata/transition.hpp"
+#include "automata/dfa/transition.hpp"
 
 using namespace rematch;
 

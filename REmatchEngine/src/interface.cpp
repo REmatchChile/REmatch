@@ -8,7 +8,7 @@
 #include "interface.hpp"
 #include "parser/parser.hpp"
 #include "automata/eva.hpp"
-#include "automata/detautomaton.hpp"
+#include "automata/dfa/dfa.hpp"
 #include "memmanager.hpp"
 #include "parser_automata/parser.hpp"
 #include "timer.hpp"

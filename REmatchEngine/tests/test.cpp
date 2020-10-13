@@ -128,17 +128,20 @@ std::string file2str(std::string filename) {
 
 void check_spanners(rematch::RegEx &rgx, std::string document_file, std::string spanners_file) {
     std::string doc(file2str(document_file));
-    std::ifstream spanner_fstream(spanners_file);
+    std::ifstream doc_ifstream(document_file);
+    std::ifstream spanner_ifstream(spanners_file);
 	std::stringstream output_sstream;
 
     std::set<std::set<std::string>> expected_results;
-    for (std::string line; getline(spanner_fstream, line);) {
+    for (std::string line; getline(spanner_ifstream, line);) {
         expected_results.insert(parse_set(strip(line)));
     }
 
     std::set<std::set<std::string>> real_results;
     std::unique_ptr<rematch::Match> match_ptr;
-    while(match_ptr = rgx.findIter(doc)) {
+
+    // std::cout << "Test: \"" << doc << "\"\n";
+    while(match_ptr = rgx.findIter(doc_ifstream)) {
         std::string output = match_ptr->print();
         real_results.insert(parse_set(strip(output)));
     }
@@ -227,7 +230,13 @@ BOOST_DATA_TEST_CASE(
     BOOST_TEST_REQUIRE(file_exists(spanners_file), "spanners.txt missing.");
 
 	std::string regex = read_file(regex_file);
-    rematch::RegEx rgx(regex);
+
+    
+    rematch::RegExOptions opt;
+
+    opt.set_line_by_line(true);
+
+    rematch::RegEx rgx(regex, opt);
     check_spanners(rgx, document_file, spanners_file);
 
     BOOST_TEST_MESSAGE("=== SUCCESS!\n");

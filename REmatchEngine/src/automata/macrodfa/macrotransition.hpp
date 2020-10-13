@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 
-#include "automata/detstate.hpp"
+#include "automata/dfa/detstate.hpp"
 
 class MacroState;
 
@@ -28,22 +28,23 @@ struct MTDirect {
 
 class MacroTransition {
  public:
-  MacroTransition(char a);
+  MacroTransition();
 
-  void add_direct(char a, DetState& from, DetState& to);
-  void add_capture(char a, DetState& from, std::bitset<32> S, DetState& to);
+  void add_direct(DetState& from, DetState& to);
+  void add_capture(DetState& from, std::bitset<32> S, DetState& to);
 
   std::vector<MTDirect>& directs();
   std::vector<MTCapture>& captures();
 
+  void set_next_state(MacroState* ms);
+
   MacroState* next_state();
 
  private:
-  unsigned char label_;
   std::vector<MTDirect> directs_;
   std::vector<MTCapture> captures_;
 
-  std::shared_ptr<MacroState> next_;
+  MacroState* next_;
 }; // end class MacroTransition
 
 #endif // AUTOMATA_MACRODFA_MACROTRANSITION

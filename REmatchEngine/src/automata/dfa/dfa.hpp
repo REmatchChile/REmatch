@@ -1,16 +1,16 @@
-#ifndef DETAUTOMATON_HPP
-#define DETAUTOMATON_HPP
+#ifndef AUTOMATA__DFA__DFA_HPP
+#define AUTOMATA__DFA__DFA_HPP
 
 #include <string>
 #include <vector>
-#include <map>
+#include <memory>
 
 #include "automata/eva.hpp"
 
 class VariableFactory;
 class DetState;
 
-class DetAutomaton {
+class DFA {
  public:
 
   // Vector of pointers of States for resizing:
@@ -20,8 +20,8 @@ class DetAutomaton {
   std::vector<std::string> varNames;
 
   // Empty Automaton construction (only one state)
-  DetAutomaton(VariableFactory* vf);
-  DetAutomaton(ExtendedVA &a);
+  DFA(VariableFactory* vf);
+  DFA(ExtendedVA &a);
 
   // Getter for init state
   DetState* initState() {return init_state_;};
@@ -33,8 +33,13 @@ class DetAutomaton {
   size_t size() const {return states.size();}
 
  private:
+  // Utility to print a transition
   void print_transition(std::ostream& os, DetState* from, char a, DetState* to, std::bitset<32> S);
+
+  // The starting state of the dfa
   DetState* init_state_;
+
+  // Access to variable factory
   std::shared_ptr<VariableFactory> variable_factory_;
 
 };

@@ -8,10 +8,10 @@
 #include "regex/regex.hpp"
 #include "match.hpp"
 #include "enumeration.hpp"
-#include "automata/detautomaton.hpp"
+#include "automata/dfa/dfa.hpp"
 #include "memmanager.hpp"
 #include "document.hpp"
-#include "automata/transition.hpp"
+#include "automata/dfa/transition.hpp"
 
 #include "automata/macrodfa/macrodfa.hpp"
 #include "automata/macrodfa/macrostate.hpp"
@@ -69,8 +69,8 @@ class Evaluator {
 
   bool match();
 
-  DetAutomaton& rawDFA() {return rgx_.rawDetManager().DFA();}
-  DetAutomaton& DFA() {return rgx_.detManager().DFA();}
+  DFA& rawDFA() {return rgx_.rawDetManager().dfa();}
+  DFA& dfa() {return rgx_.detManager().dfa();}
 
   RegEx &rgx_;
   std::unique_ptr<Enumerator> enumerator_;

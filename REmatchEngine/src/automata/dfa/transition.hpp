@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "automata/detstate.hpp"
+#include "automata/dfa/detstate.hpp"
 #include "captures.hpp"
 
 class DetState;

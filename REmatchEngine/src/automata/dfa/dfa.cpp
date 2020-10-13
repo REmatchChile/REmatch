@@ -1,4 +1,4 @@
-#include "detautomaton.hpp"
+#include "dfa.hpp"
 
 #include <string>
 #include <sstream>
@@ -14,17 +14,17 @@
 #include "factories/factories.hpp"
 #include "detstate.hpp"
 #include "automata/eva.hpp"
-#include "automata/transition.hpp"
+#include "automata/dfa/transition.hpp"
 
-DetAutomaton :: DetAutomaton(VariableFactory* vf)
+DFA::DFA(VariableFactory* vf)
   : init_state_(new DetState()), variable_factory_(vf)  {states.push_back(init_state_);}
 
-DetAutomaton::DetAutomaton(ExtendedVA &a)
+DFA::DFA(ExtendedVA &a)
  : init_state_(new DetState()), variable_factory_(a.varFactory()) {
    states.push_back(init_state_);
 }
 
-std::string DetAutomaton :: pprint() {
+std::string DFA::pprint() {
   /* Gives a codification for the automaton that can be used to visualize it
      at https://puc-iic2223.github.io . It uses Breath-First Search
      to get every labeled transition in the automaton with the unique ids for

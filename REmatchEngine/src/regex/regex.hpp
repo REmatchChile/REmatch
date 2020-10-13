@@ -9,7 +9,7 @@
 
 #include "det/detmanager.hpp"
 #include "automata/eva.hpp"
-#include "automata/detautomaton.hpp"
+#include "automata/dfa/dfa.hpp"
 #include "regex/regex_options.hpp"
 #include "automata/lva.hpp"
 

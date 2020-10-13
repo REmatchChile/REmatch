@@ -2,6 +2,7 @@ file(GLOB sources
         ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/automata/*.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/automata/macrodfa/*.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/automata/dfa/*.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/det/*.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/factories/*.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/parser/*.cpp

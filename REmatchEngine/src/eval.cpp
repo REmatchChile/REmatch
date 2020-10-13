@@ -1,6 +1,6 @@
 #include "eval.hpp"
 
-#include "automata/detstate.hpp"
+#include "automata/dfa/detstate.hpp"
 #include "memmanager.hpp"
 
 #define	FORCE_INLINE inline __attribute__((always_inline))
@@ -69,16 +69,16 @@ void Evaluator::init() {
 void Evaluator::initAutomaton(int64_t i) {
   int64_t pos;
   if(i == 0) {
-    DFA().initState()->currentL->add(Evaluator::memory_manager_.alloc());
+    dfa().initState()->currentL->add(Evaluator::memory_manager_.alloc());
     pos = i-1;
-    macro_dfa_.set_as_init(macro_dfa_.add_state(DFA().initState()));
+    macro_dfa_.set_as_init(macro_dfa_.add_state(dfa().initState()));
   } else {
     pos = i;
   }
 
   current_state_ = &macro_dfa_.get_init_state();
 
-  reading(0, pos, 0);
+  // reading(0, pos, 0);
 }
 
 Match_ptr Evaluator::next() {
@@ -186,14 +186,6 @@ FORCE_INLINE void Evaluator::reading(char a, int64_t i,  bool early_output) {
   }
 
   for(auto &capture: nextTransition->captures()) {
-    if(capture.to.visited <= i_pos_+1) {
-      capture.to.visited = i_pos_+2;
-      // Lazy copy
-      capture.to.currentL->head = capture.from.currentL->head;
-      capture.to.currentL->tail = capture.from.currentL->tail;
-    } else {
-      capture.to.currentL->append(capture.from.currentL);
-    }
     Node* new_node = Evaluator::memory_manager_.alloc(capture.S,
                                                       i_pos_+1,
                                                       capture.from.currentL->head,

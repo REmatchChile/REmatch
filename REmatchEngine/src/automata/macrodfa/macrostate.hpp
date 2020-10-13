@@ -11,19 +11,22 @@
 class DetState;
 
 class MacroState {
+
+  using TransitionsMap = std::unordered_map<unsigned char, std::shared_ptr<MacroTransition>>;
+
  public:
   MacroState(DetState *state);
   MacroState(std::vector<DetState*> states);
 
   MacroTransition* next_transition(char a);
 
-  void add_transition(char a);
+  void add_transition(char a, std::shared_ptr<MacroTransition> tr);
 
   std::vector<DetState*>& states();
 
  private:
   int id_;
-  std::unordered_map<unsigned char, MacroTransition> transitions_;
+  TransitionsMap transitions_;
   std::vector<DetState*> states_;
 }; // end class MacroState
 

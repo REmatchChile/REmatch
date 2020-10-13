@@ -6,18 +6,33 @@
 #include <vector>
 #include <bitset>
 
+#include <boost/functional/hash.hpp> /* hash_combine */
+
 #include "bitsetwrapper.hpp"
 #include "det/setstate.hpp"
-#include "automata/detautomaton.hpp"
-#include "automata/detstate.hpp"
-#include "automata/transition.hpp"
+#include "automata/dfa/dfa.hpp"
+#include "automata/dfa/detstate.hpp"
+#include "automata/dfa/transition.hpp"
 #include "automata/macrodfa/macrodfa.hpp"
+
+struct VectorHasher {
+    size_t operator()(const vector<size_t> &V) const {
+        size_t hash = V.size();
+        for(auto &i : V) {
+            hash ^= i + 0x9e3779b9 + (hash << 6) + (hash >> 2);
+        }
+        return hash;
+    }
+};
 
 class DetManager {
 
 	using DFAStatesTable = std::unordered_map<BitsetWrapper, DetState*>;
 	using VectorCharTable = std::unordered_map<BitsetWrapper, std::vector<char>>;
-	using MacroStatesTable = std::unordered_map<BitsetWrapper, MacroState*>;
+
+	// TODO: A map for now but it should be a hash table
+	using MacroStatesTable = std::unordered_map<std::vector<size_t>, MacroState*,
+																							VectorHasher>;
 
  public:
 
@@ -30,8 +45,8 @@ class DetManager {
 	std::shared_ptr<VariableFactory> varFactory() const {return variable_factory_;}
 	std::shared_ptr<FilterFactory> filterFactory() const {return filter_factory_;}
 
-	DetAutomaton& DFA() {return *dfa_;}
-	ExtendedVA& NFA() {return *nfa_;}
+	DFA& dfa() {return *dfa_;}
+	ExtendedVA& nfa() {return *nfa_;}
 
  private:
 	void computeCaptures(DetState* p, DetState* q, char a);
@@ -41,7 +56,7 @@ class DetManager {
 	std::unique_ptr<ExtendedVA> nfa_;
 
 	// Determinization of the eVA computed on-the-fly.
-	std::unique_ptr<DetAutomaton> dfa_;
+	std::unique_ptr<DFA> dfa_;
 
 	std::unique_ptr<MacroDFA> mdfa_;
 
@@ -53,7 +68,7 @@ class DetManager {
 	// NFA states to DFA states
 	DFAStatesTable dstates_table_;
 
-
+	MacroStatesTable mstates_table_;
 
 	VectorCharTable all_chars_table_;
 };

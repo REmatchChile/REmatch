@@ -4,11 +4,12 @@
 #include <functional>
 #include <stack>
 #include <random>
+#include <vector>
 
 #include "parser/parser.hpp"
 #include "automata/eva.hpp"
-#include "automata/detautomaton.hpp"
-#include "automata/detstate.hpp"
+#include "automata/dfa/dfa.hpp"
+#include "automata/dfa/detstate.hpp"
 #include "det/setstate.hpp"
 
 DetManager::DetManager(std::string pattern, bool raw_automata) {
@@ -17,7 +18,8 @@ DetManager::DetManager(std::string pattern, bool raw_automata) {
 	if (raw_automata) lva.adapt_capture_jumping();
 
 	nfa_ = std::make_unique<ExtendedVA>(lva);
-	dfa_ = std::make_unique<DetAutomaton>(*nfa_);
+	dfa_ = std::make_unique<DFA>(*nfa_);
+	mdfa_ = std::make_unique<MacroDFA>();
 
 	variable_factory_ = nfa_->varFactory();
 	filter_factory_ = nfa_->filterFactory();
@@ -134,20 +136,68 @@ rematch::Transition* DetManager::next_transition(DetState *q, char a) {
 	return q->next_transition(a);
 }
 
-MacroTransition* DetManager::next_macro_transition(MacroState *ms, char a) {
+MacroTransition* DetManager::next_macro_transition(MacroState *p, char a) {
 
-	// std::set<LVAState*> newSubset;  // Store the next subset
-	// BitsetWrapper subsetBitset(nfa_->size());  // Subset bitset representation
+	// Set to store the key
+	std::set<size_t> dstates_key;
 
-	// FIXME: Need to be able to represent a macrostate, but we need
-	// 2^(nfa_->size()) bits to do that.
+	// Set to store the reached states
+	std::set<DetState*> dstates_storage;
 
-	for(auto &state: ms->states()) {
+	// Alloc a new MacroTransition
+	std::shared_ptr<MacroTransition> mtrans = std::make_shared<MacroTransition>();
+
+	for(auto &state: p->states()) {
+		// Classic on-the-fly determinization
 		auto nextTransition = state->next_transition(a);
+
 		if(nextTransition == nullptr) {
 			nextTransition = this->next_transition(state, a);
 		}
+
+		if(nextTransition->type_ & Transition::kDirect) {
+			dstates_key.insert(nextTransition->direct_->id);
+			dstates_storage.insert(nextTransition->direct_);
+			mtrans->add_direct(*state, *nextTransition->direct_);
+		} if (nextTransition->type_ & Transition::kSingleCapture) {
+			dstates_key.insert(nextTransition->capture_->next->id);
+			dstates_storage.insert(nextTransition->capture_->next);
+			mtrans->add_capture(*state, nextTransition->capture_->S, *nextTransition->capture_->next);
+		} else if(nextTransition->type_ & Transition::kMultiCapture) {
+			for(auto &capture: *nextTransition->captures_) {
+				dstates_key.insert(capture->next->id);
+				dstates_storage.insert(capture->next);
+				mtrans->add_capture(*state, capture->S, *capture->next);
+			}
+		}
 	}
 
-	// auto found = dstates_table_.find(subsetBitset);
+	// Pass up to a vector
+	std::vector<size_t> real_dstates_key(dstates_key.begin(), dstates_key.end());
+
+	// Sorting needed to compute the correct key
+	std::sort(real_dstates_key.begin(), real_dstates_key.end());
+
+	auto found = mstates_table_.find(real_dstates_key);
+
+	MacroState *q;
+
+	if(found == mstates_table_.end()) {
+		// Convert set to vector
+		std::vector<DetState*> real_dstates_storage(dstates_storage.begin(), dstates_storage.end());
+
+		// Create the new MacroState
+		q = mdfa_->add_state(real_dstates_storage);
+
+		// Insert new MacroState in table
+		mstates_table_.insert(std::pair<std::vector<size_t>, MacroState*>(real_dstates_key, q));
+	} else {
+		q = found->second;
+	}
+
+	mtrans->set_next_state(q);
+
+	p->add_transition(a, mtrans);
+
+	return mtrans.get();
 }
