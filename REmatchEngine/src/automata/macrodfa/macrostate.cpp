@@ -9,11 +9,7 @@ MacroState::MacroState(DetState* state) {
 MacroState::MacroState(std::vector<DetState*> states) : states_(states) {}
 
 MacroTransition* MacroState::next_transition(char a) {
-  auto ret = transitions_.find(a);
-  if(ret != transitions_.end()) {
-    return ret->second.get();
-  }
-  return nullptr;
+  return transitions_[a].get();
 }
 
 void MacroState::add_transition(char a, std::shared_ptr<MacroTransition> tr) {
@@ -23,3 +19,5 @@ void MacroState::add_transition(char a, std::shared_ptr<MacroTransition> tr) {
 std::vector<DetState*>& MacroState::states() {
   return states_;
 }
+
+

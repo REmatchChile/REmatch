@@ -47,6 +47,7 @@ class DetManager {
 
 	DFA& dfa() {return *dfa_;}
 	ExtendedVA& nfa() {return *nfa_;}
+	MacroDFA& mdfa() {return *mdfa_;}
 
  private:
 	void computeCaptures(DetState* p, DetState* q, char a);
@@ -74,4 +75,6 @@ class DetManager {
 };
 
 #endif
+
+
 

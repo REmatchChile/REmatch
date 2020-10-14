@@ -28,6 +28,7 @@ Evaluator::Evaluator(RegEx &rgx, std::istream& input,
       direct_multi_c_(0),
       multi_c_(0),
       empty_c_(0),
+      miss_c_(0),
       det_c_(0) {
   init();
 }
@@ -51,6 +52,7 @@ Evaluator::Evaluator(RegEx &rgx, const std::string &text,
       direct_multi_c_(0),
       multi_c_(0),
       empty_c_(0),
+      miss_c_(0),
       det_c_(0) {
   init();
 }
@@ -171,6 +173,7 @@ FORCE_INLINE void Evaluator::reading(char a, int64_t i,  bool early_output) {
   auto nextTransition = current_state_->next_transition(a);
 
   if(nextTransition == nullptr) {
+    miss_c_++;
     nextTransition = rgx_.detManager().next_macro_transition(current_state_, a);
   }
 

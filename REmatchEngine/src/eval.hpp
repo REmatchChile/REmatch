@@ -106,6 +106,8 @@ class Evaluator {
   size_t multi_c_;
   size_t empty_c_;
 
+  size_t miss_c_;
+
   size_t det_c_;
 }; // end class Evaluator
 

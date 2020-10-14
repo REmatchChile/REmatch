@@ -74,9 +74,11 @@ class RegEx {
   size_t multi_counter() const;
   size_t empty_counter() const;
   size_t det_counter() const;
+  size_t miss_counter();
 
   size_t dfa_counter();
   size_t nfa_counter();
+  size_t mdfa_counter();
 
   private:
 

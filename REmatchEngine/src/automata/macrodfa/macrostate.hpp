@@ -12,7 +12,8 @@ class DetState;
 
 class MacroState {
 
-  using TransitionsMap = std::unordered_map<unsigned char, std::shared_ptr<MacroTransition>>;
+  // TODO: Make this an array of 128 entries
+  using TransitionsMap = std::array<std::shared_ptr<MacroTransition>, 128>;
 
  public:
   MacroState(DetState *state);

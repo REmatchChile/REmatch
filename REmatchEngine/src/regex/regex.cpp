@@ -85,8 +85,15 @@ size_t RegEx::dfa_counter() {
   return dman_.dfa().size();
 }
 size_t RegEx::nfa_counter() {
-  return dman_.dfa().size();
+  return dman_.nfa().size();
 }
+size_t RegEx::mdfa_counter() {
+  return dman_.mdfa().size();
+}
+size_t RegEx::miss_counter() {
+  return eval_->miss_c_;
+}
+
 
 
 

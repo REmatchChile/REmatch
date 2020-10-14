@@ -73,8 +73,10 @@ def automata_stats(doc_path, rgx_path):
 
 	dsize = int(re.search(r'DetSize\s+(\d+)', process.stdout).group(1))
 	esize = int(re.search(r'eVASize\s+(\d+)', process.stdout).group(1))
+	msize = int(re.search(r'MDFASize\s+(\d+)', process.stdout).group(1))
+	misse = int(re.search(r'Num of Misses\s+([0-9,]+)', process.stdout).group(1).replace(",",""))
 
-	return dsize, esize
+	return dsize, esize, msize, misse
 
 def re2_algo(doc_path, rgx_path):
 	command = "{0}/build/Release/bin/re2-algo {1} {2}".format(HOME_DIR, doc_path, rgx_path)
@@ -150,6 +152,8 @@ def main():
 
 	row_counter = START_ROW
 
+	row_length = 3 + num_bins * 3 + 4 + 1
+
 	for dataset in next(os.walk(exps_path))[1]:
 
 		writeInCell(SHEETS_SERVICE, spreadsheet_id, single_range.format(START_COL, row_counter), [["!!" + dataset]])
@@ -167,10 +171,10 @@ def main():
 
 			print("\nStarting query:", get_rgx(rem_rgx_path))
 
-			row_values = [[0 for _ in range(3 + num_bins * 3 + 2 + 1)]]
+			row_values = [[0 for _ in range(row_length)]]
 
 			leftmost_col = chr(ord(START_COL) + 1)
-			rightmost_col = chr(ord(leftmost_col) + 3 + num_bins*3 + 2 + 1)
+			rightmost_col = chr(ord(leftmost_col) + row_length)
 
 			doc_path = os.path.join(experiment,"doc.txt")
 
@@ -180,10 +184,12 @@ def main():
 			row_values[0][1] = nchars
 			row_values[0][2] = nlines
 
-			dsize, esize = automata_stats(doc_path, os.path.join(experiment,"rematch.rgx"))
+			dsize, esize, msize, misses = automata_stats(doc_path, os.path.join(experiment,"rematch.rgx"))
 
 			row_values[0][-2] = esize
 			row_values[0][-3] = dsize
+			row_values[0][-4] = msize
+			row_values[0][-5] = misses
 
 			row_values[0][-1] = re2_algo(doc_path, os.path.join(experiment,"perl.rgx"))
 

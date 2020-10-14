@@ -86,7 +86,7 @@ void Interface::normalRun() {
 void Interface::benchmarkRun() {
     std::stringstream output;
 
-	size_t numOfSpans, numOfCaptures, numOfReadings, detSize, nfaSize;
+	size_t numOfSpans, numOfCaptures, numOfReadings, detSize, nfaSize, mdfaSize;
 	double initAutomataTime, evaluateTime, totTime;
 	/**************************** Run Algorithm ****************************/
 
@@ -111,6 +111,8 @@ void Interface::benchmarkRun() {
 
 	detSize = regex.dfa_counter();
 	nfaSize = regex.nfa_counter();
+	mdfaSize = regex.mdfa_counter();
+
 
 	// std::cout << "\nRaw DFA:\n" <<  regex.detManager().DFA().pprint() << '\n';
 	// std::cout << "\nRaw NFA:\n" <<  regex.detManager().NFA().pprint() << '\n';
@@ -135,10 +137,12 @@ void Interface::benchmarkRun() {
 	std::cout
 	<< "Number of mappings\t\t" 			<< 	pwc(numOfSpans)											<<	'\n'
 	<< "Memory used \t\t\t"						<<	memoryUsed	 												<< 	'\n'
+	<< "MDFASize \t\t\t"							<<	mdfaSize														<<	'\n'
 	<< "DetSize \t\t\t"								<<	detSize															<<	'\n'
 	<< "eVASize \t\t\t"								<<	nfaSize															<< 	'\n'
 	<< "Num of Captures \t\t"					<< 	pwc(numOfCaptures)									<<	'\n'
 	<< "Num of Readings \t\t"					<< 	pwc(numOfReadings)									<<	'\n'
+	<< "Num of Misses \t\t\t"					<< 	pwc(regex.miss_counter())						<<	'\n'
 	<< "Num of Direct \t\t\t"					<< 	pwc(regex.direct_counter())					<<	'\n'
 	<< "Num of Single \t\t\t"					<< 	pwc(regex.single_counter())					<<	'\n'
 	<< "Num of Direct-Single \t\t"		<< 	pwc(regex.direct_single_counter())	<<	'\n'
