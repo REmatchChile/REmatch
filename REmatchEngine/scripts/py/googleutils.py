@@ -1,6 +1,6 @@
 from __future__ import print_function
 import pickle
-import os.path
+import os.path as pth
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -12,6 +12,8 @@ TEMPLATE_FILE = "1jakMn4ckrESICFFFuRhRcwNN-VeswGRgnv_LjeYVHew"
 # If modifying these scopes, delete the file token.pickle.
 DRIVE_SCOPES = ['https://www.googleapis.com/auth/drive']
 SHEETS_SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
+
+here = pth.dirname(pth.abspath(__file__))
 
 
 def get_or_create_spreadsheet(drive_service, parent_folder, name, template=TEMPLATE_FILE):
@@ -54,8 +56,8 @@ def get_sheets_service():
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    if os.path.exists('sheets_token.pickle'):
-        with open('sheets_token.pickle', 'rb') as token:
+    if pth.exists(pth.join(here, 'sheets_token.pickle')):
+        with open(pth.join(here, 'sheets_token.pickle'), 'rb') as token:
             creds = pickle.load(token)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
@@ -63,10 +65,10 @@ def get_sheets_service():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'sheets_credentials.json', SHEETS_SCOPES)
+                pth.join(here, 'sheets_credentials.json'), SHEETS_SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
-        with open('sheets_token.pickle', 'wb') as token:
+        with open(pth.join(here, 'sheets_token.pickle'), 'wb') as token:
             pickle.dump(creds, token)
 
     return build('sheets', 'v4', credentials=creds)
@@ -77,8 +79,8 @@ def get_drive_service():
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    if os.path.exists('drive_token.pickle'):
-        with open('drive_token.pickle', 'rb') as token:
+    if pth.exists(pth.join(here, 'drive_token.pickle')):
+        with open(pth.join(here, 'drive_token.pickle'), 'rb') as token:
             creds = pickle.load(token)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
@@ -86,10 +88,10 @@ def get_drive_service():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'drive_credentials.json', DRIVE_SCOPES)
+                pth.join(here, 'drive_credentials.json'), DRIVE_SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
-        with open('drive_token.pickle', 'wb') as token:
+        with open(pth.join(here, 'drive_token.pickle'), 'wb') as token:
             pickle.dump(creds, token)
 
     return build('drive', 'v3', credentials=creds)

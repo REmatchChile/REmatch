@@ -169,35 +169,43 @@ bool Evaluator::match() {
   return currentState->isFinal;
 }
 
-FORCE_INLINE void Evaluator::reading(char a, int64_t i,  bool early_output) {
+void Evaluator::reading(char a, int64_t i,  bool early_output) {
   auto nextTransition = current_state_->next_transition(a);
 
   if(nextTransition == nullptr) {
-    miss_c_++;
     nextTransition = rgx_.detManager().next_macro_transition(current_state_, a);
   }
 
-  for(auto &direct: nextTransition->directs()) {
-    if(direct.to.visited <= i_pos_+1) {
-      direct.to.visited = i_pos_+2;
+  auto directs = nextTransition->directs();
+  auto captures = nextTransition->captures();
+
+
+  // TODO: Probar contra a Hyperscan
+
+  for(size_t i=0; i < nextTransition->directs_idx_; i++) {
+    auto direct = directs[i];
+
+    if(direct.to->visited <= i_pos_+1) {
+      direct.to->visited = i_pos_+2;
       // Lazy copy
-      direct.to.currentL->head = direct.from.currentL->head;
-      direct.to.currentL->tail = direct.from.currentL->tail;
+      direct.to->currentL->head = direct.from->currentL->head;
+      direct.to->currentL->tail = direct.from->currentL->tail;
     } else {
-      direct.to.currentL->append(direct.from.currentL);
+      direct.to->currentL->append(direct.from->currentL);
     }
   }
 
-  for(auto &capture: nextTransition->captures()) {
+  for(size_t i=0; i < nextTransition->captures_idx_; i++) {
+    auto capture = captures[i];
     Node* new_node = Evaluator::memory_manager_.alloc(capture.S,
                                                       i_pos_+1,
-                                                      capture.from.currentL->head,
-                                                      capture.from.currentL->tail);
-    if(capture.to.visited <= i_pos_+1) {
-      capture.to.visited = i_pos_+2;
-      capture.to.currentL->resetAndAdd(new_node);
+                                                      capture.from->currentL->head,
+                                                      capture.from->currentL->tail);
+    if(capture.to->visited <= i_pos_+1) {
+      capture.to->visited = i_pos_+2;
+      capture.to->currentL->resetAndAdd(new_node);
     } else {
-      capture.to.currentL->add(new_node);
+      capture.to->currentL->add(new_node);
     }
   }
 

@@ -32,6 +32,8 @@ exp/re2/.vscode
 exp/syn
 exp/doc.txt
 exp/*.rgx
+perf.data*
+env_test/
 
 # Distribution / packaging
 .Python

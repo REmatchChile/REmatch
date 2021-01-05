@@ -1,6 +1,6 @@
 import json
 import os
-import os.path
+import os.path as pth
 from datetime import date
 
 import googleutils
@@ -9,10 +9,11 @@ import subprocess
 
 import re
 
-os.chdir(os.path.dirname(os.path.realpath(__file__)))
+here = pth.dirname(pth.realpath(__file__))
 
-with open("benchmark.json") as jsonFile:
+with open(pth.join(here, "benchmark.json")) as jsonFile:
 		data = json.load(jsonFile)
+
 
 START_COL = "A"
 START_ROW = 4
@@ -146,7 +147,11 @@ def main():
 	current_range = 'Data!{0}{1}:{2}{3}'
 	single_range = 'Data!{0}{1}'
 
-	exps_path = "{0}/exp/benchmark".format(HOME_DIR)
+	print("HOME_DIR:",HOME_DIR)
+
+	exps_path = pth.join(HOME_DIR, "exp/benchmark")
+
+	print(exps_path)
 
 	ndocstats = 3
 

@@ -1,0 +1,48 @@
+#!/bin/sh
+
+perf stat -e cycles,instructions,cache-misses \
+  build/Release/bin/rematch \
+  -d exp/benchmark/RKBExplorer/exp01/doc.txt \
+  -r exp/benchmark/RKBExplorer/exp01/rematch.rgx \
+  -l > /dev/null
+
+
+perf record \
+  -e cycles \
+  -g \
+  --call-graph fp \
+  -- \
+  build/Release/bin/rematch \
+  -d exp/benchmark/RKBExplorer/exp01/doc.txt \
+  -r exp/benchmark/RKBExplorer/exp01/rematch.rgx \
+  -l > /dev/null
+
+perf script | c++filt | gprof2dot -f perf | dot -Tpng -o output_cycles.png
+
+perf record \
+  -e instructions \
+  -g \
+  --call-graph fp \
+  -- \
+  build/Release/bin/rematch \
+  -d exp/benchmark/RKBExplorer/exp01/doc.txt \
+  -r exp/benchmark/RKBExplorer/exp01/rematch.rgx \
+  -l > /dev/null
+
+perf script | c++filt | gprof2dot -f perf | dot -Tpng -o output_instructions.png
+
+perf record \
+  -e cache-misses \
+  -g \
+  --call-graph fp \
+  -- \
+  build/Release/bin/rematch \
+  -d exp/benchmark/RKBExplorer/exp01/doc.txt \
+  -r exp/benchmark/RKBExplorer/exp01/rematch.rgx \
+  -l > /dev/null
+
+perf script | c++filt | gprof2dot -f perf | dot -Tpng -o output_cache-misses.png
+
+
+
+# perf report -g 'graph,0.5,caller'

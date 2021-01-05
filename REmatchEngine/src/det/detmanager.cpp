@@ -197,6 +197,8 @@ MacroTransition* DetManager::next_macro_transition(MacroState *p, char a) {
 
 	mtrans->set_next_state(q);
 
+	// mtrans->set_type();
+
 	p->add_transition(a, mtrans);
 
 	return mtrans.get();

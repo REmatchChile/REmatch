@@ -8,8 +8,8 @@
 	"RKBExplorer2" : "1HU4skHQqmuMbcjMGLzkSe-XW_MAjmmsZJmof_rqb39M"
 	},
 	"dataset" : "RKBExplorer",
-	"description" : "MacroDFA v1.1 (char array)",
-	"homedir" : "/home/nicovsj/repos/research/REmatch/REmatchEngine",
+	"description" : "MacroDFA (raw macroTransitions arrays)",
+	"homedir" : "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine",
 	"nexp" : 20,
 	"cols" : ["D", "E", "F", "G"],
 	"queries" : [1,3],

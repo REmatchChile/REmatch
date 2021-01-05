@@ -1,12 +1,12 @@
 import json
-import os.path
+import os.path as pth
 from datetime import date
 
 import googleutils
 
 import subprocess
 
-os.chdir(os.path.dirname(os.path.realpath(__file__)))
+here = pth.dirname(pth.realpath(__file__)))
 
 with open("settings.json") as jsonFile:
 		data = json.load(jsonFile)

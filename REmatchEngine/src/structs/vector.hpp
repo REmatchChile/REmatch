@@ -59,15 +59,15 @@ namespace rematch {
             const_reference back() const {return arr[vec_sz - 1];}
 
             void push_back(const T &val) {
-                // if (vec_sz == reserve_sz) {
-                //     reserve_sz <<= 2;
-                //     reallocate();
-                // }
+                if (vec_sz == reserve_sz) {
+                    reserve_sz <<= 2;
+                    reallocate();
+                }
                 arr[vec_sz] = val;
                 ++vec_sz;
             }
 
-            void clear() noexcept {vec_sz = 0;} // TODO: Need to delete objects later?
+            void clear() noexcept {vec_sz = 0;}
 
             void swap(vector<T> &rhs) {
                 size_type tvec_sz = vec_sz,
@@ -83,7 +83,7 @@ namespace rematch {
                 rhs.arr = tarr;
             }
 
-        
+
         private:
             size_type reserve_sz = 4;
             size_type vec_sz = 0;
@@ -91,7 +91,7 @@ namespace rematch {
 
             void reallocate() {
                 T* tarr = new T[reserve_sz];
-                memcpy(tarr, arr, vec_sz *sizeof(T));
+                memcpy(tarr, arr, vec_sz*sizeof(T));
                 delete [] arr;
                 arr = tarr;
             }
