@@ -144,8 +144,7 @@ MacroTransition* DetManager::next_macro_transition(MacroState *p, char a) {
 	// Set to store the reached states
 	std::set<DetState*> dstates_storage;
 
-	// Alloc a new MacroTransition
-	std::shared_ptr<MacroTransition> mtrans = std::make_shared<MacroTransition>();
+	int ndirects = 0, ncaptures = 0;
 
 	for(auto &state: p->states()) {
 		// Classic on-the-fly determinization
@@ -158,15 +157,33 @@ MacroTransition* DetManager::next_macro_transition(MacroState *p, char a) {
 		if(nextTransition->type_ & Transition::kDirect) {
 			dstates_key.insert(nextTransition->direct_->id);
 			dstates_storage.insert(nextTransition->direct_);
-			mtrans->add_direct(*state, *nextTransition->direct_);
+			ndirects++;
 		} if (nextTransition->type_ & Transition::kSingleCapture) {
 			dstates_key.insert(nextTransition->capture_->next->id);
 			dstates_storage.insert(nextTransition->capture_->next);
-			mtrans->add_capture(*state, nextTransition->capture_->S, *nextTransition->capture_->next);
+			ncaptures++;
 		} else if(nextTransition->type_ & Transition::kMultiCapture) {
 			for(auto &capture: *nextTransition->captures_) {
 				dstates_key.insert(capture->next->id);
 				dstates_storage.insert(capture->next);
+				ncaptures++;
+			}
+		}
+	}
+
+	// Alloc a new MacroTransition
+	std::shared_ptr<MacroTransition> mtrans = std::make_shared<MacroTransition>(ndirects, ncaptures);
+
+	for(auto &state: p->states()) {
+		// Classic on-the-fly determinization
+		auto nextTransition = state->next_transition(a);
+
+		if(nextTransition->type_ & Transition::kDirect) {
+			mtrans->add_direct(*state, *nextTransition->direct_);
+		} if (nextTransition->type_ & Transition::kSingleCapture) {
+			mtrans->add_capture(*state, nextTransition->capture_->S, *nextTransition->capture_->next);
+		} else if(nextTransition->type_ & Transition::kMultiCapture) {
+			for(auto &capture: *nextTransition->captures_) {
 				mtrans->add_capture(*state, capture->S, *capture->next);
 			}
 		}
@@ -182,6 +199,7 @@ MacroTransition* DetManager::next_macro_transition(MacroState *p, char a) {
 
 	MacroState *q;
 
+	// Check if not inside table already
 	if(found == mstates_table_.end()) {
 		// Convert set to vector
 		std::vector<DetState*> real_dstates_storage(dstates_storage.begin(), dstates_storage.end());

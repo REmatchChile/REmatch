@@ -1,25 +1,36 @@
 #include "macrotransition.hpp"
 
 MacroTransition::MacroTransition()
-  : directs_idx_{0}, captures_idx_{0} {
+  : ndirects_{0}, ncaptures_{0} {
     // directs_.reserve(10);
     // captures_.reserve(10);
   }
 
+MacroTransition::MacroTransition(size_t ndirects, size_t ncaptures)
+  : ndirects_{0}, ncaptures_{0},
+    directs_{new MTDirect[ndirects]},
+    captures_{new MTCapture[ncaptures]} {}
+
 void MacroTransition::add_direct(DetState& from, DetState& to) {
-  // directs_.emplace_back(from, to);
-  new (&directs_[directs_idx_++]) MTDirect(from, to);
+  #ifdef MACRO_TRANSITIONS_RAW_ARRAYS
+  new (&directs_[ndirects_++]) MTDirect(from, to);
+  #else
+  directs_.emplace_back(from, to);
+  #endif
 }
 
 void MacroTransition::add_capture(DetState& from, std::bitset<32> S,
                                   DetState& to) {
-  // captures_.emplace_back(from, S, to);
-  new (&captures_[captures_idx_++]) MTCapture(from, S, to);
+  #ifdef MACRO_TRANSITIONS_RAW_ARRAYS
+  new (&captures_[ncaptures_++]) MTCapture(from, S, to);
+  #else
+  captures_.emplace_back(from, S, to);
+  #endif
 }
 
 void MacroTransition::set_next_state(MacroState* ms) {next_ = ms;}
 
-MTDirect* MacroTransition::directs() {return directs_;}
-MTCapture* MacroTransition::captures() {return captures_;}
+DirectsArray MacroTransition::directs() {return directs_;}
+CapturesArray MacroTransition::captures() {return captures_;}
 
 MacroState* MacroTransition::next_state() {return next_;}

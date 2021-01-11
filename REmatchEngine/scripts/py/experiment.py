@@ -6,10 +6,13 @@ import googleutils
 
 import subprocess
 
-here = pth.dirname(pth.realpath(__file__)))
+here = pth.dirname(pth.realpath(__file__))
 
-with open("settings.json") as jsonFile:
+with open(pth.join(here, "settings.json")) as jsonFile:
 		data = json.load(jsonFile)
+
+PARENT_FOLDER = "17o1x6mwadxvxguhDiPCOArl6WH633vOa"
+TEMPLATE_FILE = "1jakMn4ckrESICFFFuRhRcwNN-VeswGRgnv_LjeYVHew"
 
 SCOPES = data['scopes']
 SHEETS = data['sheets']
@@ -61,17 +64,19 @@ def main():
 	spreadsheet_name = '({}) {} - {}'.format(str(date.today()), DATASET, DESCRIPTION)
 
 	spreadsheet_id = googleutils.get_or_create_spreadsheet(DRIVE_SERVICE,
-																												 spreadsheet_name)
+																												 PARENT_FOLDER,
+																												 spreadsheet_name,
+																												 TEMPLATE_FILE)
 
 	for query in TOT_QUERIES:
 		writeInCell(SHEETS_SERVICE,
 		            spreadsheet_id,
 								"Query {}!D16".format(query),
-								get_rgx("{0}/exp/{1}/exp{2}/regex.rgx".format(HOME_DIR, DATASET, query)))
+								get_rgx("{0}/exp/benchmark/{1}/exp0{2}/rematch.rgx".format(HOME_DIR, DATASET, query)))
 		writeInCell(SHEETS_SERVICE,
 		            spreadsheet_id,
 								"Query {}!D17".format(query),
-								get_rgx("{0}/exp/{1}/exp{2}/re2regex.rgx".format(HOME_DIR, DATASET, query)))
+								get_rgx("{0}/exp/benchmark/{1}/exp0{2}/perl.rgx".format(HOME_DIR, DATASET, query)))
 		# writeInCell(SHEETS_SERVICE,
 		#             spreadsheet_id,
 		# 						"Query {}!D18".format(query),

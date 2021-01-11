@@ -179,10 +179,16 @@ void Evaluator::reading(char a, int64_t i,  bool early_output) {
   auto directs = nextTransition->directs();
   auto captures = nextTransition->captures();
 
+  #ifdef MACRO_TRANSITIONS_RAW_ARRAYS
+  auto directs_sz = nextTransition->ndirects_;
+  auto captures_sz = nextTransition->ncaptures_;
+  #else
+  auto directs_sz = directs.size();
+  auto captures_sz = captures.size();
+  #endif
 
-  // TODO: Probar contra a Hyperscan
 
-  for(size_t i=0; i < nextTransition->directs_idx_; i++) {
+  for(size_t i=0; i < directs_sz; i++) {
     auto direct = directs[i];
 
     if(direct.to->visited <= i_pos_+1) {
@@ -195,7 +201,7 @@ void Evaluator::reading(char a, int64_t i,  bool early_output) {
     }
   }
 
-  for(size_t i=0; i < nextTransition->captures_idx_; i++) {
+  for(size_t i=0; i < captures_sz; i++) {
     auto capture = captures[i];
     Node* new_node = Evaluator::memory_manager_.alloc(capture.S,
                                                       i_pos_+1,

@@ -35,26 +35,41 @@ enum MacroType {
   kOther
 };
 
+#ifdef MACRO_TRANSITIONS_RAW_ARRAYS
+using DirectsArray = MTDirect*;
+using CapturesArray = MTCapture*;
+#else
+using DirectsArray = rematch::prevector<MTDirect>;
+using CapturesArray = rematch::prevector<MTCapture>;
+#endif
+
 class MacroTransition {
  public:
   MacroTransition();
 
+  MacroTransition(size_t ndirects, size_t ncaptures);
+
   void add_direct(DetState& from, DetState& to);
   void add_capture(DetState& from, std::bitset<32> S, DetState& to);
 
-  MTCapture* captures();
-  MTDirect* directs();
+  DirectsArray directs();
+  CapturesArray captures();
 
   void set_next_state(MacroState* ms);
 
   MacroState* next_state();
 
-  size_t directs_idx_;
-  size_t captures_idx_;
+  size_t ndirects_;
+  size_t ncaptures_;
 
  private:
-  MTDirect directs_[10];
-  MTCapture captures_[10];
+  #ifdef MACRO_TRANSITIONS_RAW_ARRAYS
+  MTDirect *directs_;
+  MTCapture *captures_;
+  #else
+  rematch::vector<MTDirect> directs_;
+  rematch::vector<MTCapture> captures_;
+  #endif
 
   MacroState* next_;
 

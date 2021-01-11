@@ -1,9 +1,11 @@
 #!/bin/sh
 
+EXPERIMENT="exp/benchmark/TwainBench/exp14-1"
+
 perf stat -e cycles,instructions,cache-misses \
   build/Release/bin/rematch \
-  -d exp/benchmark/RKBExplorer/exp01/doc.txt \
-  -r exp/benchmark/RKBExplorer/exp01/rematch.rgx \
+  -d $EXPERIMENT/doc.txt \
+  -r $EXPERIMENT/rematch.rgx \
   -l > /dev/null
 
 
@@ -13,8 +15,8 @@ perf record \
   --call-graph fp \
   -- \
   build/Release/bin/rematch \
-  -d exp/benchmark/RKBExplorer/exp01/doc.txt \
-  -r exp/benchmark/RKBExplorer/exp01/rematch.rgx \
+  -d $EXPERIMENT/doc.txt \
+  -r $EXPERIMENT/rematch.rgx \
   -l > /dev/null
 
 perf script | c++filt | gprof2dot -f perf | dot -Tpng -o output_cycles.png
@@ -25,8 +27,8 @@ perf record \
   --call-graph fp \
   -- \
   build/Release/bin/rematch \
-  -d exp/benchmark/RKBExplorer/exp01/doc.txt \
-  -r exp/benchmark/RKBExplorer/exp01/rematch.rgx \
+  -d $EXPERIMENT/doc.txt \
+  -r $EXPERIMENT/rematch.rgx \
   -l > /dev/null
 
 perf script | c++filt | gprof2dot -f perf | dot -Tpng -o output_instructions.png
@@ -37,8 +39,8 @@ perf record \
   --call-graph fp \
   -- \
   build/Release/bin/rematch \
-  -d exp/benchmark/RKBExplorer/exp01/doc.txt \
-  -r exp/benchmark/RKBExplorer/exp01/rematch.rgx \
+  -d $EXPERIMENT/doc.txt \
+  -r $EXPERIMENT/rematch.rgx \
   -l > /dev/null
 
 perf script | c++filt | gprof2dot -f perf | dot -Tpng -o output_cache-misses.png

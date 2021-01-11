@@ -75,7 +75,7 @@ extern "C" {
 
 static int eventHandler(unsigned int id, unsigned long long from,
                         unsigned long long to, unsigned int flags, void *ctx) {
-    // *ctx = (int)*ctx + 1;
+    std::cout << '|' << from << ',' << to << '>' << std::endl;
     return 0;
 }
 
@@ -84,14 +84,15 @@ static int eventHandler(unsigned int id, unsigned long long from,
 int main(int argc, char *argv[]) {
     if(argc != 3) {
 		std::cerr << "Error parsing args.\nUsage:\n\t" << argv[0] <<
-			" [rgx_file] [doc_file]\n";
+			" [doc_file] [rgx_file]\n";
 		exit(1);
 	}
 
-  std::string doc, rgx;
+    std::string doc, rgx;
 
-  rgx = file2str(argv[2]);
-	doc = file2str(argv[1]);
+    doc = file2str(argv[1]);
+    rgx = file2str(argv[2]);
+
 
     /* First, we attempt to compile the pattern provided on the command line.
      * We assume 'DOTALL' semantics, meaning that the '.' meta-character will
