@@ -127,8 +127,6 @@ build src/CMakeFiles/test-re2.dir/benchmark/test-re2.cpp.o: CXX_COMPILER__test-r
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/test-re2.dir
   OBJECT_FILE_DIR = src/CMakeFiles/test-re2.dir/benchmark
-  TARGET_COMPILE_PDB = src/CMakeFiles/test-re2.dir/
-  TARGET_PDB = bin/test-re2.pdb
 
 
 # =============================================================================
@@ -144,9 +142,8 @@ build bin/test-re2: CXX_EXECUTABLE_LINKER__test-re2_Release src/CMakeFiles/test-
   OBJECT_DIR = src/CMakeFiles/test-re2.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_COMPILE_PDB = src/CMakeFiles/test-re2.dir/
   TARGET_FILE = bin/test-re2
-  TARGET_PDB = bin/test-re2.pdb
+  TARGET_PDB = test-re2.dbg
 
 # =============================================================================
 # Object build statements for EXECUTABLE target test-pcre
@@ -164,8 +161,6 @@ build src/CMakeFiles/test-pcre.dir/benchmark/test-pcre.cpp.o: CXX_COMPILER__test
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/test-pcre.dir
   OBJECT_FILE_DIR = src/CMakeFiles/test-pcre.dir/benchmark
-  TARGET_COMPILE_PDB = src/CMakeFiles/test-pcre.dir/
-  TARGET_PDB = bin/test-pcre.pdb
 
 
 # =============================================================================
@@ -181,9 +176,8 @@ build bin/test-pcre: CXX_EXECUTABLE_LINKER__test-pcre_Release src/CMakeFiles/tes
   OBJECT_DIR = src/CMakeFiles/test-pcre.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_COMPILE_PDB = src/CMakeFiles/test-pcre.dir/
   TARGET_FILE = bin/test-pcre
-  TARGET_PDB = bin/test-pcre.pdb
+  TARGET_PDB = test-pcre.dbg
 
 # =============================================================================
 # Object build statements for EXECUTABLE target test-hscan
@@ -201,8 +195,6 @@ build src/CMakeFiles/test-hscan.dir/benchmark/test-hscan.cpp.o: CXX_COMPILER__te
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/test-hscan.dir
   OBJECT_FILE_DIR = src/CMakeFiles/test-hscan.dir/benchmark
-  TARGET_COMPILE_PDB = src/CMakeFiles/test-hscan.dir/
-  TARGET_PDB = bin/test-hscan.pdb
 
 
 # =============================================================================
@@ -218,9 +210,8 @@ build bin/test-hscan: CXX_EXECUTABLE_LINKER__test-hscan_Release src/CMakeFiles/t
   OBJECT_DIR = src/CMakeFiles/test-hscan.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_COMPILE_PDB = src/CMakeFiles/test-hscan.dir/
   TARGET_FILE = bin/test-hscan
-  TARGET_PDB = bin/test-hscan.pdb
+  TARGET_PDB = test-hscan.dbg
 
 # =============================================================================
 # Object build statements for EXECUTABLE target generate
@@ -238,8 +229,6 @@ build src/CMakeFiles/generate.dir/main/generate.cpp.o: CXX_COMPILER__generate_Re
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/generate.dir
   OBJECT_FILE_DIR = src/CMakeFiles/generate.dir/main
-  TARGET_COMPILE_PDB = src/CMakeFiles/generate.dir/
-  TARGET_PDB = bin/generate.pdb
 
 
 # =============================================================================
@@ -255,9 +244,8 @@ build bin/generate: CXX_EXECUTABLE_LINKER__generate_Release src/CMakeFiles/gener
   OBJECT_DIR = src/CMakeFiles/generate.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_COMPILE_PDB = src/CMakeFiles/generate.dir/
   TARGET_FILE = bin/generate
-  TARGET_PDB = bin/generate.pdb
+  TARGET_PDB = generate.dbg
 
 # =============================================================================
 # Object build statements for EXECUTABLE target rematch
@@ -275,8 +263,6 @@ build src/CMakeFiles/rematch.dir/main/rematch.cpp.o: CXX_COMPILER__rematch_Relea
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematch.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematch.dir/main
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematch.dir/
-  TARGET_PDB = bin/rematch.pdb
 
 
 # =============================================================================
@@ -292,9 +278,8 @@ build bin/rematch: CXX_EXECUTABLE_LINKER__rematch_Release src/CMakeFiles/rematch
   OBJECT_DIR = src/CMakeFiles/rematch.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematch.dir/
   TARGET_FILE = bin/rematch
-  TARGET_PDB = bin/rematch.pdb
+  TARGET_PDB = rematch.dbg
 
 # =============================================================================
 # Object build statements for EXECUTABLE target test-onig
@@ -312,8 +297,6 @@ build src/CMakeFiles/test-onig.dir/benchmark/test-onig.cpp.o: CXX_COMPILER__test
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/test-onig.dir
   OBJECT_FILE_DIR = src/CMakeFiles/test-onig.dir/benchmark
-  TARGET_COMPILE_PDB = src/CMakeFiles/test-onig.dir/
-  TARGET_PDB = bin/test-onig.pdb
 
 
 # =============================================================================
@@ -329,9 +312,8 @@ build bin/test-onig: CXX_EXECUTABLE_LINKER__test-onig_Release src/CMakeFiles/tes
   OBJECT_DIR = src/CMakeFiles/test-onig.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_COMPILE_PDB = src/CMakeFiles/test-onig.dir/
   TARGET_FILE = bin/test-onig
-  TARGET_PDB = bin/test-onig.pdb
+  TARGET_PDB = test-onig.dbg
 
 # =============================================================================
 # Object build statements for STATIC_LIBRARY target rematchlib
@@ -349,8 +331,6 @@ build src/CMakeFiles/rematchlib.dir/automata/dfa/detstate.cpp.o: CXX_COMPILER__r
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir/automata/dfa
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/automata/dfa/dfa.cpp.o: CXX_COMPILER__rematchlib_Release ../src/automata/dfa/dfa.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -359,8 +339,6 @@ build src/CMakeFiles/rematchlib.dir/automata/dfa/dfa.cpp.o: CXX_COMPILER__rematc
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir/automata/dfa
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/automata/eva.cpp.o: CXX_COMPILER__rematchlib_Release ../src/automata/eva.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -369,8 +347,6 @@ build src/CMakeFiles/rematchlib.dir/automata/eva.cpp.o: CXX_COMPILER__rematchlib
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir/automata
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/automata/lva.cpp.o: CXX_COMPILER__rematchlib_Release ../src/automata/lva.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -379,8 +355,6 @@ build src/CMakeFiles/rematchlib.dir/automata/lva.cpp.o: CXX_COMPILER__rematchlib
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir/automata
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/automata/lvastate.cpp.o: CXX_COMPILER__rematchlib_Release ../src/automata/lvastate.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -389,8 +363,6 @@ build src/CMakeFiles/rematchlib.dir/automata/lvastate.cpp.o: CXX_COMPILER__remat
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir/automata
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/automata/macrodfa/macrodfa.cpp.o: CXX_COMPILER__rematchlib_Release ../src/automata/macrodfa/macrodfa.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -399,8 +371,6 @@ build src/CMakeFiles/rematchlib.dir/automata/macrodfa/macrodfa.cpp.o: CXX_COMPIL
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir/automata/macrodfa
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/automata/macrodfa/macrostate.cpp.o: CXX_COMPILER__rematchlib_Release ../src/automata/macrodfa/macrostate.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -409,8 +379,6 @@ build src/CMakeFiles/rematchlib.dir/automata/macrodfa/macrostate.cpp.o: CXX_COMP
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir/automata/macrodfa
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/automata/macrodfa/macrotransition.cpp.o: CXX_COMPILER__rematchlib_Release ../src/automata/macrodfa/macrotransition.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -419,8 +387,6 @@ build src/CMakeFiles/rematchlib.dir/automata/macrodfa/macrotransition.cpp.o: CXX
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir/automata/macrodfa
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/bitsetwrapper.cpp.o: CXX_COMPILER__rematchlib_Release ../src/bitsetwrapper.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -429,8 +395,6 @@ build src/CMakeFiles/rematchlib.dir/bitsetwrapper.cpp.o: CXX_COMPILER__rematchli
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/captures.cpp.o: CXX_COMPILER__rematchlib_Release ../src/captures.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -439,8 +403,6 @@ build src/CMakeFiles/rematchlib.dir/captures.cpp.o: CXX_COMPILER__rematchlib_Rel
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/charclass.cpp.o: CXX_COMPILER__rematchlib_Release ../src/charclass.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -449,8 +411,6 @@ build src/CMakeFiles/rematchlib.dir/charclass.cpp.o: CXX_COMPILER__rematchlib_Re
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/cli.cpp.o: CXX_COMPILER__rematchlib_Release ../src/cli.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -459,8 +419,6 @@ build src/CMakeFiles/rematchlib.dir/cli.cpp.o: CXX_COMPILER__rematchlib_Release 
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/det/detmanager.cpp.o: CXX_COMPILER__rematchlib_Release ../src/det/detmanager.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -469,8 +427,6 @@ build src/CMakeFiles/rematchlib.dir/det/detmanager.cpp.o: CXX_COMPILER__rematchl
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir/det
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/det/setstate.cpp.o: CXX_COMPILER__rematchlib_Release ../src/det/setstate.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -479,8 +435,6 @@ build src/CMakeFiles/rematchlib.dir/det/setstate.cpp.o: CXX_COMPILER__rematchlib
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir/det
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/enumeration.cpp.o: CXX_COMPILER__rematchlib_Release ../src/enumeration.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -489,8 +443,6 @@ build src/CMakeFiles/rematchlib.dir/enumeration.cpp.o: CXX_COMPILER__rematchlib_
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/eval.cpp.o: CXX_COMPILER__rematchlib_Release ../src/eval.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -499,8 +451,6 @@ build src/CMakeFiles/rematchlib.dir/eval.cpp.o: CXX_COMPILER__rematchlib_Release
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/factories/factories.cpp.o: CXX_COMPILER__rematchlib_Release ../src/factories/factories.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -509,8 +459,6 @@ build src/CMakeFiles/rematchlib.dir/factories/factories.cpp.o: CXX_COMPILER__rem
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir/factories
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/factories/varfactory.cpp.o: CXX_COMPILER__rematchlib_Release ../src/factories/varfactory.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -519,8 +467,6 @@ build src/CMakeFiles/rematchlib.dir/factories/varfactory.cpp.o: CXX_COMPILER__re
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir/factories
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/interface.cpp.o: CXX_COMPILER__rematchlib_Release ../src/interface.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -529,8 +475,6 @@ build src/CMakeFiles/rematchlib.dir/interface.cpp.o: CXX_COMPILER__rematchlib_Re
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/match.cpp.o: CXX_COMPILER__rematchlib_Release ../src/match.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -539,8 +483,6 @@ build src/CMakeFiles/rematchlib.dir/match.cpp.o: CXX_COMPILER__rematchlib_Releas
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/parser/parser.cpp.o: CXX_COMPILER__rematchlib_Release ../src/parser/parser.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -549,8 +491,6 @@ build src/CMakeFiles/rematchlib.dir/parser/parser.cpp.o: CXX_COMPILER__rematchli
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir/parser
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/parser/visitors.cpp.o: CXX_COMPILER__rematchlib_Release ../src/parser/visitors.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -559,8 +499,6 @@ build src/CMakeFiles/rematchlib.dir/parser/visitors.cpp.o: CXX_COMPILER__rematch
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir/parser
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/parser_automata/parser.cpp.o: CXX_COMPILER__rematchlib_Release ../src/parser_automata/parser.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -569,8 +507,6 @@ build src/CMakeFiles/rematchlib.dir/parser_automata/parser.cpp.o: CXX_COMPILER__
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir/parser_automata
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/parser_automata/visitor.cpp.o: CXX_COMPILER__rematchlib_Release ../src/parser_automata/visitor.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -579,8 +515,6 @@ build src/CMakeFiles/rematchlib.dir/parser_automata/visitor.cpp.o: CXX_COMPILER_
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir/parser_automata
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/regex/regex.cpp.o: CXX_COMPILER__rematchlib_Release ../src/regex/regex.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -589,8 +523,6 @@ build src/CMakeFiles/rematchlib.dir/regex/regex.cpp.o: CXX_COMPILER__rematchlib_
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir/regex
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/rematch.cpp.o: CXX_COMPILER__rematchlib_Release ../src/rematch.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -599,8 +531,6 @@ build src/CMakeFiles/rematchlib.dir/rematch.cpp.o: CXX_COMPILER__rematchlib_Rele
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/structures.cpp.o: CXX_COMPILER__rematchlib_Release ../src/structures.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -609,8 +539,6 @@ build src/CMakeFiles/rematchlib.dir/structures.cpp.o: CXX_COMPILER__rematchlib_R
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 build src/CMakeFiles/rematchlib.dir/util.cpp.o: CXX_COMPILER__rematchlib_Release ../src/util.cpp || cmake_object_order_depends_target_rematchlib
   DEFINES = -DMACRO_TRANSITIONS_RAW_ARRAYS
@@ -619,8 +547,6 @@ build src/CMakeFiles/rematchlib.dir/util.cpp.o: CXX_COMPILER__rematchlib_Release
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   OBJECT_FILE_DIR = src/CMakeFiles/rematchlib.dir
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
-  TARGET_PDB = src/librematchlib.pdb
 
 
 # =============================================================================
@@ -635,9 +561,8 @@ build src/librematchlib.a: CXX_STATIC_LIBRARY_LINKER__rematchlib_Release src/CMa
   OBJECT_DIR = src/CMakeFiles/rematchlib.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_COMPILE_PDB = src/CMakeFiles/rematchlib.dir/rematchlib.pdb
   TARGET_FILE = src/librematchlib.a
-  TARGET_PDB = src/librematchlib.pdb
+  TARGET_PDB = rematchlib.a.dbg
 
 # =============================================================================
 # Write statements declared in CMakeLists.txt:
@@ -696,8 +621,6 @@ build tests/CMakeFiles/rematch_test.dir/test.cpp.o: CXX_COMPILER__rematch_test_R
   INCLUDES = -I../src -isystem ../thirdparty
   OBJECT_DIR = tests/CMakeFiles/rematch_test.dir
   OBJECT_FILE_DIR = tests/CMakeFiles/rematch_test.dir
-  TARGET_COMPILE_PDB = tests/CMakeFiles/rematch_test.dir/
-  TARGET_PDB = bin/rematch_test.pdb
 
 
 # =============================================================================
@@ -713,9 +636,8 @@ build bin/rematch_test: CXX_EXECUTABLE_LINKER__rematch_test_Release tests/CMakeF
   OBJECT_DIR = tests/CMakeFiles/rematch_test.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_COMPILE_PDB = tests/CMakeFiles/rematch_test.dir/
   TARGET_FILE = bin/rematch_test
-  TARGET_PDB = bin/rematch_test.pdb
+  TARGET_PDB = rematch_test.dbg
 
 # =============================================================================
 # Target aliases.
@@ -769,14 +691,14 @@ build tests/all: phony bin/rematch_test
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | ../CMakeLists.txt ../src/CMakeLists.txt ../tests/CMakeLists.txt /usr/lib64/cmake/Boost-1.75.0/BoostConfig.cmake /usr/lib64/cmake/Boost-1.75.0/BoostConfigVersion.cmake /usr/lib64/cmake/boost_headers-1.75.0/boost_headers-config-version.cmake /usr/lib64/cmake/boost_headers-1.75.0/boost_headers-config.cmake /usr/share/cmake-3.19/Modules/CMakeCXXCompiler.cmake.in /usr/share/cmake-3.19/Modules/CMakeCXXCompilerABI.cpp /usr/share/cmake-3.19/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.19/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.19/Modules/CMakeCompilerIdDetection.cmake /usr/share/cmake-3.19/Modules/CMakeDetermineCXXCompiler.cmake /usr/share/cmake-3.19/Modules/CMakeDetermineCompileFeatures.cmake /usr/share/cmake-3.19/Modules/CMakeDetermineCompiler.cmake /usr/share/cmake-3.19/Modules/CMakeDetermineCompilerABI.cmake /usr/share/cmake-3.19/Modules/CMakeDetermineCompilerId.cmake /usr/share/cmake-3.19/Modules/CMakeDetermineSystem.cmake /usr/share/cmake-3.19/Modules/CMakeFindBinUtils.cmake /usr/share/cmake-3.19/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.19/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.19/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.19/Modules/CMakeNinjaFindMake.cmake /usr/share/cmake-3.19/Modules/CMakeParseImplicitIncludeInfo.cmake /usr/share/cmake-3.19/Modules/CMakeParseImplicitLinkInfo.cmake /usr/share/cmake-3.19/Modules/CMakeSystem.cmake.in /usr/share/cmake-3.19/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.19/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.19/Modules/CMakeTestCXXCompiler.cmake /usr/share/cmake-3.19/Modules/CMakeTestCompilerCommon.cmake /usr/share/cmake-3.19/Modules/Compiler/ADSP-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/ARMCC-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/ARMClang-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/AppleClang-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/Borland-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.19/Modules/Compiler/Clang-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/Clang-DetermineCompilerInternal.cmake /usr/share/cmake-3.19/Modules/Compiler/Comeau-CXX-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/Cray-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/Embarcadero-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/Fujitsu-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/GHS-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.19/Modules/Compiler/GNU-FindBinUtils.cmake /usr/share/cmake-3.19/Modules/Compiler/GNU.cmake /usr/share/cmake-3.19/Modules/Compiler/HP-CXX-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/IAR-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake /usr/share/cmake-3.19/Modules/Compiler/Intel-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/MSVC-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/NVIDIA-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/PGI-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/PathScale-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/SCO-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/TI-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/Watcom-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/XL-CXX-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/FindBoost.cmake /usr/share/cmake-3.19/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.19/Modules/FindPackageMessage.cmake /usr/share/cmake-3.19/Modules/Internal/FeatureTesting.cmake /usr/share/cmake-3.19/Modules/Platform/Linux-Determine-CXX.cmake /usr/share/cmake-3.19/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.19/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.19/Modules/Platform/Linux.cmake /usr/share/cmake-3.19/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.19.2/CMakeCXXCompiler.cmake CMakeFiles/3.19.2/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | ../CMakeLists.txt ../src/CMakeLists.txt ../tests/CMakeLists.txt /usr/lib64/cmake/Boost-1.75.0/BoostConfig.cmake /usr/lib64/cmake/Boost-1.75.0/BoostConfigVersion.cmake /usr/lib64/cmake/boost_headers-1.75.0/boost_headers-config-version.cmake /usr/lib64/cmake/boost_headers-1.75.0/boost_headers-config.cmake /usr/share/cmake-3.19/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.19/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.19/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.19/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.19/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.19/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.19/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.19/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.19/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.19/Modules/Compiler/GNU.cmake /usr/share/cmake-3.19/Modules/FindBoost.cmake /usr/share/cmake-3.19/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.19/Modules/FindPackageMessage.cmake /usr/share/cmake-3.19/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.19/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.19/Modules/Platform/Linux.cmake /usr/share/cmake-3.19/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.19.2/CMakeCXXCompiler.cmake CMakeFiles/3.19.2/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build ../CMakeLists.txt ../src/CMakeLists.txt ../tests/CMakeLists.txt /usr/lib64/cmake/Boost-1.75.0/BoostConfig.cmake /usr/lib64/cmake/Boost-1.75.0/BoostConfigVersion.cmake /usr/lib64/cmake/boost_headers-1.75.0/boost_headers-config-version.cmake /usr/lib64/cmake/boost_headers-1.75.0/boost_headers-config.cmake /usr/share/cmake-3.19/Modules/CMakeCXXCompiler.cmake.in /usr/share/cmake-3.19/Modules/CMakeCXXCompilerABI.cpp /usr/share/cmake-3.19/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.19/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.19/Modules/CMakeCompilerIdDetection.cmake /usr/share/cmake-3.19/Modules/CMakeDetermineCXXCompiler.cmake /usr/share/cmake-3.19/Modules/CMakeDetermineCompileFeatures.cmake /usr/share/cmake-3.19/Modules/CMakeDetermineCompiler.cmake /usr/share/cmake-3.19/Modules/CMakeDetermineCompilerABI.cmake /usr/share/cmake-3.19/Modules/CMakeDetermineCompilerId.cmake /usr/share/cmake-3.19/Modules/CMakeDetermineSystem.cmake /usr/share/cmake-3.19/Modules/CMakeFindBinUtils.cmake /usr/share/cmake-3.19/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.19/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.19/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.19/Modules/CMakeNinjaFindMake.cmake /usr/share/cmake-3.19/Modules/CMakeParseImplicitIncludeInfo.cmake /usr/share/cmake-3.19/Modules/CMakeParseImplicitLinkInfo.cmake /usr/share/cmake-3.19/Modules/CMakeSystem.cmake.in /usr/share/cmake-3.19/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.19/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.19/Modules/CMakeTestCXXCompiler.cmake /usr/share/cmake-3.19/Modules/CMakeTestCompilerCommon.cmake /usr/share/cmake-3.19/Modules/Compiler/ADSP-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/ARMCC-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/ARMClang-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/AppleClang-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/Borland-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.19/Modules/Compiler/Clang-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/Clang-DetermineCompilerInternal.cmake /usr/share/cmake-3.19/Modules/Compiler/Comeau-CXX-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/Cray-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/Embarcadero-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/Fujitsu-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/GHS-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.19/Modules/Compiler/GNU-FindBinUtils.cmake /usr/share/cmake-3.19/Modules/Compiler/GNU.cmake /usr/share/cmake-3.19/Modules/Compiler/HP-CXX-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/IAR-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake /usr/share/cmake-3.19/Modules/Compiler/Intel-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/MSVC-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/NVIDIA-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/PGI-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/PathScale-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/SCO-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/TI-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/Watcom-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/XL-CXX-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake /usr/share/cmake-3.19/Modules/FindBoost.cmake /usr/share/cmake-3.19/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.19/Modules/FindPackageMessage.cmake /usr/share/cmake-3.19/Modules/Internal/FeatureTesting.cmake /usr/share/cmake-3.19/Modules/Platform/Linux-Determine-CXX.cmake /usr/share/cmake-3.19/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.19/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.19/Modules/Platform/Linux.cmake /usr/share/cmake-3.19/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.19.2/CMakeCXXCompiler.cmake CMakeFiles/3.19.2/CMakeSystem.cmake: phony
+build ../CMakeLists.txt ../src/CMakeLists.txt ../tests/CMakeLists.txt /usr/lib64/cmake/Boost-1.75.0/BoostConfig.cmake /usr/lib64/cmake/Boost-1.75.0/BoostConfigVersion.cmake /usr/lib64/cmake/boost_headers-1.75.0/boost_headers-config-version.cmake /usr/lib64/cmake/boost_headers-1.75.0/boost_headers-config.cmake /usr/share/cmake-3.19/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.19/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.19/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.19/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.19/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.19/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.19/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.19/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.19/Modules/Compiler/GNU-CXX.cmake /usr/share/cmake-3.19/Modules/Compiler/GNU.cmake /usr/share/cmake-3.19/Modules/FindBoost.cmake /usr/share/cmake-3.19/Modules/FindPackageHandleStandardArgs.cmake /usr/share/cmake-3.19/Modules/FindPackageMessage.cmake /usr/share/cmake-3.19/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.19/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.19/Modules/Platform/Linux.cmake /usr/share/cmake-3.19/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.19.2/CMakeCXXCompiler.cmake CMakeFiles/3.19.2/CMakeSystem.cmake: phony
 
 
 #############################################
