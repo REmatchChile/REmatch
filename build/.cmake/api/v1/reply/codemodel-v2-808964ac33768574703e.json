@@ -1,0 +1,152 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "src",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "src",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						3,
+						4,
+						5,
+						6,
+						7
+					]
+				},
+				{
+					"build" : "tests",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "tests",
+					"targetIndexes" : 
+					[
+						2
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2
+					],
+					"name" : "rematch",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "generate::@145eef247bfb46b6828c",
+					"jsonFile" : "target-generate-Release-1c680299991860fc073c.json",
+					"name" : "generate",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "rematch::@145eef247bfb46b6828c",
+					"jsonFile" : "target-rematch-Release-6b8fd2aacd6c97b9ef40.json",
+					"name" : "rematch",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "rematch_test::@a44f0ac069e85531cdee",
+					"jsonFile" : "target-rematch_test-Release-9ef750de918d29a8b89f.json",
+					"name" : "rematch_test",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "rematchlib::@145eef247bfb46b6828c",
+					"jsonFile" : "target-rematchlib-Release-b018a1930219873d30e7.json",
+					"name" : "rematchlib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "test-hscan::@145eef247bfb46b6828c",
+					"jsonFile" : "target-test-hscan-Release-3d2ca790feec522acae8.json",
+					"name" : "test-hscan",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "test-onig::@145eef247bfb46b6828c",
+					"jsonFile" : "target-test-onig-Release-11e0980c18ba50488f13.json",
+					"name" : "test-onig",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "test-pcre::@145eef247bfb46b6828c",
+					"jsonFile" : "target-test-pcre-Release-6a0af6f76c31f0347313.json",
+					"name" : "test-pcre",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "test-re2::@145eef247bfb46b6828c",
+					"jsonFile" : "target-test-re2-Release-79fb62c61a7ebbc987aa.json",
+					"name" : "test-re2",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+		"source" : "/home/nicovsj/repos/research/REmatch-org/REmatch"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 2
+	}
+}

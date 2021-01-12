@@ -1,0 +1,177 @@
+[
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/test-re2.dir/benchmark/test-re2.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/benchmark/test-re2.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/benchmark/test-re2.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/test-pcre.dir/benchmark/test-pcre.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/benchmark/test-pcre.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/benchmark/test-pcre.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/test-hscan.dir/benchmark/test-hscan.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/benchmark/test-hscan.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/benchmark/test-hscan.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/generate.dir/main/generate.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/main/generate.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/main/generate.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematch.dir/main/rematch.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/main/rematch.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/main/rematch.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/test-onig.dir/benchmark/test-onig.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/benchmark/test-onig.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/benchmark/test-onig.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/automata/dfa/detstate.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/automata/dfa/detstate.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/automata/dfa/detstate.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/automata/dfa/dfa.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/automata/dfa/dfa.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/automata/dfa/dfa.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/automata/eva.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/automata/eva.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/automata/eva.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/automata/lva.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/automata/lva.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/automata/lva.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/automata/lvastate.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/automata/lvastate.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/automata/lvastate.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/automata/macrodfa/macrodfa.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/automata/macrodfa/macrodfa.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/automata/macrodfa/macrodfa.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/automata/macrodfa/macrostate.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/automata/macrodfa/macrostate.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/automata/macrodfa/macrostate.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/automata/macrodfa/macrotransition.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/automata/macrodfa/macrotransition.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/automata/macrodfa/macrotransition.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/bitsetwrapper.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/bitsetwrapper.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/bitsetwrapper.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/captures.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/captures.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/captures.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/charclass.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/charclass.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/charclass.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/cli.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/cli.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/cli.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/det/detmanager.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/det/detmanager.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/det/detmanager.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/det/setstate.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/det/setstate.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/det/setstate.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/enumeration.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/enumeration.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/enumeration.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/eval.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/eval.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/eval.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/factories/factories.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/factories/factories.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/factories/factories.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/factories/varfactory.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/factories/varfactory.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/factories/varfactory.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/interface.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/interface.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/interface.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/match.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/match.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/match.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/parser/parser.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/parser/parser.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/parser/parser.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/parser/visitors.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/parser/visitors.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/parser/visitors.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/parser_automata/parser.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/parser_automata/parser.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/parser_automata/parser.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/parser_automata/visitor.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/parser_automata/visitor.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/parser_automata/visitor.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/regex/regex.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/regex/regex.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/regex/regex.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/rematch.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/rematch.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/rematch.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/structures.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/structures.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/structures.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o src/CMakeFiles/rematchlib.dir/util.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/src/util.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/src/util.cpp"
+},
+{
+  "directory": "/home/nicovsj/repos/research/REmatch-org/REmatch/build",
+  "command": "/bin/g++ -DMACRO_TRANSITIONS_RAW_ARRAYS -I../src -isystem ../thirdparty -O3 -DNDEBUG -Wall -O3 -g0 -std=gnu++17 -o tests/CMakeFiles/rematch_test.dir/test.cpp.o -c /home/nicovsj/repos/research/REmatch-org/REmatch/tests/test.cpp",
+  "file": "/home/nicovsj/repos/research/REmatch-org/REmatch/tests/test.cpp"
+}
+]

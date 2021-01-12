@@ -1,0 +1,2368 @@
+Start testing: Dec 22 06:58 -03
+----------------------------------------------------------
+1/116 Testing: test_input_automata_file.test1
+1/116 Test: test_input_automata_file.test1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_automata_file/_0" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_automata_file.test1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Test setup error: no test cases matching filter or all test cases were disabled
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_automata_file.test1" end time: Dec 22 06:58 -03
+"test_input_automata_file.test1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/116 Testing: test_input_automata_file.test2
+2/116 Test: test_input_automata_file.test2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_automata_file/_1" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_automata_file.test2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Test setup error: no test cases matching filter or all test cases were disabled
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_automata_file.test2" end time: Dec 22 06:58 -03
+"test_input_automata_file.test2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/116 Testing: test_input_automata_file.test3
+3/116 Test: test_input_automata_file.test3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_automata_file/_2" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_automata_file.test3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Test setup error: no test cases matching filter or all test cases were disabled
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_automata_file.test3" end time: Dec 22 06:58 -03
+"test_input_automata_file.test3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/116 Testing: test_input_regex_file.test_all_substrings1
+4/116 Test: test_input_regex_file.test_all_substrings1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_0" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_all_substrings1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_0": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_all_substrings1; 
+    Additional values yielded by the evaluator: x=|0,6> & x=|1,6> & x=|2,6> & x=|3,6> & x=|4,6> & x=|5,6>
+    Missing values yielded by the evaluator: [0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_all_substrings1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_all_substrings1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/116 Testing: test_input_regex_file.test_all_substrings2
+5/116 Test: test_input_regex_file.test_all_substrings2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_1" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_all_substrings2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_1": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_all_substrings2; 
+    Additional values yielded by the evaluator: x=|0,6> & x=|1,6> & x=|2,6> & x=|3,6> & x=|4,6> & x=|5,6>
+    Missing values yielded by the evaluator: [0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_all_substrings2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_all_substrings2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/116 Testing: test_input_regex_file.test_all_substrings3
+6/116 Test: test_input_regex_file.test_all_substrings3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_2" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_all_substrings3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_2": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_all_substrings3; 
+    Additional values yielded by the evaluator: x=|0,6> & x=|1,6> & x=|2,6> & x=|3,6> & x=|4,6> & x=|5,6>
+    Missing values yielded by the evaluator: [0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_all_substrings3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_all_substrings3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/116 Testing: test_input_regex_file.test_all_substrings4
+7/116 Test: test_input_regex_file.test_all_substrings4
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_3" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_all_substrings4" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_3": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_all_substrings4; 
+    Additional values yielded by the evaluator: x=|0,6> & x=|1,6> & x=|2,6> & x=|3,6> & x=|4,6> & x=|5,6>
+    Missing values yielded by the evaluator: [0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_all_substrings4" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_all_substrings4" time elapsed: 00:00:00
+----------------------------------------------------------
+
+34/116 Testing: test_input_regex_file.test_disjunction_of_equal_re1
+34/116 Test: test_input_regex_file.test_disjunction_of_equal_re1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_30" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction_of_equal_re1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_30": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_disjunction_of_equal_re1; 
+    Additional values yielded by the evaluator: x=|11,11>
+    Missing values yielded by the evaluator: x=|0,0>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_disjunction_of_equal_re1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction_of_equal_re1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+35/116 Testing: test_input_regex_file.test_disjunction_of_equal_re2
+35/116 Test: test_input_regex_file.test_disjunction_of_equal_re2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_31" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction_of_equal_re2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_31": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_disjunction_of_equal_re2; 
+    Additional values yielded by the evaluator: x=|11,11>
+    Missing values yielded by the evaluator: x=|0,0>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_disjunction_of_equal_re2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction_of_equal_re2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+37/116 Testing: test_input_regex_file.test_disjunction_of_equal_re4
+37/116 Test: test_input_regex_file.test_disjunction_of_equal_re4
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_33" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction_of_equal_re4" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_33": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_disjunction_of_equal_re4; 
+    Additional values yielded by the evaluator: x=|11,11>
+    Missing values yielded by the evaluator: x=|0,0> & x=|0,1> & x=|0,2> & x=|0,3>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_disjunction_of_equal_re4" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction_of_equal_re4" time elapsed: 00:00:00
+----------------------------------------------------------
+
+36/116 Testing: test_input_regex_file.test_disjunction_of_equal_re3
+36/116 Test: test_input_regex_file.test_disjunction_of_equal_re3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_32" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction_of_equal_re3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_32": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_disjunction_of_equal_re3; 
+    Additional values yielded by the evaluator: x=|11,11>
+    Missing values yielded by the evaluator: x=|0,0>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_disjunction_of_equal_re3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction_of_equal_re3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+39/116 Testing: test_input_regex_file.test_disjunction_of_equal_re6
+39/116 Test: test_input_regex_file.test_disjunction_of_equal_re6
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_35" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction_of_equal_re6" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_35": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_disjunction_of_equal_re6; 
+    Additional values yielded by the evaluator: x=|11,11>
+    Missing values yielded by the evaluator: x=|0,0> & x=|0,1> & x=|0,2> & x=|0,3>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_disjunction_of_equal_re6" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction_of_equal_re6" time elapsed: 00:00:00
+----------------------------------------------------------
+
+40/116 Testing: test_input_regex_file.test_disjunction_of_equal_vars1
+40/116 Test: test_input_regex_file.test_disjunction_of_equal_vars1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_36" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction_of_equal_vars1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_36": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_disjunction_of_equal_vars1; 
+    Additional values yielded by the evaluator: x=|11,11>
+    Missing values yielded by the evaluator: x=|0,0>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_disjunction_of_equal_vars1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction_of_equal_vars1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+41/116 Testing: test_input_regex_file.test_disjunction_of_equal_vars2
+41/116 Test: test_input_regex_file.test_disjunction_of_equal_vars2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_37" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction_of_equal_vars2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_37": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_disjunction_of_equal_vars2; 
+    Additional values yielded by the evaluator: x=|11,11>
+    Missing values yielded by the evaluator: x=|0,0>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_disjunction_of_equal_vars2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction_of_equal_vars2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+38/116 Testing: test_input_regex_file.test_disjunction_of_equal_re5
+38/116 Test: test_input_regex_file.test_disjunction_of_equal_re5
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_34" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction_of_equal_re5" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_34": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_disjunction_of_equal_re5; 
+    Additional values yielded by the evaluator: x=|11,11>
+    Missing values yielded by the evaluator: x=|0,0> & x=|0,1> & x=|0,2> & x=|0,3>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_disjunction_of_equal_re5" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction_of_equal_re5" time elapsed: 00:00:00
+----------------------------------------------------------
+
+42/116 Testing: test_input_regex_file.test_disjunction_of_equal_vars3
+42/116 Test: test_input_regex_file.test_disjunction_of_equal_vars3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_38" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction_of_equal_vars3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_38": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_disjunction_of_equal_vars3; 
+    Additional values yielded by the evaluator: x=|11,11>
+    Missing values yielded by the evaluator: x=|0,0>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_disjunction_of_equal_vars3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction_of_equal_vars3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+43/116 Testing: test_input_regex_file.test_disjunction_of_equal_vars4
+43/116 Test: test_input_regex_file.test_disjunction_of_equal_vars4
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_39" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction_of_equal_vars4" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_39": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_disjunction_of_equal_vars4; 
+    Additional values yielded by the evaluator: x=|11,11>
+    Missing values yielded by the evaluator: x=|0,0> & x=|0,1> & x=|0,2> & x=|0,3>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_disjunction_of_equal_vars4" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction_of_equal_vars4" time elapsed: 00:00:00
+----------------------------------------------------------
+
+44/116 Testing: test_input_regex_file.test_disjunction_of_equal_vars5
+44/116 Test: test_input_regex_file.test_disjunction_of_equal_vars5
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_40" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction_of_equal_vars5" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_40": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_disjunction_of_equal_vars5; 
+    Additional values yielded by the evaluator: x=|11,11>
+    Missing values yielded by the evaluator: x=|0,0> & x=|0,1> & x=|0,2> & x=|0,3>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_disjunction_of_equal_vars5" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction_of_equal_vars5" time elapsed: 00:00:00
+----------------------------------------------------------
+
+45/116 Testing: test_input_regex_file.test_disjunction_of_equal_vars6
+45/116 Test: test_input_regex_file.test_disjunction_of_equal_vars6
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_41" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction_of_equal_vars6" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_41": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_disjunction_of_equal_vars6; 
+    Additional values yielded by the evaluator: x=|11,11>
+    Missing values yielded by the evaluator: x=|0,0> & x=|0,1> & x=|0,2> & x=|0,3>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.10 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_disjunction_of_equal_vars6" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction_of_equal_vars6" time elapsed: 00:00:00
+----------------------------------------------------------
+
+46/116 Testing: test_input_regex_file.test_disjunctive_overlaps1
+46/116 Test: test_input_regex_file.test_disjunctive_overlaps1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_42" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunctive_overlaps1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_42": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_disjunctive_overlaps1; 
+    Additional values yielded by the evaluator: x=|11,11>
+    Missing values yielded by the evaluator: x=|0,0>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_disjunctive_overlaps1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunctive_overlaps1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+47/116 Testing: test_input_regex_file.test_disjunctive_overlaps2
+47/116 Test: test_input_regex_file.test_disjunctive_overlaps2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_43" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunctive_overlaps2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_43": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_disjunctive_overlaps2; 
+    Additional values yielded by the evaluator: x=|11,11>
+    Missing values yielded by the evaluator: x=|0,0>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_disjunctive_overlaps2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunctive_overlaps2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+48/116 Testing: test_input_regex_file.test_disjunctive_overlaps3
+48/116 Test: test_input_regex_file.test_disjunctive_overlaps3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_44" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunctive_overlaps3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_44": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_disjunctive_overlaps3; 
+    Additional values yielded by the evaluator: x=|11,11>
+    Missing values yielded by the evaluator: x=|0,0> & x=|10,10>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.10 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_disjunctive_overlaps3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunctive_overlaps3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+49/116 Testing: test_input_regex_file.test_disjunctive_overlaps4
+49/116 Test: test_input_regex_file.test_disjunctive_overlaps4
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_45" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunctive_overlaps4" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_45": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_disjunctive_overlaps4; 
+    Additional values yielded by the evaluator: x=|11,11>
+    Missing values yielded by the evaluator: x=|0,0> & x=|0,1> & x=|0,2> & x=|0,3>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_disjunctive_overlaps4" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunctive_overlaps4" time elapsed: 00:00:00
+----------------------------------------------------------
+
+50/116 Testing: test_input_regex_file.test_disjunctive_overlaps5
+50/116 Test: test_input_regex_file.test_disjunctive_overlaps5
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_46" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunctive_overlaps5" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_46": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_disjunctive_overlaps5; 
+    Additional values yielded by the evaluator: x=|11,11>
+    Missing values yielded by the evaluator: x=|0,0> & x=|0,1> & x=|0,2> & x=|0,3> & x=|10,10>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_disjunctive_overlaps5" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunctive_overlaps5" time elapsed: 00:00:00
+----------------------------------------------------------
+
+51/116 Testing: test_input_regex_file.test_disjunctive_overlaps6
+51/116 Test: test_input_regex_file.test_disjunctive_overlaps6
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_47" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunctive_overlaps6" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_47": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_disjunctive_overlaps6; 
+    Additional values yielded by the evaluator: x=|11,11>
+    Missing values yielded by the evaluator: x=|0,0> & x=|0,1> & x=|0,2> & x=|0,3> & x=|10,10>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_disjunctive_overlaps6" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunctive_overlaps6" time elapsed: 00:00:00
+----------------------------------------------------------
+
+52/116 Testing: test_input_regex_file.test_first_and_last_element1
+52/116 Test: test_input_regex_file.test_first_and_last_element1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_48" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_first_and_last_element1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_48": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_first_and_last_element1; 
+    Additional values yielded by the evaluator: x=|0,1>y=|1,2>
+    Missing values yielded by the evaluator: [0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_first_and_last_element1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_first_and_last_element1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+53/116 Testing: test_input_regex_file.test_first_and_last_element2
+53/116 Test: test_input_regex_file.test_first_and_last_element2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_49" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_first_and_last_element2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_49": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_first_and_last_element2; 
+    Additional values yielded by the evaluator: x=|0,1>y=|2,3>
+    Missing values yielded by the evaluator: x=|0,1>y=|1,2>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_first_and_last_element2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_first_and_last_element2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+54/116 Testing: test_input_regex_file.test_first_and_last_element3
+54/116 Test: test_input_regex_file.test_first_and_last_element3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_50" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_first_and_last_element3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_50": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_first_and_last_element3; 
+    Additional values yielded by the evaluator: x=|0,1>y=|3,4>
+    Missing values yielded by the evaluator: x=|0,1>y=|2,3>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_first_and_last_element3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_first_and_last_element3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+55/116 Testing: test_input_regex_file.test_first_and_last_element4
+55/116 Test: test_input_regex_file.test_first_and_last_element4
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_51" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_first_and_last_element4" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_51": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_first_and_last_element4; 
+    Additional values yielded by the evaluator: x=|0,1>y=|10,11>
+    Missing values yielded by the evaluator: x=|0,1>y=|9,10>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_first_and_last_element4" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_first_and_last_element4" time elapsed: 00:00:00
+----------------------------------------------------------
+
+58/116 Testing: test_input_regex_file.test_kleene_star1
+58/116 Test: test_input_regex_file.test_kleene_star1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_54" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_kleene_star1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_54": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_kleene_star1; 
+    Additional values yielded by the evaluator: x=|1,6> & x=|2,6> & x=|3,6> & x=|4,6> & x=|5,6> & x=|6,6>
+    Missing values yielded by the evaluator: x=|0,0> & x=|0,1> & x=|0,2> & x=|0,3> & x=|0,4> & x=|0,5>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_kleene_star1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_kleene_star1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+60/116 Testing: test_input_regex_file.test_last_element2
+60/116 Test: test_input_regex_file.test_last_element2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_56" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_last_element2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_56": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_last_element2; 
+    Additional values yielded by the evaluator: x=|10,11>
+    Missing values yielded by the evaluator: x=|9,10>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_last_element2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_last_element2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+59/116 Testing: test_input_regex_file.test_last_element1
+59/116 Test: test_input_regex_file.test_last_element1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_55" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_last_element1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_55": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_last_element1; 
+    Additional values yielded by the evaluator: x=|1,2>
+    Missing values yielded by the evaluator: x=|0,1>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_last_element1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_last_element1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+67/116 Testing: test_input_regex_file.test_multiple_paths1
+67/116 Test: test_input_regex_file.test_multiple_paths1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_63" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_multiple_paths1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_63": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_multiple_paths1; 
+    Additional values yielded by the evaluator: x=|11,11>y=|11,11>
+    Missing values yielded by the evaluator: x=|0,0>y=|0,0> & x=|0,10>y=|0,10> & x=|0,1>y=|0,1> & x=|0,2>y=|0,2> & x=|0,3>y=|0,3> & x=|0,4>y=|0,4> & x=|0,5>y=|0,5> & x=|0,6>y=|0,6> & x=|0,7>y=|0,7> & x=|0,8>y=|0,8> & x=|0,9>y=|0,9>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_multiple_paths1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_multiple_paths1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+68/116 Testing: test_input_regex_file.test_multiple_paths2
+68/116 Test: test_input_regex_file.test_multiple_paths2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_64" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_multiple_paths2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_64": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_multiple_paths2; 
+    Additional values yielded by the evaluator: x=|11,11>y=|11,11>
+    Missing values yielded by the evaluator: x=|0,0>y=|0,0> & x=|0,10>y=|0,10> & x=|0,1>y=|0,1> & x=|0,2>y=|0,2> & x=|0,3>y=|0,3> & x=|0,4>y=|0,4> & x=|0,5>y=|0,5> & x=|0,6>y=|0,6> & x=|0,7>y=|0,7> & x=|0,8>y=|0,8> & x=|0,9>y=|0,9> & x=|10,10>y=|10,10> & x=|6,10>y=|6,10> & x=|7,10>y=|7,10> & x=|8,10>y=|8,10> & x=|8,8>y=|8,8> & x=|8,9>y=|8,9> & x=|9,10>y=|9,10> & x=|9,9>y=|9,9>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_multiple_paths2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_multiple_paths2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+110/116 Testing: test_input_regex_file.test_the_whole_document1
+110/116 Test: test_input_regex_file.test_the_whole_document1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_106" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_the_whole_document1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_106": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_the_whole_document1; 
+    Additional values yielded by the evaluator: 
+    Missing values yielded by the evaluator: x=|0,10>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_the_whole_document1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_the_whole_document1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+108/116 Testing: test_input_regex_file.test_specific_element2
+108/116 Test: test_input_regex_file.test_specific_element2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_104" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_specific_element2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_104": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_specific_element2; 
+    Additional values yielded by the evaluator: x=|4,5>
+    Missing values yielded by the evaluator: [0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_specific_element2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_specific_element2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+111/116 Testing: test_input_regex_file.test_the_whole_document2
+111/116 Test: test_input_regex_file.test_the_whole_document2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_107" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_the_whole_document2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+../../tests/test.cpp(166): [4;31;49mfatal error: in "test_input_regex_file/_107": Expected spanners do not match with given spanners
+Failure occurred in a following context:
+    test_folder = test_the_whole_document2; 
+    Additional values yielded by the evaluator: 
+    Missing values yielded by the evaluator: x=|0,1>[0;39;49m
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_the_whole_document2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_the_whole_document2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/116 Testing: test_input_regex_file.test_concat1
+14/116 Test: test_input_regex_file.test_concat1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_10" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_concat1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_concat1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_concat1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/116 Testing: test_input_regex_file.test_concat3
+16/116 Test: test_input_regex_file.test_concat3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_12" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_concat3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+unknown location(0): [4;31;49mfatal error: in "test_input_regex_file/_12": memory access violation at address: 0x00000008: no mapping at fault address[0;39;49m
+../../tests/test.cpp(230): [1;36;49mlast checkpoint[0;39;49m
+Failure occurred in a following context:
+    test_folder = test_concat3; 
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_concat3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_concat3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/116 Testing: test_input_regex_file.test_character_sets6
+13/116 Test: test_input_regex_file.test_character_sets6
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_9" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_character_sets6" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_character_sets6" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_character_sets6" time elapsed: 00:00:00
+----------------------------------------------------------
+
+32/116 Testing: test_input_regex_file.test_disjunction_inverse5
+32/116 Test: test_input_regex_file.test_disjunction_inverse5
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_28" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction_inverse5" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_disjunction_inverse5" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction_inverse5" time elapsed: 00:00:00
+----------------------------------------------------------
+
+23/116 Testing: test_input_regex_file.test_disjunction2
+23/116 Test: test_input_regex_file.test_disjunction2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_19" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_disjunction2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/116 Testing: test_input_regex_file.test_concat2
+15/116 Test: test_input_regex_file.test_concat2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_11" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_concat2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_concat2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_concat2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+92/116 Testing: test_input_regex_file.test_nesting_variables2
+92/116 Test: test_input_regex_file.test_nesting_variables2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_88" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nesting_variables2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nesting_variables2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nesting_variables2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+76/116 Testing: test_input_regex_file.test_nested_disjunction4
+76/116 Test: test_input_regex_file.test_nested_disjunction4
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_72" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nested_disjunction4" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nested_disjunction4" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nested_disjunction4" time elapsed: 00:00:00
+----------------------------------------------------------
+
+78/116 Testing: test_input_regex_file.test_nested_disjunction_inverse2
+78/116 Test: test_input_regex_file.test_nested_disjunction_inverse2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_74" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nested_disjunction_inverse2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nested_disjunction_inverse2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nested_disjunction_inverse2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+82/116 Testing: test_input_regex_file.test_nested_vars_concat2
+82/116 Test: test_input_regex_file.test_nested_vars_concat2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_78" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nested_vars_concat2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nested_vars_concat2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nested_vars_concat2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/116 Testing: test_input_regex_file.test_disjunction_inverse1
+28/116 Test: test_input_regex_file.test_disjunction_inverse1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_24" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction_inverse1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_disjunction_inverse1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction_inverse1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/116 Testing: test_input_regex_file.test_concat_order1
+19/116 Test: test_input_regex_file.test_concat_order1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_15" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_concat_order1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_concat_order1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_concat_order1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/116 Testing: test_input_regex_file.test_concat_adv1
+17/116 Test: test_input_regex_file.test_concat_adv1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_13" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_concat_adv1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_concat_adv1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_concat_adv1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+83/116 Testing: test_input_regex_file.test_nested_vars_concat3
+83/116 Test: test_input_regex_file.test_nested_vars_concat3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_79" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nested_vars_concat3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+unknown location(0): [4;31;49mfatal error: in "test_input_regex_file/_79": memory access violation at address: 0x00000008: no mapping at fault address[0;39;49m
+../../tests/test.cpp(230): [1;36;49mlast checkpoint[0;39;49m
+Failure occurred in a following context:
+    test_folder = test_nested_vars_concat3; 
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_nested_vars_concat3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nested_vars_concat3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/116 Testing: test_input_regex_file.test_character_sets5
+12/116 Test: test_input_regex_file.test_character_sets5
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_8" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_character_sets5" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_character_sets5" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_character_sets5" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/116 Testing: test_input_regex_file.test_concat_adv2
+18/116 Test: test_input_regex_file.test_concat_adv2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_14" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_concat_adv2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_concat_adv2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_concat_adv2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+79/116 Testing: test_input_regex_file.test_nested_disjunction_inverse3
+79/116 Test: test_input_regex_file.test_nested_disjunction_inverse3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_75" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nested_disjunction_inverse3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nested_disjunction_inverse3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nested_disjunction_inverse3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+62/116 Testing: test_input_regex_file.test_multiple_operators2
+62/116 Test: test_input_regex_file.test_multiple_operators2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_58" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_multiple_operators2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_multiple_operators2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_multiple_operators2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/116 Testing: test_input_regex_file.test_character_sets2
+9/116 Test: test_input_regex_file.test_character_sets2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_5" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_character_sets2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_character_sets2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_character_sets2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+56/116 Testing: test_input_regex_file.test_first_element1
+56/116 Test: test_input_regex_file.test_first_element1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_52" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_first_element1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_first_element1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_first_element1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/116 Testing: test_input_regex_file.test_concat_order3
+21/116 Test: test_input_regex_file.test_concat_order3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_17" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_concat_order3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+unknown location(0): [4;31;49mfatal error: in "test_input_regex_file/_17": memory access violation at address: 0x00000008: no mapping at fault address[0;39;49m
+../../tests/test.cpp(230): [1;36;49mlast checkpoint[0;39;49m
+Failure occurred in a following context:
+    test_folder = test_concat_order3; 
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_concat_order3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_concat_order3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+61/116 Testing: test_input_regex_file.test_multiple_operators1
+61/116 Test: test_input_regex_file.test_multiple_operators1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_57" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_multiple_operators1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_multiple_operators1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_multiple_operators1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+112/116 Testing: test_input_regex_file.test_two_char_match1
+112/116 Test: test_input_regex_file.test_two_char_match1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_108" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_two_char_match1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_two_char_match1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_two_char_match1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+29/116 Testing: test_input_regex_file.test_disjunction_inverse2
+29/116 Test: test_input_regex_file.test_disjunction_inverse2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_25" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction_inverse2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_disjunction_inverse2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction_inverse2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+102/116 Testing: test_input_regex_file.test_single_char_match1
+102/116 Test: test_input_regex_file.test_single_char_match1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_98" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_single_char_match1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_single_char_match1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_single_char_match1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/116 Testing: test_input_regex_file.test_disjunction6
+27/116 Test: test_input_regex_file.test_disjunction6
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_23" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction6" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_disjunction6" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction6" time elapsed: 00:00:00
+----------------------------------------------------------
+
+63/116 Testing: test_input_regex_file.test_multiple_operators3
+63/116 Test: test_input_regex_file.test_multiple_operators3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_59" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_multiple_operators3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_multiple_operators3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_multiple_operators3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+98/116 Testing: test_input_regex_file.test_one_or_more_char_match2
+98/116 Test: test_input_regex_file.test_one_or_more_char_match2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_94" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_one_or_more_char_match2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_one_or_more_char_match2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_one_or_more_char_match2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+73/116 Testing: test_input_regex_file.test_nested_disjunction1
+73/116 Test: test_input_regex_file.test_nested_disjunction1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_69" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nested_disjunction1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nested_disjunction1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nested_disjunction1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/116 Testing: test_input_regex_file.test_character_sets4
+11/116 Test: test_input_regex_file.test_character_sets4
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_7" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_character_sets4" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_character_sets4" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_character_sets4" time elapsed: 00:00:00
+----------------------------------------------------------
+
+64/116 Testing: test_input_regex_file.test_multiple_operators4
+64/116 Test: test_input_regex_file.test_multiple_operators4
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_60" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_multiple_operators4" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_multiple_operators4" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_multiple_operators4" time elapsed: 00:00:00
+----------------------------------------------------------
+
+74/116 Testing: test_input_regex_file.test_nested_disjunction2
+74/116 Test: test_input_regex_file.test_nested_disjunction2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_70" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nested_disjunction2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nested_disjunction2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nested_disjunction2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/116 Testing: test_input_regex_file.test_character_sets3
+10/116 Test: test_input_regex_file.test_character_sets3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_6" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_character_sets3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_character_sets3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_character_sets3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+90/116 Testing: test_input_regex_file.test_nested_vars_concat_adv7
+90/116 Test: test_input_regex_file.test_nested_vars_concat_adv7
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_86" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nested_vars_concat_adv7" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nested_vars_concat_adv7" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nested_vars_concat_adv7" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/116 Testing: test_input_regex_file.test_disjunction4
+25/116 Test: test_input_regex_file.test_disjunction4
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_21" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction4" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_disjunction4" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction4" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/116 Testing: test_input_regex_file.test_disjunction3
+24/116 Test: test_input_regex_file.test_disjunction3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_20" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_disjunction3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/116 Testing: test_input_regex_file.test_concat_order2
+20/116 Test: test_input_regex_file.test_concat_order2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_16" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_concat_order2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_concat_order2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_concat_order2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+65/116 Testing: test_input_regex_file.test_multiple_operators5
+65/116 Test: test_input_regex_file.test_multiple_operators5
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_61" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_multiple_operators5" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_multiple_operators5" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_multiple_operators5" time elapsed: 00:00:00
+----------------------------------------------------------
+
+93/116 Testing: test_input_regex_file.test_nesting_variables3
+93/116 Test: test_input_regex_file.test_nesting_variables3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_89" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nesting_variables3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nesting_variables3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nesting_variables3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+57/116 Testing: test_input_regex_file.test_first_element2
+57/116 Test: test_input_regex_file.test_first_element2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_53" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_first_element2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_first_element2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_first_element2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/116 Testing: test_input_regex_file.test_disjunction5
+26/116 Test: test_input_regex_file.test_disjunction5
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_22" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction5" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_disjunction5" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction5" time elapsed: 00:00:00
+----------------------------------------------------------
+
+96/116 Testing: test_input_regex_file.test_nesting_variables_inverse3
+96/116 Test: test_input_regex_file.test_nesting_variables_inverse3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_92" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nesting_variables_inverse3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nesting_variables_inverse3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nesting_variables_inverse3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+109/116 Testing: test_input_regex_file.test_specific_element3
+109/116 Test: test_input_regex_file.test_specific_element3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_105" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_specific_element3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_specific_element3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_specific_element3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+81/116 Testing: test_input_regex_file.test_nested_vars_concat1
+81/116 Test: test_input_regex_file.test_nested_vars_concat1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_77" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nested_vars_concat1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nested_vars_concat1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nested_vars_concat1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+104/116 Testing: test_input_regex_file.test_single_char_match3
+104/116 Test: test_input_regex_file.test_single_char_match3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_100" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_single_char_match3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_single_char_match3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_single_char_match3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+87/116 Testing: test_input_regex_file.test_nested_vars_concat_adv4
+87/116 Test: test_input_regex_file.test_nested_vars_concat_adv4
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_83" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nested_vars_concat_adv4" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nested_vars_concat_adv4" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nested_vars_concat_adv4" time elapsed: 00:00:00
+----------------------------------------------------------
+
+33/116 Testing: test_input_regex_file.test_disjunction_inverse6
+33/116 Test: test_input_regex_file.test_disjunction_inverse6
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_29" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction_inverse6" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_disjunction_inverse6" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction_inverse6" time elapsed: 00:00:00
+----------------------------------------------------------
+
+97/116 Testing: test_input_regex_file.test_one_or_more_char_match1
+97/116 Test: test_input_regex_file.test_one_or_more_char_match1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_93" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_one_or_more_char_match1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_one_or_more_char_match1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_one_or_more_char_match1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+107/116 Testing: test_input_regex_file.test_specific_element1
+107/116 Test: test_input_regex_file.test_specific_element1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_103" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_specific_element1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_specific_element1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_specific_element1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/116 Testing: test_input_regex_file.test_disjunction1
+22/116 Test: test_input_regex_file.test_disjunction1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_18" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_disjunction1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+103/116 Testing: test_input_regex_file.test_single_char_match2
+103/116 Test: test_input_regex_file.test_single_char_match2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_99" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_single_char_match2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_single_char_match2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_single_char_match2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/116 Testing: test_input_regex_file.test_character_sets1
+8/116 Test: test_input_regex_file.test_character_sets1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_4" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_character_sets1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_character_sets1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_character_sets1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+30/116 Testing: test_input_regex_file.test_disjunction_inverse3
+30/116 Test: test_input_regex_file.test_disjunction_inverse3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_26" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction_inverse3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_disjunction_inverse3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction_inverse3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+66/116 Testing: test_input_regex_file.test_multiple_operators6
+66/116 Test: test_input_regex_file.test_multiple_operators6
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_62" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_multiple_operators6" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_multiple_operators6" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_multiple_operators6" time elapsed: 00:00:00
+----------------------------------------------------------
+
+77/116 Testing: test_input_regex_file.test_nested_disjunction_inverse1
+77/116 Test: test_input_regex_file.test_nested_disjunction_inverse1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_73" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nested_disjunction_inverse1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nested_disjunction_inverse1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nested_disjunction_inverse1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+94/116 Testing: test_input_regex_file.test_nesting_variables_inverse1
+94/116 Test: test_input_regex_file.test_nesting_variables_inverse1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_90" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nesting_variables_inverse1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nesting_variables_inverse1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nesting_variables_inverse1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+86/116 Testing: test_input_regex_file.test_nested_vars_concat_adv3
+86/116 Test: test_input_regex_file.test_nested_vars_concat_adv3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_82" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nested_vars_concat_adv3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nested_vars_concat_adv3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nested_vars_concat_adv3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+80/116 Testing: test_input_regex_file.test_nested_disjunction_inverse4
+80/116 Test: test_input_regex_file.test_nested_disjunction_inverse4
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_76" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nested_disjunction_inverse4" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nested_disjunction_inverse4" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nested_disjunction_inverse4" time elapsed: 00:00:00
+----------------------------------------------------------
+
+105/116 Testing: test_input_regex_file.test_single_char_match4
+105/116 Test: test_input_regex_file.test_single_char_match4
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_101" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_single_char_match4" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_single_char_match4" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_single_char_match4" time elapsed: 00:00:00
+----------------------------------------------------------
+
+91/116 Testing: test_input_regex_file.test_nesting_variables1
+91/116 Test: test_input_regex_file.test_nesting_variables1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_87" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nesting_variables1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nesting_variables1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nesting_variables1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+84/116 Testing: test_input_regex_file.test_nested_vars_concat_adv1
+84/116 Test: test_input_regex_file.test_nested_vars_concat_adv1
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_80" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nested_vars_concat_adv1" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nested_vars_concat_adv1" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nested_vars_concat_adv1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+75/116 Testing: test_input_regex_file.test_nested_disjunction3
+75/116 Test: test_input_regex_file.test_nested_disjunction3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_71" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nested_disjunction3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nested_disjunction3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nested_disjunction3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+89/116 Testing: test_input_regex_file.test_nested_vars_concat_adv6
+89/116 Test: test_input_regex_file.test_nested_vars_concat_adv6
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_85" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nested_vars_concat_adv6" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nested_vars_concat_adv6" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nested_vars_concat_adv6" time elapsed: 00:00:00
+----------------------------------------------------------
+
+99/116 Testing: test_input_regex_file.test_one_or_more_char_match3
+99/116 Test: test_input_regex_file.test_one_or_more_char_match3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_95" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_one_or_more_char_match3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_one_or_more_char_match3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_one_or_more_char_match3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+85/116 Testing: test_input_regex_file.test_nested_vars_concat_adv2
+85/116 Test: test_input_regex_file.test_nested_vars_concat_adv2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_81" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nested_vars_concat_adv2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nested_vars_concat_adv2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nested_vars_concat_adv2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+101/116 Testing: test_input_regex_file.test_one_or_more_char_match5
+101/116 Test: test_input_regex_file.test_one_or_more_char_match5
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_97" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_one_or_more_char_match5" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_one_or_more_char_match5" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_one_or_more_char_match5" time elapsed: 00:00:00
+----------------------------------------------------------
+
+113/116 Testing: test_input_regex_file.test_two_char_match2
+113/116 Test: test_input_regex_file.test_two_char_match2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_109" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_two_char_match2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_two_char_match2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_two_char_match2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+31/116 Testing: test_input_regex_file.test_disjunction_inverse4
+31/116 Test: test_input_regex_file.test_disjunction_inverse4
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_27" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_disjunction_inverse4" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_disjunction_inverse4" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_disjunction_inverse4" time elapsed: 00:00:00
+----------------------------------------------------------
+
+88/116 Testing: test_input_regex_file.test_nested_vars_concat_adv5
+88/116 Test: test_input_regex_file.test_nested_vars_concat_adv5
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_84" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nested_vars_concat_adv5" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+unknown location(0): [4;31;49mfatal error: in "test_input_regex_file/_84": memory access violation at address: 0x00000008: no mapping at fault address[0;39;49m
+../../tests/test.cpp(230): [1;36;49mlast checkpoint[0;39;49m
+Failure occurred in a following context:
+    test_folder = test_nested_vars_concat_adv5; 
+
+[1;31;49m*** 1 failure is detected in the test module "input_and_doc_to_spanners"
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_nested_vars_concat_adv5" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nested_vars_concat_adv5" time elapsed: 00:00:00
+----------------------------------------------------------
+
+100/116 Testing: test_input_regex_file.test_one_or_more_char_match4
+100/116 Test: test_input_regex_file.test_one_or_more_char_match4
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_96" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_one_or_more_char_match4" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_one_or_more_char_match4" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_one_or_more_char_match4" time elapsed: 00:00:00
+----------------------------------------------------------
+
+95/116 Testing: test_input_regex_file.test_nesting_variables_inverse2
+95/116 Test: test_input_regex_file.test_nesting_variables_inverse2
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_91" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_nesting_variables_inverse2" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_nesting_variables_inverse2" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_nesting_variables_inverse2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+106/116 Testing: test_input_regex_file.test_single_char_match5
+106/116 Test: test_input_regex_file.test_single_char_match5
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_102" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_single_char_match5" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_single_char_match5" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_single_char_match5" time elapsed: 00:00:00
+----------------------------------------------------------
+
+114/116 Testing: test_input_regex_file.test_two_char_match3
+114/116 Test: test_input_regex_file.test_two_char_match3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_110" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_two_char_match3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_two_char_match3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_two_char_match3" time elapsed: 00:00:00
+----------------------------------------------------------
+
+115/116 Testing: test_input_regex_file.test_two_char_match4
+115/116 Test: test_input_regex_file.test_two_char_match4
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_111" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_two_char_match4" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_two_char_match4" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_two_char_match4" time elapsed: 00:00:00
+----------------------------------------------------------
+
+116/116 Testing: test_input_regex_file.test_two_char_match5
+116/116 Test: test_input_regex_file.test_two_char_match5
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_112" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_two_char_match5" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+Running 1 test case...
+
+[1;32;49m*** No errors detected
+[0;39;49m
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_input_regex_file.test_two_char_match5" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_two_char_match5" time elapsed: 00:00:00
+----------------------------------------------------------
+
+70/116 Testing: test_input_regex_file.test_multiple_paths4
+70/116 Test: test_input_regex_file.test_multiple_paths4
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_66" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_multiple_paths4" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   2.99 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_multiple_paths4" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_multiple_paths4" time elapsed: 00:00:02
+----------------------------------------------------------
+
+69/116 Testing: test_input_regex_file.test_multiple_paths3
+69/116 Test: test_input_regex_file.test_multiple_paths3
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_65" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_multiple_paths3" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   3.00 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_multiple_paths3" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_multiple_paths3" time elapsed: 00:00:03
+----------------------------------------------------------
+
+71/116 Testing: test_input_regex_file.test_multiple_paths5
+71/116 Test: test_input_regex_file.test_multiple_paths5
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_67" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_multiple_paths5" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   3.01 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_multiple_paths5" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_multiple_paths5" time elapsed: 00:00:03
+----------------------------------------------------------
+
+72/116 Testing: test_input_regex_file.test_multiple_paths6
+72/116 Test: test_input_regex_file.test_multiple_paths6
+Command: "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/build/Release/bin/rematch_test" "--run_test=test_input_regex_file/_68" "--catch_system_error=yes"
+Directory: /home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine
+"test_input_regex_file.test_multiple_paths6" start time: Dec 22 06:58 -03
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   3.01 sec
+----------------------------------------------------------
+Test Failed.
+"test_input_regex_file.test_multiple_paths6" end time: Dec 22 06:58 -03
+"test_input_regex_file.test_multiple_paths6" time elapsed: 00:00:03
+----------------------------------------------------------
+
+End testing: Dec 22 06:58 -03

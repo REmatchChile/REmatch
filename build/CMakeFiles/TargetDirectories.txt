@@ -1,0 +1,17 @@
+/home/nicovsj/repos/research/REmatch-org/REmatch/build/CMakeFiles/rebuild_cache.dir
+/home/nicovsj/repos/research/REmatch-org/REmatch/build/CMakeFiles/edit_cache.dir
+/home/nicovsj/repos/research/REmatch-org/REmatch/build/CMakeFiles/test.dir
+/home/nicovsj/repos/research/REmatch-org/REmatch/build/src/CMakeFiles/rebuild_cache.dir
+/home/nicovsj/repos/research/REmatch-org/REmatch/build/src/CMakeFiles/edit_cache.dir
+/home/nicovsj/repos/research/REmatch-org/REmatch/build/src/CMakeFiles/test.dir
+/home/nicovsj/repos/research/REmatch-org/REmatch/build/src/CMakeFiles/test-re2.dir
+/home/nicovsj/repos/research/REmatch-org/REmatch/build/src/CMakeFiles/test-pcre.dir
+/home/nicovsj/repos/research/REmatch-org/REmatch/build/src/CMakeFiles/test-hscan.dir
+/home/nicovsj/repos/research/REmatch-org/REmatch/build/src/CMakeFiles/generate.dir
+/home/nicovsj/repos/research/REmatch-org/REmatch/build/src/CMakeFiles/rematch.dir
+/home/nicovsj/repos/research/REmatch-org/REmatch/build/src/CMakeFiles/test-onig.dir
+/home/nicovsj/repos/research/REmatch-org/REmatch/build/src/CMakeFiles/rematchlib.dir
+/home/nicovsj/repos/research/REmatch-org/REmatch/build/tests/CMakeFiles/rebuild_cache.dir
+/home/nicovsj/repos/research/REmatch-org/REmatch/build/tests/CMakeFiles/edit_cache.dir
+/home/nicovsj/repos/research/REmatch-org/REmatch/build/tests/CMakeFiles/test.dir
+/home/nicovsj/repos/research/REmatch-org/REmatch/build/tests/CMakeFiles/rematch_test.dir
