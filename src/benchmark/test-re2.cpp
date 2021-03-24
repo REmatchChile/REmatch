@@ -2,7 +2,7 @@
 
 #include <re2/re2.h>
 
-#include "../util.hpp"
+#include "util.hpp"
 
 int main(int argc, char const *argv[]) {
 
@@ -21,11 +21,19 @@ int main(int argc, char const *argv[]) {
 
   RE2 pattern(rgx);
 
-  std::string match;
+  re2::StringPiece match;
 
   int count = 0;
-  while(RE2::FindAndConsume(&input, pattern, &match))
+
+  std::ofstream dump(".tmp/re2-output.log");
+
+  while(RE2::FindAndConsume(&input, pattern, &match)) {
+    int ini = match.data() - doc.data();
+    dump << "|" << ini << "," << ini + match.size() << ">\n";
     count++;
+  }
+
+  dump.close();
 
   std::cout << count << '\n';
 

@@ -176,8 +176,9 @@ public:
 	}
 
 	void addPossibleGarbage(Node* node) {
-		if(node->isNodeEmpty())
+		if(node->isNodeEmpty()) {
 			// std::cout << "Node empty...\n";
+		}
 		if(node->refCount == 0 && !node->isNodeEmpty()) {
 			addFreeHead(node);
 		}

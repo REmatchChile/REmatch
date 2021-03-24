@@ -22,7 +22,7 @@ Usage:
 		}
 
 		double elapsed() const {
-			return double((take_time_stamp() - start_time_) * 1e-9);
+			return double((take_time_stamp() - start_time_) * 1e-6);
 		}
 
     std::uint64_t elapsed_nanoseconds() const {

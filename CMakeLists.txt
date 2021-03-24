@@ -29,7 +29,7 @@ endif()
 
 # add_definitions(-DNOPT_CROSSPROD)
 # add_definitions(-DNOPT_OFFSET)
-# add_definitions(-DNOPT_)
+# add_definitions(-DNOPT_MEMORY)
 add_definitions(-DMACRO_TRANSITIONS_RAW_ARRAYS)
 
 set(BUILD_BENCHMARKS TRUE)

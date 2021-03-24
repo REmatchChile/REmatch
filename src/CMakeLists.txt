@@ -21,6 +21,10 @@ set(BENCHMARK_TARGETS
   test-hscan
   test-pcre
   test-re2
+  test-boost
+  test-tre
+  force-all-re2
+  force-suffix-re2
 )
 
 if(SWIG) # Only set shared library target
@@ -53,7 +57,7 @@ else()
     if(BUILD_BENCHMARKS)
     foreach(target ${BENCHMARK_TARGETS})
       add_executable(${target} ${CMAKE_CURRENT_SOURCE_DIR}/benchmark/${target}.cpp)
-      target_link_libraries(${target} ${project_LIBS} pcrecpp onig hs re2)
+      target_link_libraries(${target} ${project_LIBS} pcrecpp onig hs re2 boost_regex tre)
       set_property(TARGET ${target} PROPERTY CXX_STANDARD 17)
     endforeach(target ${BENCHMARK_TARGETS})
     endif()

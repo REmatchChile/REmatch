@@ -2,6 +2,7 @@
 
 #include "automata/dfa/detstate.hpp"
 #include "memmanager.hpp"
+#include "timer.hpp"
 
 #define	FORCE_INLINE inline __attribute__((always_inline))
 
@@ -62,7 +63,7 @@ void Evaluator::init() {
   enumerator_ = std::make_unique<Enumerator>(rgx_, str_);
   if(line_by_line_) {
     text_->getline(line_);
-    line_ += '\n';
+    // line_ += '\n';
     nlines_++;
   }
   initAutomaton(i_pos_);
@@ -80,12 +81,16 @@ void Evaluator::initAutomaton(int64_t i) {
 
   current_state_ = &macro_dfa_.get_init_state();
 
-  // reading(0, pos, 0);
+  reading(0, pos, 0);
 }
 
 Match_ptr Evaluator::next() {
   if(enumerator_->hasNext())
       return enumerator_->next();
+
+  // bool exited = false;
+
+  // Timer t; 
 
   while (!document_ended_) {
     char a;
@@ -100,20 +105,31 @@ Match_ptr Evaluator::next() {
       reading(a, i_pos_, 0);
 
       i_pos_++;
+
+      // if(current_state_->is_super_final()) {
+      //   exited = true;
+      //   break;
+      // }
     }
 
     for(auto &state: current_state_->states()) {
-      if(state->isFinal)
+      if(state->isFinal) {
         output_nodelist_.append(state->currentL);
+        state->currentL->reset();
+      }
     }
     if(!output_nodelist_.empty()) {
       enumerator_->addNodeList(output_nodelist_);
+      output_nodelist_.resetRefs();
       Evaluator::memory_manager_.addPossibleGarbage(output_nodelist_.head);
+      // if(exited) {
+      //   break;
+      // }
     }
 
     if((i_pos_-i_start_) == (int64_t)line_.size()) {
       while(!(document_ended_ = !((bool) text_->getline(line_)))) {
-        line_ += '\n';
+        // line_ += '\n';
         i_start_ = i_pos_;
         nlines_++;
 
@@ -128,6 +144,8 @@ Match_ptr Evaluator::next() {
       }
     }
   }
+
+  // std::cout << "[In code] Eval time: " << t.elapsed() << "\n";
 
     if(enumerator_->hasNext())
       return enumerator_->next();
@@ -169,7 +187,7 @@ bool Evaluator::match() {
   return currentState->isFinal;
 }
 
-void Evaluator::reading(char a, int64_t i,  bool early_output) {
+void Evaluator::reading(char a, int64_t i_pos,  bool early_output) {
   auto nextTransition = current_state_->next_transition(a);
 
   if(nextTransition == nullptr) {
@@ -191,8 +209,8 @@ void Evaluator::reading(char a, int64_t i,  bool early_output) {
   for(size_t i=0; i < directs_sz; i++) {
     auto direct = directs[i];
 
-    if(direct.to->visited <= i_pos_+1) {
-      direct.to->visited = i_pos_+2;
+    if(direct.to->visited <= i_pos+1) {
+      direct.to->visited = i_pos+2;
       // Lazy copy
       direct.to->currentL->head = direct.from->currentL->head;
       direct.to->currentL->tail = direct.from->currentL->tail;
@@ -205,15 +223,15 @@ void Evaluator::reading(char a, int64_t i,  bool early_output) {
     auto capture = captures[i];
     #ifndef NOPT_MEMORY_MANAGER
     Node* new_node = Evaluator::memory_manager_.alloc(capture.S,
-                                                      i_pos_+1,
+                                                      i_pos+1,
                                                       capture.from->currentL->head,
                                                       capture.from->currentL->tail);
     #else
     Node* new_node = new Node(capture.s, i_pos_+1, capture.from->currentL->head,
                               capture.from->currentL->tail)
     #endif
-    if(capture.to->visited <= i_pos_+1) {
-      capture.to->visited = i_pos_+2;
+    if(capture.to->visited <= i_pos+1) {
+      capture.to->visited = i_pos+2;
       capture.to->currentL->resetAndAdd(new_node);
     } else {
       capture.to->currentL->add(new_node);

@@ -25,6 +25,8 @@ class MacroState {
 
   std::vector<DetState*>& states();
 
+  bool is_super_final() const;
+
  private:
   int id_;
   TransitionsMap transitions_;

@@ -8,13 +8,44 @@
 	"RKBExplorer2" : "1HU4skHQqmuMbcjMGLzkSe-XW_MAjmmsZJmof_rqb39M"
 	},
 	"dataset" : "RKBExplorer",
-	"description" : "MacroDFA (raw macroTransitions arrays test)",
-	"homedir" : "/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine",
+	"exp-subpath" : "exp/benchmark",
+	"description" : "Lookahead Testing",
+	"homedir" : "/home/nicovsj/repos/research/REmatch-org/REmatch",
 	"nexp" : 20,
 	"cols" : ["D", "E", "F", "G"],
 	"queries" : [1,3],
 	"binaries" : {
-		"REmatch" : {
+		"REmatch-1" : {
+			"command" : "{0}/build/Release/bin/rematch-1",
+			"args" : "-l -o nmappings -d {0} -r {1}",
+			"rgx_type" : "rematch"
+		},
+		"REmatch-2" : {
+			"command" : "{0}/build/Release/bin/rematch-2",
+			"args" : "-l -o nmappings -d {0} -r {1}",
+			"rgx_type" : "rematch"
+		},
+		"REmatch-3" : {
+			"command" : "{0}/build/Release/bin/rematch-3",
+			"args" : "-l -o nmappings -d {0} -r {1}",
+			"rgx_type" : "rematch"
+		},
+		"REmatch-0" : {
+			"command" : "{0}/build/Release/bin/rematch-0",
+			"args" : "-o nmappings -d {0} -r {1}",
+			"rgx_type" : "oldrematch"
+		},
+		"REmatch-5" : {
+			"command" : "{0}/build/Release/bin/rematch-5",
+			"args" : "-l -o nmappings -d {0} -r {1}",
+			"rgx_type" : "rematch"
+		},
+		"REmatch-6" : {
+			"command" : "{0}/build/Release/bin/rematch-5",
+			"args" : "-l -o nmappings -d {0} -r {1}",
+			"rgx_type" : "rematch"
+		},
+		"REmatch-7" : {
 			"command" : "{0}/build/Release/bin/rematch",
 			"args" : "-l -o nmappings -d {0} -r {1}",
 			"rgx_type" : "rematch"
@@ -34,10 +65,15 @@
 			"args" : "{0} {1}",
 			"rgx_type" : "perl"
 		},
-		"REmatchOld" : {
-			"command" : "{0}/build/Release/bin/rematch-old",
-			"args" : "-l -o nmappings -d {0} -r {1}",
-			"rgx_type" : "rematch"
+		"boost" : {
+			"command" : "{0}/build/Release/bin/test-boost",
+			"args" : "{0} {1}",
+			"rgx_type" : "boost"
+		},
+		"tre" : {
+			"command" : "{0}/build/Release/bin/test-tre",
+			"args" : "{0} {1}",
+			"rgx_type" : "boost"
 		}
 	}
 }

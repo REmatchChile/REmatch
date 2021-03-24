@@ -23,7 +23,7 @@ Node* Node::reset(std::bitset<32> S, int64_t i, Node* head, Node* tail) {
 
    // Remove a refCount from head and tail of list
 
-  std::cout << this->start<<'\n';
+  // std::cout << this->start<<'\n';
   this->start->refCount--;
   this->end->refCount--;
 
@@ -115,6 +115,8 @@ void NodeList::add(Node *node) {
 // };
 
 void NodeList::append(NodeList* list) {
+  if(list->empty())
+    return;
   if (this->tail == nullptr) {
     this->head = list->head;
     this->tail = list->tail;
@@ -144,6 +146,10 @@ void NodeList::resetRefs() {
 }
 
 void NodeList::reset() {
+  if(!empty()) {
+    this->head->refCount--;
+    this->tail->refCount--;
+  }
   this->head = nullptr;
   this->tail = nullptr;
 };

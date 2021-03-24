@@ -20,11 +20,18 @@ int main(int argc, char const *argv[]) {
   pcrecpp::RE re(rgx);
   pcrecpp::StringPiece input(doc);
 
-  std::string match;
+  pcrecpp::StringPiece match;
+
+  std::ofstream dump(".tmp/pcre-output.log");
 
   int count = 0;
-  while(re.FindAndConsume(&input, &match))
+  while(re.FindAndConsume(&input, &match)) {
+    int ini = match.data() - doc.data();
+    dump << "|" << ini << "," << ini + match.size() << ">\n";
     count++;
+  }
+
+  dump.close();
 
   std::cout << count << '\n';
 

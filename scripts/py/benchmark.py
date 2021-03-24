@@ -11,7 +11,7 @@ import re
 
 here = pth.dirname(pth.realpath(__file__))
 
-with open(pth.join(here, "benchmark.json")) as jsonFile:
+with open(pth.join(here, "benchmark-alt.json")) as jsonFile:
 		data = json.load(jsonFile)
 
 
@@ -19,12 +19,14 @@ START_COL = "A"
 START_ROW = 4
 
 PARENT_FOLDER = "13CDshEJ3lXQIYmumBpmDN1_iZnGsnTjU"
-TEMPLATE_FILE = "1uFpKQU2xc5tMAf0hIQi672jVwi2fp7SMtQTFyPHUPr0"
+# TEMPLATE_FILE = "1uFpKQU2xc5tMAf0hIQi672jVwi2fp7SMtQTFyPHUPr0"
+TEMPLATE_FILE = "1H2fIh7aOgs-2P9Vx5YYgfHifuAdd5dseNhEkkhUziFk"
 
 SCOPES = data['scopes']
 SHEETS = data['sheets']
 DATASET = data['dataset']
 HOME_DIR = data['homedir']
+EXP_SUBPATH = data['exp-subpath']
 NEXP = data['nexp']
 TOT_COLS = data['cols']
 BINARIES = data['binaries']
@@ -56,11 +58,11 @@ def get_rgx(rgx_path):
 	return rgx
 
 def docstats(doc_path):
-	command = "wc -ml {0} | awk '{{print $1, $2}}'".format(doc_path)
+	command = "wc -ml \"$(readlink -f \"{0}\")\" | awk '{{print $1, $2}}'".format(doc_path)
 	process = subprocess.run(command, shell=True, check=True,
 	                         capture_output=True, universal_newlines=True)
 	nlines, nchars = process.stdout.split()
-	command = "du -h {0} | awk '{{print $1}}'".format(doc_path)
+	command = "du -h \"$(readlink -f \"{0}\")\" | awk '{{print $1}}'".format(doc_path)
 	process = subprocess.run(command, shell=True, check=True,
 	                         capture_output=True, universal_newlines=True)
 	filesize = process.stdout.replace('\n', '')
@@ -68,22 +70,25 @@ def docstats(doc_path):
 	return filesize, int(nchars), int(nlines)+1
 
 def automata_stats(doc_path, rgx_path):
-	command = "{0}/build/Release/bin/rematch -l -o benchmark -d {1} -r {2}".format(HOME_DIR, doc_path, rgx_path)
+	command = "{0}/build/Release/bin/rematch-timer -l -o benchmark -d {1} -r {2}".format(HOME_DIR, doc_path, rgx_path)
 	process = subprocess.run(command, shell=True, check=True,
 	                         capture_output=True, universal_newlines=True)
 
+	# print(process.stdout)
+
+	evaltime = float(re.search(r'Eval time:\s+(\d+(?:\.\d+)?)', process.stdout).group(1))
 	dsize = int(re.search(r'DetSize\s+(\d+)', process.stdout).group(1))
 	esize = int(re.search(r'eVASize\s+(\d+)', process.stdout).group(1))
 	msize = int(re.search(r'MDFASize\s+(\d+)', process.stdout).group(1))
 	misse = int(re.search(r'Num of Misses\s+([0-9,]+)', process.stdout).group(1).replace(",",""))
 
-	return dsize, esize, msize, misse
+	return dsize, esize, msize, misse, evaltime
 
 def re2_algo(doc_path, rgx_path):
 	command = "{0}/build/Release/bin/re2-algo {1} {2}".format(HOME_DIR, doc_path, rgx_path)
 	process = subprocess.run(command, shell=True, check=True,
 	                         capture_output=True, universal_newlines=True)
-	print(process.stdout)
+	# print(process.stdout)
 
 	return process.stdout
 
@@ -105,7 +110,11 @@ def run_bench(binary, doc_path, rgx_path, nexp):
 
 	tot_time = 0
 
-	process = subprocess.run(command_mem, shell=True, check=True, capture_output=True, universal_newlines=True)
+	try:
+		process = subprocess.run(command_mem, shell=True, check=True, capture_output=True, universal_newlines=True)
+	except e:
+		print(f"Error while processing command: {command_mem}")
+		return float('nan'), float('nan'), float('nan')
 	output = process.stderr
 	nout = process.stdout
 	mem = output.replace('"', '').replace('\n','')
@@ -149,7 +158,7 @@ def main():
 
 	print("HOME_DIR:",HOME_DIR)
 
-	exps_path = pth.join(HOME_DIR, "exp/benchmark")
+	exps_path = pth.join(HOME_DIR, EXP_SUBPATH)
 
 	print(exps_path)
 
@@ -157,7 +166,7 @@ def main():
 
 	row_counter = START_ROW
 
-	row_length = 3 + num_bins * 3 + 4 + 1
+	row_length = 3 + num_bins * 3 + 1
 
 	for dataset in next(os.walk(exps_path))[1]:
 
@@ -178,10 +187,18 @@ def main():
 
 			row_values = [[0 for _ in range(row_length)]]
 
-			leftmost_col = chr(ord(START_COL) + 1)
-			rightmost_col = chr(ord(leftmost_col) + row_length)
+			leftmost_col = chr(ord(START_COL) + 2)
+
+			rmost_ord = ord(leftmost_col) + row_length
+
+			if rmost_ord > 90 :
+				rightmost_col = f"A{chr(rmost_ord - 26)}"
+			else:
+				rightmost_col = chr(rmost_ord)
 
 			doc_path = os.path.join(experiment,"doc.txt")
+
+			print("Calculating docstats...")
 
 			filesize, nchars, nlines = docstats(doc_path)
 
@@ -189,14 +206,18 @@ def main():
 			row_values[0][1] = nchars
 			row_values[0][2] = nlines
 
-			dsize, esize, msize, misses = automata_stats(doc_path, os.path.join(experiment,"rematch.rgx"))
+			print("Docstats calculated")
 
-			row_values[0][-2] = esize
-			row_values[0][-3] = dsize
-			row_values[0][-4] = msize
-			row_values[0][-5] = misses
+			dsize, esize, msize, misses, evaltime = automata_stats(doc_path, os.path.join(experiment,"rematch.rgx"))
 
-			row_values[0][-1] = re2_algo(doc_path, os.path.join(experiment,"perl.rgx"))
+			row_values[0][-1] = evaltime
+
+			# row_values[0][-2] = esize
+			# row_values[0][-3] = dsize
+			# row_values[0][-4] = msize
+			# row_values[0][-5] = misses
+
+			# row_values[0][-1] = re2_algo(doc_path, os.path.join(experiment,"perl.rgx"))
 
 			for j, binary in enumerate(BINARIES):
 
