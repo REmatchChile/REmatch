@@ -4,9 +4,8 @@
 namespace rematch {
 
 enum OutputOption {
-      QUIET,
       BENCHMARK,
-      TIME,
+      SUBMATCHES,
       SPANS,
       NMAPPINGS,
       DEBUG
@@ -34,7 +33,8 @@ class Options {
         input_option_(RGXFILE),
         line_by_line_(false),
         capturing_(true),
-        early_output_(false) {
+        early_output_(false),
+        is_docfile_(false) {
     }
 
     // Getters and setters
@@ -54,6 +54,9 @@ class Options {
     bool early_output() const {return early_output_;}
     void set_early_output(bool b) {early_output_ = b;}
 
+    bool is_docfile() const {return is_docfile_;}
+    void set_is_docfile(bool b) {is_docfile_ = b;}
+
 
   private:
     OutputOption output_option_;
@@ -61,6 +64,7 @@ class Options {
     bool line_by_line_;
     bool capturing_;
     bool early_output_;
+    bool is_docfile_;
 
 }; // class Options
 

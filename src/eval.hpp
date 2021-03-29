@@ -33,8 +33,7 @@ class Evaluator {
     kAllFlags      = kEarlyOutput | kLineByLine
   };
 
-  Evaluator(RegEx& rgx, std::istream& input, uint8_t eval_options=0);
-  Evaluator(RegEx& rgx, const std::string& input, uint8_t eval_options=0);
+  Evaluator(RegEx& rgx, std::shared_ptr<Document> d, uint8_t eval_options=0);
 
   Match_ptr next();
 
@@ -42,25 +41,12 @@ class Evaluator {
 
   void init();
 
-  // Match_ptr nextTT();
-  // Match_ptr nextTF();
-  // Match_ptr nextFT();
-  // Match_ptr nextFF();
-
   void visitEmpty(int64_t i, Transition *t, NodeList *prev_list);
   void visitDirect(int64_t i, Transition *t, NodeList *prev_list);
   void visitSingleCapture(int64_t i, Transition *t, NodeList *prev_list);
   void visitDirectSingleCapture(int64_t i, Transition *t, NodeList *prev_list);
   void visitMultiCapture(int64_t i, Transition *t, NodeList *prev_list);
   void visitDirectMultiCapture(int64_t i, Transition *t, NodeList *prev_list);
-
-  // void captureT(int64_t i);
-  // void captureF(int64_t i);
-
-  // void readingT(char a, int64_t i);
-  // void readingF(char a, int64_t i);
-
-  // inline Match_ptr inlinedNext(bool early_output, bool line_by_line);
 
   inline void capture(int64_t i, bool early_output);
   inline void reading(char a, int64_t i, bool early_output);
@@ -76,7 +62,7 @@ class Evaluator {
   std::unique_ptr<Enumerator> enumerator_;
   static MemManager memory_manager_;
 
-  std::unique_ptr<Document> text_;
+  std::shared_ptr<Document> text_;
   std::string line_;
 
   MacroDFA macro_dfa_;
@@ -95,20 +81,6 @@ class Evaluator {
   int64_t i_pos_;
   int64_t i_start_;
   int64_t nlines_;
-
-  size_t capture_counter_;
-  size_t reading_counter_;
-
-  size_t direct_c_;
-  size_t single_c_;
-  size_t direct_single_c_;
-  size_t direct_multi_c_;
-  size_t multi_c_;
-  size_t empty_c_;
-
-  size_t miss_c_;
-
-  size_t det_c_;
 }; // end class Evaluator
 
 } // namespace rematch

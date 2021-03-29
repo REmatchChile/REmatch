@@ -3,7 +3,9 @@
 
 #include <string>
 #include <istream>
-#include <string_view>
+#include <fstream>
+#include <cstring>
+#include <algorithm>
 
 class Document {
  public:
@@ -16,12 +18,12 @@ class Document {
   using iterator = Document::const_iterator;
   using sz_t = size_t;
 
-  virtual void get(value_t &c) = 0;
+  virtual void get(ref c) = 0;
   virtual void reset() = 0;
   virtual sz_t size() const = 0;
   virtual bool getline(std::string &str) = 0;
 
-  virtual std::string_view get_view(size_t pos, size_t endpos) = 0;
+  virtual ~Document() = default;
 }; // end class Document
 
 
@@ -36,30 +38,28 @@ class StrDocument : public Document {
   StrDocument(const char* str)
       : data_(str), size_(str == nullptr ? 0 : strlen(str)), current_(str) {}
 
+	~StrDocument() override = default;
+
   Document::const_iterator begin() const {return data_;}
   Document::const_iterator end() const {return data_ + size_;}
 
   virtual Document::sz_t size() const {return size_;}
 
-  virtual void get(char &c) {c=*current_++;}
+  virtual void get(Document::ref c) {c = *current_++;}
 
   virtual bool getline(std::string &str) {
-      if(current_ == end()) return false;
-      Document::const_ptr result = std::find(current_, data_ + size_, '\n');
-      std::memcpy(&str[0], current_, result - current_);
-      return true;
+    if(current_ == end()) return false;
+    auto result = std::find(current_, data_ + size_, '\n');
+    std::memcpy(&str[0], current_, result - current_);
+    return true;
   }
 
   virtual void reset() {current_ = data_;}
 
-  virtual std::string_view get_view(size_t pos, size_t endpos) {
-      return std::string_view(data_+pos, endpos-pos);
-  }
-
  private:
-    Document::const_iterator data_;
-    Document::sz_t size_;
-    Document::const_iterator current_;
+    const char* data_;
+    size_t size_;
+    const char* current_;
 
 }; // end class StrDocument
 
@@ -72,20 +72,20 @@ class FileDocument : public Document {
   FileDocument(std::istream &is)
       : data_(&is), size_(0) {}
 
+  FileDocument(const std::string& s)
+      : data_(new std::ifstream(s)), size_(0) {}
+
+	~FileDocument() override = default;
+
   virtual Document::sz_t size() const {return size_;}
 
-  virtual void get(char &c) {data_->get(c);}
+  virtual void get(Document::ref c) {data_->get(c);}
 
   virtual bool getline(std::string &str) {
-      return !(std::getline(*data_ ,str).fail());
+      return !std::getline(*data_ ,str).eof();
   }
 
   virtual void reset() {data_->seekg(0);}
-
-  virtual std::string_view get_view(size_t pos, size_t endpos) {
-      return std::string_view();
-  }
-
 
  private:
     std::istream *data_;

@@ -12,6 +12,8 @@
 #include "automata/dfa/dfa.hpp"
 #include "regex/regex_options.hpp"
 #include "automata/lva.hpp"
+#include "matchiterator.hpp"
+#include "document.hpp"
 
 namespace rematch {
 
@@ -48,8 +50,7 @@ class RegEx {
   // Calls the evaluator to get first
   Match_ptr find(const std::string &text);
 
-  Match_ptr findIter(const std::string &text);
-  Match_ptr findIter(std::istream& is);
+  MatchIterator findIter(std::shared_ptr<Document> d);
 
   int varCount() const {return dman_.varFactory()->size();}
 
@@ -97,8 +98,6 @@ class RegEx {
 
   // Is DFA fully computed.
   bool full_dfa_;
-
-  std::unique_ptr<Evaluator> eval_;
 
 }; // end class Regex
 

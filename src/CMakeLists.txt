@@ -13,7 +13,6 @@ file(GLOB sources
 
 set(BUILD_TARGETS
   rematch
-  generate
 )
 
 set(BENCHMARK_TARGETS

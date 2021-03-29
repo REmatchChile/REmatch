@@ -10,51 +10,16 @@ namespace rematch {
 
 MemManager Evaluator::memory_manager_{};
 
-Evaluator::Evaluator(RegEx &rgx, std::istream& input,
+Evaluator::Evaluator(RegEx &rgx, std::shared_ptr<Document> d,
                      uint8_t flags)
     : rgx_(rgx),
-      text_(std::make_unique<FileDocument>(input)),
+      text_(d),
       early_output_(flags & kEarlyOutput),
       line_by_line_(flags & kLineByLine),
       document_ended_(false),
       direct_text_(false),
       i_pos_(0),
-      i_start_(0),
-      nlines_(0),
-      capture_counter_(0),
-      reading_counter_(0),
-      direct_c_(0),
-      single_c_(0),
-      direct_single_c_(0),
-      direct_multi_c_(0),
-      multi_c_(0),
-      empty_c_(0),
-      miss_c_(0),
-      det_c_(0) {
-  init();
-}
-
-Evaluator::Evaluator(RegEx &rgx, const std::string &text,
-                     uint8_t flags)
-    : rgx_(rgx),
-      text_(std::make_unique<StrDocument>(text)),
-      early_output_(flags & kEarlyOutput),
-      line_by_line_(flags & kLineByLine),
-      document_ended_(false),
-      direct_text_(true),
-      i_pos_(0),
-      i_start_(0),
-      nlines_(0),
-      capture_counter_(0),
-      reading_counter_(0),
-      direct_c_(0),
-      single_c_(0),
-      direct_single_c_(0),
-      direct_multi_c_(0),
-      multi_c_(0),
-      empty_c_(0),
-      miss_c_(0),
-      det_c_(0) {
+      i_start_(0) {
   init();
 }
 

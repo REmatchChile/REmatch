@@ -14,79 +14,58 @@
 #include "timer.hpp"
 #include "regex/regex.hpp"
 #include "regex/regex_options.hpp"
+#include "matchiterator.hpp"
 
 using namespace rematch;
 
-Interface::Interface(std::string docFile, std::string input,
-					 Options opt) :
-
-    document_stream_(new std::ifstream(docFile)),
-    document_filename_(docFile),
-	options_(opt) {
-
-	switch (options_.input_option()) {
-	case RGXSTR:
-		pattern_ = input;
-		break;
-	case RGXFILE:
-		pattern_ = file2str(input);
-		break;
-	case NFAFILE:
-	// 	lv_automaton_ = parse_automata_file(input);
-	// 	aux_automaton_ = parse_automata_file(input);
-		break;
+Interface::Interface(std::string &docstr, const std::string &pattern,
+					 					 Options opt)
+		:	document_(nullptr),
+			pattern_(pattern),
+			options_(opt) {
+	if(opt.is_docfile()) {
+		document_ = std::make_shared<FileDocument>(docstr);
+	} else {
+		document_ = std::make_shared<StrDocument>(docstr);
 	}
 }
 
 void Interface::run() {
     if(options_.output_option() == BENCHMARK || options_.output_option() == DEBUG) {
-        benchmarkRun();
+        benchmark_run();
     } else {
-        normalRun();
+        normal_run();
     }
 }
 
-void Interface::normalRun() {
-	RegExOptions rgx_opt;
-	rgx_opt.set_line_by_line(options_.line_by_line());
-	RegEx regex(pattern_, rgx_opt);
-	Match_ptr match_ptr;
-	if(!options_.line_by_line()) {
-		std::string doc(file2str(document_filename_));
-		if(options_.output_option() == NMAPPINGS) {
-			size_t noutputs = 0;
-			while((match_ptr = regex.findIter(doc))) {
-				noutputs++;
-			}
-			std::cout << noutputs << '\n';
+void Interface::normal_run() {
+	RegExOptions rgx_opts; // Assign options for regex
+
+	// Select options
+	rgx_opts.set_line_by_line(options_.line_by_line());
+	rgx_opts.set_early_output(options_.early_output());
+
+	RegEx regex(pattern_, rgx_opts);
+
+	MatchIterator m_iter = regex.findIter(document_);
+
+	if(options_.output_option() == SPANS) {
+		for(auto match = m_iter.next(); match != nullptr; match = m_iter.next()) {
+			std::cout << *match << std::endl;
 		}
-		else {
-			while((match_ptr = regex.findIter(doc))) {
-				std::cout << *match_ptr << '\n';
-			}
-			// std::cout << "DFA:\n" << regex.detManager().DFA().pprint() << '\n';
+	} else if(options_.output_option() == NMAPPINGS) {
+		size_t count = 0;
+		for(auto match = m_iter.next(); match != nullptr; match = m_iter.next()) {
+			count++;
 		}
-	} else {
-		if(options_.output_option() == NMAPPINGS) {
-			size_t noutputs = 0;
-			while((match_ptr = regex.findIter(*document_stream_))) {
-				noutputs++;
-			}
-			std::cout << noutputs << '\n';
-		}
-		else {
-			while((match_ptr = regex.findIter(*document_stream_))) {
-				std::cout << *match_ptr << '\n';
-			}
-			// std::cout << "DFA:\n" << regex.detManager().DFA().pprint() << '\n';
-		}
+		std::cout << count << std::endl;
 	}
 }
 
-void Interface::benchmarkRun() {
+void Interface::benchmark_run() {
     std::stringstream output;
 
-	size_t numOfSpans, numOfCaptures, numOfReadings, detSize, nfaSize, mdfaSize;
+	size_t n_mappings, numOfCaptures, numOfReadings, detSize, nfaSize, mdfaSize;
 	double initAutomataTime, evaluateTime, totTime;
 	/**************************** Run Algorithm ****************************/
 
@@ -98,12 +77,14 @@ void Interface::benchmarkRun() {
 	Match_ptr match_ptr;
 
 	initAutomataTime = t.elapsed(); 		// Automata creation time
-	t.reset(); 								// Start timer for evaluation time
+	t.reset(); 													// Start timer for evaluation time
 
-	numOfSpans = 0;
+	n_mappings = 0;
 
-	while((match_ptr = regex.findIter(*document_stream_))) {
-		numOfSpans++;
+	MatchIterator match_iter = regex.findIter(document_);
+
+	for(auto match = match_iter.next(); match != nullptr; match = match_iter.next()) {
+		n_mappings++;
 	}
 
 	numOfCaptures = regex.capture_counter();
@@ -135,7 +116,7 @@ void Interface::benchmarkRun() {
 	/************************ Output Measurments ************************/
 
 	std::cout
-	<< "Number of mappings\t\t" 			<< 	pwc(numOfSpans)											<<	'\n'
+	<< "Number of mappings\t\t" 			<< 	pwc(n_mappings)											<<	'\n'
 	<< "Memory used \t\t\t"						<<	memoryUsed	 												<< 	'\n'
 	<< "MDFASize \t\t\t"							<<	mdfaSize														<<	'\n'
 	<< "DetSize \t\t\t"								<<	detSize															<<	'\n'

@@ -13,32 +13,16 @@ RegEx::RegEx(std::string pattern, rematch::RegExOptions rgx_opts)
 // Explicitly declared here for correct use of unique_ptr later
 RegEx::~RegEx() {}
 
-// std::string RegEx::uniformGenerate(uint32_t n) {
-//   if(!full_dfa_) {
-//     dman_.computeFullDFA();
-//     full_dfa_ = true;
-//   }
-//   return dman_.uniformSample(n);
-// }
 
-
-Match_ptr RegEx::findIter(const std::string &text) {
-  if(eval_ == nullptr) {
-    eval_ = std::make_unique<Evaluator>(*this, text, Evaluator::kAllFlags & flags_);
-  }
-  return eval_->next();
-}
-
-Match_ptr RegEx::findIter(std::istream &is) {
-  if(eval_ == nullptr) {
-    eval_ = std::make_unique<Evaluator>(*this, is, Evaluator::kAllFlags & flags_);
-  }
-  return eval_->next();
+MatchIterator RegEx::findIter(std::shared_ptr<Document> d) {
+  auto eval = new Evaluator(*this, d, Evaluator::kAllFlags & flags_);
+  return MatchIterator(eval);
 }
 
 
 Match_ptr RegEx::find(const std::string &text) {
-  return Evaluator(*this, text, flags_ & Evaluator::kEarlyOutput).next();
+  auto document = std::make_shared<StrDocument>(text);
+  return Evaluator(*this, document, flags_ & Evaluator::kEarlyOutput).next();
 }
 
 
@@ -52,34 +36,34 @@ uint8_t RegEx::parseFlags(rematch::RegExOptions rgx_opts) {
 }
 
 size_t RegEx::capture_counter() const {
-  return eval_->capture_counter_;
+  return 0;
 }
 
 size_t RegEx::reading_counter() const {
-  return eval_->reading_counter_;
+  return 0;
 }
 
 size_t RegEx::direct_counter() const {
-  return eval_->direct_c_;
+  return 0;
 }
 
 size_t RegEx::single_counter() const {
-  return eval_->single_c_;
+  return 0;
 }
 size_t RegEx::direct_single_counter() const {
-  return eval_->direct_single_c_;
+  return 0;
 }
 size_t RegEx::direct_multi_counter() const {
-  return eval_->direct_multi_c_;
+  return 0;
 }
 size_t RegEx::multi_counter() const {
-  return eval_->multi_c_;
+  return 0;
 }
 size_t RegEx::empty_counter() const {
-  return eval_->empty_c_;
+  return 0;
 }
 size_t RegEx::det_counter() const {
-  return eval_->det_c_;
+  return 0;
 }
 size_t RegEx::dfa_counter() {
   return dman_.dfa().size();
@@ -91,7 +75,7 @@ size_t RegEx::mdfa_counter() {
   return dman_.mdfa().size();
 }
 size_t RegEx::miss_counter() {
-  return eval_->miss_c_;
+  return 0;
 }
 
 

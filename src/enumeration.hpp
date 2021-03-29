@@ -64,7 +64,6 @@ class Enumerator {
   std::string& doc_;                    // Sublaying document
   std::vector<EnumState> depth_stack_;  // Stack for DFS in the DAG-like struct
 
-
   RegEx& rgx_;
 
   uint64_t n_mappings_;                 // Total num of mappings

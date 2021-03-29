@@ -138,11 +138,15 @@ void check_spanners(rematch::RegEx &rgx, std::string document_file, std::string 
     }
 
     std::set<std::set<std::string>> real_results;
-    std::unique_ptr<rematch::Match> match_ptr;
+
+    auto document = std::make_shared<FileDocument>(doc_ifstream);
+
+    MatchIterator m_iter = rgx.findIter(document);
+
 
     // std::cout << "Test: \"" << doc << "\"\n";
-    while(match_ptr = rgx.findIter(doc_ifstream)) {
-        std::string output = match_ptr->print();
+    for(auto match = m_iter.next(); match != nullptr; match = m_iter.next()) {
+        std::string output = match->print();
         real_results.insert(parse_set(strip(output)));
     }
 
