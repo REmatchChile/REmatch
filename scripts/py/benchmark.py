@@ -112,9 +112,9 @@ def run_bench(binary, doc_path, rgx_path, nexp):
 
 	try:
 		process = subprocess.run(command_mem, shell=True, check=True, capture_output=True, universal_newlines=True)
-	except e:
+	except:
 		print(f"Error while processing command: {command_mem}")
-		return float('nan'), float('nan'), float('nan')
+		return 'err', 'err', 'err'
 	output = process.stderr
 	nout = process.stdout
 	mem = output.replace('"', '').replace('\n','')

@@ -9,7 +9,7 @@
 	},
 	"dataset" : "force-outputs",
 	"exp-subpath" : "exp/force-outputs-dump",
-	"description" : "Lookahead Testing - dump",
+	"description" : "Lookahead Testing - No MacroDFA - Dump",
 	"homedir" : "/home/nicovsj/repos/research/REmatch-org/REmatch",
 	"nexp" : 20,
 	"cols" : ["D", "E", "F", "G"],
@@ -17,6 +17,11 @@
 	"binaries" : {
 		"REmatch" : {
 			"command" : "{0}/build/Release/bin/rematch",
+			"args" : "-l -o nmappings -d {0} -r {1}",
+			"rgx_type" : "rematch"
+		},
+		"REmatch-simple" : {
+			"command" : "{0}/build/Release/bin/rematch-5",
 			"args" : "-l -o nmappings -d {0} -r {1}",
 			"rgx_type" : "rematch"
 		},

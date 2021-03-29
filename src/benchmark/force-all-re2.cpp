@@ -31,17 +31,17 @@ int main(int argc, char const *argv[]) {
 
   for(size_t i=0; i < inp_sz; i++) {
     if(RE2::PartialMatch(input, pattern, &supermatch)) {
-      count++;
-      re2::StringPiece spmatch_aux(supermatch);
-      for(size_t j=0; j < supermatch.size(); j++) {
-        spmatch_aux.remove_suffix(1);
-        if(RE2::FullMatch(spmatch_aux, pattern, &match)) {
+      size_t spmatch_size = supermatch.size();
+      for(size_t j=0; j < spmatch_size; j++) {
+        if(RE2::FullMatch(supermatch, pattern, &match)) {
           count++;
-          std::cout << "|" << match.data() - doc.data() << ","
-                           << match.data() - doc.data() + match.size() << ">\n";
-        } else {
-          break;
+          // std::cout << "|" << match.data() - doc.data() << ","
+          //                  << match.data() - doc.data() + match.size() << ">\n";
         }
+          // No se puede asegurar que no haya output en el resto de los
+          // prefijos.
+          // break;
+        supermatch.remove_suffix(1);
       }
       // std::cout << "Match: \"" << match << "\"\n";
 

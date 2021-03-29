@@ -39,7 +39,7 @@ ExtendedVA :: ExtendedVA(LogicalVA &A):
 
 	cleanUselessCaptureTransitions();
 
-	std::cout << "EvA afterer:\n" << pprint() << "\n\n";
+	// std::cout << "EvA afterer:\n" << pprint() << "\n\n";
 
   #ifndef NOPT_CROSSPROD
 	  crossProdOpt(*this);
@@ -49,7 +49,7 @@ ExtendedVA :: ExtendedVA(LogicalVA &A):
 
 	searchSuperFinals();
 
-	std::cout << "EvA aftererer:\n" << pprint() << "\n\n";
+	// std::cout << "EvA aftererer:\n" << pprint() << "\n\n";
 
 }
 

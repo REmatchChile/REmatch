@@ -24,6 +24,8 @@ set(BENCHMARK_TARGETS
   test-boost
   test-tre
   force-all-re2
+  force-all-boost
+  force-all-pcre
   force-suffix-re2
 )
 
