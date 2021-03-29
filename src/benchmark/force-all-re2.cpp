@@ -21,18 +21,33 @@ int main(int argc, char const *argv[]) {
 
   RE2 pattern(rgx);
 
-  re2::StringPiece match;
+  // Let's think of
+  //(\d{3,6})
+  // ....->\d\d\d\d\d\d....
+
+  re2::StringPiece supermatch, match;
   int count = 0;
   size_t inp_sz = input.size(); // Original size
 
   for(size_t i=0; i < inp_sz; i++) {
-    for(size_t j=1; i+j <= inp_sz; j++) {
-      re2::StringPiece subinput = input.substr(i, j);
-      if(RE2::PartialMatch(subinput, pattern, &match)) {
-        count++;
-        std::cout << "Match: \"" << match << "\"\n";
+    if(RE2::PartialMatch(input, pattern, &supermatch)) {
+      count++;
+      re2::StringPiece spmatch_aux(supermatch);
+      for(size_t j=0; j < supermatch.size(); j++) {
+        spmatch_aux.remove_suffix(1);
+        if(RE2::FullMatch(spmatch_aux, pattern, &match)) {
+          count++;
+          std::cout << "|" << match.data() - doc.data() << ","
+                           << match.data() - doc.data() + match.size() << ">\n";
+        } else {
+          break;
+        }
       }
-    }
+      // std::cout << "Match: \"" << match << "\"\n";
+
+      // Jump to the start of the next match
+      input.remove_prefix(supermatch.data() - input.data() + 1);
+    } else break;
   }
 
   std::cout << count << '\n';
