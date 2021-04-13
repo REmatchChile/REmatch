@@ -14,12 +14,12 @@
 #include "visitor.hpp"
 
 
-LogicalVA& parse_automata_file(std::string filename) {
+rematch::LogicalVA& parse_automata_file(std::string filename) {
     using boost::spirit::ascii::space;
     typedef std::string::const_iterator iterator_type;
 
     std::ifstream file(filename);
-    
+
     std::string str;
     file_to_automata visitor = file_to_automata();
     automata_parser<iterator_type> grammar;
@@ -42,7 +42,7 @@ LogicalVA& parse_automata_file(std::string filename) {
             std::cout << "Error parsing line\n";
         }
     }
-    
-    LogicalVA *lva = visitor.automata;
+
+    rematch::LogicalVA *lva = visitor.automata;
     return *lva;
 }

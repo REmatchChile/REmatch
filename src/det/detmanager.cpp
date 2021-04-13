@@ -12,6 +12,8 @@
 #include "automata/dfa/detstate.hpp"
 #include "det/setstate.hpp"
 
+namespace rematch {
+
 DetManager::DetManager(std::string pattern, bool raw_automata) {
 	LogicalVA lva = regex2LVA(pattern);
 
@@ -51,7 +53,7 @@ void DetManager :: computeCaptures(DetState* p, DetState* q, char a) {
 	std::unordered_map<std::bitset<32>, std::set<LVAState*>>::iterator it;
 
 	for(auto &extState: q->ss->subset) {
-		for(auto &capture: extState->c) {
+		for(auto &capture: extState->captures) {
 
 			it = captureList.find(capture->code);
 
@@ -95,7 +97,7 @@ rematch::Transition* DetManager::next_transition(DetState *q, char a) {
 	BitsetWrapper subsetBitset(nfa_->size());  // Subset bitset representation
 
 	for(auto &state: q->ss->subset) {
-		for(auto &filter: state->f) {
+		for(auto &filter: state->filters) {
 			if(charBitset.get(filter->code) && !subsetBitset.get(filter->next->id)) {
 				newSubset.insert(filter->next);
 				subsetBitset.set(filter->next->id, true);
@@ -124,7 +126,7 @@ rematch::Transition* DetManager::next_transition(DetState *q, char a) {
 	if(nq->ss->isNonEmpty) {
 		computeCaptures(q, nq, a);
 		// for(auto &state: nq->ss->subset){
-			// if(!state->f.empty() || state->isFinal){
+			// if(!state->filters.empty() || state->isFinal){
 				q->add_direct(a, nq);
 				// break;
 			// }
@@ -221,3 +223,5 @@ MacroTransition* DetManager::next_macro_transition(MacroState *p, char a) {
 
 	return mtrans.get();
 }
+
+} // end namespace rematch

@@ -53,12 +53,13 @@ Match_ptr Evaluator::next() {
   if(enumerator_->hasNext())
       return enumerator_->next();
 
-  // bool exited = false;
+  bool exited = false;
 
-  // Timer t; 
+  // Timer t;
 
   while (!document_ended_) {
     char a;
+    output_nodelist_.reset_refs();
     output_nodelist_.reset();
 
     while((i_pos_-i_start_) < (int64_t)line_.size()) { // Main search loop
@@ -71,25 +72,27 @@ Match_ptr Evaluator::next() {
 
       i_pos_++;
 
-      // if(current_state_->is_super_final()) {
-      //   exited = true;
-      //   break;
-      // }
+      if(current_state_->is_super_final()) {
+        exited = true;
+        break;
+      }
     }
 
     for(auto &state: current_state_->states()) {
       if(state->isFinal) {
         output_nodelist_.append(state->currentL);
+        state->currentL->reset_refs();
         state->currentL->reset();
       }
     }
     if(!output_nodelist_.empty()) {
       enumerator_->addNodeList(output_nodelist_);
-      output_nodelist_.resetRefs();
-      Evaluator::memory_manager_.addPossibleGarbage(output_nodelist_.head);
-      // if(exited) {
-      //   break;
-      // }
+      output_nodelist_.reset_refs();
+      Evaluator::memory_manager_.addPossibleGarbage(output_nodelist_.head_);
+      output_nodelist_.reset();
+      if(exited) {
+        break;
+      }
     }
 
     if((i_pos_-i_start_) == (int64_t)line_.size()) {
@@ -115,6 +118,9 @@ Match_ptr Evaluator::next() {
     if(enumerator_->hasNext())
       return enumerator_->next();
 
+    std::cout << "Memory Arenas: " << memory_manager_.totNodeArenas() << "\n";
+    std::cout << "Nodes reused: " << memory_manager_.totNodesReused() << "\n";
+    std::cout << "Total Nodes: " << memory_manager_.totNodesReused() << "\n";
     return nullptr;
 
 }
@@ -177,8 +183,8 @@ void Evaluator::reading(char a, int64_t i_pos,  bool early_output) {
     if(direct.to->visited <= i_pos+1) {
       direct.to->visited = i_pos+2;
       // Lazy copy
-      direct.to->currentL->head = direct.from->currentL->head;
-      direct.to->currentL->tail = direct.from->currentL->tail;
+      direct.to->currentL->head_ = direct.from->currentL->head_;
+      direct.to->currentL->tail_ = direct.from->currentL->tail_;
     } else {
       direct.to->currentL->append(direct.from->currentL);
     }
@@ -187,17 +193,17 @@ void Evaluator::reading(char a, int64_t i_pos,  bool early_output) {
   for(size_t i=0; i < captures_sz; i++) {
     auto capture = captures[i];
     #ifndef NOPT_MEMORY_MANAGER
-    Node* new_node = Evaluator::memory_manager_.alloc(capture.S,
+    internal::Node* new_node = Evaluator::memory_manager_.alloc(capture.S,
                                                       i_pos+1,
-                                                      capture.from->currentL->head,
-                                                      capture.from->currentL->tail);
+                                                      capture.from->currentL->head_,
+                                                      capture.from->currentL->tail_);
     #else
-    Node* new_node = new Node(capture.s, i_pos_+1, capture.from->currentL->head,
-                              capture.from->currentL->tail)
+    internal::Node* new_node = new Node(capture.s, i_pos_+1, capture.from->currentL->head_,
+                              capture.from->currentL->tail_)
     #endif
     if(capture.to->visited <= i_pos+1) {
       capture.to->visited = i_pos+2;
-      capture.to->currentL->resetAndAdd(new_node);
+      capture.to->currentL->reset_and_add(new_node);
     } else {
       capture.to->currentL->add(new_node);
     }

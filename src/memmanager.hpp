@@ -5,7 +5,10 @@
 #include <vector>
 #include <queue>
 #include <bitset>
-#include "structures.hpp"
+
+#include "structs/dag/node.hpp"
+
+namespace rematch {
 
 size_t const STARTING_SIZE = 2048;
 
@@ -13,7 +16,7 @@ class MiniPool {
 
  private:
 	size_t m_capacity;
-	std::vector<Node> minipool;
+	std::vector<internal::Node> minipool;
 	MiniPool *next;
 	MiniPool *prev;
 
@@ -27,14 +30,14 @@ class MiniPool {
 
 	bool isFull() const {return minipool.size() >= m_capacity;}
 
-	Node* alloc() {
+	internal::Node* alloc() {
 
 		minipool.emplace_back();
 
 		return &minipool.back();
 	}
 
-	Node* alloc(std::bitset<32> S, int i, Node *head, Node *tail) {
+	internal::Node* alloc(std::bitset<32> S, int i, internal::Node *head, internal::Node *tail) {
 
 		minipool.emplace_back(S, i, head, tail);
 
@@ -57,7 +60,7 @@ class MemManager {
 private:
 
 	MiniPool *current;
-	Node* freeHead;
+	internal::Node* freeHead;
 
 	size_t totElements;
 	size_t totArenas;
@@ -69,12 +72,12 @@ public:
 	  : current(new MiniPool(STARTING_SIZE)), freeHead(nullptr), totElements(0),
 		totArenas(1), totElementsReused(0) {}
 
-	Node* alloc() {
+	internal::Node* alloc() {
 
 	if(current->isFull()) {
 		// GARBAGE COLLECTION
 		if(freeHead != nullptr) {
-			Node *listHead, *adyacentNext, *newNode;
+			internal::Node *listHead, *adyacentNext, *newNode;
 
 			// Pointer labeling
 			listHead = freeHead->start;
@@ -120,12 +123,12 @@ public:
 
 	}
 
-	Node* alloc(std::bitset<32> S, int i, Node *head, Node *tail) {
+	internal::Node* alloc(std::bitset<32> S, int i, internal::Node *head, internal::Node *tail) {
 
 	if(current->isFull()) {
 		// GARBAGE COLLECTION
 		if(freeHead != nullptr) {
-			Node *listHead, *adyacentNext, *newNode;
+			internal::Node *listHead, *adyacentNext, *newNode;
 
 			// Pointer labeling
 			listHead = freeHead->start;
@@ -147,8 +150,9 @@ public:
 			// Reassign freeHead
 			freeHead = freeHead->nextFree;
 
-			// Reset nextFree in overwritten Node
-			newNode->nextFree = nullptr;
+			// Reset nextFree in overwritten Node (because of the union it suffices
+			// to set the refCount)
+			newNode->refCount = 0;
 			totElementsReused++;
 
 			return newNode;
@@ -170,12 +174,12 @@ public:
 
 	}
 
-	void addFreeHead(Node* n) {
+	void addFreeHead(internal::Node* n) {
 		n->nextFree = freeHead;
 		freeHead = n;
 	}
 
-	void addPossibleGarbage(Node* node) {
+	void addPossibleGarbage(internal::Node* node) {
 		if(node->isNodeEmpty()) {
 			// std::cout << "Node empty...\n";
 		}
@@ -206,5 +210,7 @@ public:
 	}
 
 };
+
+} // namespace rematch
 
 #endif

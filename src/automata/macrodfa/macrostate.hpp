@@ -8,11 +8,12 @@
 
 #include "automata/macrodfa/macrotransition.hpp"
 
+namespace rematch {
+
 class DetState;
 
 class MacroState {
 
-  // TODO: Make this an array of 128 entries
   using TransitionsMap = std::array<std::shared_ptr<MacroTransition>, 128>;
 
  public:
@@ -32,5 +33,7 @@ class MacroState {
   TransitionsMap transitions_;
   std::vector<DetState*> states_;
 }; // end class MacroState
+
+} // end namespace rematch
 
 #endif // AUTOMATA__MACRODFA__MACROSTATE

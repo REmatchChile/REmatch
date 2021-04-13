@@ -9,12 +9,14 @@
 #include <cassert>
 #include <map>
 
-#include "structures.hpp"
+#include "structs/dag/nodelist.hpp"
 #include "captures.hpp"
 #include "factories/factories.hpp"
 #include "detstate.hpp"
 #include "automata/eva.hpp"
 #include "automata/dfa/transition.hpp"
+
+namespace rematch {
 
 DFA::DFA(VariableFactory* vf)
   : init_state_(new DetState()), variable_factory_(vf)  {states.push_back(init_state_);}
@@ -106,3 +108,5 @@ std::string DFA::pprint() {
 
   return ss.str();
 }
+
+} // end namespace rematch

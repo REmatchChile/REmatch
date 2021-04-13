@@ -8,15 +8,13 @@
 #include <bitset>
 
 #include "bitsetwrapper.hpp"
-#include "structures.hpp"
+#include "structs/dag/nodelist.hpp"
 #include "det/setstate.hpp"
 #include "captures.hpp"
 
 namespace rematch {
-  class Transition;
-}
 
-using namespace rematch;
+class Transition;
 
 class DetState {
   private:
@@ -32,8 +30,9 @@ class DetState {
     std::string label;
 
     int64_t visited;  // Mark the reading iteration for which the State is prepared
-    NodeList* currentL;
-    NodeList* copiedList;
+
+    internal::NodeList* currentL;
+    internal::NodeList* copiedList;
 
     SetState* ss;
 
@@ -50,7 +49,7 @@ class DetState {
 
     DetState* nextState(BitsetWrapper charBitset);
     DetState* nextState(char a);
-    NodeList* getPreviousList(int i);
+    internal::NodeList* getPreviousList(int i);
     void setFinal(bool b);
     void setSubset(SetState* newss);
     std::string pprint();
@@ -59,5 +58,7 @@ class DetState {
 
 
 std::ostream & operator<<(std::ostream &os, DetState const &q);
+
+} // end namespace rematch
 
 #endif

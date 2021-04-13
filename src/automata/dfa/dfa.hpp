@@ -7,6 +7,8 @@
 
 #include "automata/eva.hpp"
 
+namespace rematch {
+
 class VariableFactory;
 class DetState;
 
@@ -43,5 +45,7 @@ class DFA {
   std::shared_ptr<VariableFactory> variable_factory_;
 
 };
+
+} // end namespace rematch
 
 #endif

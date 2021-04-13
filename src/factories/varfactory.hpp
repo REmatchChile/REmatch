@@ -7,6 +7,8 @@
 
 #include "factories/absfactory.hpp"
 
+namespace rematch {
+
 using CaptureBitmap = std::bitset<32>;
 
 const uint8_t kMaxCaptureVars = 16;
@@ -34,5 +36,7 @@ class VariableFactory
 
 
 }; // end class VariableFactory
+
+} // end namespace rematch
 
 #endif // FACTORIES__VARFACTORY_HPP

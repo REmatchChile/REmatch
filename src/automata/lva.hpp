@@ -5,6 +5,8 @@
 #include <vector>
 #include <memory>
 
+namespace rematch {
+
 class VariableFactory;
 class FilterFactory;
 class LVAState;
@@ -57,5 +59,7 @@ class LogicalVA {
   std::shared_ptr<VariableFactory> v_factory_;
   std::shared_ptr<FilterFactory> f_factory_;
 };
+
+} // end namespace rematch
 
 #endif

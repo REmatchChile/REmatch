@@ -4,6 +4,8 @@
 #include "visitors.hpp"
 #include "grammar.hpp"
 
+namespace rematch {
+
 bool doParse(const std::string& input, ast::altern &data)
 /* Parses input and stores the AST in data */
 {
@@ -44,3 +46,5 @@ LogicalVA& regex2LVA(std::string regex) {
 
 	return visitors::regex2LVA(v,f)(tree);
 }
+
+} // end namespace rematch

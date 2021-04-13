@@ -12,6 +12,8 @@
 
 #include <boost/dynamic_bitset.hpp>
 
+
+
 using DynamicBitset = boost::dynamic_bitset<>;
 
 
@@ -23,6 +25,7 @@ inline void hash_combine(std::size_t & seed, const T & v)
   seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 }
 
+namespace rematch {
 
 struct extended_bitset {
 	std::vector<std::bitset<64>> bitsetArray;
@@ -78,6 +81,7 @@ std::ostream& operator<<(std::ostream &os, extended_bitset const &bs);
 
 std::ostream& operator<<(std::ostream &os, BitsetWrapper const &bs);
 
+} // end namespace rematch
 
 namespace std {
 	template <>
@@ -91,8 +95,8 @@ namespace std {
 		};
 
 	template <>
-	struct hash<extended_bitset> {
-		size_t operator()(const extended_bitset& bitset) const {
+	struct hash<rematch::extended_bitset> {
+		size_t operator()(const rematch::extended_bitset& bitset) const {
 			size_t res = 0;
 			for (auto s : bitset.bitsetArray)
 				hash_combine(res, s);
@@ -101,8 +105,8 @@ namespace std {
 		};
 
 	template <>
-	struct hash<BitsetWrapper> {
-		size_t operator()(const BitsetWrapper& bitset) const {
+	struct hash<rematch::BitsetWrapper> {
+		size_t operator()(const rematch::BitsetWrapper& bitset) const {
 			size_t res = 0;
 			if(DYNAMIC_BITSET) {
 				for (auto s : bitset.getDynamic()->m_bits)
@@ -117,5 +121,7 @@ namespace std {
 		}
 	};
 }
+
+
 
 #endif

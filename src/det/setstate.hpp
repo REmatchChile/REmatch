@@ -7,6 +7,8 @@
 
 #include "bitsetwrapper.hpp"
 
+namespace rematch {
+
 class ExtendedVA;
 class LVAState;
 
@@ -23,5 +25,7 @@ class SetState {
 };
 
 std::ostream & operator<<(std::ostream &os, SetState const &ss);
+
+} // end namespace rematch
 
 #endif

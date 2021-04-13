@@ -8,29 +8,29 @@
 #include <bitset>
 #include <unordered_map>
 
-struct charclass_visitor : boost::static_visitor<CharClass&>
+struct charclass_visitor : boost::static_visitor<rematch::CharClass&>
 {
     // Case 1: special set
-    CharClass &operator()(automata::special_set const &ss) const;
+    rematch::CharClass &operator()(automata::special_set const &ss) const;
     // Case 2: charset
-    CharClass &operator()(automata::charset const &cs) const;
+    rematch::CharClass &operator()(automata::charset const &cs) const;
     // Case 3: single char
-    CharClass &operator()(char const &sc) const;
+    rematch::CharClass &operator()(char const &sc) const;
 };
 
 struct file_to_automata : boost::static_visitor<void>
 {
     // LVA to be returned
-    LogicalVA *automata;
+    rematch::LogicalVA *automata;
 
     // Hash table between state names and state references
-    std::unordered_map<std::string, LVAState*> states_map;
+    std::unordered_map<std::string, rematch::LVAState*> states_map;
 
     // Constructor
     file_to_automata();
 
     // Internal methods
-    LVAState *get_state(std::string state_name);
+    rematch::LVAState *get_state(std::string state_name);
     std::bitset<32> get_variable_code(automata::variable const &variable);
     int get_filter_code(automata::charclass const &charclass);
 

@@ -100,6 +100,4 @@ namespace rematch {
 
 } // namespace structs
 
-
-
 #endif // STRUCTS__VECTOR_HPP

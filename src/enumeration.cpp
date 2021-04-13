@@ -5,7 +5,8 @@
 #include <bitset>
 
 #include "match.hpp"
-#include "structures.hpp"
+#include "structs/dag/node.hpp"
+#include "structs/dag/nodelist.hpp"
 #include "factories/factories.hpp"
 #include "regex/regex.hpp"
 
@@ -18,17 +19,17 @@ Enumerator::Enumerator(RegEx &rgx, std::string &doc)
       data_(rgx_.varCount(), std::pair<int64_t, int64_t>(0, 0)) {}
 
 
-void Enumerator::addNodeList(NodeList &startList) {
+void Enumerator::addNodeList(internal::NodeList &startList) {
   if(!startList.empty()){
     std::map<std::string, std::pair<int64_t,int64_t>> ret;
-    depth_stack_.emplace_back(startList.head, startList.tail);
+    depth_stack_.emplace_back(startList.head_, startList.tail_);
   }
 }
 
 Match_ptr Enumerator :: next() {
   while(!depth_stack_.empty()) {
     auto current = depth_stack_.back();
-    Node* node = current.current_node;
+    internal::Node* node = current.current_node;
 
     depth_stack_.pop_back();
 
@@ -53,7 +54,7 @@ Match_ptr Enumerator :: next() {
 
   }
 
-  throw exception();
+  throw std::exception();
 }
 
 

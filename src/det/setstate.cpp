@@ -6,6 +6,8 @@
 #include "automata/lvastate.hpp"
 #include "automata/eva.hpp"
 
+namespace rematch {
+
 SetState :: SetState(ExtendedVA &eVA, std::set<LVAState*> l):
 	subset(l), bitstring(eVA.size()) {
 	/* Construct the bitstring inmediately */
@@ -38,4 +40,6 @@ std::ostream & operator<<(std::ostream &os, SetState const &ss) {
   os << "}";
   return os;
 }
+
+} // end namespace rematch
 

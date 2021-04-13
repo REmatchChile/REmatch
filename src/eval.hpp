@@ -16,10 +16,10 @@
 #include "automata/macrodfa/macrodfa.hpp"
 #include "automata/macrodfa/macrostate.hpp"
 
+namespace rematch {
+
 class DetState;
 struct Transition;
-
-namespace rematch {
 
 class Evaluator {
 
@@ -70,7 +70,7 @@ class Evaluator {
   MacroState* current_state_;
   std::vector<DetState*> new_states_;
 
-  NodeList output_nodelist_;
+  internal::NodeList output_nodelist_;
 
   bool early_output_;
   bool line_by_line_;

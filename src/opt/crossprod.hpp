@@ -6,6 +6,8 @@
 #include "automata/eva.hpp"
 #include "automata/lvastate.hpp"
 
+namespace rematch {
+
 // Computes the inplace cross product of an ExtendedVA with the two-state
 // automaton defined by:
 //
@@ -52,7 +54,7 @@ void crossProdOpt(ExtendedVA &A) {
     for (size_t i = 0; i < A.states.size(); ++i) {
         pOld = A.states[i];
         p0New = states0[i]; p1New = states1[i];
-        for (auto const &filter: pOld->f) {
+        for (auto const &filter: pOld->filters) {
             qOld = filter->next;
             qOldIdx = ptr2index[qOld];
 
@@ -61,7 +63,7 @@ void crossProdOpt(ExtendedVA &A) {
             p0New->addFilter(filter->code, q1New);
             p1New->addFilter(filter->code, q0New);
         }
-        for (auto const &capture: pOld->c) {
+        for (auto const &capture: pOld->captures) {
             qOld = capture->next;
             qOldIdx = ptr2index[qOld];
 
@@ -81,8 +83,8 @@ void crossProdOpt(ExtendedVA &A) {
     A.set_initState(states0[initStateIdx]); // Init state is (q0, 0)
     A.states = std::move(states0);
     A.pruneUselessStates();
-
-
 }
+
+} // end namespace rematch
 
 #endif // OPT__CROSSPROD__HPP

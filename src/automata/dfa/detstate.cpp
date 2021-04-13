@@ -8,31 +8,31 @@
 #include <unordered_map>
 #include <memory>
 
-#include "structures.hpp"
+#include "structs/dag/nodelist.hpp"
 #include "captures.hpp"
 #include "det/setstate.hpp"
 #include "bitsetwrapper.hpp"
 #include "automata/dfa/transition.hpp"
 
-using namespace rematch;
+namespace rematch {
 
 unsigned int DetState :: ID = 0;
 
 /****** CONSTRUCTORS ********/
 
-DetState :: DetState()
-  : visited(0),
-    currentL(new NodeList()),
-    copiedList(new NodeList()),
-    isFinal(false) {
+DetState::DetState()
+    : label("{0}"),
+      visited(0),
+      currentL(new internal::NodeList()),
+      copiedList(new internal::NodeList()),
+      isFinal(false) {
   id = ID++;
-  label = "{0}";
 }
 
 DetState :: DetState(SetState* ss)
   : visited(0),
-    currentL(new NodeList()),
-    copiedList(new NodeList()),
+    currentL(new internal::NodeList()),
+    copiedList(new internal::NodeList()),
     ss(ss) {
   id = ID++;
   isFinal = ss->isFinal;
@@ -81,3 +81,4 @@ std::ostream & operator<<(std::ostream &os, DetState const &q) {
   return os << *(q.ss);
 }
 
+} // end namespace rematch

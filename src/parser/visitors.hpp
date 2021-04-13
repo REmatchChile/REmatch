@@ -16,6 +16,7 @@
 
 using boost::get;
 
+namespace rematch {
 namespace visitors {
 
 struct bad_regex: public std::exception {
@@ -82,6 +83,7 @@ struct regex2filters : boost::static_visitor<FilterFactory&> {
 		FilterFactory &operator()(ast::anywhitespace const &a);
 };
 
-} // Namespace visitors
+} // end namespace visitors
+} // end namespace rematch
 
 #endif

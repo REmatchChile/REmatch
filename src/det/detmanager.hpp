@@ -15,8 +15,10 @@
 #include "automata/dfa/transition.hpp"
 #include "automata/macrodfa/macrodfa.hpp"
 
+namespace rematch {
+
 struct VectorHasher {
-    size_t operator()(const vector<size_t> &V) const {
+    size_t operator()(const std::vector<size_t> &V) const {
         size_t hash = V.size();
         for(auto &i : V) {
             hash ^= i + 0x9e3779b9 + (hash << 6) + (hash >> 2);
@@ -73,6 +75,8 @@ class DetManager {
 
 	VectorCharTable all_chars_table_;
 };
+
+} // end namespace rematch
 
 #endif
 

@@ -33,14 +33,13 @@ int main(int argc, char const *argv[]) {
     if(RE2::PartialMatch(input, pattern, &supermatch)) {
       size_t spmatch_size = supermatch.size();
       for(size_t j=0; j < spmatch_size; j++) {
-        if(RE2::FullMatch(supermatch, pattern, &match)) {
+        if(RE2::PartialMatch(supermatch, pattern, &match)) {
           count++;
           // std::cout << "|" << match.data() - doc.data() << ","
           //                  << match.data() - doc.data() + match.size() << ">\n";
-        }
+        } else break;
           // No se puede asegurar que no haya output en el resto de los
           // prefijos.
-          // break;
         supermatch.remove_suffix(1);
       }
       // std::cout << "Match: \"" << match << "\"\n";

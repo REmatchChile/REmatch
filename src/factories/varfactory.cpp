@@ -2,6 +2,8 @@
 
 #include <sstream>
 
+namespace rematch {
+
 CaptureBitmap VariableFactory::get_open_capture_code(std::string var) const {
   auto code = get_code(var);
   CaptureBitmap bitmap;
@@ -34,3 +36,5 @@ std::string VariableFactory::capture_repr(CaptureBitmap bm) const {
 void VariableFactory::merge(VariableFactory const &rhs) {
   
 }
+
+} // end namespace rematch

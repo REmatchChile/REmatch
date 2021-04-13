@@ -11,7 +11,8 @@
 #include <memory>
 
 #include "match.hpp"
-#include "structures.hpp"
+#include "structs/dag/nodelist.hpp"
+#include "structs/dag/node.hpp"
 #include "factories/factories.hpp"
 #include "memmanager.hpp"
 
@@ -40,7 +41,7 @@ class Enumerator {
 
     // Adds a NodeList to the depth stack. So it's outputs get enumerated
     // in the future.
-    void addNodeList(NodeList &nL);
+    void addNodeList(internal::NodeList &nL);
 
     // Resets the enumeration.
     void reset() {depth_stack_.clear();}
@@ -52,10 +53,10 @@ class Enumerator {
 
   // Elements of the depth stack of the enumeration.
   struct EnumState {
-    Node* current_node;    // Current Node of the state of the enumeration.
-    Node* end_node;        // Needed to know when to stop while going down
+    internal::Node* current_node;    // Current Node of the state of the enumeration.
+    internal::Node* end_node;        // Needed to know when to stop while going down
 
-    EnumState(Node* c, Node* e)
+    EnumState(internal::Node* c, internal::Node* e)
       : current_node(c), end_node(e) {}
 
   }; // end struct EnumeratorNode

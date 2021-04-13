@@ -29,7 +29,7 @@ class Interface {
 
 	// Docstring might be a path to a file to-be-read or the document per se.
 	// This is indicated by options_.is_docfile() .
-	std::shared_ptr<Document> document_;
+	std::shared_ptr<rematch::Document> document_;
 
 	// Regular pattern given
 	const std::string &pattern_;

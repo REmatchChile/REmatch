@@ -1,6 +1,9 @@
 #include "macrostate.hpp"
 
 #include "automata/macrodfa/macrotransition.hpp"
+#include "automata/dfa/detstate.hpp"
+
+namespace rematch {
 
 MacroState::MacroState(DetState* state) {
   states_.push_back(state);
@@ -28,4 +31,4 @@ bool MacroState::is_super_final() const {
   return false;
 }
 
-
+} // end namespace rematch

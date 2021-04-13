@@ -1,5 +1,7 @@
 #include "macrotransition.hpp"
 
+namespace rematch {
+
 MacroTransition::MacroTransition()
   : ndirects_{0}, ncaptures_{0} {
     // directs_.reserve(10);
@@ -34,3 +36,5 @@ DirectsArray MacroTransition::directs() {return directs_;}
 CapturesArray MacroTransition::captures() {return captures_;}
 
 MacroState* MacroTransition::next_state() {return next_;}
+
+} // end namespace rematch

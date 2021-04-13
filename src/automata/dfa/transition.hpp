@@ -6,13 +6,13 @@
 #include "automata/dfa/detstate.hpp"
 #include "captures.hpp"
 
+namespace rematch {
+
 class DetState;
 class NodeList;
 
 using DetStates = std::vector<DetState*>;
 using Captures = std::vector<std::unique_ptr<Capture>>;
-
-namespace rematch {
 
 struct Transition {
   enum Type {

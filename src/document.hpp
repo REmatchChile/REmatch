@@ -7,6 +7,8 @@
 #include <cstring>
 #include <algorithm>
 
+namespace rematch {
+
 class Document {
  public:
   using value_t = char;
@@ -50,7 +52,8 @@ class StrDocument : public Document {
   virtual bool getline(std::string &str) {
     if(current_ == end()) return false;
     auto result = std::find(current_, data_ + size_, '\n');
-    std::memcpy(&str[0], current_, result - current_);
+    str.assign(current_, result);
+    current_ = result;
     return true;
   }
 
@@ -92,5 +95,7 @@ class FileDocument : public Document {
     Document::sz_t size_;
 
 }; // end class StrDocument
+
+} // end namespace rematch
 
 #endif // DOCUMENT_HPP

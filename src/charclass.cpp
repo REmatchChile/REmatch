@@ -4,7 +4,7 @@
 
 #include "charclass.hpp"
 
-using namespace std;
+namespace rematch {
 
 // Define static variable
 const std::set<CharClass::special_code> CharClass::special_codes = {
@@ -26,7 +26,7 @@ CharClass :: CharClass(const char &a): special(0), negated(false) {
 	if (a == '\n')
 		label = "\\n";
 	else
-		label = string(1, a);
+		label = std::string(1, a);
 	singles.insert(a);
 }
 
@@ -58,10 +58,10 @@ CharClass :: CharClass(const ast::charset &cs) {
 	negated = cs.negated;
 	for(auto &el: cs.elements) {
 		if(el.which() == 0) {
-			singles.insert(get<char>(el));
+			singles.insert(boost::get<char>(el));
 		}
 		else {
-			ranges.insert(get<ast::charset::range>(el));
+			ranges.insert(boost::get<ast::charset::range>(el));
 		}
 	}
 	updateLabel();
@@ -103,15 +103,15 @@ CharClass :: CharClass(std::string str, bool is_special) {
 }
 
 bool CharClass :: operator==(const CharClass& rhs) const {
-	return label == rhs.label; 
+	return label == rhs.label;
 }
 
-string CharClass :: print() {return label;}
+std::string CharClass :: print() {return label;}
 
 void CharClass :: updateLabel() {
-	set<char>::iterator it_single;
-	set<tuple<char,char>>::iterator it;
-	set<tuple<char,char>>::iterator it2;
+	std::set<char>::iterator it_single;
+	std::set<std::tuple<char,char>>::iterator it;
+	std::set<std::tuple<char,char>>::iterator it2;
 
 	it = ranges.begin();
 	char b1, b2, e1, e2;
@@ -121,11 +121,11 @@ void CharClass :: updateLabel() {
 		it2 = it;
 		it2++;
 		while(it2 != ranges.end()) {
-			b1 = get<0>(*(it)); b2 = get<0>(*(it2));
-			e1 = get<1>(*(it)); e2 = get<1>(*(it2));
+			b1 = std::get<0>(*(it)); b2 = std::get<0>(*(it2));
+			e1 = std::get<1>(*(it)); e2 = std::get<1>(*(it2));
 
 			if(b1 <= e2 && b2 <= e1) {  // If overlap occurs
-				ranges.insert(make_tuple(min(b1, b2), max(e1, e2)));
+				ranges.insert(std::make_tuple(std::min(b1, b2), std::max(e1, e2)));
 				ranges.erase(it2);
 				ranges.erase(it);
 				it = ranges.begin();
@@ -141,24 +141,24 @@ void CharClass :: updateLabel() {
 	for(auto &range: ranges) {
 		for(it_single=singles.begin(); it_single != singles.end();) {
 			single =  *it_single;
-			b = get<0>(range); e = get<1>(range);
+			b = std::get<0>(range); e = std::get<1>(range);
 			if(b <= single && single <= e) {
 				it_single = singles.erase(it_single);
-			}	
+			}
 			else {
 				it_single++;
 			}
 		}
 	}
 
-	stringstream ss;
-	string r0, r1;
+	std::stringstream ss;
+	std::string r0, r1;
 
 	ss << "[";
 	if(negated) ss << "^";
 
 	for(auto &range: ranges) {
-		r0 = get<0>(range); r1 = get<1>(range);
+		r0 = std::get<0>(range); r1 = std::get<1>(range);
 		if(r0 == "\n")
 			r0 = "\\n";
 		if(r1 == "\n")
@@ -199,3 +199,4 @@ bool CharClass :: check(char a) {
 	return negated;
 }
 
+} // end namespace rematch

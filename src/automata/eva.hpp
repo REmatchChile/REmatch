@@ -10,6 +10,8 @@
 
 #include "bitsetwrapper.hpp"
 
+namespace rematch {
+
 class LVAState;
 class VariableFactory;
 class FilterFactory;
@@ -80,6 +82,7 @@ class ExtendedVA {
 	std::vector<CaptureList> classifySingleCaptures();
 
 	bool offsetPossible(CapturePtr capture);
+	bool offsetPossible(CapturePtr capture1, CapturePtr capture2);
 	bool offsetPossible(CaptureList &captureList);
 
 	void computeOffset(CaptureList &captureList, int codeIndex);
@@ -99,5 +102,7 @@ class ExtendedVA {
 	size_t currentID;
 
 };
+
+} // end namespace rematch
 
 #endif

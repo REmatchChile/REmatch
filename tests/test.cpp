@@ -51,7 +51,7 @@ std::vector<std::string> get_test_folders(std::string dir_path) {
 
 bool file_exists(const std::string file_path) {
     // Returns whether the given file exists or not
-    ifstream f(file_path.c_str());
+    std::ifstream f(file_path.c_str());
     return f.good();
 }
 
@@ -139,9 +139,9 @@ void check_spanners(rematch::RegEx &rgx, std::string document_file, std::string 
 
     std::set<std::set<std::string>> real_results;
 
-    auto document = std::make_shared<FileDocument>(doc_ifstream);
+    auto document = std::make_shared<rematch::FileDocument>(doc_ifstream);
 
-    MatchIterator m_iter = rgx.findIter(document);
+    rematch::MatchIterator m_iter = rgx.findIter(document);
 
 
     // std::cout << "Test: \"" << doc << "\"\n";
@@ -235,7 +235,7 @@ BOOST_DATA_TEST_CASE(
 
 	std::string regex = read_file(regex_file);
 
-    
+
     rematch::RegExOptions opt;
 
     opt.set_line_by_line(true);

@@ -9,6 +9,7 @@ file(GLOB sources
         ${CMAKE_CURRENT_SOURCE_DIR}/parser_automata/*.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/regex/*.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/structs/*.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/structs/dag/*.cpp
 )
 
 set(BUILD_TARGETS

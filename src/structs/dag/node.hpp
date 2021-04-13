@@ -1,14 +1,11 @@
-// structures.hpp: Javier G. Montoya S. ; Nicolás A. Van Sint Jan C.
-// Description: Implements the structures needed for the SpannersConst algo.
-
-#ifndef STRUCTURES_HPP
-#define STRUCTURES_HPP
+#ifndef STRUCTS__DAG__NODE_HPP
+#define STRUCTS__DAG__NODE_HPP
 
 #include <bitset>
 
-#include "factories/factories.hpp"
+namespace rematch {
 
-class NodeList;
+namespace internal {
 
 class Node {
 public:
@@ -26,7 +23,6 @@ public:
   Node* end;
 
   // Garbage Collection
-  // TODO: Union this
   union {
   unsigned int refCount;
   Node* nextFree;
@@ -38,32 +34,11 @@ public:
   Node *reset();
   void getNodeContent(int content[2]);
   bool isNodeEmpty();
+
+  size_t count_reachable_nodes();
 };
 
+} // end namespace internal
+} // end namespace rematch
 
-class NodeList {
-  public:
-    Node* head;
-    Node* tail;
-
-    Node* it;
-
-    NodeList(); // Class constructor
-
-    void start();
-    Node* next();
-    bool empty();
-
-    void add(Node*);
-    void setHead(Node*);
-    void setTail(Node*);
-    void append(NodeList* list);
-    void reset();
-    void resetRefs();
-    void resetAndAdd(Node*);
-    std::string pprint(VariableFactory *vf);
-
-    NodeList& operator=(const NodeList &nl);
-};
-
-#endif
+#endif // STRUCTS__DAG__NODE_HPP

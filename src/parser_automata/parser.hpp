@@ -1,8 +1,8 @@
 #ifndef PARSER_AUTOMATA_HPP
 #define PARSER_AUTOMATA_HPP
 
-class LogicalVA;
+#include "automata/lva.hpp"
 
-LogicalVA& parse_automata_file(std::string filename);
+rematch::LogicalVA& parse_automata_file(std::string filename);
 
 #endif

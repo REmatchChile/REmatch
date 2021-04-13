@@ -14,7 +14,7 @@ namespace ascii = boost::spirit::ascii;
 namespace phoenix = boost::phoenix;
 
 template <typename It> // It : Iterator type
-struct parser : qi::grammar<It, ast::altern()> // altern : type returned at parsing
+struct parser : qi::grammar<It, rematch::ast::altern()> // altern : type returned at parsing
 {
     parser() : parser::base_type(altern_) // Starting rule
     /* Parser constructor */
@@ -65,12 +65,12 @@ struct parser : qi::grammar<It, ast::altern()> // altern : type returned at pars
 
         atom_ =  (
                   charset_
-                | "\\d" >> attr(ast::anydigit())
-                | "\\D" >> attr(ast::nondigit())
-                | "\\w" >> attr(ast::anyword())
-                | "\\W" >> attr(ast::nonword())
-                | "\\s" >> attr(ast::anywhitespace())
-                | "." >> attr(ast::anychar())
+                | "\\d" >> attr(rematch::ast::anydigit())
+                | "\\D" >> attr(rematch::ast::nondigit())
+                | "\\w" >> attr(rematch::ast::anyword())
+                | "\\W" >> attr(rematch::ast::nonword())
+                | "\\s" >> attr(rematch::ast::anywhitespace())
+                | "." >> attr(rematch::ast::anychar())
                 | symb_
                 ) ; // Here we construct the atomic automaton
 
@@ -140,18 +140,18 @@ struct parser : qi::grammar<It, ast::altern()> // altern : type returned at pars
   private:
     // Rule declaration
 
-    qi::rule<It, ast::altern()> altern_;
-    qi::rule<It, ast::concat()> concat_;
-    qi::rule<It, ast::iter()> iter_;
-    qi::rule<It, ast::group()> group_;
-    qi::rule<It, ast::parenthesis()> parenthesis_;
+    qi::rule<It, rematch::ast::altern()> altern_;
+    qi::rule<It, rematch::ast::concat()> concat_;
+    qi::rule<It, rematch::ast::iter()> iter_;
+    qi::rule<It, rematch::ast::group()> group_;
+    qi::rule<It, rematch::ast::parenthesis()> parenthesis_;
     qi::rule<It, std::vector<char>()> rep_;
     qi::rule<It, std::string()> var_;
-    qi::rule<It, ast::atom()> atom_;
-    qi::rule<It, ast::assignation()> assign_;
-    qi::rule<It, ast::charset()> charset_;
+    qi::rule<It, rematch::ast::atom()> atom_;
+    qi::rule<It, rematch::ast::assignation()> assign_;
+    qi::rule<It, rematch::ast::charset()> charset_;
     qi::rule<It, char()> symb_;
-    qi::rule<It, ast::charset::range()> range_;
+    qi::rule<It, rematch::ast::charset::range()> range_;
     qi::symbols<char const, char const> unesc_char;
 
 };

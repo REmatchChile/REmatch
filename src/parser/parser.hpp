@@ -5,7 +5,11 @@
 #include "visitors.hpp"
 #include "grammar.hpp"
 
+namespace rematch {
+
 bool doParse(const std::string& input, ast::altern &data);
 LogicalVA& regex2LVA(std::string regex);
+
+} // end namespace rematch
 
 #endif

@@ -14,6 +14,7 @@
 
 using boost::get;
 
+namespace rematch {
 namespace visitors {
 
 regex2LVA :: regex2LVA(VariableFactory& v, FilterFactory& f): vFact(v), fFact(f) {}
@@ -267,5 +268,5 @@ FilterFactory& regex2filters :: operator()(ast::anywhitespace const &a)  {
 	return *m_filterFactory;
 }
 
-} // Namespace visitors
-
+} // end namespace visitors
+} // end namespace rematch

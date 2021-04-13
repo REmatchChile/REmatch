@@ -7,6 +7,8 @@
 
 #include "automata/macrodfa/macrostate.hpp"
 
+namespace rematch {
+
 class MacroDFA {
  public:
   MacroDFA() = default;
@@ -25,5 +27,7 @@ class MacroDFA {
   std::vector<std::shared_ptr<MacroState>> states_;
   // std::vector<std::shared_ptr<MacroState>> final_states_;
 }; // end class MacroDFA
+
+} // end namespace rematch
 
 #endif // AUTOMATA_MACRODFA

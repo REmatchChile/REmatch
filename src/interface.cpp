@@ -15,23 +15,22 @@
 #include "regex/regex.hpp"
 #include "regex/regex_options.hpp"
 #include "matchiterator.hpp"
-
-using namespace rematch;
+#include "eval.hpp"
 
 Interface::Interface(std::string &docstr, const std::string &pattern,
-					 					 Options opt)
+					 					 rematch::Options opt)
 		:	document_(nullptr),
 			pattern_(pattern),
 			options_(opt) {
 	if(opt.is_docfile()) {
-		document_ = std::make_shared<FileDocument>(docstr);
+		document_ = std::make_shared<rematch::FileDocument>(docstr);
 	} else {
-		document_ = std::make_shared<StrDocument>(docstr);
+		document_ = std::make_shared<rematch::StrDocument>(docstr);
 	}
 }
 
 void Interface::run() {
-    if(options_.output_option() == BENCHMARK || options_.output_option() == DEBUG) {
+    if(options_.output_option() == rematch::BENCHMARK || options_.output_option() == rematch::DEBUG) {
         benchmark_run();
     } else {
         normal_run();
@@ -39,21 +38,21 @@ void Interface::run() {
 }
 
 void Interface::normal_run() {
-	RegExOptions rgx_opts; // Assign options for regex
+	rematch::RegExOptions rgx_opts; // Assign options for regex
 
 	// Select options
 	rgx_opts.set_line_by_line(options_.line_by_line());
 	rgx_opts.set_early_output(options_.early_output());
 
-	RegEx regex(pattern_, rgx_opts);
+	rematch::RegEx regex(pattern_, rgx_opts);
 
-	MatchIterator m_iter = regex.findIter(document_);
+	rematch::MatchIterator m_iter = regex.findIter(document_);
 
-	if(options_.output_option() == SPANS) {
+	if(options_.output_option() == rematch::SPANS) {
 		for(auto match = m_iter.next(); match != nullptr; match = m_iter.next()) {
 			std::cout << *match << std::endl;
 		}
-	} else if(options_.output_option() == NMAPPINGS) {
+	} else if(options_.output_option() == rematch::NMAPPINGS) {
 		size_t count = 0;
 		for(auto match = m_iter.next(); match != nullptr; match = m_iter.next()) {
 			count++;
@@ -71,17 +70,17 @@ void Interface::benchmark_run() {
 
 	Timer t; 								// Start timer for automata creation
 
-	RegExOptions rgx_opt;
+	rematch::RegExOptions rgx_opt;
 	rgx_opt.set_line_by_line(options_.line_by_line());
-	RegEx regex(pattern_, rgx_opt);
-	Match_ptr match_ptr;
+	rematch::RegEx regex(pattern_, rgx_opt);
+	rematch::Match_ptr match_ptr;
 
 	initAutomataTime = t.elapsed(); 		// Automata creation time
 	t.reset(); 													// Start timer for evaluation time
 
 	n_mappings = 0;
 
-	MatchIterator match_iter = regex.findIter(document_);
+	rematch::MatchIterator match_iter = regex.findIter(document_);
 
 	for(auto match = match_iter.next(); match != nullptr; match = match_iter.next()) {
 		n_mappings++;
@@ -131,9 +130,9 @@ void Interface::benchmark_run() {
 	<< "Num of Multi \t\t\t"					<< 	pwc(regex.multi_counter())					<<	'\n'
 	<< "Num of Empty \t\t\t"					<< 	pwc(regex.empty_counter())					<<	'\n'
 	<< "Num of determinizations\t\t"	<< 	pwc(regex.det_counter())						<<	'\n'
-	<< "Init Automata time\t\t"				<<	initAutomataTime 										<< 	"s\n"
-	<< "Evaluate time\t\t\t"					<<	evaluateTime												<< 	"s\n"
-	<< "Total time\t\t\t"							<<	totTime 														<< 	"s\n";
+	<< "Init Automata time\t\t"				<<	pwc(initAutomataTime) 							<< 	" ms\n"
+	<< "Evaluate time\t\t\t"					<<	pwc(evaluateTime)										<< 	" ms\n"
+	<< "Total time\t\t\t"							<<	pwc(totTime) 												<< 	" ms\n";
 
 }
 
@@ -159,7 +158,7 @@ std::string Interface::formatMem(size_t sizeInBytes) {
 
 
 std::string Interface::pwc(size_t value) {
-	string numWithCommas = to_string(value);
+	std::string numWithCommas = std::to_string(value);
 	int insertPosition = numWithCommas.length() - 3;
 	while (insertPosition > 0) {
 			numWithCommas.insert(insertPosition, ",");

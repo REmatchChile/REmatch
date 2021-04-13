@@ -8,11 +8,12 @@
 #include <map>
 
 #include "lva.hpp"
-#include "structures.hpp"
+// #include "structs/dag/nodelist.hpp"
 #include "lvastate.hpp"
 #include "factories/factories.hpp"
 #include "parser/parser.hpp"
 
+namespace rematch {
 
 LogicalVA::LogicalVA(std::string pattern, bool raw) {
   *this = regex2LVA(pattern);
@@ -94,7 +95,7 @@ void LogicalVA::adapt_capture_jumping() {
   for(auto &state: states) {
     stack.clear();
 
-    for(auto &capture: state->c) {
+    for(auto &capture: state->captures) {
       stack.push_back(capture->next);
       state->tempMark = false;
     }
@@ -105,9 +106,9 @@ void LogicalVA::adapt_capture_jumping() {
 
       reached_state->tempMark = true;
 
-      if(!reached_state->f.empty() || !reached_state->e.empty() || reached_state->isFinal)
+      if(!reached_state->filters.empty() || !reached_state->epsilons.empty() || reached_state->isFinal)
         state->addEpsilon(reached_state);
-      for(auto &capture: reached_state->c) {
+      for(auto &capture: reached_state->captures) {
         if(!capture->next->tempMark)
           stack.push_back(capture->next);
       }
@@ -115,7 +116,7 @@ void LogicalVA::adapt_capture_jumping() {
   }
 
   for(auto &state: states)
-    state->c.clear();
+    state->captures.clear();
 }
 
 void LogicalVA::cat(LogicalVA &a2) {
@@ -162,16 +163,16 @@ void LogicalVA::alter(LogicalVA &a2) {
 void LogicalVA :: kleene() {
   /* Extends the LogicalVA for kleene closure (0 or more times) */
 
-  if(states.size() == 2 && init_state_->f.size() == 1) {
-    if(init_state_->f.front()->next->isFinal) {
+  if(states.size() == 2 && init_state_->filters.size() == 1) {
+    if(init_state_->filters.front()->next->isFinal) {
       for(auto it=states.begin(); it != states.end(); it++) {
         if(!(*it)->isInit) {
           states.erase(it); break;
         }
       }
 
-      auto fcode = init_state_->f.front()->code;
-      init_state_->f.clear();
+      auto fcode = init_state_->filters.front()->code;
+      init_state_->filters.clear();
 
       init_state_->addFilter(fcode, init_state_);
       finalStates.clear();
@@ -282,7 +283,7 @@ std::string LogicalVA :: pprint() {
     cid = current->id;
 
     // For every epsilon transition
-    for (auto &epsilon: current->e) {
+    for (auto &epsilon: current->epsilons) {
       nid = epsilon->next->id;
 
       ss << "t " << cid << " eps " << nid << '\n';
@@ -295,7 +296,7 @@ std::string LogicalVA :: pprint() {
     }
 
     // For every capture transition
-    for (auto &capture: current->c) {
+    for (auto &capture: current->captures) {
       S = capture->code;
 
       nid = capture->next->id;
@@ -310,7 +311,7 @@ std::string LogicalVA :: pprint() {
     }
 
     // For every filter transition
-    for (auto &filter: current->f) {
+    for (auto &filter: current->filters) {
       nid = filter->next->id;
       S = filter->code;
 
@@ -338,3 +339,5 @@ std::string LogicalVA :: pprint() {
 
   return ss.str();
 }
+
+} // end namespace rematch

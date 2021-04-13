@@ -11,6 +11,8 @@
 
 #include "bitsetwrapper.hpp"
 
+namespace rematch {
+
 extended_bitset :: extended_bitset(size_t size) {
 	bitsetSize = size;
 	for(size_t i=0; i < size / 64 + 1; i++) {
@@ -174,5 +176,7 @@ std::ostream& operator<<(std::ostream &os, BitsetWrapper const &bs) {
 	}
 	return os << *(bs.ext);
 }
+
+} // end namespace rematch
 
 

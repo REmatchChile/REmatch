@@ -1,5 +1,7 @@
 #include "macrodfa.hpp"
 
+namespace rematch {
+
 MacroState* MacroDFA::add_state(DetState *state) {
   auto ns = states_.emplace_back(std::make_shared<MacroState>(state));
   return ns.get();
@@ -14,3 +16,5 @@ void MacroDFA::set_as_init(MacroState *ms) {init_state_ = ms;}
 MacroState& MacroDFA::get_init_state() {
   return *init_state_;
 }
+
+} // end namespace rematch

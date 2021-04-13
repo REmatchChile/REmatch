@@ -7,10 +7,8 @@
 #include "interface.hpp"
 #include "util.hpp"
 
-using namespace rematch;
-
 int parse_args(int argc, char *argv[], std::string *doc,
-							 std::string *rgx, Options *opts) {
+							 std::string *rgx, rematch::Options *opts) {
 	CLI::App app{"REmatch"};
 	app.set_help_all_flag("--help-all", "Expand help.");
 
@@ -51,13 +49,13 @@ int parse_args(int argc, char *argv[], std::string *doc,
 	opts->set_line_by_line(line);
 
 	if(mode == "benchmark")
-		opts->set_output_option(BENCHMARK);
+		opts->set_output_option(rematch::BENCHMARK);
 	else if(mode == "debug")
-			opts->set_output_option(DEBUG);
+			opts->set_output_option(rematch::DEBUG);
 	else if(mode == "noutputs")
-			opts->set_output_option(NMAPPINGS);
+			opts->set_output_option(rematch::NMAPPINGS);
 	else if(mode == "submatches")
-			opts->set_output_option(SUBMATCHES);
+			opts->set_output_option(rematch::SUBMATCHES);
 
 	if(rgxpath.size())
 		*rgx = file2str(rgxpath);
@@ -75,7 +73,7 @@ int parse_args(int argc, char *argv[], std::string *doc,
 int main(int argc, char *argv[]) {
 
 	std::string doc, rgx;
-	Options opts;
+	rematch::Options opts;
 
 	parse_args(argc, argv, &doc, &rgx, &opts);
 

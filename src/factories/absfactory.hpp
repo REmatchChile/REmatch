@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <stdexcept>
 
+namespace rematch {
+
 // Abstract base class for the factories.
 template <class T>
 class AbsFactory {
@@ -57,5 +59,7 @@ class AbsFactory {
   std::unordered_map<T, uint32_t> code_table_;
 
 }; // end class AbsFactory
+
+} // end namespace rematch
 
 #endif // FACTORIES__ABSFACTORY_HPP

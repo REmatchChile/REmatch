@@ -6,6 +6,8 @@
 #include <bitset>
 #include <memory>
 
+namespace rematch {
+
 class LVAState;
 
 class LVACapture{
@@ -55,9 +57,9 @@ class LVAState {
   public:
     unsigned int id;               // id
 
-    std::list<std::shared_ptr<LVAFilter>> f;    // Filter array
-    std::list<std::shared_ptr<LVACapture>> c;  // Capture pointers array
-    std::list<std::shared_ptr<LVAEpsilon>> e; // Epsilon transitions
+    std::list<std::shared_ptr<LVAFilter>> filters;    // Filter array
+    std::list<std::shared_ptr<LVACapture>> captures;  // Capture pointers array
+    std::list<std::shared_ptr<LVAEpsilon>> epsilons; // Epsilon transitions
 
     bool tempMark; // Booleans for graph algorithms
     char colorMark;
@@ -83,6 +85,7 @@ class LVAState {
     bool operator==(const LVAState &rhs) const;
 };
 
+} // end namespace rematch
 
 #endif
 

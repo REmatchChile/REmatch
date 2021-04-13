@@ -8,6 +8,8 @@
 #include "automata/dfa/detstate.hpp"
 #include "structs/prevector.hpp"
 
+namespace rematch {
+
 class MacroState;
 
 struct MTCapture {
@@ -75,5 +77,7 @@ class MacroTransition {
 
   // MacroType type_;
 }; // end class MacroTransition
+
+} // end namespace rematch
 
 #endif // AUTOMATA_MACRODFA_MACROTRANSITION

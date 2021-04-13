@@ -1,10 +1,3 @@
-/*
-Author:
-    nicovsj
-Description:
-    Module defining the structs used at parsing-time.
-*/
-
 #ifndef AST_HPP
 #define AST_HPP
 
@@ -17,9 +10,7 @@ Description:
 #include <boost/variant.hpp>     // for tree nodes
 #include <boost/optional.hpp>    // for multiplicity upperbound
 
-using boost::variant;
-using std::vector;
-
+namespace rematch {
 namespace ast {
 
 struct charset {
@@ -28,7 +19,7 @@ struct charset {
     bool negated;  // Is a negated charset ?
 
     using range = std::tuple<char, char>;
-    using element = variant<char, range>;
+    using element = boost::variant<char, range>;
 
     std::set<element> elements;
 };
@@ -82,19 +73,19 @@ struct assignation {
     assignation(std::string var, altern root): var(var), root(std::move(root)) {}
 };
 
-}
+} // end namespace ast
+} // end namespace rematch
 
-
-BOOST_FUSION_ADAPT_STRUCT(ast::charset,
+BOOST_FUSION_ADAPT_STRUCT(rematch::ast::charset,
         (bool, negated)
-        (std::set<ast::charset::element>, elements))
+        (std::set<rematch::ast::charset::element>, elements))
 
-BOOST_FUSION_ADAPT_STRUCT(ast::iter,
-        (ast::group, expr)
+BOOST_FUSION_ADAPT_STRUCT(rematch::ast::iter,
+        (rematch::ast::group, expr)
         (std::vector<char>, repetitions))
 
-BOOST_FUSION_ADAPT_STRUCT(ast::assignation,
+BOOST_FUSION_ADAPT_STRUCT(rematch::ast::assignation,
         (std::string, var)
-        (ast::altern, root))
+        (rematch::ast::altern, root))
 
 #endif
