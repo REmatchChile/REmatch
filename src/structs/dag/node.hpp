@@ -8,7 +8,10 @@ namespace rematch {
 namespace internal {
 
 class Node {
-public:
+ private:
+  static size_t ID;
+ public:
+  size_t id_;
   std::bitset<32> S;
   /* S represents a subset of the markers, where each marker is represented by
   two bits: 00 means that marker is not present, 01 means that the corresponding
@@ -24,8 +27,8 @@ public:
 
   // Garbage Collection
   union {
-  unsigned int refCount;
-  Node* nextFree;
+    unsigned int refCount;
+    Node* nextFree;
   };
 
   Node(); // Class constructor
@@ -34,8 +37,6 @@ public:
   Node *reset();
   void getNodeContent(int content[2]);
   bool isNodeEmpty();
-
-  size_t count_reachable_nodes();
 };
 
 } // end namespace internal

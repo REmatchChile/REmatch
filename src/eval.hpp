@@ -76,11 +76,14 @@ class Evaluator {
   bool line_by_line_;
 
   bool document_ended_;
-  bool direct_text_;
+  bool bailed_early_;
 
   int64_t i_pos_;
   int64_t i_start_;
   int64_t nlines_;
+
+  static const size_t kMaxOutputBufferSize = 2048;
+  size_t out_buf_sz_;
 }; // end class Evaluator
 
 } // namespace rematch

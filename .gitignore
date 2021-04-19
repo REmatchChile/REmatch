@@ -21,7 +21,7 @@ bin/
 results/
 credentials.json
 *.pickle
-scripts/*/settings.json
+scripts/*/*.json
 datasets
 tmp
 .tmp/

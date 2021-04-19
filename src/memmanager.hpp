@@ -2,6 +2,7 @@
 #define MEMMANAGER_HPP
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <queue>
 #include <bitset>
@@ -66,11 +67,19 @@ private:
 	size_t totArenas;
 	size_t totElementsReused;
 
-public:
+ public:
+	size_t tot_adyacent_extends_;
+	size_t tot_head_extends_;
 
 	MemManager()
-	  : current(new MiniPool(STARTING_SIZE)), freeHead(nullptr), totElements(0),
-		totArenas(1), totElementsReused(0) {}
+	  : current(new MiniPool(STARTING_SIZE)),
+			freeHead(nullptr),
+			totElements(0),
+			totArenas(1),
+			totElementsReused(0),
+			tot_adyacent_extends_(0),
+			tot_head_extends_(0)
+			{}
 
 	internal::Node* alloc() {
 
@@ -134,15 +143,22 @@ public:
 			listHead = freeHead->start;
 			adyacentNext = freeHead->next;
 
+			// auto id = freeHead->id_;
+			// dump_ << "Free: [" << id << "]\n";
+
 			// Overwrite Node pointed by freeHead
 			newNode = freeHead->reset(S, i, head, tail);
 
 			// Append to freelist new garbage
 			if(listHead != nullptr && listHead->refCount == 0 && !listHead->isNodeEmpty()) {
+				// tot_head_extends_++;
+				// dump_ << "Head: [" << id << "] -> [" << listHead->id_ << "]\n";
 				listHead->nextFree = freeHead->nextFree;
 				freeHead->nextFree = listHead;
 			}
-			if(adyacentNext != nullptr && adyacentNext->refCount == 0 && !listHead->isNodeEmpty()) {
+			if(adyacentNext != nullptr && adyacentNext->refCount == 0 && !adyacentNext->isNodeEmpty()) {
+				// tot_adyacent_extends_++;
+				// dump_ << "Adya: [" << id << "] -> [" << adyacentNext->id_ << "]\n";
 				adyacentNext->nextFree = freeHead->nextFree;
 				freeHead->nextFree = adyacentNext;
 			}
@@ -180,9 +196,8 @@ public:
 	}
 
 	void addPossibleGarbage(internal::Node* node) {
-		if(node->isNodeEmpty()) {
-			// std::cout << "Node empty...\n";
-		}
+		// if(node->id_ == 2049)
+		// 	std::cout << "Here\n";
 		if(node->refCount == 0 && !node->isNodeEmpty()) {
 			addFreeHead(node);
 		}
@@ -193,6 +208,15 @@ public:
 	size_t totNodeArenas() {return totArenas;}
 
 	size_t totNodesReused() { return totElementsReused;}
+
+	size_t totMemoryUsed() {
+		size_t res = 0;
+		for(auto &mpool = current; mpool != nullptr; mpool = mpool->getPrev()) {
+			res += mpool->size() * sizeof(internal::Node);
+		}
+
+		return res;
+	}
 
 	void reset() {
 		MiniPool* pool_ptr = current, *aux;

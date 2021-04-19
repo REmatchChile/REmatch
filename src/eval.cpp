@@ -17,9 +17,10 @@ Evaluator::Evaluator(RegEx &rgx, std::shared_ptr<Document> d,
       early_output_(flags & kEarlyOutput),
       line_by_line_(flags & kLineByLine),
       document_ended_(false),
-      direct_text_(false),
+      bailed_early_(false),
       i_pos_(0),
-      i_start_(0) {
+      i_start_(0),
+      out_buf_sz_(0) {
   init();
 }
 
@@ -53,8 +54,6 @@ Match_ptr Evaluator::next() {
   if(enumerator_->hasNext())
       return enumerator_->next();
 
-  bool exited = false;
-
   // Timer t;
 
   while (!document_ended_) {
@@ -73,8 +72,11 @@ Match_ptr Evaluator::next() {
       i_pos_++;
 
       if(current_state_->is_super_final()) {
-        exited = true;
-        break;
+        if(++out_buf_sz_ >= Evaluator::kMaxOutputBufferSize) {
+          out_buf_sz_ = 0;
+          bailed_early_ = true;
+          break;
+        }
       }
     }
 
@@ -90,7 +92,8 @@ Match_ptr Evaluator::next() {
       output_nodelist_.reset_refs();
       Evaluator::memory_manager_.addPossibleGarbage(output_nodelist_.head_);
       output_nodelist_.reset();
-      if(exited) {
+      if(bailed_early_) {
+        bailed_early_ = false;
         break;
       }
     }
@@ -118,9 +121,13 @@ Match_ptr Evaluator::next() {
     if(enumerator_->hasNext())
       return enumerator_->next();
 
-    std::cout << "Memory Arenas: " << memory_manager_.totNodeArenas() << "\n";
-    std::cout << "Nodes reused: " << memory_manager_.totNodesReused() << "\n";
-    std::cout << "Total Nodes: " << memory_manager_.totNodesReused() << "\n";
+    // std::cout << "MemManager memory used: " << memory_manager_.totMemoryUsed() << "\n";
+    // std::cout << "MemManager totnodes: " << memory_manager_.totNodes() << "\n";
+    // std::cout << "MemManager totarenas: " << memory_manager_.totNodeArenas() << "\n";
+    // std::cout << "MemManager totreused: " << memory_manager_.totNodesReused() << "\n";
+    // std::cout << "MemManager headextends: " << memory_manager_.tot_head_extends_ << "\n";
+    // std::cout << "MemManager adyextends: " << memory_manager_.tot_adyacent_extends_ << "\n";
+
     return nullptr;
 
 }
@@ -167,9 +174,11 @@ void Evaluator::reading(char a, int64_t i_pos,  bool early_output) {
 
   auto directs = nextTransition->directs();
   auto captures = nextTransition->captures();
+  auto empties = nextTransition->empties();
 
   #ifdef MACRO_TRANSITIONS_RAW_ARRAYS
   auto directs_sz = nextTransition->ndirects_;
+  auto empties_sz = nextTransition->nempties_;
   auto captures_sz = nextTransition->ncaptures_;
   #else
   auto directs_sz = directs.size();
@@ -180,6 +189,9 @@ void Evaluator::reading(char a, int64_t i_pos,  bool early_output) {
   for(size_t i=0; i < directs_sz; i++) {
     auto direct = directs[i];
 
+    // if(direct.from->currentL->head_!=nullptr && direct.from->currentL->head_->id_==2049)
+    //   std::cout << "Here 2\n";
+
     if(direct.to->visited <= i_pos+1) {
       direct.to->visited = i_pos+2;
       // Lazy copy
@@ -187,7 +199,15 @@ void Evaluator::reading(char a, int64_t i_pos,  bool early_output) {
       direct.to->currentL->tail_ = direct.from->currentL->tail_;
     } else {
       direct.to->currentL->append(direct.from->currentL);
+      direct.from->currentL->reset_refs();
     }
+  }
+
+  for(size_t i=0; i < empties_sz; i++){
+    auto empty = empties[i];
+    empty->currentL->reset_refs();
+    Evaluator::memory_manager_.addPossibleGarbage(empty->currentL->head_);
+    empty->currentL->reset();
   }
 
   for(size_t i=0; i < captures_sz; i++) {

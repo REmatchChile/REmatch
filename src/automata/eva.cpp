@@ -42,7 +42,7 @@ ExtendedVA :: ExtendedVA(LogicalVA &A):
 
 	cleanUselessCaptureTransitions();
 
-	std::cout << "EvA afterer:\n" << pprint() << "\n\n";
+	// std::cout << "EvA afterer:\n" << pprint() << "\n\n";
 
   #ifndef NOPT_CROSSPROD
 	  crossProdOpt(*this);
@@ -221,9 +221,6 @@ void ExtendedVA :: utilCleanUnreachable(LVAState *state) {
 			utilCleanUnreachable(capture->next);
 	}
 	for(auto &filter: state->filters) {
-		if(filter->next->id == 14) {
-			std::cout << "Here\n";
-		}
 		filter->next->incidentFilters.push_back(filter);
 		if(!filter->next->tempMark)
 			utilCleanUnreachable(filter->next);
@@ -298,6 +295,14 @@ void ExtendedVA :: cleanUselessCaptureTransitions() {
 	for(auto &state: states) {
 		if(state->incidentFilters.empty() && !state->incidentCaptures.empty()) {
 			state->captures.clear();
+		}
+		for(auto capture = state->captures.begin(); capture != state->captures.end();) {
+			if((*capture)->next->filters.empty() && !(*capture)->next->isFinal) {
+				(*capture)->next->incidentCaptures.remove(*capture);
+				capture = state->captures.erase(capture);
+			} else {
+				capture++;
+			}
 		}
 	}
 }

@@ -11,7 +11,7 @@ import re
 
 here = pth.dirname(pth.realpath(__file__))
 
-with open(pth.join(here, "benchmark-alt.json")) as jsonFile:
+with open(pth.join(here, "benchmark-alt-forceall.json")) as jsonFile:
 		data = json.load(jsonFile)
 
 
@@ -179,7 +179,7 @@ def main():
 
 			rgx_col = chr(ord(START_COL))
 
-			rem_rgx_path = os.path.join(experiment,"rematch.rgx")
+			rem_rgx_path = os.path.join(experiment,"perl.rgx")
 
 			writeInCell(SHEETS_SERVICE, spreadsheet_id, single_range.format(rgx_col, row_counter), [[get_rgx(rem_rgx_path)]])
 

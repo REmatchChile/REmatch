@@ -1,15 +1,19 @@
 #include "node.hpp"
 
+#include <queue>
+
 namespace rematch {
 namespace internal {
 
+size_t Node::ID = 0;
+
 Node::Node()
-  : S(0), i(-1), next(nullptr), start(nullptr), end(nullptr),
+  : id_(Node::ID++), S(0), i(-1), next(nullptr), start(nullptr), end(nullptr),
     refCount(0) {}
 
 
 Node::Node(std::bitset<32> S, int64_t i, Node* head, Node* tail)
-  : S(S), i(i), next(nullptr), start(head), end(tail),
+  : id_(Node::ID++), S(S), i(i), next(nullptr), start(head), end(tail),
     refCount(0) {
 
     start->refCount++;
@@ -34,6 +38,8 @@ Node* Node::reset(std::bitset<32> S, int64_t i, Node* head, Node* tail) {
   this->start = head;
   this->end = tail;
 
+  id_ = Node::ID++;
+
   // Don't reasign nextFree! memManager does that
 
   this->start->refCount++;
@@ -55,6 +61,8 @@ Node* Node::reset() {
   this->i = -1;
   this->start = nullptr;
   this->end = nullptr;
+
+  id_ = Node::ID++;
 
   refCount = 0;
   // Don't reasign nextFree! memManager does that

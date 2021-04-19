@@ -146,7 +146,7 @@ MacroTransition* DetManager::next_macro_transition(MacroState *p, char a) {
 	// Set to store the reached states
 	std::set<DetState*> dstates_storage;
 
-	int ndirects = 0, ncaptures = 0;
+	int ndirects = 0, ncaptures = 0, nempties = 0;
 
 	for(auto &state: p->states()) {
 		// Classic on-the-fly determinization
@@ -160,6 +160,8 @@ MacroTransition* DetManager::next_macro_transition(MacroState *p, char a) {
 			dstates_key.insert(nextTransition->direct_->id);
 			dstates_storage.insert(nextTransition->direct_);
 			ndirects++;
+		} else if (nextTransition->type_ == Transition::kEmpty) {
+			nempties++;
 		} if (nextTransition->type_ & Transition::kSingleCapture) {
 			dstates_key.insert(nextTransition->capture_->next->id);
 			dstates_storage.insert(nextTransition->capture_->next);
@@ -174,7 +176,7 @@ MacroTransition* DetManager::next_macro_transition(MacroState *p, char a) {
 	}
 
 	// Alloc a new MacroTransition
-	std::shared_ptr<MacroTransition> mtrans = std::make_shared<MacroTransition>(ndirects, ncaptures);
+	std::shared_ptr<MacroTransition> mtrans = std::make_shared<MacroTransition>(ndirects, ncaptures, nempties);
 
 	for(auto &state: p->states()) {
 		// Classic on-the-fly determinization
@@ -182,6 +184,8 @@ MacroTransition* DetManager::next_macro_transition(MacroState *p, char a) {
 
 		if(nextTransition->type_ & Transition::kDirect) {
 			mtrans->add_direct(*state, *nextTransition->direct_);
+		} else if(nextTransition->type_ == Transition::kEmpty) {
+			mtrans->add_empty(*state);
 		} if (nextTransition->type_ & Transition::kSingleCapture) {
 			mtrans->add_capture(*state, nextTransition->capture_->S, *nextTransition->capture_->next);
 		} else if(nextTransition->type_ & Transition::kMultiCapture) {
