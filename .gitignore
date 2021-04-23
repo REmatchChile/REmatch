@@ -27,7 +27,6 @@ tmp
 .tmp/
 .vscode
 .VSCodeCounter
-scripts/py/settings.json
 callgrind.out.*
 exp/re2/.vscode
 exp/syn
