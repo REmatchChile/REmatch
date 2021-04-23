@@ -18,7 +18,6 @@ class MatchIterator {
 
   Match_ptr next();
 
- private:
   Evaluator* evaluator_;
 }; // end class MatchIterator
 

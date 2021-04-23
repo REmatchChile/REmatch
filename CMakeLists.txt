@@ -31,6 +31,7 @@ endif()
 # add_definitions(-DNOPT_OFFSET)
 # add_definitions(-DNOPT_MEMORY)
 add_definitions(-DMACRO_TRANSITIONS_RAW_ARRAYS)
+# add_definitions(-DCOUNT_CURRENT_STATES)
 
 set(BUILD_BENCHMARKS TRUE)
 

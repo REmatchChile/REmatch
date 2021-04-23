@@ -71,13 +71,23 @@ Match_ptr Evaluator::next() {
 
       i_pos_++;
 
-      if(current_state_->is_super_final()) {
-        if(++out_buf_sz_ >= Evaluator::kMaxOutputBufferSize) {
-          out_buf_sz_ = 0;
-          bailed_early_ = true;
-          break;
-        }
+      #ifdef COUNT_CURRENT_STATES
+      size_t k = current_state_->states().size();
+      auto lb = current_states_count_.lower_bound(k);
+      if(lb != current_states_count_.end() && !current_states_count_.key_comp()(k, lb->first)) {
+        lb->second++;
+      } else {
+        current_states_count_.insert(lb, std::map<size_t,size_t>::value_type(k,1));
       }
+      #endif
+
+      // if(current_state_->is_super_final()) {
+      //   if(++out_buf_sz_ >= Evaluator::kMaxOutputBufferSize) {
+      //     out_buf_sz_ = 0;
+      //     bailed_early_ = true;
+      //     break;
+      //   }
+      // }
     }
 
     for(auto &state: current_state_->states()) {

@@ -132,8 +132,13 @@ void Interface::benchmark_run() {
 	<< "Num of determinizations\t\t"	<< 	pwc(regex.det_counter())						<<	'\n'
 	<< "Init Automata time\t\t"				<<	pwc(initAutomataTime) 							<< 	" ms\n"
 	<< "Evaluate time\t\t\t"					<<	pwc(evaluateTime)										<< 	" ms\n"
-	<< "Total time\t\t\t"							<<	pwc(totTime) 												<< 	" ms\n";
+	<< "Total time\t\t\t"							<<	pwc(totTime) 												<< 	" ms\n\n";
 
+	#ifdef COUNT_CURRENT_STATES
+	auto max_pair = match_iter.evaluator_->max_count_states();
+	std::cout << "Max state count:\n" << max_pair.first
+						<< "\t" << max_pair.second << "\n";
+	#endif
 }
 
 std::string Interface::formatMem(size_t sizeInBytes) {

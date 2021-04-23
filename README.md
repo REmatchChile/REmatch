@@ -31,15 +31,19 @@ build/Release/bin/rematch --help
 
 Get all spans corresponding to a single letter `a`:
 ```
-build/Release/bin/rematch -d document.txt -e '.*!x{a}.*'
+build/Release/bin/rematch document.txt -e '.*!x{a}.*'
+```
+Same as above but giving the text explicitly from args:
+```
+build/Release/bin/rematch -t "bbbaaabbb" -e '.*!x{a}.*'
 ```
 Get all spans corresponding to a pattern in a file:
 ```
-build/Release/bin/rematch -d document.txt -r regex.txt
+build/Release/bin/rematch document.txt regex.txt
 ```
 Get benchmark stats (execution time, number of outputs, memory usage, etc.):
 ```
-build/Release/bin/rematch -d document.txt -r regex.txt -o benchmark
+build/Release/bin/rematch document.txt regex.txt --mode=benchmark
 ```
 
 

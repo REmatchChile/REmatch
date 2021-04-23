@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <map>
+#include <sstream>
 
 #include "regex/regex.hpp"
 #include "match.hpp"
@@ -36,6 +38,29 @@ class Evaluator {
   Evaluator(RegEx& rgx, std::shared_ptr<Document> d, uint8_t eval_options=0);
 
   Match_ptr next();
+
+  #ifdef COUNT_CURRENT_STATES
+  std::string count_states_hist() const {
+    std::stringstream ss;
+    for(auto &item: current_states_count_) {
+      ss << item.first << ',' << item.second << '\n';
+    }
+    return ss.str();
+  }
+
+  std::pair<size_t, size_t> max_count_states() const {
+    size_t c_max = 0, k_max = 0;
+
+    for(auto &item: current_states_count_) {
+      if(item.second > c_max) {
+        k_max = item.first;
+        c_max = item.second;
+      }
+    }
+
+    return std::make_pair(k_max, c_max);
+  }
+  #endif
 
  private:
 
@@ -82,8 +107,12 @@ class Evaluator {
   int64_t i_start_;
   int64_t nlines_;
 
-  static const size_t kMaxOutputBufferSize = 2048;
+  static const size_t kMaxOutputBufferSize = 100000;
   size_t out_buf_sz_;
+
+  #ifdef COUNT_CURRENT_STATES
+  std::map<size_t, size_t> current_states_count_;
+  #endif
 }; // end class Evaluator
 
 } // namespace rematch
