@@ -1,4 +1,4 @@
-# Implementation of constant delay algorithm for regular document spanners
+# REmatch: An information extraction tool for regular document spanners 
 
 This implementation is based on the paper `Constant delay algorithms for regular document spanners` by Fernando Florenzano, Cristian Riveros, Martín Ugarte, Stijn Vansummeren and Domagoj Vrgoč.
 
