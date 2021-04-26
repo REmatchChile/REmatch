@@ -9,58 +9,53 @@
 
 namespace rematch {
 
-// Enum for special character classes (e.g. NONDIGIT = [^0-9])
-enum special {ANYCHAR=1, ANYDIGIT=2, ANYWORD=3, ANYSPACE=4};
-
-// TODO: Inherit special charclasses
-
 class CharClass {
 	/* Extension of ast::charset (parsing struct) that stores the information of a
 	   regex charclass (e.g [^a-zA-Z0-9]) */
 
-	public:
-		using range = std::tuple<char,char>;
-		using special_code = std::tuple<std::string, bool, int>;
+ public:
+	using range = std::tuple<char,char>;
+	using special_code = std::tuple<std::string, bool, SpecialCode>;
 
-		static const std::set<special_code> special_codes;
+	static const std::set<special_code> special_codes;
 
-		int special;
-		bool negated;
-		std::string label;
-		std::set<range> ranges;
-		std::set<char> singles;
+	std::string label;
 
 
-		// Empty constructor
-		// TODO: check if this constructor is used somewhere, delete it otherwise
-		CharClass();
+	// Empty constructor
+	CharClass();
 
-		// Single char constructor
-		// TODO: delete this constructor and use General constructor instead
-		CharClass(const char &a);
+	// Single char constructor
+	CharClass(const char &a);
 
-		// Special sets constructor
-		// TODO: delete this constructor and use General constructor instead
-		CharClass(int special, bool negated);
+	// Special sets constructor
+	CharClass(const ast::special &s);
 
-		// Regex grammar charset constructor
-		// TODO: delete this constructor and use Charset constructor instead
-		CharClass(const ast::charset &cs);
+	// Regex grammar charset constructor
+	CharClass(const ast::charset &cs);
 
-		// General costructor
-		CharClass(std::string label, bool is_special);
+	// General costructor
+	CharClass(std::string label, bool is_special);
 
-		// Charset constructor
-		CharClass(bool negated, std::set<range> ranges, std::set<char> singles);
-
+	// Charset constructor
+	CharClass(bool negated, std::set<range> ranges, std::set<char> singles);
 
 	bool operator==(const CharClass& rhs) const;
 
 	std::string print();
 
+	// Updates the label_ member accordingly to ranges_ and singles_. The idea
+	// is to make it a canonical representation.
 	void updateLabel();
 
+	// Checks if char is inside the CharClass
 	bool check(char a);
+
+ private:
+	SpecialCode special_;
+	bool negated_;
+	std::set<range> ranges;
+	std::set<char> singles;
 };
 
 } // end namespace rematch
@@ -68,15 +63,15 @@ class CharClass {
 
 // Hashing for the class
 namespace std {
+
 template <>
-	struct hash<rematch::CharClass> {
-		size_t operator()(const rematch::CharClass& ch) const {
-			hash<string> hasher;
-			return hasher(ch.label);
-			}
-		};
-}
+struct hash<rematch::CharClass> {
+	size_t operator()(const rematch::CharClass& ch) const {
+		hash<string> hasher;
+		return hasher(ch.label);
+	}
+};
 
+} // end namespace std
 
-
-#endif
+#endif // end CHARCLASS_HPP

@@ -56,8 +56,14 @@ class ExtendedVA {
 	std::string pprint();
 
 	size_t size();
+
+	// Compute the epsilon closure correcty. Takes the transitions forward so if
+	// 				q -[eps]-> p -[a]-> r
+	// Then:
+	//				q 				 p -[a]-> r
+	//				ᴸ--------[a]--------^
 	void epsilonClosure(LogicalVA &A);
-	void utilEpsilonClosure(LVAState *from, LVAState *current);
+
 	void adaptReachableStates(LogicalVA &A);
 	void utilCleanUnreachable(LVAState *state);
 	void pruneUselessStates();

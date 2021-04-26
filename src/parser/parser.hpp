@@ -8,7 +8,7 @@
 namespace rematch {
 
 bool doParse(const std::string& input, ast::altern &data);
-LogicalVA& regex2LVA(std::string regex);
+std::unique_ptr<LogicalVA> regex2LVA(std::string regex);
 
 } // end namespace rematch
 

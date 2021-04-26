@@ -20,117 +20,104 @@ namespace rematch {
 // Maximum variables supported
 const int MAX_VARS = 16;
 
+// Manager of the parsed RGX formula variables where each variable name
+// has a corresponding code.
 class VariableFactory {
-/*
- * Manager of the parsed RGX formula variables where each variable name
- * has a corresponding code.
- */
-	private:
+ public:
+	// Simple constructor
+	VariableFactory();
 
-		// Total vars present at factory
-		size_t numVars;
+	size_t size() {return numVars;}
 
-		// VarName -> VarCode hash table
-		std::unordered_map<std::string, unsigned int> codeMap;
+	std::string getVarName(unsigned int position);
 
-		// VarCode -> VarName hash table
-		std::unordered_map<unsigned int, std::string> varMap;
+	// Add a variable to the struct
+	void addVar(std::string varName);
 
-		// Offset capturing optimization. Maps each opening and closing
-		// capture variable to its computed offset. Then it's a vector of size
-		// numVars*2. The vector is such that:
-		// 		- offsetMap[2*c]         is the opening (x<) offset.
-		//    - offsetMap[2*c + 1] 		 is the closing (x>) offset.
-		std::vector<int> offsetMap;
+	// Given a variable name outputs the corresponding opening bitset
+	std::bitset<32> getOpenCode(std::string varName);
 
-		bool computedOffsets; // True iff offsetMap was computed.
+	// Given a variable name outputs the corresponding closing bitset
+	std::bitset<32> getCloseCode(std::string varName);
 
-	public:
+	// Given a bitset outputs the corresponding opening and closing variables
+	// as a std::string
+	std::string getVarUtil(std::bitset<32> code);
 
-		// Simple constructor
-		VariableFactory();
+	std::vector<std::string> getOutputSchema();
 
-		size_t size() {return numVars;}
+	// Prints the hash table
+	std::string pprint();
 
-		std::string getVarName(unsigned int position);
+	// Merges the variables present in another VariableFactory inplace
+	void merge(VariableFactory &rhs);
 
-		// Add a variable to the struct
-		void addVar(std::string varName);
+	// Checks if a variable name is present
+	bool isMember(std::string varName);
 
-		// Given a variable name outputs the corresponding opening bitset
-		std::bitset<32> getOpenCode(std::string varName);
+	bool isEmpty();
 
-		// Given a variable name outputs the corresponding closing bitset
-		std::bitset<32> getCloseCode(std::string varName);
+	// Equality operator overload
+	bool operator ==(const VariableFactory &vf) const;
 
-		// Given a bitset outputs the corresponding opening and closing variables
-		// as a std::string
-		std::string getVarUtil(std::bitset<32> code);
+	int& getOffset(int index) {return offsetMap[index];}
 
-		std::vector<std::string> getOutputSchema();
+ private:
+	// Total vars present at factory
+	size_t numVars;
 
-		// Prints the hash table
-		std::string pprint();
+	// VarName -> VarCode hash table
+	std::unordered_map<std::string, unsigned int> codeMap;
 
-		// Merges the variables present in another VariableFactory inplace
-		void merge(VariableFactory &rhs);
+	// VarCode -> VarName hash table
+	std::unordered_map<unsigned int, std::string> varMap;
 
-		// Checks if a variable name is present
-		bool isMember(std::string varName);
+	// Offset capturing optimization. Maps each opening and closing
+	// capture variable to its computed offset. Then it's a vector of size
+	// numVars*2. The vector is such that:
+	// 		- offsetMap[2*c]         is the opening (x<) offset.
+	//    - offsetMap[2*c + 1] 		 is the closing (x>) offset.
+	std::vector<int> offsetMap;
 
-		bool isEmpty();
-
-		// Equality operator overload
-		bool operator ==(const VariableFactory &vf) const;
-
-		int& getOffset(int index) {return offsetMap[index];}
+	bool computedOffsets; // True iff offsetMap was computed.
 };
 
 
 
 class FilterFactory {
+ public:
+	// Constructors
+	FilterFactory();
 
-	private:
+	size_t size() {return numFilters;}
 
-		// Total number of parsed filters
-		size_t numFilters;
+	std::string pprint();
 
-		// CharClass -> Code hash table
-		std::unordered_map<CharClass, int> codeMap;
+	std::unordered_map<BitsetWrapper, std::vector<char>> allPossibleCharBitsets();
 
-		// Code -> CharClass hash table
-		std::unordered_map<int, CharClass> filterMap;
+	bool inIntersection(char a, BitsetWrapper charBitset);
 
-		// Char (document-readed) -> Bitset hash table
-		std::unordered_map<char, BitsetWrapper> bitsetMap;
+	void addFilter(CharClass cs);
 
-	public:
+	int getCode(CharClass cs);
 
-		// Constructors
-		FilterFactory();
-		FilterFactory(const ast::charset &cs);
-		FilterFactory(const char &a);
-		FilterFactory(special spec, bool negated);
+	CharClass getFilter(int code);
 
-		size_t size() {return numFilters;}
+	bool isMember(CharClass cs);
 
-		std::string pprint();
+	void merge(FilterFactory &rest);
 
-		std::unordered_map<BitsetWrapper, std::vector<char>> allPossibleCharBitsets();
+	BitsetWrapper applyFilters(char a);
 
-		bool inIntersection(char a, BitsetWrapper charBitset);
-
-		void addFilter(CharClass cs);
-
-		int getCode(CharClass cs);
-
-		CharClass getFilter(int code);
-
-		bool isMember(CharClass cs);
-
-		void merge(FilterFactory &rest);
-
-		BitsetWrapper applyFilters(char a);
+ private:
+	// Total number of parsed filters
+	size_t numFilters;
+	// CharClass -> Code hash table
+	std::unordered_map<CharClass, int> codeMap;
+	// Code -> CharClass hash table
+	std::unordered_map<int, CharClass> filterMap;
+	// Char (document-readed) -> Bitset hash table
+	std::unordered_map<char, BitsetWrapper> bitsetMap;
 };
 
 } // end namespace rematch

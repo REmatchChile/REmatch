@@ -8,21 +8,26 @@ namespace rematch {
 
 // Define static variable
 const std::set<CharClass::special_code> CharClass::special_codes = {
-	std::make_tuple(".", false, 1),
-	std::make_tuple("\\D", true, 2),
-	std::make_tuple("\\d", false, 2),
-	std::make_tuple("\\W", true, 3),
-	std::make_tuple("\\w", false, 3),
-	std::make_tuple("\\s", false, 4),
+	std::make_tuple(".", 		false,	SpecialCode::kAnyChar),
+	std::make_tuple("\\D", 	true,		SpecialCode::kAnyDigit),
+	std::make_tuple("\\d", 	false,	SpecialCode::kAnyDigit),
+	std::make_tuple("\\W", 	true, 	SpecialCode::kAnyWord),
+	std::make_tuple("\\w", 	false, 	SpecialCode::kAnyWord),
+	std::make_tuple("\\s", 	false, 	SpecialCode::kAnyWhiteSpace),
+	std::make_tuple("\\S", 	true, 	SpecialCode::kAnyWhiteSpace)
 };
 
 // Empty constructor
-// TODO: check if this constructor is used somewhere, delete it otherwise
-CharClass :: CharClass(): special(0), negated(false), label("") {}
+CharClass::CharClass()
+		: label(""),
+			special_(SpecialCode::kNoSpecial),
+			negated_(false) {}
 
 // Single char constructor
-// TODO: delete this constructor and use General constructor instead
-CharClass :: CharClass(const char &a): special(0), negated(false) {
+CharClass::CharClass(const char &a)
+		: special_(SpecialCode::kNoSpecial),
+			negated_(false) {
+// FIXME: This is incomplete/badly implemented
 	if (a == '\n')
 		label = "\\n";
 	else
@@ -31,31 +36,40 @@ CharClass :: CharClass(const char &a): special(0), negated(false) {
 }
 
 // Special sets constructor
-// TODO: delete this constructor and use General constructor instead
-CharClass :: CharClass(int special, bool negated): special(special), negated(negated) {
-	switch(special) {
-		case 1:
+CharClass::CharClass(const ast::special &s)
+		: special_(s.code_),
+			negated_(!s.not_negated_) {
+	switch(special_) {
+		case SpecialCode::kAnyChar:
 			label = ".";
 			break;
-		case 2:
-			if(negated) label = "\\D";
-			else label = "\\d";
+		case SpecialCode::kAnyDigit:
+			if(negated_)
+				label = "\\D";
+			else
+				label = "\\d";
 			break;
-		case 3:
-			if(negated) label = "\\W";
-			else label = "\\w";
+		case SpecialCode::kAnyWord:
+			if(negated_)
+				label = "\\W";
+			else
+				label = "\\w";
 			break;
-		case 4:
-			label = "\\s";
+		case SpecialCode::kAnyWhiteSpace:
+			if(negated_)
+				label = "\\S";
+			else
+				label = "\\s";
+			break;
+		default:
 			break;
 	}
 }
 
 // Regex grammar charset constructor
-// TODO: delete this constructor and use Charset constructor instead
-CharClass :: CharClass(const ast::charset &cs) {
-	special = 0;
-	negated = cs.negated;
+CharClass::CharClass(const ast::charset &cs)
+		:	special_(SpecialCode::kNoSpecial),
+			negated_(cs.negated) {
 	for(auto &el: cs.elements) {
 		if(el.which() == 0) {
 			singles.insert(boost::get<char>(el));
@@ -68,23 +82,27 @@ CharClass :: CharClass(const ast::charset &cs) {
 }
 
 // Charset constructor
-CharClass :: CharClass(bool negated, std::set<CharClass::range> ranges, std::set<char> singles):
-	special(0), negated(negated), ranges(ranges), singles(singles) { updateLabel(); }
+CharClass::CharClass(bool negated, std::set<CharClass::range> ranges, std::set<char> singles)
+		:	special_(SpecialCode::kNoSpecial),
+			negated_(negated),
+			ranges(ranges),
+			singles(singles) {
+	updateLabel();
+}
 
 
 // General constructor
-CharClass :: CharClass(std::string str, bool is_special) {
-
+CharClass::CharClass(std::string str, bool is_special) {
 	if (is_special) {
 		std::string tuple_label;
 		bool tuple_negated;
-		int tuple_special_code;
-		for (std::tuple<std::string, bool, int> const &tuple : special_codes) {
+		SpecialCode tuple_special_code;
+		for (auto const &tuple : special_codes) {
 			std::tie(tuple_label, tuple_negated, tuple_special_code) = tuple;
 			if (tuple_label == str) {
 				label = tuple_label;
-				negated = tuple_negated;
-				special = tuple_special_code;
+				negated_ = tuple_negated;
+				special_ = tuple_special_code;
 				return;
 			}
 		}
@@ -95,8 +113,8 @@ CharClass :: CharClass(std::string str, bool is_special) {
 		throw std::invalid_argument("non special chars must be single chars");
 	}
 
-	negated = false;
-	special = 0;
+	negated_ = false;
+	special_ = SpecialCode::kNoSpecial;
 
 	label = str.substr(0, 1);
 	singles.insert(label.at(0));
@@ -155,7 +173,7 @@ void CharClass :: updateLabel() {
 	std::string r0, r1;
 
 	ss << "[";
-	if(negated) ss << "^";
+	if(negated_) ss << "^";
 
 	for(auto &range: ranges) {
 		r0 = std::get<0>(range); r1 = std::get<1>(range);
@@ -178,25 +196,24 @@ void CharClass :: updateLabel() {
 }
 
 bool CharClass :: check(char a) {
-	if(special) {
-		switch(special) {
-			case 1:
-				return a != 0x0; // Null char reserved
-			case 2:
-				return !!isdigit(a) != negated;
-			case 3:
-				return !!isalnum(a) != negated;
-			case 4:
-				return !!isspace(a) != negated;
-		}
+	switch(special_) {
+		case SpecialCode::kNoSpecial:
+			for(auto &el: singles) {
+				if(el == a) return !negated_;
+			}
+			for(auto &el: ranges) {
+				if(std::get<0>(el) <= a && a <= std::get<1>(el)) return !negated_;
+			}
+			return negated_;
+		case SpecialCode::kAnyChar:
+			return a != 0x0; // Null char reserved
+		case SpecialCode::kAnyDigit:
+			return !!isdigit(a) != negated_;
+		case SpecialCode::kAnyWord:
+			return !!isalnum(a) != negated_;
+		case SpecialCode::kAnyWhiteSpace:
+			return !!isspace(a) != negated_;
 	}
-	for(auto &el: singles) {
-		if(el == a) return !negated;
-	}
-	for(auto &el: ranges) {
-		if(std::get<0>(el) <= a && a <= std::get<1>(el)) return !negated;
-	}
-	return negated;
 }
 
 } // end namespace rematch

@@ -8,6 +8,7 @@
 #include "factories.hpp"
 #include "charclass.hpp"
 #include "parser/visitors.hpp"
+#include "parser/exceptions.hpp"
 
 namespace rematch {
 
@@ -126,7 +127,7 @@ void VariableFactory :: merge(VariableFactory &rhs) {
 
 		  numVars++;
 		} else {
-			throw visitors::bad_regex();
+			throw parsing::BadRegex("Regex is not functional.");
 		}
 	}
 
@@ -153,18 +154,6 @@ bool VariableFactory::operator ==(const VariableFactory &vf) const {
 
 FilterFactory::FilterFactory(): numFilters(0) {}
 
-FilterFactory::FilterFactory(const ast::charset &cs): numFilters(0) {
-	addFilter(CharClass(cs));
-}
-
-FilterFactory::FilterFactory(const char &a): numFilters(0) {
-	addFilter(CharClass(a));
-}
-
-FilterFactory::FilterFactory(special spec, bool negated): numFilters(0)  {
-	addFilter(CharClass(spec, negated));
-}
-
 std::string FilterFactory::pprint() {
 	std::stringstream ss;
 
@@ -178,8 +167,6 @@ std::string FilterFactory::pprint() {
 
 void FilterFactory :: addFilter(CharClass cs) {
 	if(!codeMap.count(cs)) {
-		// cout << "Adding filter " << cs.label << " to code " << numFilters << endl;
-
 		codeMap[cs] = numFilters;
 		filterMap[numFilters] = cs;
 		numFilters++;

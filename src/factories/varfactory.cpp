@@ -34,7 +34,7 @@ std::string VariableFactory::capture_repr(CaptureBitmap bm) const {
 }
 
 void VariableFactory::merge(VariableFactory const &rhs) {
-  
+
 }
 
 } // end namespace rematch

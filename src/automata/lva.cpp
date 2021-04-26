@@ -1,3 +1,5 @@
+#include "lva.hpp"
+
 #include <string>
 #include <sstream>
 #include <algorithm>
@@ -7,20 +9,13 @@
 #include <cassert>
 #include <map>
 
-#include "lva.hpp"
-// #include "structs/dag/nodelist.hpp"
-#include "lvastate.hpp"
+#include "automata/lvastate.hpp"
 #include "factories/factories.hpp"
 #include "parser/parser.hpp"
 
 namespace rematch {
 
-LogicalVA::LogicalVA(std::string pattern, bool raw) {
-  *this = regex2LVA(pattern);
-  if(raw) adapt_capture_jumping();
-}
-
-LogicalVA :: LogicalVA()
+LogicalVA::LogicalVA()
     : init_state_(new LVAState()),
       v_factory_(std::make_shared<VariableFactory>()),
       f_factory_(std::make_shared<FilterFactory>()) {
@@ -28,63 +23,18 @@ LogicalVA :: LogicalVA()
   states.push_back(init_state_);
 }
 
-LogicalVA :: LogicalVA(VariableFactory &vFact, FilterFactory &fFact)
-     : init_state_(new LVAState()),
-      v_factory_(&vFact),
-      f_factory_(&fFact) {
+LogicalVA::LogicalVA(uint code) {
+  init_state_ = new_state();
   init_state_->setInitial(true);
-  states.push_back(init_state_);
+  LVAState* fstate = new_final_state();
+
+  init_state_->addFilter(code, fstate);
 }
 
-LogicalVA :: LogicalVA(const char &a) {
-  init_state_ = new LVAState();
-  states.push_back(init_state_);
-
-  LVAState* fState = new LVAState();
-  finalStates.push_back(fState);
-  states.push_back(fState);
-  fState->setFinal(true);
-
-  int coding = 1;
-
-   // Connect initState with fState
-  init_state_->addFilter(coding, fState);
-}
-
-LogicalVA :: LogicalVA(const char &a, VariableFactory &vFact, FilterFactory &fFact)
-     : init_state_(new LVAState()),
-      v_factory_(&vFact),
-      f_factory_(&fFact) {
-  init_state_->setInitial(true);
-  states.push_back(init_state_);
-
-  LVAState* fState = new LVAState();
-  finalStates.push_back(fState);
-  states.push_back(fState);
-  fState->setFinal(true);
-
-  int coding = f_factory_->getCode(a);
-
-  // Connect initState with fState
-  init_state_->addFilter(coding, fState);
-}
-
-LogicalVA :: LogicalVA(int spec, bool negated, VariableFactory &vFact, FilterFactory &fFact)
-     : init_state_(new LVAState()),
-      v_factory_(&vFact),
-      f_factory_(&fFact) {
-  init_state_->setInitial(true);
-  states.push_back(init_state_);
-
-  LVAState* fState = new LVAState();
-  finalStates.push_back(fState);
-  states.push_back(fState);
-  fState->setFinal(true);
-
-  int coding = f_factory_->getCode(CharClass(spec, negated));
-
-  // Connect initState with fState
-  init_state_->addFilter(coding, fState);
+void LogicalVA::set_factories(std::shared_ptr<VariableFactory> v,
+										          std::shared_ptr<FilterFactory> f) {
+  v_factory_ = v;
+  f_factory_ = f;
 }
 
 void LogicalVA::adapt_capture_jumping() {
@@ -122,8 +72,6 @@ void LogicalVA::adapt_capture_jumping() {
 void LogicalVA::cat(LogicalVA &a2) {
   /* Concatenates an LogicalVA a2 to the current LogicalVA (inplace) */
 
-  // TODO: Check if var sets set of both automata is disjunct
-
   // Adds eps transitions from final states to a2 init LVAState
   for(std::size_t i=0;i<finalStates.size();i++){
     finalStates[i]->addEpsilon(a2.init_state_);
@@ -142,8 +90,6 @@ void LogicalVA::alter(LogicalVA &a2) {
   /* Extends the LogicalVA so it can alternate between itself and an
      LogicalVA a2 */
 
-  // TODO: Check if var sets of both automata is the same
-
   // Creates a new init LVAState and connects it to the old init and a2's init
   LVAState* newinitState = new LVAState();
   newinitState->addEpsilon(init_state_);
@@ -160,7 +106,7 @@ void LogicalVA::alter(LogicalVA &a2) {
   states.insert(states.end(), a2.states.begin(), a2.states.end());
 }
 
-void LogicalVA :: kleene() {
+void LogicalVA::kleene() {
   /* Extends the LogicalVA for kleene closure (0 or more times) */
 
   if(states.size() == 2 && init_state_->filters.size() == 1) {
@@ -194,7 +140,7 @@ void LogicalVA :: kleene() {
   init_state_->setFinal(true);
 }
 
-void LogicalVA :: strict_kleene() {
+void LogicalVA::strict_kleene() {
   /* Extends the LogicalVA for strict kleene closure (1 or more times) */
 
   // Connect final states to init LVAState
@@ -214,32 +160,22 @@ void LogicalVA :: optional() {
   }
 }
 
-void LogicalVA :: assign(std::string varName) {
+void LogicalVA::assign(std::bitset<32> open_code, std::bitset<32> close_code) {
   /* Extends the LogicalVA so it can assign its pattern to a variable */
 
-  // TODO: Check if new var is not in the vars set of the LogicalVA
-
   // Create new states
-  LVAState* openLVAState = new LVAState();
-  LVAState* closeLVAState = new LVAState();
-
-  // Add new states to states list
-  states.push_back(openLVAState);
-  states.push_back(closeLVAState);
-
-  std::bitset<32> openCoding, closeCoding;
-  openCoding = v_factory_->getOpenCode(varName);
-  closeCoding = v_factory_->getCloseCode(varName);
+  LVAState* openLVAState = new_state();
+  LVAState* closeLVAState = new_state();
 
   // Connect new open LVAState with init LVAState
-  openLVAState->addCapture(openCoding, init_state_);
+  openLVAState->addCapture(open_code, init_state_);
 
   // Set open LVAState as new init LVAState
   init_state_ = openLVAState;
 
   // Connect final states with new close LVAState
   for(std::size_t i=0;i<finalStates.size();i++){
-    finalStates[i]->addCapture(closeCoding, closeLVAState);
+    finalStates[i]->addCapture(close_code, closeLVAState);
     finalStates[i]->setFinal(false);
   }
 
@@ -338,6 +274,23 @@ std::string LogicalVA :: pprint() {
   ss << "i " << init_state_->id;
 
   return ss.str();
+}
+
+LVAState* LogicalVA::new_state() {
+  LVAState *nstate = new LVAState();
+  states.push_back(nstate);
+
+  return nstate;
+}
+
+LVAState* LogicalVA::new_final_state() {
+  LVAState *nstate = new LVAState();
+  states.push_back(nstate);
+
+  finalStates.push_back(nstate);
+  nstate->setFinal(true);
+
+  return nstate;
 }
 
 } // end namespace rematch

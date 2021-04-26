@@ -8,6 +8,7 @@
 
 #include "parser/parser.hpp"
 #include "automata/eva.hpp"
+#include "automata/lvastate.hpp"
 #include "automata/dfa/dfa.hpp"
 #include "automata/dfa/detstate.hpp"
 #include "det/setstate.hpp"
@@ -15,11 +16,11 @@
 namespace rematch {
 
 DetManager::DetManager(std::string pattern, bool raw_automata) {
-	LogicalVA lva = regex2LVA(pattern);
+	auto lva = regex2LVA(pattern);
 
-	if (raw_automata) lva.adapt_capture_jumping();
+	if (raw_automata) lva->adapt_capture_jumping();
 
-	nfa_ = std::make_unique<ExtendedVA>(lva);
+	nfa_ = std::make_unique<ExtendedVA>(*lva);
 	dfa_ = std::make_unique<DFA>(*nfa_);
 	mdfa_ = std::make_unique<MacroDFA>();
 

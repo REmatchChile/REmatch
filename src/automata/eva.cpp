@@ -1,4 +1,5 @@
 #include <queue>
+#include <stack>
 #include <unordered_set>
 #include <algorithm>
 
@@ -112,41 +113,38 @@ size_t ExtendedVA :: size() {
 }
 
 
-void ExtendedVA :: epsilonClosure(LogicalVA &A) {
+void ExtendedVA::epsilonClosure(LogicalVA &A) {
 	/* Adds correct transitions to replace e-transitions*/
 
 	for(auto &state: A.states) {
 		state->visitedBy = -1;
 	}
 
-	for(auto &state: A.states) {
-		state->visitedBy = state->id;
-		for(auto &epsilon: state->epsilons) {
-			utilEpsilonClosure(state, epsilon->next);
-		}
-	}
+	for(auto &root_state: A.states) {
+		root_state->visitedBy = root_state->id;
 
-}
+		std::stack<LVAState*> stack;
 
-
-void ExtendedVA :: utilEpsilonClosure(LVAState *from, LVAState *current) {
-	current->visitedBy = from->id;
-	if(current->isFinal) {
-		from->isFinal = true;
-	}
-	for(auto &capture: current->captures) {
-		from->addCapture(capture->code, capture->next);
-	}
-	for(auto &filter: current->filters) {
-		from->addFilter(filter->code, filter->next);
-	}
-
-	for(auto &epsilon: current->epsilons) {
-		if(epsilon->next->visitedBy != from->id) {
-			utilEpsilonClosure(from, epsilon->next);
+		for(auto &epsilon: root_state->epsilons) {
+			stack.push(epsilon->next);
 		}
 
-	}
+		while(!stack.empty()) {
+			LVAState* cstate = stack.top(); stack.pop();
+			if(cstate->isFinal)
+				root_state->isFinal = true;
+			for(auto &capture: cstate->captures)
+				root_state->addCapture(capture->code, capture->next);
+
+			for(auto &filter: cstate->filters)
+				root_state->addFilter(filter->code, filter->next);
+
+			for(auto &epsilon: cstate->epsilons) {
+				if(epsilon->next->visitedBy != root_state->id)
+					stack.push(epsilon->next);
+			}
+		} // end while
+	} // end for
 }
 
 void ExtendedVA :: adaptReachableStates(LogicalVA &A) {
