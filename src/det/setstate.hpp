@@ -10,18 +10,18 @@
 namespace rematch {
 
 class ExtendedVA;
-class LVAState;
+class State;
 
 class SetState {
  public:
-	std::set<LVAState*> subset;
+	std::set<State*> subset;
 	BitsetWrapper bitstring;
 
 	bool isFinal, isSuperFinal, isNonEmpty;
 
 	friend std::ostream & operator<<(std::ostream &os, SetState const &ss);
 
-	SetState(ExtendedVA &eVA, std::set<LVAState*> l);
+	SetState(ExtendedVA &eVA, std::set<State*> l);
 };
 
 std::ostream & operator<<(std::ostream &os, SetState const &ss);

@@ -5,7 +5,7 @@
 #include <string>
 #include <tuple>
 
-#include "parser/ast.hpp"
+#include "parse/regex/ast.hpp"
 
 namespace rematch {
 

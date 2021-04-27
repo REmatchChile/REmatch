@@ -6,7 +6,7 @@
 #include "eva.hpp"
 #include "lva.hpp"
 #include "factories/factories.hpp"
-#include "lvastate.hpp"
+#include "automata/nfa/state.hpp"
 #include "opt/crossprod.hpp"
 
 namespace rematch {
@@ -59,7 +59,7 @@ ExtendedVA :: ExtendedVA(LogicalVA &A):
 ExtendedVA :: ExtendedVA():
 	variable_factory_(new VariableFactory()), filter_factory_(new FilterFactory()) {
 
-		init_state_ = new LVAState();
+		init_state_ = new State();
 		states.push_back(init_state_);
 }
 
@@ -70,12 +70,12 @@ ExtendedVA::ExtendedVA(const ExtendedVA &A)
 		currentID(0) {
 
 	// Mantain a map from the original states to their copies
-	std::map<LVAState*, LVAState*> copy_table;
-	LVAState *new_state;
+	std::map<State*, State*> copy_table;
+	State *new_state;
 
 	// Populate the copy table
 	for(const auto &state: A.states) {
-		new_state = new LVAState(*state); // Copy the state in heap
+		new_state = new State(*state); // Copy the state in heap
 		states.push_back(new_state);
 		if(new_state->isFinal)
 			finalStates.push_back(new_state);
@@ -98,12 +98,12 @@ ExtendedVA::ExtendedVA(const ExtendedVA &A)
 	}
 }
 
-void ExtendedVA :: addFilter(LVAState* state, CharClass cs, LVAState* next) {
+void ExtendedVA :: addFilter(State* state, CharClass cs, State* next) {
 	filter_factory_->addFilter(cs);
 	state->addFilter(filter_factory_->getCode(cs), next);
 }
 
-void ExtendedVA :: addCapture(LVAState* state, std::bitset<32> bs, LVAState* next) {
+void ExtendedVA :: addCapture(State* state, std::bitset<32> bs, State* next) {
 	state->addCapture(bs, next);
 }
 
@@ -123,14 +123,14 @@ void ExtendedVA::epsilonClosure(LogicalVA &A) {
 	for(auto &root_state: A.states) {
 		root_state->visitedBy = root_state->id;
 
-		std::stack<LVAState*> stack;
+		std::stack<State*> stack;
 
 		for(auto &epsilon: root_state->epsilons) {
 			stack.push(epsilon->next);
 		}
 
 		while(!stack.empty()) {
-			LVAState* cstate = stack.top(); stack.pop();
+			State* cstate = stack.top(); stack.pop();
 			if(cstate->isFinal)
 				root_state->isFinal = true;
 			for(auto &capture: cstate->captures)
@@ -168,7 +168,7 @@ void ExtendedVA :: pruneUselessStates() {
 		state->tempMark = false;
 	}
 
-	std::vector<LVAState*> tmp, diff;
+	std::vector<State*> tmp, diff;
 	pruneDFS(init_state_, tmp);
 
 	std::sort(std::begin(states), std::end(states));
@@ -195,7 +195,7 @@ void ExtendedVA :: pruneUselessStates() {
 
 }
 
-void ExtendedVA :: pruneDFS(LVAState *state, std::vector<LVAState*> &tmp) {
+void ExtendedVA :: pruneDFS(State *state, std::vector<State*> &tmp) {
 	state->tempMark = true;
 
 	for(auto &capture: state->captures) {
@@ -210,7 +210,7 @@ void ExtendedVA :: pruneDFS(LVAState *state, std::vector<LVAState*> &tmp) {
 	tmp.push_back(state);
 }
 
-void ExtendedVA :: utilCleanUnreachable(LVAState *state) {
+void ExtendedVA :: utilCleanUnreachable(State *state) {
 	state->tempMark = true;
 
 	for(auto &capture: state->captures) {
@@ -236,10 +236,10 @@ void ExtendedVA :: captureClosure() {
 	computes the capture closure of it */
 
 	// Get the modified topological sort of the e-VA
-	std::queue<LVAState*> topOrder = invTopologicalSort();
+	std::queue<State*> topOrder = invTopologicalSort();
 
 
-	LVAState* itState; // Iterator state
+	State* itState; // Iterator state
 
 	while(!topOrder.empty()) {
 		itState = topOrder.front();
@@ -324,7 +324,7 @@ void ExtendedVA::offsetOpt() {
 void ExtendedVA::computeOffset(CaptureList &captureList, int codeIndex) {
 	std::shared_ptr<LVAFilter> filter;
 	CapturePtr capture;
-	LVAState *p, *q, *r;
+	State *p, *q, *r;
 
 	// states p,q,r will label in the following way:
 	// (p) ---[capture]---> (q) -----[filter]----> (r)
@@ -338,7 +338,7 @@ void ExtendedVA::computeOffset(CaptureList &captureList, int codeIndex) {
 				r = filter->next;
 
 				// Create new state q'
-				LVAState* q_prim = new LVAState();
+				State* q_prim = new State();
 				states.push_back(q_prim);
 
 				filter->next->incidentFilters.remove(filter);
@@ -418,7 +418,7 @@ bool ExtendedVA::offsetPossible(CapturePtr capture) {
 	//  2. (q) can't be a final state.
 	//	3. (q) has at least 1 filter transition and no capture transitions.
 
-	LVAState *q;
+	State *q;
 	q = capture->next;
 
  	if(capture->code.count() != 1)
@@ -437,16 +437,16 @@ bool ExtendedVA::offsetPossible(CapturePtr capture) {
 	return true;
 }
 
-bool ExtendedVA::isReachable(LVAState *from, LVAState *end) {
+bool ExtendedVA::isReachable(State *from, State *end) {
 	for(auto &state: states)
 		state->tempMark = false;
 
-	std::vector<LVAState*> stack;
+	std::vector<State*> stack;
 	for(auto &filter: from->filters)
 		stack.push_back(filter->next);
 
 	while(!stack.empty()) {
-		LVAState* currentState = stack.back(); stack.pop_back();
+		State* currentState = stack.back(); stack.pop_back();
 		if(currentState == end)
 			return true;
 		if(currentState->tempMark)
@@ -531,12 +531,12 @@ CaptureVector ExtendedVA::reachableCaptures(CapturePtr &cap) {
 	for(auto &state: states)
 		state->tempMark = false;
 
-	std::vector<LVAState*> stack;
+	std::vector<State*> stack;
 	stack.push_back(cap->next);
 
 	CaptureVector ret;
 
-	LVAState* s;
+	State* s;
 
 	while(!stack.empty()) {
 		s = stack.back() ; stack.pop_back();
@@ -555,8 +555,8 @@ CaptureVector ExtendedVA::reachableCaptures(CapturePtr &cap) {
 }
 
 
-std::queue<LVAState*> ExtendedVA :: invTopologicalSort() {
-	std::queue<LVAState*>* Q = new std::queue<LVAState*>();
+std::queue<State*> ExtendedVA :: invTopologicalSort() {
+	std::queue<State*>* Q = new std::queue<State*>();
 
 	for(auto &state: states) {
 		state->tempMark = false;
@@ -571,7 +571,7 @@ std::queue<LVAState*> ExtendedVA :: invTopologicalSort() {
 	return *Q;
 }
 
-void ExtendedVA :: invTopologicalSortUtil(LVAState *state, std::queue<LVAState*> *Q) {
+void ExtendedVA :: invTopologicalSortUtil(State *state, std::queue<State*> *Q) {
 	state->tempMark = true;
 
 	if(state->captures.empty()) return; // Not interested if no captures present
@@ -595,7 +595,7 @@ void ExtendedVA :: relabelStates() {
 	utilRelabelStates(init_state_);
 }
 
-void ExtendedVA :: utilRelabelStates(LVAState *state) {
+void ExtendedVA :: utilRelabelStates(State *state) {
 	state->tempMark = true;
 	state->id = currentID;
 	idMap[state->id] = state;
@@ -616,13 +616,13 @@ std::string ExtendedVA :: pprint() {
   /* Gives a codification for the LogicalVA that can be used to visualize it
      at https://puc-iic2223.github.io . Basically it uses Breath-First Search
      to get every labeled transition in the ExtendedVA with the unique ids for
-     each LVAState */
+     each State */
 
 
   // Declarations
   std::stringstream ss, cond;
-  LVAState *current;
-  int cid, nid;  // cid: current LVAState id; nid : next LVAState id
+  State *current;
+  int cid, nid;  // cid: current State id; nid : next State id
   std::bitset<32> S;
 
 
@@ -631,9 +631,9 @@ std::string ExtendedVA :: pprint() {
   std::unordered_set<unsigned int> visited;
 
   // Use of list to implement a FIFO queue
-  std::list<LVAState*> queue;
+  std::list<State*> queue;
 
-  // Start on the init LVAState
+  // Start on the init State
   visited.insert(init_state_->id);
   queue.push_back(init_state_);
 
@@ -682,7 +682,7 @@ std::string ExtendedVA :: pprint() {
     }
   }
 
-  // Code initial LVAState
+  // Code initial State
   ss << "i " << init_state_->id;
 
   return ss.str();
@@ -699,7 +699,7 @@ void ExtendedVA :: searchSuperFinals() {
 	}
 }
 
-bool ExtendedVA :: utilSearchSuperFinals(LVAState *s) {
+bool ExtendedVA :: utilSearchSuperFinals(State *s) {
 	s->colorMark = 'g'; // Mark as grey
 
 	for(auto &filter: s->filters) {
@@ -722,8 +722,8 @@ bool ExtendedVA :: utilSearchSuperFinals(LVAState *s) {
 	return false;
 }
 
-std::set<LVAState*> ExtendedVA :: getSubset(BitsetWrapper bs) const {
-	std::set<LVAState*> ret;
+std::set<State*> ExtendedVA :: getSubset(BitsetWrapper bs) const {
+	std::set<State*> ret;
 	for(size_t i=0; i < bs.size(); i++)
 		if(bs.get(i))
 			ret.insert(idMap.at(i));

@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 
-#include "automata/eva.hpp"
+#include "automata/nfa/eva.hpp"
 
 namespace rematch {
 

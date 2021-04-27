@@ -3,8 +3,8 @@
 
 #include <map>
 
-#include "automata/eva.hpp"
-#include "automata/lvastate.hpp"
+#include "automata/nfa/eva.hpp"
+#include "automata/nfa/state.hpp"
 
 namespace rematch {
 
@@ -23,15 +23,15 @@ void crossProdOpt(ExtendedVA &A) {
 
     // --- Duplicate states --- //
 
-    std::vector<LVAState*> states0, states1;
+    std::vector<State*> states0, states1;
 
     // State pointer to index at statevector
-    std::map<LVAState*, size_t> ptr2index;
+    std::map<State*, size_t> ptr2index;
     size_t initStateIdx;
 
     for (size_t i = 0; i < A.states.size(); ++i) {
-        states0.push_back(new LVAState());
-        states1.push_back(new LVAState());
+        states0.push_back(new State());
+        states1.push_back(new State());
 
         // Store state's ptr corresponding index
         ptr2index[A.states[i]] = i;
@@ -49,7 +49,7 @@ void crossProdOpt(ExtendedVA &A) {
     // --- Connect new states --- //
 
     // Here p and q represent transition p->q
-    LVAState *pOld, *qOld, *p0New, *p1New, *q0New, *q1New;
+    State *pOld, *qOld, *p0New, *p1New, *q0New, *q1New;
     size_t qOldIdx; // Needed for pairing new states to old states
     for (size_t i = 0; i < A.states.size(); ++i) {
         pOld = A.states[i];

@@ -8,10 +8,10 @@
 #include "enumeration.hpp"
 
 #include "det/detmanager.hpp"
-#include "automata/eva.hpp"
+#include "automata/nfa/eva.hpp"
 #include "automata/dfa/dfa.hpp"
 #include "regex/regex_options.hpp"
-#include "automata/lva.hpp"
+#include "automata/nfa/lva.hpp"
 #include "matchiterator.hpp"
 #include "document.hpp"
 

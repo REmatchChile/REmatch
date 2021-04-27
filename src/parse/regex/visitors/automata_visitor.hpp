@@ -6,8 +6,8 @@
 #include <boost/variant.hpp>
 #include <boost/variant/get.hpp>
 
-#include "automata/lva.hpp"
-#include "parser/ast.hpp"
+#include "automata/nfa/lva.hpp"
+#include "parse/regex/ast.hpp"
 
 namespace rematch {
 namespace visitors {

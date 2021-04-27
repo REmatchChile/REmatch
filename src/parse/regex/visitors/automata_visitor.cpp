@@ -1,8 +1,8 @@
 #include "automata_visitor.hpp"
 
-#include "parser/ast.hpp"
-#include "automata/lva.hpp"
-#include "automata/lvastate.hpp"
+#include "parse/regex/ast.hpp"
+#include "automata/nfa/lva.hpp"
+#include "automata/nfa/state.hpp"
 #include "factories/factories.hpp"
 #include "charclass.hpp"
 

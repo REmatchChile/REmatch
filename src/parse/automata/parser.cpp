@@ -7,7 +7,7 @@
 #include <fstream>
 #include <string>
 
-#include "../automata/lva.hpp"
+#include "automata/nfa/lva.hpp"
 #include "ast.hpp"
 #include "parser.hpp"
 #include "grammar.hpp"

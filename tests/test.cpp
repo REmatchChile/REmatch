@@ -3,10 +3,10 @@
 #include <boost/test/data/test_case.hpp>
 #include <boost/test/data/monomorphic.hpp>
 
-#include "automata/lva.hpp"
-#include "parser_automata/parser.hpp"
-#include "parser/parser.hpp"
-#include "automata/eva.hpp"
+#include "automata/nfa/lva.hpp"
+#include "parse/automata/parser.hpp"
+#include "parse/regex/parser.hpp"
+#include "automata/nfa/eva.hpp"
 #include "regex/regex.hpp"
 #include "match.hpp"
 

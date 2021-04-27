@@ -7,8 +7,8 @@
 
 #include "factories.hpp"
 #include "charclass.hpp"
-#include "parser/visitors.hpp"
-#include "parser/exceptions.hpp"
+#include "parse/regex/visitors.hpp"
+#include "parse/regex/exceptions.hpp"
 
 namespace rematch {
 

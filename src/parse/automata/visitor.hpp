@@ -2,8 +2,8 @@
 #define VISITOR_AUTOMATA_HPP
 
 #include "ast.hpp"
-#include "../automata/lva.hpp"
-#include "../charclass.hpp"
+#include "automata/nfa/lva.hpp"
+#include "charclass.hpp"
 
 #include <bitset>
 #include <unordered_map>
@@ -24,13 +24,13 @@ struct file_to_automata : boost::static_visitor<void>
     rematch::LogicalVA *automata;
 
     // Hash table between state names and state references
-    std::unordered_map<std::string, rematch::LVAState*> states_map;
+    std::unordered_map<std::string, rematch::State*> states_map;
 
     // Constructor
     file_to_automata();
 
     // Internal methods
-    rematch::LVAState *get_state(std::string state_name);
+    rematch::State *get_state(std::string state_name);
     std::bitset<32> get_variable_code(automata::variable const &variable);
     int get_filter_code(automata::charclass const &charclass);
 

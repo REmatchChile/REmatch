@@ -6,11 +6,11 @@
 #include <sys/resource.h>
 
 #include "interface.hpp"
-#include "parser/parser.hpp"
-#include "automata/eva.hpp"
+#include "parse/regex/parser.hpp"
+#include "automata/nfa/eva.hpp"
 #include "automata/dfa/dfa.hpp"
 #include "memmanager.hpp"
-#include "parser_automata/parser.hpp"
+#include "parse/automata/parser.hpp"
 #include "timer.hpp"
 #include "regex/regex.hpp"
 #include "regex/regex_options.hpp"

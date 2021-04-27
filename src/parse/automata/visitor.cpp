@@ -1,7 +1,7 @@
 #include "visitor.hpp"
 #include "ast.hpp"
-#include "automata/lva.hpp"
-#include "automata/lvastate.hpp"
+#include "automata/nfa/lva.hpp"
+#include "automata/nfa/state.hpp"
 #include "factories/factories.hpp"
 #include "charclass.hpp"
 
@@ -56,11 +56,11 @@ file_to_automata :: file_to_automata()
     automata = new rematch::LogicalVA();
 }
 
-rematch::LVAState *file_to_automata :: get_state(std::string state_name)
+rematch::State *file_to_automata :: get_state(std::string state_name)
 {
     if (!states_map.count(state_name))
     {
-        rematch::LVAState* state = new rematch::LVAState();
+        rematch::State* state = new rematch::State();
         states_map[state_name] = state;
         automata->states.push_back(state);
     }
@@ -92,8 +92,8 @@ int file_to_automata :: get_filter_code(automata::charclass const &automata_char
 // Case 1: char transition
 void file_to_automata :: operator()(automata::char_transition const &ct)
 {
-    rematch::LVAState *from_state = get_state(ct.from_state);
-    rematch::LVAState *to_state = get_state(ct.to_state);
+    rematch::State *from_state = get_state(ct.from_state);
+    rematch::State *to_state = get_state(ct.to_state);
     int filter_code = get_filter_code(ct.text);
     from_state->addFilter(filter_code, to_state);
 }
@@ -101,8 +101,8 @@ void file_to_automata :: operator()(automata::char_transition const &ct)
 // Case 2: variable transition
 void file_to_automata :: operator()(automata::variable_transition const &vt)
 {
-    rematch::LVAState *from_state = get_state(vt.from_state);
-    rematch::LVAState *to_state = get_state(vt.to_state);
+    rematch::State *from_state = get_state(vt.from_state);
+    rematch::State *to_state = get_state(vt.to_state);
 
     std::bitset<32> bitset_code;
     for (automata::variable const &variable : vt.variables)
@@ -115,22 +115,22 @@ void file_to_automata :: operator()(automata::variable_transition const &vt)
 // Case 3: epsilon transition
 void file_to_automata :: operator()(automata::epsilon_transition const &et)
 {
-    rematch::LVAState *from_state = get_state(et.from_state);
-    rematch::LVAState *to_state = get_state(et.to_state);
+    rematch::State *from_state = get_state(et.from_state);
+    rematch::State *to_state = get_state(et.to_state);
     from_state->addEpsilon(to_state);
 }
 
 // Case 4: initial state
 void file_to_automata :: operator()(automata::initial_state const &is)
 {
-    rematch::LVAState *state = get_state(is.state);
+    rematch::State *state = get_state(is.state);
     automata->initState()->addEpsilon(state);
 }
 
 // Case 5: final state
 void file_to_automata :: operator()(automata::final_state const &fs)
 {
-    rematch::LVAState *state = get_state(fs.state);
+    rematch::State *state = get_state(fs.state);
     state->setFinal(true);
     automata->finalStates.push_back(state);
 }

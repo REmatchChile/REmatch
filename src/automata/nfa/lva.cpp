@@ -9,14 +9,14 @@
 #include <cassert>
 #include <map>
 
-#include "automata/lvastate.hpp"
+#include "automata/nfa/state.hpp"
 #include "factories/factories.hpp"
-#include "parser/parser.hpp"
+#include "parse/regex/parser.hpp"
 
 namespace rematch {
 
 LogicalVA::LogicalVA()
-    : init_state_(new LVAState()),
+    : init_state_(new State()),
       v_factory_(std::make_shared<VariableFactory>()),
       f_factory_(std::make_shared<FilterFactory>()) {
   init_state_->setInitial(true);
@@ -26,13 +26,13 @@ LogicalVA::LogicalVA()
 LogicalVA::LogicalVA(uint code) {
   init_state_ = new_state();
   init_state_->setInitial(true);
-  LVAState* fstate = new_final_state();
+  State* fstate = new_final_state();
 
   init_state_->addFilter(code, fstate);
 }
 
 LogicalVA::LogicalVA(const LogicalVA &A)
-    : init_state_(new LVAState(*A.init_state_)),
+    : init_state_(new State(*A.init_state_)),
       v_factory_(A.v_factory_),
       f_factory_(A.f_factory_) {
 
@@ -42,7 +42,7 @@ LogicalVA::LogicalVA(const LogicalVA &A)
   // constructing the copy's graph.
 
   // Iterative Search using stack for cleaness in function definitions,
-  std::vector<std::pair<LVAState*, LVAState*>> stack;
+  std::vector<std::pair<State*, State*>> stack;
 
   for(auto& state: A.states)
     state->tempMark = false;
@@ -58,7 +58,7 @@ LogicalVA::LogicalVA(const LogicalVA &A)
 
     for(auto& filt: old_q->filters) {
       if(filt->next->tempMark) continue;
-      LVAState* ns = new LVAState(*filt->next);
+      State* ns = new State(*filt->next);
 
       states.push_back(ns);
       if(ns->isFinal) finalStates.push_back(ns);
@@ -70,7 +70,7 @@ LogicalVA::LogicalVA(const LogicalVA &A)
     }
     for(auto& cap: old_q->captures) {
       if(cap->next->tempMark) continue;
-      LVAState* ns = new LVAState(*cap->next);
+      State* ns = new State(*cap->next);
 
       this->states.push_back(ns);
       if(ns->isFinal) this->finalStates.push_back(ns);
@@ -82,7 +82,7 @@ LogicalVA::LogicalVA(const LogicalVA &A)
     }
     for(auto& eps: old_q->epsilons) {
       if(eps->next->tempMark) continue;
-      LVAState* ns = new LVAState(*eps->next);
+      State* ns = new State(*eps->next);
 
       this->states.push_back(ns);
       if(ns->isFinal) this->finalStates.push_back(ns);
@@ -102,8 +102,8 @@ void LogicalVA::set_factories(std::shared_ptr<VariableFactory> v,
 }
 
 void LogicalVA::adapt_capture_jumping() {
-  std::vector<LVAState*> stack;
-  LVAState *reached_state;
+  std::vector<State*> stack;
+  State *reached_state;
 
 
   for(auto &state: states) {
@@ -136,7 +136,7 @@ void LogicalVA::adapt_capture_jumping() {
 void LogicalVA::cat(LogicalVA &a2) {
   /* Concatenates an LogicalVA a2 to the current LogicalVA (inplace) */
 
-  // Adds eps transitions from final states to a2 init LVAState
+  // Adds eps transitions from final states to a2 init State
   for(std::size_t i=0;i<finalStates.size();i++){
     finalStates[i]->addEpsilon(a2.init_state_);
     finalStates[i]->setFinal(false);
@@ -154,8 +154,8 @@ void LogicalVA::alter(LogicalVA &a2) {
   /* Extends the LogicalVA so it can alternate between itself and an
      LogicalVA a2 */
 
-  // Creates a new init LVAState and connects it to the old init and a2's init
-  LVAState* newinitState = new LVAState();
+  // Creates a new init State and connects it to the old init and a2's init
+  State* newinitState = new State();
   newinitState->addEpsilon(init_state_);
   newinitState->addEpsilon(a2.init_state_);
 
@@ -192,13 +192,13 @@ void LogicalVA::kleene() {
     }
   }
 
-  // Connect final states to new init LVAState
+  // Connect final states to new init State
   for(std::size_t i=0;i<finalStates.size();i++){
     finalStates[i]->addEpsilon(init_state_);
     finalStates[i]->setFinal(false);
   }
 
-  // Set new init as the final LVAState
+  // Set new init as the final State
   finalStates.clear();
   finalStates.push_back(init_state_);
   init_state_->setFinal(true);
@@ -207,7 +207,7 @@ void LogicalVA::kleene() {
 void LogicalVA::strict_kleene() {
   /* Extends the LogicalVA for strict kleene closure (1 or more times) */
 
-  // Connect final states to init LVAState
+  // Connect final states to init State
   for(std::size_t i=0;i<finalStates.size();i++){
     finalStates[i]->addEpsilon(init_state_);
   }
@@ -216,7 +216,7 @@ void LogicalVA::strict_kleene() {
 void LogicalVA :: optional() {
   /* Extends the LogicalVA for optional closure (0 or 1 time) */
 
-  // Set new init as a final LVAState
+  // Set new init as a final State
   if (!init_state_->isFinal)
   {
     finalStates.push_back(init_state_);
@@ -228,22 +228,22 @@ void LogicalVA::assign(std::bitset<32> open_code, std::bitset<32> close_code) {
   /* Extends the LogicalVA so it can assign its pattern to a variable */
 
   // Create new states
-  LVAState* openLVAState = new_state();
-  LVAState* closeLVAState = new_state();
+  State* openLVAState = new_state();
+  State* closeLVAState = new_state();
 
-  // Connect new open LVAState with init LVAState
+  // Connect new open State with init State
   openLVAState->addCapture(open_code, init_state_);
 
-  // Set open LVAState as new init LVAState
+  // Set open State as new init State
   init_state_ = openLVAState;
 
-  // Connect final states with new close LVAState
+  // Connect final states with new close State
   for(std::size_t i=0;i<finalStates.size();i++){
     finalStates[i]->addCapture(close_code, closeLVAState);
     finalStates[i]->setFinal(false);
   }
 
-  // Set close LVAState as the only final LVAState
+  // Set close State as the only final State
   finalStates.clear();
   finalStates.push_back(closeLVAState);
   closeLVAState->setFinal(true);
@@ -308,13 +308,13 @@ std::string LogicalVA :: pprint() {
   /* Gives a codification for the LogicalVA that can be used to visualize it
      at https://puc-iic2223.github.io . Basically it uses Breath-First Search
      to get every labeled transition in the LogicalVA with the unique ids for
-     each LVAState */
+     each State */
 
 
   // Declarations
   std::stringstream ss, cond;
-  LVAState *current;
-  int cid, nid;  // cid: current LVAState id; nid : next LVAState id
+  State *current;
+  int cid, nid;  // cid: current State id; nid : next State id
   std::bitset<32> S;
 
 
@@ -323,9 +323,9 @@ std::string LogicalVA :: pprint() {
   std::unordered_set<unsigned int> visited;
 
   // Use of list to implement a FIFO queue
-  std::list<LVAState*> queue;
+  std::list<State*> queue;
 
-  // Start on the init LVAState
+  // Start on the init State
   visited.insert(init_state_->id);
   queue.push_back(init_state_);
 
@@ -389,21 +389,21 @@ std::string LogicalVA :: pprint() {
     }
   }
 
-  // Code initial LVAState
+  // Code initial State
   ss << "i " << init_state_->id;
 
   return ss.str();
 }
 
-LVAState* LogicalVA::new_state() {
-  LVAState *nstate = new LVAState();
+State* LogicalVA::new_state() {
+  State *nstate = new State();
   states.push_back(nstate);
 
   return nstate;
 }
 
-LVAState* LogicalVA::new_final_state() {
-  LVAState *nstate = new LVAState();
+State* LogicalVA::new_final_state() {
+  State *nstate = new State();
   states.push_back(nstate);
 
   finalStates.push_back(nstate);

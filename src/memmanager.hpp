@@ -143,22 +143,15 @@ private:
 			listHead = freeHead->start;
 			adyacentNext = freeHead->next;
 
-			// auto id = freeHead->id_;
-			// dump_ << "Free: [" << id << "]\n";
-
 			// Overwrite Node pointed by freeHead
 			newNode = freeHead->reset(S, i, head, tail);
 
 			// Append to freelist new garbage
 			if(listHead != nullptr && listHead->refCount == 0 && !listHead->isNodeEmpty()) {
-				// tot_head_extends_++;
-				// dump_ << "Head: [" << id << "] -> [" << listHead->id_ << "]\n";
 				listHead->nextFree = freeHead->nextFree;
 				freeHead->nextFree = listHead;
 			}
 			if(adyacentNext != nullptr && adyacentNext->refCount == 0 && !adyacentNext->isNodeEmpty()) {
-				// tot_adyacent_extends_++;
-				// dump_ << "Adya: [" << id << "] -> [" << adyacentNext->id_ << "]\n";
 				adyacentNext->nextFree = freeHead->nextFree;
 				freeHead->nextFree = adyacentNext;
 			}

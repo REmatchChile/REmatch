@@ -1,12 +1,12 @@
+#include "state.hpp"
+
 #include <list>
 #include <set>
 #include <bitset>
 
-#include "lvastate.hpp"
-
 namespace rematch {
 
-LVACapture :: LVACapture(LVAState* from, std::bitset<32> coding, LVAState* next):
+LVACapture :: LVACapture(State* from, std::bitset<32> coding, State* next):
     from(from), next(next), code(coding) {}
 
 bool LVACapture :: operator==(const LVACapture &rhs) const {
@@ -26,13 +26,13 @@ bool LVACapture :: operator<(const LVACapture &rhs) const {
   return from < rhs.from;
 }
 
-LVAState::LVAState()
+State::State()
   : tempMark(false), colorMark('w'), visitedBy(0), isFinal(false),
     isInit(false), isSuperFinal(false) {
   id = ID++;
 }
 
-LVAState::LVAState(const LVAState& s)
+State::State(const State& s)
   : tempMark(false),
     colorMark('w'),
     visitedBy(0),
@@ -42,10 +42,10 @@ LVAState::LVAState(const LVAState& s)
   id = ID++;
 }
 
-bool LVAState::operator==(const LVAState &rhs) const { return id == rhs.id;}
+bool State::operator==(const State &rhs) const { return id == rhs.id;}
 
 
-LVAState* LVAState::nextLVAState(unsigned int code) {
+State* State::nextLVAState(unsigned int code) {
   for(auto &capture: captures) {
     if (capture->code == code) {
       return capture->next;
@@ -55,17 +55,17 @@ LVAState* LVAState::nextLVAState(unsigned int code) {
   return nullptr;
 }
 
-void LVAState::setFinal(bool b) {
+void State::setFinal(bool b) {
   isFinal = b;
 }
 
-void LVAState::setInitial(bool b) {
+void State::setInitial(bool b) {
   isInit = b;
 }
 
-void LVAState::addEpsilon(LVAState* next) {epsilons.push_back(std::make_shared<LVAEpsilon>(next));}
+void State::addEpsilon(State* next) {epsilons.push_back(std::make_shared<LVAEpsilon>(next));}
 
-void LVAState::addCapture(std::bitset<32> code, LVAState* next) {
+void State::addCapture(std::bitset<32> code, State* next) {
   for(auto const &capture: this->captures) {
     if (capture->code == code && capture->next == next)
       return;
@@ -76,7 +76,7 @@ void LVAState::addCapture(std::bitset<32> code, LVAState* next) {
   next->incidentCaptures.push_back(sp);
 }
 
-void LVAState::addFilter(unsigned int code, LVAState* next) {
+void State::addFilter(unsigned int code, State* next) {
   for(auto const& filter: this->filters)
     if(filter->code == code && filter->next == next) return;
 
@@ -85,7 +85,7 @@ void LVAState::addFilter(unsigned int code, LVAState* next) {
   next->incidentFilters.push_back(sp);
 }
 
-unsigned int LVAState::ID = 0;
+unsigned int State::ID = 0;
 
 
 } // end namespace rematch

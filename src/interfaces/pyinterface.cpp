@@ -1,5 +1,5 @@
 #include "pyinterface.hpp"
-#include "parser/parser.hpp"
+#include "parse/regex/parser.hpp"
 
 namespace rematch {
 

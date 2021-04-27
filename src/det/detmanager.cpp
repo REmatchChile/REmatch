@@ -6,9 +6,9 @@
 #include <random>
 #include <vector>
 
-#include "parser/parser.hpp"
-#include "automata/eva.hpp"
-#include "automata/lvastate.hpp"
+#include "parse/regex/parser.hpp"
+#include "automata/nfa/eva.hpp"
+#include "automata/nfa/state.hpp"
 #include "automata/dfa/dfa.hpp"
 #include "automata/dfa/detstate.hpp"
 #include "det/setstate.hpp"
@@ -28,7 +28,7 @@ DetManager::DetManager(std::string pattern, bool raw_automata) {
 	filter_factory_ = nfa_->filterFactory();
 
 	// Init determinization
-	std::set<LVAState*> new_subset;
+	std::set<State*> new_subset;
 	new_subset.insert(nfa_->initState());
 
 	SetState* ss = new SetState(*nfa_, new_subset);
@@ -50,8 +50,8 @@ void DetManager :: computeCaptures(DetState* p, DetState* q, char a) {
 	captures, stores them if necessary and connects q to the computed
 	deterministic states thourgh deterministic capture transitions */
 
-	std::unordered_map<std::bitset<32>, std::set<LVAState*>> captureList;
-	std::unordered_map<std::bitset<32>, std::set<LVAState*>>::iterator it;
+	std::unordered_map<std::bitset<32>, std::set<State*>> captureList;
+	std::unordered_map<std::bitset<32>, std::set<State*>>::iterator it;
 
 	for(auto &extState: q->ss->subset) {
 		for(auto &capture: extState->captures) {
@@ -59,13 +59,13 @@ void DetManager :: computeCaptures(DetState* p, DetState* q, char a) {
 			it = captureList.find(capture->code);
 
 			if(it == captureList.end()) {
-				it = captureList.emplace(capture->code, std::set<LVAState*>()).first;
+				it = captureList.emplace(capture->code, std::set<State*>()).first;
 			}
 			it->second.insert(capture->next);
 		}
 	}
 
-	for(std::pair<std::bitset<32>, std::set<LVAState*>> el: captureList){
+	for(std::pair<std::bitset<32>, std::set<State*>> el: captureList){
 		SetState* nss = new SetState(*nfa_, el.second);
 
 		/* Check if subset is not on hash table */
@@ -94,7 +94,7 @@ rematch::Transition* DetManager::next_transition(DetState *q, char a) {
 
 	BitsetWrapper charBitset = filter_factory_->applyFilters(a);
 
-	std::set<LVAState*> newSubset;  // Store the next subset
+	std::set<State*> newSubset;  // Store the next subset
 	BitsetWrapper subsetBitset(nfa_->size());  // Subset bitset representation
 
 	for(auto &state: q->ss->subset) {

@@ -10,15 +10,15 @@ namespace rematch {
 
 class VariableFactory;
 class FilterFactory;
-class LVAState;
+class State;
 
 class LogicalVA {
   /* A basic implementation of a Variable Automaton  */
  public:
-  std::vector<LVAState*> states;
-  std::vector<LVAState*> finalStates;
+  std::vector<State*> states;
+  std::vector<State*> finalStates;
 
-  // Empty LogicalVA construction (only one LVAState)
+  // Empty LogicalVA construction (only one State)
   LogicalVA();
 
   LogicalVA(const LogicalVA &A);
@@ -61,17 +61,17 @@ class LogicalVA {
   std::shared_ptr<VariableFactory> varFactory() {return v_factory_;}
   std::shared_ptr<FilterFactory> filterFactory() {return f_factory_;}
 
-  LVAState* initState() const {return init_state_;}
+  State* initState() const {return init_state_;}
 
  private:
 
   // Creates a new State for the automaton.
-  LVAState* new_state();
+  State* new_state();
 
   // Creates new final state for the automaton.
-  LVAState* new_final_state();
+  State* new_final_state();
 
-  LVAState* init_state_;
+  State* init_state_;
 
   std::shared_ptr<VariableFactory> v_factory_;
   std::shared_ptr<FilterFactory> f_factory_;

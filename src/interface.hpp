@@ -4,7 +4,7 @@
 #include <string>
 #include <fstream>
 
-#include "automata/lva.hpp"
+#include "automata/nfa/lva.hpp"
 #include "options.hpp"
 #include "document.hpp"
 

@@ -11,7 +11,7 @@
 #include <map>
 #include <utility>
 
-#include "parser/ast.hpp"
+#include "parse/regex/ast.hpp"
 #include "bitsetwrapper.hpp"
 #include "charclass.hpp"
 

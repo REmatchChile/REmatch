@@ -12,7 +12,7 @@
 
 namespace rematch {
 
-class LVAState;
+class State;
 class VariableFactory;
 class FilterFactory;
 class LogicalVA;
@@ -29,11 +29,11 @@ class ExtendedVA {
  public:
 
 	// TODO: Maybe have only a hash tables instead of vectors
-	std::vector<LVAState*> states;
-	std::vector<LVAState*> finalStates;
-	std::vector<LVAState*> superFinalStates;
+	std::vector<State*> states;
+	std::vector<State*> finalStates;
+	std::vector<State*> superFinalStates;
 
-	std::unordered_map<unsigned int, LVAState*> idMap;
+	std::unordered_map<unsigned int, State*> idMap;
 
 	ExtendedVA(LogicalVA &A);
 	ExtendedVA();
@@ -44,14 +44,14 @@ class ExtendedVA {
 	// Copy constructor for copying states accordingly
 	ExtendedVA(const ExtendedVA &extended_automaton);
 
-	LVAState* initState() const {return init_state_;}
-	void set_initState(LVAState* s) {init_state_ = s;}
+	State* initState() const {return init_state_;}
+	void set_initState(State* s) {init_state_ = s;}
 	std::shared_ptr<VariableFactory> varFactory() const {return variable_factory_;}
 	std::shared_ptr<FilterFactory> filterFactory() const {return filter_factory_;}
 
-	void addFilter(LVAState* state, CharClass cs, LVAState* next);
+	void addFilter(State* state, CharClass cs, State* next);
 
-	void addCapture(LVAState* state, std::bitset<32> bs, LVAState* next);
+	void addCapture(State* state, std::bitset<32> bs, State* next);
 
 	std::string pprint();
 
@@ -65,20 +65,20 @@ class ExtendedVA {
 	void epsilonClosure(LogicalVA &A);
 
 	void adaptReachableStates(LogicalVA &A);
-	void utilCleanUnreachable(LVAState *state);
+	void utilCleanUnreachable(State *state);
 	void pruneUselessStates();
-	void pruneDFS(LVAState *state, std::vector<LVAState*> &tmp);
+	void pruneDFS(State *state, std::vector<State*> &tmp);
 	void captureClosure();
 	void cleanUselessCaptureStates();
 	void cleanUselessCaptureTransitions();
-	std::queue<LVAState*> invTopologicalSort();
-	void invTopologicalSortUtil(LVAState *state, std::queue<LVAState*> *Q);
+	std::queue<State*> invTopologicalSort();
+	void invTopologicalSortUtil(State *state, std::queue<State*> *Q);
 	void relabelStates();
-	void utilRelabelStates(LVAState *state);
+	void utilRelabelStates(State *state);
 	void searchSuperFinals();
-	bool utilSearchSuperFinals(LVAState *state);
+	bool utilSearchSuperFinals(State *state);
 
-	std::set<LVAState*> getSubset(BitsetWrapper bs) const;
+	std::set<State*> getSubset(BitsetWrapper bs) const;
 
 	// Returns a vector of pointers to the LVACaptures present in the automaton
 	// sorted accoding to an inverse topological sort for the automaton graph.
@@ -98,9 +98,9 @@ class ExtendedVA {
  private:
 	void getInvTopSortCapturesUtil(CapturePtr &cap, CaptureVector &L);
 	CaptureVector reachableCaptures(CapturePtr &cap);
-	bool isReachable(LVAState* from, LVAState* to);
+	bool isReachable(State* from, State* to);
 
-	LVAState* init_state_;
+	State* init_state_;
 
 	std::shared_ptr<VariableFactory> variable_factory_;
 	std::shared_ptr<FilterFactory> filter_factory_;

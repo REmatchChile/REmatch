@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-#include "parser/exceptions.hpp"
-#include "parser/ast.hpp"
+#include "parse/regex/exceptions.hpp"
+#include "parse/regex/ast.hpp"
 
 namespace rematch {
 namespace visitors {

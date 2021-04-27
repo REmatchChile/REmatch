@@ -3,12 +3,12 @@
 #include <set>
 
 #include "setstate.hpp"
-#include "automata/lvastate.hpp"
-#include "automata/eva.hpp"
+#include "automata/nfa/state.hpp"
+#include "automata/nfa/eva.hpp"
 
 namespace rematch {
 
-SetState :: SetState(ExtendedVA &eVA, std::set<LVAState*> l):
+SetState :: SetState(ExtendedVA &eVA, std::set<State*> l):
 	subset(l), bitstring(eVA.size()) {
 	/* Construct the bitstring inmediately */
 	isFinal = false;

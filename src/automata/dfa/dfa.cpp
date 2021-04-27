@@ -13,7 +13,7 @@
 #include "captures.hpp"
 #include "factories/factories.hpp"
 #include "detstate.hpp"
-#include "automata/eva.hpp"
+#include "automata/nfa/eva.hpp"
 #include "automata/dfa/transition.hpp"
 
 namespace rematch {
