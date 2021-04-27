@@ -21,6 +21,8 @@ class LogicalVA {
   // Empty LogicalVA construction (only one LVAState)
   LogicalVA();
 
+  LogicalVA(const LogicalVA &A);
+
   // LogicalVA(std::string pattern, bool raw=false);
 
   // Atomic VA
@@ -39,13 +41,20 @@ class LogicalVA {
   // LogicalVA operations, all modify the current LogicalVA to get the result
   // (the operations are inplace)
 
-  void cat(LogicalVA &a2);                 // Equivalent to R1.R2 in VarRegEx
-  void alter(LogicalVA &a2);               // Equivalent to R1|R2 in VarRegEx
-  void kleene();                           // Equivalent to R* in VarRegEx
-  void strict_kleene();                    // Equivalent to R+ in VarRegEx
-  void optional();                         // Equivalent to R? in VarRegEx
-  // Equivalent to !x{R} in VarRegEx
+  // Inplace transformation from R to RR'
+  void cat(LogicalVA &a2);
+  // Equivalent to R1|R2 in VarRegEx
+  void alter(LogicalVA &a2);
+  // Equivalent to R* in VarRegEx
+  void kleene();
+  // Equivalent to R+ in VarRegEx
+  void strict_kleene();
+  // Equivalent to R?
+  void optional();
+  // Equivalent to !x{R}
   void assign(std::bitset<32> open_code, std::bitset<32> close_code);
+  // Inplace transformation from R to R{min,max}
+  void repeat(int min, int max);
 
   std::string pprint();
 

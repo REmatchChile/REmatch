@@ -74,6 +74,9 @@ class LVAState {
     std::list<std::shared_ptr<LVAFilter>> incidentFilters;
 
     LVAState();
+
+    LVAState(const LVAState& s);
+
     void init();
     LVAState* nextLVAState(unsigned int code);
     void addCapture(std::bitset<32> code, LVAState* next);

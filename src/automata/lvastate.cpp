@@ -32,6 +32,16 @@ LVAState::LVAState()
   id = ID++;
 }
 
+LVAState::LVAState(const LVAState& s)
+  : tempMark(false),
+    colorMark('w'),
+    visitedBy(0),
+    isFinal(s.isFinal),
+    isInit(s.isInit),
+    isSuperFinal(s.isSuperFinal) {
+  id = ID++;
+}
+
 bool LVAState::operator==(const LVAState &rhs) const { return id == rhs.id;}
 
 

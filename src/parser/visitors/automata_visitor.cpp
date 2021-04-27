@@ -43,8 +43,8 @@ lva_ptr regex2LVA::operator()(ast::iter const &it) const {
 			A->optional();
 		else if(rep.start_ == 1 && rep.end_ == -1)
 			A->strict_kleene();
-		// else
-			// A->repeat(rep.start_, rep.end_);
+		else
+			A->repeat(rep.start_, rep.end_);
 	}
 
 	return A;

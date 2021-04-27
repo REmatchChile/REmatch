@@ -31,6 +31,70 @@ LogicalVA::LogicalVA(uint code) {
   init_state_->addFilter(code, fstate);
 }
 
+LogicalVA::LogicalVA(const LogicalVA &A)
+    : init_state_(new LVAState(*A.init_state_)),
+      v_factory_(A.v_factory_),
+      f_factory_(A.f_factory_) {
+
+  states.push_back(init_state_);
+
+  // A simple Depth-First Search on the graph of the copied automaton while
+  // constructing the copy's graph.
+
+  // Iterative Search using stack for cleaness in function definitions,
+  std::vector<std::pair<LVAState*, LVAState*>> stack;
+
+  for(auto& state: A.states)
+    state->tempMark = false;
+
+  stack.push_back(std::make_pair(init_state_, A.init_state_));
+  A.init_state_->tempMark = true;
+
+  while(!stack.empty()) {
+    auto cpair = stack.back(); stack.pop_back();
+
+    auto new_q = cpair.first;
+    auto old_q = cpair.second;
+
+    for(auto& filt: old_q->filters) {
+      if(filt->next->tempMark) continue;
+      LVAState* ns = new LVAState(*filt->next);
+
+      states.push_back(ns);
+      if(ns->isFinal) finalStates.push_back(ns);
+
+      new_q->addFilter(filt->code, ns);
+
+      stack.push_back(std::make_pair(ns, filt->next));
+      filt->next->tempMark = true;
+    }
+    for(auto& cap: old_q->captures) {
+      if(cap->next->tempMark) continue;
+      LVAState* ns = new LVAState(*cap->next);
+
+      this->states.push_back(ns);
+      if(ns->isFinal) this->finalStates.push_back(ns);
+
+      new_q->addCapture(cap->code, ns);
+
+      stack.push_back(std::make_pair(ns, cap->next));
+      cap->next->tempMark = true;
+    }
+    for(auto& eps: old_q->epsilons) {
+      if(eps->next->tempMark) continue;
+      LVAState* ns = new LVAState(*eps->next);
+
+      this->states.push_back(ns);
+      if(ns->isFinal) this->finalStates.push_back(ns);
+
+      new_q->addEpsilon(ns);
+
+      stack.push_back(std::make_pair(ns, eps->next));
+      eps->next->tempMark = true;
+    }
+  }
+}
+
 void LogicalVA::set_factories(std::shared_ptr<VariableFactory> v,
 										          std::shared_ptr<FilterFactory> f) {
   v_factory_ = v;
@@ -183,6 +247,61 @@ void LogicalVA::assign(std::bitset<32> open_code, std::bitset<32> close_code) {
   finalStates.clear();
   finalStates.push_back(closeLVAState);
   closeLVAState->setFinal(true);
+}
+
+void LogicalVA::repeat(int min, int max) {
+  LogicalVA copied(*this);
+  if (min == 0 && max == -1) {
+    kleene(); return;
+  }
+
+  for(int i=1; i < min-1; i++) {
+    LogicalVA copied_automaton(copied);
+    cat(copied_automaton);
+  }
+
+  if(min > 1) {
+    LogicalVA copied_automaton(copied);
+    if(max == -1)
+      copied_automaton.strict_kleene();
+    cat(copied_automaton);
+  }
+
+  // This is the optional part
+  if(max-min > 0) {
+    LogicalVA *copied_automaton, *copied_automaton2;
+    if(min == 0) {
+      if(max > 1) {
+        copied_automaton = new LogicalVA(copied);
+        copied_automaton->optional();
+        for(int i=min+1; i < max-1; i++) {
+          copied_automaton2 = new LogicalVA(copied);
+          copied_automaton2->cat(*copied_automaton);
+          copied_automaton2->optional();
+          copied_automaton = copied_automaton2;
+       }
+       cat(*copied_automaton);
+       optional();
+      } else {
+        optional();
+      }
+    } else {
+      copied_automaton = new LogicalVA(copied);
+      copied_automaton->optional();
+      for(int i=min+1; i < max; i++) {
+        copied_automaton2 = new LogicalVA(copied);
+        copied_automaton2->cat(*copied_automaton);
+        copied_automaton2->optional();
+        copied_automaton = copied_automaton2;
+      }
+      cat(*copied_automaton);
+
+    }
+  }
+
+
+
+
 }
 
 std::string LogicalVA :: pprint() {
