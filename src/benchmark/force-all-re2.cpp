@@ -21,10 +21,6 @@ int main(int argc, char const *argv[]) {
 
   RE2 pattern(rgx);
 
-  // Let's think of
-  //(\d{3,6})
-  // ....->\d\d\d\d\d\d....
-
   re2::StringPiece supermatch, match;
   int count = 0;
   size_t inp_sz = input.size(); // Original size
@@ -40,7 +36,7 @@ int main(int argc, char const *argv[]) {
         } else break;
           // No se puede asegurar que no haya output en el resto de los
           // prefijos.
-        supermatch.remove_suffix(1);
+        supermatch.remove_suffix(supermatch.size() - match.size() + 1);
       }
       // std::cout << "Match: \"" << match << "\"\n";
 

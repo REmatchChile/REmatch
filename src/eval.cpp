@@ -81,13 +81,13 @@ Match_ptr Evaluator::next() {
       }
       #endif
 
-      // if(current_state_->is_super_final()) {
-      //   if(++out_buf_sz_ >= Evaluator::kMaxOutputBufferSize) {
-      //     out_buf_sz_ = 0;
-      //     bailed_early_ = true;
-      //     break;
-      //   }
-      // }
+      if(current_state_->is_super_final()) {
+        if(++out_buf_sz_ >= Evaluator::kMaxOutputBufferSize) {
+          out_buf_sz_ = 0;
+          bailed_early_ = true;
+          break;
+        }
+      }
     }
 
     for(auto &state: current_state_->states()) {
@@ -110,7 +110,8 @@ Match_ptr Evaluator::next() {
 
     if((i_pos_-i_start_) == (int64_t)line_.size()) {
       while(!(document_ended_ = !((bool) text_->getline(line_)))) {
-        // line_ += '\n';
+        line_ += '\n';
+        // i_pos_++; // Simulate '\n'
         i_start_ = i_pos_;
         nlines_++;
 

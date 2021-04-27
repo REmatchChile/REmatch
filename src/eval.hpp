@@ -107,7 +107,7 @@ class Evaluator {
   int64_t i_start_;
   int64_t nlines_;
 
-  static const size_t kMaxOutputBufferSize = 100000;
+  static const size_t kMaxOutputBufferSize = 750;
   size_t out_buf_sz_;
 
   #ifdef COUNT_CURRENT_STATES

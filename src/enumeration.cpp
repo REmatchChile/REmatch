@@ -26,7 +26,7 @@ void Enumerator::addNodeList(internal::NodeList &startList) {
   }
 }
 
-Match_ptr Enumerator :: next() {
+Match_ptr Enumerator::next() {
   while(!depth_stack_.empty()) {
     auto current = depth_stack_.back();
     internal::Node* node = current.current_node;

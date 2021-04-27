@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
 
 	// Evaluation flags
 	// app.add_flag("-c,--continuous",cont,"Continuous evaluation.");
-	// app.add_flag("-l,--line-by-line", line,"Line by line evaluation");
+	app.add_flag("-l,--line-by-line", line,"Line by line evaluation");
 
 	CLI11_PARSE(app, argc, argv);
 

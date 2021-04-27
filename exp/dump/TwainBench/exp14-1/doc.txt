@@ -1,1 +1,0 @@
-/home/nicovsj/datasets/mtent12/mtent12.combo4.txt

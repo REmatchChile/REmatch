@@ -22,8 +22,9 @@ PARENT_FOLDER = "13CDshEJ3lXQIYmumBpmDN1_iZnGsnTjU"
 # TEMPLATE_FILE = "1uFpKQU2xc5tMAf0hIQi672jVwi2fp7SMtQTFyPHUPr0"
 # TEMPLATE_FILE = "1H2fIh7aOgs-2P9Vx5YYgfHifuAdd5dseNhEkkhUziFk"
 
-TEMPLATE_FILE = "1QMcMNan9QlRQ-vYCEW2vMy0bUyyweXKI8fREasefb7c"
+# TEMPLATE_FILE = "1QMcMNan9QlRQ-vYCEW2vMy0bUyyweXKI8fREasefb7c"
 
+TEMPLATE_FILE = data['template']
 SCOPES = data['scopes']
 SHEETS = data['sheets']
 DATASET = data['dataset']
@@ -60,7 +61,7 @@ def get_rgx(rgx_path):
 	return rgx
 
 def docstats(doc_path):
-	command = "wc -ml \"$(readlink -f \"{0}\")\" | awk '{{print $1, $2}}'".format(doc_path)
+	command = f"wc -ml \"$(readlink -f \"{doc_path}\")\" | awk '{{print $1, $2}}'"
 	process = subprocess.run(command, shell=True, check=True,
 	                         capture_output=True, universal_newlines=True)
 	nlines, nchars = process.stdout.split()
@@ -73,8 +74,12 @@ def docstats(doc_path):
 
 def automata_stats(doc_path, rgx_path):
 	command = "{0}/build/Release/bin/rematch-timer -l -o benchmark -d {1} -r {2}".format(HOME_DIR, doc_path, rgx_path)
-	process = subprocess.run(command, shell=True, check=True,
-	                         capture_output=True, universal_newlines=True)
+	try:
+		process = subprocess.run(command, shell=True, check=True,
+														capture_output=True, universal_newlines=True)
+	except:
+		print(f"Error while processing command: {command}")
+		return 'err', 'err', 'err', 'err', 'err'
 
 	# print(process.stdout)
 
@@ -113,7 +118,12 @@ def run_bench(binary, doc_path, rgx_path, nexp):
 	tot_time = 0
 
 	try:
-		process = subprocess.run(command_mem, shell=True, check=True, capture_output=True, universal_newlines=True)
+		process = subprocess.run(command_mem,
+				shell=True, check=True, capture_output=True, universal_newlines=True,
+				timeout=60)
+	except subprocess.TimeoutExpired:
+		print(f"Timeout with command: {command_mem}")
+		return 'timeout', 'timeout', 'timeout'
 	except:
 		print(f"Error while processing command: {command_mem}")
 		return 'err', 'err', 'err'
@@ -189,7 +199,7 @@ def main():
 
 			row_values = [[0 for _ in range(row_length)]]
 
-			leftmost_col = chr(ord(START_COL) + 2)
+			leftmost_col = chr(ord(START_COL) + 1)
 
 			rmost_ord = ord(leftmost_col) + row_length
 
