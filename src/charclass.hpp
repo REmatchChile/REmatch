@@ -9,6 +9,52 @@
 
 namespace rematch {
 
+struct CharRange {
+	CharRange() : lo(0), hi(0) {}
+	CharRange(char l, char h): lo(l), hi(h) {}
+
+	char lo;
+	char hi;
+};
+
+struct CharRangeLess {
+	bool operator()(const CharRange &a, const CharRange &b) const {
+		return a.hi < b.lo;
+	}
+};
+
+using CharRangeSet = std::set<CharRange, CharRangeLess>;
+
+class CharClass;
+
+class CharClassBuilder {
+ public:
+	CharClassBuilder();
+
+	using iterator = CharRangeSet::iterator;
+	iterator begin() {return ranges_.begin();}
+	iterator end() {return ranges_.end();}
+
+	int size() {return nchars_;}
+	bool empty() const {return nchars_ == 0;}
+
+	bool contains(char c);
+	bool add_range(char l, char h);
+	void add_charclass(CharClassBuilder* cc);
+	void negate();
+
+	CharClass* get_charclass();
+
+	CharClassBuilder* intersect(CharClassBuilder* cc);
+	CharClassBuilder* set_minus(CharClassBuilder* cc);
+
+	friend std::ostream& operator<<(std::ostream &os, CharClassBuilder const &b);
+
+ private:
+	int nchars_;
+	CharRangeSet ranges_;
+};
+
 class CharClass {
 	/* Extension of ast::charset (parsing struct) that stores the information of a
 	   regex charclass (e.g [^a-zA-Z0-9]) */
@@ -20,7 +66,6 @@ class CharClass {
 	static const std::set<special_code> special_codes;
 
 	std::string label;
-
 
 	// Empty constructor
 	CharClass();

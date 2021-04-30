@@ -16,6 +16,7 @@ set(sources ${fix_srcs} ${glob_srcs})
 
 set(BUILD_TARGETS
   rematch
+  test-charclass
 )
 
 set(BENCHMARK_TARGETS
@@ -54,8 +55,8 @@ else()
     set_target_properties(${target} PROPERTIES LINK_FLAGS "--bind")
   else()
     foreach(target ${BUILD_TARGETS})
-      add_executable(${target} ${CMAKE_CURRENT_SOURCE_DIR}/main/${target}.cpp ${sources})
-      # target_link_libraries(${target} ${project_LIBS})
+      add_executable(${target} ${CMAKE_CURRENT_SOURCE_DIR}/main/${target}.cpp)
+      target_link_libraries(${target} ${project_LIBS})
       set_property(TARGET ${target} PROPERTY CXX_STANDARD 17)
     endforeach(target ${BUILD_TARGETS})
     if(BUILD_BENCHMARKS)
