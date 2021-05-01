@@ -60,8 +60,8 @@ lva_ptr regex2LVA::operator()(ast::parenthesis const &p) const {
 
 lva_ptr regex2LVA::operator()(ast::assignation const &a) const {
 	auto A = (*this)(a.root);
-	std::bitset<32> op_code = v_fact_->getOpenCode(a.var);
-	std::bitset<32> cl_code = v_fact_->getCloseCode(a.var);
+	std::bitset<32> op_code = v_fact_->open_code(a.var);
+	std::bitset<32> cl_code = v_fact_->close_code(a.var);
 	A->assign(op_code, cl_code);
 	return A;
 }

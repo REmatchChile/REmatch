@@ -12,11 +12,10 @@
 
 namespace rematch {
 
-Enumerator::Enumerator(RegEx &rgx, std::string &doc)
-    : doc_(doc),
-      rgx_(rgx),
-      n_mappings_(0),
-      data_(rgx_.varCount(), std::pair<int64_t, int64_t>(0, 0)) {}
+Enumerator::Enumerator(RegEx &rgx)
+    : var_factory_(rgx.detManager().varFactory()),
+      nmappings_(0),
+      current_mapping_(var_factory_->size() * 2, -1) {}
 
 
 void Enumerator::addNodeList(internal::NodeList &startList) {
@@ -34,8 +33,9 @@ Match_ptr Enumerator::next() {
     depth_stack_.pop_back();
 
     if(node->isNodeEmpty()) {
-      n_mappings_++;
-      return std::make_unique<Match>(doc_, data_, rgx_.varScheme());
+      nmappings_++;
+      std::unique_ptr<Match> ret(new Match(var_factory_, current_mapping_));
+      return ret;
     }
 
     if(node != current.end_node) {
@@ -43,12 +43,11 @@ Match_ptr Enumerator::next() {
     }
 
     if(node->start != nullptr) {
-      for(size_t j=0; j < data_.size(); j++) {
-        if(node->S[2*j])
-          data_[j].first = node->i - rgx_.detManager().varFactory()->getOffset(2*j);
-        if(node->S[2*j+1])
-          data_[j].second = node->i - rgx_.detManager().varFactory()->getOffset(2*j+1);
+      for(size_t j=0; j < var_factory_->size() * 2; j++) {
+        if(node->S[j])
+          current_mapping_[j] =  node->i - var_factory_->get_offset(j);
       }
+
       depth_stack_.emplace_back(node->start, node->end);
     }
 

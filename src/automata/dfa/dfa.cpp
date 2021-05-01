@@ -76,7 +76,7 @@ std::string DFA::pprint() {
         }
       }
       if(trans->type_ & Transition::Type::kSingleCapture) {
-        ss << prefix << '/' << variable_factory_->getVarUtil(trans->capture_->S)
+        ss << prefix << '/' << variable_factory_->print_varset(trans->capture_->S)
                      << ' ' << trans->capture_->next->id;
         if (visited.find(trans->capture_->next->id) == visited.end()) {
           visited.insert(trans->capture_->next->id);
@@ -85,7 +85,7 @@ std::string DFA::pprint() {
       } // Single capture
       if(trans->type_ & Transition::Type::kMultiCapture) {
         for(auto &capture: *trans->captures_) {
-          ss << prefix << '/' << variable_factory_->getVarUtil(capture->S)
+          ss << prefix << '/' << variable_factory_->print_varset(capture->S)
                        << ' ' << capture->next->id;
           if (visited.find(capture->next->id) == visited.end()) {
             visited.insert(capture->next->id);

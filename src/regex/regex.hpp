@@ -54,8 +54,6 @@ class RegEx {
 
   int varCount() const {return dman_.varFactory()->size();}
 
-  std::vector<std::string> varScheme() const {return dman_.varFactory()->getOutputSchema();}
-
   // Getters
 
   const std::string pattern() const {return pattern_;}

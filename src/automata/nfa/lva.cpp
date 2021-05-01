@@ -356,7 +356,7 @@ std::string LogicalVA :: pprint() {
 
       nid = capture->next->id;
 
-      ss << "t " << cid << " " << v_factory_->getVarUtil(S) << " " << nid << '\n';
+      ss << "t " << cid << " " << v_factory_->print_varset(S) << " " << nid << '\n';
 
       // If not visited enqueue and add to visited
       if (visited.find(nid) == visited.end()) {

@@ -4,6 +4,7 @@
 #include <ostream>
 #include <bitset>
 #include <unordered_set>
+#include <algorithm>
 
 #include "factories.hpp"
 #include "charclass.hpp"
@@ -12,68 +13,62 @@
 
 namespace rematch {
 
-VariableFactory :: VariableFactory()
-	:numVars(0) {}
+VariableFactory::VariableFactory() {}
 
-std::string VariableFactory :: getVarName(unsigned int position) {
-	return varMap[position];
+std::string VariableFactory::get_var(uint position) {
+	return data_[position];
 }
 
-void VariableFactory :: addVar(std::string varName) {
+int VariableFactory::position(std::string var) const {
+	auto it = std::lower_bound(data_.begin(), data_.end(), var);
 
-	if(codeMap.count(varName)) {
-		std::cerr << "Key " << varName << " already in.\n";
-		return;
+	if(it != data_.end() && var >= *it) {
+		return it - data_.begin();
+	} else {
+		// TODO: Throw exception
+		return -1;
 	}
-
-	if(!(numVars < MAX_VARS)) {
-		std::cerr << "Maximum number of variables reached. (" << MAX_VARS << ").\n";
-		return;
-	}
-
-	codeMap[varName] = numVars;
-	varMap[numVars] = varName;
-
-	// Add offsetMap new entries, defaults to zero.
-	offsetMap.push_back(0);
-	offsetMap.push_back(0);
-
-	numVars++;
 }
 
-std::bitset<32> VariableFactory :: getOpenCode(std::string varName) {
+void VariableFactory::add(std::string var) {
+	if(size() >= MAX_VARS)
+		return;
+
+	auto it = std::lower_bound(data_.begin(), data_.end(), var);
+
+	if(it == data_.end() || var < *it) {
+		data_.insert(it, var);
+		// Add offsetMap new entries, defaults to zero.
+		offsetMap.push_back(0);
+		offsetMap.push_back(0);
+	}
+}
+
+std::bitset<32> VariableFactory::open_code(std::string var) {
 	std::bitset<32> bitstring;
 
-	auto it = codeMap.find(varName);
+	auto it = std::lower_bound(data_.begin(), data_.end(), var);
 
-	if(it != codeMap.end()) {
-		bitstring.set(it->second * 2);
+	if(it != data_.end() && var >= *it) {
+		bitstring.set((it - data_.begin()) * 2);
 	}
 
 	return bitstring;
 }
 
-std::bitset<32> VariableFactory::getCloseCode(std::string varName) {
+std::bitset<32> VariableFactory::close_code(std::string var) {
 	std::bitset<32> bitstring;
-	auto it = codeMap.find(varName);
 
+	auto it = std::lower_bound(data_.begin(), data_.end(), var);
 
-	if(it != codeMap.end()) {
-		bitstring.set(it->second * 2+1);
+	if(it != data_.end() && var >= *it) {
+		bitstring.set((it - data_.begin()) * 2 + 1);
 	}
 
 	return bitstring;
 }
 
-std::vector<std::string> VariableFactory::getOutputSchema() {
-	std::vector<std::string> ret(numVars, "");
-	for (unsigned int i = 0; i < numVars; i++) {
-		ret[i] = varMap[i];
-	}
-	return ret;
-}
-
-std::string VariableFactory :: getVarUtil(std::bitset<32> code) {
+std::string VariableFactory :: print_varset(std::bitset<32> code) {
 	std::stringstream ss;
 
 	// Get a container just for printing output correctly with commas
@@ -81,14 +76,14 @@ std::string VariableFactory :: getVarUtil(std::bitset<32> code) {
 
 	for(size_t i=0; i < 16; i++) {
 		if(code[2*i]) {
-			ss << varMap[i];
+			ss << data_[i];
 			if(offsetMap[2*i]) ss << "(-" << offsetMap[2*i] << ")";
 			ss << "<";
 			container.push_back(ss.str());
 			ss.str(std::string()); // Erase the stringstream
 		}
 		if(code[2*i+1]) {
-			ss << ">"  << varMap[i];
+			ss << ">"  << data_[i];
 			if(offsetMap[2*i+1]) ss << "(-" << offsetMap[2*i+1] << ")";
 			container.push_back(ss.str());
 			ss.str(std::string()); // Erase the stringstream
@@ -108,48 +103,41 @@ std::string VariableFactory :: getVarUtil(std::bitset<32> code) {
 
 std::string VariableFactory::pprint() {
 	std::stringstream ss;
-	for(auto &it: varMap) {
-		ss << it.first  << " -> " << it.second << "\n";
+	for(size_t i = 0; i < size(); i++) {
+		ss << data_[i]  << " -> " << i << "\n";
 	}
 
 	return ss.str();
 }
 
 void VariableFactory :: merge(VariableFactory &rhs) {
-	for(auto &it: rhs.codeMap) {
-		if (!codeMap.count(it.first)) {
-			assert(numVars < MAX_VARS);
-			codeMap[it.first] = numVars;
-			varMap[numVars] = it.first;
-
-			offsetMap.push_back(0);
-			offsetMap.push_back(0);
-
-		  numVars++;
-		} else {
+	for(auto &var: rhs.data_) {
+		auto it = std::lower_bound(data_.begin(), data_.end(), var);
+		if(it != data_.end() && var == *it) {
 			throw parsing::BadRegex("Regex is not functional.");
+		} else {
+			if(size() >= MAX_VARS) {}
+				// TODO: Throw an exception;
+			data_.insert(it, var);
+
+			offsetMap.push_back(0);
+			offsetMap.push_back(0);
 		}
 	}
 
 }
 
-bool VariableFactory::isMember(std::string varName) {
-	return (bool)codeMap.count(varName);
+bool VariableFactory::contains(std::string var) {
+	return std::binary_search(data_.begin(), data_.end(), var);
 }
 
-bool VariableFactory::isEmpty() {
-	return (bool)(numVars == 0);
+bool VariableFactory::empty() {
+	return data_.empty();
 }
 
 bool VariableFactory::operator ==(const VariableFactory &vf) const {
-	if(numVars != vf.numVars) return false;
-
-	for(auto &it: codeMap) {
-		if(!vf.codeMap.count(it.first)) return false; // If one key is not present in both
-	}
-	return true;
+	return data_ == vf.data_;
 }
-
 
 
 FilterFactory::FilterFactory(): numFilters(0) {}

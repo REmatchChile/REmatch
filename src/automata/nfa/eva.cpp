@@ -383,7 +383,7 @@ void ExtendedVA::computeOffset(CaptureList &captureList, int codeIndex) {
 
 		}
 
-		variable_factory_->getOffset(codeIndex)++;
+		variable_factory_->get_offset(codeIndex)++;
 	}
 }
 
@@ -651,7 +651,7 @@ std::string ExtendedVA :: pprint() {
 
       nid = capture->next->id;
 
-      ss << "t " << cid << " " << variable_factory_->getVarUtil(S) << " " << nid << '\n';
+      ss << "t " << cid << " " << variable_factory_->print_varset(S) << " " << nid << '\n';
 
       // If not visited enqueue and add to visited
       if (visited.find(nid) == visited.end()) {

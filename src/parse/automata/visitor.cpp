@@ -69,15 +69,15 @@ rematch::State *file_to_automata :: get_state(std::string state_name)
 
 std::bitset<32> file_to_automata :: get_variable_code(automata::variable const &variable)
 {
-    if (!automata->varFactory()->isMember(variable.name))
+    if (!automata->varFactory()->contains(variable.name))
     {
-        automata->varFactory()->addVar(variable.name);
+        automata->varFactory()->add(variable.name);
     }
     if (variable.is_opening)
     {
-        return automata->varFactory()->getOpenCode(variable.name);
+        return automata->varFactory()->open_code(variable.name);
     }
-    return automata->varFactory()->getCloseCode(variable.name);
+    return automata->varFactory()->close_code(variable.name);
 }
 
 int file_to_automata :: get_filter_code(automata::charclass const &automata_charclass) {

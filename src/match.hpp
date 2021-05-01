@@ -9,9 +9,12 @@
 #include <iostream>
 #include <memory>
 
+#include "factories/factories.hpp"
+
 namespace rematch {
 
 class Match;
+class Enumerator;
 
 #ifdef SWIG
 using Match_ptr = Match*;
@@ -20,7 +23,7 @@ using Match_ptr = std::unique_ptr<Match>;
 #endif
 
 
-using Span = std::pair<int64_t, int64_t>;
+using Span = std::pair<int64_t,int64_t>;
 using SpanMap = std::map<std::string, Span>;
 using SpanVect = std::vector<Span>;
 
@@ -28,45 +31,43 @@ using SpanVect = std::vector<Span>;
 // It doesn't store the correspondings substrings, so it's assumed that the
 // sublaying document is available.
 class Match {
+  friend class Enumerator;
  public:
+
+  Match() = default;
+
   operator bool() const {return !data_.empty();}
 
-  Match(std::string const &d): doc_(d) {}
+  int64_t start(std::string varname) const;
+  int64_t end(std::string varname) const;
 
-  Match(std::string const &d, SpanMap s): doc_(d), data_(s) {}
-
-  Match(std::string const &d, SpanVect s,
-        std::vector<std::string> output_scheme);
-
-  int64_t start(std::string varname) const {return span(varname).first;}
-  int64_t end(std::string varname) const {return span(varname).second;}
-
-  // Returns a pair<uint64_t, uint64_t> correspoding to a variable's span.
   Span span(std::string var) const;
 
   // Returns a variable's captured substring
   std::string group(std::string var) const;
 
   // Returns referece to the sublaying document.
-  const std::string& doc() const {return doc_;}
+  const std::string& doc() const;
 
   // Returns a vector with the variable names in order
   std::vector<std::string> variables() const;
 
-  SpanMap& data() {return data_;}
-
-  std::string print();
+  SpanMap& data();
 
   friend std::ostream& operator<<(std::ostream &os, Match &m);
 
  private:
+  // Only Enumerator is able to construct a Match
+  Match(std::shared_ptr<VariableFactory> vf, std::vector<int64_t> m)
+      : data_(m), var_factory_(vf) {}
 
-  // If var already in table raise exception
-  void addMapping(std::string var, Span span);
+  // Enumerator needs to access data_ to fill out the mappings
+  void set_mapping(int var_code, int64_t pos) {data_[var_code] = pos;}
 
-
-  const std::string &doc_;     // Access to context document.
-  SpanMap data_;          // Mappings table.
+  // No advantage in using STL containers like std::map and std::unordered_map.
+  std::vector<int64_t> data_;
+  // Access to variable names
+  std::shared_ptr<VariableFactory> var_factory_;
 
 }; // end class Match
 

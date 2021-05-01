@@ -25,8 +25,7 @@ Evaluator::Evaluator(RegEx &rgx, std::shared_ptr<Document> d,
 }
 
 void Evaluator::init() {
-  std::string str_ = "";
-  enumerator_ = std::make_unique<Enumerator>(rgx_, str_);
+  enumerator_ = std::make_unique<Enumerator>(rgx_);
   if(line_by_line_) {
     text_->getline(line_);
     // line_ += '\n';

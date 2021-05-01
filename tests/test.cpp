@@ -146,7 +146,9 @@ void check_spanners(rematch::RegEx &rgx, std::string document_file, std::string 
 
     // std::cout << "Test: \"" << doc << "\"\n";
     for(auto match = m_iter.next(); match != nullptr; match = m_iter.next()) {
-        std::string output = match->print();
+        std::stringstream ss;
+        ss << *match;
+        std::string output = ss.str();
         real_results.insert(parse_set(strip(output)));
     }
 

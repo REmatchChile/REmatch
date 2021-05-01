@@ -27,24 +27,26 @@ class VariableFactory {
 	// Simple constructor
 	VariableFactory();
 
-	size_t size() {return numVars;}
+	size_t size() {return data_.size();}
 
-	std::string getVarName(unsigned int position);
+	std::string get_var(uint position);
+
+	std::vector<std::string> variables() {return data_;}
+
+	int position(std::string var) const;
 
 	// Add a variable to the struct
-	void addVar(std::string varName);
+	void add(std::string var);
 
 	// Given a variable name outputs the corresponding opening bitset
-	std::bitset<32> getOpenCode(std::string varName);
+	std::bitset<32> open_code(std::string var);
 
 	// Given a variable name outputs the corresponding closing bitset
-	std::bitset<32> getCloseCode(std::string varName);
+	std::bitset<32> close_code(std::string var);
 
 	// Given a bitset outputs the corresponding opening and closing variables
 	// as a std::string
-	std::string getVarUtil(std::bitset<32> code);
-
-	std::vector<std::string> getOutputSchema();
+	std::string print_varset(std::bitset<32> code);
 
 	// Prints the hash table
 	std::string pprint();
@@ -53,24 +55,18 @@ class VariableFactory {
 	void merge(VariableFactory &rhs);
 
 	// Checks if a variable name is present
-	bool isMember(std::string varName);
+	bool contains(std::string var);
 
-	bool isEmpty();
+	bool empty();
 
 	// Equality operator overload
 	bool operator ==(const VariableFactory &vf) const;
 
-	int& getOffset(int index) {return offsetMap[index];}
+	int& get_offset(int index) {return offsetMap[index];}
 
  private:
-	// Total vars present at factory
-	size_t numVars;
-
-	// VarName -> VarCode hash table
-	std::unordered_map<std::string, unsigned int> codeMap;
-
-	// VarCode -> VarName hash table
-	std::unordered_map<unsigned int, std::string> varMap;
+	// Ordered vector that stores the variables.
+	std::vector<std::string> data_;
 
 	// Offset capturing optimization. Maps each opening and closing
 	// capture variable to its computed offset. Then it's a vector of size

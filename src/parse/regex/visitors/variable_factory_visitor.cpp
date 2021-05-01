@@ -38,7 +38,7 @@ vfptr regex2vars::operator()(ast::concat const &c) const {
 
 vfptr regex2vars::operator()(ast::iter const &it) const {
 	auto vfact = (*this)(it.expr);
-	if(!it.repetitions.empty() && !vfact->isEmpty()){
+	if(!it.repetitions.empty() && !vfact->empty()){
 		throw parsing::BadRegex("Not a functional regex.");
 	}
 	return vfact;
@@ -55,11 +55,11 @@ vfptr regex2vars::operator()(ast::parenthesis const &p) const {
 vfptr regex2vars::operator()(ast::assignation const &a) const {
 	auto vfact = (*this)(a.root);
 
-	if(vfact->isMember(a.var)) {
+	if(vfact->contains(a.var)) {
     throw parsing::BadRegex("Not a functional regex.");
   }; // Check for functional regex
 
-	vfact->addVar(a.var);
+	vfact->add(a.var);
 	return vfact;
 }
 

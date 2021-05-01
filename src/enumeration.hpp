@@ -30,7 +30,7 @@ class Enumerator {
   using SpanMap = std::map<std::string, std::pair<int64_t, int64_t>>;
 
   public:
-    Enumerator(RegEx &rgx, std::string &doc);
+    Enumerator(RegEx &rgx);
 
     // Get the next match according to the current state of the depth stack.
     Match_ptr next();
@@ -47,7 +47,7 @@ class Enumerator {
     void reset() {depth_stack_.clear();}
 
     // Returns the total number of mappings
-    uint64_t numMappings() const {return n_mappings_;}
+    uint64_t numMappings() const {return nmappings_;}
 
  private:
 
@@ -58,19 +58,16 @@ class Enumerator {
 
     EnumState(internal::Node* c, internal::Node* e)
       : current_node(c), end_node(e) {}
-
   }; // end struct EnumeratorNode
 
+  std::shared_ptr<VariableFactory> var_factory_;
+  uint64_t nmappings_;
 
-  std::string& doc_;                    // Sublaying document
-  std::vector<EnumState> depth_stack_;  // Stack for DFS in the DAG-like struct
+  std::vector<EnumState> depth_stack_;  // Stack for DFS in the mappingDAG
 
-  RegEx& rgx_;
-
-  uint64_t n_mappings_;                 // Total num of mappings
-
-  std::vector<std::pair<int64_t, int64_t>> data_;
-
+  // Store the current mapping because each next() call needs to
+  // remember the capture positions already found.
+  std::vector<int64_t> current_mapping_;
 }; // end class Enumerator
 
 } // end namespace rematch
