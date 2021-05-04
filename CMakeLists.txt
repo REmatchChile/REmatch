@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
 
-enable_testing()
-
 project(rematch LANGUAGES CXX)
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -9,43 +7,46 @@ if(NOT CMAKE_BUILD_TYPE)
 	message(STATUS "Build type not specified. Using Release by default.")
 endif()
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -O0 -g3")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -O3 -g0")
+# Enable testing
+option(REMATCH_BUILD_TESTING "enable testing for rematch" ON)
+option(REMATCH_BUILD_BENCHMARKS "enable benchmark testing for rematch" ON)
+
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -pthread -O0 -g3")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -pthread -O3 -g0")
 
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
 set(LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
 
-if(SWIG)
-	find_package(SWIG 4.0)
-	find_package(Python3 REQUIRED COMPONENTS Development)
-	include(${SWIG_USE_FILE})
-	# Add support for .swg file
-	set(SWIG_SOURCE_FILE_EXTENSIONS ".i" ".swg")
-	set(CMAKE_SWIG_OUTDIR "${EXECUTABLE_OUTPUT_PATH}/SWIG")
-endif()
+add_compile_definitions(
+	MACRO_TRANSITIONS_RAW_ARRAYS
+	# COUNT_CURRENT_STATES
+	# NOPT_CROSSPROD
+	# NOPT_OFFSET
+	# NOPT_MEMORY
+)
 
-# add_definitions(-DNOPT_CROSSPROD)
-# add_definitions(-DNOPT_OFFSET)
-# add_definitions(-DNOPT_MEMORY)
-add_definitions(-DMACRO_TRANSITIONS_RAW_ARRAYS)
-# add_definitions(-DCOUNT_CURRENT_STATES)
+# Rematch libs starts as empty list
+set(REMATCH_LIBS "")
 
-set(BUILD_BENCHMARKS TRUE)
+include_directories(src/rematch)
+include_directories(SYSTEM src/thirdparty)
 
-include_directories(src)
-include_directories(SYSTEM thirdparty)
+find_package(Boost 1.58)
+include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
+# No need to add Boost's libraries, we're using only boost's headers
+# list(APPEND project_LIBS ${Boost_LIBRARIES})
 
-if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
-	find_package(Boost 1.58)
-	include_directories(${Boost_INCLUDE_DIRS})
-	list(APPEND project_LIBS ${Boost_LIBRARIES})
-endif()
+add_subdirectory(src/rematch)
 
-add_subdirectory(src)
+message("REmatch libs: ${REMATCH_LIBS}")
 
-if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten" AND NOT SWIG)
+add_subdirectory(src/targets)
+
+if(REMATCH_BUILD_TESTING)
 	add_subdirectory(tests)
-endif()
+endif(REMATCH_BUILD_TESTING)
+
+

@@ -1,3 +1,15 @@
+enable_testing()
+
+find_package(CxxTest)
+
+if(CXXTEST_FOUND)
+  include_directories(${CXXTEST_INCLUDE_DIR})
+  CXXTEST_ADD_TEST(sample_unittest test-cxxtest.cpp
+                                  ${CMAKE_CURRENT_SOURCE_DIR}/test-cxxtest.hpp)
+  target_link_libraries(sample_unittest ${PROJECT_NAME}lib)
+endif()
+
+
 # Macro for listing all subirectories at current directory
 MACRO(SUBDIRLIST result curdir)
   FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
