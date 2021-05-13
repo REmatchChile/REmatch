@@ -8,7 +8,7 @@
 #include <bitset>
 
 #include "bitsetwrapper.hpp"
-#include "structs/dag/nodelist.hpp"
+#include "structs/dag/fastnodelist.hpp"
 #include "det/setstate.hpp"
 #include "captures.hpp"
 
@@ -29,10 +29,12 @@ class DetState {
     // Label used for debugging
     std::string label;
 
+    DetState* drop_super_finals_ = nullptr;
+
     int64_t visited;  // Mark the reading iteration for which the State is prepared
 
-    internal::NodeList* currentL;
-    internal::NodeList* copiedList;
+    internal::FastNodeList* currentL;
+    internal::FastNodeList* copiedList;
 
     SetState* ss;
 
@@ -43,9 +45,19 @@ class DetState {
 
     Transition* next_transition(char a);
 
+    DetState* drop_super_finals() { return drop_super_finals_;}
+    void set_drop_super_finals(DetState* s) {drop_super_finals_ = s;}
+
     void add_capture(char a, std::bitset<32> S, DetState* state);
     void add_direct(char a, DetState* state);
     void add_empty(char a, DetState* state);
+
+    // Remove SuperFinals states from the detState;
+    bool remove_superfinals();
+
+    bool empty() const { return ss->subset.empty(); }
+
+
 
     DetState* nextState(BitsetWrapper charBitset);
     DetState* nextState(char a);

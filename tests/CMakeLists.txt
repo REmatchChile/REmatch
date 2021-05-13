@@ -4,8 +4,8 @@ find_package(CxxTest)
 
 if(CXXTEST_FOUND)
   include_directories(${CXXTEST_INCLUDE_DIR})
-  CXXTEST_ADD_TEST(sample_unittest test-cxxtest.cpp
-                                  ${CMAKE_CURRENT_SOURCE_DIR}/test-cxxtest.hpp)
+  CXXTEST_ADD_TEST(sample_unittest test_regex_search.cpp
+                                  ${CMAKE_CURRENT_SOURCE_DIR}/regex_search.hpp)
   target_link_libraries(sample_unittest ${PROJECT_NAME}lib)
 endif()
 

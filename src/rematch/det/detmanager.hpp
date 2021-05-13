@@ -44,6 +44,9 @@ class DetManager {
 
 	MacroTransition* next_macro_transition(MacroState *ms, char a);
 
+	MacroState* compute_drop_super_finals(MacroState *ms);
+	DetState* compute_drop_super_finals(DetState *ms);
+
 	std::shared_ptr<VariableFactory> varFactory() const {return variable_factory_;}
 	std::shared_ptr<FilterFactory> filterFactory() const {return filter_factory_;}
 

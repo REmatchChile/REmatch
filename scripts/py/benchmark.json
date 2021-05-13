@@ -10,7 +10,7 @@
 	"template" : "1QMcMNan9QlRQ-vYCEW2vMy0bUyyweXKI8fREasefb7c",
 	"dataset" : "RKBExplorer",
 	"exp-subpath" : "exp/benchmark",
-	"description" : "Refactoring - Lower B",
+	"description" : "SearchDFA",
 	"homedir" : "/home/nicovsj/repos/research/REmatch-org/REmatch",
 	"nexp" : 20,
 	"cols" : ["D", "E", "F", "G"],
@@ -22,43 +22,8 @@
 			"rgx_type" : "rematch"
 		},
 		"REmatch-EO" : {
-			"command" : "{0}/build/Release/bin/rematch-eo1",
-			"args" : "-l --mode=noutputs -d {0} -r {1}",
-			"rgx_type" : "rematch"
-		},
-		"REmatch-EO-10" : {
-			"command" : "{0}/build/Release/bin/rematch-eo10",
-			"args" : "-l --mode=noutputs -d {0} -r {1}",
-			"rgx_type" : "rematch"
-		},
-		"REmatch-EO-50" : {
-			"command" : "{0}/build/Release/bin/rematch-eo50",
-			"args" : "-l --mode=noutputs -d {0} -r {1}",
-			"rgx_type" : "rematch"
-		},
-		"REmatch-EO-100" : {
-			"command" : "{0}/build/Release/bin/rematch-eo100",
-			"args" : "-l --mode=noutputs -d {0} -r {1}",
-			"rgx_type" : "rematch"
-		},
-		"REmatch-EO-250" : {
-			"command" : "{0}/build/Release/bin/rematch-eo250",
-			"args" : "-l --mode=noutputs -d {0} -r {1}",
-			"rgx_type" : "rematch"
-		},
-		"REmatch-EO-500" : {
-			"command" : "{0}/build/Release/bin/rematch-eo500",
-			"args" : "-l --mode=noutputs -d {0} -r {1}",
-			"rgx_type" : "rematch"
-		},
-		"REmatch-EO-750" : {
-			"command" : "{0}/build/Release/bin/rematch-eo750",
-			"args" : "-l --mode=noutputs -d {0} -r {1}",
-			"rgx_type" : "rematch"
-		},
-		"REmatch-EO-1000" : {
-			"command" : "{0}/build/Release/bin/rematch-eo1000",
-			"args" : "-l --mode=noutputs -d {0} -r {1}",
+			"command" : "{0}/build/Release/bin/rematch",
+			"args" : "-lc --mode=noutputs -d {0} -r {1}",
 			"rgx_type" : "rematch"
 		},
 		"re2" : {

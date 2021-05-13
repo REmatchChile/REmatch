@@ -5,9 +5,22 @@
 
 #include "regex/regex.hpp"
 
-class SimpleTest : public CxxTest::TestSuite {
+struct Span {
+  int lo;
+  int hi;
+};
+
+struct RegexTest {
+  std::string doc;
+  std::string pattern;
+  std::vector<std::string> variables;
+  std::vector<std::vector<Span>> mappings;
+};
+
+
+class TestRegexResults : public CxxTest::TestSuite {
  public:
-  void test_equality() {
+  void test_all_substrings() {
     TS_ASSERT_EQUALS(1, 1);
     TS_ASSERT_EQUALS(1, 2);
   }

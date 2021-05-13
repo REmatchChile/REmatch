@@ -13,7 +13,7 @@
 #include "regex/regex_options.hpp"
 #include "automata/nfa/lva.hpp"
 #include "matchiterator.hpp"
-#include "document.hpp"
+#include "evaluation/document/document.hpp"
 
 namespace rematch {
 

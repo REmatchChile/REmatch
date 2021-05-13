@@ -39,10 +39,10 @@ int main(int argc, char *argv[]) {
 	// app.add_option("-a,--anchors",anchors,"Use anchors for regex")
 	// 	->check(CLI::IsMember({"both", "left", "right", "none"}));
 
-	bool cont{false}, line{true};
+	bool cont{false}, line{false};
 
 	// Evaluation flags
-	// app.add_flag("-c,--continuous",cont,"Continuous evaluation.");
+	app.add_flag("-c,--continuous",cont,"Continuous evaluation.");
 	app.add_flag("-l,--line-by-line", line,"Line by line evaluation");
 
 	CLI11_PARSE(app, argc, argv);
@@ -62,11 +62,9 @@ int main(int argc, char *argv[]) {
 	if(rgxpath.size())
 		rgx = file2str(rgxpath);
 
-	if(docpath.size() && line) {
+	if(docpath.size()) {
 		opts.set_is_docfile(true);
 		doc = docpath;
-	} else if(docpath.size()) {
-		doc = file2str(docpath);
 	}
 
 	Interface intf(doc, rgx, opts);

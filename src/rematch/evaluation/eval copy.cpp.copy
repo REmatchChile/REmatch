@@ -10,8 +10,7 @@ namespace rematch {
 
 MemManager Evaluator::memory_manager_{};
 
-Evaluator::Evaluator(RegEx &rgx, std::shared_ptr<Document> d,
-                     uint8_t flags)
+Evaluator::Evaluator(RegEx &rgx, std::shared_ptr<Document> d, uint8_t flags)
     : rgx_(rgx),
       text_(d),
       early_output_(flags & kEarlyOutput),
@@ -31,6 +30,7 @@ void Evaluator::init() {
     // line_ += '\n';
     nlines_++;
   }
+  current_dstate_  = rawDFA().initState();
   initAutomaton(i_pos_);
 }
 
@@ -50,69 +50,54 @@ void Evaluator::initAutomaton(int64_t i) {
 }
 
 Match_ptr Evaluator::next() {
+
+ Enumerate:
   if(enumerator_->hasNext())
       return enumerator_->next();
-
-  // Timer t;
 
   while (!document_ended_) {
     char a;
     output_nodelist_.reset_refs();
     output_nodelist_.reset();
 
-    while((i_pos_-i_start_) < (int64_t)line_.size()) { // Main search loop
+    int64_t min_pos = i_pos_, max_pos;
 
-      a = line_[i_pos_-i_start_];
-
-      a &= 0x7F;  // Only ASCII chars for now
-
-      reading(a, i_pos_, 0);
-
-      i_pos_++;
-
-      #ifdef COUNT_CURRENT_STATES
-      size_t k = current_state_->states().size();
-      auto lb = current_states_count_.lower_bound(k);
-      if(lb != current_states_count_.end() && !current_states_count_.key_comp()(k, lb->first)) {
-        lb->second++;
-      } else {
-        current_states_count_.insert(lb, std::map<size_t,size_t>::value_type(k,1));
+    while(searchDFA(&min_pos, &max_pos)) {
+      if(min_pos > i_pos_) {
+        pass_current_outputs();
+        initAutomaton(min_pos);
       }
-      #endif
+      for(i_pos_ = min_pos; i_pos_ < max_pos; ++i_pos_) {
+        a = line_[i_pos_];
 
-      // if(current_state_->is_super_final()) {
-      //   if(++out_buf_sz_ >= Evaluator::kMaxOutputBufferSize) {
-      //     out_buf_sz_ = 0;
-      //     break;
-      //   }
-      // }
-    }
+        a &= 0x7F;  // Only ASCII chars for now
 
-    for(auto &state: current_state_->states()) {
-      if(state->isFinal) {
-        output_nodelist_.append(state->currentL);
-        state->currentL->reset_refs();
-        state->currentL->reset();
+        reading(a, i_start_ + i_pos_, 0);
+
+        if(early_output_ && current_state_->is_super_final()) {
+          if(++out_buf_sz_ >= Evaluator::kMaxOutputBufferSize) {
+            out_buf_sz_ = 0;
+            pass_current_outputs();
+            goto Enumerate;
+          }
+        }
       }
-    }
-    if(!output_nodelist_.empty()) {
-      enumerator_->addNodeList(output_nodelist_);
-      output_nodelist_.reset_refs();
-      Evaluator::memory_manager_.addPossibleGarbage(output_nodelist_.head_);
-      output_nodelist_.reset();
-      // out_buf_sz_ = 0;
-      // break;
+      min_pos = i_pos_;
     }
 
-    if((i_pos_-i_start_) == (int64_t)line_.size()) {
+    i_pos_ = line_.size();
+    pass_current_outputs();
+
+    if(i_pos_ == (int64_t)line_.size()) {
       while(!(document_ended_ = !((bool) text_->getline(line_)))) {
         line_ += '\n';
         // i_pos_++; // Simulate '\n'
-        i_start_ = i_pos_;
+        i_start_ += i_pos_;
+        i_pos_ = 0;
         nlines_++;
 
         if(!match()) {
-          i_pos_ += line_.size() - 1;
+          i_pos_  = line_.size() - 1;
           continue;
         }
         else {
@@ -124,10 +109,10 @@ Match_ptr Evaluator::next() {
   }
 
 
-    if(enumerator_->hasNext())
-      return enumerator_->next();
+  if(enumerator_->hasNext())
+    return enumerator_->next();
 
-    return nullptr;
+  return nullptr;
 
 }
 
@@ -164,7 +149,7 @@ bool Evaluator::match() {
   return currentState->isFinal;
 }
 
-void Evaluator::reading(char a, int64_t i_pos,  bool early_output) {
+void Evaluator::reading(char a, int64_t abs_pos,  bool early_output) {
   auto nextTransition = current_state_->next_transition(a);
 
   if(nextTransition == nullptr) {
@@ -191,8 +176,8 @@ void Evaluator::reading(char a, int64_t i_pos,  bool early_output) {
     // if(direct.from->currentL->head_!=nullptr && direct.from->currentL->head_->id_==2049)
     //   std::cout << "Here 2\n";
 
-    if(direct.to->visited <= i_pos+1) {
-      direct.to->visited = i_pos+2;
+    if(direct.to->visited <= abs_pos+1) {
+      direct.to->visited = abs_pos+2;
       // Lazy copy
       direct.to->currentL->head_ = direct.from->currentL->head_;
       direct.to->currentL->tail_ = direct.from->currentL->tail_;
@@ -213,15 +198,15 @@ void Evaluator::reading(char a, int64_t i_pos,  bool early_output) {
     auto capture = captures[i];
     #ifndef NOPT_MEMORY_MANAGER
     internal::Node* new_node = Evaluator::memory_manager_.alloc(capture.S,
-                                                      i_pos+1,
+                                                      abs_pos+1,
                                                       capture.from->currentL->head_,
                                                       capture.from->currentL->tail_);
     #else
     internal::Node* new_node = new Node(capture.s, i_pos_+1, capture.from->currentL->head_,
                               capture.from->currentL->tail_)
     #endif
-    if(capture.to->visited <= i_pos+1) {
-      capture.to->visited = i_pos+2;
+    if(capture.to->visited <= abs_pos+1) {
+      capture.to->visited = abs_pos+2;
       capture.to->currentL->reset_and_add(new_node);
     } else {
       capture.to->currentL->add(new_node);
@@ -232,39 +217,58 @@ void Evaluator::reading(char a, int64_t i_pos,  bool early_output) {
 }
 
 
-inline bool Evaluator::searchDFA() {
+inline bool Evaluator::searchDFA(int64_t *min_pos, int64_t *max_pos) {
   char a;
-  DetState *nextState, *currentState;
 
-  currentState = rawDFA().initState();
+  // TODO: Dejar un mínimo de procesamiento del documento (e.g 100 caracteres antes de salir)
 
-  for(auto it = i_low_end_; it < line_.size(); it++){
+  int64_t it = *min_pos;
+
+  if(current_dstate_->isSuperFinal) {
+    *max_pos = line_.size();
+    return *min_pos < *max_pos;
+  }
+
+  for(; it < (int64_t)line_.size(); it++){
 
     a = (char) line_[it] & 0x7F;
 
     // nextState is reached from currentState by reading the character
-    auto nextTransition = currentState->next_transition(a);
+    auto nextTransition = current_dstate_->next_transition(a);
 
     if(nextTransition == nullptr) // Then maybe a determinization is needed
-      nextTransition = rgx_.rawDetManager().next_transition(currentState, a);
+      nextTransition = rgx_.rawDetManager().next_transition(current_dstate_, a);
 
-    if (nextTransition->type_ == 0)
-      return false;
+    // TODO: Not necessary?
+    // if (nextTransition->type_ == 0)
+    //   return false;
 
-    nextState = nextTransition->direct_;
+    current_dstate_ = nextTransition->direct_;
 
-    if(nextState->isOnlyInit) {
-      i_low_end_ = it;
+    if(current_dstate_->isOnlyInit) {
+      *min_pos = it + 1;
     }
 
-    if (nextState->isFinal)
+    if(current_dstate_->isSuperFinal) {
+      *max_pos = it + 1;
+      current_dstate_->remove_superfinals();
       return true;
-
-    currentState = nextState;
-    it++;
+    }
   }
 
-  return currentState->isFinal;
+  return false;
+}
+
+inline void Evaluator::pass_current_outputs() {
+  for(auto &state: current_state_->states()) {
+    if(state->isFinal) {
+      output_nodelist_.append(state->currentL);
+      enumerator_->addNodeList(state->currentL);
+      state->currentL->reset_refs();
+      Evaluator::memory_manager_.addPossibleGarbage(state->currentL->head_);
+      state->currentL->reset();
+    }
+  }
 }
 
 } // end namespace rematch

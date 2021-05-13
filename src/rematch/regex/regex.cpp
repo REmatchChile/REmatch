@@ -1,6 +1,9 @@
 #include "regex.hpp"
 #include "parse/regex/parser.hpp"
-#include "eval.hpp"
+#include "evaluation/normal_evaluator.hpp"
+#include "evaluation/line_evaluator.hpp"
+#include "evaluation/eo_evaluator.hpp"
+#include "evaluation/eoline_evaluator.hpp"
 
 namespace rematch {
 
@@ -15,14 +18,27 @@ RegEx::~RegEx() {}
 
 
 MatchIterator RegEx::findIter(std::shared_ptr<Document> d) {
-  auto eval = new Evaluator(*this, d, Evaluator::kAllFlags & flags_);
+  Evaluator* eval;
+  if (flags_ & kEarlyOutput) {
+    if (flags_ & kLineByLine) {
+      eval = new EarlyOutputLineEvaluator(*this, d);
+    } else {
+      eval = new EarlyOutputEvaluator(*this, d);
+    }
+  } else {
+    if (flags_ & kLineByLine) {
+      eval = new LineEvaluator(*this, d);
+    } else {
+      eval = new NormalEvaluator(*this, d);
+    }
+  }
   return MatchIterator(eval);
 }
 
 
 Match_ptr RegEx::find(const std::string &text) {
   auto document = std::make_shared<StrDocument>(text);
-  return Evaluator(*this, document, flags_ & Evaluator::kEarlyOutput).next();
+  return EarlyOutputEvaluator(*this, document).next();
 }
 
 

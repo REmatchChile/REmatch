@@ -12,6 +12,7 @@
 
 #include "match.hpp"
 #include "structs/dag/nodelist.hpp"
+#include "structs/dag/fastnodelist.hpp"
 #include "structs/dag/node.hpp"
 #include "factories/factories.hpp"
 #include "memmanager.hpp"
@@ -41,7 +42,8 @@ class Enumerator {
 
     // Adds a NodeList to the depth stack. So it's outputs get enumerated
     // in the future.
-    void addNodeList(internal::NodeList &nL);
+    void addNodeList(internal::NodeList *nl);
+    void addNodeList(internal::FastNodeList *nl);
 
     // Resets the enumeration.
     void reset() {depth_stack_.clear();}

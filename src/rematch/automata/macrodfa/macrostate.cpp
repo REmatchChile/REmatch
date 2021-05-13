@@ -31,4 +31,15 @@ bool MacroState::is_super_final() const {
   return false;
 }
 
+// void MacroState::remove_super_finals() {
+//   for(auto it=states_.begin(); it != states_.end();) {
+//     (*it)->remove_superfinals();
+//     if((*it)->ss->subset.empty()) {
+//       it = states_.erase(it);
+//     } else {
+//       ++it;
+//     }
+//   }
+// }
+
 } // end namespace rematch

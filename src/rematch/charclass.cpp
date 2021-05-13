@@ -30,6 +30,8 @@ CharClass::CharClass(const char &a)
 // FIXME: This is incomplete/badly implemented
 	if (a == '\n')
 		label = "\\n";
+	else if (a == '\0')
+		label = "\\0";
 	else
 		label = std::string(1, a);
 	singles.insert(a);
@@ -206,7 +208,7 @@ bool CharClass :: check(char a) {
 			}
 			return negated_;
 		case SpecialCode::kAnyChar:
-			return a != 0x0; // Null char reserved
+			return true;
 		case SpecialCode::kAnyDigit:
 			return !!isdigit(a) != negated_;
 		case SpecialCode::kAnyWord:

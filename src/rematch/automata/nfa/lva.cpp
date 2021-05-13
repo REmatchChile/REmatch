@@ -24,7 +24,7 @@ LogicalVA::LogicalVA()
   states.push_back(init_state_);
 }
 
-LogicalVA::LogicalVA(uint code) {
+LogicalVA::LogicalVA(uint code) : is_raw_(false) {
   init_state_ = new_state();
   init_state_->setInitial(true);
   State* fstate = new_final_state();
@@ -108,6 +108,9 @@ void LogicalVA::adapt_capture_jumping() {
   State *reached_state;
 
   for(auto &state: states) {
+    for(auto &state2: states) {
+      state2->tempMark = false;
+    }
     stack.clear();
 
     for(auto &capture: state->captures) {
@@ -145,6 +148,8 @@ void LogicalVA::cat(LogicalVA &a2) {
     finalStates[i]->setFinal(false);
   }
 
+  a2.init_state_->setInitial(false);
+
   // Add a2 states to states list
   states.insert(states.end(), a2.states.begin(), a2.states.end());
 
@@ -162,7 +167,11 @@ void LogicalVA::alter(LogicalVA &a2) {
   newinitState->addEpsilon(init_state_);
   newinitState->addEpsilon(a2.init_state_);
 
+  init_state_->setInitial(false);
+
   init_state_ = newinitState;
+
+  init_state_->setInitial(true);
 
   states.push_back(init_state_);
   // Add a2 final states to final states list
@@ -237,8 +246,12 @@ void LogicalVA::assign(std::bitset<32> open_code, std::bitset<32> close_code) {
   // Connect new open State with init State
   openLVAState->addCapture(open_code, init_state_);
 
+  init_state_->setInitial(false);
+
   // Set open State as new init State
   init_state_ = openLVAState;
+
+  init_state_->setInitial(true);
 
   // Connect final states with new close State
   for(std::size_t i=0;i<finalStates.size();i++){

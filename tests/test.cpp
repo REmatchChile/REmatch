@@ -143,9 +143,9 @@ void check_spanners(rematch::RegEx &rgx, std::string document_file, std::string 
 
     rematch::MatchIterator m_iter = rgx.findIter(document);
 
-
-    // std::cout << "Test: \"" << doc << "\"\n";
+    std::cout << "Test: \"" << doc << "\"\n";
     for(auto match = m_iter.next(); match != nullptr; match = m_iter.next()) {
+        std::cout << "Entered!\n";
         std::stringstream ss;
         ss << *match;
         std::string output = ss.str();

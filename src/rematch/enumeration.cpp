@@ -7,6 +7,7 @@
 #include "match.hpp"
 #include "structs/dag/node.hpp"
 #include "structs/dag/nodelist.hpp"
+#include "structs/dag/fastnodelist.hpp"
 #include "factories/factories.hpp"
 #include "regex/regex.hpp"
 
@@ -18,10 +19,17 @@ Enumerator::Enumerator(RegEx &rgx)
       current_mapping_(var_factory_->size() * 2, -1) {}
 
 
-void Enumerator::addNodeList(internal::NodeList &startList) {
-  if(!startList.empty()){
+void Enumerator::addNodeList(internal::NodeList *startList) {
+  if(!startList->empty()){
     std::map<std::string, std::pair<int64_t,int64_t>> ret;
-    depth_stack_.emplace_back(startList.head_, startList.tail_);
+    depth_stack_.emplace_back(startList->head_, startList->tail_);
+  }
+}
+
+void Enumerator::addNodeList(internal::FastNodeList *startList) {
+  if(!startList->empty()){
+    std::map<std::string, std::pair<int64_t,int64_t>> ret;
+    depth_stack_.emplace_back(startList->start(), startList->end());
   }
 }
 

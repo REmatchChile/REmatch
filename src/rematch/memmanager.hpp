@@ -31,13 +31,6 @@ class MiniPool {
 
 	bool isFull() const {return minipool.size() >= m_capacity;}
 
-	internal::Node* alloc() {
-
-		minipool.emplace_back();
-
-		return &minipool.back();
-	}
-
 	internal::Node* alloc(std::bitset<32> S, int i, internal::Node *head, internal::Node *tail) {
 
 		minipool.emplace_back(S, i, head, tail);
@@ -80,57 +73,6 @@ private:
 			tot_adyacent_extends_(0),
 			tot_head_extends_(0)
 			{}
-
-	internal::Node* alloc() {
-
-	if(current->isFull()) {
-		// GARBAGE COLLECTION
-		if(freeHead != nullptr) {
-			internal::Node *listHead, *adyacentNext, *newNode;
-
-			// Pointer labeling
-			listHead = freeHead->start;
-			adyacentNext = freeHead->next;
-
-			// Overwrite Node pointed by freeHead
-			newNode = freeHead->reset();
-
-			// Append to freelist new garbage
-			if(listHead != nullptr && listHead->refCount == 0) {
-				listHead->nextFree = freeHead->nextFree;
-				freeHead->nextFree = listHead;
-			}
-			if(adyacentNext != nullptr && adyacentNext->refCount == 0) {
-				adyacentNext->nextFree = freeHead->nextFree;
-				freeHead->nextFree = adyacentNext;
-			}
-
-			// Reassign freeHead
-			freeHead = freeHead->nextFree;
-
-			// Reset nextFree in overwritten Node
-			newNode->nextFree = nullptr;
-			totElementsReused++;
-
-			return newNode;
-		}
-		else {
-			MiniPool *new_minipool = new MiniPool(current->size() * 2);
-			current->setNext(new_minipool);
-			new_minipool->setPrev(current);
-
-			current = new_minipool;
-			totArenas++;
-
-		}
-
-	}
-
-	totElements++;
-
-	return current->alloc();
-
-	}
 
 	internal::Node* alloc(std::bitset<32> S, int i, internal::Node *head, internal::Node *tail) {
 
@@ -189,8 +131,7 @@ private:
 	}
 
 	void addPossibleGarbage(internal::Node* node) {
-		// if(node->id_ == 2049)
-		// 	std::cout << "Here\n";
+		if(node == nullptr) return;
 		if(node->refCount == 0 && !node->isNodeEmpty()) {
 			addFreeHead(node);
 		}

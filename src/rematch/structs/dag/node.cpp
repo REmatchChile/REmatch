@@ -5,11 +5,17 @@
 namespace rematch {
 namespace internal {
 
-size_t Node::ID = 0;
+size_t Node::ID = 2;
 
-Node::Node()
-  : id_(Node::ID++), S(0), i(-1), next(nullptr), start(nullptr), end(nullptr),
-    refCount(0) {}
+Node::Node(Type t)
+  : S(0), i(-1), next(nullptr), start(nullptr), end(nullptr),
+    refCount(0) {
+  if(t == Type::kBottom) {
+    id_ = 1; i = -1;
+  } else if (t == Type::kDummy) {
+    id_ = 0; i = -2;
+  }
+}
 
 
 Node::Node(std::bitset<32> S, int64_t i, Node* head, Node* tail)

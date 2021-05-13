@@ -40,8 +40,8 @@ DetManager::DetManager(std::string pattern, bool raw_automata) {
 	if(q->isFinal) {
 		dfa_->finalStates.push_back(q);
 	}
-	computeCaptures(q, q, 0);
-	q->add_direct(0, q);
+	// computeCaptures(q, q, 0);
+	// q->add_direct(0, q);
 }
 
 
@@ -227,6 +227,85 @@ MacroTransition* DetManager::next_macro_transition(MacroState *p, char a) {
 	p->add_transition(a, mtrans);
 
 	return mtrans.get();
+}
+
+MacroState* DetManager::compute_drop_super_finals(MacroState *ms) {
+	std::set<size_t> dstates_key;
+	std::set<DetState*> dstates_storage;
+	for(auto &dstate: ms->states()) {
+		auto ns = dstate->drop_super_finals();
+		if(ns == nullptr) {
+			ns = this->compute_drop_super_finals(dstate);
+		}
+		if(!ns->empty()) {
+			dstates_storage.insert(ns);
+			dstates_key.insert(ns->id);
+		}
+
+		// Pass up to a vector
+		std::vector<size_t> real_dstates_key(dstates_key.begin(), dstates_key.end());
+
+		// Sorting needed to compute the correct key
+		std::sort(real_dstates_key.begin(), real_dstates_key.end());
+
+		auto found = mstates_table_.find(real_dstates_key);
+
+		MacroState *q;
+
+		// Check if not inside table already
+		if(found == mstates_table_.end()) {
+			// Convert set to vector
+			std::vector<DetState*> real_dstates_storage(dstates_storage.begin(), dstates_storage.end());
+
+			// Create the new MacroState
+			q = mdfa_->add_state(real_dstates_storage);
+
+			// Insert new MacroState in table
+			mstates_table_.insert(std::pair<std::vector<size_t>, MacroState*>(real_dstates_key, q));
+		} else {
+			q = found->second;
+		}
+
+		ms->set_drop_super_finals(q);
+
+		return q;
+	}
+}
+
+DetState* DetManager::compute_drop_super_finals(DetState *q) {
+
+	std::set<State*> newSubset;  // Store the next subset
+	BitsetWrapper subsetBitset(nfa_->size());  // Subset bitset representation
+
+	for(auto &state: q->ss->subset) {
+		if (!state->isSuperFinal){
+			newSubset.insert(state);
+			subsetBitset.set(state->id, true);
+		}
+	}
+
+	auto found = dstates_table_.find(subsetBitset);
+
+	DetState* nq;
+
+	if(found == dstates_table_.end()) { // Check if already stored subset
+		SetState* ss = new SetState(*nfa_, newSubset);
+		nq = new DetState(ss);
+
+		dstates_table_[ss->bitstring] = nq;
+
+		dfa_->states.push_back(nq);
+
+		if(nq->isFinal) {
+			dfa_->finalStates.push_back(nq);
+		}
+	} else {
+		nq = found->second;
+	}
+
+	q->set_drop_super_finals(nq);
+
+	return nq;
 }
 
 } // end namespace rematch

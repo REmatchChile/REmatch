@@ -6,7 +6,7 @@
 
 #include "automata/nfa/lva.hpp"
 #include "options.hpp"
-#include "document.hpp"
+#include "evaluation/document/document.hpp"
 
 class Interface {
  public:

@@ -20,6 +20,11 @@ ExtendedVA :: ExtendedVA(LogicalVA &A)
 	// Get rid off e-transitions
 
 	// std::cout << "LVA:\n" << A.pprint() << "\n\n";
+	if(!is_raw_) {
+		State* s = A.new_state();
+		s->addFilter(filter_factory_->addFilter(CharClass('\0')), A.init_state_);
+		A.init_state_ = s;
+	}
 
 	epsilonClosure(A);
 
@@ -48,7 +53,7 @@ ExtendedVA :: ExtendedVA(LogicalVA &A)
 	// std::cout << "EvA afterer:\n" << pprint() << "\n\n";
 
   #ifndef NOPT_CROSSPROD
-	// if(!is_raw_)
+	if(!is_raw_)
 	  crossProdOpt();
   #endif
 
@@ -697,11 +702,11 @@ std::string ExtendedVA :: pprint() {
   // Code initial State
   ss << "i " << init_state_->id;
 
-	for(int id: capture_states)
-		ss << "\nc " << id;
+	// for(int id: capture_states)
+	// 	ss << "\nc " << id;
 
-	for(int id: pcapture_states)
-		ss << "\npc " << id;
+	// for(int id: pcapture_states)
+	// 	ss << "\npc " << id;
 
   return ss.str();
 }

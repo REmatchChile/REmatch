@@ -11,7 +11,7 @@ import re
 
 here = pth.dirname(pth.realpath(__file__))
 
-with open(pth.join(here, "benchmark-alt-forceall.json")) as jsonFile:
+with open(pth.join(here, "benchmark.json")) as jsonFile:
 		data = json.load(jsonFile)
 
 

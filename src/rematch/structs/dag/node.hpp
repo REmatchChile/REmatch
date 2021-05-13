@@ -11,13 +11,19 @@ class Node {
  private:
   static size_t ID;
  public:
+
+  enum class Type {
+    kBottom,
+    kDummy,
+  };
+
   size_t id_;
   std::bitset<32> S;
   /* S represents a subset of the markers, where each marker is represented by
   two bits: 00 means that marker is not present, 01 means that the corresponding
   variable is being open (x𝈩), 10 means that it is being closed (𝈅x) and 11
   means that both opening and closing markers are in S. By being a long there is
-  guaranteed enough bits for 16 variables.*/
+  guaranteed eno bits for 16 variables.*/
   int64_t i;
   Node* next;
 
@@ -31,7 +37,7 @@ class Node {
     Node* nextFree;
   };
 
-  Node(); // Class constructor
+  Node(Type t); // Class constructor
   Node(std::bitset<32> S_val, int64_t i, Node* head, Node* tail);
   Node *reset(std::bitset<32> S_val, int64_t i_val, Node* head, Node* tail);
   Node *reset();

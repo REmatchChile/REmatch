@@ -28,10 +28,26 @@ class MacroState {
 
   bool is_super_final() const;
 
+  MacroState* drop_super_finals() const {return drop_super_finals_;}
+  void set_drop_super_finals(MacroState* ms) { drop_super_finals_ = ms; }
+
+  friend std::ostream& operator<<(std::ostream &os, MacroState const &m) {
+    os << "{";
+    for(auto &dstate: m.states_) {
+      if(dstate == *m.states_.begin())
+        os << dstate->label;
+      else
+        os << " " << dstate->label;
+    }
+    os << "}";
+    return os;
+  }
+
  private:
   int id_;
   TransitionsMap transitions_;
   std::vector<DetState*> states_;
+  MacroState* drop_super_finals_ = nullptr;
 }; // end class MacroState
 
 } // end namespace rematch

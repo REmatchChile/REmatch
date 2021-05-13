@@ -11,8 +11,8 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Enable testing
-option(REMATCH_BUILD_TESTING "enable testing for rematch" ON)
-option(REMATCH_BUILD_BENCHMARKS "enable benchmark testing for rematch" ON)
+set(REMATCH_BUILD_TESTING ON)
+set(REMATCH_BUILD_BENCHMARKS OFF)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -pthread -O0 -g3")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -pthread -O3 -g0")

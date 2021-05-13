@@ -15,7 +15,7 @@
 #include "regex/regex.hpp"
 #include "regex/regex_options.hpp"
 #include "matchiterator.hpp"
-#include "eval.hpp"
+#include "evaluation/normal_evaluator.hpp"
 
 Interface::Interface(std::string &docstr, const std::string &pattern,
 					 					 rematch::Options opt)
@@ -72,6 +72,7 @@ void Interface::benchmark_run() {
 
 	rematch::RegExOptions rgx_opt;
 	rgx_opt.set_line_by_line(options_.line_by_line());
+	rgx_opt.set_early_output(options_.early_output());
 	rematch::RegEx regex(pattern_, rgx_opt);
 	rematch::Match_ptr match_ptr;
 

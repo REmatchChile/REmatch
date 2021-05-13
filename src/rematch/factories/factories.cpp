@@ -153,12 +153,13 @@ std::string FilterFactory::pprint() {
 }
 
 
-void FilterFactory :: addFilter(CharClass cs) {
+int FilterFactory :: addFilter(CharClass cs) {
 	if(!codeMap.count(cs)) {
 		codeMap[cs] = numFilters;
 		filterMap[numFilters] = cs;
 		numFilters++;
 	}
+	return numFilters-1;
 }
 
 int FilterFactory :: getCode(CharClass cs) {

@@ -93,7 +93,7 @@ class FilterFactory {
 
 	bool inIntersection(char a, BitsetWrapper charBitset);
 
-	void addFilter(CharClass cs);
+	int addFilter(CharClass cs);
 
 	int getCode(CharClass cs);
 

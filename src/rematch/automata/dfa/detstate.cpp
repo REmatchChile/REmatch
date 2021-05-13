@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include <memory>
 
-#include "structs/dag/nodelist.hpp"
+#include "structs/dag/fastnodelist.hpp"
 #include "captures.hpp"
 #include "det/setstate.hpp"
 #include "bitsetwrapper.hpp"
@@ -24,16 +24,16 @@ unsigned int DetState :: ID = 0;
 DetState::DetState()
     : label("{0}"),
       visited(0),
-      currentL(new internal::NodeList()),
-      copiedList(new internal::NodeList()),
+      currentL(new internal::FastNodeList()),
+      copiedList(new internal::FastNodeList()),
       isFinal(false) {
   id = ID++;
 }
 
 DetState :: DetState(SetState* ss)
   : visited(0),
-    currentL(new internal::NodeList()),
-    copiedList(new internal::NodeList()),
+    currentL(new internal::FastNodeList()),
+    copiedList(new internal::FastNodeList()),
     ss(ss) {
   id = ID++;
   isFinal = ss->isFinal;
@@ -88,6 +88,25 @@ Transition* DetState::next_transition(char a) {
 
 std::ostream & operator<<(std::ostream &os, DetState const &q) {
   return os << *(q.ss);
+}
+
+
+bool DetState::remove_superfinals() {
+  auto old_size = ss->subset.size();
+  if(isSuperFinal) {
+    for(auto it = ss->subset.begin(); it != ss->subset.end();) {
+      if((*it)->isSuperFinal) {
+        it = ss->subset.erase(it);
+      } else {
+        ++it;
+      }
+    }
+    std::stringstream s;
+    s << *(ss);
+    label = s.str();
+  }
+
+  return old_size > ss->subset.size();
 }
 
 } // end namespace rematch
