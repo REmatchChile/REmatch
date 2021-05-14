@@ -1,1 +1,1 @@
-.*!x{s!y{p!z{arql!r{[^\n]*OPTIONAL[^\n]*\n}}}}
+.*!x{s!y{p!z{arql!r{[^\n]*OPTIONAL[^\n]*}}}}\n.*

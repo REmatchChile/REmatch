@@ -1,1 +1,1 @@
-!y{[^\+]*\+}[^\n]*sparql!x{[^\n]*OPTIONAL[^\n]*OPTIONAL[^\n]*\n}
+!y{[^\+]*\+}[^\n]*sparql!x{[^\n]*OPTIONAL[^\n]*OPTIONAL[^\n]*}\n.*
