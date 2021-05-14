@@ -132,7 +132,7 @@ void EarlyOutputLineEvaluator::reading(char a, int64_t pos) {
   for(size_t i=0; i < directs_sz; i++) {
     auto direct = directs[i];
     direct.to->currentL->append(direct.from->currentL);
-    // direct.from->currentL->reset_refs();
+    direct.from->currentL->reset_refs();
   }
 
   for(size_t i=0; i < empties_sz; i++){

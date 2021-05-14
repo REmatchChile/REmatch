@@ -51,8 +51,8 @@ class EarlyOutputEvaluator : public Evaluator {
 
   CharIterator current_char_;
 
-  int64_t i_pos_;
-  size_t sp_count_;
+  int64_t i_pos_ = 0;
+  size_t sp_count_ = 0;
 }; // end class Evaluator
 
 } // namespace rematch

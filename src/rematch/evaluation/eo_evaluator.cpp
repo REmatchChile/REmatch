@@ -11,9 +11,7 @@ namespace rematch {
 EarlyOutputEvaluator::EarlyOutputEvaluator(RegEx &rgx, std::shared_ptr<Document> d)
     : rgx_(rgx),
       enumerator_(rgx_),
-      text_(d),
-      i_pos_(0),
-      sp_count_(0) {
+      text_(d) {
   dfa().initState()->currentL->add(new internal::Node(internal::Node::Type::kBottom));
   macro_dfa_.set_as_init(macro_dfa_.add_state(dfa().initState()));
   current_state_ = &macro_dfa_.get_init_state();
@@ -41,7 +39,6 @@ Match_ptr EarlyOutputEvaluator::next() {
     ++current_char_;
 
     if(current_state_->is_super_final() && current_char_ != text_->end()) {
-      ++sp_count_;
       pass_current_outputs();
       goto Enumerate;
     }
@@ -80,6 +77,7 @@ void EarlyOutputEvaluator::reading(char a, int64_t pos) {
     auto direct = directs[i];
 
     direct.to->currentL->append(direct.from->currentL);
+    direct.from->currentL->reset_refs();
   }
 
   for(size_t i=0; i < empties_sz; i++){

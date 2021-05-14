@@ -38,8 +38,6 @@ LogicalVA::LogicalVA(const LogicalVA &A)
       v_factory_(A.v_factory_),
       f_factory_(A.f_factory_) {
 
-  states.push_back(init_state_);
-
   // A simple Depth-First Search on the graph of the copied automaton while
   // constructing the copy's graph.
 
@@ -58,12 +56,12 @@ LogicalVA::LogicalVA(const LogicalVA &A)
     auto new_q = cpair.first;
     auto old_q = cpair.second;
 
+    states.push_back(new_q);
+    if(old_q->isFinal) finalStates.push_back(new_q);
+
     for(auto& filt: old_q->filters) {
       if(filt->next->tempMark) continue;
       State* ns = new State(*filt->next);
-
-      states.push_back(ns);
-      if(ns->isFinal) finalStates.push_back(ns);
 
       new_q->addFilter(filt->code, ns);
 
@@ -74,9 +72,6 @@ LogicalVA::LogicalVA(const LogicalVA &A)
       if(cap->next->tempMark) continue;
       State* ns = new State(*cap->next);
 
-      this->states.push_back(ns);
-      if(ns->isFinal) this->finalStates.push_back(ns);
-
       new_q->addCapture(cap->code, ns);
 
       stack.push_back(std::make_pair(ns, cap->next));
@@ -85,9 +80,6 @@ LogicalVA::LogicalVA(const LogicalVA &A)
     for(auto& eps: old_q->epsilons) {
       if(eps->next->tempMark) continue;
       State* ns = new State(*eps->next);
-
-      this->states.push_back(ns);
-      if(ns->isFinal) this->finalStates.push_back(ns);
 
       new_q->addEpsilon(ns);
 
@@ -266,6 +258,7 @@ void LogicalVA::assign(std::bitset<32> open_code, std::bitset<32> close_code) {
 }
 
 void LogicalVA::repeat(int min, int max) {
+  // std::cout << pprint() << "\n\n";
   LogicalVA copied(*this);
   if (min == 0 && max == -1) {
     kleene(); return;
@@ -311,13 +304,10 @@ void LogicalVA::repeat(int min, int max) {
         copied_automaton = copied_automaton2;
       }
       cat(*copied_automaton);
-
     }
   }
 
-
-
-
+  //  std::cout << pprint() << "\n\n";
 }
 
 std::string LogicalVA :: pprint() {

@@ -43,6 +43,7 @@ Node* Node::reset(std::bitset<32> S, int64_t i, Node* head, Node* tail) {
   this->i = i;
   this->start = head;
   this->end = tail;
+  this->next = nullptr;
 
   id_ = Node::ID++;
 

@@ -19,7 +19,9 @@ ExtendedVA :: ExtendedVA(LogicalVA &A)
 
 	// Get rid off e-transitions
 
-	// std::cout << "LVA:\n" << A.pprint() << "\n\n";
+	// if(!is_raw_)
+	// 	std::cout << "LVA:\n" << A.pprint() << "\n\n";
+
 	if(!is_raw_) {
 		State* s = A.new_state();
 		s->addFilter(filter_factory_->addFilter(CharClass('\0')), A.init_state_);
@@ -30,7 +32,8 @@ ExtendedVA :: ExtendedVA(LogicalVA &A)
 
 	adaptReachableStates(A);
 
-	// std::cout << "EvA before:\n" << pprint() << "\n\n";
+	// if(!is_raw_)
+	// 	std::cout << "EvA before:\n" << pprint() << "\n\n";
 
 	#ifndef NOPT_OFFSET
 	offsetOpt();
@@ -61,7 +64,8 @@ ExtendedVA :: ExtendedVA(LogicalVA &A)
 
 	searchSuperFinals();
 
-	// std::cout << "EvA aftererer:\n" << pprint() << "\n\n";
+	// if(!is_raw_)
+	// 	std::cout << "EvA aftererer:\n" << pprint() << "\n\n";
 }
 
 ExtendedVA :: ExtendedVA():
