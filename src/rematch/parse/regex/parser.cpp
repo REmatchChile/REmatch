@@ -25,7 +25,7 @@ bool doParse(const std::string& input, ast::altern &data)
       throw parsing::BadRegex(ss.str());
     }
     return ok;
-};
+}
 
 
 std::unique_ptr<LogicalVA> regex2LVA(std::string regex) {

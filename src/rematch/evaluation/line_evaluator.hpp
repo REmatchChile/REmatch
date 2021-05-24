@@ -32,7 +32,7 @@ class LineEvaluator : public Evaluator {
 
   inline void reading(char a, int64_t i);
 
-  bool match(const std::string & s);
+  inline bool match(const std::string & s);
 
   inline void pass_current_outputs();
 

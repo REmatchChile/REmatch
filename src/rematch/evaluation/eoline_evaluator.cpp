@@ -30,54 +30,51 @@ Match_ptr EarlyOutputLineEvaluator::next() {
 
   char a;
 
-  for( ;current_line_ != text_->line_end(); ) {
-    if(current_char_ == (*current_line_).begin()) {
-      if(!match(*current_line_)) {
-        i_pos_ += (*current_line_).size();
-        ++current_line_;
+  if(current_line_ != text_->line_end()) {
+    for( ;current_line_ != text_->line_end(); ) {
+      if(current_char_ == (*current_line_).begin()) {
+        if(!match(*current_line_)) {
+          i_pos_ += (*current_line_).size();
+          ++current_line_;
+          current_char_ = (*current_line_).begin();
+          continue;
+        }
         current_char_ = (*current_line_).begin();
-        continue;
+        current_state_ = &macro_dfa_.get_init_state();
+        reading(0, i_pos_);
       }
-      current_char_ = (*current_line_).begin();
-      current_state_ = &macro_dfa_.get_init_state();
-      reading(0, i_pos_);
-    }
 
-    for(; current_char_ != (*current_line_).end();) {
-      a = *current_char_;
-      a &= 0x7F;  // Only ASCII chars for now
+      for(; current_char_ != (*current_line_).end();) {
+        a = *current_char_;
+        a &= 0x7F;  // Only ASCII chars for now
 
-      reading(a, i_pos_+1);
+        reading(a, i_pos_+1);
 
-      ++i_pos_;
-      ++current_char_;
+        ++i_pos_;
+        ++current_char_;
 
-      if(current_state_->is_super_final()) {
-        if(current_char_ != (*current_line_).end()) {
-          pass_current_outputs();
-          goto Enumerate;
+        if(current_state_->is_super_final() && ++out_buf_counter > kSizeMaxOutputBuffer) {
+          if(current_char_ != (*current_line_).end()) {
+            pass_current_outputs();
+            out_buf_counter = 0;
+            goto Enumerate;
+          }
         }
       }
-    }
-    ++current_line_;
-    current_char_ = (*current_line_).begin();
-    if(current_line_ != text_->line_end()) {
-      pass_current_outputs();
+      ++current_line_;
+      current_char_ = (*current_line_).begin();
+      pass_outputs();
+      current_state_ = &macro_dfa_.get_init_state();
       goto Enumerate;
     }
-  }
-
-  pass_outputs();
-
-  if(enumerator_.hasNext()) {
-    return enumerator_.next();
+    pass_outputs();
+    goto Enumerate;
   }
 
   return nullptr;
-
 }
 
-bool EarlyOutputLineEvaluator::match(const std::string &s) {
+FORCE_INLINE bool EarlyOutputLineEvaluator::match(const std::string &s) {
   char a;
   DetState *nextState, *currentState;
 
@@ -111,7 +108,7 @@ bool EarlyOutputLineEvaluator::match(const std::string &s) {
 }
 
 
-void EarlyOutputLineEvaluator::reading(char a, int64_t pos) {
+FORCE_INLINE void EarlyOutputLineEvaluator::reading(char a, int64_t pos) {
   auto nextTransition = current_state_->next_transition(a);
 
   if(nextTransition == nullptr) {
@@ -180,6 +177,13 @@ inline void EarlyOutputLineEvaluator::pass_current_outputs() {
       state->currentL->erase();
     }
   }
+
+  auto ns = current_state_->drop_super_finals();
+
+  if(ns == nullptr)
+    ns = rgx_.detManager().compute_drop_super_finals(current_state_);
+
+  current_state_ = ns;
 }
 
 } // end namespace rematch

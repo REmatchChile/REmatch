@@ -20,7 +20,7 @@ class FastNodeList {
   void erase() {head_->next = nullptr; tail_ = head_;}
 
   void reset_refs() {
-    if(empty()) return;
+    // if(empty()) return;
     --head_->next->refCount;
     --tail_->refCount;
   }
@@ -32,7 +32,7 @@ class FastNodeList {
     n->refCount += 2;
   }
   void append(FastNodeList *l) {
-    if(l->empty()) return;
+    // if(l->empty()) return;
     tail_->next = l->head_->next;
 
     ++l->head_->next->refCount;

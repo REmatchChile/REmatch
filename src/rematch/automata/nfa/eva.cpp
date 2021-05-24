@@ -35,6 +35,8 @@ ExtendedVA :: ExtendedVA(LogicalVA &A)
 	// if(!is_raw_)
 	// 	std::cout << "EvA before:\n" << pprint() << "\n\n";
 
+	compute_if_dfa_searchable();
+
 	#ifndef NOPT_OFFSET
 	offsetOpt();
 	#endif
@@ -64,8 +66,7 @@ ExtendedVA :: ExtendedVA(LogicalVA &A)
 
 	searchSuperFinals();
 
-	// if(!is_raw_)
-	// 	std::cout << "EvA aftererer:\n" << pprint() << "\n\n";
+	// std::cout << "EvA aftererer:\n" << pprint() << "\n\n";
 }
 
 ExtendedVA :: ExtendedVA():
@@ -834,6 +835,30 @@ void ExtendedVA::crossProdOpt() {
 	set_initState(states0[initStateIdx]); // Init state is (q0, 0)
 	states = std::move(states0);
 	pruneUselessStates();
+}
+
+void ExtendedVA::compute_if_dfa_searchable() {
+	if(!is_raw_ && variable_factory_->size() == 1) {
+		auto ns = init_state_->nextFilter(filter_factory_->getCode('\0'));
+		if(ns != nullptr) {
+			try {
+				auto dot_code = filter_factory_->getCode(ast::special(SpecialCode::kAnyChar, true));
+				auto ls = ns->nextFilter(dot_code);
+				if(ls != ns) return;
+
+				auto var = variable_factory_->variables().front();
+
+				auto nns = ns->nextCapture(variable_factory_->open_code(var));
+
+				if(nns == nullptr) return;
+
+				is_dfa_searchable_ = true;
+
+			} catch (std::out_of_range &e) {
+				return;
+			}
+		}
+	}
 }
 
 } // end namespace rematch

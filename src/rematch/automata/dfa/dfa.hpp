@@ -4,13 +4,13 @@
 #include <string>
 #include <vector>
 #include <memory>
-
-#include "automata/nfa/eva.hpp"
+#include <bitset>
 
 namespace rematch {
 
 class VariableFactory;
 class DetState;
+class ExtendedVA;
 
 class DFA {
  public:

@@ -163,7 +163,7 @@ int FilterFactory :: addFilter(CharClass cs) {
 }
 
 int FilterFactory :: getCode(CharClass cs) {
-	return codeMap[cs];
+	return codeMap.at(cs);
 }
 
 CharClass FilterFactory :: getFilter(int code) {

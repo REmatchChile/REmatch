@@ -46,7 +46,17 @@ State::State(const State& s)
 bool State::operator==(const State &rhs) const { return id == rhs.id;}
 
 
-State* State::nextLVAState(unsigned int code) {
+State* State::nextFilter(unsigned int code) {
+  for(auto &filter: filters) {
+    if (filter->code == code) {
+      return filter->next;
+    }
+  }
+
+  return nullptr;
+}
+
+State* State::nextCapture(std::bitset<32> code) {
   for(auto &capture: captures) {
     if (capture->code == code) {
       return capture->next;

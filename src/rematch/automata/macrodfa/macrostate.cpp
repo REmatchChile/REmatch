@@ -7,7 +7,7 @@ namespace rematch {
 
 MacroState::MacroState(DetState* state) {
   states_.push_back(state);
-};
+}
 
 MacroState::MacroState(std::vector<DetState*> states) : states_(states) {}
 

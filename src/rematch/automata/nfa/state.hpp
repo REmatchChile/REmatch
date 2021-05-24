@@ -91,7 +91,8 @@ class State {
     State(const State& s);
 
     void init();
-    State* nextLVAState(unsigned int code);
+    State* nextFilter(unsigned int code);
+    State* nextCapture(std::bitset<32> code);
     void addCapture(std::bitset<32> code, State* next);
     void addFilter(unsigned int code, State* next);
     void addEpsilon(State* next);

@@ -23,7 +23,7 @@ void NodeList::add(Node *node) {
     this->tail_ = node;
     node->refCount++;
   }
-};
+}
 
 // NodeList* NodeList::lazycopy() {
 //   NodeList* new_list = new NodeList();
@@ -56,7 +56,7 @@ void NodeList::append(NodeList* list) {
     // Added reference to new tail
     list->tail_->refCount++;
   }
-};
+}
 
 void NodeList::reset_refs() {
   if(!empty()) {
@@ -68,7 +68,7 @@ void NodeList::reset_refs() {
 void NodeList::reset() {
   this->head_ = nullptr;
   this->tail_ = nullptr;
-};
+}
 
 NodeList& NodeList :: operator=(const NodeList &nl) {
   head_ = nl.head_;

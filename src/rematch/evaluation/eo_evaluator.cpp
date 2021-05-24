@@ -28,26 +28,24 @@ Match_ptr EarlyOutputEvaluator::next() {
 
   char a;
 
-  for(; current_char_ != text_->end();) {
+  if(current_char_ != text_->end()) {
+    for(; current_char_ != text_->end();) {
 
-    a = *current_char_;
-    a &= 0x7F;  // Only ASCII chars for now
+      a = *current_char_;
+      a &= 0x7F;  // Only ASCII chars for now
 
-    reading(a, i_pos_+1);
+      reading(a, i_pos_+1);
 
-    ++i_pos_;
-    ++current_char_;
+      ++i_pos_;
+      ++current_char_;
 
-    if(current_state_->is_super_final() && current_char_ != text_->end()) {
-      pass_current_outputs();
-      goto Enumerate;
+      if(current_state_->is_super_final() && current_char_ != text_->end()) {
+        pass_current_outputs();
+        goto Enumerate;
+      }
     }
-  }
-  pass_outputs();
-
-
-  if(enumerator_.hasNext()) {
-    return enumerator_.next();
+    pass_outputs();
+    goto Enumerate;
   }
 
   return nullptr;

@@ -1,5 +1,5 @@
-#ifndef EVALUATION__EOLINE_EVALUATOR_HPP
-#define EVALUATION__EOLINE_EVALUATOR_HPP
+#ifndef EVALUATION__EOFILTER_EVALUATOR_HPP
+#define EVALUATION__EOFILTER_EVALUATOR_HPP
 
 #include <string>
 #include <vector>
@@ -21,10 +21,10 @@
 
 namespace rematch {
 
-class EarlyOutputLineEvaluator : public Evaluator {
+class EarlyOutputFilterEvaluator : public Evaluator {
 
  public:
-  EarlyOutputLineEvaluator(RegEx& rgx, std::shared_ptr<Document> d);
+  EarlyOutputFilterEvaluator(RegEx& rgx, std::shared_ptr<StrDocument> d);
 
   virtual Match_ptr next();
 
@@ -32,7 +32,7 @@ class EarlyOutputLineEvaluator : public Evaluator {
 
   inline void reading(char a, int64_t i);
 
-  bool match(const std::string & s);
+  bool dfa_search();
 
   inline void pass_current_outputs();
   inline void pass_outputs();
@@ -44,22 +44,22 @@ class EarlyOutputLineEvaluator : public Evaluator {
   Enumerator enumerator_;
   MemManager memory_manager_;
 
-  std::shared_ptr<Document> text_;
+  std::shared_ptr<StrDocument> text_;
 
   MacroDFA macro_dfa_;
 
   MacroState* current_state_;
-
-  LineIterator current_line_;
-  std::string::const_iterator current_char_;
+  DetState* current_dstate_;
 
   static const size_t kSizeMaxOutputBuffer = 100;
 
-  int64_t i_pos_;
+  uint64_t i_pos_ = 0;
+  uint64_t i_min_ = 0;
+  uint64_t i_max_ = 0;
 
   size_t out_buf_counter = 0;
 }; // end class Evaluator
 
 } // namespace rematch
 
-#endif // EVALUATION__EOLINE_EVALUATOR_HPP
+#endif // EVALUATION__EOFILTER_EVALUATOR_HPP

@@ -62,10 +62,16 @@ int main(int argc, char *argv[]) {
 	if(rgxpath.size())
 		rgx = file2str(rgxpath);
 
+	#ifndef BENCHMARK_MODE
 	if(docpath.size()) {
 		opts.set_is_docfile(true);
 		doc = docpath;
 	}
+	#else
+	if(docpath.size()) {
+		doc = file2str(docpath);
+	}
+	#endif
 
 	Interface intf(doc, rgx, opts);
 

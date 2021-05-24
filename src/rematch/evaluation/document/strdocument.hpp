@@ -64,9 +64,16 @@ class StrDocument : public Document {
 				return;
 			}
 			auto result = std::find(current_, data_ + size_, '\n');
-			size_t n = result - current_;
+			size_t n = result - current_ + 1;
+			if(result == data_ + size_) {
+				n -= 1;
+			}
 			line_.assign(current_, n);
-			current_ = result;
+			if(result == data_ + size_) {
+				current_ = result;
+			} else {
+				current_ = result + 1;
+			}
 		}
 
 	 	const char *data_;
@@ -83,6 +90,8 @@ class StrDocument : public Document {
 	EndLineIterator line_end() const {return EndLineIterator();}
 
   size_t size() const {return size_;}
+
+	const char& operator[] (int index) {return data_[index];}
 
  private:
     const char* data_;

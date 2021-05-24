@@ -12,4 +12,10 @@ class Evaluator {
 
 } // end namespace rematch
 
+#include "evaluation/normal_evaluator.hpp"
+#include "evaluation/line_evaluator.hpp"
+#include "evaluation/eo_evaluator.hpp"
+#include "evaluation/eoline_evaluator.hpp"
+#include "evaluation/eofilter_evaluator.hpp"
+
 #endif // EVALUATION__EVALUATOR_HPP

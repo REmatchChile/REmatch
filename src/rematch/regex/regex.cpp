@@ -1,9 +1,6 @@
 #include "regex.hpp"
 #include "parse/regex/parser.hpp"
-#include "evaluation/normal_evaluator.hpp"
-#include "evaluation/line_evaluator.hpp"
-#include "evaluation/eo_evaluator.hpp"
-#include "evaluation/eoline_evaluator.hpp"
+#include "evaluation/evaluator.hpp"
 
 namespace rematch {
 
@@ -23,7 +20,12 @@ MatchIterator RegEx::findIter(std::shared_ptr<Document> d) {
     if (flags_ & kLineByLine) {
       eval = new EarlyOutputLineEvaluator(*this, d);
     } else {
-      eval = new EarlyOutputEvaluator(*this, d);
+      if(dman_.nfa().is_dfa_searchable()) {
+        std::shared_ptr<StrDocument> strd = std::static_pointer_cast<StrDocument>(d);
+        eval = new EarlyOutputFilterEvaluator(*this, strd);
+      } else {
+        eval = new EarlyOutputEvaluator(*this, d);
+      }
     }
   } else {
     if (flags_ & kLineByLine) {

@@ -6,15 +6,18 @@
 #include <sstream>
 #include <unordered_map>
 #include <bitset>
-
-#include "bitsetwrapper.hpp"
-#include "structs/dag/fastnodelist.hpp"
-#include "det/setstate.hpp"
-#include "captures.hpp"
+#include <memory>
 
 namespace rematch {
 
 class Transition;
+class BitsetWrapper;
+class SetState;
+
+namespace internal {
+class FastNodeList;
+class NodeList;
+}
 
 class DetState {
   private:
@@ -55,7 +58,7 @@ class DetState {
     // Remove SuperFinals states from the detState;
     bool remove_superfinals();
 
-    bool empty() const { return ss->subset.empty(); }
+    bool empty() const;
 
 
 

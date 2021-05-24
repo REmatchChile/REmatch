@@ -36,6 +36,13 @@ DetState :: DetState(SetState* ss)
     copiedList(new internal::FastNodeList()),
     ss(ss) {
   id = ID++;
+  setSubset(ss);
+}
+
+void DetState :: setFinal(bool b) {isFinal = b;}
+
+void DetState :: setSubset(SetState* newss) {
+  ss = newss;
   isFinal = ss->isFinal;
   isSuperFinal = ss->isSuperFinal;
   isOnlyInit = true;
@@ -50,14 +57,6 @@ DetState :: DetState(SetState* ss)
   std::stringstream s;
   s << *(ss);
   label = s.str();
-}
-
-void DetState :: setFinal(bool b) {isFinal = b;}
-
-void DetState :: setSubset(SetState* newss) {
-  ss = newss;
-  isFinal = ss->isFinal;
-  isSuperFinal = ss->isSuperFinal;
 }
 
 
@@ -94,19 +93,26 @@ std::ostream & operator<<(std::ostream &os, DetState const &q) {
 bool DetState::remove_superfinals() {
   auto old_size = ss->subset.size();
   if(isSuperFinal) {
+    bool final_check = false;
     for(auto it = ss->subset.begin(); it != ss->subset.end();) {
       if((*it)->isSuperFinal) {
         it = ss->subset.erase(it);
       } else {
+        if((*it)->isFinal)
+          final_check = true;
         ++it;
       }
     }
-    std::stringstream s;
-    s << *(ss);
-    label = s.str();
+    ss->isFinal = final_check;
+    ss->isSuperFinal = false;
+    setSubset(ss);
   }
 
   return old_size > ss->subset.size();
+}
+
+bool DetState::empty() const {
+  return ss->subset.empty();
 }
 
 } // end namespace rematch

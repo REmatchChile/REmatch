@@ -23,7 +23,7 @@ class LineIterator {
       return **self_;
     }
 
-		virtual bool operator!=(EndLineIterator e) const {
+		virtual bool operator!=(EndLineIterator) const {
       return self_->at_end();
     }
 
@@ -79,7 +79,7 @@ class CharIterator {
       return **self_;
     }
 
-		virtual bool operator!=(EndCharIterator e) const {
+		virtual bool operator!=(EndCharIterator) const {
       return self_->at_end();
     }
 

@@ -12,6 +12,7 @@
 #include "automata/dfa/dfa.hpp"
 #include "automata/dfa/detstate.hpp"
 #include "det/setstate.hpp"
+#include "captures.hpp"
 
 namespace rematch {
 
@@ -241,35 +242,35 @@ MacroState* DetManager::compute_drop_super_finals(MacroState *ms) {
 			dstates_storage.insert(ns);
 			dstates_key.insert(ns->id);
 		}
-
-		// Pass up to a vector
-		std::vector<size_t> real_dstates_key(dstates_key.begin(), dstates_key.end());
-
-		// Sorting needed to compute the correct key
-		std::sort(real_dstates_key.begin(), real_dstates_key.end());
-
-		auto found = mstates_table_.find(real_dstates_key);
-
-		MacroState *q;
-
-		// Check if not inside table already
-		if(found == mstates_table_.end()) {
-			// Convert set to vector
-			std::vector<DetState*> real_dstates_storage(dstates_storage.begin(), dstates_storage.end());
-
-			// Create the new MacroState
-			q = mdfa_->add_state(real_dstates_storage);
-
-			// Insert new MacroState in table
-			mstates_table_.insert(std::pair<std::vector<size_t>, MacroState*>(real_dstates_key, q));
-		} else {
-			q = found->second;
-		}
-
-		ms->set_drop_super_finals(q);
-
-		return q;
 	}
+
+	// Pass up to a vector
+	std::vector<size_t> real_dstates_key(dstates_key.begin(), dstates_key.end());
+
+	// Sorting needed to compute the correct key
+	std::sort(real_dstates_key.begin(), real_dstates_key.end());
+
+	auto found = mstates_table_.find(real_dstates_key);
+
+	MacroState *q;
+
+	// Check if not inside table already
+	if(found == mstates_table_.end()) {
+		// Convert set to vector
+		std::vector<DetState*> real_dstates_storage(dstates_storage.begin(), dstates_storage.end());
+
+		// Create the new MacroState
+		q = mdfa_->add_state(real_dstates_storage);
+
+		// Insert new MacroState in table
+		mstates_table_.insert(std::pair<std::vector<size_t>, MacroState*>(real_dstates_key, q));
+	} else {
+		q = found->second;
+	}
+
+	ms->set_drop_super_finals(q);
+
+	return q;
 }
 
 DetState* DetManager::compute_drop_super_finals(DetState *q) {

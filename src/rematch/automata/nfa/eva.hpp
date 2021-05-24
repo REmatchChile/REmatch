@@ -97,6 +97,10 @@ class ExtendedVA {
 
 	void crossProdOpt();
 
+	void compute_if_dfa_searchable();
+
+	bool is_dfa_searchable() const {return is_dfa_searchable_;}
+
 
  private:
 	void getInvTopSortCapturesUtil(CapturePtr &cap, CaptureVector &L);
@@ -111,6 +115,7 @@ class ExtendedVA {
 	size_t currentID;
 
 	bool is_raw_;
+	bool is_dfa_searchable_ = false;
 
 };
 

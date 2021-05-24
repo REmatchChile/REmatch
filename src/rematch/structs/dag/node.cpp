@@ -24,7 +24,7 @@ Node::Node(std::bitset<32> S, int64_t i, Node* head, Node* tail)
 
     start->refCount++;
     end->refCount++;
-  };
+  }
 
 Node* Node::reset(std::bitset<32> S, int64_t i, Node* head, Node* tail) {
   /* Same as constructor but inplace on an already constructed object */
@@ -82,7 +82,7 @@ void Node::getNodeContent(int content[2]) {
   // Get's the S and the i in the content array/
   content[0] = this->S.to_ulong();
   content[1] = this->i;
-};
+}
 
 bool Node::isNodeEmpty() {
   return this->i == -1;
