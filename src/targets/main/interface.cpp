@@ -48,16 +48,23 @@ void Interface::normal_run() {
 
 	rematch::MatchIterator m_iter = regex.findIter(document_);
 
-	if(options_.output_option() == rematch::SPANS) {
+	auto out_option = options_.output_option();
+
+	if(out_option == rematch::SPANS) {
 		for(auto match = m_iter.next(); match != nullptr; match = m_iter.next()) {
 			std::cout << *match << std::endl;
 		}
-	} else if(options_.output_option() == rematch::NMAPPINGS) {
+	} else if(out_option == rematch::NMAPPINGS) {
 		size_t count = 0;
 		for(auto match = m_iter.next(); match != nullptr; match = m_iter.next()) {
 			count++;
 		}
 		std::cout << count << std::endl;
+	} else if(out_option == rematch::SUBMATCHES) {
+		auto str_doc = std::static_pointer_cast<rematch::StrDocument>(document_);
+		for(auto match = m_iter.next(); match != nullptr; match = m_iter.next()) {
+			std::cout << match->pprint(str_doc) << std::endl;
+		}
 	}
 }
 

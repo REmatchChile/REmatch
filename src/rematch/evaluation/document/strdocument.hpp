@@ -20,6 +20,10 @@ class StrDocument : public Document {
 
 	~StrDocument() override = default;
 
+	std::string substring(int i, int j) const {
+		return std::string(data_+ i, j-i);
+	}
+
 	struct char_iterator {
 
 		char_iterator() = delete;

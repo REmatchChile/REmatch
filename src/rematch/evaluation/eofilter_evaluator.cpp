@@ -70,9 +70,6 @@ FORCE_INLINE bool EarlyOutputFilterEvaluator::dfa_search() {
 
   uint64_t it = i_min_;
 
-  if(it == 9999999)
-    std::cout << "Here\n";
-
   if(current_dstate_->isSuperFinal) {
     i_max_ = text_->size();
     return i_min_ < i_max_;

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <fstream>
+#include <memory>
 
 #include "automata/nfa/lva.hpp"
 #include "options.hpp"

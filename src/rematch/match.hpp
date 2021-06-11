@@ -15,6 +15,9 @@ namespace rematch {
 
 class Match;
 class Enumerator;
+class StrDocument;
+// FIXME: Change this
+class Interface;
 
 #ifdef SWIG
 using Match_ptr = Match*;
@@ -32,6 +35,8 @@ using SpanVect = std::vector<Span>;
 // sublaying document is available.
 class Match {
   friend class Enumerator;
+  friend class Interface;
+
  public:
 
   Match() = default;
@@ -44,7 +49,7 @@ class Match {
   Span span(std::string var) const;
 
   // Returns a variable's captured substring
-  std::string group(std::string var) const;
+  std::string group(std::string var, std::shared_ptr<StrDocument>& doc) const;
 
   // Returns referece to the sublaying document.
   const std::string& doc() const;
@@ -53,6 +58,8 @@ class Match {
   std::vector<std::string> variables() const;
 
   SpanMap& data();
+
+  std::string pprint(std::shared_ptr<StrDocument>& doc) const;
 
   friend std::ostream& operator<<(std::ostream &os, Match &m);
 
