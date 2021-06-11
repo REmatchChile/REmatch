@@ -32,19 +32,26 @@ std::vector<std::string> Match::variables() const {
 
 std::string Match::pprint(std::shared_ptr<StrDocument>& doc) const {
   std::stringstream ss;
-  for(size_t i=0; i < data_.size() / 2; i++) {
+  for(size_t i=0; i < (data_.size()/2)-1; i+=2) {
     std::string var = var_factory_->get_var(i);
-    ss << var << " = \"" << group(var, doc) << "\"\t";
+    ss << var << " = \"" << group(var, doc) << "\" ";
   }
+
+  std::string var = var_factory_->get_var((data_.size()/2)-1);
+  ss << var << " = \"" << group(var, doc) << "\"";
 
   return ss.str();
 }
 
 std::ostream& operator<<(std::ostream &os, Match &m) {
-  for(size_t i=0; i < m.data_.size() / 2; i++) {
-    os << m.var_factory_->get_var(i)
-       << " = |" << m.data_[2*i] << ',' << m.data_[2*i+1] << ">\t";
+  for(size_t i=0; i < m.data_.size() - 2; i += 2) {
+    os << m.var_factory_->get_var(i/2)
+       << " = |" << m.data_[i] << ',' << m.data_[i+1] << ">\t";
   }
+
+  os << m.var_factory_->get_var((m.data_.size()-2)/2)
+       << " = |" << m.data_[m.data_.size()-2] << ','
+       << m.data_[m.data_.size()-1] << ">";
 
   return os;
 }

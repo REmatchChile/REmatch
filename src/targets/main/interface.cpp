@@ -63,7 +63,7 @@ void Interface::normal_run() {
 	} else if(out_option == rematch::SUBMATCHES) {
 		auto str_doc = std::static_pointer_cast<rematch::StrDocument>(document_);
 		for(auto match = m_iter.next(); match != nullptr; match = m_iter.next()) {
-			std::cout << match->pprint(str_doc) << std::endl;
+			std::cout << *match  << "\t(" << match->pprint(str_doc) << ")"  << std::endl;
 		}
 	}
 }
