@@ -148,7 +148,10 @@ MacroTransition* DetManager::next_macro_transition(MacroState *p, char a) {
 	// Set to store the reached states
 	std::set<DetState*> dstates_storage;
 
-	int ndirects = 0, ncaptures = 0, nempties = 0;
+	std::vector<std::pair<DetState*, DetState*>> first_storage, repeats_storage;
+
+	int nfirstdirects = 0, nrepeatdirects = 0,
+	    nfirstcaptures = 0, nrepeatcaptures = 0, nempties = 0;
 
 	for(auto &state: p->states()) {
 		// Classic on-the-fly determinization
@@ -159,40 +162,59 @@ MacroTransition* DetManager::next_macro_transition(MacroState *p, char a) {
 		}
 
 		if(nextTransition->type_ & Transition::kDirect) {
-			dstates_key.insert(nextTransition->direct_->id);
-			dstates_storage.insert(nextTransition->direct_);
-			ndirects++;
+			auto res = dstates_key.insert(nextTransition->direct_->id);
+			if (!res.second)
+				nrepeatdirects++;
+			else
+				nfirstdirects++;
 		} else if (nextTransition->type_ == Transition::kEmpty) {
 			nempties++;
 		} if (nextTransition->type_ & Transition::kSingleCapture) {
-			dstates_key.insert(nextTransition->capture_->next->id);
-			dstates_storage.insert(nextTransition->capture_->next);
-			ncaptures++;
+			auto res = dstates_key.insert(nextTransition->capture_->next->id);
+			if (!res.second)
+				nrepeatcaptures++;
+			else
+				nfirstcaptures++;
 		} else if(nextTransition->type_ & Transition::kMultiCapture) {
 			for(auto &capture: *nextTransition->captures_) {
-				dstates_key.insert(capture->next->id);
-				dstates_storage.insert(capture->next);
-				ncaptures++;
+				auto res = dstates_key.insert(capture->next->id);
+				if (!res.second)
+					nrepeatcaptures++;
+				else
+					nfirstcaptures++;
 			}
 		}
 	}
 
 	// Alloc a new MacroTransition
-	std::shared_ptr<MacroTransition> mtrans = std::make_shared<MacroTransition>(ndirects, ncaptures, nempties);
+	std::shared_ptr<MacroTransition> mtrans = std::make_shared<MacroTransition>(nfirstdirects, nrepeatdirects,
+																																						  nfirstcaptures, nrepeatcaptures, nempties);
 
 	for(auto &state: p->states()) {
 		// Classic on-the-fly determinization
 		auto nextTransition = state->next_transition(a);
 
 		if(nextTransition->type_ & Transition::kDirect) {
-			mtrans->add_direct(*state, *nextTransition->direct_);
+			auto res = dstates_storage.insert(nextTransition->direct_);
+			if (res.second)
+				mtrans->add_direct(*state, *nextTransition->direct_, true);
+			else
+				mtrans->add_direct(*state, *nextTransition->direct_, false);
 		} else if(nextTransition->type_ == Transition::kEmpty) {
 			mtrans->add_empty(*state);
 		} if (nextTransition->type_ & Transition::kSingleCapture) {
-			mtrans->add_capture(*state, nextTransition->capture_->S, *nextTransition->capture_->next);
+			auto res = dstates_storage.insert(nextTransition->capture_->next);
+			if (res.second)
+				mtrans->add_capture(*state, nextTransition->capture_->S, *nextTransition->capture_->next, true);
+			else
+				mtrans->add_capture(*state, nextTransition->capture_->S, *nextTransition->capture_->next, false);
 		} else if(nextTransition->type_ & Transition::kMultiCapture) {
 			for(auto &capture: *nextTransition->captures_) {
-				mtrans->add_capture(*state, capture->S, *capture->next);
+				auto res = dstates_storage.insert(capture->next);
+				if (res.second)
+					mtrans->add_capture(*state, capture->S, *capture->next, true);
+				else
+					mtrans->add_capture(*state, capture->S, *capture->next, true);
 			}
 		}
 	}

@@ -27,9 +27,12 @@ int main(int argc, char const *argv[]) {
 
   std::ofstream dump(".tmp/re2-output.log");
 
+  // std::cout << "Input: \"" << input << "\"\n";
+  // std::cout << "Pattern: \"" << rgx << "\"\n";
+
   while(RE2::FindAndConsume(&input, pattern, &match)) {
-    int ini = match.data() - doc.data();
-    dump << "|" << ini << "," << ini + match.size() << ">\n";
+    // int ini = match.data() - doc.data();
+    // dump << "|" << ini << "," << ini + match.size() << ">\n";
     count++;
   }
 

@@ -8,6 +8,8 @@
 #include <bitset>
 #include <memory>
 
+#include "structs/ecs/ecs.hpp"
+
 namespace rematch {
 
 class Transition;
@@ -38,6 +40,8 @@ class DetState {
 
     internal::FastNodeList* currentL;
     internal::FastNodeList* copiedList;
+
+    internal::ECS::Node* currentNode;
 
     SetState* ss;
 

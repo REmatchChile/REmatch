@@ -90,8 +90,8 @@ void NormalEvaluator::reading(char a, int64_t pos) {
                                                       capture.from->currentL->start(),
                                                       capture.from->currentL->end());
     #else
-    internal::Node* new_node = new Node(capture.s, i_pos_+1, capture.from->currentL->head_,
-                              capture.from->currentL->tail_)
+    internal::Node* new_node = new Node(capture.s, pos+1, capture.from->currentL->start(),
+                              capture.from->currentL->end())
     #endif
 
     capture.to->currentL->add(new_node);

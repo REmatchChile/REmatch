@@ -1,2 +1,0 @@
-
-Sat,  8 Nov 2014 04:03:50 +0000	bm.rkbexplorer.com	sparql	PREFIX id: <http://bm.rkbexplorer.com/id/> PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> PREFIX owl:  <http://www.w3.org/2002/07/owl#> PREFIX bm:   <http://www.britishmuseum.ac.uk/ontologies/conservation#> SELECT DISTINCT ?a_analysisDate, ?a_analysisTitle, ?a WHERE { <http://bm.rkbexplorer.com/id/merlin-PDB354> bm:hasObjectScience ?analysis . ?analysis bm:ID ?a ; bm:analysisTitle ?a_analysisTitle OPTIONAL {?analysis bm:analysisDate ?a_analysisDate }}

@@ -28,6 +28,7 @@ tmp
 .vscode
 .VSCodeCounter
 callgrind.out.*
+exp/
 exp/re2/.vscode
 exp/syn
 exp/doc.txt

@@ -15,6 +15,7 @@ namespace rematch {
 
 class Match;
 class Enumerator;
+class ECS;
 class StrDocument;
 // FIXME: Change this
 class Interface;
@@ -35,11 +36,15 @@ using SpanVect = std::vector<Span>;
 // sublaying document is available.
 class Match {
   friend class Enumerator;
+  friend class ECS;
   friend class Interface;
 
  public:
 
   Match() = default;
+
+  Match(std::shared_ptr<VariableFactory> vf, std::vector<int64_t> m)
+      : data_(m), var_factory_(vf) {}
 
   operator bool() const {return !data_.empty();}
 
@@ -64,9 +69,7 @@ class Match {
   friend std::ostream& operator<<(std::ostream &os, Match &m);
 
  private:
-  // Only Enumerator is able to construct a Match
-  Match(std::shared_ptr<VariableFactory> vf, std::vector<int64_t> m)
-      : data_(m), var_factory_(vf) {}
+
 
   // Enumerator needs to access data_ to fill out the mappings
   void set_mapping(int var_code, int64_t pos) {data_[var_code] = pos;}

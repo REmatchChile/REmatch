@@ -66,7 +66,8 @@ ExtendedVA :: ExtendedVA(LogicalVA &A)
 
 	searchSuperFinals();
 
-	// std::cout << "EvA aftererer:\n" << pprint() << "\n\n";
+	// if(!is_raw_)
+	// 	std::cout << "EvA aftererer:\n" << pprint() << "\n\n";
 }
 
 ExtendedVA :: ExtendedVA():
@@ -845,6 +846,9 @@ void ExtendedVA::compute_if_dfa_searchable() {
 				auto dot_code = filter_factory_->getCode(ast::special(SpecialCode::kAnyChar, true));
 				auto ls = ns->nextFilter(dot_code);
 				if(ls != ns) return;
+
+				is_dfa_searchable_ = true;
+				return;
 
 				auto var = variable_factory_->variables().front();
 

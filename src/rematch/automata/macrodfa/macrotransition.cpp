@@ -2,47 +2,41 @@
 
 namespace rematch {
 
-MacroTransition::MacroTransition()
-  : ndirects_{0}, ncaptures_{0}, nempties_{0} {
-    // directs_.reserve(10);
-    // captures_.reserve(10);
-  }
+MacroTransition::MacroTransition(size_t nfirstdirects, size_t nrepeatdirects,
+                                 size_t nfirstcaptures, size_t nrepeatcaptures,
+                                 size_t nempties)
+    : first_directs_{new MTDirect[nfirstdirects]},
+      repeat_directs_{new MTDirect[nrepeatdirects]},
+      first_captures_{new MTCapture[nfirstcaptures]},
+      repeat_captures_{new MTCapture[nrepeatcaptures]},
+      empties_{new DetState*[nempties]} {}
 
-MacroTransition::MacroTransition(size_t ndirects, size_t ncaptures, size_t nempties)
-  : ndirects_{0}, ncaptures_{0}, nempties_{0},
-    directs_{new MTDirect[ndirects]},
-    captures_{new MTCapture[ncaptures]},
-    empties_{new DetState*[nempties]} {}
-
-void MacroTransition::add_direct(DetState& from, DetState& to) {
-  #ifdef MACRO_TRANSITIONS_RAW_ARRAYS
-  new (&directs_[ndirects_++]) MTDirect(from, to);
-  #else
-  directs_.emplace_back(from, to);
-  #endif
+void MacroTransition::add_direct(DetState& from, DetState& to, bool first) {
+  if (first)
+    new (&first_directs_[nfirstdirects_++]) MTDirect(from, to);
+  else
+    new (&repeat_directs_[nrepeatdirects_++]) MTDirect(from, to);
 }
 
 void MacroTransition::add_capture(DetState& from, std::bitset<32> S,
-                                  DetState& to) {
-  #ifdef MACRO_TRANSITIONS_RAW_ARRAYS
-  new (&captures_[ncaptures_++]) MTCapture(from, S, to);
-  #else
-  captures_.emplace_back(from, S, to);
-  #endif
+                                  DetState& to, bool first) {
+  if (first)
+    new (&first_captures_[nfirstcaptures_++]) MTCapture(from, S, to);
+  else
+    new (&repeat_captures_[nrepeatcaptures_++]) MTCapture(from, S, to);
 }
 
 void MacroTransition::add_empty(DetState& from) {
-  #ifdef MACRO_TRANSITIONS_RAW_ARRAYS
   empties_[nempties_++] = &from;
-  #else
-  captures_.emplace_back(from, S, to);
-  #endif
 }
+
 
 void MacroTransition::set_next_state(MacroState* ms) {next_ = ms;}
 
-DirectsArray MacroTransition::directs() {return directs_;}
-CapturesArray MacroTransition::captures() {return captures_;}
+DirectsArray MacroTransition::first_directs() {return first_directs_;}
+DirectsArray MacroTransition::repeat_directs() {return repeat_directs_;}
+CapturesArray MacroTransition::first_captures() {return first_captures_;}
+CapturesArray MacroTransition::repeat_captures() {return repeat_captures_;}
 EmptiesArray MacroTransition::empties() {return empties_;}
 
 MacroState* MacroTransition::next_state() {return next_;}

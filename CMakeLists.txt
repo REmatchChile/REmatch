@@ -13,7 +13,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Enable testing
 set(REMATCH_BUILD_TESTING ON)
 # Enable benchmarks
-set(REMATCH_BUILD_BENCHMARKS OFF)
+set(REMATCH_BUILD_BENCHMARKS ON)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -pthread -O0 -g3")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Wextra -pthread -O3 -g0 -pedantic")
@@ -26,8 +26,8 @@ add_compile_definitions(
 	BENCHMARK_MODE
 	# COUNT_CURRENT_STATES
 	# NOPT_CROSSPROD
-	# NOPT_OFFSET
-	# NOPT_MEMORY
+	NOPT_OFFSET
+	NOPT_MEMORY
 )
 
 # Rematch libs starts as empty list

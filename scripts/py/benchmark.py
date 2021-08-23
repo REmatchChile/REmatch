@@ -2,6 +2,7 @@ import json
 import os
 import os.path as pth
 from datetime import date
+import signal
 
 import googleutils
 
@@ -34,6 +35,8 @@ NEXP = data['nexp']
 TOT_COLS = data['cols']
 BINARIES = data['binaries']
 DESCRIPTION = data['description']
+BLACKLIST = []
+BLACKLIST = ["boost-forced", "PCRE-forced", "re2-forced"]
 
 def formatMem(sizeInKb):
 	units = ['K', 'M', 'G']
@@ -73,7 +76,7 @@ def docstats(doc_path):
 	return filesize, int(nchars), int(nlines)+1
 
 def automata_stats(doc_path, rgx_path):
-	command = "{0}/build/Release/bin/rematch-timer -l -o benchmark -d {1} -r {2}".format(HOME_DIR, doc_path, rgx_path)
+	command = "{0}/build/Release/bin/rematch -c --mode=benchmark -d {1} -r {2}".format(HOME_DIR, doc_path, rgx_path)
 	try:
 		process = subprocess.run(command, shell=True, check=True,
 														capture_output=True, universal_newlines=True)
@@ -82,14 +85,11 @@ def automata_stats(doc_path, rgx_path):
 		return 'err', 'err', 'err', 'err', 'err'
 
 	# print(process.stdout)
-
-	evaltime = float(re.search(r'Eval time:\s+(\d+(?:\.\d+)?)', process.stdout).group(1))
 	dsize = int(re.search(r'DetSize\s+(\d+)', process.stdout).group(1))
 	esize = int(re.search(r'eVASize\s+(\d+)', process.stdout).group(1))
 	msize = int(re.search(r'MDFASize\s+(\d+)', process.stdout).group(1))
-	misse = int(re.search(r'Num of Misses\s+([0-9,]+)', process.stdout).group(1).replace(",",""))
 
-	return dsize, esize, msize, misse, evaltime
+	return dsize, esize, msize
 
 def re2_algo(doc_path, rgx_path):
 	command = "{0}/build/Release/bin/re2-algo {1} {2}".format(HOME_DIR, doc_path, rgx_path)
@@ -102,6 +102,8 @@ def re2_algo(doc_path, rgx_path):
 
 
 def run_bench(binary, doc_path, rgx_path, nexp):
+	if binary in BLACKLIST:
+		return "blisted", "blisted", "blisted"
 	mem_command = "/usr/bin/time -f \"%M\" {0}"
 	time_command = "millisecond-time {0}"
 
@@ -118,9 +120,9 @@ def run_bench(binary, doc_path, rgx_path, nexp):
 	tot_time = 0
 
 	try:
-		process = subprocess.run(command_mem,
-				shell=True, check=True, capture_output=True, universal_newlines=True,
-				timeout=60)
+		process = subprocess.run(command_mem.split(' '),
+				shell=False, check=True, capture_output=True, universal_newlines=True,
+				timeout=30)
 	except subprocess.TimeoutExpired:
 		print(f"Timeout with command: {command_mem}")
 		return 'timeout', 'timeout', 'timeout'
@@ -175,12 +177,14 @@ def main():
 	print(exps_path)
 
 	ndocstats = 3
+	nautomatastats = 3
+	ntotstats = ndocstats + nautomatastats
 
 	row_counter = START_ROW
 
-	row_length = 3 + num_bins * 3 + 1
+	row_length = ntotstats + num_bins * 3 + 1
 
-	for dataset in next(os.walk(exps_path))[1]:
+	for dataset in sorted(next(os.walk(exps_path))[1]):
 
 		writeInCell(SHEETS_SERVICE, spreadsheet_id, single_range.format(START_COL, row_counter), [["!!" + dataset]])
 		row_counter += 1
@@ -220,14 +224,14 @@ def main():
 
 			print("Docstats calculated")
 
-			dsize, esize, msize, misses, evaltime = automata_stats(doc_path, os.path.join(experiment,"rematch.rgx"))
+			dsize, esize, msize = automata_stats(doc_path, os.path.join(experiment,"rematch.rgx"))
 
-			row_values[0][-1] = evaltime
+			# row_values[0][-1] = evaltime
 
-			# row_values[0][-2] = esize
-			# row_values[0][-3] = dsize
-			# row_values[0][-4] = msize
-			# row_values[0][-5] = misses
+			row_values[0][ndocstats] = esize
+			row_values[0][ndocstats+1] = dsize
+			row_values[0][ndocstats+2] = msize
+
 
 			# row_values[0][-1] = re2_algo(doc_path, os.path.join(experiment,"perl.rgx"))
 
@@ -240,9 +244,9 @@ def main():
 				time, memory, noutputs = run_bench(binary, doc_path, rgx_path, NEXP)
 
 				# Write data to cells
-				row_values[0][ndocstats + num_bins*0 + j] = time
-				row_values[0][ndocstats + num_bins*1 + j] = memory
-				row_values[0][ndocstats + num_bins*2 + j] = noutputs
+				row_values[0][ntotstats + num_bins*0 + j] = time
+				row_values[0][ntotstats + num_bins*1 + j] = memory
+				row_values[0][ntotstats + num_bins*2 + j] = noutputs
 
 			writeInCell(SHEETS_SERVICE, spreadsheet_id,
 								  current_range.format(leftmost_col, row_counter, rightmost_col, row_counter),

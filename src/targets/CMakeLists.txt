@@ -7,6 +7,7 @@ set(sources
 
 set(BUILD_TARGETS
   rematch
+  test-ecs
 )
 
 set(BENCHMARK_TARGETS
@@ -18,6 +19,7 @@ set(BENCHMARK_TARGETS
   test-tre
   force-all-re2
   force-all-re2-timeout
+  # force-all-re2-2vars
   force-all-boost
   force-all-pcre
   force-suffix-re2

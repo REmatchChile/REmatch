@@ -128,16 +128,6 @@ void Interface::benchmark_run() {
 	<< "MDFASize \t\t\t"							<<	mdfaSize														<<	'\n'
 	<< "DetSize \t\t\t"								<<	detSize															<<	'\n'
 	<< "eVASize \t\t\t"								<<	nfaSize															<< 	'\n'
-	<< "Num of Captures \t\t"					<< 	pwc(numOfCaptures)									<<	'\n'
-	<< "Num of Readings \t\t"					<< 	pwc(numOfReadings)									<<	'\n'
-	<< "Num of Misses \t\t\t"					<< 	pwc(regex.miss_counter())						<<	'\n'
-	<< "Num of Direct \t\t\t"					<< 	pwc(regex.direct_counter())					<<	'\n'
-	<< "Num of Single \t\t\t"					<< 	pwc(regex.single_counter())					<<	'\n'
-	<< "Num of Direct-Single \t\t"		<< 	pwc(regex.direct_single_counter())	<<	'\n'
-	<< "Num of Direct-Multi \t\t"			<< 	pwc(regex.direct_multi_counter())		<<	'\n'
-	<< "Num of Multi \t\t\t"					<< 	pwc(regex.multi_counter())					<<	'\n'
-	<< "Num of Empty \t\t\t"					<< 	pwc(regex.empty_counter())					<<	'\n'
-	<< "Num of determinizations\t\t"	<< 	pwc(regex.det_counter())						<<	'\n'
 	<< "Init Automata time\t\t"				<<	pwc(initAutomataTime) 							<< 	" ms\n"
 	<< "Evaluate time\t\t\t"					<<	pwc(evaluateTime)										<< 	" ms\n"
 	<< "Total time\t\t\t"							<<	pwc(totTime) 												<< 	" ms\n\n";

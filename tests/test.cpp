@@ -240,7 +240,7 @@ BOOST_DATA_TEST_CASE(
 
     rematch::RegExOptions opt;
 
-    opt.set_line_by_line(true);
+    opt.set_early_output(true);
 
     rematch::RegEx rgx(regex, opt);
     check_spanners(rgx, document_file, spanners_file);

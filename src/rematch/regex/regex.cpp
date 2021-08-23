@@ -16,6 +16,8 @@ RegEx::~RegEx() {}
 
 MatchIterator RegEx::findIter(std::shared_ptr<Document> d) {
   Evaluator* eval;
+  eval = new NormalEvaluatorNew(*this, d);
+  return MatchIterator(eval);
   if (flags_ & kEarlyOutput) {
     if (flags_ & kLineByLine) {
       eval = new EarlyOutputLineEvaluator(*this, d);

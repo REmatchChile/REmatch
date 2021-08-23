@@ -33,6 +33,7 @@ void Enumerator::addNodeList(internal::FastNodeList *startList) {
   }
 }
 
+
 Match_ptr Enumerator::next() {
   while(!depth_stack_.empty()) {
     auto current = depth_stack_.back();

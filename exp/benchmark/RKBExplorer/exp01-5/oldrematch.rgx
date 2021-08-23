@@ -1,1 +1,0 @@
-.*\n[^\n]*!x{s!y{p!z{a!w{rql!r{[^\n]*OPTIONAL[^\n]*\n}}}}}.*
