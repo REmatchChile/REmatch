@@ -18,7 +18,7 @@
 namespace rematch {
 
 // Maximum variables supported
-const int MAX_VARS = 16;
+const int MAX_VARS = 15;
 
 // Manager of the parsed RGX formula variables where each variable name
 // has a corresponding code.

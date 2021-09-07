@@ -18,7 +18,7 @@ set(sources ${fix_srcs} ${glob_srcs})
 set(project_LIB ${PROJECT_NAME}lib)
 
 add_library(${project_LIB} ${sources})
-target_link_libraries (${project_LIB} ${REMATCH_LIBS})
+target_link_libraries(${project_LIB} ${REMATCH_LIBS})
 list(APPEND REMATCH_LIBS ${project_LIB})
 
 # Pass the variable to parent

@@ -13,7 +13,7 @@ NormalEvaluatorNew::NormalEvaluatorNew(RegEx &rgx, std::shared_ptr<Document> d)
       enumerator_(rgx),
       text_(d),
       i_pos_(0) {
-  dfa().initState()->currentNode = new internal::ECS::EmptyNode();
+  dfa().initState()->currentNode = ds_.empty_node();
   macro_dfa_.set_as_init(macro_dfa_.add_state(dfa().initState()));
   current_state_ = &macro_dfa_.get_init_state();
   current_char_ = text_->begin();

@@ -17,7 +17,7 @@ int main() {
   ECS::Node* n5 = ds.unite(n1, n);
   ECS::Node* n6 = ds.unite(n4, n5);
 
-  std::cout << n6->print();
+  // std::cout << n6->print();
 
   return 0;
 }
