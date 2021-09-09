@@ -1,1 +1,0 @@
-B(?x,?y) :- /any([)/?y:next(+)/next("R")/next(")/?x:next(")/ , ?x.".*timeout=.*";

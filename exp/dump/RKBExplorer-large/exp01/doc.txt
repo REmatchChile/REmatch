@@ -1,1 +1,0 @@
-/home/nicovsj/repos/research/REmatch-org/REmatch/REmatchEngine/datasets/RKBExplorer/sparql.log.combo.2
