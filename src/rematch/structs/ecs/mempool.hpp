@@ -51,49 +51,36 @@ class MemPool {
         free_head_(nullptr) {}
 
   template<class ...Args>
-  T* alloc(Args ...args) {
-    // if(minipool_head_->isFull()) {
-    //   // GARBAGE COLLECTION
-    //   if(free_head_ != nullptr) {
-    //     T *listHead, *adyacentNext, *newNode;
+  T* alloc(Args&& ...args) {
+    if(minipool_head_->is_full()) {
+      if(free_head_ != nullptr) {
+        T* next_free = free_head_->next_free_;
+        T* right_ptr = free_head_->right();
+        T* left_ptr = free_head_->left();
 
-    //     // Pointer labeling
-    //     listHead = free_head_->start;
-    //     adyacentNext = free_head_->next;
+        T* new_node = free_head_->reset(std::forward<Args>(args)...);
 
-    //     // Overwrite Node pointed by free_head_
-    //     newNode = free_head_->reset(&args...);
+        if(left_ptr->ref_count_ == 0 && !left_ptr->is_empty()) {
+          left_ptr->next_free_ = next_free;
+          next_free = left_ptr;
+        }
+        if(!free_head_->is_output() && right_ptr->ref_count_ == 0 && !right_ptr->is_empty()) {
+          right_ptr->next_free_ = next_free;
+          next_free = right_ptr;
+        }
 
-    //     // Append to freelist new garbage
-    //     if(listHead != nullptr && listHead->refCount == 0 && !listHead->isNodeEmpty()) {
-    //       listHead->nextFree = free_head_->nextFree;
-    //       free_head_->nextFree = listHead;
-    //     }
-    //     if(adyacentNext != nullptr && adyacentNext->refCount == 0 && !adyacentNext->isNodeEmpty()) {
-    //       adyacentNext->nextFree = free_head_->nextFree;
-    //       free_head_->nextFree = adyacentNext;
-    //     }
+        // Advance the freelist head
+        free_head_ = next_free;
 
-    //     // Reassign free_head_
-    //     free_head_ = free_head_->nextFree;
+        return new_node;
+      } else {
+        MiniPool<T> *new_minipool = new MiniPool<T>(minipool_head_->size() * 2);
+        minipool_head_->set_next(new_minipool);
 
-    //     // Reset nextFree in overwritten Node (because of the union it suffices
-    //     // to set the refCount)
-    //     newNode->refCount = 0;
-    //     // totElementsReused++;
-
-    //     return newNode;
-    //   }
-    //   else {
-    //     MiniPool<T> *new_minipool = new MiniPool(minipool_head_->size() * 2);
-    //     minipool_head_->set_next(new_minipool);
-
-    //     minipool_head_ = new_minipool;
-    //     tot_arenas_++;
-
-    //   }
-
-    // }
+        minipool_head_ = new_minipool;
+        ++tot_arenas_;
+      }
+    }
 
     return minipool_head_->alloc(&args...);
   }
