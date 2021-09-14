@@ -11,7 +11,7 @@
 
 #include "automata/nfa/state.hpp"
 #include "factories/factories.hpp"
-#include "parse/regex/parser.hpp"
+#include "parse/parser.hpp"
 
 namespace rematch {
 
@@ -381,7 +381,7 @@ std::string LogicalVA :: pprint() {
 
       // TODO: Get the correct transition name
 
-      ss << "t " << cid << ' ' << f_factory_->getFilter(filter->code).print() << ' ' << nid << '\n';
+      ss << "t " << cid << ' ' << f_factory_->get_filter(filter->code) << ' ' << nid << '\n';
 
       // If not visited enqueue and add to visited
       if (visited.find(nid) == visited.end()) {

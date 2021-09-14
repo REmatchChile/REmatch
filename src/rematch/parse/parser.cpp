@@ -4,7 +4,7 @@
 #include "parser.hpp"
 #include "visitors.hpp"
 #include "grammar.hpp"
-#include "parse/regex/exceptions.hpp"
+#include "parse/exceptions.hpp"
 
 namespace rematch {
 

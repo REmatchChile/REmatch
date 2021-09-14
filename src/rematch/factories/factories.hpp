@@ -11,7 +11,7 @@
 #include <map>
 #include <utility>
 
-#include "parse/regex/ast.hpp"
+#include "parse/ast.hpp"
 #include "bitsetwrapper.hpp"
 #include "charclass.hpp"
 
@@ -60,7 +60,7 @@ class VariableFactory {
 	bool empty();
 
 	// Equality operator overload
-	bool operator ==(const VariableFactory &vf) const;
+	bool operator==(const VariableFactory &vf) const;
 
 	int& get_offset(int index) {return offsetMap[index];}
 
@@ -79,13 +79,14 @@ class VariableFactory {
 };
 
 
-
+// Filter code table. Manages the all CharClassBuilders that are associated with
+// a query (we call them Filters for shorthand).
 class FilterFactory {
  public:
 	// Constructors
 	FilterFactory();
 
-	size_t size() {return numFilters;}
+	size_t size() const {return size_;}
 
 	std::string pprint();
 
@@ -93,25 +94,29 @@ class FilterFactory {
 
 	bool inIntersection(char a, BitsetWrapper charBitset);
 
-	int addFilter(CharClass cs);
+	// Adds a CharClassBuilder to the factor and returns its associated code.
+	// If already present then just returns the associated code.
+	int add_filter(CharClassBuilder ccb);
 
-	int getCode(CharClass cs);
+	// Given a CharClassBuilder, gets the associated code.
+	int get_code(CharClassBuilder ccb);
 
-	CharClass getFilter(int code);
+	// Given a code, gets the associated CharClassBuilder.
+	CharClassBuilder& get_filter(int code);
 
-	bool isMember(CharClass cs);
+	// Check if a CharClassBuilder is already present in the factory.
+	bool contains(CharClassBuilder &ccb) const;
 
+	// Merges the Factory with another one inplace.
 	void merge(FilterFactory &rest);
 
 	BitsetWrapper applyFilters(char a);
 
  private:
-	// Total number of parsed filters
-	size_t numFilters;
-	// CharClass -> Code hash table
-	std::unordered_map<CharClass, int> codeMap;
-	// Code -> CharClass hash table
-	std::unordered_map<int, CharClass> filterMap;
+	size_t size_ = 0;
+	// Ordered vector that stores the variables.
+	std::unordered_map<CharClassBuilder, int> code_map_;
+	std::unordered_map<int, CharClassBuilder> filter_map_;
 	// Char (document-readed) -> Bitset hash table
 	std::unordered_map<char, BitsetWrapper> bitsetMap;
 };

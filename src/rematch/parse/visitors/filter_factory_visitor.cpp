@@ -45,15 +45,15 @@ void regex2filters::operator()(ast::atom const &a) {
 }
 
 void regex2filters::operator()(ast::charset const &cs) {
-	filter_factory_->addFilter(CharClass(cs));
+	filter_factory_->add_filter(cs); // Implicit conversion
 }
 
 void regex2filters::operator()(char const &a) {
-	filter_factory_->addFilter(CharClass(a));
+	filter_factory_->add_filter(a); // Implicit conversion
 }
 
-void regex2filters::operator()(ast::special const &a) {
-	filter_factory_->addFilter(CharClass(a));
+void regex2filters::operator()(ast::special const &s) {
+	filter_factory_->add_filter(s); // Implicit conversion
 }
 
 void regex2filters::operator()(ast::assertion const &a) {

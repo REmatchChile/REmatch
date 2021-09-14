@@ -1,6 +1,6 @@
 #include "automata_visitor.hpp"
 
-#include "parse/regex/ast.hpp"
+#include "parse/ast.hpp"
 #include "automata/nfa/lva.hpp"
 #include "automata/nfa/state.hpp"
 #include "factories/factories.hpp"
@@ -71,17 +71,17 @@ lva_ptr regex2LVA::operator()(ast::atom const &a) const {
 }
 
 lva_ptr regex2LVA::operator()(ast::charset const &cs) const {
-	int code = f_fact_->getCode(CharClass(cs));
+	int code = f_fact_->get_code(cs); // Implicit conversion
 	return std::make_unique<LogicalVA>(code);
 }
 
 lva_ptr regex2LVA::operator()(char const &a) const {
-	int code = f_fact_->getCode(a);
+	int code = f_fact_->get_code(a);
 	return std::make_unique<LogicalVA>(code);
 }
 
-lva_ptr regex2LVA::operator()(ast::special const &a) const {
-	int code = f_fact_->getCode(CharClass(a));
+lva_ptr regex2LVA::operator()(ast::special const &s) const {
+	int code = f_fact_->get_code(s); // Implicit conversion
 	return std::make_unique<LogicalVA>(code);
 }
 

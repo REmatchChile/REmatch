@@ -8,8 +8,8 @@
 
 #include "factories.hpp"
 #include "charclass.hpp"
-#include "parse/regex/visitors.hpp"
-#include "parse/regex/exceptions.hpp"
+#include "parse/visitors.hpp"
+#include "parse/exceptions.hpp"
 
 namespace rematch {
 
@@ -140,55 +140,59 @@ bool VariableFactory::operator ==(const VariableFactory &vf) const {
 }
 
 
-FilterFactory::FilterFactory(): numFilters(0) {}
+FilterFactory::FilterFactory() {
+	CharClassBuilder ccb;
+	ccb.add_range('\0', '\0');
+	add_filter(ccb);
+}
+
 
 std::string FilterFactory::pprint() {
 	std::stringstream ss;
 
-	for(auto &elem: codeMap) {
-		ss << elem.first.label << " -> " << elem.second << "\n";
+	for(auto &elem: code_map_) {
+		ss << elem.first << " -> " << elem.second << "\n";
 	}
 
 	return ss.str();
 }
 
 
-int FilterFactory :: addFilter(CharClass cs) {
-	if(!codeMap.count(cs)) {
-		codeMap[cs] = numFilters;
-		filterMap[numFilters] = cs;
-		numFilters++;
+int FilterFactory::add_filter(CharClassBuilder ccb) {
+	auto res = code_map_.insert({ccb, size_});
+	if(res.second) {
+		filter_map_.insert({size_, ccb});
+		return size_++;
+	} else {
+		return res.first->second;
 	}
-	return numFilters-1;
 }
 
-int FilterFactory :: getCode(CharClass cs) {
-	return codeMap.at(cs);
+int FilterFactory::get_code(CharClassBuilder cs) {
+	return code_map_.at(cs);
 }
 
-CharClass FilterFactory :: getFilter(int code) {
-	return filterMap[code];
+CharClassBuilder& FilterFactory :: get_filter(int code) {
+	return filter_map_[code];
 }
 
-bool FilterFactory :: isMember(CharClass cs) {
-	if(codeMap.count(cs)) return true;
-	return false;
+bool FilterFactory::contains(CharClassBuilder &cs) const {
+	return code_map_.find(cs) != code_map_.end();
 }
 
-void FilterFactory :: merge(FilterFactory &rest) {
+void FilterFactory::merge(FilterFactory &rest) {
 	/**
 	* Merges the FilterFactory with another one inplace. Used at parsing
 	* post-processing.
 	*/
 
-	for(auto &it : rest.filterMap) {
-		if(isMember(it.second))
+	for(auto &it : rest.filter_map_) {
+		if(contains(it.second))
 			throw parsing::BadRegex("Regex is not functional.");
 
-		filterMap[numFilters] = it.second;
-		codeMap[it.first] = numFilters;
-		numFilters++;
-
+		filter_map_[size_] = it.second;
+		code_map_[it.second] = size_;
+		size_++;
 	}
 }
 
@@ -209,7 +213,7 @@ std::unordered_map<BitsetWrapper, std::vector<char>>  FilterFactory :: allPossib
 
 bool FilterFactory :: inIntersection(char a, BitsetWrapper bs) {
 	for(size_t i=0; i < bs.size(); i++) {
-		if(bs.get(i) && !getFilter(i).check(a))
+		if(bs.get(i) && !get_filter(i).contains(a))
 			return false;
 	}
 	return bs.any();
@@ -239,9 +243,9 @@ BitsetWrapper FilterFactory :: applyFilters(char a) {
 	auto it = bitsetMap.find(a);
 
 	if(it == bitsetMap.end()) {
-		BitsetWrapper bitsetVector(numFilters);
-		for(auto &it: filterMap) {
-			bitsetVector.set(it.first, it.second.check(a));
+		BitsetWrapper bitsetVector(size_);
+		for(auto &it: filter_map_) {
+			bitsetVector.set(it.first, it.second.contains(a));
 		}
 		bitsetMap.insert(std::make_pair(a, bitsetVector));
 

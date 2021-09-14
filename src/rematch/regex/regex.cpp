@@ -1,5 +1,5 @@
 #include "regex.hpp"
-#include "parse/regex/parser.hpp"
+#include "parse/parser.hpp"
 #include "evaluation/evaluator.hpp"
 
 namespace rematch {

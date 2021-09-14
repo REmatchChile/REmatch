@@ -49,8 +49,6 @@ class ExtendedVA {
 	std::shared_ptr<VariableFactory> varFactory() const {return variable_factory_;}
 	std::shared_ptr<FilterFactory> filterFactory() const {return filter_factory_;}
 
-	void addFilter(State* state, CharClass cs, State* next);
-
 	void addCapture(State* state, std::bitset<32> bs, State* next);
 
 	std::string pprint();

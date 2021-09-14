@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "parse/regex/ast.hpp"
+#include "parse/ast.hpp"
 #include "factories/factories.hpp"
 
 namespace rematch {

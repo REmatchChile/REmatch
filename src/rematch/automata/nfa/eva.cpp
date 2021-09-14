@@ -5,6 +5,7 @@
 
 #include "eva.hpp"
 #include "lva.hpp"
+#include "charclass.hpp"
 #include "factories/factories.hpp"
 #include "automata/nfa/state.hpp"
 
@@ -24,7 +25,9 @@ ExtendedVA :: ExtendedVA(LogicalVA &A)
 
 	if(!is_raw_) {
 		State* s = A.new_state();
-		s->addFilter(filter_factory_->addFilter(CharClass('\0')), A.init_state_);
+		CharClassBuilder ccb;
+		ccb.add_single('\0');
+		s->addFilter(filter_factory_->get_code(ccb), A.init_state_);
 		A.init_state_ = s;
 	}
 
@@ -110,11 +113,6 @@ ExtendedVA::ExtendedVA(const ExtendedVA &A)
 		for(auto filter: state->filters)
 			filter->reset_states(copy_table[filter->next]);
 	}
-}
-
-void ExtendedVA :: addFilter(State* state, CharClass cs, State* next) {
-	filter_factory_->addFilter(cs);
-	state->addFilter(filter_factory_->getCode(cs), next);
 }
 
 void ExtendedVA :: addCapture(State* state, std::bitset<32> bs, State* next) {
@@ -688,7 +686,7 @@ std::string ExtendedVA :: pprint() {
       nid = filter->next->id;
       S = filter->code;
 
-      ss << "t " << cid << ' ' << filter_factory_->getFilter(filter->code).print() << ' ' << nid << '\n';
+      ss << "t " << cid << ' ' << filter_factory_->get_filter(filter->code) << ' ' << nid << '\n';
 
       // If not visited enqueue and add to visited
       if (visited.find(nid) == visited.end()) {
@@ -732,7 +730,7 @@ bool ExtendedVA :: utilSearchSuperFinals(State *s) {
 	s->colorMark = 'g'; // Mark as grey
 
 	for(auto &filter: s->filters) {
-		if(filter_factory_->getFilter(filter->code).label == "." && filter->next->isFinal) {
+		if(filter_factory_->get_filter(filter->code).is_dot() && filter->next->isFinal) {
 			if(filter->next->colorMark == 'g' || filter->next->isSuperFinal) {
 				s->isSuperFinal = true;
 				superFinalStates.push_back(s);
@@ -840,10 +838,12 @@ void ExtendedVA::crossProdOpt() {
 
 void ExtendedVA::compute_if_dfa_searchable() {
 	if(!is_raw_ && variable_factory_->size() == 1) {
-		auto ns = init_state_->nextFilter(filter_factory_->getCode('\0'));
+		CharClassBuilder ccb; ccb.add_single('\0');
+		auto ns = init_state_->nextFilter(filter_factory_->get_code(ccb));
 		if(ns != nullptr) {
 			try {
-				auto dot_code = filter_factory_->getCode(ast::special(SpecialCode::kAnyChar, true));
+				CharClassBuilder ccb; ccb.add_range(0, CHAR_MAX);
+				auto dot_code = filter_factory_->get_code(ccb);
 				auto ls = ns->nextFilter(dot_code);
 				if(ls != ns) return;
 

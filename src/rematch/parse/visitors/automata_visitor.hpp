@@ -7,7 +7,7 @@
 #include <boost/variant/get.hpp>
 
 #include "automata/nfa/lva.hpp"
-#include "parse/regex/ast.hpp"
+#include "parse/ast.hpp"
 
 namespace rematch {
 namespace visitors {
