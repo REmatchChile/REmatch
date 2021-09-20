@@ -29,7 +29,7 @@ class MiniPool {
 
   template<class ...Args>
   T* alloc(Args... args) {
-    container_.emplace_back(&args...);
+    container_.emplace_back(std::forward<Args>(args)...);
     return &container_.back();
   }
 
@@ -54,11 +54,14 @@ class MemPool {
   T* alloc(Args&& ...args) {
     if(minipool_head_->is_full()) {
       if(free_head_ != nullptr) {
+        T* old_free_head = free_head_;
         T* next_free = free_head_->next_free_;
         T* right_ptr = free_head_->right();
         T* left_ptr = free_head_->left();
 
-        T* new_node = free_head_->reset(std::forward<Args>(args)...);
+        // Need to decrease the ref_count_ of left and right.
+        --left_ptr->ref_count_;
+        if(right_ptr != nullptr) --right_ptr->ref_count_;
 
         if(left_ptr->ref_count_ == 0 && !left_ptr->is_empty()) {
           left_ptr->next_free_ = next_free;
@@ -72,17 +75,22 @@ class MemPool {
         // Advance the freelist head
         free_head_ = next_free;
 
-        return new_node;
+        return old_free_head->reset(std::forward<Args>(args)...);
       } else {
         MiniPool<T> *new_minipool = new MiniPool<T>(minipool_head_->size() * 2);
         minipool_head_->set_next(new_minipool);
 
         minipool_head_ = new_minipool;
-        ++tot_arenas_;
       }
     }
 
-    return minipool_head_->alloc(&args...);
+    return minipool_head_->alloc(std::forward<Args>(args)...);
+  }
+
+  // Adds a node to the free list. It's assumed that the node has ref_count_ == 0.
+  void add_to_free_list(T* node) {
+    node->next_free_ = free_head_;
+    free_head_ = node;
   }
 
   size_t total_arenas() const { return tot_arenas_;}

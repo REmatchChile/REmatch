@@ -8,6 +8,7 @@ set(sources
 set(BUILD_TARGETS
   rematch
   test-ecs
+  test-mempool
 )
 
 set(BENCHMARK_TARGETS

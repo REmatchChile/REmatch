@@ -69,43 +69,32 @@ void NormalEvaluatorNew::reading(char a, int64_t pos) {
   auto repeat_captures_sz = nextTransition->nrepeatcaptures_;
   auto empties_sz = nextTransition->nempties_;
 
-  // for(auto &dstate: nextTransition->next_state()->states())
-  //   dstate->currentL->erase();
-
   for(size_t i=0; i < first_directs_sz; i++) {
     auto direct = first_directs[i];
     direct.to->currentNode = direct.from->currentNode;
-    // std::cout << direct.to->currentNode->print();
-    // direct.from->currentL->reset_refs();
   }
 
   for(size_t i=0; i < first_captures_sz; i++) {
     auto capture = first_captures[i];
     capture.to->currentNode = ds_.extend(capture.from->currentNode, capture.S, pos+1);
-    // std::cout << capture.to->currentNode->print();
   }
 
   for(size_t i=0; i < repeat_directs_sz; i++) {
     auto direct = repeat_directs[i];
     direct.to->currentNode = ds_.unite(direct.from->currentNode, direct.to->currentNode);
-    // std::cout << direct.to->currentNode->print();
-    // direct.from->currentL->reset_refs();
   }
 
   for(size_t i=0; i < repeat_captures_sz; i++) {
     auto capture = repeat_captures[i];
     capture.to->currentNode = ds_.unite(ds_.extend(capture.from->currentNode, capture.S, pos+1), capture.to->currentNode);
-    // std::cout << capture.to->currentNode->print();
   }
 
 
-  // for(size_t i=0; i < empties_sz; i++) {
-  //   auto empty = empties[i];
-  //   // empty->currentL->reset_refs();
-  //   // NormalEvaluatorNew::memory_manager_.addPossibleGarbage(empty->currentL->start());
-  //   // empty->currentL->erase();
-  // }
-
+  for(size_t i=0; i < empties_sz; i++) {
+    auto empty = empties[i];
+    ds_.mark_unused(empty->currentNode);
+    empty->currentNode = nullptr;
+  }
 
   current_state_ = nextTransition->next_state();
 }
