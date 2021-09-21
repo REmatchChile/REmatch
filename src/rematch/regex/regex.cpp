@@ -1,4 +1,5 @@
 #include "regex.hpp"
+
 #include "parse/parser.hpp"
 #include "evaluation/evaluator.hpp"
 
@@ -16,7 +17,10 @@ RegEx::~RegEx() {}
 
 MatchIterator RegEx::findIter(std::shared_ptr<Document> d) {
   Evaluator* eval;
-  eval = new NormalEvaluatorNew(*this, d);
+  std::shared_ptr<StrDocument> strd = std::static_pointer_cast<StrDocument>(d);
+  std::cout << "DFA searchable: " << dman_.nfa().is_dfa_searchable() << '\n';
+  eval = new EarlyOutputFilterEvaluatorNew(*this, strd);
+  // eval = new EarlyOutputFilterEvaluator(*this, strd);
   return MatchIterator(eval);
   if (flags_ & kEarlyOutput) {
     if (flags_ & kLineByLine) {

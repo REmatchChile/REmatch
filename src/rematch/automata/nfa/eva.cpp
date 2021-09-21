@@ -70,7 +70,7 @@ ExtendedVA :: ExtendedVA(LogicalVA &A)
 	searchSuperFinals();
 
 	// if(!is_raw_)
-	// 	std::cout << "EvA aftererer:\n" << pprint() << "\n\n";
+		// std::cout << "EvA aftererer:\n" << pprint() << "\n\n";
 }
 
 ExtendedVA :: ExtendedVA():

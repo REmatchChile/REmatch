@@ -1,5 +1,5 @@
-#ifndef EVALUATION_NORMAL_EVALUATOR_NEW_HPP
-#define EVALUATION_NORMAL_EVALUATOR_NEW_HPP
+#ifndef EVALUATION__EOFILTER_EVALUATOR_NEW_HPP
+#define EVALUATION__EOFILTER_EVALUATOR_NEW_HPP
 
 #include <string>
 #include <vector>
@@ -10,6 +10,7 @@
 #include "evaluation/evaluator.hpp"
 #include "regex/regex.hpp"
 #include "match.hpp"
+#include "structs/ecs/enumerator.hpp"
 #include "automata/dfa/dfa.hpp"
 #include "memmanager.hpp"
 #include "evaluation/document/document.hpp"
@@ -18,15 +19,12 @@
 #include "automata/macrodfa/macrodfa.hpp"
 #include "automata/macrodfa/macrostate.hpp"
 
-#include "structs/ostruct.hpp"
-#include "structs/ecs/enumerator.hpp"
-
 namespace rematch {
 
-class NormalEvaluatorNew : public Evaluator {
+class EarlyOutputFilterEvaluatorNew : public Evaluator {
 
  public:
-  NormalEvaluatorNew(RegEx& rgx, std::shared_ptr<Document> d);
+  EarlyOutputFilterEvaluatorNew(RegEx& rgx, std::shared_ptr<StrDocument> d);
 
   virtual Match_ptr next();
 
@@ -34,9 +32,13 @@ class NormalEvaluatorNew : public Evaluator {
 
   inline void reading(char a, int64_t i);
 
+  bool dfa_search();
+
   inline void pass_current_outputs();
+  inline void pass_outputs();
 
   DFA& dfa() {return rgx_.detManager().dfa();}
+  DFA& rawDFA() {return rgx_.rawDetManager().dfa();}
 
   RegEx &rgx_;
 
@@ -44,17 +46,22 @@ class NormalEvaluatorNew : public Evaluator {
 
   internal::ECS ds_;
 
-  std::shared_ptr<Document> text_;
+  std::shared_ptr<StrDocument> text_;
 
   MacroDFA macro_dfa_;
 
   MacroState* current_state_;
+  DetState* current_dstate_;
 
-  CharIterator current_char_;
+  static const size_t kSizeMaxOutputBuffer = 100;
 
-  int64_t i_pos_;
+  uint64_t i_pos_ = 0;
+  uint64_t i_min_ = 0;
+  uint64_t i_max_ = 0;
+
+  size_t out_buf_counter = 0;
 }; // end class Evaluator
 
 } // namespace rematch
 
-#endif // EVALUATION_NORMAL_EVALUATOR_NEW_HPP
+#endif // EVALUATION__EOFILTER_EVALUATOR_HPP

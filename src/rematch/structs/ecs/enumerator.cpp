@@ -37,7 +37,7 @@ Match_ptr Enumerator::next() {
           current_mapping_[j] =  dt.i - var_factory_->get_offset(j);
           // TODO: Hacer una version con/sin offset dependiendo del automata
       }
-    stack_.push_back(current_node->next());
+      stack_.push_back(current_node->next());
     } else { // If union node
       stack_.push_back(current_node->right());
       stack_.push_back(current_node->left());

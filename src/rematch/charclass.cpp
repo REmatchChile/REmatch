@@ -172,12 +172,12 @@ CharClassBuilder* CharClassBuilder::set_minus(CharClassBuilder *cc) {
 	return new_cc;
 }
 
-std::ostream& operator<<(std::ostream &os, CharClassBuilder const &b) {
-	for(auto &range: b.ranges_) {
-		os << '[' << (int)range.lo << ',' << (int)range.hi << ']';
-	}
-	return os;
-}
+// std::ostream& operator<<(std::ostream &os, CharClassBuilder const &b) {
+// 	for(auto &range: b.ranges_) {
+// 		os << '[' << (int)range.lo << ',' << (int)range.hi << ']';
+// 	}
+// 	return os;
+// }
 
 bool CharClassBuilder::operator==(const CharClassBuilder& rhs) const {
 	return ranges_ == rhs.ranges_;
@@ -200,17 +200,17 @@ CharClass::~CharClass() {
 }
 
 bool CharClass::contains(char a) {
-	CharRange* cr = ranges_;
+	CharRange* range = ranges_;
 	int n = nranges_;
 
 	while(n > 0) {
 		int m = n/2;
-		if(cr[m].hi < a) {
-			cr += m+1;
+		if(range[m].hi < a) {
+			range += m+1;
 			n -= m+1;
-		} else if (a < cr[m].lo) {
+		} else if (a < range[m].lo) {
 			n = m;
-		} else { // cr[m].lo <= a && a <= cr[m].hi
+		} else { // range[m].lo <= a && a <= range[m].hi
 			return true;
 		}
 	}
@@ -229,14 +229,15 @@ bool CharClass::operator<(const CharClass& cc) const {
 }
 
 
-std::ostream& operator<<(std::ostream &os, CharClass const &cc) {
+std::ostream& operator<<(std::ostream &os, CharClassBuilder const &cc) {
+	if(cc.is_dot()) return os << '.';
+	else if(cc.nchars_ == 1) return os << (char)cc.ranges_.begin()->lo;
 	os << "[";
-	for(int i=0; i < cc.nranges_; i++) {
-		CharRange cr = cc.ranges_[i];
-		if(cr.lo == cr.hi)
-			os << cr.lo;
+	for(auto &range: cc.ranges_) {
+		if(range.lo == range.hi)
+			os << (char)range.lo;
 		else
-			os << cr.lo << '-' << cr.hi;
+			os << (char)range.lo << '-' << (char)range.hi;
 	}
 	os << "]";
 	return os;

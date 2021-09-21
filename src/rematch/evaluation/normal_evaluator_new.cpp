@@ -89,7 +89,6 @@ void NormalEvaluatorNew::reading(char a, int64_t pos) {
     capture.to->currentNode = ds_.unite(ds_.extend(capture.from->currentNode, capture.S, pos+1), capture.to->currentNode);
   }
 
-
   for(size_t i=0; i < empties_sz; i++) {
     auto empty = empties[i];
     ds_.mark_unused(empty->currentNode);
@@ -99,16 +98,12 @@ void NormalEvaluatorNew::reading(char a, int64_t pos) {
   current_state_ = nextTransition->next_state();
 }
 
-
-
 inline void NormalEvaluatorNew::pass_current_outputs() {
   for(auto &state: current_state_->states()) {
     if(state->isFinal) {
-      // std::cout << state->currentNode->print();
       enumerator_.add_node(state->currentNode);
-      // state->currentL->reset_refs();
-      // memory_manager_.addPossibleGarbage(state->currentL->start());
-      // state->currentL->erase();
+      ds_.mark_unused(state->currentNode);
+      state->currentNode = nullptr;
     }
   }
 }
