@@ -18,9 +18,7 @@ RegEx::~RegEx() {}
 MatchIterator RegEx::findIter(std::shared_ptr<Document> d) {
   Evaluator* eval;
   std::shared_ptr<StrDocument> strd = std::static_pointer_cast<StrDocument>(d);
-  std::cout << "DFA searchable: " << dman_.nfa().is_dfa_searchable() << '\n';
-  eval = new EarlyOutputFilterEvaluatorNew(*this, strd);
-  // eval = new EarlyOutputFilterEvaluator(*this, strd);
+  eval = new EarlyOutputFilterEvaluatorNewV2(*this, strd);
   return MatchIterator(eval);
   if (flags_ & kEarlyOutput) {
     if (flags_ & kLineByLine) {
@@ -37,7 +35,7 @@ MatchIterator RegEx::findIter(std::shared_ptr<Document> d) {
     if (flags_ & kLineByLine) {
       eval = new LineEvaluator(*this, d);
     } else {
-      eval = new NormalEvaluator(*this, d);
+      eval = new NormalEvaluatorNew(*this, d);
     }
   }
   return MatchIterator(eval);

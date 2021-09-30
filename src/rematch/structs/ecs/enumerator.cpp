@@ -24,7 +24,7 @@ Match_ptr Enumerator::next() {
 
     stack_.pop_back();
 
-    if(current_node->is_empty()) {
+    if(current_node->is_bottom()) {
       tot_mappings_++;
       std::unique_ptr<Match> ret(new Match(var_factory_, current_mapping_));
       return ret;

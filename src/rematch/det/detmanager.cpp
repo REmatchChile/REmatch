@@ -176,7 +176,7 @@ MacroTransition* DetManager::next_macro_transition(MacroState *p, char a) {
 			else
 				nfirstcaptures++;
 		} else if(nextTransition->type_ & Transition::kMultiCapture) {
-			for(auto &capture: *nextTransition->captures_) {
+			for(auto &capture: nextTransition->captures_) {
 				auto res = dstates_key.insert(capture->next->id);
 				if (!res.second)
 					nrepeatcaptures++;
@@ -209,7 +209,7 @@ MacroTransition* DetManager::next_macro_transition(MacroState *p, char a) {
 			else
 				mtrans->add_capture(*state, nextTransition->capture_->S, *nextTransition->capture_->next, false);
 		} else if(nextTransition->type_ & Transition::kMultiCapture) {
-			for(auto &capture: *nextTransition->captures_) {
+			for(auto &capture: nextTransition->captures_) {
 				auto res = dstates_storage.insert(capture->next);
 				if (res.second)
 					mtrans->add_capture(*state, capture->S, *capture->next, true);

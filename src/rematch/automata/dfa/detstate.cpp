@@ -23,7 +23,7 @@ unsigned int DetState :: ID = 0;
 
 DetState::DetState()
     : label("{0}"),
-      visited(0),
+      visited(-1),
       currentL(new internal::FastNodeList()),
       copiedList(new internal::FastNodeList()),
       isFinal(false) {
@@ -31,7 +31,7 @@ DetState::DetState()
 }
 
 DetState :: DetState(SetState* ss)
-  : visited(0),
+  : visited(-1),
     currentL(new internal::FastNodeList()),
     copiedList(new internal::FastNodeList()),
     ss(ss) {
@@ -62,9 +62,9 @@ void DetState :: setSubset(SetState* newss) {
 
 void DetState::add_capture(char a, std::bitset<32> S, DetState* state) {
   if(transitions_[a] == nullptr) {
-    transitions_[a] = std::make_unique<Transition>(std::make_unique<Capture>(S, state));
+    transitions_[a] = std::make_unique<Transition>(new Capture(S, state));
   } else {
-    transitions_[a]->add_capture(std::make_unique<Capture>(S, state));
+    transitions_[a]->add_capture(new Capture(S, state));
   }
 }
 
@@ -113,6 +113,11 @@ bool DetState::remove_superfinals() {
 
 bool DetState::empty() const {
   return ss->subset.empty();
+}
+
+void DetState::pass_node(internal::ECS::Node* node) {
+  currentNode = node;
+  ++node->ref_count_;
 }
 
 } // end namespace rematch

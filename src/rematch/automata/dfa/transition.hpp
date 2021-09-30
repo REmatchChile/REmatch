@@ -26,41 +26,41 @@ struct Transition {
 
   int type_;
   DetState* direct_;
-  std::unique_ptr<Capture> capture_;
-  std::unique_ptr<Captures> captures_;
+  Capture* capture_;
+  std::vector<Capture*> captures_;
 
   // Default = EmptyTransition
   Transition(): type_(Type::kEmpty) {}
 
-  Transition(std::unique_ptr<Capture> capture)
+  Transition(Capture* capture)
     : type_(Type::kSingleCapture),
-      capture_(std::move(capture)) {}
+      capture_(capture) {}
 
   Transition(DetState* state): type_(Type::kDirect), direct_(state) {}
 
-  void add_capture(std::unique_ptr<Capture> capture) {
+  void add_capture(Capture* capture) {
     switch (type_) {
       case Type::kEmpty:
         throw std::logic_error("Can't add capture to empty transition.");
         break;
       case Type::kDirect:
         type_ = Type::kDirectSingleCapture;
-        capture_ = std::move(capture);
+        capture_ = capture;
         break;
       case Type::kSingleCapture:
         type_ = Type::kMultiCapture;
-        captures_ = std::make_unique<Captures>();
-        captures_->push_back(std::move(capture_));
-        captures_->push_back(std::move(capture));
+        captures_.clear();
+        captures_.push_back(capture_);
+        captures_.push_back(capture);
         break;
       case Type::kDirectSingleCapture:
         type_ = Type::kDirectMultiCapture;
-        captures_ = std::make_unique<Captures>();
-        captures_->push_back(std::move(capture_));
-        captures_->push_back(std::move(capture));
+        captures_.clear();
+        captures_.push_back(capture_);
+        captures_.push_back(capture);
         break;
       default:
-        captures_->push_back(std::move(capture));
+        captures_.push_back(capture);
         break;
     }
   }

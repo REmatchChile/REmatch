@@ -12,7 +12,7 @@ EarlyOutputFilterEvaluatorNew::EarlyOutputFilterEvaluatorNew(RegEx &rgx, std::sh
     : rgx_(rgx),
       enumerator_(rgx_),
       text_(d) {
-  dfa().initState()->currentNode = ds_.empty_node();
+  dfa().initState()->currentNode = ds_.bottom_node();
   macro_dfa_.set_as_init(macro_dfa_.add_state(dfa().initState()));
   current_state_ = &macro_dfa_.get_init_state();
   current_dstate_ = rawDFA().initState();
@@ -148,7 +148,7 @@ FORCE_INLINE void EarlyOutputFilterEvaluatorNew::reading(char a, int64_t pos) {
 
   for(size_t i=0; i < empties_sz; i++) {
     auto empty = empties[i];
-    ds_.mark_unused(empty->currentNode);
+    ds_.try_mark_unused(empty->currentNode);
     empty->currentNode = nullptr;
   }
 
@@ -160,7 +160,7 @@ inline void EarlyOutputFilterEvaluatorNew::pass_outputs() {
   for(auto &state: current_state_->states()) {
     if(state->isFinal) {
       enumerator_.add_node(state->currentNode);
-      ds_.mark_unused(state->currentNode);
+      ds_.try_mark_unused(state->currentNode);
       state->currentNode = nullptr;
     }
   }
@@ -170,7 +170,7 @@ inline void EarlyOutputFilterEvaluatorNew::pass_current_outputs() {
   for(auto &state: current_state_->states()) {
     if(state->isSuperFinal) {
       enumerator_.add_node(state->currentNode);
-      ds_.mark_unused(state->currentNode);
+      ds_.try_mark_unused(state->currentNode);
       state->currentNode = nullptr;
     }
   }

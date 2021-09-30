@@ -7,7 +7,7 @@ using namespace rematch::internal;
 int main() {
   ECS ds;
 
-  ECS::Node* n = ds.empty_node();
+  ECS::Node* n = ds.bottom_node();
 
   ECS::Node* n1 = ds.extend(n, std::bitset<32>("10000000000000000000000000000000"),0);
   ECS::Node* n2 = ds.extend(n1, std::bitset<32>("10100000000000000000000000000000"),1);

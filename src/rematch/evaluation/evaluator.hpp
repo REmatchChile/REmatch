@@ -19,5 +19,6 @@ class Evaluator {
 #include "evaluation/eofilter_evaluator.hpp"
 #include "evaluation/normal_evaluator_new.hpp"
 #include "evaluation/eofilter_evaluator_new.hpp"
+#include "evaluation/eofilter_evaluator_new_v2.hpp"
 
 #endif // EVALUATION__EVALUATOR_HPP

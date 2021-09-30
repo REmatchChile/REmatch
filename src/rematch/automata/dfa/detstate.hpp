@@ -64,7 +64,8 @@ class DetState {
 
     bool empty() const;
 
-
+    // Passes an ECS::Node to the state, increasing the Node's reference counter
+    void pass_node(internal::ECS::Node* node);
 
     DetState* nextState(BitsetWrapper charBitset);
     DetState* nextState(char a);

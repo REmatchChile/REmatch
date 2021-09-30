@@ -79,15 +79,14 @@ ECS::Node* ECS::unite(ECS::Node* v1, ECS::Node* v2) {
     v1->left()->ref_count_++; u1->ref_count_++;
 
     // Maybe v1 and v2 end up being useless
-    mark_unused(v1);
-    mark_unused(v2);
+    try_mark_unused(v1);
+    try_mark_unused(v2);
   }
   return v_prim;
 }
 
-void ECS::mark_unused(ECS::Node* v) {
-  if(v == nullptr) return;
-  if(v->ref_count_ == 0 && !v->is_empty())
+void ECS::try_mark_unused(ECS::Node* v) {
+  if(v->ref_count_ == 0)
     pool_.add_to_free_list(v);
 }
 

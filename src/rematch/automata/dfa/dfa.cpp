@@ -84,7 +84,7 @@ std::string DFA::pprint() {
         }
       } // Single capture
       if(trans->type_ & Transition::Type::kMultiCapture) {
-        for(auto &capture: *trans->captures_) {
+        for(auto &capture: trans->captures_) {
           ss << prefix << '/' << variable_factory_->print_varset(capture->S)
                        << ' ' << capture->next->id;
           if (visited.find(capture->next->id) == visited.end()) {

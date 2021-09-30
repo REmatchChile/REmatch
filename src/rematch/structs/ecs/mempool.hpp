@@ -63,11 +63,11 @@ class MemPool {
         --left_ptr->ref_count_;
         if(right_ptr != nullptr) --right_ptr->ref_count_;
 
-        if(left_ptr->ref_count_ == 0 && !left_ptr->is_empty()) {
+        if(left_ptr->ref_count_ == 0 && !left_ptr->is_bottom()) {
           left_ptr->next_free_ = next_free;
           next_free = left_ptr;
         }
-        if(!free_head_->is_output() && right_ptr->ref_count_ == 0 && !right_ptr->is_empty()) {
+        if(!free_head_->is_output() && right_ptr->ref_count_ == 0 && !right_ptr->is_bottom()) {
           right_ptr->next_free_ = next_free;
           next_free = right_ptr;
         }
