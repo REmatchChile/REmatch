@@ -4,8 +4,6 @@
 #include "memmanager.hpp"
 #include "util/timer.hpp"
 
-
-
 #define	FORCE_INLINE inline __attribute__((always_inline))
 
 namespace rematch {
