@@ -22,31 +22,29 @@ Match_ptr EarlyOutputFilterEvaluatorNewV2::next() {
  Enumeration:
   if(enumerator_.has_next())
     return enumerator_.next();
-  else
-    goto Evaluation;
 
  Evaluation:
-  if(i_pos_ < i_min_)
-    init_evaluation_phase(i_min_);
-  if(evaluation_phase()) {
-    pass_current_outputs();
-    goto Enumeration;
-  } else {
-    goto Searching;
+  if( i_pos_ < i_max_ ) {
+    if( i_pos_ < i_min_ ) // Then we know that the current runs are useless
+      init_evaluation_phase(i_min_);
+    if(evaluation_phase()) { // Then there's output to enumerate
+      pass_current_outputs();
+      goto Enumeration;
+    }
   }
 
- Searching:
-  if(searching_phase()) {
+ // Searching
+  init_searching_phase();
+  if(searching_phase())
     goto Evaluation;
-  } else {
-    return nullptr;
-  }
+
+  return nullptr;
 }
 
 void EarlyOutputFilterEvaluatorNewV2::init_evaluation_phase(int64_t pos) {
   dfa().initState()->pass_node(ds_.bottom_node());
   current_states_.clear();
-  current_states_.push_back(dfa().initState());;
+  current_states_.push_back(dfa().initState());
   reading(0, pos-1); // Positions are offseted by -1 because captures come before filters
   i_pos_ = pos;
 }
@@ -61,25 +59,23 @@ bool EarlyOutputFilterEvaluatorNewV2::evaluation_phase() {
 
     ++i_pos_;
 
-    if(!super_finals_.empty()) {
-      return true;
-    }
+    if(!super_finals_.empty())
+      return true; // On-line output
   }
 
   return false;
 }
 
 
-void EarlyOutputFilterEvaluatorNewV2::init_searching_phase() {
-  i_min_ = i_pos_;
-}
+void EarlyOutputFilterEvaluatorNewV2::init_searching_phase() { i_min_ = i_max_; }
 
 
 bool EarlyOutputFilterEvaluatorNewV2::searching_phase() {
-  char a;
-
   uint64_t it = i_max_;
 
+  // .*a+.*
+
+  // If init_state_->isSuperFinal
   if(current_dstate_->isSuperFinal) {
     i_max_ = text_->size();
     return i_min_ < i_max_;
@@ -87,7 +83,7 @@ bool EarlyOutputFilterEvaluatorNewV2::searching_phase() {
 
   for(; it < text_->size(); ++it) {
 
-    a = (char) (*text_)[it] & 0x7F;
+    char a = (char) (*text_)[it] & 0x7F;
 
     // nextState is reached from currentState by reading the character
     auto nextTransition = current_dstate_->next_transition(a);
@@ -103,50 +99,7 @@ bool EarlyOutputFilterEvaluatorNewV2::searching_phase() {
 
     if(current_dstate_->isSuperFinal) {
       i_max_ = it + 1;
-      auto ns = current_dstate_->drop_super_finals();
-      if(ns == nullptr)
-        ns = rgx_.rawDetManager().compute_drop_super_finals(current_dstate_);
-      current_dstate_ = ns;
-      return true;
-    }
-  }
-
-  i_min_ = text_->size();
-
-  return false;
-}
-
-
-FORCE_INLINE bool EarlyOutputFilterEvaluatorNewV2::dfa_search() {
-  char a;
-
-
-  uint64_t it = i_min_;
-
-  if(current_dstate_->isSuperFinal) {
-    i_max_ = text_->size();
-    return i_min_ < i_max_;
-  }
-
-  for(; it < text_->size(); ++it) {
-
-    a = (char) (*text_)[it] & 0x7F;
-
-    // nextState is reached from currentState by reading the character
-    auto nextTransition = current_dstate_->next_transition(a);
-
-    if(nextTransition == nullptr) // Then maybe a determinization is needed
-      nextTransition = rgx_.rawDetManager().next_transition(current_dstate_, a);
-
-    current_dstate_ = nextTransition->direct_;
-
-    if(current_dstate_->isOnlyInit) {
-      i_min_ = it + 1;
-    }
-
-    if(current_dstate_->isSuperFinal) {
-      i_max_ = it + 1;
-      auto ns = current_dstate_->drop_super_finals();
+      DetState* ns = current_dstate_->drop_super_finals();
       if(ns == nullptr)
         ns = rgx_.rawDetManager().compute_drop_super_finals(current_dstate_);
       current_dstate_ = ns;

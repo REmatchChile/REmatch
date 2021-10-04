@@ -35,8 +35,6 @@ class EarlyOutputFilterEvaluatorNewV2 : public Evaluator {
   inline void visit_direct(DetState* cstate, DetState* direct, int64_t pos);
   inline void visit_capture(DetState* cstate, Capture* cap, int64_t pos);
 
-  bool dfa_search();
-
   bool searching_phase();
   void init_searching_phase();
 
