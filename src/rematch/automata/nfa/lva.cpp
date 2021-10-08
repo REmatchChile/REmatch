@@ -15,6 +15,8 @@
 
 namespace rematch {
 
+// TODO: Copy constructor para LogicalVA (o bien copiar los estados)
+
 LogicalVA::LogicalVA()
     : init_state_(new State()),
       is_raw_(false),
@@ -44,6 +46,8 @@ LogicalVA::LogicalVA(const LogicalVA &A)
   // Prepare states vectors
   states.reserve(A.states.size());
   finalStates.reserve(A.finalStates.size());
+  // Iterative Search using stack for cleanliness in function definitions,
+  std::vector<std::pair<State*, State*>> stack;
 
   // First, make a copy of all states
   for(auto& q_old: A.states) {
