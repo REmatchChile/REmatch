@@ -15,6 +15,8 @@
 
 namespace rematch {
 
+// TODO: Copy constructor para LogicalVA (o bien copiar los estados)
+
 LogicalVA::LogicalVA()
     : init_state_(new State()),
       is_raw_(false),
@@ -41,7 +43,7 @@ LogicalVA::LogicalVA(const LogicalVA &A)
   // A simple Depth-First Search on the graph of the copied automaton while
   // constructing the copy's graph.
 
-  // Iterative Search using stack for cleaness in function definitions,
+  // Iterative Search using stack for cleanliness in function definitions,
   std::vector<std::pair<State*, State*>> stack;
 
   for(auto& state: A.states)

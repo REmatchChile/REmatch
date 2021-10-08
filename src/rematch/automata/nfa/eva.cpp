@@ -20,8 +20,7 @@ ExtendedVA :: ExtendedVA(LogicalVA &A)
 
 	// Get rid off e-transitions
 
-	// if(!is_raw_)
-	// 	std::cout << "LVA:\n" << A.pprint() << "\n\n";
+	// FIXME: Separar código de creación para autómata raw
 
 	if(!is_raw_) {
 		State* s = A.new_state();
@@ -35,9 +34,6 @@ ExtendedVA :: ExtendedVA(LogicalVA &A)
 
 	adaptReachableStates(A);
 
-	// if(!is_raw_)
-	// 	std::cout << "EvA before:\n" << pprint() << "\n\n";
-
 	compute_if_dfa_searchable();
 
 	#ifndef NOPT_OFFSET
@@ -46,19 +42,11 @@ ExtendedVA :: ExtendedVA(LogicalVA &A)
 
 	pruneUselessStates();
 
-	// std::cout << "EvA after:\n" << pprint() << "\n\n";
-
 	captureClosure();
-
-	// TODO: Revisar si es factible hacer offset acá, con tal de correr CaptureClosure nuevamente
-
-	// std::cout << pprint() << "\n\n";
 
 	cleanUselessCaptureStates();
 
 	cleanUselessCaptureTransitions();
-
-	// std::cout << "EvA afterer:\n" << pprint() << "\n\n";
 
   #ifndef NOPT_CROSSPROD
 	if(!is_raw_)
@@ -68,9 +56,6 @@ ExtendedVA :: ExtendedVA(LogicalVA &A)
 	relabelStates();
 
 	searchSuperFinals();
-
-	// if(!is_raw_)
-		// std::cout << "EvA aftererer:\n" << pprint() << "\n\n";
 }
 
 ExtendedVA :: ExtendedVA():
@@ -847,8 +832,8 @@ void ExtendedVA::compute_if_dfa_searchable() {
 				auto ls = ns->nextFilter(dot_code);
 				if(ls != ns) return;
 
-				is_dfa_searchable_ = true;
-				return;
+				// is_dfa_searchable_ = true;
+				// return;
 
 				auto var = variable_factory_->variables().front();
 
@@ -857,6 +842,9 @@ void ExtendedVA::compute_if_dfa_searchable() {
 				if(nns == nullptr) return;
 
 				is_dfa_searchable_ = true;
+
+
+				// FIXME: Chequear si hay superfinals, si no -> dfa_searchable = false
 
 			} catch (std::out_of_range &e) {
 				return;
