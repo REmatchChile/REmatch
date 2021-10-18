@@ -15,8 +15,6 @@
 
 namespace rematch {
 
-// TODO: Copy constructor para LogicalVA (o bien copiar los estados)
-
 LogicalVA::LogicalVA()
     : init_state_(new State()),
       is_raw_(false),
