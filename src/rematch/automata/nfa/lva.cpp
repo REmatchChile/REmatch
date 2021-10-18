@@ -15,13 +15,11 @@
 
 namespace rematch {
 
-// TODO: Copy constructor para LogicalVA (o bien copiar los estados)
-
 LogicalVA::LogicalVA()
     : init_state_(new State()),
       is_raw_(false),
-      v_factory_(std::make_shared<VariableFactory>()),
-      f_factory_(std::make_shared<FilterFactory>()) {
+      vfactory_(std::make_shared<VariableFactory>()),
+      ffactory_(std::make_shared<FilterFactory>()) {
   init_state_->setInitial(true);
   states.push_back(init_state_);
 }
@@ -35,66 +33,47 @@ LogicalVA::LogicalVA(uint code) : is_raw_(false) {
 }
 
 LogicalVA::LogicalVA(const LogicalVA &A)
-    : init_state_(new State(*A.init_state_)),
+    : init_state_(nullptr),
       is_raw_(A.is_raw_),
-      v_factory_(A.v_factory_),
-      f_factory_(A.f_factory_) {
+      vfactory_(A.vfactory_),
+      ffactory_(A.ffactory_) {
 
-  // A simple Depth-First Search on the graph of the copied automaton while
-  // constructing the copy's graph.
+  // Table to map old states to newly allocated copied states
+  std::unordered_map<State*, State*> new_states;
 
-  // Iterative Search using stack for cleanliness in function definitions,
-  std::vector<std::pair<State*, State*>> stack;
+  // Prepare states vectors
+  states.reserve(A.states.size());
+  finalStates.reserve(A.finalStates.size());
 
-  for(auto& state: A.states)
-    state->tempMark = false;
-
-  stack.push_back(std::make_pair(init_state_, A.init_state_));
-  A.init_state_->tempMark = true;
-
-  while(!stack.empty()) {
-    auto cpair = stack.back(); stack.pop_back();
-
-    auto new_q = cpair.first;
-    auto old_q = cpair.second;
-
-    states.push_back(new_q);
-    if(old_q->isFinal) finalStates.push_back(new_q);
-
-    for(auto& filt: old_q->filters) {
-      if(filt->next->tempMark) continue;
-      State* ns = new State(*filt->next);
-
-      new_q->addFilter(filt->code, ns);
-
-      stack.push_back(std::make_pair(ns, filt->next));
-      filt->next->tempMark = true;
-    }
-    for(auto& cap: old_q->captures) {
-      if(cap->next->tempMark) continue;
-      State* ns = new State(*cap->next);
-
-      new_q->addCapture(cap->code, ns);
-
-      stack.push_back(std::make_pair(ns, cap->next));
-      cap->next->tempMark = true;
-    }
-    for(auto& eps: old_q->epsilons) {
-      if(eps->next->tempMark) continue;
-      State* ns = new State(*eps->next);
-
-      new_q->addEpsilon(ns);
-
-      stack.push_back(std::make_pair(ns, eps->next));
-      eps->next->tempMark = true;
-    }
+  // First, make a copy of all states
+  for(auto& q_old: A.states) {
+    State* q_new = new State(*q_old);
+    new_states[q_old] = q_new;
+    states.push_back(q_new);
   }
+
+  // Then start copying the transitions
+  for(auto& q_old: A.states) {
+    State* q_new = new_states[q_old];
+
+    if(q_old->isFinal)
+      finalStates.push_back(q_new);
+
+    for(auto& filt: q_old->filters)
+      q_new->addFilter(filt->code, new_states[filt->next]);
+    for(auto& cap: q_old->captures)
+      q_new->addCapture(cap->code, new_states[cap->next]);
+    for(auto& eps: q_old->epsilons)
+      q_new->addEpsilon(new_states[eps->next]);
+  }
+
+  init_state_ = new_states[A.init_state_];
 }
 
 void LogicalVA::set_factories(std::shared_ptr<VariableFactory> v,
-										          std::shared_ptr<FilterFactory> f) {
-  v_factory_ = v;
-  f_factory_ = f;
+										          std::shared_ptr<FilterFactory>   f) {
+  vfactory_ = v;
+  ffactory_ = f;
 }
 
 void LogicalVA::adapt_capture_jumping() {
@@ -367,7 +346,7 @@ std::string LogicalVA :: pprint() {
 
       nid = capture->next->id;
 
-      ss << "t " << cid << " " << v_factory_->print_varset(S) << " " << nid << '\n';
+      ss << "t " << cid << " " << vfactory_->print_varset(S) << " " << nid << '\n';
 
       // If not visited enqueue and add to visited
       if (visited.find(nid) == visited.end()) {
@@ -383,7 +362,7 @@ std::string LogicalVA :: pprint() {
 
       // TODO: Get the correct transition name
 
-      ss << "t " << cid << ' ' << f_factory_->get_filter(filter->code) << ' ' << nid << '\n';
+      ss << "t " << cid << ' ' << ffactory_->get_filter(filter->code) << ' ' << nid << '\n';
 
       // If not visited enqueue and add to visited
       if (visited.find(nid) == visited.end()) {
@@ -402,12 +381,6 @@ std::string LogicalVA :: pprint() {
 
   // Code initial State
   ss << "i " << init_state_->id;
-
-  for(int id: capture_states)
-		ss << "\nc " << id;
-
-  for(int id: pcapture_states)
-		ss << "\npc " << id;
 
   return ss.str();
 }

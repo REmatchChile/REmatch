@@ -12,6 +12,8 @@ class VariableFactory;
 class DetState;
 class ExtendedVA;
 
+// FIXME: Hacer dos DFAs, uno para Evaluation y otro para Search
+
 class DFA {
  public:
 

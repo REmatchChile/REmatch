@@ -23,7 +23,7 @@ using CaptureVector = std::vector<std::shared_ptr<LVACapture>>;
 using CaptureList = std::list<std::shared_ptr<LVACapture>>;
 using CapturePtr = std::shared_ptr<LVACapture>;
 
-// FIXME: Add docstrings and refine declarations.
+// @brief An eVA that builds its graph from a VA.
 class ExtendedVA {
 
  public:
@@ -35,7 +35,7 @@ class ExtendedVA {
 
 	std::unordered_map<unsigned int, State*> idMap;
 
-	ExtendedVA(LogicalVA &A);
+	ExtendedVA(const LogicalVA &A);
 	ExtendedVA();
 
 	// ~ExtendedVA();
@@ -78,10 +78,10 @@ class ExtendedVA {
 
 	std::set<State*> getSubset(BitsetWrapper bs) const;
 
-	// Returns a vector of pointers to the LVACaptures present in the automaton
-	// sorted accoding to an inverse topological sort for the automaton graph.
-	// Used for capture offset optimization.
-	CaptureVector getInvTopSortCaptures();
+	// @brief Computes the inverse topological sort of the captures.
+	// @return A vector of the reverse topological sorting of all capture
+	//         transitions
+	CaptureVector inverse_topological_sort_captures();
 
 	std::vector<CaptureList> classifySingleCaptures();
 
@@ -95,12 +95,19 @@ class ExtendedVA {
 
 	void crossProdOpt();
 
+	// @brief Computes and remembers if the automaton is DFA-searchable.
 	void compute_if_dfa_searchable();
 
 	bool is_dfa_searchable() const {return is_dfa_searchable_;}
 
 
  private:
+	// Initialization of a normal (capturing) eVA.
+	void normal_init(const LogicalVA& A);
+
+	// Initialization of a raw (non-capturing) eVA.
+	void raw_init(const LogicalVA& A);
+
 	void getInvTopSortCapturesUtil(CapturePtr &cap, CaptureVector &L);
 	CaptureVector reachableCaptures(CapturePtr &cap);
 	bool isReachable(State* from, State* to);
@@ -114,6 +121,8 @@ class ExtendedVA {
 
 	bool is_raw_;
 	bool is_dfa_searchable_ = false;
+
+	bool computed_super_finals_ = false;
 
 };
 

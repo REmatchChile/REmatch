@@ -13,6 +13,10 @@ class FilterFactory;
 class State;
 class ExtendedVA;
 
+// FIXME: LogicalVA with two special states, a final state WITHOUT transitions
+// leaving from it. And unanchored evaluation must be implicit in the
+// automaton (i.e. we don't have to have loops in the initial/final state).
+
 class LogicalVA {
   /* A basic implementation of a Variable Automaton  */
   friend class ExtendedVA;
@@ -24,6 +28,7 @@ class LogicalVA {
   // Empty LogicalVA construction (only one State)
   LogicalVA();
 
+  // Copy constructor
   LogicalVA(const LogicalVA &A);
 
   // LogicalVA(std::string pattern, bool raw=false);
@@ -35,14 +40,16 @@ class LogicalVA {
   void set_factories(std::shared_ptr<VariableFactory> v,
                      std::shared_ptr<FilterFactory> f);
 
-  // Copy constructor
-  // LogicalVA(const LogicalVA &A);
-
   // Computes epsilon transitions between capture states.
   void adapt_capture_jumping();
 
-  // LogicalVA operations, all modify the current LogicalVA to get the result
-  // (the operations are inplace)
+  // @brief Removes all epsilon transitions while maintaining the language.
+  void remove_epsilon_transitions();
+
+  //**************************************************************************//
+  // LogicalVA operations, all modify the current LogicalVA to get the result //
+  // (the operations are inplace)                                             //
+  //**************************************************************************//
 
   // Inplace transformation from R to RR'
   void cat(LogicalVA &a2);
@@ -61,8 +68,8 @@ class LogicalVA {
 
   std::string pprint();
 
-  std::shared_ptr<VariableFactory> varFactory() {return v_factory_;}
-  std::shared_ptr<FilterFactory> filterFactory() {return f_factory_;}
+  std::shared_ptr<VariableFactory> varFactory() {return vfactory_;}
+  std::shared_ptr<FilterFactory> filterFactory() {return ffactory_;}
 
   State* initState() const {return init_state_;}
 
@@ -78,8 +85,8 @@ class LogicalVA {
 
   bool is_raw_;
 
-  std::shared_ptr<VariableFactory> v_factory_;
-  std::shared_ptr<FilterFactory> f_factory_;
+  std::shared_ptr<VariableFactory> vfactory_;
+  std::shared_ptr<FilterFactory> ffactory_;
 };
 
 } // end namespace rematch

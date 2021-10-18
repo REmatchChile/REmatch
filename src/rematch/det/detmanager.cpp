@@ -16,18 +16,12 @@
 
 namespace rematch {
 
-DetManager::DetManager(std::string pattern, bool raw_automata) {
-	auto lva = regex2LVA(pattern);
-
-	if (raw_automata) lva->adapt_capture_jumping();
-
-	nfa_ = std::make_unique<ExtendedVA>(*lva);
-	dfa_ = std::make_unique<DFA>(*nfa_);
-	mdfa_ = std::make_unique<MacroDFA>();
-
-	variable_factory_ = nfa_->varFactory();
-	filter_factory_ = nfa_->filterFactory();
-
+DetManager::DetManager(std::unique_ptr<ExtendedVA> &A)
+		: nfa_(std::move(A)),
+			dfa_(std::make_unique<DFA>(*nfa_)),
+			mdfa_(std::make_unique<MacroDFA>()),
+			variable_factory_(nfa_->varFactory()),
+			filter_factory_(nfa_->filterFactory()) {
 	// Init determinization
 	std::set<State*> new_subset;
 	new_subset.insert(nfa_->initState());

@@ -2,6 +2,7 @@
 #define RGX_HPP
 
 #include <string>
+#include <memory>
 
 #include "match.hpp"
 #include "memmanager.hpp"
@@ -25,7 +26,7 @@ class RegEx {
 
   using flags_t = uint8_t;
 
-  RegEx(std::string regex, RegExOptions opt = RegExOptions());
+  RegEx(const std::string &regex, RegExOptions opt = RegExOptions());
 
   ~RegEx();
 
@@ -52,7 +53,7 @@ class RegEx {
 
   MatchIterator findIter(std::shared_ptr<Document> d);
 
-  int varCount() const {return dman_.varFactory()->size();}
+  int varCount() const {return dman_->varFactory()->size();}
 
   // Getters
 
@@ -60,8 +61,8 @@ class RegEx {
 
   // Detmanager stuff.
 
-  DetManager& detManager() {return dman_;};
-  DetManager& rawDetManager() {return raw_dman_;};
+  DetManager& detManager() {return *dman_;};
+  DetManager& rawDetManager() {return *raw_dman_;};
 
 
   size_t capture_counter() const;
@@ -86,10 +87,10 @@ class RegEx {
   const std::string pattern_;
 
   // DetManager for capture automaton.
-  DetManager dman_;
+  std::unique_ptr<DetManager> dman_;
 
   // DetManager for raw automaton.
-  DetManager raw_dman_;
+  std::unique_ptr<DetManager> raw_dman_;
 
   // Regex flags.
   flags_t flags_;

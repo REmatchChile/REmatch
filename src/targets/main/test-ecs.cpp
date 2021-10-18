@@ -1,23 +1,24 @@
 #include <iostream>
+#include <string>
 
-#include "structs/ecs/ecs.hpp"
+#include "parse/parser.hpp"
+#include "automata/nfa/lva.hpp"
 
-using namespace rematch::internal;
+using namespace rematch;
 
 int main() {
-  ECS ds;
 
-  ECS::Node* n = ds.bottom_node();
+  const std::string pattern(".*(!x{.}|!x{..+}).*");
 
-  ECS::Node* n1 = ds.extend(n, std::bitset<32>("10000000000000000000000000000000"),0);
-  ECS::Node* n2 = ds.extend(n1, std::bitset<32>("10100000000000000000000000000000"),1);
-  ECS::Node* n3 = ds.extend(n, std::bitset<32>("10000000000000000000000000000000"),3);
+  std::unique_ptr<LogicalVA> A = regex2LVA(pattern);
 
-  ECS::Node* n4 = ds.unite(n2, n3);
-  ECS::Node* n5 = ds.unite(n1, n);
-  ECS::Node* n6 = ds.unite(n4, n5);
+  std::cout << "Original VA:\n";
+  std::cout << A->pprint() << std::endl;
 
-  // std::cout << n6->print();
+  LogicalVA B(*A);
+
+  std::cout << "Copied VA:\n";
+  std::cout << B.pprint() << std::endl;
 
   return 0;
 }
