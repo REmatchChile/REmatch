@@ -15,21 +15,31 @@
 
 namespace rematch {
 
+// FIXME: Asume that L(A) doesn't have an epsilon. If it does then have 
+// a boolean to set the special case.
+
+// FIXME: Initial state only has outwards transitions, and final state only has
+// inward transitions.
+
 LogicalVA::LogicalVA()
     : init_state_(new State()),
-      is_raw_(false),
+      final_state_(new State()),
       vfactory_(std::make_shared<VariableFactory>()),
       ffactory_(std::make_shared<FilterFactory>()) {
   init_state_->setInitial(true);
+  final_state_->setFinal(true);
   states.push_back(init_state_);
+  states.push_back(final_state_);
 }
 
 LogicalVA::LogicalVA(uint code) : is_raw_(false) {
   init_state_ = new_state();
   init_state_->setInitial(true);
-  State* fstate = new_final_state();
 
-  init_state_->addFilter(code, fstate);
+  final_state_ = new_state();
+  final_state_->setFinal(true);
+
+  init_state_->addFilter(code, final_state_);
 }
 
 LogicalVA::LogicalVA(const LogicalVA &A)
@@ -43,7 +53,6 @@ LogicalVA::LogicalVA(const LogicalVA &A)
 
   // Prepare states vectors
   states.reserve(A.states.size());
-  finalStates.reserve(A.finalStates.size());
   // Iterative Search using stack for cleanliness in function definitions,
   std::vector<std::pair<State*, State*>> stack;
 
@@ -59,7 +68,7 @@ LogicalVA::LogicalVA(const LogicalVA &A)
     State* q_new = new_states[q_old];
 
     if(q_old->isFinal)
-      finalStates.push_back(q_new);
+      q_new->addEpsilon(final_state_);
 
     for(auto& filt: q_old->filters)
       q_new->addFilter(filt->code, new_states[filt->next]);
@@ -118,19 +127,14 @@ void LogicalVA::cat(LogicalVA &a2) {
   /* Concatenates an LogicalVA a2 to the current LogicalVA (inplace) */
 
   // Adds eps transitions from final states to a2 init State
-  for(std::size_t i=0;i<finalStates.size();i++){
-    finalStates[i]->addEpsilon(a2.init_state_);
-    finalStates[i]->setFinal(false);
-  }
+  final_state_->addEpsilon(a2.init_state_);
+  final_state_->setFinal(false);
+  final_state_ = a2.final_state_;
 
   a2.init_state_->setInitial(false);
 
   // Add a2 states to states list
   states.insert(states.end(), a2.states.begin(), a2.states.end());
-
-  // Set a2 final states as new final states
-  finalStates.clear();
-  finalStates = a2.finalStates;
 }
 
 void LogicalVA::alter(LogicalVA &a2) {
@@ -138,7 +142,8 @@ void LogicalVA::alter(LogicalVA &a2) {
      LogicalVA a2 */
 
   // Creates a new init State and connects it to the old init and a2's init
-  State* newinitState = new State();
+  State* newinitState = new_state();
+
   newinitState->addEpsilon(init_state_);
   newinitState->addEpsilon(a2.init_state_);
 
@@ -149,66 +154,36 @@ void LogicalVA::alter(LogicalVA &a2) {
   init_state_->setInitial(true);
 
   states.push_back(init_state_);
-  // Add a2 final states to final states list
-  finalStates.insert(finalStates.end(),
-    a2.finalStates.begin(), a2.finalStates.end());
+
+  // Add a2 final state to final states list
+  State* new_accepting_state = new_state();
+
+  final_state_->setFinal(false);
+  a2.final_state_->setFinal(false);
+
+  final_state_->addEpsilon(new_accepting_state);
+  a2.final_state_->addEpsilon(new_accepting_state);
+
+  final_state_ = new_accepting_state;
+  a2.final_state_ = new_accepting_state;
 
   // Add a2 states to states list
   states.insert(states.end(), a2.states.begin(), a2.states.end());
 }
 
 void LogicalVA::kleene() {
-  /* Extends the LogicalVA for kleene closure (0 or more times) */
-
-  if(states.size() == 2 && init_state_->filters.size() == 1) {
-    if(init_state_->filters.front()->next->isFinal) {
-      for(auto it=states.begin(); it != states.end(); it++) {
-        if(!(*it)->isInit) {
-          states.erase(it); break;
-        }
-      }
-
-      auto fcode = init_state_->filters.front()->code;
-      init_state_->filters.clear();
-
-      init_state_->addFilter(fcode, init_state_);
-      finalStates.clear();
-      finalStates.push_back(init_state_);
-      init_state_->setFinal(true);
-      return;
-    }
-  }
-
-  // Connect final states to new init State
-  for(std::size_t i=0;i<finalStates.size();i++){
-    finalStates[i]->addEpsilon(init_state_);
-    finalStates[i]->setFinal(false);
-  }
-
-  // Set new init as the final State
-  finalStates.clear();
-  finalStates.push_back(init_state_);
-  init_state_->setFinal(true);
+  State* ni = new_state();
+  State* nf = new_state();
+  final_state_->addEpsilon(init_state_);
+  init_state_->addEpsilon(ni);
 }
 
 void LogicalVA::strict_kleene() {
-  /* Extends the LogicalVA for strict kleene closure (1 or more times) */
-
-  // Connect final states to init State
-  for(std::size_t i=0;i<finalStates.size();i++){
-    finalStates[i]->addEpsilon(init_state_);
-  }
+  final_state_->addEpsilon(init_state_);
 }
 
 void LogicalVA :: optional() {
-  /* Extends the LogicalVA for optional closure (0 or 1 time) */
-
-  // Set new init as a final State
-  if (!init_state_->isFinal)
-  {
-    finalStates.push_back(init_state_);
-    init_state_->setFinal(true);
-  }
+  init_state_->addEpsilon(final_state_);
 }
 
 void LogicalVA::assign(std::bitset<32> open_code, std::bitset<32> close_code) {
@@ -228,16 +203,12 @@ void LogicalVA::assign(std::bitset<32> open_code, std::bitset<32> close_code) {
 
   init_state_->setInitial(true);
 
-  // Connect final states with new close State
-  for(std::size_t i=0;i<finalStates.size();i++){
-    finalStates[i]->addCapture(close_code, closeLVAState);
-    finalStates[i]->setFinal(false);
-  }
+  final_state_->addCapture(close_code, closeLVAState);
+  final_state_->setFinal(false);
 
-  // Set close State as the only final State
-  finalStates.clear();
-  finalStates.push_back(closeLVAState);
-  closeLVAState->setFinal(true);
+  final_state_ = closeLVAState;
+
+  final_state_->setFinal(true);
 }
 
 void LogicalVA::repeat(int min, int max) {
@@ -375,11 +346,7 @@ std::string LogicalVA :: pprint() {
   }
 
   // Code final states
-  for (size_t i = 0; i < finalStates.size(); ++i) {
-    if(finalStates[i]->isFinal) {
-      ss << "f " << finalStates[i]->id << '\n';
-    }
-  }
+  ss << "f " << final_state_->id << '\n';
 
   // Code initial State
   ss << "i " << init_state_->id;
@@ -390,16 +357,6 @@ std::string LogicalVA :: pprint() {
 State* LogicalVA::new_state() {
   State *nstate = new State();
   states.push_back(nstate);
-
-  return nstate;
-}
-
-State* LogicalVA::new_final_state() {
-  State *nstate = new State();
-  states.push_back(nstate);
-
-  finalStates.push_back(nstate);
-  nstate->setFinal(true);
 
   return nstate;
 }

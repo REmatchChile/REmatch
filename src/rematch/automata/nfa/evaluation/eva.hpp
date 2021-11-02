@@ -28,14 +28,11 @@ class ExtendedVA {
 
  public:
 
-	// TODO: Maybe have only a hash tables instead of vectors
 	std::vector<State*> states;
-	std::vector<State*> finalStates;
-	std::vector<State*> superFinalStates;
 
 	std::unordered_map<unsigned int, State*> idMap;
 
-	ExtendedVA(const LogicalVA &A);
+	ExtendedVA(LogicalVA &A);
 	ExtendedVA();
 
 	// ~ExtendedVA();
@@ -55,7 +52,7 @@ class ExtendedVA {
 
 	size_t size();
 
-	// Compute the epsilon closure correcty. Takes the transitions forward so if
+	// Compute the epsilon closure correctly. Takes the transitions forward so if
 	// 				q -[eps]-> p -[a]-> r
 	// Then:
 	//				q 				 p -[a]-> r
@@ -102,11 +99,9 @@ class ExtendedVA {
 
 
  private:
-	// Initialization of a normal (capturing) eVA.
-	void normal_init(const LogicalVA& A);
 
-	// Initialization of a raw (non-capturing) eVA.
-	void raw_init(const LogicalVA& A);
+	void normal_init(LogicalVA &A);
+	void raw_init(LogicalVA &A);
 
 	void getInvTopSortCapturesUtil(CapturePtr &cap, CaptureVector &L);
 	CaptureVector reachableCaptures(CapturePtr &cap);

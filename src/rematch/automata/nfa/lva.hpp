@@ -1,5 +1,5 @@
-#ifndef LVA_HPP
-#define LVA_HPP
+#ifndef SRC_REMATCH_AUTOMATA_NFA_LVA_HPP
+#define SRC_REMATCH_AUTOMATA_NFA_LVA_HPP
 
 #include <string>
 #include <vector>
@@ -23,7 +23,6 @@ class LogicalVA {
 
  public:
   std::vector<State*> states;
-  std::vector<State*> finalStates;
 
   // Empty LogicalVA construction (only one State)
   LogicalVA();
@@ -68,8 +67,8 @@ class LogicalVA {
 
   std::string pprint();
 
-  std::shared_ptr<VariableFactory> varFactory() {return vfactory_;}
-  std::shared_ptr<FilterFactory> filterFactory() {return ffactory_;}
+  std::shared_ptr<VariableFactory> varFactory() const {return vfactory_;}
+  std::shared_ptr<FilterFactory> filterFactory() const {return ffactory_;}
 
   State* initState() const {return init_state_;}
 
@@ -82,6 +81,7 @@ class LogicalVA {
   State* new_final_state();
 
   State* init_state_;
+  State* final_state_;
 
   bool is_raw_;
 
@@ -91,4 +91,4 @@ class LogicalVA {
 
 } // end namespace rematch
 
-#endif
+#endif // SRC_REMATCH_AUTOMATA_NFA_LVA_HPP

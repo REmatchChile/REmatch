@@ -13,7 +13,7 @@ namespace rematch {
 
 // FIXME: Hacer dos clases, EvaluationVA y SearchVA, que hereden de un VA.
 
-ExtendedVA::ExtendedVA(const LogicalVA &A)
+ExtendedVA::ExtendedVA(LogicalVA &A)
 		:	variable_factory_(A.varFactory()),
 			filter_factory_(A.filterFactory()),
 			currentID(0),
@@ -67,7 +67,8 @@ ExtendedVA::ExtendedVA(const ExtendedVA &A)
 	}
 }
 
-void ExtendedVA::normal_init() {
+void ExtendedVA::normal_init(LogicalVA& A) {
+	std::cout << "LogicalVA:\n" << A.pprint() << '\n';
 	State* s = A.new_state();
 	CharClassBuilder ccb;  ccb.add_single('\0');
 	s->addFilter(filter_factory_->get_code(ccb), A.init_state_);
@@ -97,7 +98,7 @@ void ExtendedVA::normal_init() {
 	searchSuperFinals();
 }
 
-void ExtendedVA::raw_init() {
+void ExtendedVA::raw_init(LogicalVA& A) {
 	epsilonClosure(A);
 	adaptReachableStates(A);
 
@@ -164,7 +165,7 @@ void ExtendedVA :: adaptReachableStates(LogicalVA &A) {
 	}
 
 	states.reserve(A.states.size());
-	finalStates.reserve(A.finalStates.size());
+	// finalStates.reserve(A.finalStates.size());
 
 	init_state_ = A.initState();
 	init_state_->isInit = true;
