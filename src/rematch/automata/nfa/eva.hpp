@@ -1,5 +1,5 @@
-#ifndef EVA_HPP
-#define EVA_HPP
+#ifndef SRC_REMATCH_AUTOMATA_NFA_EVA_HPP
+#define SRC_REMATCH_AUTOMATA_NFA_EVA_HPP
 
 #include <queue>
 #include <string>
@@ -27,51 +27,42 @@ using CapturePtr = std::shared_ptr<LVACapture>;
 class ExtendedVA {
 
  public:
-
 	std::vector<State*> states;
 
 	std::unordered_map<unsigned int, State*> idMap;
 
-	ExtendedVA(LogicalVA &A);
+	ExtendedVA(LogicalVA const &A);
 	ExtendedVA();
 
 	// ~ExtendedVA();
 
-	// FIXME: Not working properly
-	// Copy constructor for copying states accordingly
-	ExtendedVA(const ExtendedVA &extended_automaton);
-
 	State* initState() const {return init_state_;}
-	void set_initState(State* s) {init_state_ = s;}
+
+	void set_initial(State* s) {init_state_ = s;}
+
+	void set_accepting(State* s) { accepting_state_ = s; }
+
 	std::shared_ptr<VariableFactory> varFactory() const {return variable_factory_;}
 	std::shared_ptr<FilterFactory> filterFactory() const {return filter_factory_;}
 
 	void addCapture(State* state, std::bitset<32> bs, State* next);
 
+	void trim();
+
 	std::string pprint();
 
-	size_t size();
+	size_t size() const;
 
-	// Compute the epsilon closure correctly. Takes the transitions forward so if
-	// 				q -[eps]-> p -[a]-> r
-	// Then:
-	//				q 				 p -[a]-> r
-	//				ᴸ--------[a]--------^
-	void epsilonClosure(LogicalVA &A);
-
-	void adaptReachableStates(LogicalVA &A);
-	void utilCleanUnreachable(State *state);
-	void pruneUselessStates();
-	void pruneDFS(State *state, std::vector<State*> &tmp);
 	void captureClosure();
+
 	void cleanUselessCaptureStates();
 	void cleanUselessCaptureTransitions();
+
 	std::queue<State*> invTopologicalSort();
 	void invTopologicalSortUtil(State *state, std::queue<State*> *Q);
+
 	void relabelStates();
 	void utilRelabelStates(State *state);
-	void searchSuperFinals();
-	bool utilSearchSuperFinals(State *state);
 
 	std::set<State*> getSubset(BitsetWrapper bs) const;
 
@@ -92,35 +83,23 @@ class ExtendedVA {
 
 	void crossProdOpt();
 
-	// @brief Computes and remembers if the automaton is DFA-searchable.
-	void compute_if_dfa_searchable();
-
-	bool is_dfa_searchable() const {return is_dfa_searchable_;}
-
+	friend std::ostream& operator<<(std::ostream& os, ExtendedVA const &A);
 
  private:
-
-	void normal_init(LogicalVA &A);
-	void raw_init(LogicalVA &A);
 
 	void getInvTopSortCapturesUtil(CapturePtr &cap, CaptureVector &L);
 	CaptureVector reachableCaptures(CapturePtr &cap);
 	bool isReachable(State* from, State* to);
 
 	State* init_state_;
+	State* accepting_state_;
 
 	std::shared_ptr<VariableFactory> variable_factory_;
 	std::shared_ptr<FilterFactory> filter_factory_;
 
-	size_t currentID;
-
-	bool is_raw_;
-	bool is_dfa_searchable_ = false;
-
-	bool computed_super_finals_ = false;
-
+	size_t currentID = 0;
 };
 
 } // end namespace rematch
 
-#endif
+#endif // SRC_REMATCH_AUTOMATA_NFA_EVA_HPP

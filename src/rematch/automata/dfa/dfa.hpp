@@ -1,10 +1,13 @@
-#ifndef AUTOMATA__DFA__DFA_HPP
-#define AUTOMATA__DFA__DFA_HPP
+#ifndef SRC_REMATCH_AUTOMATA_DFA_DFA_HPP
+#define SRC_REMATCH_AUTOMATA_DFA_DFA_HPP
 
 #include <string>
 #include <vector>
 #include <memory>
 #include <bitset>
+#include <unordered_map>
+
+#include "automata/dfa/transition.hpp"
 
 namespace rematch {
 
@@ -12,7 +15,7 @@ class VariableFactory;
 class DetState;
 class ExtendedVA;
 
-// FIXME: Hacer dos DFAs, uno para Evaluation y otro para Search
+using DFAStatesTable = std::unordered_map<BitsetWrapper, DetState*>;
 
 class DFA {
  public:
@@ -23,9 +26,7 @@ class DFA {
 
   std::vector<std::string> varNames;
 
-  // Empty Automaton construction (only one state)
-  DFA(VariableFactory* vf);
-  DFA(ExtendedVA &a);
+  DFA(ExtendedVA const &A);
 
   // Getter for init state
   DetState* initState() {return init_state_;};
@@ -36,6 +37,11 @@ class DFA {
 
   size_t size() const {return states.size();}
 
+  // ---  Determinization  ---  //
+
+  Transition* next_transition(DetState* q, char a);
+  void computeCaptures(DetState* p, DetState* q, char a);
+
  private:
   // Utility to print a transition
   void print_transition(std::ostream& os, DetState* from, char a, DetState* to, std::bitset<32> S);
@@ -43,11 +49,15 @@ class DFA {
   // The starting state of the dfa
   DetState* init_state_;
 
-  // Access to variable factory
-  std::shared_ptr<VariableFactory> variable_factory_;
+  ExtendedVA const &eVA_;
 
+  DFAStatesTable dstates_table_;
+
+  // Access to variable and filter factory
+  std::shared_ptr<VariableFactory> variable_factory_;
+  std::shared_ptr<FilterFactory> ffactory_;
 };
 
 } // end namespace rematch
 
-#endif
+#endif // SRC_REMATCH_AUTOMATA_DFA_DFA_HPP

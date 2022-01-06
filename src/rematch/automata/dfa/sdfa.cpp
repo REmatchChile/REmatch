@@ -1,38 +1,36 @@
-#include "dfa.hpp"
+#include "sdfa.hpp"
 
 #include <string>
-#include <sstream>
-#include <algorithm>
 #include <vector>
-#include <unordered_set>
-#include <list>
-#include <cassert>
-#include <map>
 
-#include "structs/dag/nodelist.hpp"
-#include "factories/factories.hpp"
-#include "detstate.hpp"
-#include "automata/nfa/eva.hpp"
-#include "automata/dfa/transition.hpp"
 #include "det/setstate.hpp"
-#include "automata/nfa/state.hpp"
 
 namespace rematch {
 
-DFA::DFA(ExtendedVA const &A)
-    : init_state_(new DetState()),
-      eVA_(A),
-      variable_factory_(A.varFactory()),
-      ffactory_(A.filterFactory()) {
-   states.push_back(init_state_);
+SearchDFA::SearchDFA(SearchVA const &A)
+    : has_epsilon_(A.has_epsilon()),
+      sVA_(A),
+      vfactory_(A.variable_factory()),
+      ffactory_(A.filter_factory()) {
+  initial_state_ = new_dstate();
+  initial_state_->add_state(A.initial_state());
+
+  dstates_table_[initial_state_->bitmap()] = initial_state_;
+
 }
 
-Transition* DFA::next_transition(DetState *q, char a) {
+DState* SearchDFA::new_dstate() {
+  DState* np = new DState();
+  states.push_back(np);
+  return np;
+}
+
+Transition* SearchDFA::next_transition(DState *q, char a) {
 
 	BitsetWrapper charBitset = ffactory_->applyFilters(a);
 
 	std::set<State*> newSubset;  // Store the next subset
-	BitsetWrapper subsetBitset(eVA_.size());  // Subset bitset representation
+	BitsetWrapper subsetBitset(sVA_.size());  // Subset bitset representation
 
 	for(auto &state: q->ss->subset) {
 		for(auto &filter: state->filters) {

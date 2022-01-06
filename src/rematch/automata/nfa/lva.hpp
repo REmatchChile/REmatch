@@ -30,8 +30,6 @@ class LogicalVA {
   // Copy constructor
   LogicalVA(const LogicalVA &A);
 
-  // LogicalVA(std::string pattern, bool raw=false);
-
   // Atomic VA
   LogicalVA(uint code);
 
@@ -39,16 +37,15 @@ class LogicalVA {
   void set_factories(std::shared_ptr<VariableFactory> v,
                      std::shared_ptr<FilterFactory> f);
 
-  // Computes epsilon transitions between capture states.
-  void adapt_capture_jumping();
+  // Transforms the automaton graph to a trimmed automaton. This being that every
+  // state is reacheable from the initial state, and the final state is reachable
+  // from every state.
+  void trim();
 
-  // @brief Removes all epsilon transitions while maintaining the language.
-  void remove_epsilon_transitions();
-
-  //**************************************************************************//
-  // LogicalVA operations, all modify the current LogicalVA to get the result //
-  // (the operations are inplace)                                             //
-  //**************************************************************************//
+  /****************************************************************************/
+  /* LogicalVA operations, all modify the current LogicalVA to get the result */
+  /* (the operations are inplace)                                             */
+  /****************************************************************************/
 
   // Inplace transformation from R to RR'
   void cat(LogicalVA &a2);
@@ -65,12 +62,18 @@ class LogicalVA {
   // Inplace transformation from R to R{min,max}
   void repeat(int min, int max);
 
+  // Remove capture transitions as if they were instantaneous (epsilon labeled)
+  void remove_captures();
+
   std::string pprint();
 
   std::shared_ptr<VariableFactory> varFactory() const {return vfactory_;}
   std::shared_ptr<FilterFactory> filterFactory() const {return ffactory_;}
 
-  State* initState() const {return init_state_;}
+  State* initial_state() const {return init_state_;}
+  State* accepting_state() const { return final_state_; }
+
+  bool has_epsilon() const { return has_epsilon_; }
 
  private:
 
@@ -83,7 +86,7 @@ class LogicalVA {
   State* init_state_;
   State* final_state_;
 
-  bool is_raw_;
+  bool has_epsilon_ = false;
 
   std::shared_ptr<VariableFactory> vfactory_;
   std::shared_ptr<FilterFactory> ffactory_;

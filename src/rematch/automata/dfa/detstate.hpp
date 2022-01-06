@@ -1,5 +1,5 @@
-#ifndef DETSTATE_HPP
-#define DETSTATE_HPP
+#ifndef SRC_REMATCH_AUTOMATA_DFA_DETSTATE_HPP
+#define SRC_REMATCH_AUTOMATA_DFA_DETSTATE_HPP
 
 #include <string>
 #include <vector>
@@ -81,4 +81,4 @@ std::ostream & operator<<(std::ostream &os, DetState const &q);
 
 } // end namespace rematch
 
-#endif
+#endif // SRC_REMATCH_AUTOMATA_DFA_DETSTATE_HPP

@@ -70,7 +70,7 @@ void Interface::normal_run() {
 void Interface::benchmark_run() {
     std::stringstream output;
 
-	size_t n_mappings, numOfCaptures, numOfReadings, detSize, nfaSize, mdfaSize;
+	size_t n_mappings, detSize, nfaSize, mdfaSize;
 	double initAutomataTime, evaluateTime, totTime;
 	/**************************** Run Algorithm ****************************/
 
@@ -93,8 +93,8 @@ void Interface::benchmark_run() {
 		n_mappings++;
 	}
 
-	numOfCaptures = regex.capture_counter();
-	numOfReadings = regex.reading_counter();
+	// numOfCaptures = regex.capture_counter();
+	// numOfReadings = regex.reading_counter();
 
 	detSize = regex.dfa_counter();
 	nfaSize = regex.nfa_counter();

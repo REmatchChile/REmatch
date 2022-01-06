@@ -95,10 +95,10 @@ bool DetState::remove_superfinals() {
   if(isSuperFinal) {
     bool final_check = false;
     for(auto it = ss->subset.begin(); it != ss->subset.end();) {
-      if((*it)->isSuperFinal) {
+      if((*it)->super_final()) {
         it = ss->subset.erase(it);
       } else {
-        if((*it)->isFinal)
+        if((*it)->accepting())
           final_check = true;
         ++it;
       }

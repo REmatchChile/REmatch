@@ -21,7 +21,7 @@ class SetState {
 
 	friend std::ostream & operator<<(std::ostream &os, SetState const &ss);
 
-	SetState(ExtendedVA &eVA, std::set<State*> l);
+	SetState(ExtendedVA const &eVA, std::set<State*> l);
 };
 
 std::ostream & operator<<(std::ostream &os, SetState const &ss);

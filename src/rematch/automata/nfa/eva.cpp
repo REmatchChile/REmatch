@@ -11,77 +11,26 @@
 
 namespace rematch {
 
-// FIXME: Hacer dos clases, EvaluationVA y SearchVA, que hereden de un VA.
+// FIXME: Usar la normalizacion de Sakarovich para después de quitar e-transiciones
+// FIXME: 
 
-ExtendedVA::ExtendedVA(LogicalVA &A)
+ExtendedVA::ExtendedVA(LogicalVA const &A)
 		:	variable_factory_(A.varFactory()),
-			filter_factory_(A.filterFactory()),
-			currentID(0),
-			is_raw_(A.is_raw_) {
+			filter_factory_(A.filterFactory())  {
+	// Copy the VA
+	LogicalVA A_prim(A);
 
-	if(is_raw_)
-		raw_init(A);
-	else
-		normal_init(A);
-}
+	// Trim the new automaton
+	A_prim.trim();
 
-ExtendedVA::ExtendedVA():
-	variable_factory_(new VariableFactory()), filter_factory_(new FilterFactory()) {
-
-		init_state_ = new State();
-		states.push_back(init_state_);
-}
-
-ExtendedVA::ExtendedVA(const ExtendedVA &A)
-	: idMap(A.idMap),
-		variable_factory_(A.varFactory()),
-		filter_factory_(A.filterFactory()),
-		currentID(0) {
-
-	// Mantain a map from the original states to their copies
-	std::map<State*, State*> copy_table;
-	State *new_state;
-
-	// Populate the copy table
-	for(const auto &state: A.states) {
-		new_state = new State(*state); // Copy the state in heap
-		states.push_back(new_state);
-		if(new_state->isFinal)
-			finalStates.push_back(new_state);
-		if(new_state->isSuperFinal)
-			superFinalStates.push_back(new_state);
-		copy_table[state] = new_state;
-	}
-
-	// Update init state
-	init_state_ = copy_table[A.initState()];
-
-	// Update transition table
-	for(const auto &state: this->states) {
-		for(auto capture: state->captures)
-			capture->reset_states(copy_table[capture->from], copy_table[capture->next]);
-		for(auto epsilon: state->epsilons)
-			epsilon->reset_states(copy_table[epsilon->next]);
-		for(auto filter: state->filters)
-			filter->reset_states(copy_table[filter->next]);
-	}
-}
-
-void ExtendedVA::normal_init(LogicalVA& A) {
-	std::cout << "LogicalVA:\n" << A.pprint() << '\n';
-	State* s = A.new_state();
-	CharClassBuilder ccb;  ccb.add_single('\0');
-	s->addFilter(filter_factory_->get_code(ccb), A.init_state_);
-	A.init_state_ = s;
-
-	epsilonClosure(A);
-	adaptReachableStates(A);
+	// Swap the VA's state graph for the EvauationVA
+	states.swap(A_prim.states);
+	init_state_ = A_prim.initial_state();
+	accepting_state_ = A_prim.accepting_state();
 
 	#ifndef NOPT_OFFSET
 		offsetOpt();
 	#endif
-
-	pruneUselessStates();
 
 	captureClosure();
 
@@ -94,151 +43,86 @@ void ExtendedVA::normal_init(LogicalVA& A) {
   #endif
 
 	relabelStates();
-
-	searchSuperFinals();
 }
 
-void ExtendedVA::raw_init(LogicalVA& A) {
-	epsilonClosure(A);
-	adaptReachableStates(A);
-
-	pruneUselessStates();
-
-	relabelStates();
-
-	compute_if_dfa_searchable();
-}
-
-void ExtendedVA :: addCapture(State* state, std::bitset<32> bs, State* next) {
-	state->addCapture(bs, next);
+void ExtendedVA::addCapture(State* state, std::bitset<32> bs, State* next) {
+	state->add_capture(bs, next);
 }
 
 
-size_t ExtendedVA :: size() {
+size_t ExtendedVA::size() const {
 	return states.size();
 }
 
+void ExtendedVA::trim() {
+	// We'll do a simple BFS from the initial and final states (using backwards
+  // transitions), storing the states that are reached by both procedures
 
-void ExtendedVA::epsilonClosure(LogicalVA &A) {
-	/* Adds correct transitions to replace e-transitions*/
+  for(auto &p: states)
+    p->visitedBy = 0;
 
-	for(auto &state: A.states) {
-		state->visitedBy = -1;
-	}
+  // Marked constants
+  const int kReachable  = 1 << 0;  // 0000 0000 0000 0001
+  const int kUseful     = 1 << 1;  // 0000 0000 0000 0010
 
-	for(auto &root_state: A.states) {
-		root_state->visitedBy = root_state->id;
+  std::vector<State*> trimmed_states;  // New states vector
+  std::deque<State*> queue;
 
-		std::stack<State*> stack;
+  // Start the search forward from the initial state.
+  queue.push_back(init_state_);
+  init_state_->visitedBy |= kReachable;
 
-		for(auto &epsilon: root_state->epsilons) {
-			stack.push(epsilon->next);
-		}
+  while(!queue.empty()) {
+    State* p = queue.front(); queue.pop_front();
 
-		while(!stack.empty()) {
-			State* cstate = stack.top(); stack.pop();
-			if(cstate->isFinal)
-				root_state->isFinal = true;
-			for(auto &capture: cstate->captures)
-				root_state->addCapture(capture->code, capture->next);
+    for(auto &f: p->filters) {
+      if(!(f->next->visitedBy & kReachable)) {
+        f->next->visitedBy |= kReachable;
+        queue.push_back(f->next);
+      }
+    }
 
-			for(auto &filter: cstate->filters) {
-				root_state->addFilter(filter->code, filter->next);
-				if(is_raw_ && (root_state->flags_ & State::kPreCaptureState)) {
-					filter->next->flags_ |= State::kCaptureState;
-				}
-			}
+    for(auto &c: p->captures) {
+      if(!(c->next->visitedBy & kReachable)) {
+        c->next->visitedBy |= kReachable;
+        queue.push_back(c->next);
+      }
+    }
+  }
 
-			for(auto &epsilon: cstate->epsilons) {
-				if(epsilon->next->visitedBy != root_state->id)
-					stack.push(epsilon->next);
-			}
-		} // end while
-	} // end for
-}
+  // Now start the search backwards from the final state.
+  queue.push_back(accepting_state_);
+  accepting_state_->visitedBy |= kUseful;
 
-void ExtendedVA :: adaptReachableStates(LogicalVA &A) {
-	for(auto &state: A.states) {
-		state->tempMark = false;
-		state->incidentCaptures.clear();
-		state->incidentFilters.clear();
-	}
+  while(!queue.empty()) {
+    State* p = queue.front(); queue.pop_front();
+    for(auto &f: p->incidentFilters) {
+      if(!(f->from->visitedBy & kUseful)) {
+        if(f->from->visitedBy & kReachable)
+          trimmed_states.push_back(f->from);
+        f->from->visitedBy |= kUseful;
+        queue.push_back(f->from);
+      }
+    }
+    for(auto &c: p->incident_captures_) {
+      if(!(c->from->visitedBy & kUseful)) {
+        if(c->from->visitedBy & kReachable)
+          trimmed_states.push_back(c->from);
+        c->from->visitedBy |= kUseful;
+        queue.push_back(c->from);
+      }
+    }
+  }
 
-	states.reserve(A.states.size());
-	// finalStates.reserve(A.finalStates.size());
+  trimmed_states.push_back(accepting_state_);
 
-	init_state_ = A.initState();
-	init_state_->isInit = true;
+  // Delete useless states
+  for(auto *p: states) {
+    if(p->visitedBy != (kReachable | kUseful))
+      delete p;
+  }
 
-	utilCleanUnreachable(A.initState());
-}
-
-void ExtendedVA :: pruneUselessStates() {
-	for(auto &state: states) {
-		state->tempMark = false;
-	}
-
-	std::vector<State*> tmp, diff;
-	pruneDFS(init_state_, tmp);
-
-	std::sort(std::begin(states), std::end(states));
-	std::sort(std::begin(tmp), std::end(tmp));
-
-	std::set_difference(states.begin(), states.end(), tmp.begin(), tmp.end(),
-		std::inserter(diff, diff.begin()));
-
-	for(auto &state : diff) {
-		for(auto &filter: state->filters) {
-			filter->next->incidentFilters.remove(filter);
-		}
-		for(auto &capture: state->captures) {
-			capture->next->incidentCaptures.remove(capture);
-		}
-	}
-
-	states = std::move(tmp);
-	finalStates.clear();
-	for(auto const &state: states) {
-		if(state->isFinal)
-			finalStates.push_back(state);
-	}
-
-}
-
-void ExtendedVA :: pruneDFS(State *state, std::vector<State*> &tmp) {
-	state->tempMark = true;
-
-	for(auto &capture: state->captures) {
-		if(!capture->next->tempMark)
-			pruneDFS(capture->next, tmp);
-	}
-	for(auto &filter: state->filters) {
-		if(!filter->next->tempMark)
-			pruneDFS(filter->next, tmp);
-	}
-
-	tmp.push_back(state);
-}
-
-void ExtendedVA :: utilCleanUnreachable(State *state) {
-	state->tempMark = true;
-
-	for(auto &capture: state->captures) {
-		capture->next->incidentCaptures.push_back(capture);
-		if(!capture->next->tempMark)
-			utilCleanUnreachable(capture->next);
-	}
-	for(auto &filter: state->filters) {
-		filter->next->incidentFilters.push_back(filter);
-		if(!filter->next->tempMark)
-			utilCleanUnreachable(filter->next);
-	}
-
-	states.push_back(state);
-	if(state->isFinal) {
-		finalStates.push_back(state);
-	}
-
+  states.swap(trimmed_states);
 }
 
 void ExtendedVA :: captureClosure() {
@@ -262,7 +146,7 @@ void ExtendedVA :: captureClosure() {
 		for(auto &capture1: itState->captures) {
 			for(auto &capture2: capture1->next->captures) {
 				newCode = (capture1->code | capture2->code);
-				itState->addCapture(newCode, capture2->next);
+				itState->add_capture(newCode, capture2->next);
 			}
 		}
 	} // while(!topOrder.empty())
@@ -277,12 +161,12 @@ void ExtendedVA :: cleanUselessCaptureStates() {
 
 		isUselessCaptureState = ((*state)->incidentFilters.empty() &&
 														(*state)->filters.empty() &&
-														!(*state)->isFinal &&
-														!(*state)->isInit);
+														!(*state)->accepting() &&
+														!(*state)->initial());
 
 		if(isUselessCaptureState) {
 			// Remove the incident capture transitions on previous states
-			for(auto &capture: (*state)->incidentCaptures) {
+			for(auto &capture: (*state)->incident_captures_) {
 				for(auto it=capture->from->captures.begin(); it != capture->from->captures.end(); ) {
 					if(capture->from == (*it)->from && capture->next == (*it)->next)
 						it = capture->from->captures.erase(it);
@@ -301,12 +185,12 @@ void ExtendedVA :: cleanUselessCaptureStates() {
 
 void ExtendedVA :: cleanUselessCaptureTransitions() {
 	for(auto &state: states) {
-		if(state->incidentFilters.empty() && !state->incidentCaptures.empty()) {
+		if(state->incidentFilters.empty() && !state->incident_captures_.empty()) {
 			state->captures.clear();
 		}
 		for(auto capture = state->captures.begin(); capture != state->captures.end();) {
-			if((*capture)->next->filters.empty() && !(*capture)->next->isFinal) {
-				(*capture)->next->incidentCaptures.remove(*capture);
+			if((*capture)->next->filters.empty() && !(*capture)->next->accepting()) {
+				(*capture)->next->incident_captures_.remove(*capture);
 				capture = state->captures.erase(capture);
 			} else {
 				capture++;
@@ -357,7 +241,7 @@ void ExtendedVA::computeOffset(CaptureList &captureList, int codeIndex) {
 				// Current picture:
 				// (p) --[capture]--> (q) ---[filter]---> (q') (r)
 
-				q_prim->addCapture(capture->code, r);
+				q_prim->add_capture(capture->code, r);
 
 				// Current picture:
 				// (p) --[capture]--> (q) ---[filter]---> (q') --[capture]--> (r)
@@ -367,7 +251,7 @@ void ExtendedVA::computeOffset(CaptureList &captureList, int codeIndex) {
 				captureList.push_front(q_prim->captures.front());
 
 
-				p->addFilter(filter->code, q_prim);
+				p->add_filter(filter->code, q_prim);
 
 				// Current picture:
 				// (p) --[capture]--> (q) ---[filter]---> (q') --[capture]--> (r)
@@ -378,8 +262,8 @@ void ExtendedVA::computeOffset(CaptureList &captureList, int codeIndex) {
 			}
 
 			p->captures.remove(capture);
-			q->incidentCaptures.remove(capture);
-			if(q->incidentCaptures.empty())
+			q->incident_captures_.remove(capture);
+			if(q->incident_captures_.empty())
 				q->flags_ &= ~State::kCaptureState;
 
 			// Current picture:
@@ -389,7 +273,7 @@ void ExtendedVA::computeOffset(CaptureList &captureList, int codeIndex) {
 			// Notice that (q) will be eliminated if it's not reachable in the
 			// step after the offsets are computed.
 
-			p->addEpsilon(q);
+			// p->addEpsilon(q);
 
 			it = captureList.erase(it);
 
@@ -435,11 +319,11 @@ bool ExtendedVA::offsetPossible(CapturePtr capture) {
 
  	if(capture->code.count() != 1)
 		return false;
-	if(q->isFinal)
+	if(q->accepting())
 		return false;
 	if(q->filters.size() == 0 || q->captures.size() > 0)
 		return false;
-	if(q->incidentCaptures.size() != 1)
+	if(q->incident_captures_.size() != 1)
 		return false;
 	for(auto &filter: q->filters) {
 		if(isReachable(filter->next, q))
@@ -494,9 +378,6 @@ std::vector<CaptureList> ExtendedVA::classifySingleCaptures() {
 
 	return classifier;
 }
-
-
-
 
 
 // It's assumed that there is no epsilon transitions anymore.
@@ -624,7 +505,7 @@ void ExtendedVA :: utilRelabelStates(State *state) {
 }
 
 
-std::string ExtendedVA :: pprint() {
+std::ostream& operator<<(std::ostream& os, ExtendedVA const &A) {
   /* Gives a codification for the LogicalVA that can be used to visualize it
      at https://puc-iic2223.github.io . Basically it uses Breath-First Search
      to get every labeled transition in the ExtendedVA with the unique ids for
@@ -632,7 +513,6 @@ std::string ExtendedVA :: pprint() {
 
 
   // Declarations
-  std::stringstream ss, cond;
   State *current;
   int cid, nid;  // cid: current State id; nid : next State id
   std::bitset<32> S;
@@ -646,8 +526,8 @@ std::string ExtendedVA :: pprint() {
   std::list<State*> queue;
 
   // Start on the init State
-  visited.insert(init_state_->id);
-  queue.push_back(init_state_);
+  visited.insert(A.init_state_->id);
+  queue.push_back(A.init_state_);
 
   // Start BFS
   while(!queue.empty()) {
@@ -666,7 +546,7 @@ std::string ExtendedVA :: pprint() {
 
       nid = capture->next->id;
 
-      ss << "t " << cid << " " << variable_factory_->print_varset(S) << " " << nid << '\n';
+      os << "t " << cid << " " << A.variable_factory_->print_varset(S) << " " << nid << '\n';
 
       // If not visited enqueue and add to visited
       if (visited.find(nid) == visited.end()) {
@@ -680,7 +560,7 @@ std::string ExtendedVA :: pprint() {
       nid = filter->next->id;
       S = filter->code;
 
-      ss << "t " << cid << ' ' << filter_factory_->get_filter(filter->code) << ' ' << nid << '\n';
+      os << "t " << cid << ' ' << A.filter_factory_->get_filter(filter->code) << ' ' << nid << '\n';
 
       // If not visited enqueue and add to visited
       if (visited.find(nid) == visited.end()) {
@@ -691,14 +571,10 @@ std::string ExtendedVA :: pprint() {
   }
 
   // Code final states
-  for (size_t i = 0; i < finalStates.size(); ++i) {
-    if(finalStates[i]->isFinal) {
-      ss << "f " << finalStates[i]->id << '\n';
-    }
-  }
+  os << "f " << A.accepting_state_->id << '\n';
 
   // Code initial State
-  ss << "i " << init_state_->id;
+  os << "i " << A.init_state_->id;
 
 	// for(int id: capture_states)
 	// 	ss << "\nc " << id;
@@ -706,41 +582,11 @@ std::string ExtendedVA :: pprint() {
 	// for(int id: pcapture_states)
 	// 	ss << "\npc " << id;
 
-  return ss.str();
+  return os;
 }
 
-void ExtendedVA :: searchSuperFinals() {
-	for(auto &fState: finalStates) {
-		for(auto &state: states) {
-			state->colorMark = 'w'; // Mark as white
-		}
-		if(!fState->isSuperFinal) {
-			utilSearchSuperFinals(fState);
-		}
-	}
 
-	computed_super_finals_ = true;
-}
-
-bool ExtendedVA :: utilSearchSuperFinals(State *s) {
-	s->colorMark = 'g'; // Mark as grey
-
-	for(auto &filter: s->filters) {
-		State* ns = filter->next;
-		if(filter_factory_->get_filter(filter->code).is_dot() && ns->isFinal) {
-			if( ns->colorMark == 'g' || ns->isSuperFinal ||
-				 (ns->colorMark == 'w' && utilSearchSuperFinals(ns)) ) {
-				s->isSuperFinal = true;
-				superFinalStates.push_back(s);
-				return true;
-			}
-		}
-	}
-	s->colorMark = 'b'; // Mark as black
-	return false;
-}
-
-std::set<State*> ExtendedVA :: getSubset(BitsetWrapper bs) const {
+std::set<State*> ExtendedVA::getSubset(BitsetWrapper bs) const {
 	std::set<State*> ret;
 	for(size_t i=0; i < bs.size(); i++)
 		if(bs.get(i))
@@ -767,23 +613,20 @@ void ExtendedVA::crossProdOpt() {
 
 	// State pointer to index at statevector
 	std::map<State*, size_t> ptr2index;
-	size_t initStateIdx;
+	size_t initStateIdx, acceptingStateIdx;
 
 	for (size_t i = 0; i < states.size(); ++i) {
-		states0.push_back(new State());
-		states1.push_back(new State());
+
+		if(states[i]->initial())
+			initStateIdx = i;
+		else if(states[i]->accepting())
+			acceptingStateIdx = i;
+
+		states0.push_back(new State(*states[i]));
+		states1.push_back(new State(*states[i]));
 
 		// Store state's ptr corresponding index
 		ptr2index[states[i]] = i;
-
-		if(states[i] == initState())
-			initStateIdx = i;
-
-		// Set final states
-		if(states[i]->isFinal) {
-			states0.back()->setFinal(true);
-			states1.back()->setFinal(true);
-		}
 	};
 
 	// --- Connect new states --- //
@@ -794,25 +637,35 @@ void ExtendedVA::crossProdOpt() {
 	for (size_t i = 0; i < states.size(); ++i) {
 		pOld = states[i];
 		p0New = states0[i]; p1New = states1[i];
-		p0New->flags_ = pOld->flags_;
-		p1New->flags_ = pOld->flags_;
 		for (auto const &filter: pOld->filters) {
 			qOld = filter->next;
 			qOldIdx = ptr2index[qOld];
 
-			q0New = states0[qOldIdx]; q1New = states1[qOldIdx];
+			q0New = states0[qOldIdx];
+			q1New = states1[qOldIdx];
 
-			p0New->addFilter(filter->code, q1New);
-			p1New->addFilter(filter->code, q0New);
+			p1New->add_filter(filter->code, q0New);
+
+			// If reached state is accepting, then only connect to 0
+			if(qOld->accepting())
+				p0New->add_filter(filter->code, q0New);
+			else
+			p0New->add_filter(filter->code, q1New);
 		}
 		for (auto const &capture: pOld->captures) {
 			qOld = capture->next;
 			qOldIdx = ptr2index[qOld];
 
-			q0New = states0[qOldIdx]; q1New = states1[qOldIdx];
+			q0New = states0[qOldIdx];
+			q1New = states1[qOldIdx];
 
-			p0New->addCapture(capture->code, q0New);
-			p1New->addCapture(capture->code, q1New);
+			p0New->add_capture(capture->code, q0New);
+
+			// If reached state is accepting, then only connect to 0
+			if(qOld->accepting())
+				p1New->add_capture(capture->code, q0New);
+			else
+				p1New->add_capture(capture->code, q1New);
 		}
 
 	}
@@ -822,43 +675,12 @@ void ExtendedVA::crossProdOpt() {
 	// Concat both vectors
 	states0.insert(states0.end(), states1.begin(), states1.end());
 
-	set_initState(states0[initStateIdx]); // Init state is (q0, 0)
-	states = std::move(states0);
-	pruneUselessStates();
-}
+	set_initial(states0[initStateIdx]); // Init state is (q0, 0)
+	set_accepting(states0[acceptingStateIdx]);
 
-void ExtendedVA::compute_if_dfa_searchable() {
-	if(!is_raw_ && variable_factory_->size() == 1) {
-		CharClassBuilder ccb; ccb.add_single('\0');
-		auto ns = init_state_->nextFilter(filter_factory_->get_code(ccb));
-		if(ns != nullptr) {
-			try {
-				CharClassBuilder ccb; ccb.add_range(0, CHAR_MAX);
-				auto dot_code = filter_factory_->get_code(ccb);
-				auto ls = ns->nextFilter(dot_code);
-				if(ls != ns) return;
-
-				// is_dfa_searchable_ = true;
-				// return;
-
-				auto var = variable_factory_->variables().front();
-
-				auto nns = ns->nextCapture(variable_factory_->open_code(var));
-
-				if(nns == nullptr) return;
-
-				if( !computed_super_finals_ )
-					searchSuperFinals();
-
-				if (superFinalStates.empty()) return;
-
-				is_dfa_searchable_ = true;
-
-			} catch (std::out_of_range &e) {
-				return;
-			}
-		}
-	}
+	states.swap(states0);
+	trim(); // trim the automaton
+	// pruneUselessStates();
 }
 
 } // end namespace rematch

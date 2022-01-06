@@ -113,7 +113,9 @@ class FilterFactory {
 	BitsetWrapper applyFilters(char a);
 
  private:
-	size_t size_ = 0;
+	// Size always starts at 1, this is because we reserve the code 0 for a
+	// special character used at extendedVA.
+	size_t size_ = 1;
 	// Ordered vector that stores the variables.
 	std::unordered_map<CharClassBuilder, int> code_map_;
 	std::unordered_map<int, CharClassBuilder> filter_map_;

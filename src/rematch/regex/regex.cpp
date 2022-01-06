@@ -3,6 +3,7 @@
 #include "parse/parser.hpp"
 #include "evaluation/evaluator.hpp"
 #include "automata/nfa/lva.hpp"
+#include "automata/nfa/sva.hpp"
 
 namespace rematch {
 
@@ -12,14 +13,11 @@ RegEx::RegEx(const std::string &pattern, rematch::RegExOptions rgx_opts)
 
   std::unique_ptr<LogicalVA> VA = regex2LVA(pattern);
 
-  std::unique_ptr<LogicalVA> rawVA = std::make_unique<LogicalVA>(*VA);
-  rawVA->adapt_capture_jumping();
-
   auto eVA = std::make_unique<ExtendedVA>(*VA);
-  auto raw_eVA = std::make_unique<ExtendedVA>(*rawVA);
+  auto sVA = std::make_unique<SearchVA>(*VA);
 
   dman_ = std::make_unique<DetManager>(eVA);
-  raw_dman_ = std::make_unique<DetManager>(raw_eVA);
+  // raw_dman_ = std::make_unique<DetManager>(raw_eVA);
 }
 
 // Explicitly declared here for correct use of unique_ptr later
@@ -35,12 +33,12 @@ MatchIterator RegEx::findIter(std::shared_ptr<Document> d) {
     if (flags_ & kLineByLine) {
       eval = new EarlyOutputLineEvaluator(*this, d);
     } else {
-      if(dman_->nfa().is_dfa_searchable()) {
+      // if(dman_->nfa().is_dfa_searchable()) {
         std::shared_ptr<StrDocument> strd = std::static_pointer_cast<StrDocument>(d);
         eval = new EarlyOutputFilterEvaluator(*this, strd);
-      } else {
-        eval = new EarlyOutputEvaluator(*this, d);
-      }
+      // } else {
+      //   eval = new EarlyOutputEvaluator(*this, d);
+      // }
     }
   } else {
     if (flags_ & kLineByLine) {

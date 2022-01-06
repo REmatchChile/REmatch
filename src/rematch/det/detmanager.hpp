@@ -1,5 +1,5 @@
-#ifndef DETMANAGER_HPP
-#define DETMANAGER_HPP
+#ifndef SRC_REMATCH_DET_DETMANAGER_HPP
+#define SRC_REMATCH_DET_DETMANAGER_HPP
 
 #include <unordered_map>
 #include <string>
@@ -40,8 +40,6 @@ class DetManager {
 
 	DetManager(std::unique_ptr<ExtendedVA> &A);
 
-	rematch::Transition* next_transition(DetState* q, char a);
-
 	MacroTransition* next_macro_transition(MacroState *ms, char a);
 
 	MacroState* compute_drop_super_finals(MacroState *ms);
@@ -55,8 +53,6 @@ class DetManager {
 	MacroDFA& mdfa() {return *mdfa_;}
 
  private:
-	void computeCaptures(DetState* p, DetState* q, char a);
-
 	char chooseFromCharBitset(BitsetWrapper bs);
 	// ExtendedVA representation of the given pattern.
 	std::unique_ptr<ExtendedVA> nfa_;
@@ -81,7 +77,7 @@ class DetManager {
 
 } // end namespace rematch
 
-#endif
+#endif // SRC_REMATCH_DET_DETMANAGER_HPP
 
 
 

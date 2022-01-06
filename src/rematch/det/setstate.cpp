@@ -8,7 +8,7 @@
 
 namespace rematch {
 
-SetState :: SetState(ExtendedVA &eVA, std::set<State*> l):
+SetState :: SetState(ExtendedVA const &eVA, std::set<State*> l):
 	subset(l), bitstring(eVA.size()) {
 	/* Construct the bitstring inmediately */
 	isFinal = false;
@@ -18,8 +18,8 @@ SetState :: SetState(ExtendedVA &eVA, std::set<State*> l):
 		bitstring.set(state->id,true);
 
 		// Check if the subset is a final subset
-		if(state->isFinal) isFinal = true;
-		if(state->isSuperFinal) isSuperFinal = true;
+		if(state->accepting()) isFinal = true;
+		// if(state->isSuperFinal) isSuperFinal = true;
 	}
 
 	if(bitstring.count()) isNonEmpty = true;

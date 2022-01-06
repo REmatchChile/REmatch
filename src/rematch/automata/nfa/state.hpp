@@ -1,5 +1,5 @@
-#ifndef LVASTATE_HPP
-#define LVASTATE_HPP
+#ifndef SRC_REMATCH_AUTOMATA_NFA_STATE_HPP
+#define SRC_REMATCH_AUTOMATA_NFA_STATE_HPP
 
 #include <list>
 #include <set>
@@ -59,16 +59,11 @@ class State {
 
     std::list<std::shared_ptr<LVAFilter>> filters;    // Filter array
     std::list<std::shared_ptr<LVACapture>> captures;  // Capture pointers array
-    std::list<std::shared_ptr<LVAEpsilon>> epsilons; // Epsilon transitions
 
-    bool tempMark; // Booleans for graph algorithms
-    char colorMark;
-
-    uint32_t visitedBy;
-
-    bool isFinal;
-    bool isInit;
-    bool isSuperFinal;
+    // Booleans for graph algorithms
+    bool tempMark = false;
+    char colorMark = 'w';
+    uint32_t visitedBy = 0;
 
     uint32_t flags_;
 
@@ -83,21 +78,29 @@ class State {
       kPreCaptureState = kCaptureState << 1
     };
 
-    std::list<std::shared_ptr<LVACapture>> incidentCaptures;
+    std::list<std::shared_ptr<LVACapture>> incident_captures_;
     std::list<std::shared_ptr<LVAFilter>> incidentFilters;
 
     State();
+
+    ~State();
 
     State(const State& s);
 
     void init();
     State* nextFilter(unsigned int code);
     State* nextCapture(std::bitset<32> code);
-    void addCapture(std::bitset<32> code, State* next);
-    void addFilter(unsigned int code, State* next);
-    void addEpsilon(State* next);
-    void setFinal(bool b);
-    void setInitial(bool b);
+    void add_capture(std::bitset<32> code, State* next);
+    void add_filter(unsigned int code, State* next);
+
+    // Getters and setters
+    bool initial() const { return flags_ & kInitialState; }
+    void set_initial(bool b);
+
+    bool accepting() const { return flags_ & kFinalState; }
+    void set_accepting(bool b);
+
+    bool super_final() const { return flags_ & kSuperFinalState; }
 
     uint32_t flags() const {return flags_;}
     void set_flags(uint32_t f) {flags_ = f;}
@@ -107,6 +110,6 @@ class State {
 
 } // end namespace rematch
 
-#endif
+#endif // SRC_REMATCH_AUTOMATA_NFA_STATE_HPP
 
 
