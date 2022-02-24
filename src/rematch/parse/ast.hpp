@@ -71,7 +71,7 @@ struct special {
 };
 
 
-using atom = boost::variant<charset, assertion, char, special>;
+using atom = boost::variant<charset, char, special>;
 
 using group =  boost::variant<
     boost::recursive_wrapper<parenthesis>,

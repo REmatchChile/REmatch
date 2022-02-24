@@ -5,13 +5,25 @@
 namespace rematch {
 
 SearchVA::SearchVA(LogicalVA const &A) : has_epsilon_(A.has_epsilon()) {
-  LogicalVA A_prim(A);
+  LogicalVA A_prim(A); // Make a copy of the automaton
 
-  A_prim.trim();
+  // ANCHOR: Remove line
+  std::cout << "Aprim\n" << A_prim << "\n\n";
 
   A_prim.remove_captures();
 
-  std::cout << "SearchVA:\n" << A_prim.pprint() << '\n';
+  // ANCHOR: Remove line
+  std::cout << "Aprim remove captures:\n" << A_prim << "\n\n";
+
+  A_prim.remove_epsilon();
+
+  // ANCHOR: Remove line
+  std::cout << "Aprim remove epsilon:\n" << A_prim << "\n\n";
+
+  A_prim.trim();
+
+  // ANCHOR: Remove line
+  std::cout << "SearchVA:\n" << A_prim << '\n';
 
   states_.swap(A_prim.states);
   initial_state_ = A_prim.initial_state();

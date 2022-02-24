@@ -13,12 +13,12 @@ int main() {
   std::unique_ptr<LogicalVA> A = regex2LVA(pattern);
 
   std::cout << "Original VA:\n";
-  std::cout << A->pprint() << std::endl;
+  std::cout << *A << std::endl;
 
   LogicalVA B(*A);
 
   std::cout << "Copied VA:\n";
-  std::cout << B.pprint() << std::endl;
+  std::cout << B << std::endl;
 
   return 0;
 }

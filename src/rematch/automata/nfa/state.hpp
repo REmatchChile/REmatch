@@ -46,7 +46,8 @@ public:
 class LVAEpsilon {
 public:
   State* next;
-  LVAEpsilon(State* next): next(next) {}
+  State* from;
+  LVAEpsilon(State* from, State* next): next(next), from(from) {}
 
   void reset_states(State *s) {next = s;}
 };
@@ -59,6 +60,7 @@ class State {
 
     std::list<std::shared_ptr<LVAFilter>> filters;    // Filter array
     std::list<std::shared_ptr<LVACapture>> captures;  // Capture pointers array
+    std::list<std::shared_ptr<LVAEpsilon>> epsilons;
 
     // Booleans for graph algorithms
     bool tempMark = false;
@@ -78,8 +80,9 @@ class State {
       kPreCaptureState = kCaptureState << 1
     };
 
-    std::list<std::shared_ptr<LVACapture>> incident_captures_;
-    std::list<std::shared_ptr<LVAFilter>> incidentFilters;
+    std::list<std::shared_ptr<LVACapture>> backward_captures_;
+    std::list<std::shared_ptr<LVAFilter>> backward_filters_;
+    std::list<std::shared_ptr<LVAEpsilon>> backward_epsilons_;
 
     State();
 
@@ -88,10 +91,13 @@ class State {
     State(const State& s);
 
     void init();
+
     State* nextFilter(unsigned int code);
     State* nextCapture(std::bitset<32> code);
+
     void add_capture(std::bitset<32> code, State* next);
     void add_filter(unsigned int code, State* next);
+    void add_epsilon(State* next);
 
     // Getters and setters
     bool initial() const { return flags_ & kInitialState; }

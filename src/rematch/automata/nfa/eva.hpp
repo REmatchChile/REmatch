@@ -49,8 +49,6 @@ class ExtendedVA {
 
 	void trim();
 
-	std::string pprint();
-
 	size_t size() const;
 
 	void captureClosure();

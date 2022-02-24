@@ -14,8 +14,8 @@ int main(int argc, char const *argv[]) {
 
   std::string doc, rgx;
 
-	doc = file2str(argv[1]);
-  rgx = file2str(argv[2]);
+	doc = rematch::util::file2str(argv[1]);
+  rgx = rematch::util::file2str(argv[2]);
 
   regex_t pattern;
 

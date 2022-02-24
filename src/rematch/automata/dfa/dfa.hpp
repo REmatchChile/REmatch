@@ -42,6 +42,8 @@ class DFA {
   Transition* next_transition(DetState* q, char a);
   void computeCaptures(DetState* p, DetState* q, char a);
 
+  DetState* compute_drop_super_finals(DetState *q);
+
  private:
   // Utility to print a transition
   void print_transition(std::ostream& os, DetState* from, char a, DetState* to, std::bitset<32> S);

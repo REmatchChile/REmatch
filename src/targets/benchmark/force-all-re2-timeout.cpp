@@ -70,8 +70,8 @@ int main(int argc, char const *argv[]) {
 
   std::string doc, rgx;
 
-  rgx = file2str(argv[2]);
-	doc = file2str(argv[1]);
+  rgx = rematch::util::file2str(argv[2]);
+	doc = rematch::util::file2str(argv[1]);
 
   re2::StringPiece input(doc);
 	re2::StringPiece original(doc);

@@ -13,10 +13,6 @@ class FilterFactory;
 class State;
 class ExtendedVA;
 
-// FIXME: LogicalVA with two special states, a final state WITHOUT transitions
-// leaving from it. And unanchored evaluation must be implicit in the
-// automaton (i.e. we don't have to have loops in the initial/final state).
-
 class LogicalVA {
   /* A basic implementation of a Variable Automaton  */
   friend class ExtendedVA;
@@ -49,11 +45,11 @@ class LogicalVA {
 
   // Inplace transformation from R to RR'
   void cat(LogicalVA &a2);
-  // Equivalent to R1|R2 in VarRegEx
+  // Equivalent to R1|R2
   void alter(LogicalVA &a2);
-  // Equivalent to R* in VarRegEx
+  // Equivalent to R*
   void kleene();
-  // Equivalent to R+ in VarRegEx
+  // Equivalent to R+
   void strict_kleene();
   // Equivalent to R?
   void optional();
@@ -65,26 +61,26 @@ class LogicalVA {
   // Remove capture transitions as if they were instantaneous (epsilon labeled)
   void remove_captures();
 
-  std::string pprint();
+  // Removes epsilon transitions.
+  void remove_epsilon();
 
   std::shared_ptr<VariableFactory> varFactory() const {return vfactory_;}
   std::shared_ptr<FilterFactory> filterFactory() const {return ffactory_;}
 
-  State* initial_state() const {return init_state_;}
-  State* accepting_state() const { return final_state_; }
+  State* initial_state() const { return init_state_; }
+  State* accepting_state() const { return accepting_state_; }
 
   bool has_epsilon() const { return has_epsilon_; }
+
+  friend std::ostream& operator<<(std::ostream& os, LogicalVA const &A);
 
  private:
 
   // Creates a new State for the automaton.
   State* new_state();
 
-  // Creates new final state for the automaton.
-  State* new_final_state();
-
   State* init_state_;
-  State* final_state_;
+  State* accepting_state_;
 
   bool has_epsilon_ = false;
 

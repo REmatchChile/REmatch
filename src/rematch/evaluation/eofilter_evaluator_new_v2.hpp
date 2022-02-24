@@ -11,7 +11,10 @@
 #include "regex/regex.hpp"
 #include "match.hpp"
 #include "structs/ecs/enumerator.hpp"
+
 #include "automata/dfa/dfa.hpp"
+#include "automata/dfa/sdfa.hpp"
+
 #include "memmanager.hpp"
 #include "evaluation/document/document.hpp"
 #include "automata/dfa/transition.hpp"
@@ -24,7 +27,7 @@ namespace rematch {
 class EarlyOutputFilterEvaluatorNewV2 : public Evaluator {
 
  public:
-  EarlyOutputFilterEvaluatorNewV2(RegEx& rgx, std::shared_ptr<StrDocument> d);
+  EarlyOutputFilterEvaluatorNewV2(RegEx& rgx, std::shared_ptr<StrDocument> d, Anchor a);
 
   virtual Match_ptr next();
 
@@ -42,28 +45,28 @@ class EarlyOutputFilterEvaluatorNewV2 : public Evaluator {
   // enumerate but it didn't reach the end of the search interval. Returns
   // false otherwise.
   bool evaluation_phase();
-
   void init_evaluation_phase(int64_t init_from);
 
   inline void pass_current_outputs();
   inline void pass_outputs();
 
-  DFA& dfa() {return rgx_.detManager().dfa();}
-  DFA& rawDFA() {return rgx_.rawDetManager().dfa();}
+  std::unique_ptr<DFA> dfa_;                            // Normal DFA
+  std::unique_ptr<SearchDFA> sdfa_;                     // Search DFA
 
   RegEx &rgx_;
 
   internal::Enumerator enumerator_;
 
-  internal::ECS ds_;
+  internal::ECS ds_;                                    // DAG structure
 
   std::shared_ptr<StrDocument> text_;
 
+  Anchor anchor_;
+
   std::vector<DetState*> current_states_;
   std::vector<DetState*> new_states_;
-  std::vector<DetState*> super_finals_;
 
-  DetState* current_dstate_;
+  DState* current_dstate_;
 
   static const size_t kSizeMaxOutputBuffer = 100;
 

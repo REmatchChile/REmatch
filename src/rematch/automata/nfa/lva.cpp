@@ -5,9 +5,10 @@
 #include <algorithm>
 #include <vector>
 #include <unordered_set>
-#include <list>
+#include <deque>
 #include <cassert>
 #include <map>
+#include <stack>
 
 #include "automata/nfa/state.hpp"
 #include "factories/factories.hpp"
@@ -16,24 +17,22 @@
 namespace rematch {
 
 LogicalVA::LogicalVA()
-    : init_state_(new_state()),
-      final_state_(new_state()),
-      vfactory_(std::make_shared<VariableFactory>()),
+    : vfactory_(std::make_shared<VariableFactory>()),
       ffactory_(std::make_shared<FilterFactory>()) {
+  init_state_ = new_state();
+  accepting_state_ = new_state();
   init_state_->set_initial(true);
-  final_state_->set_accepting(true);
-  states.push_back(init_state_);
-  states.push_back(final_state_);
+  accepting_state_->set_accepting(true);
 }
 
 LogicalVA::LogicalVA(uint code) {
   init_state_ = new_state();
   init_state_->set_initial(true);
 
-  final_state_ = new_state();
-  final_state_->set_accepting(true);
+  accepting_state_ = new_state();
+  accepting_state_->set_accepting(true);
 
-  init_state_->add_filter(code, final_state_);
+  init_state_->add_filter(code, accepting_state_);
 }
 
 LogicalVA::LogicalVA(const LogicalVA &A)
@@ -45,7 +44,7 @@ LogicalVA::LogicalVA(const LogicalVA &A)
   std::unordered_map<State*, State*> new_states;
 
   // Prepare states vectors
-  states.reserve(A.states.size());
+  states.reserve(states.size());
   // Iterative Search using stack for cleanliness in function definitions,
   std::vector<std::pair<State*, State*>> stack;
 
@@ -64,10 +63,14 @@ LogicalVA::LogicalVA(const LogicalVA &A)
       q_new->add_filter(filt->code, new_states[filt->next]);
     for(auto& cap: q_old->captures)
       q_new->add_capture(cap->code, new_states[cap->next]);
+    for(auto& eps: q_old->epsilons)
+      q_new->add_epsilon(new_states[eps->next]);
   }
 
+
   init_state_ = new_states[A.init_state_];
-  final_state_ = new_states[A.final_state_];
+  accepting_state_ = new_states[A.accepting_state_];
+  has_epsilon_ = A.has_epsilon_;
 }
 
 void LogicalVA::set_factories(std::shared_ptr<VariableFactory> v,
@@ -76,9 +79,47 @@ void LogicalVA::set_factories(std::shared_ptr<VariableFactory> v,
   ffactory_ = f;
 }
 
+void LogicalVA::remove_captures() {
+  std::vector<State*> stack;
+  State *reached_state;
+
+  for(auto &state: states) {
+    for(auto &state2: states)
+      state2->tempMark = false;
+
+    stack.clear();
+
+    for(auto &capture: state->captures) {
+      stack.push_back(capture->next);
+      state->tempMark = false;
+    }
+
+    while(!stack.empty()) {
+      reached_state = stack.back();
+      stack.pop_back();
+
+      reached_state->tempMark = true;
+
+      if(!reached_state->filters.empty() || !reached_state->epsilons.empty() || reached_state->accepting())
+        state->add_epsilon(reached_state);
+
+      for(auto &capture: reached_state->captures) {
+        if(!capture->next->tempMark)
+          stack.push_back(capture->next);
+      }
+    }
+  }
+
+  for(auto &state: states)
+    state->captures.clear();
+}
+
 void LogicalVA::trim() {
   // We'll do a simple BFS from the initial and final states (using backwards
   // transitions), storing the states that are reached by both procedures
+
+  // ANCHOR : Delete this print
+  std::cout << "LogicalVA before trimming:\n" << *this << '\n';
 
   for(auto &p: states)
     p->visitedBy = 0;
@@ -113,12 +154,12 @@ void LogicalVA::trim() {
   }
 
   // Now start the search backwards from the final state.
-  queue.push_back(final_state_);
-  final_state_->visitedBy |= kUseful;
+  queue.push_back(accepting_state_);
+  accepting_state_->visitedBy |= kUseful;
 
   while(!queue.empty()) {
     State* p = queue.front(); queue.pop_front();
-    for(auto &f: p->incidentFilters) {
+    for(auto &f: p->backward_filters_) {
       if(!(f->from->visitedBy & kUseful)) {
         if(f->from->visitedBy & kReachable)
           trimmed_states.push_back(f->from);
@@ -126,7 +167,7 @@ void LogicalVA::trim() {
         queue.push_back(f->from);
       }
     }
-    for(auto &c: p->incident_captures_) {
+    for(auto &c: p->backward_captures_) {
       if(!(c->from->visitedBy & kUseful)) {
         if(c->from->visitedBy & kReachable)
           trimmed_states.push_back(c->from);
@@ -136,7 +177,7 @@ void LogicalVA::trim() {
     }
   }
 
-  trimmed_states.push_back(final_state_);
+  trimmed_states.push_back(accepting_state_);
 
   // Delete useless states
   for(auto *p: states) {
@@ -150,58 +191,51 @@ void LogicalVA::trim() {
 void LogicalVA::cat(LogicalVA &a2) {
   /* Concatenates an LogicalVA a2 to the current LogicalVA (inplace) */
 
-  // Connect transitions from a1.final_state to reached states of a2.init_state
-  for(auto &f: a2.init_state_->filters)
-    final_state_->add_filter(f->code, f->next);
-
-  for(auto &c: a2.init_state_->captures)
-    final_state_->add_capture(c->code, c->next);
+  // Adds eps transitions from final states to a2 init State
+  accepting_state_->add_epsilon(a2.init_state_);
+  accepting_state_->set_accepting(false);
 
   a2.init_state_->set_initial(false);
-  final_state_->set_accepting(false);
 
-  final_state_ = a2.final_state_;
-
-  // Add a2 states to state list
+  // Add a2 states to states list
   states.insert(states.end(), a2.states.begin(), a2.states.end());
 
-  has_epsilon_ = has_epsilon_ && a2.has_epsilon_;
+  // Set a2 final states as new final states
+  accepting_state_ = a2.accepting_state_;
+
+  has_epsilon_ = a2.has_epsilon_ && has_epsilon_;
 }
 
 void LogicalVA::alter(LogicalVA &a2) {
   /* Extends the LogicalVA so it can alternate between itself and an
      LogicalVA a2 */
 
-  for(auto &f: a2.init_state_->filters) {
-    if(!f->next->accepting())
-      init_state_->add_filter(f->code, f->next);
-    else
-      init_state_->add_filter(f->code, final_state_);
-  }
-  for(auto &c: a2.init_state_->captures) {
-    if(!c->next->accepting())
-      init_state_->add_capture(c->code, c->next);
-    else
-      init_state_->add_capture(c->code, final_state_);
-  }
+  // Creates a new init State and connects it to the old init and a2's init
+  State* new_init = new_state();
+  State* new_accept = new_state();
 
-  for(auto &f: a2.final_state_->incidentFilters) {
-    if(!f->from->initial()) // Prevent duplicated transitions
-      f->from->add_filter(f->code, final_state_);
-  }
+  new_init->set_initial(true);
+  new_accept->set_accepting(true);
 
-  for(auto &c: a2.final_state_->incident_captures_) {
-    if(!c->from->initial()) // Prevent duplicated transitions
-      c->from->add_capture(c->code, final_state_);
-  }
+  new_init->add_epsilon(init_state_);
+  new_init->add_epsilon(a2.init_state_);
 
+  accepting_state_->add_epsilon(new_accept);
+  a2.accepting_state_->add_epsilon(new_accept);
+
+  init_state_->set_initial(false);
   a2.init_state_->set_initial(false);
-  a2.final_state_->set_accepting(false);
+
+  accepting_state_->set_accepting(false);
+  a2.accepting_state_->set_accepting(false);
+
+  init_state_ = new_init;
+  accepting_state_ = new_accept;
 
   // Add a2 states to states list
   states.insert(states.end(), a2.states.begin(), a2.states.end());
 
-  has_epsilon_ = has_epsilon_ || a2.has_epsilon_;
+  has_epsilon_ = a2.has_epsilon_ || has_epsilon_;
 }
 
 void LogicalVA::kleene() {
@@ -210,23 +244,32 @@ void LogicalVA::kleene() {
 }
 
 void LogicalVA::strict_kleene() {
-  State* q = new_state();
+  /* Extends the LogicalVA for strict kleene closure (1 or more times) */
 
-  for(auto &f: init_state_->filters)
-    q->add_filter(f->code, f->next);
-  for(auto &c: init_state_->captures)
-    q->add_capture(c->code, c->next);
+  State* nstate = new_state();
 
-  for(auto &f: final_state_->incidentFilters) {
-    f->from->add_filter(f->code, q);
-    if(f->from->initial())
-      q->add_filter(f->code, q);
+  for(auto& filter:  accepting_state_->backward_filters_)  {
+    if(filter->from == init_state_)
+      nstate->add_filter(filter->code, nstate);
+    filter->from->add_filter(filter->code, nstate);
   }
-  for(auto &c: final_state_->incident_captures_)
-    c->from->add_capture(c->code, q);
+
+  for(auto& capture:  accepting_state_->backward_captures_)  {
+    if(capture->from == init_state_)
+      nstate->add_capture(capture->code, nstate);
+    capture->from->add_capture(capture->code, nstate);
+  }
+
+  for(auto& filter:  init_state_->filters)
+    nstate->add_filter(filter->code, filter->next);
+
+  for(auto& capture:  init_state_->captures)
+    nstate->add_capture(capture->code, capture->next);
+
 }
 
 void LogicalVA :: optional() {
+  /* Extends the LogicalVA for optional closure (0 or 1 time) */
   has_epsilon_ = true;
 }
 
@@ -234,25 +277,23 @@ void LogicalVA::assign(std::bitset<32> open_code, std::bitset<32> close_code) {
   /* Extends the LogicalVA so it can assign its pattern to a variable */
 
   // Create new states
-  State* openLVAState = new_state();
-  State* closeLVAState = new_state();
+  State* open_state = new_state();
+  State* close_state = new_state();
 
   // Connect new open State with init State
-  openLVAState->add_capture(open_code, init_state_);
+  open_state->add_capture(open_code, init_state_);
 
   init_state_->set_initial(false);
 
-  // Set open State as new init State
-  init_state_ = openLVAState;
-
+  init_state_ = open_state;
   init_state_->set_initial(true);
 
-  final_state_->add_capture(close_code, closeLVAState);
-  final_state_->set_accepting(false);
+  accepting_state_->add_capture(close_code, close_state);
 
-  final_state_ = closeLVAState;
+  accepting_state_->set_accepting(false);
 
-  final_state_->set_accepting(true);
+  accepting_state_ = close_state;
+  accepting_state_->set_accepting(true);
 }
 
 void LogicalVA::repeat(int min, int max) {
@@ -308,73 +349,82 @@ void LogicalVA::repeat(int min, int max) {
   //  std::cout << pprint() << "\n\n";
 }
 
-void LogicalVA::remove_captures() {
+void LogicalVA::remove_epsilon() {
+  for(auto &state: states)
+		state->visitedBy = -1;
+
   std::vector<State*> stack;
   stack.reserve(states.size());
 
-  for(auto &q: states)
-    q->visitedBy = 0;
+	for(auto &root_state: states) {
+		root_state->visitedBy = root_state->id;
 
-  for(auto &r: states) {
-    if(r->captures.empty() || (r->incidentFilters.empty() && !r->initial()))
-      continue;
+		stack.clear();
 
-    stack.clear();
+		for(auto &epsilon: root_state->epsilons) {
+			stack.push_back(epsilon->next);
+      epsilon->next->visitedBy = root_state->id;
+		}
 
-    r->visitedBy = r->id;
-    stack.push_back(r);
+		while(!stack.empty()) {
+			State* cstate = stack.back(); stack.pop_back();
 
-    while(!stack.empty()) {
-      State* p = stack.back(); stack.pop_back();
+      // If we reach the accepting state we'll do nothing, as from there
+      // backward epsilon removal is needed.
 
-      for(auto& capt: p->captures) {
-        State* q = capt->next;
-        if(q->visitedBy != r->id) {
-          q->visitedBy = r->id;
+			for(auto &capture: cstate->captures)
+				root_state->add_capture(capture->code, capture->next);
 
-          for(auto &filt: q->filters)
-            r->add_filter(filt->code, filt->next);
+			for(auto &filter: cstate->filters)
+				root_state->add_filter(filter->code, filter->next);
 
-          if(!q->captures.empty())
-            stack.push_back(q);
+			for(auto &epsilon: cstate->epsilons) {
+				if(epsilon->next->visitedBy != root_state->id) {
+          cstate->visitedBy = root_state->id;
+          stack.push_back(epsilon->next);
         }
+
+			}
+		} // end while
+	} // end for
+
+  // Backward epsilon removal from accepting state
+
+  stack.clear();
+
+  for(auto &state: states)
+		state->visitedBy = -1;
+
+  for(auto &epsilon: accepting_state_->backward_epsilons_) {
+    stack.push_back(epsilon->from);
+    epsilon->from->visitedBy = accepting_state_->id;
+  }
+
+  while(!stack.empty()) {
+    State* cstate = stack.back(); stack.pop_back();
+
+    for(auto &capture: cstate->backward_captures_)
+      capture->from->add_capture(capture->code, accepting_state_);
+
+    for(auto &filter: cstate->backward_filters_)
+      filter->from->add_filter(filter->code, accepting_state_);
+
+    for(auto &epsilon: cstate->backward_epsilons_) {
+      if(epsilon->from->visitedBy != accepting_state_->id) {
+        cstate->visitedBy = accepting_state_->id;
+        stack.push_back(epsilon->from);
       }
-    }
+		}
   }
 
-  // Do the same for the accepting state, but backwards
-  if(!final_state_->incident_captures_.empty()) {
-    stack.clear();
-    final_state_->visitedBy = final_state_->id;
-    stack.push_back(final_state_);
-
-    while(!stack.empty()) {
-      State* p = stack.back(); stack.pop_back();
-
-      for(auto& capt: p->incident_captures_) {
-        State* q = capt->from;
-        if(q->visitedBy != final_state_->id) {
-          q->visitedBy = final_state_->id;
-
-          for(auto &filt: q->incidentFilters)
-            filt->from->add_filter(filt->code, final_state_);
-
-          if(!q->incident_captures_.empty())
-            stack.push_back(q);
-        }
-      }
-    }
+  for(auto &state: states) {
+    state->epsilons.clear();
+    state->backward_epsilons_.clear();
   }
 
-  for(auto &p: states) {
-    p->captures.clear();
-    p->incident_captures_.clear();
-  }
-
-  trim();
 }
 
-std::string LogicalVA :: pprint() {
+std::ostream& operator<<(std::ostream& os, LogicalVA const &A) {
   /* Gives a codification for the LogicalVA that can be used to visualize it
      at https://puc-iic2223.github.io . Basically it uses Breath-First Search
      to get every labeled transition in the LogicalVA with the unique ids for
@@ -382,7 +432,6 @@ std::string LogicalVA :: pprint() {
 
 
   // Declarations
-  std::stringstream ss, cond;
   State *current;
   int cid, nid;  // cid: current State id; nid : next State id
   std::bitset<32> S;
@@ -393,11 +442,11 @@ std::string LogicalVA :: pprint() {
   std::unordered_set<unsigned int> visited;
 
   // Use of list to implement a FIFO queue
-  std::list<State*> queue;
+  std::deque<State*> queue;
 
   // Start on the init State
-  visited.insert(init_state_->id);
-  queue.push_back(init_state_);
+  visited.insert(A.init_state_->id);
+  queue.push_back(A.init_state_);
 
   // Start BFS
   while(!queue.empty()) {
@@ -405,23 +454,18 @@ std::string LogicalVA :: pprint() {
     queue.pop_front();
     cid = current->id;
 
-    if(current->flags() & State::kCaptureState)
-			capture_states.push_back(current->id);
-    if(current->flags() & State::kPreCaptureState)
-			pcapture_states.push_back(current->id);
-
     // For every epsilon transition
-    // for (auto &epsilon: current->epsilons) {
-    //   nid = epsilon->next->id;
+    for (auto &epsilon: current->epsilons) {
+      nid = epsilon->next->id;
 
-    //   ss << "t " << cid << " eps " << nid << '\n';
+      os << "t " << cid << " eps " << nid << '\n';
 
-    //   // If not visited enqueue and add to visited
-    //   if (visited.find(nid) == visited.end()) {
-    //     visited.insert(nid);
-    //     queue.push_back(epsilon->next);
-    //   }
-    // }
+      // If not visited enqueue and add to visited
+      if (visited.find(nid) == visited.end()) {
+        visited.insert(nid);
+        queue.push_back(epsilon->next);
+      }
+    }
 
     // For every capture transition
     for (auto &capture: current->captures) {
@@ -429,7 +473,7 @@ std::string LogicalVA :: pprint() {
 
       nid = capture->next->id;
 
-      ss << "t " << cid << " " << vfactory_->print_varset(S) << " " << nid << '\n';
+      os << "t " << cid << " " << A.vfactory_->print_varset(S) << " " << nid << '\n';
 
       // If not visited enqueue and add to visited
       if (visited.find(nid) == visited.end()) {
@@ -443,9 +487,7 @@ std::string LogicalVA :: pprint() {
       nid = filter->next->id;
       S = filter->code;
 
-      // TODO: Get the correct transition name
-
-      ss << "t " << cid << ' ' << ffactory_->get_filter(filter->code) << ' ' << nid << '\n';
+      os << "t " << cid << ' ' << A.ffactory_->get_filter(filter->code) << ' ' << nid << '\n';
 
       // If not visited enqueue and add to visited
       if (visited.find(nid) == visited.end()) {
@@ -455,13 +497,12 @@ std::string LogicalVA :: pprint() {
     }
   }
 
-  // Code final states
-  ss << "f " << final_state_->id << '\n';
+  os << "f " << A.accepting_state_->id << '\n';
 
-  // Code initial State
-  ss << "i " << init_state_->id;
+  // Code initial Statefinal_states
+  os << "i " << A.init_state_->id;
 
-  return ss.str();
+  return os;
 }
 
 State* LogicalVA::new_state() {

@@ -11,32 +11,26 @@
 
 namespace rematch {
 
-// FIXME: Usar la normalizacion de Sakarovich para después de quitar e-transiciones
-// FIXME: 
-
 ExtendedVA::ExtendedVA(LogicalVA const &A)
 		:	variable_factory_(A.varFactory()),
 			filter_factory_(A.filterFactory())  {
 	// Copy the VA
 	LogicalVA A_prim(A);
 
-	// Trim the new automaton
-	A_prim.trim();
+	A_prim.remove_epsilon();
 
-	// Swap the VA's state graph for the EvauationVA
+	// Swap the VA's state graph for the EvaluationVA
 	states.swap(A_prim.states);
 	init_state_ = A_prim.initial_state();
 	accepting_state_ = A_prim.accepting_state();
+
+	trim();
 
 	#ifndef NOPT_OFFSET
 		offsetOpt();
 	#endif
 
 	captureClosure();
-
-	cleanUselessCaptureStates();
-
-	cleanUselessCaptureTransitions();
 
   #ifndef NOPT_CROSSPROD
 	  crossProdOpt();
@@ -48,7 +42,6 @@ ExtendedVA::ExtendedVA(LogicalVA const &A)
 void ExtendedVA::addCapture(State* state, std::bitset<32> bs, State* next) {
 	state->add_capture(bs, next);
 }
-
 
 size_t ExtendedVA::size() const {
 	return states.size();
@@ -96,7 +89,7 @@ void ExtendedVA::trim() {
 
   while(!queue.empty()) {
     State* p = queue.front(); queue.pop_front();
-    for(auto &f: p->incidentFilters) {
+    for(auto &f: p->backward_filters_) {
       if(!(f->from->visitedBy & kUseful)) {
         if(f->from->visitedBy & kReachable)
           trimmed_states.push_back(f->from);
@@ -104,7 +97,7 @@ void ExtendedVA::trim() {
         queue.push_back(f->from);
       }
     }
-    for(auto &c: p->incident_captures_) {
+    for(auto &c: p->backward_captures_) {
       if(!(c->from->visitedBy & kUseful)) {
         if(c->from->visitedBy & kReachable)
           trimmed_states.push_back(c->from);
@@ -125,7 +118,7 @@ void ExtendedVA::trim() {
   states.swap(trimmed_states);
 }
 
-void ExtendedVA :: captureClosure() {
+void ExtendedVA::captureClosure() {
 	/* Using the modified inverse topological order of the automaton capture states
 	computes the capture closure of it */
 
@@ -151,22 +144,25 @@ void ExtendedVA :: captureClosure() {
 		}
 	} // while(!topOrder.empty())
 
+	cleanUselessCaptureStates();
+	cleanUselessCaptureTransitions();
+
 }
 
-void ExtendedVA :: cleanUselessCaptureStates() {
+void ExtendedVA::cleanUselessCaptureStates() {
 
 	bool isUselessCaptureState;
 	// Iterate through every state in the automaton
 	for(auto state=states.begin(); state != states.end(); ) {
 
-		isUselessCaptureState = ((*state)->incidentFilters.empty() &&
+		isUselessCaptureState = ((*state)->backward_filters_.empty() &&
 														(*state)->filters.empty() &&
 														!(*state)->accepting() &&
 														!(*state)->initial());
 
 		if(isUselessCaptureState) {
 			// Remove the incident capture transitions on previous states
-			for(auto &capture: (*state)->incident_captures_) {
+			for(auto &capture: (*state)->backward_captures_) {
 				for(auto it=capture->from->captures.begin(); it != capture->from->captures.end(); ) {
 					if(capture->from == (*it)->from && capture->next == (*it)->next)
 						it = capture->from->captures.erase(it);
@@ -183,14 +179,14 @@ void ExtendedVA :: cleanUselessCaptureStates() {
 	}
 }
 
-void ExtendedVA :: cleanUselessCaptureTransitions() {
+void ExtendedVA::cleanUselessCaptureTransitions() {
 	for(auto &state: states) {
-		if(state->incidentFilters.empty() && !state->incident_captures_.empty()) {
+		if(state->backward_filters_.empty() && !state->backward_captures_.empty()) {
 			state->captures.clear();
 		}
 		for(auto capture = state->captures.begin(); capture != state->captures.end();) {
 			if((*capture)->next->filters.empty() && !(*capture)->next->accepting()) {
-				(*capture)->next->incident_captures_.remove(*capture);
+				(*capture)->next->backward_captures_.remove(*capture);
 				capture = state->captures.erase(capture);
 			} else {
 				capture++;
@@ -198,6 +194,11 @@ void ExtendedVA :: cleanUselessCaptureTransitions() {
 		}
 	}
 }
+
+//---------------------------------------------------------------------//
+//---------------------------- OFFSET OPTS ----------------------------//
+//---------------------------------------------------------------------//
+
 
 void ExtendedVA::offsetOpt() {
 	// Vector of lists of capture transitions with the same code
@@ -235,7 +236,7 @@ void ExtendedVA::computeOffset(CaptureList &captureList, int codeIndex) {
 				State* q_prim = new State();
 				states.push_back(q_prim);
 
-				filter->next->incidentFilters.remove(filter);
+				filter->next->backward_filters_.remove(filter);
 				filter->next = q_prim;
 
 				// Current picture:
@@ -257,13 +258,13 @@ void ExtendedVA::computeOffset(CaptureList &captureList, int codeIndex) {
 				// (p) --[capture]--> (q) ---[filter]---> (q') --[capture]--> (r)
 				//  ᴸ--------------[filter]----------------^
 
-				if(q->incidentFilters.empty())
-					r->incidentFilters.remove(filter);
+				if(q->backward_filters_.empty())
+					r->backward_filters_.remove(filter);
 			}
 
 			p->captures.remove(capture);
-			q->incident_captures_.remove(capture);
-			if(q->incident_captures_.empty())
+			q->backward_captures_.remove(capture);
+			if(q->backward_captures_.empty())
 				q->flags_ &= ~State::kCaptureState;
 
 			// Current picture:
@@ -323,7 +324,7 @@ bool ExtendedVA::offsetPossible(CapturePtr capture) {
 		return false;
 	if(q->filters.size() == 0 || q->captures.size() > 0)
 		return false;
-	if(q->incident_captures_.size() != 1)
+	if(q->backward_captures_.size() != 1)
 		return false;
 	for(auto &filter: q->filters) {
 		if(isReachable(filter->next, q))
@@ -464,7 +465,7 @@ std::queue<State*> ExtendedVA :: invTopologicalSort() {
 	return *Q;
 }
 
-void ExtendedVA :: invTopologicalSortUtil(State *state, std::queue<State*> *Q) {
+void ExtendedVA::invTopologicalSortUtil(State *state, std::queue<State*> *Q) {
 	state->tempMark = true;
 
 	if(state->captures.empty()) return; // Not interested if no captures present
@@ -478,7 +479,7 @@ void ExtendedVA :: invTopologicalSortUtil(State *state, std::queue<State*> *Q) {
 	Q->push(state);
 }
 
-void ExtendedVA :: relabelStates() {
+void ExtendedVA::relabelStates() {
 	for(auto &state: states) {
 		state->tempMark = false;
 	}
@@ -488,7 +489,7 @@ void ExtendedVA :: relabelStates() {
 	utilRelabelStates(init_state_);
 }
 
-void ExtendedVA :: utilRelabelStates(State *state) {
+void ExtendedVA::utilRelabelStates(State *state) {
 	state->tempMark = true;
 	state->id = currentID;
 	idMap[state->id] = state;

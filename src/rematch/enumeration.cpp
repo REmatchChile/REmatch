@@ -14,7 +14,7 @@
 namespace rematch {
 
 Enumerator::Enumerator(RegEx &rgx)
-    : var_factory_(rgx.detManager().varFactory()),
+    : var_factory_(rgx.vfactory()),
       nmappings_(0),
       current_mapping_(var_factory_->size() * 2, -1) {}
 

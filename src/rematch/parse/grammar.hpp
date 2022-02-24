@@ -10,8 +10,8 @@
 
 #include <boost/config/warning_disable.hpp>
 #include <boost/spirit/include/qi.hpp>
-#include <boost/spirit/include/phoenix_operator.hpp>
-#include <boost/spirit/include/phoenix_object.hpp>
+#include <boost/phoenix/operator.hpp>
+#include <boost/phoenix/object.hpp>
 
 #include "ast.hpp"
 
@@ -78,7 +78,7 @@ struct parser : qi::grammar<It, ast::altern()> {
 
     assign_ =   '!' >> var_  >> '{' >> altern_ >> '}';
 
-    atom_ =  charset_ | assert_ | special_ | symb_ ;
+    atom_ =  charset_ | special_ | symb_ ;
 
     assert_ = lit('^')[_val = ast::assertion(AssertionCode::kStartAnchor)] |
               lit('$')[_val = ast::assertion(AssertionCode::kEndAnchor)] |

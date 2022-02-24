@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
 		opts.set_output_option(rematch::SUBMATCHES);
 
 	if(rgxpath.size())
-		rgx = file2str(rgxpath);
+		rgx = rematch::util::file2str(rgxpath);
 
 	#ifndef BENCHMARK_MODE
 	if(docpath.size()) {
@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
 	}
 	#else
 	if(docpath.size()) {
-		doc = file2str(docpath);
+		doc = rematch::util::file2str(docpath);
 	}
 	#endif
 

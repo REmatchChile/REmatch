@@ -85,10 +85,6 @@ lva_ptr regex2LVA::operator()(ast::special const &s) const {
 	return std::make_unique<LogicalVA>(code);
 }
 
-lva_ptr regex2LVA::operator()(ast::assertion const &a) const {
-	// TODO
-}
-
 
 } // end namespace visitors
 } // end namespace rematch

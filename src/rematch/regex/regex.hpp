@@ -8,8 +8,9 @@
 #include "memmanager.hpp"
 #include "enumeration.hpp"
 
-#include "det/detmanager.hpp"
 #include "automata/nfa/eva.hpp"
+#include "automata/nfa/sva.hpp"
+
 #include "automata/dfa/dfa.hpp"
 #include "regex/regex_options.hpp"
 #include "automata/nfa/lva.hpp"
@@ -19,6 +20,12 @@
 namespace rematch {
 
 class Evaluator;
+
+enum class Anchor {
+  kUnanchored = 0,
+  kAnchorStart,
+  kAnchorBoth
+};
 
 class RegEx {
 
@@ -42,55 +49,32 @@ class RegEx {
     kSaveAnchors = 1<<4
   };
 
-  enum Anchor {
-    UNANCHORED,
-    ANCHOR_START,
-    ANCHOR_BOTH
-  };
-
   // Calls the evaluator to get first
   Match_ptr find(const std::string &text);
 
-  MatchIterator findIter(std::shared_ptr<Document> d);
+  MatchIterator findIter(std::shared_ptr<Document> d, Anchor a = Anchor::kUnanchored);
 
-  int varCount() const {return dman_->varFactory()->size();}
+  int varCount() const {return vfactory_->size();}
 
   // Getters
 
   const std::string pattern() const {return pattern_;}
+  std::shared_ptr<VariableFactory> vfactory() { return vfactory_;}
 
-  // Detmanager stuff.
+  const SearchVA& searchVA() const { return *sVA_; }
+  const ExtendedVA& evalVA() const { return *eVA_; }
 
-  DetManager& detManager() {return *dman_;};
-  DetManager& rawDetManager() {return *raw_dman_;};
-
-
-  size_t capture_counter() const;
-  size_t reading_counter() const;
-  size_t direct_counter() const;
-  size_t single_counter() const;
-  size_t direct_single_counter() const;
-  size_t direct_multi_counter() const;
-  size_t multi_counter() const;
-  size_t empty_counter() const;
-  size_t det_counter() const;
-  size_t miss_counter();
-
-  size_t dfa_counter();
-  size_t nfa_counter();
-  size_t mdfa_counter();
-
-  private:
+ private:
 
   static flags_t parseFlags(RegExOptions rgx_opt);
 
   const std::string pattern_;
 
-  // DetManager for capture automaton.
-  std::unique_ptr<DetManager> dman_;
+  std::unique_ptr<ExtendedVA> eVA_;
 
-  // DetManager for raw automaton.
-  std::unique_ptr<DetManager> raw_dman_;
+  std::unique_ptr<SearchVA> sVA_;
+
+  std::shared_ptr<VariableFactory> vfactory_;
 
   // Regex flags.
   flags_t flags_;

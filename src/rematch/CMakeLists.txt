@@ -11,6 +11,7 @@ file(GLOB_RECURSE glob_srcs
   ${CMAKE_CURRENT_SOURCE_DIR}/parser_automata/*.[ch]pp
   ${CMAKE_CURRENT_SOURCE_DIR}/regex/*.[ch]pp
   ${CMAKE_CURRENT_SOURCE_DIR}/evaluation/*.[ch]pp
+  ${CMAKE_CURRENT_SOURCE_DIR}/util/*.[ch]pp
 )
 
 set(sources ${fix_srcs} ${glob_srcs})

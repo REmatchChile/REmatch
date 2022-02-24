@@ -1,6 +1,6 @@
 #include "matchiterator.hpp"
 
-#include "evaluation/normal_evaluator.hpp"
+#include "evaluation/evaluator.hpp"
 #include "match.hpp"
 
 namespace rematch {

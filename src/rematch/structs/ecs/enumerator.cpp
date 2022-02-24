@@ -15,7 +15,7 @@ namespace rematch {
 namespace internal {
 
 Enumerator::Enumerator(RegEx &r)
-      : var_factory_(r.detManager().varFactory()),
+      : var_factory_(r.vfactory()),
         current_mapping_(var_factory_->size() * 2, -1) {}
 
 Match_ptr Enumerator::next() {

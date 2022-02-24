@@ -8,6 +8,7 @@
 #include "automata/nfa/eva.hpp"
 #include "regex/regex.hpp"
 #include "match.hpp"
+#include "util/util.hpp"
 
 #include <sstream>
 #include <istream>
@@ -107,26 +108,12 @@ std::set<std::string> flatten_set(std::set<std::set<std::string>> cont) {
     }
     return outp;
 }
-
-std::string file2str(std::string filename) {
-	std::ifstream in(filename, std::ios::in | std::ios::binary);
-	if (in) {
-		std::string contents;
-		in.seekg(0, in.end);
-		contents.resize(in.tellg());
-		in.seekg(0, in.beg);
-		in.read(&contents[0], contents.size());
-		in.close();
-		return contents;
-	}
-	throw std::runtime_error("Error loading file");
-}
 /*
     MAIN TEST FUNCTION
 */
 
 void check_spanners(rematch::RegEx &rgx, std::string document_file, std::string spanners_file) {
-    std::string doc(file2str(document_file));
+    std::string doc(rematch::util::file2str(document_file));
     std::ifstream doc_ifstream(document_file);
     std::ifstream spanner_ifstream(spanners_file);
 	std::stringstream output_sstream;

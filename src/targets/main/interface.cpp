@@ -14,7 +14,7 @@
 #include "regex/regex.hpp"
 #include "regex/regex_options.hpp"
 #include "matchiterator.hpp"
-#include "evaluation/normal_evaluator.hpp"
+#include "evaluation/evaluator.hpp"
 
 Interface::Interface(std::string &docstr, const std::string &pattern,
 					 					 rematch::Options opt)
@@ -96,9 +96,9 @@ void Interface::benchmark_run() {
 	// numOfCaptures = regex.capture_counter();
 	// numOfReadings = regex.reading_counter();
 
-	detSize = regex.dfa_counter();
-	nfaSize = regex.nfa_counter();
-	mdfaSize = regex.mdfa_counter();
+	detSize = 0;
+	nfaSize = 0;
+	mdfaSize = 0;
 
 
 	// std::cout << "\nRaw DFA:\n" <<  regex.detManager().DFA().pprint() << '\n';
@@ -167,18 +167,4 @@ std::string Interface::pwc(size_t value) {
 			insertPosition-=3;
 	}
 	return numWithCommas;
-}
-
-std::string Interface::file2str(std::string filename) {
-	std::ifstream in(filename, std::ios::in | std::ios::binary);
-	if (in) {
-		std::string contents;
-		in.seekg(0, in.end);
-		contents.resize(in.tellg());
-		in.seekg(0, in.beg);
-		in.read(&contents[0], contents.size());
-		in.close();
-		return contents;
-	}
-	throw std::runtime_error("Error loading file");
 }

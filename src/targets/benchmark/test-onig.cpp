@@ -90,8 +90,8 @@ int main(int argc, char* argv[]) {
 
   std::string doc, rgx;
 
-  rgx = file2str(argv[2]);
-	doc = file2str(argv[1]);
+  rgx = rematch::util::file2str(argv[2]);
+	doc = rematch::util::file2str(argv[1]);
 
   exec(ONIG_ENCODING_UTF8, ONIG_OPTION_NONE, ONIG_OPTION_NONE,
        rgx.c_str(), doc.c_str());

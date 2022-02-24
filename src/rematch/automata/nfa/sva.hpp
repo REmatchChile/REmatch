@@ -21,6 +21,8 @@ class SearchVA {
 
   bool has_epsilon() const;
 
+  size_t size() const { return states_.size(); }
+
   std::shared_ptr<FilterFactory> filter_factory() const { return ffactory_; }
   std::shared_ptr<VariableFactory> variable_factory() const { return vfactory_; }
 

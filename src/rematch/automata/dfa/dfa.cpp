@@ -24,7 +24,19 @@ DFA::DFA(ExtendedVA const &A)
       eVA_(A),
       variable_factory_(A.varFactory()),
       ffactory_(A.filterFactory()) {
-   states.push_back(init_state_);
+  states.push_back(init_state_);
+  std::set<State*> new_subset;
+	new_subset.insert(eVA_.initState());
+
+	SetState* ss = new SetState(eVA_, new_subset);
+	DetState *q = initState();
+	q->setSubset(ss);
+
+	dstates_table_[ss->bitstring] = q;
+
+	if(q->isFinal) {
+		finalStates.push_back(q);
+	}
 }
 
 Transition* DFA::next_transition(DetState *q, char a) {
@@ -118,6 +130,42 @@ void DFA::computeCaptures(DetState* p, DetState* q, char a) {
 
 		p->add_capture(a, el.first, r);
 	}
+}
+
+DetState* DFA::compute_drop_super_finals(DetState *q) {
+
+	std::set<State*> newSubset;  // Store the next subset
+	BitsetWrapper subsetBitset(eVA_.size());  // Subset bitset representation
+
+	for(auto &state: q->ss->subset) {
+		if (!state->super_final()){
+			newSubset.insert(state);
+			subsetBitset.set(state->id, true);
+		}
+	}
+
+	auto found = dstates_table_.find(subsetBitset);
+
+	DetState* nq;
+
+	if(found == dstates_table_.end()) { // Check if already stored subset
+		SetState* ss = new SetState(eVA_, newSubset);
+		nq = new DetState(ss);
+
+		dstates_table_[ss->bitstring] = nq;
+
+		states.push_back(nq);
+
+		if(nq->isFinal) {
+			finalStates.push_back(nq);
+		}
+	} else {
+		nq = found->second;
+	}
+
+	q->set_drop_super_finals(nq);
+
+	return nq;
 }
 
 

@@ -7,6 +7,7 @@
 #include <memory>
 
 #include "structs/ecs/ecs.hpp"
+#include "automata/dfa/transition.hpp"
 
 namespace rematch {
 
@@ -15,19 +16,33 @@ class State;
 class DState {
  public:
 
+  enum StateFlags {
+    kDefaultState    =  0,
+    kAcceptingState  =  1,
+    kInitialState    =  kAcceptingState << 1,
+    kLeftAntiAnchor  =  kInitialState  << 1
+  };
+
   DState(size_t tot_states);
+  DState(size_t tot_states, std::vector<State*> states);
 
   void add_state(State* p);
 
-  void add_capture(char a, std::bitset<32> S, DState* s);
   void add_direct(char a, DState* s);
   void add_empty(char a, DState* s);
 
 
   std::vector<bool> bitmap() const { return states_bitmap_; }
 
-  long visited;
-  internal::ECS::Node* current_node_;
+  // @brief Returns the subset of associated NFA states.
+  // @return std::vector<State*> Subset of NFA states
+  std::vector<State*> subset() const { return states_subset_; }
+
+  bool empty_subset() const { return states_subset_.empty(); }
+
+  bool accepting() const { return  flags_ & kAcceptingState; }
+
+  Transition* next_transition(char a) const { return transitions_[a].get(); }
 
  private:
 
@@ -39,6 +54,8 @@ class DState {
 
   std::vector<bool> states_bitmap_;
   std::vector<State*> states_subset_;
+
+  uint8_t flags_ = kDefaultState;
 
 }; // end class DState
 

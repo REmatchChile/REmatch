@@ -1,22 +1,35 @@
-#ifndef AUTOMATA_MACRODFA
-#define AUTOMATA_MACRODFA
+#ifndef SRC_REMATCH_AUTOMATA_MACRODFA_MACRODFA_HPP
+#define SRC_REMATCH_AUTOMATA_MACRODFA_MACRODFA_HPP
 
 #include <vector>
 #include <functional>
 #include <memory>
 
 #include "automata/macrodfa/macrostate.hpp"
+#include "automata/dfa/dfa.hpp"                     // For DFA reference
+#include "util/util.hpp"                            // For VectorHasher
 
 namespace rematch {
 
 class MacroDFA {
  public:
-  MacroDFA() = default;
+  using MacroStatesTable = std::unordered_map<std::vector<size_t>, MacroState*,
+																							                    util::VectorHasher>;
+  MacroDFA(DFA& dA);
 
+  // @brief Add a state to the set of states of the macro-automaton. Returning
+  // the new macro-state.
+  //
+  // @param state a deterministic state.
+  // @return MacroState* The new macro-state.
   MacroState* add_state(DetState *state);
   MacroState* add_state(std::vector<DetState*> states);
 
   void set_as_init(MacroState *ms);
+
+  MacroTransition* next_transition(MacroState *ms, char a);
+
+  MacroState* compute_drop_super_finals(MacroState *ms);
 
   MacroState& get_init_state();
 
@@ -25,9 +38,14 @@ class MacroDFA {
  private:
   MacroState *init_state_; // Raw ptr
   std::vector<std::shared_ptr<MacroState>> states_;
+
+  DFA& dfa_;                              // DFA reference
+
+  MacroStatesTable mstates_table_;        // Determinization index table
+
   // std::vector<std::shared_ptr<MacroState>> final_states_;
 }; // end class MacroDFA
 
 } // end namespace rematch
 
-#endif // AUTOMATA_MACRODFA
+#endif // SRC_REMATCH_AUTOMATA_MACRODFA_MACRODFA_HPP
