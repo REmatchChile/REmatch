@@ -90,7 +90,7 @@ class FilterFactory {
 
 	std::string pprint();
 
-	std::unordered_map<BitsetWrapper, std::vector<char>> allPossibleCharBitsets();
+	std::unordered_map<std::vector<bool>, std::vector<char>> allPossibleCharBitsets();
 
 	bool inIntersection(char a, BitsetWrapper charBitset);
 
@@ -110,7 +110,7 @@ class FilterFactory {
 	// Merges the Factory with another one inplace.
 	void merge(FilterFactory &rest);
 
-	BitsetWrapper applyFilters(char a);
+	std::vector<bool> applyFilters(char a);
 
  private:
 	// Size always starts at 1, this is because we reserve the code 0 for a
@@ -120,7 +120,7 @@ class FilterFactory {
 	std::unordered_map<CharClassBuilder, int> code_map_;
 	std::unordered_map<int, CharClassBuilder> filter_map_;
 	// Char (document-readed) -> Bitset hash table
-	std::unordered_map<char, BitsetWrapper> bitsetMap;
+	std::unordered_map<char, std::vector<bool>> bitsetMap;
 };
 
 } // end namespace rematch

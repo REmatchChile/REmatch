@@ -21,12 +21,6 @@ namespace rematch {
 
 class Evaluator;
 
-enum class Anchor {
-  kUnanchored = 0,
-  kAnchorStart,
-  kAnchorBoth
-};
-
 class RegEx {
 
  public:

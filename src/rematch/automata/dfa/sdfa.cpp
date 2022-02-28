@@ -6,8 +6,9 @@
 
 namespace rematch {
 
-SearchDFA::SearchDFA(SearchVA const &A)
-    : has_epsilon_(A.has_epsilon()),
+SearchDFA::SearchDFA(SearchVA const &A, Anchor a)
+    : anchor_(a),
+			has_epsilon_(A.has_epsilon()),
       sVA_(A),
       vfactory_(A.variable_factory()),
       ffactory_(A.filter_factory()) {
@@ -24,16 +25,22 @@ DState* SearchDFA::new_dstate() {
   return np;
 }
 
-Transition* SearchDFA::next_transition(DState *q, char a) {
+DState* SearchDFA::next_state(DState *q, char a) {
 
-	BitsetWrapper charBitset = ffactory_->applyFilters(a);
+	std::vector<bool> triggered_filters = ffactory_->applyFilters(a);
 
 	std::set<State*> newSubset;  // Store the next subset
 	std::vector<bool> subsetBitset(sVA_.size());  // Subset bitset representation
 
 	for(auto &state: q->subset()) {
+		// If unanchored search, always add a self-loop to the initial state.
+		if(anchor_ == Anchor::kUnanchored && state->initial()) {
+			newSubset.insert(state);
+			subsetBitset[state->id] = true;
+		}
+
 		for(auto &filter: state->filters) {
-			if(charBitset.get(filter->code) && !subsetBitset[filter->next->id]) {
+			if(triggered_filters[filter->code] && !subsetBitset[filter->next->id]) {
 				newSubset.insert(filter->next);
 				subsetBitset[filter->next->id] = true;
 			}
@@ -60,13 +67,9 @@ Transition* SearchDFA::next_transition(DState *q, char a) {
 		nq = found->second;
 	}
 
-	if(!nq->empty_subset()) {
-    q->add_direct(a, nq);
-	} else {
-		q->add_empty(a, nq);
-	}
+	q->add_transition(a, nq);
 
-	return q->next_transition(a);
+	return q->next_state(a);
 }
 
 } // end namespace rematch

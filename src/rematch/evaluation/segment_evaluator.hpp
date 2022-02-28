@@ -24,10 +24,10 @@
 
 namespace rematch {
 
-class EarlyOutputFilterEvaluatorNewV2 : public Evaluator {
+class SegmentEvaluator : public Evaluator {
 
  public:
-  EarlyOutputFilterEvaluatorNewV2(RegEx& rgx, std::shared_ptr<StrDocument> d, Anchor a);
+  SegmentEvaluator(RegEx& rgx, std::shared_ptr<StrDocument> d, Anchor a);
 
   virtual Match_ptr next();
 
@@ -66,11 +66,14 @@ class EarlyOutputFilterEvaluatorNewV2 : public Evaluator {
   std::vector<DetState*> current_states_;
   std::vector<DetState*> new_states_;
 
+  std::vector<DetState*> reached_final_states_;
+
   DState* current_dstate_;
 
   static const size_t kSizeMaxOutputBuffer = 100;
 
   uint64_t i_pos_ = 0;
+  uint64_t i_src_ = 0;
   uint64_t i_min_ = 0;
   uint64_t i_max_ = 0;
 

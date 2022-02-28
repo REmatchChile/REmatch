@@ -1,5 +1,5 @@
-#ifndef SRC_REMATCH_AUTOMATA_DFA_SDFA_HPP
-#define SRC_REMATCH_AUTOMATA_DFA_SDFA_HPP
+#ifndef AUTOMATA_DFA_SDFA_HPP
+#define AUTOMATA_DFA_SDFA_HPP
 
 #include <string>
 #include <vector>
@@ -11,6 +11,7 @@
 #include "automata/dfa/dstate.hpp"
 
 #include "automata/nfa/sva.hpp"
+#include "regex/regex_options.hpp"
 
 namespace rematch {
 
@@ -28,7 +29,7 @@ class SearchDFA {
 
   std::vector<std::string> varNames;
 
-  SearchDFA(SearchVA const &A);
+  SearchDFA(SearchVA const &A, Anchor a = Anchor::kAnchorBoth);
 
   //  ---  Getters  ---  //
 
@@ -44,11 +45,13 @@ class SearchDFA {
 
   // ---  Determinization  ---  //
 
-  Transition* next_transition(DState* q, char a);
+  DState* next_state(DState* q, char a);
 
  private:
 
   DState* new_dstate();
+
+  Anchor anchor_;
 
   // The starting state of the dfa
   DState* initial_state_;
@@ -66,4 +69,4 @@ class SearchDFA {
 
 } // end namespace rematch
 
-#endif // SRC_REMATCH_AUTOMATA_DFA_SDFA_HPP
+#endif // AUTOMATA_DFA_SDFA_HPP

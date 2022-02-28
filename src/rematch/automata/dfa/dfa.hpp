@@ -8,6 +8,7 @@
 #include <unordered_map>
 
 #include "automata/dfa/transition.hpp"
+#include "regex/regex_options.hpp"
 
 namespace rematch {
 
@@ -26,7 +27,7 @@ class DFA {
 
   std::vector<std::string> varNames;
 
-  DFA(ExtendedVA const &A);
+  DFA(ExtendedVA const &A, Anchor a = Anchor::kAnchorBoth);
 
   // Getter for init state
   DetState* initState() {return init_state_;};
@@ -47,6 +48,8 @@ class DFA {
  private:
   // Utility to print a transition
   void print_transition(std::ostream& os, DetState* from, char a, DetState* to, std::bitset<32> S);
+
+  Anchor anchor_;
 
   // The starting state of the dfa
   DetState* init_state_;

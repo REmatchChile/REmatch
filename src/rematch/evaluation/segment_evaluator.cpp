@@ -1,4 +1,4 @@
-#include "eofilter_evaluator_new_v2.hpp"
+#include "segment_evaluator.hpp"
 
 #include "automata/dfa/detstate.hpp"
 #include "memmanager.hpp"
@@ -9,21 +9,21 @@
 
 namespace rematch {
 
-EarlyOutputFilterEvaluatorNewV2::EarlyOutputFilterEvaluatorNewV2(RegEx &rgx, std::shared_ptr<StrDocument> d, Anchor a)
+SegmentEvaluator::SegmentEvaluator(RegEx &rgx, std::shared_ptr<StrDocument> d, Anchor a)
     : rgx_(rgx),
       enumerator_(rgx_),
       text_(d),
       anchor_(a) {
 
-  dfa_ = std::make_unique<DFA>(rgx_.evalVA());
-  sdfa_ = std::make_unique<SearchDFA>(rgx_.searchVA());
+  dfa_ = std::make_unique<DFA>(rgx_.evalVA(), anchor_);
+  sdfa_ = std::make_unique<SearchDFA>(rgx_.searchVA(), anchor_);
 
   current_dstate_ = sdfa_->initial_state();
   // Initialize evaluation for position 0
   init_evaluation_phase(0);
 }
 
-Match_ptr EarlyOutputFilterEvaluatorNewV2::next() {
+Match_ptr SegmentEvaluator::next() {
 
  Enumeration:
   if(enumerator_.has_next())
@@ -34,7 +34,7 @@ Match_ptr EarlyOutputFilterEvaluatorNewV2::next() {
     if( i_pos_ < i_min_ ) // Then we know that the current runs are useless
       init_evaluation_phase(i_min_);
     if(evaluation_phase()) { // Then there's output to enumerate
-      pass_current_outputs();
+      pass_outputs();
       goto Enumeration;
     }
   }
@@ -47,7 +47,7 @@ Match_ptr EarlyOutputFilterEvaluatorNewV2::next() {
   return nullptr;
 }
 
-void EarlyOutputFilterEvaluatorNewV2::init_evaluation_phase(int64_t pos) {
+void SegmentEvaluator::init_evaluation_phase(int64_t pos) {
   dfa_->initState()->pass_node(ds_.bottom_node());
   current_states_.clear();
   current_states_.push_back(dfa_->initState());
@@ -56,7 +56,7 @@ void EarlyOutputFilterEvaluatorNewV2::init_evaluation_phase(int64_t pos) {
 }
 
 
-bool EarlyOutputFilterEvaluatorNewV2::evaluation_phase() {
+bool SegmentEvaluator::evaluation_phase() {
   while(i_pos_ < i_max_) {
     char a = (*text_)[i_pos_];
     a &= 0x7F;  // Only ASCII chars for now
@@ -65,63 +65,51 @@ bool EarlyOutputFilterEvaluatorNewV2::evaluation_phase() {
 
     ++i_pos_;
 
-    // if(!super_finals_.empty())
-    //   return true; // On-line output
+    if(!reached_final_states_.empty())
+      return true; // On-line output
   }
 
   return false;
 }
 
 
-void EarlyOutputFilterEvaluatorNewV2::init_searching_phase() { i_min_ = i_max_; }
+void SegmentEvaluator::init_searching_phase() { }
 
 
-bool EarlyOutputFilterEvaluatorNewV2::searching_phase() {
-  // uint64_t it = i_max_;
+bool SegmentEvaluator::searching_phase() {
 
-  // // .*a+.*
+  i_min_ = i_src_;
+  i_max_ = i_src_;
 
-  // // If init_state_->isSuperFinal
-  // if(current_dstate_->accepting()) {
-  //   i_max_ = text_->size();
-  //   return i_min_ < i_max_;
-  // }
+  for(; i_src_ < text_->size(); ++i_src_) {
 
-  // for(; it < text_->size(); ++it) {
+    char a = (char) (*text_)[i_src_] & 0x7F;
 
-  //   char a = (char) (*text_)[it] & 0x7F;
+    // nextState is reached from currentState by reading the character
+    DState* next_state = current_dstate_->next_state(a);
 
-  //   // nextState is reached from currentState by reading the character
-  //   auto nextTransition = current_dstate_->next_transition(a);
+    if(next_state == nullptr) // Then maybe a determinization is needed
+      next_state = sdfa_->next_state(current_dstate_, a);
 
-  //   if(nextTransition == nullptr) // Then maybe a determinization is needed
-  //     nextTransition = sdfa_->next_transition(current_dstate_, a);
+    current_dstate_ = next_state;
 
-  //   current_dstate_ = nextTransition->direct_;
+    if(current_dstate_->accepting())
+      i_max_ = i_src_;
 
-  //   if(current_dstate_->isOnlyInit) {
-  //     i_min_ = it + 1;
-  //   }
+    if((current_dstate_->initial() || i_src_ == text_->size()) && i_min_ < i_max_)
+      return true;
 
-  //   if(current_dstate_->isSuperFinal) {
-  //     i_max_ = it + 1;
-  //     DetState* ns = current_dstate_->drop_super_finals();
-  //     if(ns == nullptr)
-  //       ns = sdfa_->compute_drop_super_finals(current_dstate_);
-  //     current_dstate_ = ns;
-  //     return true;
-  //   }
-  // }
+    if(current_dstate_->initial())
+      i_min_ = i_src_;
+  }
 
-  // i_min_ = text_->size();
-
-  // return false;
+  i_min_ = text_->size();
 
   return false;
 }
 
 
-FORCE_INLINE void EarlyOutputFilterEvaluatorNewV2::reading(char a, int64_t pos) {
+FORCE_INLINE void SegmentEvaluator::reading(char a, int64_t pos) {
 
   new_states_.clear();
 
@@ -162,31 +150,21 @@ FORCE_INLINE void EarlyOutputFilterEvaluatorNewV2::reading(char a, int64_t pos) 
 }
 
 
-inline void EarlyOutputFilterEvaluatorNewV2::pass_outputs() {
-  for(auto &state: current_states_) {
-    if(state->isFinal) {
-      enumerator_.add_node(state->currentNode);
-      ds_.try_mark_unused(state->currentNode);
-      state->currentNode = nullptr;
-    }
+inline void SegmentEvaluator::pass_outputs() {
+  for(auto &state: reached_final_states_) {
+    enumerator_.add_node(state->currentNode);
+    ds_.try_mark_unused(state->currentNode);
+    state->currentNode = nullptr;
   }
+  reached_final_states_.clear();
 }
 
-inline void EarlyOutputFilterEvaluatorNewV2::pass_current_outputs() {
-  // for(auto &state: super_finals_) {
-  //   enumerator_.add_node(state->currentNode);
-  //   ds_.try_mark_unused(state->currentNode);
-  //   state->currentNode = nullptr;
-  // }
-  // super_finals_.clear();
-}
-
-inline void EarlyOutputFilterEvaluatorNewV2::visit_direct(DetState* from, DetState* to, int64_t pos) {
+inline void SegmentEvaluator::visit_direct(DetState* from, DetState* to, int64_t pos) {
   if(to->visited <= pos) {
     to->pass_node(from->currentNode);
     to->visited = pos+1;
-    // if(to->isSuperFinal) super_finals_.push_back(to);
-    // else new_states_.push_back(to);
+    if(to->isFinal) reached_final_states_.push_back(to);
+    else new_states_.push_back(to);
   } else {
     // Decrease the refcount, as the node at reached state won't be pointed by that
     // state anymore, only by the structure internally.
@@ -195,13 +173,13 @@ inline void EarlyOutputFilterEvaluatorNewV2::visit_direct(DetState* from, DetSta
   }
 }
 
-inline void EarlyOutputFilterEvaluatorNewV2::visit_capture(DetState* cs, Capture* c, int64_t pos) {
+inline void SegmentEvaluator::visit_capture(DetState* cs, Capture* c, int64_t pos) {
   DetState* to = c->next;
-  if(c->next->visited <= pos) {
+  if(to->visited <= pos) {
     to->pass_node(ds_.extend(cs->currentNode, c->S, pos+1));
-    c->next->visited = pos+1;
-    // if(c->next->isSuperFinal) super_finals_.push_back(c->next);
-    // else new_states_.push_back(c->next);
+    to->visited = pos+1;
+    if(to->isFinal) reached_final_states_.push_back(to);
+    else new_states_.push_back(to);
   } else {
     // Decrease the refcount, as the node at reached state won't be pointed by that
     // state anymore, only by the structure internally.

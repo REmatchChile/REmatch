@@ -56,9 +56,5 @@ void regex2filters::operator()(ast::special const &s) {
 	filter_factory_->add_filter(s); // Implicit conversion
 }
 
-void regex2filters::operator()(ast::assertion const &a) {
-	// TODO
-}
-
 } // end namespace visitors
 } // end namespace rematch

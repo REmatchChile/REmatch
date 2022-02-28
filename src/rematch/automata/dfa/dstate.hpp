@@ -1,5 +1,5 @@
-#ifndef SRC_REMATCH_AUTOMATA_DFA_DSTATE_HPP
-#define SRC_REMATCH_AUTOMATA_DFA_DSTATE_HPP
+#ifndef AUTOMATA_DFA_DSTATE_HPP
+#define AUTOMATA_DFA_DSTATE_HPP
 
 #include <array>
 #include <vector>
@@ -12,6 +12,7 @@
 namespace rematch {
 
 class State;
+class DState;
 
 class DState {
  public:
@@ -28,9 +29,7 @@ class DState {
 
   void add_state(State* p);
 
-  void add_direct(char a, DState* s);
-  void add_empty(char a, DState* s);
-
+  void add_transition(char a, DState* s);
 
   std::vector<bool> bitmap() const { return states_bitmap_; }
 
@@ -41,14 +40,15 @@ class DState {
   bool empty_subset() const { return states_subset_.empty(); }
 
   bool accepting() const { return  flags_ & kAcceptingState; }
+  bool initial() const { return flags_ & kInitialState; }
 
-  Transition* next_transition(char a) const { return transitions_[a].get(); }
+  DState* next_state(char a) const { return transitions_[a]; }
 
  private:
 
   uint id_;
 
-  std::array<std::unique_ptr<Transition>, 128> transitions_;
+  std::array<DState*, 128> transitions_;
 
   std::string label_;
 
@@ -62,4 +62,4 @@ class DState {
 } // end namespace rematch
 
 
-#endif // SRC_REMATCH_AUTOMATA_DFA_DSTATE_HPP
+#endif // AUTOMATA_DFA_DSTATE_HPP

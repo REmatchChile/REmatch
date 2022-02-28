@@ -1,7 +1,7 @@
 #include "regex.hpp"
 
 #include "parse/parser.hpp"
-// #include "evaluation/evaluator.hpp"
+#include "evaluation/evaluator.hpp"
 #include "automata/nfa/lva.hpp"
 #include "automata/nfa/sva.hpp"
 
@@ -22,30 +22,35 @@ RegEx::RegEx(const std::string &pattern, rematch::RegExOptions rgx_opts)
 // Explicitly declared here for correct use of unique_ptr later
 RegEx::~RegEx() {}
 
+// MatchIterator RegEx::findIter(std::shared_ptr<Document> d, Anchor a) {
+//   Evaluator* eval;
+//   std::shared_ptr<StrDocument> strd = std::static_pointer_cast<StrDocument>(d);
+//   eval = new SegmentEvaluator(*this, strd, a);
+//   return MatchIterator(eval);
+//   if (flags_ & kEarlyOutput) {
+//     if (flags_ & kLineByLine) {
+//       eval = new EarlyOutputLineEvaluator(*this, d);
+//     } else {
+//       // if(dman_->nfa().is_dfa_searchable()) {
+//         std::shared_ptr<StrDocument> strd = std::static_pointer_cast<StrDocument>(d);
+//         eval = new EarlyOutputFilterEvaluator(*this, strd);
+//       // } else {
+//       //   eval = new EarlyOutputEvaluator(*this, d);
+//       // }
+//     }
+//   } else {
+//     if (flags_ & kLineByLine) {
+//       eval = new LineEvaluator(*this, d);
+//     } else {
+//       eval = new NormalEvaluatorNew(*this, d);
+//     }
+//   }
+//   return MatchIterator(eval);
+// }
+
 MatchIterator RegEx::findIter(std::shared_ptr<Document> d, Anchor a) {
-  // Evaluator* eval;
-  // std::shared_ptr<StrDocument> strd = std::static_pointer_cast<StrDocument>(d);
-  // eval = new EarlyOutputFilterEvaluatorNewV2(*this, strd, a);
-  // return MatchIterator(eval);
-  // if (flags_ & kEarlyOutput) {
-  //   if (flags_ & kLineByLine) {
-  //     eval = new EarlyOutputLineEvaluator(*this, d);
-  //   } else {
-  //     // if(dman_->nfa().is_dfa_searchable()) {
-  //       std::shared_ptr<StrDocument> strd = std::static_pointer_cast<StrDocument>(d);
-  //       eval = new EarlyOutputFilterEvaluator(*this, strd);
-  //     // } else {
-  //     //   eval = new EarlyOutputEvaluator(*this, d);
-  //     // }
-  //   }
-  // } else {
-  //   if (flags_ & kLineByLine) {
-  //     eval = new LineEvaluator(*this, d);
-  //   } else {
-  //     eval = new NormalEvaluatorNew(*this, d);
-  //   }
-  // }
-  // return MatchIterator(eval);
+  std::shared_ptr<StrDocument> strd = std::static_pointer_cast<StrDocument>(d);
+  return MatchIterator(new SegmentEvaluator(*this, strd, a));
 }
 
 Match_ptr RegEx::find(const std::string &text) {

@@ -9,7 +9,7 @@ namespace rematch {
 DState::DState(size_t tot_states) : states_bitmap_(tot_states, false) {}
 
 DState::DState(size_t tot_states, std::vector<State*> states)
-    : states_bitmap_(tot_states, states.size()),
+    : states_bitmap_(tot_states, false),
       states_subset_(states) {
   for(auto &p: states_subset_) {
     states_bitmap_[p->id] = true;
@@ -27,6 +27,10 @@ void DState::add_state(State* p) {
     states_subset_.insert(lower, p);
     states_bitmap_[p->id] = true;
   }
+}
+
+void DState::add_transition(char a, DState* q) {
+  transitions_[a] = q;
 }
 
 } // end namespace rematch

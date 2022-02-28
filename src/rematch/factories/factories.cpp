@@ -196,10 +196,10 @@ void FilterFactory::merge(FilterFactory &rest) {
 	}
 }
 
-std::unordered_map<BitsetWrapper, std::vector<char>>  FilterFactory :: allPossibleCharBitsets() {
-	std::unordered_map<BitsetWrapper, std::vector<char>> ret;
+std::unordered_map<std::vector<bool>, std::vector<char>>  FilterFactory::allPossibleCharBitsets() {
+	std::unordered_map<std::vector<bool>, std::vector<char>> ret;
 	for(char a = (char)32; a < 127; a++) {
-    BitsetWrapper bs = applyFilters(a);
+    std::vector<bool> bs = applyFilters(a);
     auto it = ret.find(bs);
     if(it == ret.end())
       ret.insert(std::make_pair(bs, std::vector<char>(1, a)));
@@ -220,7 +220,7 @@ bool FilterFactory :: inIntersection(char a, BitsetWrapper bs) {
 }
 
 
-BitsetWrapper FilterFactory :: applyFilters(char a) {
+std::vector<bool> FilterFactory::applyFilters(char a) {
 	/**
 	* Returns the bitset vector corresponding to the character after applying
 	* all the filters. Searches in bitsetMap hash table. Computes and stores
@@ -243,9 +243,9 @@ BitsetWrapper FilterFactory :: applyFilters(char a) {
 	auto it = bitsetMap.find(a);
 
 	if(it == bitsetMap.end()) {
-		BitsetWrapper bitsetVector(size_);
+		std::vector<bool> bitsetVector(size_);
 		for(auto &it: filter_map_) {
-			bitsetVector.set(it.first, it.second.contains(a));
+			bitsetVector[it.first] =  it.second.contains(a);
 		}
 		bitsetMap.insert(std::make_pair(a, bitsetVector));
 

@@ -19,14 +19,15 @@
 
 namespace rematch {
 
-DFA::DFA(ExtendedVA const &A)
-    : init_state_(new DetState()),
+DFA::DFA(ExtendedVA const &A, Anchor a)
+    : anchor_(a),
+			init_state_(new DetState()),
       eVA_(A),
       variable_factory_(A.varFactory()),
       ffactory_(A.filterFactory()) {
   states.push_back(init_state_);
   std::set<State*> new_subset;
-	new_subset.insert(eVA_.initState());
+	new_subset.insert(eVA_.init_state());
 
 	SetState* ss = new SetState(eVA_, new_subset);
 	DetState *q = initState();
@@ -41,14 +42,22 @@ DFA::DFA(ExtendedVA const &A)
 
 Transition* DFA::next_transition(DetState *q, char a) {
 
-	BitsetWrapper charBitset = ffactory_->applyFilters(a);
+	std::vector<bool> charBitset = ffactory_->applyFilters(a);
 
 	std::set<State*> newSubset;  // Store the next subset
 	BitsetWrapper subsetBitset(eVA_.size());  // Subset bitset representation
 
 	for(auto &state: q->ss->subset) {
+
+		// If unanchored search, always add a self-loop for the initial and accepting
+		// states.
+		if(anchor_ == Anchor::kUnanchored && (state->accepting() || state->initial())) {
+			newSubset.insert(state);
+			subsetBitset.set(state->id, true);
+		}
+
 		for(auto &filter: state->filters) {
-			if(charBitset.get(filter->code) && !subsetBitset.get(filter->next->id)) {
+			if(charBitset[filter->code] && !subsetBitset.get(filter->next->id)) {
 				newSubset.insert(filter->next);
 				subsetBitset.set(filter->next->id, true);
 			}

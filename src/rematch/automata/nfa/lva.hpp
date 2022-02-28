@@ -1,5 +1,5 @@
-#ifndef SRC_REMATCH_AUTOMATA_NFA_LVA_HPP
-#define SRC_REMATCH_AUTOMATA_NFA_LVA_HPP
+#ifndef AUTOMATA_NFA_LVA_HPP
+#define AUTOMATA_NFA_LVA_HPP
 
 #include <string>
 #include <vector>
@@ -64,6 +64,8 @@ class LogicalVA {
   // Removes epsilon transitions.
   void remove_epsilon();
 
+  void relabel_states();
+
   std::shared_ptr<VariableFactory> varFactory() const {return vfactory_;}
   std::shared_ptr<FilterFactory> filterFactory() const {return ffactory_;}
 
@@ -90,4 +92,4 @@ class LogicalVA {
 
 } // end namespace rematch
 
-#endif // SRC_REMATCH_AUTOMATA_NFA_LVA_HPP
+#endif // AUTOMATA_NFA_LVA_HPP

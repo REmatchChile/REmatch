@@ -3,6 +3,13 @@
 
 namespace rematch {
 
+enum class Anchor {
+  kUnanchored = 0,
+  kAnchorStart,
+  kAnchorBoth
+};
+
+
 class RegExOptions {
  public:
   RegExOptions()

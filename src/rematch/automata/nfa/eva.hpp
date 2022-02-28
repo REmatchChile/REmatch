@@ -1,5 +1,5 @@
-#ifndef SRC_REMATCH_AUTOMATA_NFA_EVA_HPP
-#define SRC_REMATCH_AUTOMATA_NFA_EVA_HPP
+#ifndef AUTOMATA_NFA_EVA_HPP
+#define AUTOMATA_NFA_EVA_HPP
 
 #include <queue>
 #include <string>
@@ -36,9 +36,9 @@ class ExtendedVA {
 
 	// ~ExtendedVA();
 
-	State* initState() const {return init_state_;}
+	State* init_state() const { return init_state_; }
 
-	void set_initial(State* s) {init_state_ = s;}
+	void set_initial(State* s) { init_state_ = s; }
 
 	void set_accepting(State* s) { accepting_state_ = s; }
 
@@ -100,4 +100,4 @@ class ExtendedVA {
 
 } // end namespace rematch
 
-#endif // SRC_REMATCH_AUTOMATA_NFA_EVA_HPP
+#endif // AUTOMATA_NFA_EVA_HPP

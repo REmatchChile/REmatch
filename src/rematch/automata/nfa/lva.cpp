@@ -118,9 +118,6 @@ void LogicalVA::trim() {
   // We'll do a simple BFS from the initial and final states (using backwards
   // transitions), storing the states that are reached by both procedures
 
-  // ANCHOR : Delete this print
-  std::cout << "LogicalVA before trimming:\n" << *this << '\n';
-
   for(auto &p: states)
     p->visitedBy = 0;
 
@@ -422,6 +419,47 @@ void LogicalVA::remove_epsilon() {
     state->backward_epsilons_.clear();
   }
 
+}
+
+void LogicalVA::relabel_states() {
+  for(auto& state: states) {
+    state->tempMark = false;
+  }
+
+  std::deque<State*> stack;
+
+  int current_id = 0;
+
+  stack.push_back(init_state_);
+  init_state_->tempMark = true;
+
+  while(!stack.empty()) {
+    State* current = stack.back(); stack.pop_back();
+
+    current->id = current_id++;
+
+    for(auto &filt: current->filters) {
+      if(!filt->next->tempMark) {
+        stack.push_back(filt->next);
+        filt->next->tempMark = true;
+      }
+    }
+
+    for(auto &eps: current->epsilons) {
+      if(!eps->next->tempMark) {
+        stack.push_back(eps->next);
+        eps->next->tempMark = true;
+      }
+    }
+
+    for(auto &cap: current->captures) {
+      if(!cap->next->tempMark) {
+        stack.push_back(cap->next);
+        cap->next->tempMark = true;
+      }
+    }
+
+  }
 }
 
 std::ostream& operator<<(std::ostream& os, LogicalVA const &A) {
