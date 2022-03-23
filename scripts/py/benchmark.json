@@ -10,7 +10,7 @@
 	"template" : "1QMcMNan9QlRQ-vYCEW2vMy0bUyyweXKI8fREasefb7c",
 	"dataset" : "RKBExplorer",
 	"exp-subpath" : "exp/benchmark",
-	"description" : "SearchDFA - nodelists no empty check",
+	"description" : "Large refactor",
 	"homedir" : "/home/nicovsj/repos/research/REmatch-org/REmatch",
 	"nexp" : 20,
 	"cols" : ["D", "E", "F", "G"],
@@ -18,12 +18,7 @@
 	"binaries" : {
 		"REmatch" : {
 			"command" : "{0}/build/Release/bin/rematch",
-			"args" : "-l --mode=noutputs -d {0} -r {1}",
-			"rgx_type" : "rematch"
-		},
-		"REmatch-EO" : {
-			"command" : "{0}/build/Release/bin/rematch",
-			"args" : "-lc --mode=noutputs -d {0} -r {1}",
+			"args" : "--mode=noutputs -d {0} -r {1}",
 			"rgx_type" : "rematch"
 		},
 		"re2" : {

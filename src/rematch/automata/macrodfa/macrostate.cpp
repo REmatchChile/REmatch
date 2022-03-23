@@ -23,14 +23,6 @@ std::vector<DetState*>& MacroState::states() {
   return states_;
 }
 
-bool MacroState::is_super_final() const {
-  for(auto &state: states_) {
-    if(state->isSuperFinal)
-      return true;
-  }
-  return false;
-}
-
 // void MacroState::remove_super_finals() {
 //   for(auto it=states_.begin(); it != states_.end();) {
 //     (*it)->remove_superfinals();

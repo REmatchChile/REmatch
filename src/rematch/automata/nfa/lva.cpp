@@ -110,8 +110,10 @@ void LogicalVA::remove_captures() {
     }
   }
 
-  for(auto &state: states)
+  for(auto &state: states) {
     state->captures.clear();
+    state->backward_captures_.clear();
+  }
 }
 
 void LogicalVA::trim() {
@@ -243,6 +245,7 @@ void LogicalVA::kleene() {
 void LogicalVA::strict_kleene() {
   /* Extends the LogicalVA for strict kleene closure (1 or more times) */
 
+
   State* nstate = new_state();
 
   for(auto& filter:  accepting_state_->backward_filters_)  {
@@ -257,11 +260,18 @@ void LogicalVA::strict_kleene() {
     capture->from->add_capture(capture->code, nstate);
   }
 
+  for(auto& epsilon:  accepting_state_->backward_epsilons_)  {
+    epsilon->from->add_epsilon(nstate);
+  }
+
   for(auto& filter:  init_state_->filters)
     nstate->add_filter(filter->code, filter->next);
 
   for(auto& capture:  init_state_->captures)
     nstate->add_capture(capture->code, capture->next);
+
+  for(auto& epsilon:  init_state_->epsilons)
+    nstate->add_epsilon(epsilon->next);
 
 }
 

@@ -2,12 +2,17 @@
 
 #include <iostream>
 
+#include "charclass.hpp"
+#include "regex/regex_options.hpp"
+#include "factories/factories.hpp"
+
 namespace rematch {
 
-SearchVA::SearchVA(LogicalVA const &A)
+SearchVA::SearchVA(LogicalVA const &A, Anchor a)
   : has_epsilon_(A.has_epsilon()),
     ffactory_(A.filterFactory()),
-    vfactory_(A.varFactory()) {
+    vfactory_(A.varFactory()),
+    anchor_(a) {
   LogicalVA A_prim(A); // Make a copy of the automaton
 
   A_prim.remove_captures();
@@ -18,11 +23,16 @@ SearchVA::SearchVA(LogicalVA const &A)
 
   A_prim.relabel_states();
 
-  std::cout << "SearchVA:\n" << A_prim << "\n\n";
+  // std::cout << "SearchVA:\n" << A_prim << "\n\n";
 
   states_.swap(A_prim.states);
   initial_state_ = A_prim.initial_state();
   accepting_state_ = A_prim.accepting_state();
+
+  if(anchor_ == Anchor::kUnanchored) {
+		auto code = ffactory_->add_filter(CharClassBuilder(0, CHAR_MAX));
+		initial_state_->add_filter(code, initial_state_);
+	}
 }
 
 // ---  Getters  ---  //

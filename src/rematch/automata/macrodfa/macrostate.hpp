@@ -26,8 +26,6 @@ class MacroState {
 
   std::vector<DetState*>& states();
 
-  bool is_super_final() const;
-
   MacroState* drop_super_finals() const {return drop_super_finals_;}
   void set_drop_super_finals(MacroState* ms) { drop_super_finals_ = ms; }
 

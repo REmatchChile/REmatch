@@ -55,8 +55,7 @@ class RegEx {
   const std::string pattern() const {return pattern_;}
   std::shared_ptr<VariableFactory> vfactory() { return vfactory_;}
 
-  const SearchVA& searchVA() const { return *sVA_; }
-  const ExtendedVA& evalVA() const { return *eVA_; }
+  const LogicalVA& logicalVA() const { return *VA_; }
 
  private:
 
@@ -64,9 +63,7 @@ class RegEx {
 
   const std::string pattern_;
 
-  std::unique_ptr<ExtendedVA> eVA_;
-
-  std::unique_ptr<SearchVA> sVA_;
+  std::unique_ptr<LogicalVA> VA_;
 
   std::shared_ptr<VariableFactory> vfactory_;
 

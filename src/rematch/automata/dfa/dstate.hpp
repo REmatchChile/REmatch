@@ -17,7 +17,7 @@ class DState;
 class DState {
  public:
 
-  enum StateFlags {
+  enum Flags {
     kDefaultState    =  0,
     kAcceptingState  =  1,
     kInitialState    =  kAcceptingState << 1,
@@ -40,15 +40,20 @@ class DState {
   bool empty_subset() const { return states_subset_.empty(); }
 
   bool accepting() const { return  flags_ & kAcceptingState; }
-  bool initial() const { return flags_ & kInitialState; }
+  void set_accepting(bool b);
 
-  DState* next_state(char a) const { return transitions_[a]; }
+  bool initial() const { return flags_ & kInitialState; }
+  void set_initial(bool b);
+
+  DState* next_state(char a) const {
+    return transitions_[a];
+  }
 
  private:
 
-  uint id_;
+  uint id_ = 0;
 
-  std::array<DState*, 128> transitions_;
+  std::vector<DState*> transitions_;
 
   std::string label_;
 

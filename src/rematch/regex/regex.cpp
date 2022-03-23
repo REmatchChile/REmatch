@@ -9,14 +9,12 @@ namespace rematch {
 
 RegEx::RegEx(const std::string &pattern, rematch::RegExOptions rgx_opts)
     : pattern_(pattern),
+      VA_(regex2LVA(pattern)),
       flags_(parseFlags(rgx_opts)) {
 
-  std::unique_ptr<LogicalVA> VA = regex2LVA(pattern);
+  vfactory_ = VA_->varFactory();
 
-  vfactory_ = VA->varFactory();
-
-  eVA_ = std::make_unique<ExtendedVA>(*VA);
-  sVA_ = std::make_unique<SearchVA>(*VA);
+  // std::cout << "LogicalVA:\n" << *VA_ << "\n\n";
 }
 
 // Explicitly declared here for correct use of unique_ptr later

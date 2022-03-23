@@ -29,7 +29,7 @@ class SearchDFA {
 
   std::vector<std::string> varNames;
 
-  SearchDFA(SearchVA const &A, Anchor a = Anchor::kAnchorBoth);
+  SearchDFA(SearchVA const &A);
 
   //  ---  Getters  ---  //
 
@@ -50,8 +50,6 @@ class SearchDFA {
  private:
 
   DState* new_dstate();
-
-  Anchor anchor_;
 
   // The starting state of the dfa
   DState* initial_state_;

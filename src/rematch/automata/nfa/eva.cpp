@@ -8,12 +8,14 @@
 #include "charclass.hpp"
 #include "factories/factories.hpp"
 #include "automata/nfa/state.hpp"
+#include "regex/regex_options.hpp"
 
 namespace rematch {
 
-ExtendedVA::ExtendedVA(LogicalVA const &A)
+ExtendedVA::ExtendedVA(LogicalVA const &A, Anchor a)
 		:	variable_factory_(A.varFactory()),
-			filter_factory_(A.filterFactory())  {
+			filter_factory_(A.filterFactory()),
+			anchor_(a)  {
 	// Copy the VA
 	LogicalVA A_prim(A);
 
@@ -26,17 +28,26 @@ ExtendedVA::ExtendedVA(LogicalVA const &A)
 
 	trim();
 
+	if(anchor_ == Anchor::kUnanchored) {
+		auto code = filter_factory_->add_filter(CharClassBuilder(0, CHAR_MAX));
+		init_state_->add_filter(code, init_state_);
+		accepting_state_->add_filter(code, accepting_state_);
+	}
+
 	#ifndef NOPT_OFFSET
 		offsetOpt();
 	#endif
 
 	captureClosure();
 
+	// std::cout << "EvaluationVA:\n" << *this << "\n\n";
+
   #ifndef NOPT_CROSSPROD
 	  crossProdOpt();
   #endif
 
 	relabelStates();
+
 }
 
 void ExtendedVA::addCapture(State* state, std::bitset<32> bs, State* next) {

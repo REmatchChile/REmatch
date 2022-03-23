@@ -5,6 +5,7 @@
 
 #include "automata/nfa/state.hpp"
 #include "automata/nfa/lva.hpp"
+#include "regex/regex_options.hpp"
 
 namespace rematch {
 
@@ -12,7 +13,7 @@ namespace rematch {
 class SearchVA {
  public:
   SearchVA() = delete;
-  SearchVA(LogicalVA const &A);
+  SearchVA(LogicalVA const &A, Anchor a);
 
   std::vector<State*> const & states() const;
 
@@ -36,6 +37,8 @@ class SearchVA {
 
   std::shared_ptr<FilterFactory> ffactory_;
   std::shared_ptr<VariableFactory> vfactory_;
+
+  Anchor anchor_;
 }; // end class SearchVA
 
 } // end namespace rematch

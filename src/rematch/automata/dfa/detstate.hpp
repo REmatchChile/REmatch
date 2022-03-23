@@ -22,58 +22,69 @@ class NodeList;
 }
 
 class DetState {
-  private:
-    static unsigned int ID; // Static var to make sequential id's
-  public:
-    /* Unique ID*/
-    unsigned int id;                              // id
+ public:
 
-    // Transitions to other states
-    std::array<std::unique_ptr<Transition>, 128> transitions_;
+  enum Flags {
+    kDefault    = 0,
+    kInitial    = 1 << 0,   // State {q_0} with q_0 initial state of eVA.
+    kAccepting  = 1 << 1,   // Accepting state S with q_f ∈ S.
+  };
 
-    // Label used for debugging
-    std::string label;
+  /* Unique ID*/
+  unsigned int id;                              // id
 
-    DetState* drop_super_finals_ = nullptr;
+  // Transitions to other states
+  std::array<std::unique_ptr<Transition>, 128> transitions_;
 
-    int64_t visited;  // Mark the reading iteration for which the State is prepared
+  // Label used for debugging
+  std::string label;
 
-    internal::FastNodeList* currentL;
-    internal::FastNodeList* copiedList;
+  DetState* drop_super_finals_ = nullptr;
 
-    internal::ECS::Node* currentNode;
+  int64_t visited;  // Mark the reading iteration for which the State is prepared
 
-    SetState* ss;
+  internal::FastNodeList* currentL;
+  internal::FastNodeList* copiedList;
 
-    bool isFinal, isSuperFinal, mark, isOnlyInit, hasCapture;
+  internal::ECS::Node* currentNode;
 
-    DetState();
-    DetState(SetState* ss);
+  SetState* ss;
 
-    Transition* next_transition(char a);
+  bool mark;
 
-    DetState* drop_super_finals() { return drop_super_finals_;}
-    void set_drop_super_finals(DetState* s) {drop_super_finals_ = s;}
+  DetState();
+  DetState(SetState* ss);
 
-    void add_capture(char a, std::bitset<32> S, DetState* state);
-    void add_direct(char a, DetState* state);
-    void add_empty(char a, DetState* state);
+  Transition* next_transition(char a);
 
-    // Remove SuperFinals states from the detState;
-    bool remove_superfinals();
+  DetState* drop_super_finals() { return drop_super_finals_;}
+  void set_drop_super_finals(DetState* s) {drop_super_finals_ = s;}
 
-    bool empty() const;
+  void add_capture(char a, std::bitset<32> S, DetState* state);
+  void add_direct(char a, DetState* state);
+  void add_empty(char a, DetState* state);
 
-    // Passes an ECS::Node to the state, increasing the Node's reference counter
-    void pass_node(internal::ECS::Node* node);
+  bool empty() const;
 
-    DetState* nextState(BitsetWrapper charBitset);
-    DetState* nextState(char a);
-    internal::NodeList* getPreviousList(int i);
-    void setFinal(bool b);
-    void setSubset(SetState* newss);
-    std::string pprint();
-    friend std::ostream & operator<<(std::ostream &os, DetState const &bs);
+  // Passes an ECS::Node to the state, increasing the Node's reference counter
+  void pass_node(internal::ECS::Node* node);
+
+  DetState* nextState(BitsetWrapper charBitset);
+  DetState* nextState(char a);
+
+  bool accepting() const { return flags_ & DetState::Flags::kAccepting; }
+  void set_accepting(bool b);
+
+  bool initial() const { return flags_ & DetState::Flags::kInitial; }
+  void set_initial(bool b);
+
+  void set_subset(SetState* newss);
+  std::string pprint();
+  friend std::ostream & operator<<(std::ostream &os, DetState const &bs);
+
+ private:
+  static unsigned int ID; // Static var to make sequential id's
+  uint flags_;
 };
 
 

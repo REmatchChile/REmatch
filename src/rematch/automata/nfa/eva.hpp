@@ -9,6 +9,7 @@
 #include <list>
 
 #include "bitsetwrapper.hpp"
+#include "regex/regex_options.hpp"
 
 namespace rematch {
 
@@ -31,7 +32,7 @@ class ExtendedVA {
 
 	std::unordered_map<unsigned int, State*> idMap;
 
-	ExtendedVA(LogicalVA const &A);
+	ExtendedVA(LogicalVA const &A, Anchor a);
 	ExtendedVA();
 
 	// ~ExtendedVA();
@@ -94,6 +95,8 @@ class ExtendedVA {
 
 	std::shared_ptr<VariableFactory> variable_factory_;
 	std::shared_ptr<FilterFactory> filter_factory_;
+
+	Anchor anchor_;
 
 	size_t currentID = 0;
 };

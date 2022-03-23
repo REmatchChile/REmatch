@@ -36,7 +36,7 @@ class SegmentEvaluator : public Evaluator {
   inline void reading(char a, int64_t i);
 
   inline void visit_direct(DetState* cstate, DetState* direct, int64_t pos);
-  inline void visit_capture(DetState* cstate, Capture* cap, int64_t pos);
+  inline void visit_capture(DetState* cstate, std::bitset<32> capture, DetState* to, int64_t pos);
 
   bool searching_phase();
   void init_searching_phase();
@@ -49,6 +49,9 @@ class SegmentEvaluator : public Evaluator {
 
   inline void pass_current_outputs();
   inline void pass_outputs();
+
+  std::unique_ptr<ExtendedVA> eva_;
+  std::unique_ptr<SearchVA> sva_;
 
   std::unique_ptr<DFA> dfa_;                            // Normal DFA
   std::unique_ptr<SearchDFA> sdfa_;                     // Search DFA

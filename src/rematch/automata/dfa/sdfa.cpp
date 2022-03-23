@@ -6,14 +6,15 @@
 
 namespace rematch {
 
-SearchDFA::SearchDFA(SearchVA const &A, Anchor a)
-    : anchor_(a),
-			has_epsilon_(A.has_epsilon()),
+SearchDFA::SearchDFA(SearchVA const &A)
+    : has_epsilon_(A.has_epsilon()),
       sVA_(A),
       vfactory_(A.variable_factory()),
       ffactory_(A.filter_factory()) {
   initial_state_ = new_dstate();
   initial_state_->add_state(A.initial_state());
+
+	initial_state_->set_initial(true);
 
   dstates_table_[initial_state_->bitmap()] = initial_state_;
 
@@ -33,11 +34,6 @@ DState* SearchDFA::next_state(DState *q, char a) {
 	std::vector<bool> subsetBitset(sVA_.size());  // Subset bitset representation
 
 	for(auto &state: q->subset()) {
-		// If unanchored search, always add a self-loop to the initial state.
-		if(anchor_ == Anchor::kUnanchored && state->initial()) {
-			newSubset.insert(state);
-			subsetBitset[state->id] = true;
-		}
 
 		for(auto &filter: state->filters) {
 			if(triggered_filters[filter->code] && !subsetBitset[filter->next->id]) {

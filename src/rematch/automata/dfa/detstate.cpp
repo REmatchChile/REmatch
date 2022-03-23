@@ -25,33 +25,40 @@ DetState::DetState()
     : label("{0}"),
       visited(-1),
       currentL(new internal::FastNodeList()),
-      copiedList(new internal::FastNodeList()),
-      isFinal(false) {
+      copiedList(new internal::FastNodeList())  {
   id = ID++;
 }
 
-DetState :: DetState(SetState* ss)
+DetState::DetState(SetState* ss)
   : visited(-1),
     currentL(new internal::FastNodeList()),
     copiedList(new internal::FastNodeList()),
     ss(ss) {
   id = ID++;
-  setSubset(ss);
+  set_subset(ss);
 }
 
-void DetState :: setFinal(bool b) {isFinal = b;}
+void DetState::set_initial(bool b) {
+  if(b)
+    flags_ |= Flags::kInitial;
+  else
+    flags_ &= ~Flags::kInitial;
+}
 
-void DetState :: setSubset(SetState* newss) {
+void DetState::set_accepting(bool b) {
+  if(b)
+    flags_ |= Flags::kAccepting;
+  else
+    flags_ &= ~Flags::kAccepting;
+}
+
+void DetState::set_subset(SetState* newss) {
   ss = newss;
-  isFinal = ss->isFinal;
-  isSuperFinal = ss->isSuperFinal;
-  isOnlyInit = true;
-  hasCapture = false;
+  set_accepting(ss->isFinal);
+  set_initial(true);
   for(auto &state: ss->subset) {
     if(!(state->flags() & State::kInitialState))
-      isOnlyInit = false;
-    if(state->flags() & State::kCaptureState)
-      hasCapture = true;
+      set_initial(false);
   }
   mark = false;
   std::stringstream s;
@@ -89,27 +96,6 @@ std::ostream & operator<<(std::ostream &os, DetState const &q) {
   return os << *(q.ss);
 }
 
-
-bool DetState::remove_superfinals() {
-  auto old_size = ss->subset.size();
-  if(isSuperFinal) {
-    bool final_check = false;
-    for(auto it = ss->subset.begin(); it != ss->subset.end();) {
-      if((*it)->super_final()) {
-        it = ss->subset.erase(it);
-      } else {
-        if((*it)->accepting())
-          final_check = true;
-        ++it;
-      }
-    }
-    ss->isFinal = final_check;
-    ss->isSuperFinal = false;
-    setSubset(ss);
-  }
-
-  return old_size > ss->subset.size();
-}
 
 bool DetState::empty() const {
   return ss->subset.empty();

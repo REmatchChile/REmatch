@@ -19,24 +19,50 @@
 
 namespace rematch {
 
-DFA::DFA(ExtendedVA const &A, Anchor a)
-    : anchor_(a),
-			init_state_(new DetState()),
+DFA::DFA(ExtendedVA const &A)
+    : init_state_(new DetState()),
       eVA_(A),
       variable_factory_(A.varFactory()),
       ffactory_(A.filterFactory()) {
-  states.push_back(init_state_);
+
+  // Code initial state
   std::set<State*> new_subset;
 	new_subset.insert(eVA_.init_state());
 
 	SetState* ss = new SetState(eVA_, new_subset);
-	DetState *q = initState();
-	q->setSubset(ss);
+	init_state_->set_subset(ss);
 
-	dstates_table_[ss->bitstring] = q;
+	dstates_table_[ss->bitstring] = init_state_;
 
-	if(q->isFinal) {
-		finalStates.push_back(q);
+	// Compute init eval states
+
+	std::unordered_map<std::bitset<32>, std::set<State*>> reach_captures;
+
+	for(auto &capture: eVA_.init_state()->captures) {
+		auto res = reach_captures.emplace(capture->code, std::set<State*>());
+		res.first->second.insert(capture->next);
+	}
+
+	for(auto &elem: reach_captures) {
+		SetState* nss = new SetState(eVA_, elem.second);
+
+		auto found = dstates_table_.find(nss->bitstring);
+
+		DetState* nq;
+
+		if(found == dstates_table_.end()) {
+			nq = new DetState(nss);
+			dstates_table_[nss->bitstring] = nq;
+
+			states.push_back(nq);
+
+			if (nq->accepting())
+				finalStates.push_back(nq);
+		} else {
+			nq = found->second;
+		}
+
+		init_eval_states_.emplace_back(std::make_pair(nq, elem.first));
 	}
 }
 
@@ -48,13 +74,6 @@ Transition* DFA::next_transition(DetState *q, char a) {
 	BitsetWrapper subsetBitset(eVA_.size());  // Subset bitset representation
 
 	for(auto &state: q->ss->subset) {
-
-		// If unanchored search, always add a self-loop for the initial and accepting
-		// states.
-		if(anchor_ == Anchor::kUnanchored && (state->accepting() || state->initial())) {
-			newSubset.insert(state);
-			subsetBitset.set(state->id, true);
-		}
 
 		for(auto &filter: state->filters) {
 			if(charBitset[filter->code] && !subsetBitset.get(filter->next->id)) {
@@ -76,7 +95,7 @@ Transition* DFA::next_transition(DetState *q, char a) {
 
 		states.push_back(nq);
 
-		if(nq->isFinal) {
+		if(nq->accepting()) {
 			finalStates.push_back(nq);
 		}
 	} else {
@@ -130,7 +149,7 @@ void DFA::computeCaptures(DetState* p, DetState* q, char a) {
 
 			states.push_back(nq);
 
-			if (nq->isFinal) {
+			if (nq->accepting()) {
 				finalStates.push_back(nq);
 			}
 		}
@@ -139,6 +158,10 @@ void DFA::computeCaptures(DetState* p, DetState* q, char a) {
 
 		p->add_capture(a, el.first, r);
 	}
+}
+
+bool DFA::only_capture_init_state() const {
+	return eVA_.init_state()->filters.empty();
 }
 
 DetState* DFA::compute_drop_super_finals(DetState *q) {
@@ -165,7 +188,7 @@ DetState* DFA::compute_drop_super_finals(DetState *q) {
 
 		states.push_back(nq);
 
-		if(nq->isFinal) {
+		if(nq->accepting()) {
 			finalStates.push_back(nq);
 		}
 	} else {
@@ -250,7 +273,7 @@ std::string DFA::pprint() {
 
   // Code final states
   for (size_t i = 0; i < finalStates.size(); ++i) {
-    if(finalStates[i]->isFinal) {
+    if(finalStates[i]->accepting()) {
       ss << "f " << *finalStates[i] << '\n';
     }
   }

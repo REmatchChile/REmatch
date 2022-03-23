@@ -9,6 +9,7 @@ if(CXXTEST_FOUND)
   target_link_libraries(sample_unittest ${PROJECT_NAME}lib)
 endif()
 
+message(STATUS "Tests found")
 
 # Macro for listing all subirectories at current directory
 MACRO(SUBDIRLIST result curdir)
@@ -52,8 +53,5 @@ foreach(subdir ${SUBDIRS})
 
     endforeach(subsubdir ${SUBSUBDIRS})
 endforeach(subdir ${SUBDIRS})
-
-
-
 
 target_link_libraries(${BINARY} PUBLIC ${PROJECT_NAME}lib)

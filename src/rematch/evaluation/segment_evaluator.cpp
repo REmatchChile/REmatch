@@ -15,8 +15,11 @@ SegmentEvaluator::SegmentEvaluator(RegEx &rgx, std::shared_ptr<StrDocument> d, A
       text_(d),
       anchor_(a) {
 
-  dfa_ = std::make_unique<DFA>(rgx_.evalVA(), anchor_);
-  sdfa_ = std::make_unique<SearchDFA>(rgx_.searchVA(), anchor_);
+  eva_ = std::make_unique<ExtendedVA>(rgx_.logicalVA(), anchor_);
+  sva_ = std::make_unique<SearchVA>(rgx_.logicalVA(), anchor_);
+
+  dfa_ = std::make_unique<DFA>(*eva_);
+  sdfa_ = std::make_unique<SearchDFA>(*sva_);
 
   current_dstate_ = sdfa_->initial_state();
   // Initialize evaluation for position 0
@@ -48,10 +51,21 @@ Match_ptr SegmentEvaluator::next() {
 }
 
 void SegmentEvaluator::init_evaluation_phase(int64_t pos) {
-  dfa_->initState()->pass_node(ds_.bottom_node());
+  dfa_->init_state()->pass_node(ds_.bottom_node());
+
   current_states_.clear();
-  current_states_.push_back(dfa_->initState());
-  reading(0, pos-1); // Positions are offseted by -1 because captures come before filters
+
+  for(auto& elem: dfa_->init_eval_states()) {
+    DetState* q0 = elem.first; std::bitset<32> S = elem.second;
+    visit_capture(dfa_->init_state(), S, q0, pos-1);
+    current_states_.push_back(elem.first);
+  }
+
+  // If q0 has a filter transition, then we need to add it to the current states
+  if (!dfa_->only_capture_init_state() || anchor_ == Anchor::kUnanchored) {
+    current_states_.push_back(dfa_->init_state());
+  }
+
   i_pos_ = pos;
 }
 
@@ -81,9 +95,11 @@ bool SegmentEvaluator::searching_phase() {
   i_min_ = i_src_;
   i_max_ = i_src_;
 
-  for(; i_src_ < text_->size(); ++i_src_) {
+  for(;i_src_ < text_->size();) {
 
     char a = (char) (*text_)[i_src_] & 0x7F;
+
+    ++i_src_;
 
     // nextState is reached from currentState by reading the character
     DState* next_state = current_dstate_->next_state(a);
@@ -125,23 +141,26 @@ FORCE_INLINE void SegmentEvaluator::reading(char a, int64_t pos) {
     // node as unused.
     curr_state->currentNode->dec_ref_count();
 
+    auto *c = nextTransition->capture_;
+    auto *d = nextTransition->direct_;
+
     if(nextTransition->type_ == Transition::Type::kDirect) {
-      visit_direct(curr_state, nextTransition->direct_, pos);
+      visit_direct(curr_state, d, pos);
     } else if(nextTransition->type_ == Transition::Type::kDirectSingleCapture) {
-      visit_direct(curr_state, nextTransition->direct_, pos);
-      visit_capture(curr_state, nextTransition->capture_, pos);
+      visit_direct(curr_state, d, pos);
+      visit_capture(curr_state, c->S, c->next, pos);
     } else if(nextTransition->type_ == Transition::Type::kEmpty) {
       ds_.try_mark_unused(curr_state->currentNode);
     } else if(nextTransition->type_ == Transition::Type::kSingleCapture) {
-      visit_capture(curr_state, nextTransition->capture_, pos);
+      visit_capture(curr_state, c->S, c->next, pos);
     } else if(nextTransition->type_ == Transition::Type::kDirectMultiCapture) {
-      visit_direct(curr_state, nextTransition->direct_, pos);
+      visit_direct(curr_state, d, pos);
       for(auto &capture: nextTransition->captures_) {
-        visit_capture(curr_state, capture, pos);
+        visit_capture(curr_state, capture->S, capture->next, pos);
       }
     } else {
       for(auto &capture: nextTransition->captures_) {
-        visit_capture(curr_state, capture, pos);
+        visit_capture(curr_state, capture->S, capture->next, pos);
       }
     }
   }
@@ -159,11 +178,12 @@ inline void SegmentEvaluator::pass_outputs() {
   reached_final_states_.clear();
 }
 
-inline void SegmentEvaluator::visit_direct(DetState* from, DetState* to, int64_t pos) {
+inline void SegmentEvaluator::visit_direct(DetState* from, DetState* to,
+                                           int64_t pos) {
   if(to->visited <= pos) {
     to->pass_node(from->currentNode);
     to->visited = pos+1;
-    if(to->isFinal) reached_final_states_.push_back(to);
+    if(to->accepting()) reached_final_states_.push_back(to);
     else new_states_.push_back(to);
   } else {
     // Decrease the refcount, as the node at reached state won't be pointed by that
@@ -173,18 +193,18 @@ inline void SegmentEvaluator::visit_direct(DetState* from, DetState* to, int64_t
   }
 }
 
-inline void SegmentEvaluator::visit_capture(DetState* cs, Capture* c, int64_t pos) {
-  DetState* to = c->next;
+inline void SegmentEvaluator::visit_capture(DetState* cs, std::bitset<32> S,
+                                            DetState* to, int64_t pos) {
   if(to->visited <= pos) {
-    to->pass_node(ds_.extend(cs->currentNode, c->S, pos+1));
+    to->pass_node(ds_.extend(cs->currentNode, S, pos+1));
     to->visited = pos+1;
-    if(to->isFinal) reached_final_states_.push_back(to);
+    if(to->accepting()) reached_final_states_.push_back(to);
     else new_states_.push_back(to);
   } else {
     // Decrease the refcount, as the node at reached state won't be pointed by that
     // state anymore, only by the structure internally.
     to->currentNode->dec_ref_count();
-    to->pass_node(ds_.unite(ds_.extend(cs->currentNode, c->S, pos+1), c->next->currentNode));
+    to->pass_node(ds_.unite(ds_.extend(cs->currentNode, S, pos+1), to->currentNode));
   }
 }
 

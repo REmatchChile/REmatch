@@ -1,5 +1,5 @@
-#ifndef FACTORIES_HPP
-#define FACTORIES_HPP
+#ifndef FACTORIES_FACTORIES_HPP
+#define FACTORIES_FACTORIES_HPP
 
 #include <iostream>
 #include <unordered_map>
@@ -16,7 +16,6 @@
 #include "charclass.hpp"
 
 namespace rematch {
-
 // Maximum variables supported
 const int MAX_VARS = 15;
 
@@ -113,16 +112,14 @@ class FilterFactory {
 	std::vector<bool> applyFilters(char a);
 
  private:
-	// Size always starts at 1, this is because we reserve the code 0 for a
-	// special character used at extendedVA.
-	size_t size_ = 1;
+	size_t size_ = 0;
 	// Ordered vector that stores the variables.
-	std::unordered_map<CharClassBuilder, int> code_map_;
-	std::unordered_map<int, CharClassBuilder> filter_map_;
+	std::unordered_map<CharClassBuilder, char> code_map_;
+	std::unordered_map<char, CharClassBuilder> filter_map_;
 	// Char (document-readed) -> Bitset hash table
 	std::unordered_map<char, std::vector<bool>> bitsetMap;
 };
 
 } // end namespace rematch
 
-#endif
+#endif // FACTORIES_FACTORIES_HPP
