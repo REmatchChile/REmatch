@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "parse/exceptions.hpp"
+#include "exceptions.hpp"
 #include "parse/ast.hpp"
 
 namespace rematch {

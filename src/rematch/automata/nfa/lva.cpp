@@ -14,6 +14,8 @@
 #include "factories/factories.hpp"
 #include "parse/parser.hpp"
 
+#include "exceptions.hpp"
+
 namespace rematch {
 
 LogicalVA::LogicalVA()
@@ -199,6 +201,11 @@ void LogicalVA::cat(LogicalVA &a2) {
   // Add a2 states to states list
   states.insert(states.end(), a2.states.begin(), a2.states.end());
 
+  if( has_epsilon() )
+    init_state_->add_epsilon(a2.init_state_);
+  else if( a2.has_epsilon() )
+    accepting_state_->add_epsilon(a2.accepting_state_);
+
   // Set a2 final states as new final states
   accepting_state_ = a2.accepting_state_;
 
@@ -282,6 +289,10 @@ void LogicalVA :: optional() {
 
 void LogicalVA::assign(std::bitset<32> open_code, std::bitset<32> close_code) {
   /* Extends the LogicalVA so it can assign its pattern to a variable */
+
+  if(has_epsilon()) {
+    throw parsing::BadRegex("Empty word capturing is not allowed.");
+  }
 
   // Create new states
   State* open_state = new_state();

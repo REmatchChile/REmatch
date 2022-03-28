@@ -1,7 +1,9 @@
-#ifndef PARSER__EXCEPTIONS
-#define PARSER__EXCEPTIONS
+#ifndef EXCEPTIONS_HPP
+#define EXCEPTIONS_HPP
 
 #include <exception>
+#include <stdexcept>
+#include <string>
 
 namespace rematch {
 namespace parsing {
@@ -19,4 +21,4 @@ class BadRegex : public std::logic_error {
 } // end namespace parsing
 } // end namespace rematch
 
-#endif // PARSER_EXCEPTIONS
+#endif // PARSER_EXCEPTIONS_HPP

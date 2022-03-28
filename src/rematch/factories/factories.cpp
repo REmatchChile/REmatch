@@ -9,7 +9,7 @@
 #include "factories.hpp"
 #include "charclass.hpp"
 #include "parse/visitors.hpp"
-#include "parse/exceptions.hpp"
+#include "exceptions.hpp"
 
 namespace rematch {
 

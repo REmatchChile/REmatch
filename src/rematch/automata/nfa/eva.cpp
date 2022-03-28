@@ -40,7 +40,9 @@ ExtendedVA::ExtendedVA(LogicalVA const &A, Anchor a)
 
 	captureClosure();
 
-	// std::cout << "EvaluationVA:\n" << *this << "\n\n";
+	#ifndef NDEBUG
+	std::cout << "EvaluationVA:\n" << *this << "\n\n";
+	#endif
 
   #ifndef NOPT_CROSSPROD
 	  crossProdOpt();
