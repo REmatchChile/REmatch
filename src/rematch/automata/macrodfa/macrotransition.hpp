@@ -1,11 +1,11 @@
-#ifndef AUTOMATA_MACRODFA_MACROTRANSITION
-#define AUTOMATA_MACRODFA_MACROTRANSITION
+#ifndef AUTOMATA_MACRODFA_MACROTRANSITION_HPP
+#define AUTOMATA_MACRODFA_MACROTRANSITION_HPP
 
 #include <bitset>
 #include <vector>
 #include <memory>
 
-#include "automata/dfa/detstate.hpp"
+#include "automata/dfa/dstate.hpp"
 #include "structs/prevector.hpp"
 
 namespace rematch {
@@ -14,15 +14,15 @@ class MacroState;
 
 struct MTAbs {
   MTAbs() = default;
-  MTAbs(DetState& from, DetState& to) : from(&from), to(&to) {}
+  MTAbs(DState& from, DState& to) : from(&from), to(&to) {}
 
-  DetState* from;
-  DetState* to;
+  DState* from;
+  DState* to;
 };
 
 struct MTCapture: public MTAbs {
   MTCapture() = default;
-  MTCapture(DetState& from, std::bitset<32> S, DetState& to)
+  MTCapture(DState& from, std::bitset<32> S, DState& to)
     : MTAbs(from, to), S(S) {}
 
   std::bitset<32> S;
@@ -30,7 +30,7 @@ struct MTCapture: public MTAbs {
 
 struct MTDirect: public MTAbs {
   MTDirect() = default;
-  MTDirect(DetState& from, DetState& to)
+  MTDirect(DState& from, DState& to)
     : MTAbs(from, to) {}
 };
 
@@ -43,7 +43,7 @@ enum MacroType {
 #ifdef MACRO_TRANSITIONS_RAW_ARRAYS
 using DirectsArray = MTDirect*;
 using CapturesArray = MTCapture*;
-using EmptiesArray = DetState**;
+using EmptiesArray = DState**;
 #else
 using DirectsArray = rematch::prevector<MTDirect>;
 using CapturesArray = rematch::prevector<MTCapture>;
@@ -57,9 +57,9 @@ class MacroTransition {
                   size_t nfirstcaptures, size_t nrepeatcaptures,
                   size_t nempties);
 
-  void add_direct(DetState& from, DetState& to, bool first);
-  void add_capture(DetState& from, std::bitset<32> S, DetState& to, bool first);
-  void add_empty(DetState& from);
+  void add_direct(DState& from, DState& to, bool first);
+  void add_capture(DState& from, std::bitset<32> S, DState& to, bool first);
+  void add_empty(DState& from);
 
   DirectsArray first_directs();
   DirectsArray repeat_directs();
@@ -89,7 +89,7 @@ class MacroTransition {
   MTDirect *repeat_directs_;
   MTCapture *first_captures_;
   MTCapture *repeat_captures_;
-  DetState **empties_;
+  DState **empties_;
   #else
   rematch::prevector<MTDirect> directs_;
   rematch::prevector<MTCapture> captures_;
@@ -102,4 +102,4 @@ class MacroTransition {
 
 } // end namespace rematch
 
-#endif // AUTOMATA_MACRODFA_MACROTRANSITION
+#endif // AUTOMATA_MACRODFA_MACROTRANSITION_HPP

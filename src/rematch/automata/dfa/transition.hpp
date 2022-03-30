@@ -1,18 +1,23 @@
-#ifndef AUTOMATA__TRANSITION_HPP
-#define AUTOMATA__TRANSITION_HPP
+#ifndef AUTOMATA_DFA_TRANSITION_HPP
+#define AUTOMATA_DFA_TRANSITION_HPP
 
 #include <memory>
-
-#include "automata/dfa/detstate.hpp"
-#include "captures.hpp"
+#include <stdexcept>
 
 namespace rematch {
 
-class DetState;
 class NodeList;
+class DState;
 
-using DetStates = std::vector<DetState*>;
-using Captures = std::vector<std::unique_ptr<Capture>>;
+struct DCapture {
+  std::bitset<32> S;
+  DState* next;
+
+  DCapture(std::bitset<32> S, DState* q): S(S), next(q) {}
+};
+
+using DStates = std::vector<DState*>;
+using Captures = std::vector<std::unique_ptr<DCapture>>;
 
 struct Transition {
   enum Type {
@@ -25,20 +30,20 @@ struct Transition {
   };
 
   int type_;
-  DetState* direct_;
-  Capture* capture_;
-  std::vector<Capture*> captures_;
+  DState* direct_;
+  DCapture* capture_;
+  std::vector<DCapture*> captures_;
 
   // Default = EmptyTransition
   Transition(): type_(Type::kEmpty) {}
 
-  Transition(Capture* capture)
+  Transition(DCapture* capture)
     : type_(Type::kSingleCapture),
       capture_(capture) {}
 
-  Transition(DetState* state): type_(Type::kDirect), direct_(state) {}
+  Transition(DState* state): type_(Type::kDirect), direct_(state) {}
 
-  void add_capture(Capture* capture) {
+  void add_capture(DCapture* capture) {
     switch (type_) {
       case Type::kEmpty:
         throw std::logic_error("Can't add capture to empty transition.");
@@ -65,7 +70,7 @@ struct Transition {
     }
   }
 
-  void add_direct(DetState* state) {
+  void add_direct(DState* state) {
     switch (type_) {
       case Type::kEmpty:
         throw std::logic_error("Can't add direct to empty transition.");
@@ -89,4 +94,4 @@ struct Transition {
 
 } // namespace rematch
 
-#endif // AUTOMATA__TRANSITION_HPP
+#endif // AUTOMATA_DFA_TRANSITION_HPP

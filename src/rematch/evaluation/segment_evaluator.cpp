@@ -1,6 +1,6 @@
 #include "segment_evaluator.hpp"
 
-#include "automata/dfa/detstate.hpp"
+#include "automata/dfa/dstate.hpp"
 #include "memmanager.hpp"
 #include "util/timer.hpp"
 
@@ -56,7 +56,7 @@ void SegmentEvaluator::init_evaluation_phase(int64_t pos) {
   current_states_.clear();
 
   for(auto& elem: dfa_->init_eval_states()) {
-    DetState* q0 = elem.first; std::bitset<32> S = elem.second;
+    DState* q0 = elem.first; std::bitset<32> S = elem.second;
     visit_capture(dfa_->init_state(), S, q0, pos-1);
     current_states_.push_back(elem.first);
   }
@@ -101,11 +101,15 @@ bool SegmentEvaluator::searching_phase() {
 
     ++i_src_;
 
-    // nextState is reached from currentState by reading the character
-    DState* next_state = current_dstate_->next_state(a);
+    DState* next_state;
 
-    if(next_state == nullptr) // Then maybe a determinization is needed
+    // nextState is reached from currentState by reading the character
+    Transition* next_transition = current_dstate_->next_transition(a);
+
+    if(next_transition == nullptr) // Then maybe a determinization is needed
       next_state = sdfa_->next_state(current_dstate_, a);
+    else
+      next_state = next_transition->direct_;
 
     current_dstate_ = next_state;
 
@@ -139,7 +143,7 @@ FORCE_INLINE void SegmentEvaluator::reading(char a, int64_t pos) {
     // Decrease the refcount before checking the transition. This is for
     // correct identification of the case of an empty transition, to mark the
     // node as unused.
-    curr_state->currentNode->dec_ref_count();
+    curr_state->node->dec_ref_count();
 
     auto *c = nextTransition->capture_;
     auto *d = nextTransition->direct_;
@@ -150,7 +154,7 @@ FORCE_INLINE void SegmentEvaluator::reading(char a, int64_t pos) {
       visit_direct(curr_state, d, pos);
       visit_capture(curr_state, c->S, c->next, pos);
     } else if(nextTransition->type_ == Transition::Type::kEmpty) {
-      ds_.try_mark_unused(curr_state->currentNode);
+      ds_.try_mark_unused(curr_state->node);
     } else if(nextTransition->type_ == Transition::Type::kSingleCapture) {
       visit_capture(curr_state, c->S, c->next, pos);
     } else if(nextTransition->type_ == Transition::Type::kDirectMultiCapture) {
@@ -171,40 +175,40 @@ FORCE_INLINE void SegmentEvaluator::reading(char a, int64_t pos) {
 
 inline void SegmentEvaluator::pass_outputs() {
   for(auto &state: reached_final_states_) {
-    enumerator_.add_node(state->currentNode);
-    ds_.try_mark_unused(state->currentNode);
-    state->currentNode = nullptr;
+    enumerator_.add_node(state->node);
+    ds_.try_mark_unused(state->node);
+    state->node = nullptr;
   }
   reached_final_states_.clear();
 }
 
-inline void SegmentEvaluator::visit_direct(DetState* from, DetState* to,
+inline void SegmentEvaluator::visit_direct(DState* from, DState* to,
                                            int64_t pos) {
   if(to->visited <= pos) {
-    to->pass_node(from->currentNode);
+    to->pass_node(from->node);
     to->visited = pos+1;
     if(to->accepting()) reached_final_states_.push_back(to);
     else new_states_.push_back(to);
   } else {
     // Decrease the refcount, as the node at reached state won't be pointed by that
     // state anymore, only by the structure internally.
-    to->currentNode->dec_ref_count();
-    to->pass_node(ds_.unite(from->currentNode, to->currentNode));
+    to->node->dec_ref_count();
+    to->pass_node(ds_.unite(from->node, to->node));
   }
 }
 
-inline void SegmentEvaluator::visit_capture(DetState* cs, std::bitset<32> S,
-                                            DetState* to, int64_t pos) {
+inline void SegmentEvaluator::visit_capture(DState* cs, std::bitset<32> S,
+                                            DState* to, int64_t pos) {
   if(to->visited <= pos) {
-    to->pass_node(ds_.extend(cs->currentNode, S, pos+1));
+    to->pass_node(ds_.extend(cs->node, S, pos+1));
     to->visited = pos+1;
     if(to->accepting()) reached_final_states_.push_back(to);
     else new_states_.push_back(to);
   } else {
     // Decrease the refcount, as the node at reached state won't be pointed by that
     // state anymore, only by the structure internally.
-    to->currentNode->dec_ref_count();
-    to->pass_node(ds_.unite(ds_.extend(cs->currentNode, S, pos+1), to->currentNode));
+    to->node->dec_ref_count();
+    to->pass_node(ds_.unite(ds_.extend(cs->node, S, pos+1), to->node));
   }
 }
 

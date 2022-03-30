@@ -35,8 +35,8 @@ class SegmentEvaluator : public Evaluator {
 
   inline void reading(char a, int64_t i);
 
-  inline void visit_direct(DetState* cstate, DetState* direct, int64_t pos);
-  inline void visit_capture(DetState* cstate, std::bitset<32> capture, DetState* to, int64_t pos);
+  inline void visit_direct(DState* cstate, DState* direct, int64_t pos);
+  inline void visit_capture(DState* cstate, std::bitset<32> capture, DState* to, int64_t pos);
 
   bool searching_phase();
   void init_searching_phase();
@@ -66,10 +66,10 @@ class SegmentEvaluator : public Evaluator {
 
   Anchor anchor_;
 
-  std::vector<DetState*> current_states_;
-  std::vector<DetState*> new_states_;
+  std::vector<DState*> current_states_;
+  std::vector<DState*> new_states_;
 
-  std::vector<DetState*> reached_final_states_;
+  std::vector<DState*> reached_final_states_;
 
   DState* current_dstate_;
 

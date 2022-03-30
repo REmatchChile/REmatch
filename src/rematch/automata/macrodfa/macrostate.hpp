@@ -10,21 +10,21 @@
 
 namespace rematch {
 
-class DetState;
+class DState;
 
 class MacroState {
 
   using TransitionsMap = std::array<std::shared_ptr<MacroTransition>, 128>;
 
  public:
-  MacroState(DetState *state);
-  MacroState(std::vector<DetState*> states);
+  MacroState(DState *state);
+  MacroState(std::vector<DState*> states);
 
   MacroTransition* next_transition(char a);
 
   void add_transition(char a, std::shared_ptr<MacroTransition> tr);
 
-  std::vector<DetState*>& states();
+  std::vector<DState*>& states();
 
   MacroState* drop_super_finals() const {return drop_super_finals_;}
   void set_drop_super_finals(MacroState* ms) { drop_super_finals_ = ms; }
@@ -33,9 +33,9 @@ class MacroState {
     os << "{";
     for(auto &dstate: m.states_) {
       if(dstate == *m.states_.begin())
-        os << dstate->label;
+        os << dstate->label();
       else
-        os << " " << dstate->label;
+        os << " " << dstate->label();
     }
     os << "}";
     return os;
@@ -44,7 +44,7 @@ class MacroState {
  private:
   int id_;
   TransitionsMap transitions_;
-  std::vector<DetState*> states_;
+  std::vector<DState*> states_;
   MacroState* drop_super_finals_ = nullptr;
 }; // end class MacroState
 

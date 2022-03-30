@@ -22,14 +22,12 @@ class MacroDFA {
   //
   // @param state a deterministic state.
   // @return MacroState* The new macro-state.
-  MacroState* add_state(DetState *state);
-  MacroState* add_state(std::vector<DetState*> states);
+  MacroState* add_state(DState *state);
+  MacroState* add_state(std::vector<DState*> states);
 
   void set_as_init(MacroState *ms);
 
   MacroTransition* next_transition(MacroState *ms, char a);
-
-  MacroState* compute_drop_super_finals(MacroState *ms);
 
   MacroState& get_init_state();
 

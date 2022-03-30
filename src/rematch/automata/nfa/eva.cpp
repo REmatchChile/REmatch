@@ -600,10 +600,10 @@ std::ostream& operator<<(std::ostream& os, ExtendedVA const &A) {
 }
 
 
-std::set<State*> ExtendedVA::getSubset(BitsetWrapper bs) const {
+std::set<State*> ExtendedVA::getSubset(std::vector<bool> bs) const {
 	std::set<State*> ret;
 	for(size_t i=0; i < bs.size(); i++)
-		if(bs.get(i))
+		if(bs[i])
 			ret.insert(idMap.at(i));
 	return ret;
 }

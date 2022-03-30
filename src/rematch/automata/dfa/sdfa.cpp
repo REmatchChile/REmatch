@@ -4,6 +4,8 @@
 #include <vector>
 #include <set>
 
+#include "factories/factories.hpp"
+
 namespace rematch {
 
 SearchDFA::SearchDFA(SearchVA const &A)
@@ -63,9 +65,9 @@ DState* SearchDFA::next_state(DState *q, char a) {
 		nq = found->second;
 	}
 
-	q->add_transition(a, nq);
+	q->add_direct(a, nq);
 
-	return q->next_state(a);
+	return nq;
 }
 
 } // end namespace rematch

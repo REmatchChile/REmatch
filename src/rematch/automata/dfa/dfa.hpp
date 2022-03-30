@@ -9,6 +9,7 @@
 
 #include "automata/dfa/transition.hpp"
 #include "regex/regex_options.hpp"
+#include "factories/factories.hpp"
 
 namespace rematch {
 
@@ -16,22 +17,22 @@ class VariableFactory;
 class DetState;
 class ExtendedVA;
 
-using DFAStatesTable = std::unordered_map<BitsetWrapper, DetState*>;
-using DFACaptureStatesTable = std::vector<std::pair<DetState*, std::bitset<32>>>;
+using DFAStatesTable = std::unordered_map<std::vector<bool>, DState*>;
+using DFACaptureStatesTable = std::vector<std::pair<DState*, std::bitset<32>>>;
 
 class DFA {
  public:
 
   // Vector of pointers of States for resizing:
-  std::vector<DetState*> states;
-  std::vector<DetState*> finalStates;
+  std::vector<DState*> states;
+  std::vector<DState*> finalStates;
 
   std::vector<std::string> varNames;
 
   DFA(ExtendedVA const &A);
 
   // Getter for init state
-  DetState* init_state() {return init_state_;};
+  DState* init_state() {return init_state_;};
 
   DFACaptureStatesTable init_eval_states() { return init_eval_states_; }
 
@@ -45,10 +46,8 @@ class DFA {
 
   // ---  Determinization  ---  //
 
-  Transition* next_transition(DetState* q, char a);
-  void computeCaptures(DetState* p, DetState* q, char a);
-
-  DetState* compute_drop_super_finals(DetState *q);
+  Transition* next_transition(DState* q, char a);
+  void computeCaptures(DState* p, DState* q, char a);
 
  private:
   // Utility to print a transition
@@ -57,7 +56,7 @@ class DFA {
 
 
   // The starting state of the dfa
-  DetState* init_state_;
+  DState* init_state_;
 
   ExtendedVA const &eVA_;
 

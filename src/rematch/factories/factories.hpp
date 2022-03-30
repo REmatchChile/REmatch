@@ -12,7 +12,6 @@
 #include <utility>
 
 #include "parse/ast.hpp"
-#include "bitsetwrapper.hpp"
 #include "charclass.hpp"
 
 namespace rematch {
@@ -90,8 +89,6 @@ class FilterFactory {
 	std::string pprint();
 
 	std::unordered_map<std::vector<bool>, std::vector<char>> allPossibleCharBitsets();
-
-	bool inIntersection(char a, BitsetWrapper charBitset);
 
 	// Adds a CharClassBuilder to the factor and returns its associated code.
 	// If already present then just returns the associated code.

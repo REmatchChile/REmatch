@@ -206,17 +206,7 @@ std::unordered_map<std::vector<bool>, std::vector<char>>  FilterFactory::allPoss
     else
       it->second.push_back(a);
 	}
-
 	return ret;
-
-}
-
-bool FilterFactory :: inIntersection(char a, BitsetWrapper bs) {
-	for(size_t i=0; i < bs.size(); i++) {
-		if(bs.get(i) && !get_filter(i).contains(a))
-			return false;
-	}
-	return bs.any();
 }
 
 

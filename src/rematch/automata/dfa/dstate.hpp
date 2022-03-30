@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <set>
 
 #include "structs/ecs/ecs.hpp"
 #include "automata/dfa/transition.hpp"
@@ -17,6 +18,9 @@ class DState;
 class DState {
  public:
 
+  internal::ECS::Node* node;
+  int visited = -1;
+
   enum Flags {
     kDefaultState    =  0,
     kAcceptingState  =  1,
@@ -26,16 +30,23 @@ class DState {
 
   DState(size_t tot_states);
   DState(size_t tot_states, std::vector<State*> states);
+  DState(size_t tot_states, std::set<State*> states);
 
   void add_state(State* p);
 
-  void add_transition(char a, DState* s);
+  void pass_node(internal::ECS::Node* n);
 
   std::vector<bool> bitmap() const { return states_bitmap_; }
 
   // @brief Returns the subset of associated NFA states.
   // @return std::vector<State*> Subset of NFA states
   std::vector<State*> subset() const { return states_subset_; }
+
+  // @brief Returns the subset representation string (i.e. {q1,q2,...}).
+  // @return std::string Subset representation of the DState.
+  std::string label() const { return label_; }
+
+  int id() const { return id_; }
 
   bool empty_subset() const { return states_subset_.empty(); }
 
@@ -45,15 +56,20 @@ class DState {
   bool initial() const { return flags_ & kInitialState; }
   void set_initial(bool b);
 
-  DState* next_state(char a) const {
-    return transitions_[a];
+  void add_direct(char a, DState* q);
+  void add_capture(char a, std::bitset<32> S, DState* q);
+  void add_empty(char a);
+
+  Transition* next_transition(char a) const {
+    return transitions_[a].get();
   }
 
  private:
+  static int ID;
 
-  uint id_ = 0;
+  uint id_;
 
-  std::vector<DState*> transitions_;
+  std::vector<std::unique_ptr<Transition>> transitions_;
 
   std::string label_;
 

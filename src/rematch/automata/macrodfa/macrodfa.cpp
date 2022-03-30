@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <set>
+#include <algorithm>
 
 #include "automata/macrodfa/macrostate.hpp"
 #include "automata/dfa/transition.hpp"
@@ -10,12 +11,12 @@ namespace rematch {
 
 MacroDFA::MacroDFA(DFA& dA): dfa_(dA) {}
 
-MacroState* MacroDFA::add_state(DetState *state) {
+MacroState* MacroDFA::add_state(DState *state) {
   states_.emplace_back(std::make_shared<MacroState>(state));
   return states_.back().get();
 }
 
-MacroState* MacroDFA::add_state(std::vector<DetState*> states) {
+MacroState* MacroDFA::add_state(std::vector<DState*> states) {
   states_.emplace_back(std::make_shared<MacroState>(states));
   return states_.back().get();
 }
@@ -26,9 +27,9 @@ MacroTransition* MacroDFA::next_transition(MacroState* ms, char a) {
 	std::set<size_t> dstates_key;
 
 	// Set to store the reached states
-	std::set<DetState*> dstates_storage;
+	std::set<DState*> dstates_storage;
 
-	std::vector<std::pair<DetState*, DetState*>> first_storage, repeats_storage;
+	std::vector<std::pair<DState*, DState*>> first_storage, repeats_storage;
 
 	int nfirstdirects = 0, nrepeatdirects = 0,
 	    nfirstcaptures = 0, nrepeatcaptures = 0, nempties = 0;
@@ -42,7 +43,7 @@ MacroTransition* MacroDFA::next_transition(MacroState* ms, char a) {
 		}
 
 		if(nextTransition->type_ & Transition::kDirect) {
-			auto res = dstates_key.insert(nextTransition->direct_->id);
+			auto res = dstates_key.insert(nextTransition->direct_->id());
 			if (!res.second)
 				nrepeatdirects++;
 			else
@@ -50,14 +51,14 @@ MacroTransition* MacroDFA::next_transition(MacroState* ms, char a) {
 		} else if (nextTransition->type_ == Transition::kEmpty) {
 			nempties++;
 		} if (nextTransition->type_ & Transition::kSingleCapture) {
-			auto res = dstates_key.insert(nextTransition->capture_->next->id);
+			auto res = dstates_key.insert(nextTransition->capture_->next->id());
 			if (!res.second)
 				nrepeatcaptures++;
 			else
 				nfirstcaptures++;
 		} else if(nextTransition->type_ & Transition::kMultiCapture) {
 			for(auto &capture: nextTransition->captures_) {
-				auto res = dstates_key.insert(capture->next->id);
+				auto res = dstates_key.insert(capture->next->id());
 				if (!res.second)
 					nrepeatcaptures++;
 				else
@@ -112,7 +113,7 @@ MacroTransition* MacroDFA::next_transition(MacroState* ms, char a) {
 	// Check if not inside table already
 	if(found == mstates_table_.end()) {
 		// Convert set to vector
-		std::vector<DetState*> real_dstates_storage(dstates_storage.begin(), dstates_storage.end());
+		std::vector<DState*> real_dstates_storage(dstates_storage.begin(), dstates_storage.end());
 
 		// Create the new MacroState
 		q = add_state(real_dstates_storage);
@@ -130,49 +131,6 @@ MacroTransition* MacroDFA::next_transition(MacroState* ms, char a) {
 	ms->add_transition(a, mtrans);
 
 	return mtrans.get();
-}
-
-MacroState* MacroDFA::compute_drop_super_finals(MacroState *ms) {
-	std::set<size_t> dstates_key;
-	std::set<DetState*> dstates_storage;
-	for(auto &dstate: ms->states()) {
-		auto ns = dstate->drop_super_finals();
-		if(ns == nullptr) {
-			ns = dfa_.compute_drop_super_finals(dstate);
-		}
-		if(!ns->empty()) {
-			dstates_storage.insert(ns);
-			dstates_key.insert(ns->id);
-		}
-	}
-
-	// Pass up to a vector
-	std::vector<size_t> real_dstates_key(dstates_key.begin(), dstates_key.end());
-
-	// Sorting needed to compute the correct key
-	std::sort(real_dstates_key.begin(), real_dstates_key.end());
-
-	auto found = mstates_table_.find(real_dstates_key);
-
-	MacroState *q;
-
-	// Check if not inside table already
-	if(found == mstates_table_.end()) {
-		// Convert set to vector
-		std::vector<DetState*> real_dstates_storage(dstates_storage.begin(), dstates_storage.end());
-
-		// Create the new MacroState
-		q = add_state(real_dstates_storage);
-
-		// Insert new MacroState in table
-		mstates_table_.insert(std::pair<std::vector<size_t>, MacroState*>(real_dstates_key, q));
-	} else {
-		q = found->second;
-	}
-
-	ms->set_drop_super_finals(q);
-
-	return q;
 }
 
 void MacroDFA::set_as_init(MacroState *ms) {init_state_ = ms;}

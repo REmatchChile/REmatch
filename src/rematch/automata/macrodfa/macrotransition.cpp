@@ -9,24 +9,24 @@ MacroTransition::MacroTransition(size_t nfirstdirects, size_t nrepeatdirects,
       repeat_directs_{new MTDirect[nrepeatdirects]},
       first_captures_{new MTCapture[nfirstcaptures]},
       repeat_captures_{new MTCapture[nrepeatcaptures]},
-      empties_{new DetState*[nempties]} {}
+      empties_{new DState*[nempties]} {}
 
-void MacroTransition::add_direct(DetState& from, DetState& to, bool first) {
+void MacroTransition::add_direct(DState& from, DState& to, bool first) {
   if (first)
     new (&first_directs_[nfirstdirects_++]) MTDirect(from, to);
   else
     new (&repeat_directs_[nrepeatdirects_++]) MTDirect(from, to);
 }
 
-void MacroTransition::add_capture(DetState& from, std::bitset<32> S,
-                                  DetState& to, bool first) {
+void MacroTransition::add_capture(DState& from, std::bitset<32> S,
+                                  DState& to, bool first) {
   if (first)
     new (&first_captures_[nfirstcaptures_++]) MTCapture(from, S, to);
   else
     new (&repeat_captures_[nrepeatcaptures_++]) MTCapture(from, S, to);
 }
 
-void MacroTransition::add_empty(DetState& from) {
+void MacroTransition::add_empty(DState& from) {
   empties_[nempties_++] = &from;
 }
 

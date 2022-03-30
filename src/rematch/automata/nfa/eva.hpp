@@ -7,8 +7,8 @@
 #include <unordered_map>
 #include <set>
 #include <list>
+#include <memory>
 
-#include "bitsetwrapper.hpp"
 #include "regex/regex_options.hpp"
 
 namespace rematch {
@@ -63,7 +63,7 @@ class ExtendedVA {
 	void relabelStates();
 	void utilRelabelStates(State *state);
 
-	std::set<State*> getSubset(BitsetWrapper bs) const;
+	std::set<State*> getSubset(std::vector<bool> bs) const;
 
 	// @brief Computes the inverse topological sort of the captures.
 	// @return A vector of the reverse topological sorting of all capture
