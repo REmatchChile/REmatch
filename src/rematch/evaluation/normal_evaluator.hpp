@@ -1,5 +1,5 @@
-#ifndef EVALUATION__SEGMENT_EVALUATOR_HPP
-#define EVALUATION__SEGMENT_EVALUATOR_HPP
+#ifndef EVALUATION__NORMAL_EVALUATOR_HPP
+#define EVALUATION__NORMAL_EVALUATOR_HPP
 
 #include <string>
 #include <vector>
@@ -24,10 +24,10 @@
 
 namespace rematch {
 
-class SegmentEvaluator : public Evaluator {
+class NormalEvaluator : public Evaluator {
 
  public:
-  SegmentEvaluator(RegEx& rgx, std::shared_ptr<StrDocument> d, Anchor a);
+  NormalEvaluator(RegEx& rgx, std::shared_ptr<StrDocument> d, Anchor a);
 
   virtual Match_ptr next();
 
@@ -37,9 +37,6 @@ class SegmentEvaluator : public Evaluator {
 
   inline void visit_direct(DState* cstate, DState* direct, int64_t pos);
   inline void visit_capture(DState* cstate, std::bitset<32> capture, DState* to, int64_t pos);
-
-  bool searching_phase();
-  void init_searching_phase();
 
   // Executes the evaluation phase. Returns true if there is an output to
   // enumerate but it didn't reach the end of the search interval. Returns

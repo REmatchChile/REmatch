@@ -40,7 +40,8 @@ class RegEx {
     kDotNL       = 1<<1,
     kLineByLine  = 1<<2,
     kEarlyOutput = 1<<3,
-    kSaveAnchors = 1<<4
+    kSaveAnchors = 1<<4,
+    kSearching   = 1<<5
   };
 
   // Calls the evaluator to get first

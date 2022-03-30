@@ -34,7 +34,8 @@ class Options {
         line_by_line_(false),
         capturing_(true),
         early_output_(false),
-        is_docfile_(false) {
+        is_docfile_(false),
+        searching_(false) {
     }
 
     // Getters and setters
@@ -57,6 +58,9 @@ class Options {
     bool is_docfile() const {return is_docfile_;}
     void set_is_docfile(bool b) {is_docfile_ = b;}
 
+    bool searching() const {return searching_;}
+    void set_searching(bool b) {searching_ = b;}
+
 
   private:
     OutputOption output_option_;
@@ -65,6 +69,7 @@ class Options {
     bool capturing_;
     bool early_output_;
     bool is_docfile_;
+    bool searching_;
 
 }; // class Options
 

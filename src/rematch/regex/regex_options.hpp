@@ -19,7 +19,8 @@ class RegExOptions {
         start_anchor_(false),
         end_anchor_(false),
         early_output_(false),
-        save_anchors_(false) {}
+        save_anchors_(false),
+        searching_(false) {}
 
   bool multi_line() const {return multi_line_;}
   void set_multi_line(bool b) {multi_line_ = b;}
@@ -42,6 +43,9 @@ class RegExOptions {
   bool save_anchors() const {return save_anchors_;}
   void set_save_anchors(bool b) {save_anchors_ = b;}
 
+  bool searching() const { return searching_; }
+  void set_searching(bool b) { searching_ = b; }
+
  private:
 
   bool multi_line_;
@@ -51,6 +55,7 @@ class RegExOptions {
   bool end_anchor_;
   bool early_output_;
   bool save_anchors_;
+  bool searching_;
 }; // end class RegExOptions
 
 } // end namespace rematch

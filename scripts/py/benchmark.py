@@ -35,8 +35,11 @@ NEXP = data['nexp']
 TOT_COLS = data['cols']
 BINARIES = data['binaries']
 DESCRIPTION = data['description']
-BLACKLIST = []
-BLACKLIST = ["boost-forced", "PCRE-forced", "re2-forced"]
+BLACKLIST = ["boost-forced",
+						 "PCRE-forced",
+						 "re2-forced",
+						 "onig-forced",
+						 "tre-forced"]
 
 def formatMem(sizeInKb):
 	units = ['K', 'M', 'G']
@@ -195,7 +198,7 @@ def main():
 
 			rgx_col = chr(ord(START_COL))
 
-			rem_rgx_path = os.path.join(experiment,"perl.rgx")
+			rem_rgx_path = os.path.join(experiment,"rematch.rgx")
 
 			writeInCell(SHEETS_SERVICE, spreadsheet_id, single_range.format(rgx_col, row_counter), [[get_rgx(rem_rgx_path)]])
 

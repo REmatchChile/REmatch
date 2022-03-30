@@ -42,6 +42,7 @@ void Interface::normal_run() {
 	// Select options
 	rgx_opts.set_line_by_line(options_.line_by_line());
 	rgx_opts.set_early_output(options_.early_output());
+	rgx_opts.set_searching(options_.searching());
 
 	rematch::RegEx regex(pattern_, rgx_opts);
 

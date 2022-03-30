@@ -39,16 +39,18 @@ int main(int argc, char *argv[]) {
 	// app.add_option("-a,--anchors",anchors,"Use anchors for regex")
 	// 	->check(CLI::IsMember({"both", "left", "right", "none"}));
 
-	bool cont{false}, line{false};
+	bool cont{false}, line{false}, searching{false};
 
 	// Evaluation flags
 	app.add_flag("-c,--continuous",cont,"Continuous evaluation.");
 	app.add_flag("-l,--line-by-line", line,"Line by line evaluation");
+	app.add_flag("--searching", searching, "Searching phase activation.");
 
 	CLI11_PARSE(app, argc, argv);
 
 	opts.set_early_output(cont);
 	opts.set_line_by_line(line);
+	opts.set_searching(searching);
 
 	if(mode == "benchmark")
 		opts.set_output_option(rematch::BENCHMARK);
