@@ -41,7 +41,8 @@ class RegEx {
     kLineByLine  = 1<<2,
     kEarlyOutput = 1<<3,
     kSaveAnchors = 1<<4,
-    kSearching   = 1<<5
+    kSearching   = 1<<5,
+    kMacroDFA    = 1<<6
   };
 
   // Calls the evaluator to get first

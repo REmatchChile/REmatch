@@ -22,12 +22,15 @@
 #include "automata/macrodfa/macrodfa.hpp"
 #include "automata/macrodfa/macrostate.hpp"
 
+#include "evaluation/stats.hpp"
+
 namespace rematch {
 
 class SegmentEvaluator : public Evaluator {
 
  public:
-  SegmentEvaluator(RegEx& rgx, std::shared_ptr<StrDocument> d, Anchor a);
+  SegmentEvaluator(RegEx& rgx, std::shared_ptr<StrDocument> d,
+                   Anchor a, EvalStats &e);
 
   virtual Match_ptr next();
 
@@ -71,7 +74,7 @@ class SegmentEvaluator : public Evaluator {
 
   std::vector<DState*> reached_final_states_;
 
-  DState* current_dstate_;
+  SDState* current_dstate_;
 
   static const size_t kSizeMaxOutputBuffer = 100;
 
@@ -81,6 +84,8 @@ class SegmentEvaluator : public Evaluator {
   uint64_t i_max_ = 0;
 
   size_t out_buf_counter = 0;
+
+  EvalStats &stats_;
 }; // end class Evaluator
 
 } // namespace rematch

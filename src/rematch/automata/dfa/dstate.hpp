@@ -61,7 +61,7 @@ class DState {
   void add_empty(char a);
 
   Transition* next_transition(char a) const {
-    return transitions_[a].get();
+    return transitions_[a];
   }
 
  private:
@@ -69,7 +69,7 @@ class DState {
 
   uint id_;
 
-  std::vector<std::unique_ptr<Transition>> transitions_;
+  std::vector<Transition*> transitions_{128, nullptr};
 
   std::string label_;
 

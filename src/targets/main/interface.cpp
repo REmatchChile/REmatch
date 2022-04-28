@@ -43,6 +43,7 @@ void Interface::normal_run() {
 	rgx_opts.set_line_by_line(options_.line_by_line());
 	rgx_opts.set_early_output(options_.early_output());
 	rgx_opts.set_searching(options_.searching());
+	rgx_opts.set_macrodfa(options_.macrodfa());
 
 	rematch::RegEx regex(pattern_, rgx_opts);
 
@@ -71,7 +72,7 @@ void Interface::normal_run() {
 void Interface::benchmark_run() {
     std::stringstream output;
 
-	size_t n_mappings, detSize, nfaSize, mdfaSize;
+	size_t n_mappings, detSize, nfaSize, mdfaSize, n_segments;
 	double initAutomataTime, evaluateTime, totTime;
 	/**************************** Run Algorithm ****************************/
 
@@ -80,6 +81,8 @@ void Interface::benchmark_run() {
 	rematch::RegExOptions rgx_opt;
 	rgx_opt.set_line_by_line(options_.line_by_line());
 	rgx_opt.set_early_output(options_.early_output());
+	rgx_opt.set_searching(options_.searching());
+	rgx_opt.set_macrodfa(options_.macrodfa());
 	rematch::RegEx regex(pattern_, rgx_opt);
 	rematch::Match_ptr match_ptr;
 
@@ -94,12 +97,22 @@ void Interface::benchmark_run() {
 		n_mappings++;
 	}
 
+	nfaSize = match_iter.stats_->eva_size;
+	n_segments = match_iter.stats_->n_search_intervals;
+
 	// numOfCaptures = regex.capture_counter();
 	// numOfReadings = regex.reading_counter();
 
-	detSize = 0;
-	nfaSize = 0;
+	detSize = match_iter.stats_->dfa_size;
 	mdfaSize = 0;
+
+	std::ofstream mfile("dump.log");
+
+	for(auto& e: match_iter.stats_->search_intervals) {
+		mfile << "Segment: |" << e.first << ',' << e.second << ">\n";
+	}
+
+	mfile.close();
 
 
 	// std::cout << "\nRaw DFA:\n" <<  regex.detManager().DFA().pprint() << '\n';
@@ -128,6 +141,7 @@ void Interface::benchmark_run() {
 	<< "MDFASize \t\t\t"							<<	mdfaSize														<<	'\n'
 	<< "DetSize \t\t\t"								<<	detSize															<<	'\n'
 	<< "eVASize \t\t\t"								<<	nfaSize															<< 	'\n'
+	<< "Number of segments\t\t" 			<<  n_segments 													<<	'\n'
 	<< "Init Automata time\t\t"				<<	pwc(initAutomataTime) 							<< 	" ms\n"
 	<< "Evaluate time\t\t\t"					<<	pwc(evaluateTime)										<< 	" ms\n"
 	<< "Total time\t\t\t"							<<	pwc(totTime) 												<< 	" ms\n\n";

@@ -5,8 +5,8 @@
 
 namespace rematch {
 
-MatchIterator::MatchIterator(Evaluator* e)
-    : evaluator_(e) {}
+MatchIterator::MatchIterator(Evaluator* e, EvalStats* s)
+    : evaluator_(e), stats_(s) {}
 
 Match_ptr MatchIterator::next() {
   return evaluator_->next();

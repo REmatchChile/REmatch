@@ -12,15 +12,6 @@ enum class Anchor {
 
 class RegExOptions {
  public:
-  RegExOptions()
-      : multi_line_(false),
-        line_by_line_(false),
-        dot_nl_(false),
-        start_anchor_(false),
-        end_anchor_(false),
-        early_output_(false),
-        save_anchors_(false),
-        searching_(false) {}
 
   bool multi_line() const {return multi_line_;}
   void set_multi_line(bool b) {multi_line_ = b;}
@@ -46,16 +37,20 @@ class RegExOptions {
   bool searching() const { return searching_; }
   void set_searching(bool b) { searching_ = b; }
 
+  bool macrodfa() const { return macrodfa_; }
+  void set_macrodfa(bool b) { macrodfa_ = b; }
+
  private:
 
-  bool multi_line_;
-  bool line_by_line_;
-  bool dot_nl_;
-  bool start_anchor_;
-  bool end_anchor_;
-  bool early_output_;
-  bool save_anchors_;
-  bool searching_;
+  bool multi_line_    = false;
+  bool line_by_line_  = false;
+  bool dot_nl_        = false;
+  bool start_anchor_  = false;
+  bool end_anchor_    = false;
+  bool early_output_  = false;
+  bool save_anchors_  = false;
+  bool searching_     = false;
+  bool macrodfa_      = false;
 }; // end class RegExOptions
 
 } // end namespace rematch

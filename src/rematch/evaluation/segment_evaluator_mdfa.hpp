@@ -1,5 +1,5 @@
-#ifndef EVALUATION__NORMAL_EVALUATOR_HPP
-#define EVALUATION__NORMAL_EVALUATOR_HPP
+#ifndef EVALUATION__SEGMENT_EVALUATOR_MDFA_HPP
+#define EVALUATION__SEGMENT_EVALUATOR_MDFA_HPP
 
 #include <string>
 #include <vector>
@@ -13,6 +13,7 @@
 #include "structs/ecs/enumerator.hpp"
 
 #include "automata/dfa/dfa.hpp"
+#include "automata/macrodfa/macrodfa.hpp"
 #include "automata/dfa/sdfa.hpp"
 
 #include "memmanager.hpp"
@@ -22,12 +23,15 @@
 #include "automata/macrodfa/macrodfa.hpp"
 #include "automata/macrodfa/macrostate.hpp"
 
+#include "evaluation/stats.hpp"
+
 namespace rematch {
 
-class NormalEvaluator : public Evaluator {
+class MacroSegmentEvaluator : public Evaluator {
 
  public:
-  NormalEvaluator(RegEx& rgx, std::shared_ptr<StrDocument> d, Anchor a);
+  MacroSegmentEvaluator(RegEx& rgx, std::shared_ptr<StrDocument> d,
+                   Anchor a, EvalStats &e);
 
   virtual Match_ptr next();
 
@@ -35,8 +39,10 @@ class NormalEvaluator : public Evaluator {
 
   inline void reading(char a, int64_t i);
 
-  inline void visit_direct(DState* cstate, DState* direct, int64_t pos);
   inline void visit_capture(DState* cstate, std::bitset<32> capture, DState* to, int64_t pos);
+
+  bool searching_phase();
+  void init_searching_phase();
 
   // Executes the evaluation phase. Returns true if there is an output to
   // enumerate but it didn't reach the end of the search interval. Returns
@@ -50,8 +56,10 @@ class NormalEvaluator : public Evaluator {
   std::unique_ptr<ExtendedVA> eva_;
   std::unique_ptr<SearchVA> sva_;
 
-  std::unique_ptr<DFA> dfa_;                            // Normal DFA
-  std::unique_ptr<SearchDFA> sdfa_;                     // Search DFA
+  std::unique_ptr<DFA> dfa_;                      // Normal DFA
+  std::unique_ptr<SearchDFA> sdfa_;               // Search DFA
+
+  std::unique_ptr<MacroDFA> mdfa_;
 
   RegEx &rgx_;
 
@@ -63,7 +71,7 @@ class NormalEvaluator : public Evaluator {
 
   Anchor anchor_;
 
-  std::vector<DState*> current_states_;
+  MacroState* current_state_;
   std::vector<DState*> new_states_;
 
   std::vector<DState*> reached_final_states_;
@@ -78,6 +86,8 @@ class NormalEvaluator : public Evaluator {
   uint64_t i_max_ = 0;
 
   size_t out_buf_counter = 0;
+
+  EvalStats &stats_;
 }; // end class Evaluator
 
 } // namespace rematch

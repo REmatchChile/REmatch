@@ -79,20 +79,21 @@ def docstats(doc_path):
 	return filesize, int(nchars), int(nlines)+1
 
 def automata_stats(doc_path, rgx_path):
-	command = "{0}/build/Release/bin/rematch -c --mode=benchmark -d {1} -r {2}".format(HOME_DIR, doc_path, rgx_path)
+	command = "{0}/build/Release/bin/rematch --searching --mode=benchmark -d {1} -r {2}".format(HOME_DIR, doc_path, rgx_path)
 	try:
 		process = subprocess.run(command, shell=True, check=True,
 														capture_output=True, universal_newlines=True)
 	except:
 		print(f"Error while processing command: {command}")
-		return 'err', 'err', 'err', 'err', 'err'
+		return 'err', 'err', 'err', 'err'
 
 	# print(process.stdout)
 	dsize = int(re.search(r'DetSize\s+(\d+)', process.stdout).group(1))
 	esize = int(re.search(r'eVASize\s+(\d+)', process.stdout).group(1))
 	msize = int(re.search(r'MDFASize\s+(\d+)', process.stdout).group(1))
+	nsegs = int(re.search(r'Number of segments\s+(\d+)', process.stdout).group(1))
 
-	return dsize, esize, msize
+	return dsize, esize, msize, nsegs
 
 def re2_algo(doc_path, rgx_path):
 	command = "{0}/build/Release/bin/re2-algo {1} {2}".format(HOME_DIR, doc_path, rgx_path)
@@ -180,7 +181,7 @@ def main():
 	print(exps_path)
 
 	ndocstats = 3
-	nautomatastats = 3
+	nautomatastats = 4
 	ntotstats = ndocstats + nautomatastats
 
 	row_counter = START_ROW
@@ -227,13 +228,14 @@ def main():
 
 			print("Docstats calculated")
 
-			dsize, esize, msize = automata_stats(doc_path, os.path.join(experiment,"rematch.rgx"))
+			dsize, esize, msize, nsegs = automata_stats(doc_path, os.path.join(experiment,"rematch.rgx"))
 
 			# row_values[0][-1] = evaltime
 
 			row_values[0][ndocstats] = esize
 			row_values[0][ndocstats+1] = dsize
 			row_values[0][ndocstats+2] = msize
+			row_values[0][ndocstats+3] = nsegs
 
 
 			# row_values[0][-1] = re2_algo(doc_path, os.path.join(experiment,"perl.rgx"))

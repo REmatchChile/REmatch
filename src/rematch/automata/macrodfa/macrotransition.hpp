@@ -74,11 +74,11 @@ class MacroTransition {
 
   MacroState* next_state();
 
-  size_t nfirstdirects_ = 0;
-  size_t nfirstcaptures_ = 0;
-  size_t nrepeatdirects_ = 0;
-  size_t nrepeatcaptures_ = 0;
-  size_t nempties_ = 0;
+  int nfirstdirects_ = 0;
+  int nfirstcaptures_ = 0;
+  int nrepeatdirects_ = 0;
+  int nrepeatcaptures_ = 0;
+  int nempties_ = 0;
 
   size_t ndirects_ = 0;
   size_t ncaptures_ = 0;

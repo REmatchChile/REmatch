@@ -20,5 +20,6 @@ class Evaluator {
 // #include "evaluation/normal_evaluator_new.hpp"
 // #include "evaluation/eofilter_evaluator_new.hpp"
 #include "evaluation/segment_evaluator.hpp"
+#include "evaluation/segment_evaluator_mdfa.hpp"
 
 #endif // EVALUATION__EVALUATOR_HPP

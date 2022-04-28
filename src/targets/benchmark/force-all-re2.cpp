@@ -23,28 +23,23 @@ int main(int argc, char const *argv[]) {
 
   re2::StringPiece supermatch, match;
   int count = 0;
-  size_t inp_sz = input.size(); // Original size
 
-  for(size_t i=0; i < inp_sz; i++) {
-    if(RE2::PartialMatch(input, pattern, &supermatch)) {
-      size_t spmatch_size = supermatch.size();
-      for(size_t j=0; j < spmatch_size; j++) {
-        if(RE2::PartialMatch(supermatch, pattern, &match)) {
-          count++;
-          // std::cout << "|" << match.data() - doc.data() << ","
-          //                  << match.data() - doc.data() + match.size() << ">\n";
-        } else break;
-          // No se puede asegurar que no haya output en el resto de los
-          // prefijos.
-        supermatch.remove_suffix(supermatch.size() - match.size() + 1);
+  while(RE2::PartialMatch(input, pattern, &supermatch)) {
+    count++;
+    while(RE2::PartialMatch(supermatch, pattern, &match)) {
+      count++;
+      // std::cout << "|" << match.data() - doc.data() << ","
+      //                  << match.data() - doc.data() + match.size() << ">\n";
+
+      supermatch.remove_suffix(supermatch.size() - match.size() + 1);
       }
-      // std::cout << "Match: \"" << match << "\"\n";
-
-      // Jump to the start of the next match
-      input.remove_prefix(supermatch.data() - input.data() + 1);
-    } else break;
+    // Jump to the start of the next match
+    input.remove_prefix(supermatch.data() - input.data() + 1);
   }
 
+  // std::cout << "Match: \"" << match << "\"\n";
+
   std::cout << count << '\n';
+
   return 0;
 }

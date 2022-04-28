@@ -10,12 +10,10 @@ int DState::ID = 0;
 
 DState::DState(size_t tot_states)
   : id_(ID++),
-    transitions_(128),
     states_bitmap_(tot_states, false) {}
 
 DState::DState(size_t tot_states, std::vector<State*> states)
     : id_(ID++),
-      transitions_(128),
       states_bitmap_(tot_states, false),
       states_subset_(states) {
   for(auto &p: states_subset_) {
@@ -27,7 +25,6 @@ DState::DState(size_t tot_states, std::vector<State*> states)
 
 DState::DState(size_t tot_states, std::set<State*> states)
     : id_(ID++),
-      transitions_(128),
       states_bitmap_(tot_states, false),
       states_subset_(states.begin(), states.end()) {
   for(auto &p: states_subset_) {
@@ -50,20 +47,20 @@ void DState::add_state(State* p) {
 
 void DState::add_direct(char a, DState* q) {
   if(transitions_[a] == nullptr)
-    transitions_[a] = std::make_unique<Transition>(q);
+    transitions_[a] = new Transition(q);
   else
     transitions_[a]->add_direct(q);
 }
 
 void DState::add_capture(char a, std::bitset<32> S, DState* q) {
   if(transitions_[a] == nullptr)
-    transitions_[a] = std::make_unique<Transition>(new DCapture(S, q));
+    transitions_[a] = new Transition(new DCapture(S, q));
   else
     transitions_[a]->add_capture(new DCapture(S, q));
 }
 
 void DState::add_empty(char a) {
-  transitions_[a] = std::make_unique<Transition>();
+  transitions_[a] = new Transition();
 }
 
 void DState::set_accepting(bool b) {

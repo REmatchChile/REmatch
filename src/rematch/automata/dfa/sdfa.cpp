@@ -22,50 +22,47 @@ SearchDFA::SearchDFA(SearchVA const &A)
 
 }
 
-DState* SearchDFA::new_dstate() {
-  DState* np = new DState(sVA_.size());
+SDState* SearchDFA::new_dstate() {
+  SDState* np = new SDState(sVA_.size());
   states.push_back(np);
   return np;
 }
 
-DState* SearchDFA::next_state(DState *q, char a) {
+SDState* SearchDFA::next_state(SDState *q, char a) {
 
 	std::vector<bool> triggered_filters = ffactory_->applyFilters(a);
 
-	std::set<State*> newSubset;  // Store the next subset
-	std::vector<bool> subsetBitset(sVA_.size());  // Subset bitset representation
+	std::set<State*> new_subset;  // Store the next subset
+	std::vector<bool> new_bitset(sVA_.size());  // Subset bitset representation
 
 	for(auto &state: q->subset()) {
-
 		for(auto &filter: state->filters) {
-			if(triggered_filters[filter->code] && !subsetBitset[filter->next->id]) {
-				newSubset.insert(filter->next);
-				subsetBitset[filter->next->id] = true;
+			if(triggered_filters[filter->code] && !new_bitset[filter->next->id]) {
+				new_subset.insert(filter->next);
+				new_bitset[filter->next->id] = true;
 			}
 		}
 	}
 
-	auto found = dstates_table_.find(subsetBitset);
+	auto found = dstates_table_.find(new_bitset);
 
-  std::vector<State*> new_subset_vect(newSubset.begin(), newSubset.end());
-
-	DState* nq;
+	SDState* nq;
 
 	if(found == dstates_table_.end()) { // Check if already stored subset
-		nq = new DState(sVA_.size(), new_subset_vect);
+		nq = new SDState(sVA_.size(), new_subset);
 
 		dstates_table_[nq->bitmap()] = nq;
 
 		states.push_back(nq);
 
-		if(nq->accepting()) {
+		if(nq->accepting())
 			final_states.push_back(nq);
-		}
+
 	} else {
 		nq = found->second;
 	}
 
-	q->add_direct(a, nq);
+	q->set_transition(a, nq);
 
 	return nq;
 }

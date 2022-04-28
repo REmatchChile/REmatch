@@ -11,10 +11,13 @@
 
 namespace rematch {
 
+class MacroSegmentEvaluator;
+
 class MacroDFA {
  public:
   using MacroStatesTable = std::unordered_map<std::vector<size_t>, MacroState*,
 																							                    util::VectorHasher>;
+  friend MacroSegmentEvaluator;
   MacroDFA(DFA& dA);
 
   // @brief Add a state to the set of states of the macro-automaton. Returning

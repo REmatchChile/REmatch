@@ -31,8 +31,13 @@ ExtendedVA::ExtendedVA(LogicalVA const &A, Anchor a)
 	if(anchor_ == Anchor::kUnanchored) {
 		auto code = filter_factory_->add_filter(CharClassBuilder(0, CHAR_MAX));
 		init_state_->add_filter(code, init_state_);
-		accepting_state_->add_filter(code, accepting_state_);
+		// accepting_state_->add_filter(code, accepting_state_);
 	}
+
+	#ifndef NDEBUG
+	std::cout << "EvaluationVA before offset:\n" << *this << "\n\n";
+	#endif
+
 
 	#ifndef NOPT_OFFSET
 		offsetOpt();
@@ -40,15 +45,15 @@ ExtendedVA::ExtendedVA(LogicalVA const &A, Anchor a)
 
 	captureClosure();
 
-	#ifndef NDEBUG
-	std::cout << "EvaluationVA:\n" << *this << "\n\n";
-	#endif
-
   #ifndef NOPT_CROSSPROD
 	  crossProdOpt();
   #endif
 
 	relabelStates();
+
+	#ifndef NDEBUG
+	std::cout << "EvaluationVA after relabeling:\n" << *this << "\n\n";
+	#endif
 
 }
 
@@ -560,7 +565,7 @@ std::ostream& operator<<(std::ostream& os, ExtendedVA const &A) {
 
       nid = capture->next->id;
 
-      os << "t " << cid << " " << A.variable_factory_->print_varset(S) << " " << nid << '\n';
+      os << "c " << cid << " " << A.variable_factory_->print_varset(S) << " " << nid << '\n';
 
       // If not visited enqueue and add to visited
       if (visited.find(nid) == visited.end()) {

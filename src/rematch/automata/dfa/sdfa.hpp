@@ -8,7 +8,7 @@
 #include <unordered_map>
 
 #include "automata/dfa/transition.hpp"
-#include "automata/dfa/dstate.hpp"
+#include "automata/dfa/sdstate.hpp"
 
 #include "automata/nfa/sva.hpp"
 #include "regex/regex_options.hpp"
@@ -19,13 +19,13 @@ class VariableFactory;
 class DetState;
 class ExtendedVA;
 
-using DFAStatesTableBools = std::unordered_map<std::vector<bool>, DState*>;
+using DFAStatesTableBools = std::unordered_map<std::vector<bool>, SDState*>;
 
 class SearchDFA {
  public:
   // Vector of pointers of States for resizing:
-  std::vector<DState*> states;
-  std::vector<DState*> final_states;
+  std::vector<SDState*> states;
+  std::vector<SDState*> final_states;
 
   std::vector<std::string> varNames;
 
@@ -33,26 +33,24 @@ class SearchDFA {
 
   //  ---  Getters  ---  //
 
-  DState* initial_state() {return initial_state_;}
+  SDState* initial_state() {return initial_state_;}
 
   // @brief Check if the empty word is inside the automaton's language
   bool has_epsilon() const { return has_epsilon_; }
-
-  std::string pprint();
 
   // @brief Number of states in the automaton's graph
   size_t size() const {return states.size();}
 
   // ---  Determinization  ---  //
 
-  DState* next_state(DState* q, char a);
+  SDState* next_state(SDState* q, char a);
 
  private:
 
-  DState* new_dstate();
+  SDState* new_dstate();
 
   // The starting state of the dfa
-  DState* initial_state_;
+  SDState* initial_state_;
 
   bool has_epsilon_;
 

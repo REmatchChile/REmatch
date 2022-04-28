@@ -49,12 +49,16 @@ RegEx::~RegEx() {}
 MatchIterator RegEx::findIter(std::shared_ptr<Document> d, Anchor a) {
   std::shared_ptr<StrDocument> strd = std::static_pointer_cast<StrDocument>(d);
   Evaluator *eval;
+  EvalStats *stats = new EvalStats();
   if (flags_ & kSearching) {
-    eval = new SegmentEvaluator(*this, strd, a);
+    if (flags_ & kMacroDFA)
+      eval = new MacroSegmentEvaluator(*this, strd, a, *stats);
+    else
+      eval = new SegmentEvaluator(*this, strd, a, *stats);
   } else {
     eval = new NormalEvaluator(*this, strd, a);
   }
-  return MatchIterator(eval);
+  return MatchIterator(eval, stats);
 }
 
 Match_ptr RegEx::find(const std::string &text) {
@@ -68,7 +72,8 @@ uint8_t RegEx::parseFlags(rematch::RegExOptions rgx_opts) {
                  rgx_opts.dot_nl()        * kDotNL        |
                  rgx_opts.early_output()  * kEarlyOutput  |
                  rgx_opts.save_anchors()  * kSaveAnchors  |
-                 rgx_opts.searching()     * kSearching;
+                 rgx_opts.searching()     * kSearching    |
+                 rgx_opts.macrodfa()      * kMacroDFA;
   return ret;
 }
 

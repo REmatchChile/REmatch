@@ -35,7 +35,8 @@ class Options {
         capturing_(true),
         early_output_(false),
         is_docfile_(false),
-        searching_(false) {
+        searching_(false),
+        macrodfa_(false) {
     }
 
     // Getters and setters
@@ -61,6 +62,9 @@ class Options {
     bool searching() const {return searching_;}
     void set_searching(bool b) {searching_ = b;}
 
+    bool macrodfa() const { return macrodfa_; }
+    void set_macrodfa(bool b) {macrodfa_ = b; }
+
 
   private:
     OutputOption output_option_;
@@ -70,6 +74,7 @@ class Options {
     bool early_output_;
     bool is_docfile_;
     bool searching_;
+    bool macrodfa_;
 
 }; // class Options
 
