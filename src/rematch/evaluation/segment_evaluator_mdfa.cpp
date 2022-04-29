@@ -56,6 +56,7 @@ Match_ptr MacroSegmentEvaluator::next() {
 
   stats_.dfa_size = dfa_->size();
   stats_.sdfa_size = sdfa_->size();
+  stats_.mdfa_size = mdfa_->size();
   return nullptr;
 }
 

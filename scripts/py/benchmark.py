@@ -79,7 +79,7 @@ def docstats(doc_path):
 	return filesize, int(nchars), int(nlines)+1
 
 def automata_stats(doc_path, rgx_path):
-	command = "{0}/build/Release/bin/rematch --searching --mode=benchmark -d {1} -r {2}".format(HOME_DIR, doc_path, rgx_path)
+	command = "{0}/build/Release/bin/rematch --searching --macrodfa --mode=benchmark -d {1} -r {2}".format(HOME_DIR, doc_path, rgx_path)
 	try:
 		process = subprocess.run(command, shell=True, check=True,
 														capture_output=True, universal_newlines=True)

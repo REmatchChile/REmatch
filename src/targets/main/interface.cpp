@@ -104,7 +104,7 @@ void Interface::benchmark_run() {
 	// numOfReadings = regex.reading_counter();
 
 	detSize = match_iter.stats_->dfa_size;
-	mdfaSize = 0;
+	mdfaSize = match_iter.stats_->mdfa_size;
 
 	std::ofstream mfile("dump.log");
 
