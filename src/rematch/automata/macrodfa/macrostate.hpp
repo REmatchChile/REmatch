@@ -26,9 +26,6 @@ class MacroState {
 
   std::vector<DState*>& states();
 
-  MacroState* drop_super_finals() const {return drop_super_finals_;}
-  void set_drop_super_finals(MacroState* ms) { drop_super_finals_ = ms; }
-
   friend std::ostream& operator<<(std::ostream &os, MacroState const &m) {
     os << "{";
     for(auto &dstate: m.states_) {
@@ -41,11 +38,12 @@ class MacroState {
     return os;
   }
 
+  static int current_ID;
+
  private:
-  int id_;
+  int id_ = current_ID++;
   TransitionsMap transitions_;
   std::vector<DState*> states_;
-  MacroState* drop_super_finals_ = nullptr;
 }; // end class MacroState
 
 } // end namespace rematch

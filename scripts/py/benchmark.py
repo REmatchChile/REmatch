@@ -12,7 +12,7 @@ import re
 
 here = pth.dirname(pth.realpath(__file__))
 
-with open(pth.join(here, "benchmark-wiki.json")) as jsonFile:
+with open(pth.join(here, "benchmark-alt-forceall.json")) as jsonFile:
 		data = json.load(jsonFile)
 
 
@@ -185,7 +185,7 @@ def main():
 
 	row_length = ntotstats + num_bins * 3 + 1
 
-	for dataset in sorted(next(os.walk(exps_path))[1]):
+	for dataset in sorted(next(os.walk(exps_path, followlinks=True))[1]):
 
 		writeInCell(SHEETS_SERVICE, spreadsheet_id, single_range.format(START_COL, row_counter), [["!!" + dataset]])
 		row_counter += 1

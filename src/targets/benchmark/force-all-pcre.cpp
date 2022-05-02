@@ -23,24 +23,17 @@ int main(int argc, char const *argv[]) {
 
   pcrecpp::StringPiece supermatch, match;
   int count = 0;
-  size_t inp_sz = input.size(); // Original size
 
-  for(size_t i=0; i < inp_sz; i++) {
-    if(pattern.PartialMatch(input, &supermatch)) {
-      size_t spmatch_size = supermatch.size();
-      for(size_t j=0; j < spmatch_size; j++) {
-        if(pattern.FullMatch(supermatch, &match)) {
-          count++;
-          // std::cout << "|" << match.data() - doc.data() << ","
-          //                  << match.data() - doc.data() + match.size() << ">\n";
-        }
-        supermatch.remove_suffix(1);
-      }
-      // std::cout << "Match: \"" << match << "\"\n";
-
-      // Jump to the start of the next match
-      input.remove_prefix(supermatch.data() - input.data() + 1);
-    } else break;
+  while(pattern.PartialMatch(input, &supermatch)) {
+    count++;
+    supermatch.remove_suffix(1);
+    while(pattern.FullMatch(supermatch, &match)) {
+      count++;
+      // std::cout << "|" << match.data() - doc.data() << ","
+      //                  << match.data() - doc.data() + match.size() << ">\n";
+      supermatch.remove_suffix(1);
+    }
+    input.remove_prefix(supermatch.data() - input.data() + 1);
   }
 
   std::cout << count << '\n';

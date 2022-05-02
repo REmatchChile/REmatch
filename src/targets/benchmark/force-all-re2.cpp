@@ -21,18 +21,26 @@ int main(int argc, char const *argv[]) {
 
   RE2 pattern(rgx);
 
+  std::ofstream logfile("logs/re2_force_all.log");
+
   re2::StringPiece supermatch, match;
   int count = 0;
 
   while(RE2::PartialMatch(input, pattern, &supermatch)) {
     count++;
-    while(RE2::PartialMatch(supermatch, pattern, &match)) {
+    // logfile << "Supermatch: |" << supermatch.data() - doc.data() << ","
+    //                  << supermatch.data() - doc.data() + supermatch.size()
+    //                  << "> (\"" << supermatch << "\")\n";
+    supermatch.remove_suffix(1);
+    while(RE2::FullMatch(supermatch, pattern, &match)) {
       count++;
-      // std::cout << "|" << match.data() - doc.data() << ","
-      //                  << match.data() - doc.data() + match.size() << ">\n";
+      // logfile << "\tSubmatch: |" << match.data() - doc.data() << ","
+      //                << match.data() - doc.data() + match.size()
+      //                << "> (\"" << match << "\")\n";
 
       supermatch.remove_suffix(supermatch.size() - match.size() + 1);
       }
+    // logfile << '\n';
     // Jump to the start of the next match
     input.remove_prefix(supermatch.data() - input.data() + 1);
   }
@@ -40,6 +48,8 @@ int main(int argc, char const *argv[]) {
   // std::cout << "Match: \"" << match << "\"\n";
 
   std::cout << count << '\n';
+
+  logfile.close();
 
   return 0;
 }

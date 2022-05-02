@@ -12,13 +12,13 @@ namespace rematch {
 MacroDFA::MacroDFA(DFA& dA): dfa_(dA) {}
 
 MacroState* MacroDFA::add_state(DState *state) {
-  states_.emplace_back(std::make_shared<MacroState>(state));
-  return states_.back().get();
+  states_.push_back(new MacroState(state));
+  return states_.back();
 }
 
 MacroState* MacroDFA::add_state(std::vector<DState*> states) {
-  states_.emplace_back(std::make_shared<MacroState>(states));
-  return states_.back().get();
+  states_.push_back(new MacroState(states));
+  return states_.back();
 }
 
 MacroTransition* MacroDFA::next_transition(MacroState* ms, char a) {

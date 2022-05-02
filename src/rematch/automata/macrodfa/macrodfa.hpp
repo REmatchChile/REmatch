@@ -1,5 +1,5 @@
-#ifndef SRC_REMATCH_AUTOMATA_MACRODFA_MACRODFA_HPP
-#define SRC_REMATCH_AUTOMATA_MACRODFA_MACRODFA_HPP
+#ifndef AUTOMATA_MACRODFA_MACRODFA_HPP
+#define AUTOMATA_MACRODFA_MACRODFA_HPP
 
 #include <vector>
 #include <functional>
@@ -38,7 +38,7 @@ class MacroDFA {
 
  private:
   MacroState *init_state_; // Raw ptr
-  std::vector<std::shared_ptr<MacroState>> states_;
+  std::vector<MacroState*> states_;
 
   DFA& dfa_;                              // DFA reference
 
@@ -49,4 +49,4 @@ class MacroDFA {
 
 } // end namespace rematch
 
-#endif // SRC_REMATCH_AUTOMATA_MACRODFA_MACRODFA_HPP
+#endif // AUTOMATA_MACRODFA_MACRODFA_HPP

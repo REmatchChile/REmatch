@@ -76,7 +76,8 @@ void MacroSegmentEvaluator::init_evaluation_phase(int64_t pos) {
     init_dstates.push_back(dfa_->init_state());
   }
 
-  mdfa_->set_as_init(mdfa_->add_state(init_dstates));
+  if(pos == 0)
+    mdfa_->set_as_init(mdfa_->add_state(init_dstates));
 
   current_state_ = &mdfa_->get_init_state();
 
