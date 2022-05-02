@@ -12,7 +12,7 @@ import re
 
 here = pth.dirname(pth.realpath(__file__))
 
-with open(pth.join(here, "benchmark-wiki.json")) as jsonFile:
+with open(pth.join(here, "benchmark-proteoms.json")) as jsonFile:
 		data = json.load(jsonFile)
 
 
@@ -35,7 +35,10 @@ NEXP = data['nexp']
 TOT_COLS = data['cols']
 BINARIES = data['binaries']
 DESCRIPTION = data['description']
-BLACKLIST = ["onig-forced",
+BLACKLIST = ["boost-forced",
+						 "PCRE-forced",
+						 "re2-forced",
+						 "onig-forced",
 						 "tre-forced"]
 
 def formatMem(sizeInKb):
