@@ -101,6 +101,19 @@ def re2_algo(doc_path, rgx_path):
 	return process.stdout
 
 
+def col2n(sscol):
+  n = 0
+  for c in sscol:
+      n = n * 26 + 1 + ord(c) - ord('A')
+  return n
+
+def n2col(n):
+  name = ''
+  while n > 0:
+      n, r = divmod (n - 1, 26)
+      name = chr(r + ord('A')) + name
+  return name
+
 
 def run_bench(binary, doc_path, rgx_path, nexp):
 	if binary in BLACKLIST:
@@ -171,11 +184,7 @@ def main():
 	current_range = 'Data!{0}{1}:{2}{3}'
 	single_range = 'Data!{0}{1}'
 
-	print("HOME_DIR:",HOME_DIR)
-
 	exps_path = pth.join(HOME_DIR, EXP_SUBPATH)
-
-	print(exps_path)
 
 	ndocstats = 3
 	nautomatastats = 4
@@ -183,7 +192,7 @@ def main():
 
 	row_counter = START_ROW
 
-	row_length = ntotstats + num_bins * 3 + 1
+	row_length = ntotstats + num_bins * 4 + 1
 
 	for dataset in sorted(next(os.walk(exps_path, followlinks=True))[1]):
 
@@ -194,24 +203,17 @@ def main():
 
 			print("On experiment:", experiment)
 
-			rgx_col = chr(ord(START_COL))
-
 			rem_rgx_path = os.path.join(experiment,"rematch.rgx")
 
-			writeInCell(SHEETS_SERVICE, spreadsheet_id, single_range.format(rgx_col, row_counter), [[get_rgx(rem_rgx_path)]])
+			writeInCell(SHEETS_SERVICE, spreadsheet_id, single_range.format(START_COL, row_counter), [[get_rgx(rem_rgx_path)]])
 
 			print("\nStarting query:", get_rgx(rem_rgx_path))
 
 			row_values = [[0 for _ in range(row_length)]]
 
-			leftmost_col = chr(ord(START_COL) + 1)
+			leftmost_col = n2col(col2n(START_COL) + 1)
 
-			rmost_ord = ord(leftmost_col) + row_length
-
-			if rmost_ord > 90 :
-				rightmost_col = f"A{chr(rmost_ord - 26)}"
-			else:
-				rightmost_col = chr(rmost_ord)
+			rightmost_col = n2col(col2n(leftmost_col) + row_length)
 
 			doc_path = os.path.join(experiment,"doc.txt")
 
@@ -245,10 +247,23 @@ def main():
 
 				time, memory, noutputs = run_bench(binary, doc_path, rgx_path, NEXP)
 
+				BINARIES[binary]["time"] = time
+				BINARIES[binary]["memory"] = memory
+				BINARIES[binary]["noutputs"] = noutputs
+
 				# Write data to cells
 				row_values[0][ntotstats + num_bins*0 + j] = time
-				row_values[0][ntotstats + num_bins*1 + j] = memory
-				row_values[0][ntotstats + num_bins*2 + j] = noutputs
+				row_values[0][ntotstats + num_bins*2 + j] = memory
+				row_values[0][ntotstats + num_bins*3 + j] = noutputs
+
+			def time_key(x):
+				if type(BINARIES[x]['time']) == str:
+					return float('inf')
+				return BINARIES[x]['time']
+
+			ranked = list(sorted(BINARIES, key=time_key))
+			for i, key in enumerate(ranked):
+				row_values[0][ntotstats + num_bins*1 + i] = key
 
 			writeInCell(SHEETS_SERVICE, spreadsheet_id,
 								  current_range.format(leftmost_col, row_counter, rightmost_col, row_counter),

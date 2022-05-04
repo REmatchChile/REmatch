@@ -27,11 +27,11 @@ int main(int argc, char const *argv[]) {
   while(pattern.PartialMatch(input, &supermatch)) {
     count++;
     supermatch.remove_suffix(1);
-    while(pattern.FullMatch(supermatch, &match)) {
+    while(pattern.PartialMatch(supermatch, &match)) {
       count++;
       // std::cout << "|" << match.data() - doc.data() << ","
       //                  << match.data() - doc.data() + match.size() << ">\n";
-      supermatch.remove_suffix(1);
+      supermatch.remove_suffix(supermatch.size() - match.size() + 1);
     }
     input.remove_prefix(supermatch.data() - input.data() + 1);
   }

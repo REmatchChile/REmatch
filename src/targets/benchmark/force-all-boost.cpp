@@ -19,7 +19,7 @@ int main(int argc, char const *argv[]) {
 
   boost::regex pattern(rgx);
 
-  boost::smatch matches;
+  boost::smatch matches, submatches;
   auto start = doc.cbegin();
 
   // std::cout << "Pattern: \"" << rgx << "\"\n";
@@ -33,13 +33,14 @@ int main(int argc, char const *argv[]) {
 
   std::ofstream dump("logs/boost-output.log");
 
-  while(regex_search(start, doc.cend(), matches, pattern, flags)) {
+  while(boost::regex_search(start, doc.cend(), matches, pattern, flags)) {
     // dump << "|" << matches.position() << ',' << matches.length() - matches.position() << ">\n";
     auto mstart = matches[0].first, mend = matches[0].second;
     mend--;
     count++;
-    while(boost::regex_match(mstart, mend, pattern, flags)) {
+    while(boost::regex_search(mstart, mend, submatches, pattern, flags)) {
       count++;
+      mend = submatches[0].second;
       mend--;
     }
     start = matches[0].first;

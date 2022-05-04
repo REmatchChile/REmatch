@@ -28,19 +28,18 @@ int main(int argc, char const *argv[]) {
 
   while(RE2::PartialMatch(input, pattern, &supermatch)) {
     count++;
-    // logfile << "Supermatch: |" << supermatch.data() - doc.data() << ","
+    // logfile << "x = |" << supermatch.data() - doc.data() << ","
     //                  << supermatch.data() - doc.data() + supermatch.size()
-    //                  << "> (\"" << supermatch << "\")\n";
+    //                  << ">\t(x = \"" << supermatch << "\")\n";
     supermatch.remove_suffix(1);
-    while(RE2::FullMatch(supermatch, pattern, &match)) {
+    while(RE2::PartialMatch(supermatch, pattern, &match)) {
       count++;
-      // logfile << "\tSubmatch: |" << match.data() - doc.data() << ","
+      // logfile << "x = |" << match.data() - doc.data() << ","
       //                << match.data() - doc.data() + match.size()
-      //                << "> (\"" << match << "\")\n";
+      //                << ">\t(x = \"" << match << "\")\n";
 
       supermatch.remove_suffix(supermatch.size() - match.size() + 1);
       }
-    // logfile << '\n';
     // Jump to the start of the next match
     input.remove_prefix(supermatch.data() - input.data() + 1);
   }
