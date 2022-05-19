@@ -19,7 +19,7 @@ class VariableFactory;
 class DetState;
 class ExtendedVA;
 
-using DFAStatesTableBools = std::unordered_map<std::vector<bool>, SDState*>;
+using SubsetTable = std::unordered_map<std::vector<bool>, SDState*>;
 
 class SearchDFA {
  public:
@@ -56,7 +56,7 @@ class SearchDFA {
 
   SearchVA const &sVA_;
 
-  DFAStatesTableBools dstates_table_;
+  SubsetTable dstates_table_;
 
   // Access to variable and filter factory
   std::shared_ptr<VariableFactory>  vfactory_;

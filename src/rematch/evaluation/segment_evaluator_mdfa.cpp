@@ -67,13 +67,9 @@ void MacroSegmentEvaluator::init_evaluation_phase(int64_t pos) {
 
   for(auto& elem: dfa_->init_eval_states()) {
     DState* q0 = elem.first; std::bitset<32> S = elem.second;
-    visit_capture(dfa_->init_state(), S, q0, pos-1);
+    if (S != 0)
+      visit_capture(dfa_->init_state(), S, q0, pos-1);
     init_dstates.push_back(elem.first);
-  }
-
-  // If q0 has a filter transition, then we need to add it to the current states
-  if (!dfa_->only_capture_init_state() || anchor_ == Anchor::kUnanchored) {
-    init_dstates.push_back(dfa_->init_state());
   }
 
   if(pos == 0)

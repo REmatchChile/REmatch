@@ -10,14 +10,14 @@
 #include "automata/dfa/transition.hpp"
 #include "regex/regex_options.hpp"
 #include "factories/factories.hpp"
+#include "automata/dfa/dstate.hpp"
 
 namespace rematch {
 
 class VariableFactory;
-class DetState;
 class ExtendedVA;
 
-using DFAStatesTable = std::unordered_map<std::vector<bool>, DState*>;
+using DFAStatesTable = std::unordered_map<StatesBitmap, DState*>;
 using DFACaptureStatesTable = std::vector<std::pair<DState*, std::bitset<32>>>;
 
 class DFA {
@@ -38,22 +38,28 @@ class DFA {
 
   std::string pprint();
 
-  void computeOneReached();
-
   size_t size() const { return states.size(); }
-
-  bool only_capture_init_state() const;
 
   // ---  Determinization  ---  //
 
+
+  // @brief Compute an on-the-fly determinization
+  //
+  // @param q State from which to compute the next state
+  // @param a Read character to follow the transitions
+  // @return Transition* The correct deterministic transition from q reading a
   Transition* next_transition(DState* q, char a);
-  void computeCaptures(DState* p, DState* q, char a);
 
  private:
   // Utility to print a transition
-  void print_transition(std::ostream& os, DetState* from, char a,
-                        DetState* to, std::bitset<32> S);
+  void print_transition(std::ostream& os, DState* from, char a,
+                        DState* to, std::bitset<32> S);
 
+  // Computes the reachable subsets from the deterministic state q
+	// through captures, stores them if necessary and connects p to the computed
+	// deterministic states thourgh deterministic capture transitions.
+  // * Used inernally
+  void compute_captures(DState* p, DState* q, char a);
 
   // The starting state of the dfa
   DState* init_state_;

@@ -35,8 +35,8 @@ NEXP = data['nexp']
 TOT_COLS = data['cols']
 BINARIES = data['binaries']
 DESCRIPTION = data['description']
-BLACKLIST = ["onig-forced",
-						 "tre-forced"]
+BLACKLIST = ["onig-f",
+						 "re2-f", 'PCRE-f', "boost-f"]
 
 def formatMem(sizeInKb):
 	units = ['K', 'M', 'G']
@@ -76,7 +76,7 @@ def docstats(doc_path):
 	return filesize, int(nchars), int(nlines)+1
 
 def automata_stats(doc_path, rgx_path):
-	command = "{0}/build/Release/bin/rematch --searching --macrodfa --mode=benchmark -d {1} -r {2}".format(HOME_DIR, doc_path, rgx_path)
+	command = "{0}/build/Release/bin/rematch --searching --mode=benchmark -d {1} -r {2}".format(HOME_DIR, doc_path, rgx_path)
 	try:
 		process = subprocess.run(command, shell=True, check=True,
 														capture_output=True, universal_newlines=True)

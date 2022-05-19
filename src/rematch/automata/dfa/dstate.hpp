@@ -15,6 +15,8 @@ namespace rematch {
 class State;
 class DState;
 
+using StatesBitmap = std::vector<bool>;
+
 class DState {
  public:
 
@@ -36,7 +38,7 @@ class DState {
 
   void pass_node(internal::ECS::Node* n);
 
-  std::vector<bool> bitmap() const { return states_bitmap_; }
+  StatesBitmap bitmap() const { return states_bitmap_; }
 
   // @brief Returns the subset of associated NFA states.
   // @return std::vector<State*> Subset of NFA states
@@ -73,7 +75,7 @@ class DState {
 
   std::string label_;
 
-  std::vector<bool> states_bitmap_;
+  StatesBitmap states_bitmap_;
   std::vector<State*> states_subset_;
 
   uint8_t flags_ = kDefaultState;

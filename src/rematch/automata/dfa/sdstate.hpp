@@ -38,6 +38,9 @@ class SDState {
   bool initial() const { return initial_; }
   void set_initial(bool b) { initial_ = b; }
 
+  bool ends() const { return ends_; }
+  void set_ends(bool b) { ends_ = b; }
+
   void set_transition(char a, SDState* q) { transitions_[a] = q; }
 
   SDState* next_state(char a) const { return transitions_[a]; }
@@ -54,6 +57,7 @@ class SDState {
 
   bool initial_{false};
   bool accepting_{false};
+  bool ends_{false};
 
 }; // end class DState
 

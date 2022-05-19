@@ -64,13 +64,9 @@ void SegmentEvaluator::init_evaluation_phase(int64_t pos) {
 
   for(auto& elem: dfa_->init_eval_states()) {
     DState* q0 = elem.first; std::bitset<32> S = elem.second;
-    visit_capture(dfa_->init_state(), S, q0, pos-1);
+    if(S != 0)
+      visit_capture(dfa_->init_state(), S, q0, pos-1);
     current_states_.push_back(elem.first);
-  }
-
-  // If q0 has a filter transition, then we need to add it to the current states
-  if (!dfa_->only_capture_init_state() || anchor_ == Anchor::kUnanchored) {
-    current_states_.push_back(dfa_->init_state());
   }
 
   i_pos_ = pos;
@@ -102,11 +98,9 @@ bool SegmentEvaluator::searching_phase() {
   i_min_ = i_src_;
   i_max_ = i_src_;
 
-  for(;i_src_ < text_->size();) {
+  for(;i_src_ < text_->size();++i_src_) {
 
     char a = (char) (*text_)[i_src_] & 0x7F;
-
-    ++i_src_;
 
     // nextState is reached from currentState by reading the character
     SDState* next_state = current_dstate_->next_state(a);
@@ -117,16 +111,21 @@ bool SegmentEvaluator::searching_phase() {
       current_dstate_ = next_state;
 
     if(current_dstate_->accepting())
-      i_max_ = i_src_;
-
-    if((current_dstate_->initial() || i_src_ == text_->size()) && i_min_ < i_max_) {
-      stats_.n_search_intervals++;
-      stats_.search_intervals.emplace_back(std::make_pair(i_min_, i_max_));
-      return true;
-    }
-
-    if(current_dstate_->initial())
+      i_max_ = i_src_ + 1;
+    else if(current_dstate_->ends()) {
+      if(i_min_ < i_max_) {
+        stats_.n_search_intervals++;
+        stats_.search_intervals.emplace_back(std::make_pair(i_min_, i_max_));
+        return true;
+      }
       i_min_ = i_src_;
+    }
+  }
+
+  if (i_min_ < i_max_) {
+    stats_.n_search_intervals++;
+    stats_.search_intervals.emplace_back(std::make_pair(i_min_, i_max_));
+    return true;
   }
 
   i_min_ = text_->size();

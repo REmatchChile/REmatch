@@ -31,10 +31,10 @@ SearchVA::SearchVA(LogicalVA const &A, Anchor a)
   initial_state_ = A_prim.initial_state();
   accepting_state_ = A_prim.accepting_state();
 
-  if(anchor_ == Anchor::kUnanchored) {
-		auto code = ffactory_->add_filter(CharClassBuilder(0, CHAR_MAX));
-		initial_state_->add_filter(code, initial_state_);
-	}
+  // if(anchor_ == Anchor::kUnanchored) {
+	// 	auto code = ffactory_->add_filter(CharClassBuilder(0, CHAR_MAX));
+	// 	initial_state_->add_filter(code, initial_state_);
+	// }
 }
 
 // ---  Getters  ---  //

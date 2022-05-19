@@ -59,16 +59,12 @@ Match_ptr Enumerator::next() {
 
       depth_stack_.emplace_back(node->start, node->end);
     }
-
   }
-
   throw std::exception();
 }
-
 
 bool Enumerator :: hasNext() {
   return !depth_stack_.empty();
 }
 
 } // end namespace rematch
-
