@@ -40,14 +40,9 @@ enum MacroType {
   kOther
 };
 
-#ifdef MACRO_TRANSITIONS_RAW_ARRAYS
-using DirectsArray = MTDirect*;
-using CapturesArray = MTCapture*;
-using EmptiesArray = DState**;
-#else
-using DirectsArray = rematch::prevector<MTDirect>;
-using CapturesArray = rematch::prevector<MTCapture>;
-#endif
+using DirectsArray = std::vector<MTDirect>;
+using CapturesArray = std::vector<MTCapture>;
+using EmptiesArray = std::vector<DState*>;
 
 class MacroTransition {
  public:
@@ -67,33 +62,16 @@ class MacroTransition {
   CapturesArray repeat_captures();
   EmptiesArray empties();
 
-  DirectsArray directs() { return nullptr; }
-  CapturesArray captures() { return nullptr; }
-
   void set_next_state(MacroState* ms);
 
   MacroState* next_state();
 
-  int nfirstdirects_ = 0;
-  int nfirstcaptures_ = 0;
-  int nrepeatdirects_ = 0;
-  int nrepeatcaptures_ = 0;
-  int nempties_ = 0;
-
-  size_t ndirects_ = 0;
-  size_t ncaptures_ = 0;
-
  private:
-  #ifdef MACRO_TRANSITIONS_RAW_ARRAYS
-  MTDirect *first_directs_;
-  MTDirect *repeat_directs_;
-  MTCapture *first_captures_;
-  MTCapture *repeat_captures_;
-  DState **empties_;
-  #else
-  rematch::prevector<MTDirect> directs_;
-  rematch::prevector<MTCapture> captures_;
-  #endif
+  DirectsArray  first_directs_;
+  DirectsArray  repeat_directs_;
+  CapturesArray first_captures_;
+  CapturesArray repeat_captures_;
+  EmptiesArray  empties_;
 
   MacroState* next_;
 

@@ -43,6 +43,9 @@ class ExtendedVA {
 
 	void set_accepting(State* s) { accepting_state_ = s; }
 
+	bool is_static() const { return is_static_; }
+	void set_is_static(bool b) { is_static_ = b; }
+
 	std::shared_ptr<VariableFactory> varFactory() const {return variable_factory_;}
 	std::shared_ptr<FilterFactory> filterFactory() const {return filter_factory_;}
 
@@ -61,9 +64,8 @@ class ExtendedVA {
 	void invTopologicalSortUtil(State *state, std::queue<State*> *Q);
 
 	void relabelStates();
-	void utilRelabelStates(State *state);
 
-	std::set<State*> getSubset(std::vector<bool> bs) const;
+	std::set<State*> get_subset(std::vector<bool> bs) const;
 
 	// @brief Computes the inverse topological sort of the captures.
 	// @return A vector of the reverse topological sorting of all capture
@@ -72,15 +74,15 @@ class ExtendedVA {
 
 	std::vector<CaptureList> classifySingleCaptures();
 
-	bool offsetPossible(CapturePtr capture);
-	bool offsetPossible(CapturePtr capture1, CapturePtr capture2);
-	bool offsetPossible(CaptureList &captureList);
+	bool offset_possible(CapturePtr capture);
+	bool offset_possible(CapturePtr capture1, CapturePtr capture2);
+	bool offset_possible(CaptureList &captureList);
 
-	void computeOffset(CaptureList &captureList, int codeIndex);
+	void compute_offset(CaptureList &captureList, int codeIndex);
 
-	void offsetOpt();
+	void offset_opt();
 
-	void crossProdOpt();
+	void duplicate_opt();
 
 	friend std::ostream& operator<<(std::ostream& os, ExtendedVA const &A);
 
@@ -90,6 +92,8 @@ class ExtendedVA {
 	CaptureVector reachableCaptures(CapturePtr &cap);
 	bool isReachable(State* from, State* to);
 
+	bool check_if_static() const;
+
 	State* init_state_;
 	State* accepting_state_;
 
@@ -97,6 +101,8 @@ class ExtendedVA {
 	std::shared_ptr<FilterFactory> filter_factory_;
 
 	Anchor anchor_;
+
+	bool is_static_{false};
 
 	size_t currentID = 0;
 };

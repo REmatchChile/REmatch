@@ -40,13 +40,17 @@ ExtendedVA::ExtendedVA(LogicalVA const &A, Anchor a)
 
 
 	#ifndef NOPT_OFFSET
-		offsetOpt();
+		offset_opt();
 	#endif
 
 	captureClosure();
 
+	#ifndef NDEBUG
+	std::cout << "EvaluationVA after capture closure:\n" << *this << "\n\n";
+	#endif
+
   #ifndef NOPT_CROSSPROD
-	  crossProdOpt();
+	  duplicate_opt();
   #endif
 
 	relabelStates();
@@ -143,6 +147,8 @@ void ExtendedVA::captureClosure() {
 	// Get the modified topological sort of the e-VA
 	std::queue<State*> topOrder = invTopologicalSort();
 
+	relabelStates();
+
 
 	State* itState; // Iterator state
 
@@ -165,6 +171,7 @@ void ExtendedVA::captureClosure() {
 	cleanUselessCaptureStates();
 	cleanUselessCaptureTransitions();
 
+	set_is_static(check_if_static());
 }
 
 void ExtendedVA::cleanUselessCaptureStates() {
@@ -218,7 +225,7 @@ void ExtendedVA::cleanUselessCaptureTransitions() {
 //---------------------------------------------------------------------//
 
 
-void ExtendedVA::offsetOpt() {
+void ExtendedVA::offset_opt() {
 	// Vector of lists of capture transitions with the same code
 	std::vector<CaptureList> classifier = classifySingleCaptures();
 
@@ -227,14 +234,14 @@ void ExtendedVA::offsetOpt() {
 		// Search the corresponding list in the classifier
 		for(size_t i=0; i < 2*variable_factory_->size(); i++) {
 			if(capture->code[i]) {
-				computeOffset(classifier[i], i); // Compute offset in bulk
+				compute_offset(classifier[i], i); // Compute offset in bulk
 				break;
 			}
 		}
 	}
 }
 
-void ExtendedVA::computeOffset(CaptureList &captureList, int codeIndex) {
+void ExtendedVA::compute_offset(CaptureList &captureList, int codeIndex) {
 	std::shared_ptr<LVAFilter> filter;
 	CapturePtr capture;
 	State *p, *q, *r;
@@ -242,7 +249,7 @@ void ExtendedVA::computeOffset(CaptureList &captureList, int codeIndex) {
 	// states p,q,r will label in the following way:
 	// (p) ---[capture]---> (q) -----[filter]----> (r)
 
-	while(offsetPossible(captureList)) {
+	while(offset_possible(captureList)) {
 		for(auto it = captureList.begin(); it != captureList.end();) {
 			capture = *it;
 			p = capture->from; q = capture->next;
@@ -302,20 +309,20 @@ void ExtendedVA::computeOffset(CaptureList &captureList, int codeIndex) {
 	}
 }
 
-bool ExtendedVA::offsetPossible(CaptureList &captureList) {
+bool ExtendedVA::offset_possible(CaptureList &captureList) {
 	for(auto &capture: captureList) {
-		if(!offsetPossible(capture))
+		if(!offset_possible(capture))
 			return false;
 		for(auto &capture2: captureList) {
 			if(capture2 == capture) continue;
-			if(!offsetPossible(capture, capture2))
+			if(!offset_possible(capture, capture2))
 				return false;
 		}
 	}
 	return true;
 }
 
-bool ExtendedVA::offsetPossible(CapturePtr capture1, CapturePtr capture2) {
+bool ExtendedVA::offset_possible(CapturePtr capture1, CapturePtr capture2) {
 	for(auto &filter: capture1->next->filters) {
 		if(isReachable(filter->next, capture2->next))
 			return false;
@@ -323,7 +330,7 @@ bool ExtendedVA::offsetPossible(CapturePtr capture1, CapturePtr capture2) {
 	return true;
 }
 
-bool ExtendedVA::offsetPossible(CapturePtr capture) {
+bool ExtendedVA::offset_possible(CapturePtr capture) {
 	// We want the following:
 	// (p) ---[capture]---> (q) -----[filter]----> (r)
 	// So we can then change it to:
@@ -503,23 +510,31 @@ void ExtendedVA::relabelStates() {
 	}
 
 	idMap.clear();
+	int counter = 0;
 
-	utilRelabelStates(init_state_);
-}
+	std::vector<State*> stack;
+	stack.push_back(init_state_);
+	init_state_->tempMark = true;
 
-void ExtendedVA::utilRelabelStates(State *state) {
-	state->tempMark = true;
-	state->id = currentID;
-	idMap[state->id] = state;
-	currentID++;
+	while(!stack.empty()) {
+		auto cstate = stack.back(); stack.pop_back();
 
-	for(auto &capture: state->captures) {
-		if(!capture->next->tempMark)
-			utilRelabelStates(capture->next);
-	}
-	for(auto &filter: state->filters) {
-		if(!filter->next->tempMark)
-			utilRelabelStates(filter->next);
+		
+		cstate->id = counter++;
+		idMap[cstate->id] = cstate;
+
+		for(auto &capture: cstate->captures) {
+			if(!capture->next->tempMark) {
+				capture->next->tempMark = true;
+				stack.push_back(capture->next);
+			}
+		}
+		for(auto &filter: cstate->filters) {
+			if(!filter->next->tempMark) {
+				filter->next->tempMark = true;
+				stack.push_back(filter->next);
+			}
+		}
 	}
 }
 
@@ -605,7 +620,7 @@ std::ostream& operator<<(std::ostream& os, ExtendedVA const &A) {
 }
 
 
-std::set<State*> ExtendedVA::getSubset(std::vector<bool> bs) const {
+std::set<State*> ExtendedVA::get_subset(std::vector<bool> bs) const {
 	std::set<State*> ret;
 	for(size_t i=0; i < bs.size(); i++)
 		if(bs[i])
@@ -624,7 +639,7 @@ std::set<State*> ExtendedVA::getSubset(std::vector<bool> bs) const {
 // This is an optimization for the evaluation algorithm. It permits to
 // leave out the need to check correct NodeList transpassing between
 // transitioning DetStates at reading() step.
-void ExtendedVA::crossProdOpt() {
+void ExtendedVA::duplicate_opt() {
 
 	// --- Duplicate states --- //
 
@@ -700,6 +715,18 @@ void ExtendedVA::crossProdOpt() {
 	states.swap(states0);
 	trim(); // trim the automaton
 	// pruneUselessStates();
+}
+
+bool ExtendedVA::check_if_static() const {
+	bool is_static = true;
+	for(auto &state: states) {
+		if(!state->accepting() && !state->backward_captures_.empty()) {
+			is_static = false;
+			break;
+		}
+	}
+
+	return is_static;
 }
 
 } // end namespace rematch

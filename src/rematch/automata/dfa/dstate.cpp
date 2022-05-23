@@ -21,6 +21,8 @@ DState::DState(size_t tot_states, std::vector<State*> states)
     if(p->accepting())
       flags_ |= kAcceptingState;
   }
+
+  update_label();
 }
 
 DState::DState(size_t tot_states, std::set<State*> states)
@@ -32,17 +34,7 @@ DState::DState(size_t tot_states, std::set<State*> states)
     if(p->accepting())
       flags_ |= kAcceptingState;
   }
-}
-
-void DState::add_state(State* p) {
-  auto lower = std::lower_bound(states_subset_.begin(), states_subset_.end(), p,
-    [](const State* s1, const State* s2) { return s1->id < s2->id; }
-  );
-
-  if(lower == states_subset_.end() || (*lower)->id != p->id) {
-    states_subset_.insert(lower, p);
-    states_bitmap_[p->id] = true;
-  }
+  update_label();
 }
 
 void DState::add_direct(char a, DState* q) {
@@ -80,6 +72,16 @@ void DState::set_initial(bool b) {
 void DState::pass_node(internal::ECS::Node* n) {
   node = n;
   ++n->ref_count_;
+}
+
+void DState::update_label() {
+  std::stringstream ss;
+  ss << "{ ";
+  for(auto p: states_subset_) {
+    ss << p->id << ' ';
+  }
+  ss << '}';
+  labl = ss.str();
 }
 
 } // end namespace rematch

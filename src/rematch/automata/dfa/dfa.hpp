@@ -17,7 +17,7 @@ namespace rematch {
 class VariableFactory;
 class ExtendedVA;
 
-using DFAStatesTable = std::unordered_map<StatesBitmap, DState*>;
+using DFAStatesTable = std::unordered_map<std::vector<bool>, DState*>;
 using DFACaptureStatesTable = std::vector<std::pair<DState*, std::bitset<32>>>;
 
 class DFA {
@@ -66,7 +66,7 @@ class DFA {
 
   ExtendedVA const &eVA_;
 
-  DFAStatesTable dstates_table_;
+  std::map<std::vector<bool>, DState*> dstates_table_;
 
   DFACaptureStatesTable init_eval_states_;
 

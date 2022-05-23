@@ -50,6 +50,7 @@ MacroTransition* MacroDFA::next_transition(MacroState* ms, char a) {
 				nfirstdirects++;
 		} else if (nextTransition->type_ == Transition::kEmpty) {
 			nempties++;
+			continue;
 		} if (nextTransition->type_ & Transition::kSingleCapture) {
 			auto res = dstates_key.insert(nextTransition->capture_->next->id());
 			if (!res.second)
@@ -83,6 +84,7 @@ MacroTransition* MacroDFA::next_transition(MacroState* ms, char a) {
 				mtrans->add_direct(*state, *nextTransition->direct_, false);
 		} else if(nextTransition->type_ == Transition::kEmpty) {
 			mtrans->add_empty(*state);
+			continue;
 		} if (nextTransition->type_ & Transition::kSingleCapture) {
 			auto res = dstates_storage.insert(nextTransition->capture_->next);
 			if (res.second)
@@ -95,7 +97,7 @@ MacroTransition* MacroDFA::next_transition(MacroState* ms, char a) {
 				if (res.second)
 					mtrans->add_capture(*state, capture->S, *capture->next, true);
 				else
-					mtrans->add_capture(*state, capture->S, *capture->next, true);
+					mtrans->add_capture(*state, capture->S, *capture->next, false);
 			}
 		}
 	}

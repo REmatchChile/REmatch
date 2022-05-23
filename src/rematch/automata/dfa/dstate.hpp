@@ -20,6 +20,8 @@ using StatesBitmap = std::vector<bool>;
 class DState {
  public:
 
+  std::string labl;
+
   internal::ECS::Node* node;
   int visited = -1;
 
@@ -34,8 +36,6 @@ class DState {
   DState(size_t tot_states, std::vector<State*> states);
   DState(size_t tot_states, std::set<State*> states);
 
-  void add_state(State* p);
-
   void pass_node(internal::ECS::Node* n);
 
   StatesBitmap bitmap() const { return states_bitmap_; }
@@ -46,7 +46,7 @@ class DState {
 
   // @brief Returns the subset representation string (i.e. {q1,q2,...}).
   // @return std::string Subset representation of the DState.
-  std::string label() const { return label_; }
+  std::string label() const { return labl; }
 
   int id() const { return id_; }
 
@@ -69,11 +69,10 @@ class DState {
  private:
   static int ID;
 
+  void update_label();
   uint id_;
 
   std::vector<Transition*> transitions_{128, nullptr};
-
-  std::string label_;
 
   StatesBitmap states_bitmap_;
   std::vector<State*> states_subset_;

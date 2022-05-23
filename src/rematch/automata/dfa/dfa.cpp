@@ -90,16 +90,15 @@ Transition* DFA::next_transition(DState *q, char a) {
 	if(found == dstates_table_.end()) { // Check if already stored subset
 		nq = new DState(eVA_.size(), new_ss);
 
-		dstates_table_[nq->bitmap()] = nq;
+		found = dstates_table_.emplace_hint(found , std::make_pair(ss_bitset, nq));
 
 		states.push_back(nq);
 
 		if(nq->accepting()) {
 			finalStates.push_back(nq);
 		}
-	} else {
-		nq = found->second;
 	}
+	nq = found->second;
 
 	if(!nq->empty_subset()) {
 		compute_captures(q, nq, a);

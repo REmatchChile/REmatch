@@ -145,36 +145,30 @@ FORCE_INLINE void MacroSegmentEvaluator::reading(char a, int64_t pos) {
 
   if(nt == nullptr)
     nt = mdfa_->next_transition(current_state_, a);
-
-  for(int i=0; i < nt->nfirstdirects_; i++) {
-    auto d = nt->first_directs()[i];
+  for(auto d: nt->first_directs()) {
     d.to->pass_node(d.from->node);
     if(d.to->accepting())
       reached_final_states_.push_back(d.to);
   }
 
-  for(int i=0; i < nt->nfirstcaptures_; i++) {
-    auto c = nt->first_captures()[i];
+  for(auto c: nt->first_captures()) {
     c.to->pass_node(ds_.extend(c.from->node, c.S, pos+1));
     if(c.to->accepting())
       reached_final_states_.push_back(c.to);
   }
 
-  for(int i=0; i < nt->nrepeatdirects_; i++) {
-    auto d = nt->repeat_directs()[i];
+  for(auto d: nt->repeat_directs()) {
     // Decrease the refcount, as the node at reached state won't be pointed by that
     // state anymore, only by the structure internally.
     d.to->node->dec_ref_count();
     d.to->pass_node(ds_.unite(d.from->node, d.to->node));
   }
 
-  for(int i=0; i < nt->nempties_; i++) {
-    auto e = nt->empties()[i];
+  for(auto e: nt->empties()) {
     ds_.try_mark_unused(e->node);
   }
 
-  for(int i=0; i < nt->nrepeatcaptures_; i++) {
-    auto c = nt->repeat_captures()[i];
+  for(auto c: nt->repeat_captures()) {
     // Decrease the refcount, as the node at reached state won't be pointed by that
     // state anymore, only by the structure internally.
     c.to->node->dec_ref_count();
