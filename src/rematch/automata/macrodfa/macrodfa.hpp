@@ -36,6 +36,8 @@ class MacroDFA {
 
   size_t size() {return states_.size();}
 
+  std::vector<MacroState*>& states() { return states_; }
+
  private:
   MacroState *init_state_; // Raw ptr
   std::vector<MacroState*> states_;
