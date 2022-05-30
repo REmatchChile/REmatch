@@ -8,34 +8,34 @@ namespace internal {
 size_t Node::ID = 2;
 
 Node::Node(Type t)
-  : S(0), i(-1), next(nullptr), start(nullptr), end(nullptr),
-    refCount(0) {
-  if(t == Type::kBottom) {
-    id_ = 1; i = -1;
+    : S(0), i(-1), next(nullptr), start(nullptr), end(nullptr), refCount(0) {
+  if (t == Type::kBottom) {
+    id_ = 1;
+    i = -1;
   } else if (t == Type::kDummy) {
-    id_ = 0; i = -2;
+    id_ = 0;
+    i = -2;
   }
 }
 
+Node::Node(std::bitset<32> S, int64_t i, Node *head, Node *tail)
+    : id_(Node::ID++), S(S), i(i), next(nullptr), start(head), end(tail),
+      refCount(0) {
 
-Node::Node(std::bitset<32> S, int64_t i, Node* head, Node* tail)
-  : id_(Node::ID++), S(S), i(i), next(nullptr), start(head), end(tail),
-    refCount(0) {
+  start->refCount++;
+  end->refCount++;
+}
 
-    start->refCount++;
-    end->refCount++;
-  }
-
-Node* Node::reset(std::bitset<32> S, int64_t i, Node* head, Node* tail) {
+Node *Node::reset(std::bitset<32> S, int64_t i, Node *head, Node *tail) {
   /* Same as constructor but inplace on an already constructed object */
 
-   // Remove a refCount from head and tail of list
+  // Remove a refCount from head and tail of list
 
   // std::cout << this->start<<'\n';
   this->start->refCount--;
   this->end->refCount--;
 
-  if(next != nullptr) {
+  if (next != nullptr) {
     next->refCount--;
   }
 
@@ -55,12 +55,12 @@ Node* Node::reset(std::bitset<32> S, int64_t i, Node* head, Node* tail) {
   return this;
 }
 
-Node* Node::reset() {
-   // Remove a refCount from head and tail of list
+Node *Node::reset() {
+  // Remove a refCount from head and tail of list
   this->start->refCount--;
   this->end->refCount--;
 
-  if(next != nullptr) {
+  if (next != nullptr) {
     next->refCount--;
   }
 
@@ -75,7 +75,6 @@ Node* Node::reset() {
   // Don't reasign nextFree! memManager does that
 
   return this;
-
 }
 
 void Node::getNodeContent(int content[2]) {
@@ -84,9 +83,7 @@ void Node::getNodeContent(int content[2]) {
   content[1] = this->i;
 }
 
-bool Node::isNodeEmpty() {
-  return this->i == -1;
-}
+bool Node::isNodeEmpty() { return this->i == -1; }
 
 } // end namespace internal
 } // end namespace rematch

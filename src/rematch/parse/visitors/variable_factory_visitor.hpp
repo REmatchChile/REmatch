@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "parse/ast.hpp"
 #include "factories/factories.hpp"
+#include "parse/ast.hpp"
 
 namespace rematch {
 namespace visitors {
@@ -13,13 +13,13 @@ using vfptr = std::unique_ptr<VariableFactory>;
 
 struct regex2vars : boost::static_visitor<vfptr> {
 
-	vfptr operator()(ast::altern const &a) const;
-	vfptr operator()(ast::concat const &c) const;
-	vfptr operator()(ast::iter const &it) const;
-	vfptr operator()(ast::group const &g) const;
-	vfptr operator()(ast::parenthesis const &p) const;
-	vfptr operator()(ast::assignation const &a) const;
-	vfptr operator()(ast::atom const &a) const;
+  vfptr operator()(ast::altern const &a) const;
+  vfptr operator()(ast::concat const &c) const;
+  vfptr operator()(ast::iter const &it) const;
+  vfptr operator()(ast::group const &g) const;
+  vfptr operator()(ast::parenthesis const &p) const;
+  vfptr operator()(ast::assignation const &a) const;
+  vfptr operator()(ast::atom const &a) const;
 };
 
 } // end namespace visitors

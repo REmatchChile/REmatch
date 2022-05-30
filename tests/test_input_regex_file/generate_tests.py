@@ -76,7 +76,8 @@ if __name__ == "__main__":
 
         type_, content = next(lines)
         if type_ != 'regex':
-            raise ValueError('Regex expected after title (starting with "Regex:")')
+            raise ValueError(
+                'Regex expected after title (starting with "Regex:")')
         regex = content
 
         doc_number = 1
@@ -94,6 +95,7 @@ if __name__ == "__main__":
             break
 
         if type_ != 'title':
-            raise ValueError('Test title expected after last doc (starting with "#")')
+            raise ValueError(
+                'Test title expected after last doc (starting with "#")')
 
         title = to_snake_case(content)

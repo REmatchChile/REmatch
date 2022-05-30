@@ -8,14 +8,14 @@ Description:
 #ifndef AST_HPP
 #define AST_HPP
 
-#include <set>
-#include <vector>
-#include <string>
 #include <iostream>
+#include <set>
+#include <string>
+#include <vector>
 
 #include <boost/fusion/adapted.hpp>
-#include <boost/variant.hpp>     // for tree nodes
-#include <boost/optional.hpp>    // for multiplicity upperbound
+#include <boost/optional.hpp> // for multiplicity upperbound
+#include <boost/variant.hpp>  // for tree nodes
 
 namespace rematch {
 
@@ -37,14 +37,14 @@ enum class AssertionCode {
 
 namespace ast {
 struct charset {
-    /* Struct for class of char information containment */
+  /* Struct for class of char information containment */
 
-    bool negated;  // Is a negated charset ?
+  bool negated; // Is a negated charset ?
 
-    using range = std::tuple<char, char>;
-    using element = boost::variant<char, range>;
+  using range = std::tuple<char, char>;
+  using element = boost::variant<char, range>;
 
-    std::set<element> elements;
+  std::set<element> elements;
 };
 
 // Recursive structs
@@ -55,7 +55,7 @@ struct assignation;
 struct assertion {
   assertion() = default;
 
-  assertion(AssertionCode b): code_(b) {}
+  assertion(AssertionCode b) : code_(b) {}
   AssertionCode code_;
 };
 
@@ -64,33 +64,30 @@ struct special {
   special() = default;
 
   special(SpecialCode c, bool not_negated)
-    : code_(c), not_negated_(not_negated) {}
+      : code_(c), not_negated_(not_negated) {}
 
   SpecialCode code_;
   bool not_negated_;
 };
 
-
 using atom = boost::variant<charset, char, special>;
 
-using group =  boost::variant<
-    boost::recursive_wrapper<parenthesis>,
-    boost::recursive_wrapper<assignation>,
-    atom>;
+using group = boost::variant<boost::recursive_wrapper<parenthesis>,
+                             boost::recursive_wrapper<assignation>, atom>;
 
 struct repetition {
-    repetition(int s, int e): start_(s), end_(e) {}
+  repetition(int s, int e) : start_(s), end_(e) {}
 
-    repetition(): start_(-1), end_(-1) {}
+  repetition() : start_(-1), end_(-1) {}
 
-    int start_;
-    int end_;
+  int start_;
+  int end_;
 };
 
 // Iter
 struct iter {
-    group expr;
-    std::vector<repetition> repetitions;
+  group expr;
+  std::vector<repetition> repetitions;
 };
 
 // Concat and altern
@@ -98,38 +95,39 @@ using concat = std::vector<iter>;
 using altern = std::vector<concat>;
 
 struct parenthesis {
-    altern root;
+  altern root;
 
-    parenthesis() = default;
+  parenthesis() = default;
 
-    parenthesis(altern root): root(std::move(root)) {}
+  parenthesis(altern root) : root(std::move(root)) {}
 
-    friend std::ostream& operator<<(std::ostream& os, const parenthesis& p);
+  friend std::ostream &operator<<(std::ostream &os, const parenthesis &p);
 };
 
 struct assignation {
-    std::string var;
+  std::string var;
 
-    altern root;
+  altern root;
 
-    assignation() = default;
+  assignation() = default;
 
-    assignation(std::string var, altern root): var(var), root(std::move(root)) {}
+  assignation(std::string var, altern root) : var(var), root(std::move(root)) {}
 };
 
 } // end namespace ast
 } // end namespace rematch
 
 BOOST_FUSION_ADAPT_STRUCT(rematch::ast::charset,
-        (bool, negated)
-        (std::set<rematch::ast::charset::element>, elements))
+                          (bool,
+                           negated)(std::set<rematch::ast::charset::element>,
+                                    elements))
 
 BOOST_FUSION_ADAPT_STRUCT(rematch::ast::iter,
-        (rematch::ast::group, expr)
-        (std::vector<rematch::ast::repetition>, repetitions))
+                          (rematch::ast::group,
+                           expr)(std::vector<rematch::ast::repetition>,
+                                 repetitions))
 
 BOOST_FUSION_ADAPT_STRUCT(rematch::ast::assignation,
-        (std::string, var)
-        (rematch::ast::altern, root))
+                          (std::string, var)(rematch::ast::altern, root))
 
 #endif

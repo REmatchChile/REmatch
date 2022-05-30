@@ -1,23 +1,23 @@
 #ifndef EVALUATION__NORMAL_EVALUATOR_HPP
 #define EVALUATION__NORMAL_EVALUATOR_HPP
 
+#include <map>
+#include <memory>
+#include <sstream>
 #include <string>
 #include <vector>
-#include <memory>
-#include <map>
-#include <sstream>
 
 #include "evaluation/evaluator.hpp"
-#include "regex/regex.hpp"
 #include "match.hpp"
+#include "regex/regex.hpp"
 #include "structs/ecs/enumerator.hpp"
 
 #include "automata/dfa/dfa.hpp"
 #include "automata/dfa/sdfa.hpp"
 
-#include "memmanager.hpp"
-#include "evaluation/document/document.hpp"
 #include "automata/dfa/transition.hpp"
+#include "evaluation/document/document.hpp"
+#include "memmanager.hpp"
 
 #include "automata/macrodfa/macrodfa.hpp"
 #include "automata/macrodfa/macrostate.hpp"
@@ -26,17 +26,17 @@ namespace rematch {
 
 class NormalEvaluator : public Evaluator {
 
- public:
-  NormalEvaluator(RegEx& rgx, std::shared_ptr<StrDocument> d, Anchor a);
+public:
+  NormalEvaluator(RegEx &rgx, std::shared_ptr<StrDocument> d, Anchor a);
 
   virtual Match_ptr next();
 
- private:
-
+private:
   inline void reading(char a, int64_t i);
 
-  inline void visit_direct(DState* cstate, DState* direct, int64_t pos);
-  inline void visit_capture(DState* cstate, std::bitset<32> capture, DState* to, int64_t pos);
+  inline void visit_direct(DState *cstate, DState *direct, int64_t pos);
+  inline void visit_capture(DState *cstate, std::bitset<32> capture, DState *to,
+                            int64_t pos);
 
   // Executes the evaluation phase. Returns true if there is an output to
   // enumerate but it didn't reach the end of the search interval. Returns
@@ -50,25 +50,25 @@ class NormalEvaluator : public Evaluator {
   std::unique_ptr<ExtendedVA> eva_;
   std::unique_ptr<SearchVA> sva_;
 
-  std::unique_ptr<DFA> dfa_;                            // Normal DFA
-  std::unique_ptr<SearchDFA> sdfa_;                     // Search DFA
+  std::unique_ptr<DFA> dfa_;        // Normal DFA
+  std::unique_ptr<SearchDFA> sdfa_; // Search DFA
 
   RegEx &rgx_;
 
   internal::Enumerator enumerator_;
 
-  internal::ECS ds_;                                    // DAG structure
+  internal::ECS ds_; // DAG structure
 
   std::shared_ptr<StrDocument> text_;
 
   Anchor anchor_;
 
-  std::vector<DState*> current_states_;
-  std::vector<DState*> new_states_;
+  std::vector<DState *> current_states_;
+  std::vector<DState *> new_states_;
 
-  std::vector<DState*> reached_final_states_;
+  std::vector<DState *> reached_final_states_;
 
-  SDState* current_dstate_;
+  SDState *current_dstate_;
 
   static const size_t kSizeMaxOutputBuffer = 100;
 

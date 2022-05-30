@@ -6,16 +6,16 @@
 
 int main(int argc, char const *argv[]) {
 
-  if(argc != 3) {
-		std::cerr << "Error parsing args.\nUsage:\n\t" << argv[0] <<
-			" [rgx_file] [doc_file]\n";
-		exit(1);
-	}
+  if (argc != 3) {
+    std::cerr << "Error parsing args.\nUsage:\n\t" << argv[0]
+              << " [rgx_file] [doc_file]\n";
+    exit(1);
+  }
 
   std::string doc, rgx;
 
   rgx = rematch::util::file2str(argv[2]);
-	doc = rematch::util::file2str(argv[1]);
+  doc = rematch::util::file2str(argv[1]);
 
   boost::regex pattern(rgx);
 
@@ -33,12 +33,13 @@ int main(int argc, char const *argv[]) {
 
   std::ofstream dump("logs/boost-output.log");
 
-  while(boost::regex_search(start, doc.cend(), matches, pattern, flags)) {
-    // dump << "|" << matches.position() << ',' << matches.length() - matches.position() << ">\n";
+  while (boost::regex_search(start, doc.cend(), matches, pattern, flags)) {
+    // dump << "|" << matches.position() << ',' << matches.length() -
+    // matches.position() << ">\n";
     auto mstart = matches[0].first, mend = matches[0].second;
     mend--;
     count++;
-    while(boost::regex_search(mstart, mend, submatches, pattern, flags)) {
+    while (boost::regex_search(mstart, mend, submatches, pattern, flags)) {
       count++;
       mend = submatches[0].second;
       mend--;

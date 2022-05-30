@@ -3,17 +3,11 @@
 namespace rematch {
 namespace internal {
 
-NodeList::NodeList()
-  : head_(nullptr), tail_(nullptr) {}
+NodeList::NodeList() : head_(nullptr), tail_(nullptr) {}
 
+void NodeList::set_head(Node *n) { this->head_ = n; }
 
-void NodeList::set_head(Node* n) {
-  this->head_ = n;
-}
-
-void NodeList::set_tail(Node* n) {
-  this->tail_ = n;
-}
+void NodeList::set_tail(Node *n) { this->tail_ = n; }
 
 void NodeList::add(Node *node) {
   node->next = this->head_;
@@ -32,8 +26,8 @@ void NodeList::add(Node *node) {
 //   return new_list;
 // };
 
-void NodeList::append(NodeList* list) {
-  if(list->empty())
+void NodeList::append(NodeList *list) {
+  if (list->empty())
     return;
   if (this->tail_ == nullptr) {
     this->head_ = list->head_;
@@ -59,7 +53,7 @@ void NodeList::append(NodeList* list) {
 }
 
 void NodeList::reset_refs() {
-  if(!empty()) {
+  if (!empty()) {
     this->head_->refCount--;
     this->tail_->refCount--;
   }
@@ -70,22 +64,23 @@ void NodeList::reset() {
   this->tail_ = nullptr;
 }
 
-NodeList& NodeList :: operator=(const NodeList &nl) {
+NodeList &NodeList ::operator=(const NodeList &nl) {
   head_ = nl.head_;
   tail_ = nl.tail_;
 
   return *this;
 }
 
-
-void NodeList :: reset_and_add(Node* node) {
+void NodeList ::reset_and_add(Node *node) {
   node->next = nullptr;
   this->head_ = node;
   node->refCount += 2;
   this->tail_ = node;
 }
 
-bool NodeList :: empty() { return this->head_ == nullptr && this->tail_ == nullptr;}
+bool NodeList ::empty() {
+  return this->head_ == nullptr && this->tail_ == nullptr;
+}
 
 } // end namespace internal
 } // end namespace rematch

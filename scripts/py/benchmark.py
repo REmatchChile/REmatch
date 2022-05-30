@@ -35,8 +35,12 @@ NEXP = data['nexp']
 TOT_COLS = data['cols']
 BINARIES = data['binaries']
 DESCRIPTION = data['description']
-BLACKLIST = ["onig-f",
-						 "re2-f", 'PCRE-f', "boost-f"]
+BLACKLIST = [
+	"onig-f"
+	# ,"re2-f", 'PCRE-f', "boost-f"
+	]
+
+TIMEOUT = 10
 
 def formatMem(sizeInKb):
 	units = ['K', 'M', 'G']
@@ -134,17 +138,17 @@ def run_bench(binary, doc_path, rgx_path, nexp):
 	tot_time = 0
 
 	try:
-		process = subprocess.run(command_mem.split(' '),
-				shell=False, check=True, capture_output=True, universal_newlines=True,
-				timeout=30)
+		process = subprocess.Popen(command_mem.split(' '), text=True, shell=False,
+															 start_new_session=True, stdout=subprocess.PIPE,
+															 stderr=subprocess.PIPE)
+		nout, output = process.communicate(timeout=TIMEOUT)
 	except subprocess.TimeoutExpired:
 		print(f"Timeout with command: {command_mem}")
+		os.killpg(os.getpgid(process.pid), signal.SIGTERM)
 		return 'timeout', 'timeout', 'timeout'
 	except:
 		print(f"Error while processing command: {command_mem}")
 		return 'err', 'err', 'err'
-	output = process.stderr
-	nout = process.stdout
 	mem = output.replace('"', '').replace('\n','')
 	nout = int(nout)
 	mem = formatMem(int(mem))

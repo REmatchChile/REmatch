@@ -12,23 +12,24 @@ namespace visitors {
 using ff_ptr = std::unique_ptr<FilterFactory>;
 
 struct regex2filters : boost::static_visitor<void> {
-	private:
-		ff_ptr filter_factory_;
-	public:
-		regex2filters();
-		void operator()(ast::altern const &a);
-		void operator()(ast::concat const &c);
-		void operator()(ast::iter const &it);
-		void operator()(ast::group const &g);
-		void operator()(ast::parenthesis const &p);
-		void operator()(ast::assignation const &a);
-		void operator()(ast::atom const &a);
-		void operator()(ast::charset const &cs);
-		void operator()(char const &a);
-		void operator()(ast::special const &a);
-		void operator()(ast::assertion const &a);
+private:
+  ff_ptr filter_factory_;
 
-		ff_ptr get_factory();
+public:
+  regex2filters();
+  void operator()(ast::altern const &a);
+  void operator()(ast::concat const &c);
+  void operator()(ast::iter const &it);
+  void operator()(ast::group const &g);
+  void operator()(ast::parenthesis const &p);
+  void operator()(ast::assignation const &a);
+  void operator()(ast::atom const &a);
+  void operator()(ast::charset const &cs);
+  void operator()(char const &a);
+  void operator()(ast::special const &a);
+  void operator()(ast::assertion const &a);
+
+  ff_ptr get_factory();
 };
 
 } // end namespace visitors

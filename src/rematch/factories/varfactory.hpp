@@ -1,8 +1,8 @@
 #ifndef FACTORIES__VARFACTORY_HPP
 #define FACTORIES__VARFACTORY_HPP
 
-#include <string>
 #include <bitset>
+#include <string>
 #include <vector>
 
 #include "factories/absfactory.hpp"
@@ -13,10 +13,9 @@ using CaptureBitmap = std::bitset<32>;
 
 const uint8_t kMaxCaptureVars = 16;
 
-class VariableFactory
-  : public AbsFactory<std::string> {
+class VariableFactory : public AbsFactory<std::string> {
 
-  VariableFactory(): AbsFactory() {}
+  VariableFactory() : AbsFactory() {}
 
   // Gets the corresponding capture code (bitmap) as if the
   // capture variable were opened.
@@ -32,8 +31,7 @@ class VariableFactory
   // Inplace merging with another VariableFactory
   void merge(VariableFactory const &rhs);
 
-  friend std::ostream& operator<<(std::ostream &os, VariableFactory const &rhs);
-
+  friend std::ostream &operator<<(std::ostream &os, VariableFactory const &rhs);
 
 }; // end class VariableFactory
 

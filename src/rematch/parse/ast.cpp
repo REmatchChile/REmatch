@@ -6,10 +6,9 @@
 namespace rematch {
 namespace ast {
 
-
-std::ostream& operator<<(std::ostream& os, const parenthesis& p) {
-    os << "()";
-    return os;
+std::ostream &operator<<(std::ostream &os, const parenthesis &p) {
+  os << "()";
+  return os;
 }
 
 } // end namespace ast

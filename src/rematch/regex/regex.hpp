@@ -1,21 +1,21 @@
 #ifndef RGX_HPP
 #define RGX_HPP
 
-#include <string>
 #include <memory>
+#include <string>
 
+#include "enumeration.hpp"
 #include "match.hpp"
 #include "memmanager.hpp"
-#include "enumeration.hpp"
 
 #include "automata/nfa/eva.hpp"
 #include "automata/nfa/sva.hpp"
 
 #include "automata/dfa/dfa.hpp"
-#include "regex/regex_options.hpp"
 #include "automata/nfa/lva.hpp"
-#include "matchiterator.hpp"
 #include "evaluation/document/document.hpp"
+#include "matchiterator.hpp"
+#include "regex/regex_options.hpp"
 
 namespace rematch {
 
@@ -23,8 +23,7 @@ class Evaluator;
 
 class RegEx {
 
- public:
-
+public:
   using flags_t = uint8_t;
 
   RegEx(const std::string &regex, RegExOptions opt = RegExOptions());
@@ -35,32 +34,32 @@ class RegEx {
   std::string getRegex();
 
   enum RegExFlags {
-    kNoFlags     = 0,
-    kMultiLine   = 1<<0,
-    kDotNL       = 1<<1,
-    kLineByLine  = 1<<2,
-    kEarlyOutput = 1<<3,
-    kSaveAnchors = 1<<4,
-    kSearching   = 1<<5,
-    kMacroDFA    = 1<<6
+    kNoFlags = 0,
+    kMultiLine = 1 << 0,
+    kDotNL = 1 << 1,
+    kLineByLine = 1 << 2,
+    kEarlyOutput = 1 << 3,
+    kSaveAnchors = 1 << 4,
+    kSearching = 1 << 5,
+    kMacroDFA = 1 << 6
   };
 
   // Calls the evaluator to get first
   Match_ptr find(const std::string &text);
 
-  MatchIterator findIter(std::shared_ptr<Document> d, Anchor a = Anchor::kUnanchored);
+  MatchIterator findIter(std::shared_ptr<Document> d,
+                         Anchor a = Anchor::kUnanchored);
 
-  int varCount() const {return vfactory_->size();}
+  int varCount() const { return vfactory_->size(); }
 
   // Getters
 
-  const std::string pattern() const {return pattern_;}
-  std::shared_ptr<VariableFactory> vfactory() { return vfactory_;}
+  const std::string pattern() const { return pattern_; }
+  std::shared_ptr<VariableFactory> vfactory() { return vfactory_; }
 
-  const LogicalVA& logicalVA() const { return *VA_; }
+  const LogicalVA &logicalVA() const { return *VA_; }
 
- private:
-
+private:
   static flags_t parseFlags(RegExOptions rgx_opt);
 
   const std::string pattern_;
@@ -78,8 +77,5 @@ class RegEx {
 }; // end class Regex
 
 } // end namespace rematch
-
-
-
 
 #endif // RGX_HPP

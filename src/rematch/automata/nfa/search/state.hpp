@@ -8,13 +8,15 @@
 namespace rematch {
 
 class SearchVA::State : public AbsState {
-  public:
-    std::vector<SearchVA::Transition*> transitions() const { return transitions_; }
+public:
+  std::vector<SearchVA::Transition *> transitions() const {
+    return transitions_;
+  }
 
-    std::vector<SearchVA::Transition*> next_transitions(uint code) const;
+  std::vector<SearchVA::Transition *> next_transitions(uint code) const;
 
-  private:
-    std::vector<SearchVA::Transition*> transitions_;
+private:
+  std::vector<SearchVA::Transition *> transitions_;
 }; // end SearchVA::State
 
 } // end namespace rematch

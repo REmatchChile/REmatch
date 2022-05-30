@@ -1,16 +1,15 @@
+#include <oniguruma.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <oniguruma.h>
 
-#include <string>
 #include <iostream>
+#include <string>
 
 #include "util/util.hpp"
 
 extern "C" {
 
-static int scan_callback(int n, int r, OnigRegion* region, void* arg)
-{
+static int scan_callback(int n, int r, OnigRegion *region, void *arg) {
   // int i;
 
   // fprintf(stdout, "scan: %d\n", n);
@@ -23,9 +22,8 @@ static int scan_callback(int n, int r, OnigRegion* region, void* arg)
   return 0;
 }
 
-static int
-scan(regex_t* reg, OnigOptionType options, unsigned char* str, unsigned char* end)
-{
+static int scan(regex_t *reg, OnigOptionType options, unsigned char *str,
+                unsigned char *end) {
   int r;
   OnigRegion *region;
 
@@ -34,10 +32,9 @@ scan(regex_t* reg, OnigOptionType options, unsigned char* str, unsigned char* en
   r = onig_scan(reg, str, end, region, options, scan_callback, NULL);
   if (r >= 0) {
     fprintf(stdout, "%d\n", r);
-  }
-  else { /* error */
+  } else { /* error */
     char s[ONIG_MAX_ERROR_MESSAGE_LEN];
-    onig_error_code_to_str((OnigUChar* )s, r);
+    onig_error_code_to_str((OnigUChar *)s, r);
     fprintf(stderr, "ERROR: %s\n", s);
     onig_region_free(region, 1 /* 1:free self, 0:free contents only */);
     return -1;
@@ -47,24 +44,26 @@ scan(regex_t* reg, OnigOptionType options, unsigned char* str, unsigned char* en
   return 0;
 }
 
-static int
-exec(OnigEncoding enc, OnigOptionType options, OnigOptionType runtime_options, const char* apattern, const char* astr) {
+static int exec(OnigEncoding enc, OnigOptionType options,
+                OnigOptionType runtime_options, const char *apattern,
+                const char *astr) {
   int r;
   unsigned char *end;
-  regex_t* reg;
+  regex_t *reg;
   OnigErrorInfo einfo;
-  UChar* pattern_end;
-  UChar* pattern = (UChar* )apattern;
-  UChar* str     = (UChar* )astr;
+  UChar *pattern_end;
+  UChar *pattern = (UChar *)apattern;
+  UChar *str = (UChar *)astr;
 
   onig_initialize(&enc, 1);
 
   pattern_end = pattern + onigenc_str_bytelen_null(enc, pattern);
 
-  r = onig_new(&reg, pattern, pattern_end, options, enc, ONIG_SYNTAX_PERL, &einfo);
+  r = onig_new(&reg, pattern, pattern_end, options, enc, ONIG_SYNTAX_PERL,
+               &einfo);
   if (r != ONIG_NORMAL) {
     char s[ONIG_MAX_ERROR_MESSAGE_LEN];
-    onig_error_code_to_str((OnigUChar* )s, r, &einfo);
+    onig_error_code_to_str((OnigUChar *)s, r, &einfo);
     fprintf(stderr, "ERROR: %s\n", s);
     onig_end();
     return -1;
@@ -80,21 +79,21 @@ exec(OnigEncoding enc, OnigOptionType options, OnigOptionType runtime_options, c
 
 } // extern C
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
 
-  if(argc != 3) {
-		std::cerr << "Error parsing args.\nUsage:\n\t" << argv[0] <<
-			" [rgx_file] [doc_file]\n";
-		exit(1);
-	}
+  if (argc != 3) {
+    std::cerr << "Error parsing args.\nUsage:\n\t" << argv[0]
+              << " [rgx_file] [doc_file]\n";
+    exit(1);
+  }
 
   std::string doc, rgx;
 
   rgx = rematch::util::file2str(argv[2]);
-	doc = rematch::util::file2str(argv[1]);
+  doc = rematch::util::file2str(argv[1]);
 
-  exec(ONIG_ENCODING_UTF8, ONIG_OPTION_NONE, ONIG_OPTION_NONE,
-       rgx.c_str(), doc.c_str());
+  exec(ONIG_ENCODING_UTF8, ONIG_OPTION_NONE, ONIG_OPTION_NONE, rgx.c_str(),
+       doc.c_str());
 
   return 0;
 }

@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
 
-#include "parse/parser.hpp"
 #include "automata/nfa/lva.hpp"
+#include "parse/parser.hpp"
 
 using namespace rematch;
 

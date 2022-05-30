@@ -1,10 +1,10 @@
 #ifndef AUTOMATA_NFA_LVA_HPP
 #define AUTOMATA_NFA_LVA_HPP
 
+#include <bitset>
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
-#include <bitset>
 
 namespace rematch {
 
@@ -17,8 +17,8 @@ class LogicalVA {
   /* A basic implementation of a Variable Automaton  */
   friend class ExtendedVA;
 
- public:
-  std::vector<State*> states;
+public:
+  std::vector<State *> states;
 
   // Empty LogicalVA construction (only one State)
   LogicalVA();
@@ -33,9 +33,9 @@ class LogicalVA {
   void set_factories(std::shared_ptr<VariableFactory> v,
                      std::shared_ptr<FilterFactory> f);
 
-  // Transforms the automaton graph to a trimmed automaton. This being that every
-  // state is reacheable from the initial state, and the final state is reachable
-  // from every state.
+  // Transforms the automaton graph to a trimmed automaton. This being that
+  // every state is reacheable from the initial state, and the final state is
+  // reachable from every state.
   void trim();
 
   /****************************************************************************/
@@ -66,23 +66,22 @@ class LogicalVA {
 
   void relabel_states();
 
-  std::shared_ptr<VariableFactory> varFactory() const {return vfactory_;}
-  std::shared_ptr<FilterFactory> filterFactory() const {return ffactory_;}
+  std::shared_ptr<VariableFactory> varFactory() const { return vfactory_; }
+  std::shared_ptr<FilterFactory> filterFactory() const { return ffactory_; }
 
-  State* initial_state() const { return init_state_; }
-  State* accepting_state() const { return accepting_state_; }
+  State *initial_state() const { return init_state_; }
+  State *accepting_state() const { return accepting_state_; }
 
   bool has_epsilon() const { return has_epsilon_; }
 
-  friend std::ostream& operator<<(std::ostream& os, LogicalVA const &A);
+  friend std::ostream &operator<<(std::ostream &os, LogicalVA const &A);
 
- private:
-
+private:
   // Creates a new State for the automaton.
-  State* new_state();
+  State *new_state();
 
-  State* init_state_;
-  State* accepting_state_;
+  State *init_state_;
+  State *accepting_state_;
 
   bool has_epsilon_ = false;
 

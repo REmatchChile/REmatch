@@ -2,9 +2,9 @@
 #define AUTOMATA__MACRODFA__MACROSTATE
 
 #include <memory>
+#include <optional>
 #include <unordered_map>
 #include <vector>
-#include <optional>
 
 #include "automata/macrodfa/macrotransition.hpp"
 
@@ -16,20 +16,20 @@ class MacroState {
 
   using TransitionsMap = std::array<std::shared_ptr<MacroTransition>, 128>;
 
- public:
+public:
   MacroState(DState *state);
-  MacroState(std::vector<DState*> states);
+  MacroState(std::vector<DState *> states);
 
-  MacroTransition* next_transition(char a);
+  MacroTransition *next_transition(char a);
 
   void add_transition(char a, std::shared_ptr<MacroTransition> tr);
 
-  std::vector<DState*>& states();
+  std::vector<DState *> &states();
 
-  friend std::ostream& operator<<(std::ostream &os, MacroState const &m) {
+  friend std::ostream &operator<<(std::ostream &os, MacroState const &m) {
     os << "{";
-    for(auto &dstate: m.states_) {
-      if(dstate == *m.states_.begin())
+    for (auto &dstate : m.states_) {
+      if (dstate == *m.states_.begin())
         os << dstate->label();
       else
         os << " " << dstate->label();
@@ -40,10 +40,10 @@ class MacroState {
 
   static int current_ID;
 
- private:
+private:
   int id_ = current_ID++;
   TransitionsMap transitions_;
-  std::vector<DState*> states_;
+  std::vector<DState *> states_;
 }; // end class MacroState
 
 } // end namespace rematch

@@ -9,11 +9,11 @@ namespace rematch {
 namespace parsing {
 
 class BadRegex : public std::logic_error {
- public:
+public:
   BadRegex(std::string error) : logic_error(error), error_(error) {}
-  virtual const char * what() const noexcept {return error_.c_str();}
+  virtual const char *what() const noexcept { return error_.c_str(); }
 
- protected:
+protected:
   std::string error_;
 
 }; // end class bad_regex

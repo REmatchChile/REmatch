@@ -7,17 +7,19 @@ namespace rematch {
 namespace internal {
 
 class FastNodeList {
- public:
-  FastNodeList()
-  : head_(new Node(Node::Type::kDummy)), tail_(head_) {}
+public:
+  FastNodeList() : head_(new Node(Node::Type::kDummy)), tail_(head_) {}
 
-  Node* start() {return head_->next;}
+  Node *start() { return head_->next; }
 
-  Node* end() {return tail_;}
+  Node *end() { return tail_; }
 
-  bool empty() {return head_ == tail_;}
+  bool empty() { return head_ == tail_; }
 
-  void erase() {head_->next = nullptr; tail_ = head_;}
+  void erase() {
+    head_->next = nullptr;
+    tail_ = head_;
+  }
 
   void reset_refs() {
     // if(empty()) return;
@@ -25,7 +27,7 @@ class FastNodeList {
     --tail_->refCount;
   }
 
-  void add(Node* n) {
+  void add(Node *n) {
     tail_->next = n;
     --tail_->refCount;
     tail_ = n;
@@ -42,12 +44,12 @@ class FastNodeList {
     ++l->tail_->refCount;
   }
 
- private:
-  Node* head_;
-  Node* tail_;
+private:
+  Node *head_;
+  Node *tail_;
 };
 
 } // end namespace internal
-} // end namepace rematch
+} // namespace rematch
 
 #endif // STRUCTS__DAG__FASTNODELIST_HPP

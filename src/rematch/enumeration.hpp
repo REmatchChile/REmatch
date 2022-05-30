@@ -1,21 +1,21 @@
 #ifndef ENUMERATION_H
 #define ENUMERATION_H
 
-#include <iostream>
-#include <sstream>
 #include <bitset>
-#include <vector>
-#include <string>
-#include <stack>
-#include <utility>
+#include <iostream>
 #include <memory>
+#include <sstream>
+#include <stack>
+#include <string>
+#include <utility>
+#include <vector>
 
+#include "factories/factories.hpp"
 #include "match.hpp"
-#include "structs/dag/nodelist.hpp"
+#include "memmanager.hpp"
 #include "structs/dag/fastnodelist.hpp"
 #include "structs/dag/node.hpp"
-#include "factories/factories.hpp"
-#include "memmanager.hpp"
+#include "structs/dag/nodelist.hpp"
 
 namespace rematch {
 
@@ -30,42 +30,42 @@ class Enumerator {
 
   using SpanMap = std::map<std::string, std::pair<int64_t, int64_t>>;
 
-  public:
-    Enumerator(RegEx &rgx);
+public:
+  Enumerator(RegEx &rgx);
 
-    // Get the next match according to the current state of the depth stack.
-    Match_ptr next();
+  // Get the next match according to the current state of the depth stack.
+  Match_ptr next();
 
-    // Returns if there is a next match according to the current state of
-    // the depth stack.
-    bool hasNext();
+  // Returns if there is a next match according to the current state of
+  // the depth stack.
+  bool hasNext();
 
-    // Adds a NodeList to the depth stack. So it's outputs get enumerated
-    // in the future.
-    void addNodeList(internal::NodeList *nl);
-    void addNodeList(internal::FastNodeList *nl);
+  // Adds a NodeList to the depth stack. So it's outputs get enumerated
+  // in the future.
+  void addNodeList(internal::NodeList *nl);
+  void addNodeList(internal::FastNodeList *nl);
 
-    // Resets the enumeration.
-    void reset() {depth_stack_.clear();}
+  // Resets the enumeration.
+  void reset() { depth_stack_.clear(); }
 
-    // Returns the total number of mappings
-    uint64_t numMappings() const {return nmappings_;}
+  // Returns the total number of mappings
+  uint64_t numMappings() const { return nmappings_; }
 
- private:
-
+private:
   // Elements of the depth stack of the enumeration.
   struct EnumState {
-    internal::Node* current_node;    // Current Node of the state of the enumeration.
-    internal::Node* end_node;        // Needed to know when to stop while going down
+    internal::Node
+        *current_node;        // Current Node of the state of the enumeration.
+    internal::Node *end_node; // Needed to know when to stop while going down
 
-    EnumState(internal::Node* c, internal::Node* e)
-      : current_node(c), end_node(e) {}
+    EnumState(internal::Node *c, internal::Node *e)
+        : current_node(c), end_node(e) {}
   }; // end struct EnumeratorNode
 
   std::shared_ptr<VariableFactory> var_factory_;
   uint64_t nmappings_;
 
-  std::vector<EnumState> depth_stack_;  // Stack for DFS in the mappingDAG
+  std::vector<EnumState> depth_stack_; // Stack for DFS in the mappingDAG
 
   // Store the current mapping because each next() call needs to
   // remember the capture positions already found.

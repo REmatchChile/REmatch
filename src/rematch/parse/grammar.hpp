@@ -9,15 +9,15 @@
 #define BOOST_BIND_NO_PLACEHOLDERS
 
 #include <boost/config/warning_disable.hpp>
-#include <boost/spirit/include/qi.hpp>
-#include <boost/phoenix/operator.hpp>
 #include <boost/phoenix/object.hpp>
+#include <boost/phoenix/operator.hpp>
+#include <boost/spirit/include/qi.hpp>
 
 #include "ast.hpp"
 
 namespace rematch {
 
-namespace qi  = boost::spirit::qi;
+namespace qi = boost::spirit::qi;
 namespace ascii = boost::spirit::ascii;
 namespace phoenix = boost::phoenix;
 namespace unicode = boost::spirit::unicode;
@@ -25,29 +25,28 @@ namespace unicode = boost::spirit::unicode;
 template <typename It> // It : Iterator type
 struct parser : qi::grammar<It, ast::altern()> {
   parser() : parser::base_type(altern_) {
+    using qi::attr;
+    using qi::eol;
+    using qi::eps;
+    using qi::hex;
     using qi::lexeme;
     using qi::lit;
-    using unicode::char_;
-    using unicode::alpha;
-    using unicode::alnum;
-    using unicode::no_case;
-    using qi::attr;
-    using qi::uint_;
-    using qi::hex;
-    using qi::eps;
-    using qi::eol;
-    using qi::omit;
     using qi::matches;
+    using qi::omit;
+    using qi::uint_;
+    using unicode::alnum;
+    using unicode::alpha;
+    using unicode::char_;
+    using unicode::no_case;
 
     using qi::_1;
     using qi::_2;
     using qi::_3;
     using qi::_4;
 
-
-    using qi::on_error;
-    using qi::fail;
     using qi::debug;
+    using qi::fail;
+    using qi::on_error;
 
     using phoenix::construct;
     using phoenix::val;
@@ -64,63 +63,57 @@ struct parser : qi::grammar<It, ast::altern()> {
 
     iter_ = group_ >> *rep_;
 
-    rep_ = lit('?')[_val = ast::repetition(0,1)] |
-            lit('*')[_val = ast::repetition(0,-1)] |
-            lit('+')[_val = ast::repetition(1,-1)] |
-            ('{' >> uint_ >> '}')[_val = construct<ast::repetition>(_1,_1)]  |
-            ("{," >> uint_ >> '}')[_val = construct<ast::repetition>(0,_1)]  |
-            ('{' >> uint_ >> ",}" ) [_val = construct<ast::repetition>(_1,-1)] |
-            ('{' >> uint_ >> ',' >> uint_ >> '}')[_val = construct<ast::repetition>(_1,_2)];
+    rep_ = lit('?')[_val = ast::repetition(0, 1)] |
+           lit('*')[_val = ast::repetition(0, -1)] |
+           lit('+')[_val = ast::repetition(1, -1)] |
+           ('{' >> uint_ >> '}')[_val = construct<ast::repetition>(_1, _1)] |
+           ("{," >> uint_ >> '}')[_val = construct<ast::repetition>(0, _1)] |
+           ('{' >> uint_ >> ",}")[_val = construct<ast::repetition>(_1, -1)] |
+           ('{' >> uint_ >> ',' >> uint_ >>
+            '}')[_val = construct<ast::repetition>(_1, _2)];
 
-    group_ =  parenthesis_ | assign_ | atom_ ;
+    group_ = parenthesis_ | assign_ | atom_;
 
-    parenthesis_ =  '(' >> altern_ >> ')';
+    parenthesis_ = '(' >> altern_ >> ')';
 
-    assign_ =   '!' >> var_  >> '{' >> altern_ >> '}';
+    assign_ = '!' >> var_ >> '{' >> altern_ >> '}';
 
-    atom_ =  charset_ | special_ | symb_ ;
+    atom_ = charset_ | special_ | symb_;
 
     assert_ = lit('^')[_val = ast::assertion(AssertionCode::kStartAnchor)] |
               lit('$')[_val = ast::assertion(AssertionCode::kEndAnchor)] |
               lit("\\b")[_val = ast::assertion(AssertionCode::kWordBoundary)] |
               lit("\\B")[_val = ast::assertion(AssertionCode::kNoWordBoundary)];
 
-    special_ = lit(".")[_val = ast::special(SpecialCode::kAnyChar, true)]       |
-               lit("\\d")[_val = ast::special(SpecialCode::kAnyDigit, true)]    |
-               lit("\\D")[_val = ast::special(SpecialCode::kAnyDigit, false)]   |
-               lit("\\w")[_val = ast::special(SpecialCode::kAnyWord, true)]     |
-               lit("\\W")[_val = ast::special(SpecialCode::kAnyWord, false)]    |
-               lit("\\s")[_val = ast::special(SpecialCode::kAnyWhiteSpace, true)]   |
-               lit("\\S")[_val = ast::special(SpecialCode::kAnyWhiteSpace, false)];
+    special_ =
+        lit(".")[_val = ast::special(SpecialCode::kAnyChar, true)] |
+        lit("\\d")[_val = ast::special(SpecialCode::kAnyDigit, true)] |
+        lit("\\D")[_val = ast::special(SpecialCode::kAnyDigit, false)] |
+        lit("\\w")[_val = ast::special(SpecialCode::kAnyWord, true)] |
+        lit("\\W")[_val = ast::special(SpecialCode::kAnyWord, false)] |
+        lit("\\s")[_val = ast::special(SpecialCode::kAnyWhiteSpace, true)] |
+        lit("\\S")[_val = ast::special(SpecialCode::kAnyWhiteSpace, false)];
 
-    symb_ = (unesc_char_ |
-            "\\" >> char_("\\+*?(){}[]|!.-") |
-            ~char_("\\+*?(){}[]|.") // Anything but '+*?(){}[]|.'
-            );
+    symb_ = (unesc_char_ | "\\" >> char_("\\+*?(){}[]|!.-") |
+             ~char_("\\+*?(){}[]|.") // Anything but '+*?(){}[]|.'
+    );
 
     // Inside a charclass is not necesary to escape some symbols (e.g. ".")
-    charclass_symb_ = (unesc_char_|
-                      charclass_unesc_char_ |
-                      ~char_("\\[]")
-                      );
+    charclass_symb_ = (unesc_char_ | charclass_unesc_char_ | ~char_("\\[]"));
 
-    charset_ = '['
-              >> ('^' >> attr(true) | attr(false))
-              >> +(range_ | charclass_symb_) >>
-              ']';
+    charset_ = '[' >> ('^' >> attr(true) | attr(false)) >>
+               +(range_ | charclass_symb_) >> ']';
 
     range_ = charclass_symb_ >> '-' >> charclass_symb_;
 
     var_ = alpha >> *(alnum);
 
-    unesc_char_.add("\\a", '\a')("\\f", '\f')("\\n", '\n')
-              ("\\r", '\r')("\\t", '\t')("\\v", '\v')("\\\\", '\\')
-              ("\\\"", '"');
+    unesc_char_.add("\\a", '\a')("\\f", '\f')("\\n", '\n')("\\r", '\r')(
+        "\\t", '\t')("\\v", '\v')("\\\\", '\\')("\\\"", '"');
 
-    charclass_unesc_char_.add("\\.", '.')("\\+", '+')("\\*", '*')("\\?", '?')
-                          ("\\)", ')')("\\)", ')')("\\}", '}')("\\{", '{')
-                          ("\\|", '|')("\\^", '^')("\\]", ']')("\\[", '[')
-                          ("\\!", '!');
+    charclass_unesc_char_.add("\\.", '.')("\\+", '+')("\\*", '*')("\\?", '?')(
+        "\\)", ')')("\\)", ')')("\\}", '}')("\\{", '{')("\\|", '|')("\\^", '^')(
+        "\\]", ']')("\\[", '[')("\\!", '!');
 
     // Rule naming (for debugging)
 
@@ -142,18 +135,15 @@ struct parser : qi::grammar<It, ast::altern()> {
     ////  DEBUGGING  ////
     /////////////////////
 
-
-    on_error<fail>
-        (
-            altern_
-          , std::cout
-                << phoenix::val("Error! Expecting ")
-                << boost::spirit::_4                               // what failed?
-                << phoenix::val(" here: \"")
-                << construct<std::string>(boost::spirit::_3, boost::spirit::_2)   // iterators to error-pos, end
-                << phoenix::val("\"")
-                << std::endl
-        );
+    on_error<fail>(altern_,
+                   std::cout
+                       << phoenix::val("Error! Expecting ")
+                       << boost::spirit::_4 // what failed?
+                       << phoenix::val(" here: \"")
+                       << construct<std::string>(
+                              boost::spirit::_3,
+                              boost::spirit::_2) // iterators to error-pos, end
+                       << phoenix::val("\"") << std::endl);
 
     // debug(altern_);
     // debug(concat_);
@@ -169,9 +159,9 @@ struct parser : qi::grammar<It, ast::altern()> {
     // debug(symb_);
     // debug(range_);
 
-} // end parser (Constructor)
+  } // end parser (Constructor)
 
- private:
+private:
   // Rule declaration
 
   qi::rule<It, ast::altern()> altern_;
@@ -192,10 +182,8 @@ struct parser : qi::grammar<It, ast::altern()> {
 
   qi::symbols<char const, char const> unesc_char_;
   qi::symbols<char const, char const> charclass_unesc_char_;
-
 };
 
 } // end namespace rematch
-
 
 #endif

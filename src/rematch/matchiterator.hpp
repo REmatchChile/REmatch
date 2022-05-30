@@ -13,14 +13,14 @@ class Evaluator;
 class EvalStats;
 
 class MatchIterator {
- public:
+public:
   MatchIterator() = default;
-  MatchIterator(Evaluator* e, EvalStats* s);
+  MatchIterator(Evaluator *e, EvalStats *s);
 
   Match_ptr next();
 
-  Evaluator* evaluator_;
-  EvalStats* stats_;
+  Evaluator *evaluator_;
+  EvalStats *stats_;
 }; // end class MatchIterator
 
 } // end namespace rematch

@@ -6,7 +6,7 @@
 namespace rematch {
 
 class Evaluator {
- public:
+public:
   virtual Match_ptr next() = 0;
 }; // end class evaluator
 

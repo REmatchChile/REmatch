@@ -1,38 +1,37 @@
 #ifndef SRC_REMATCH_AUTOMATA_DFA_DFA_HPP
 #define SRC_REMATCH_AUTOMATA_DFA_DFA_HPP
 
-#include <string>
-#include <vector>
-#include <memory>
 #include <bitset>
+#include <memory>
+#include <string>
 #include <unordered_map>
+#include <vector>
 
-#include "automata/dfa/transition.hpp"
-#include "regex/regex_options.hpp"
-#include "factories/factories.hpp"
 #include "automata/dfa/dstate.hpp"
+#include "automata/dfa/transition.hpp"
+#include "factories/factories.hpp"
+#include "regex/regex_options.hpp"
 
 namespace rematch {
 
 class VariableFactory;
 class ExtendedVA;
 
-using DFAStatesTable = std::unordered_map<std::vector<bool>, DState*>;
-using DFACaptureStatesTable = std::vector<std::pair<DState*, std::bitset<32>>>;
+using DFAStatesTable = std::unordered_map<std::vector<bool>, DState *>;
+using DFACaptureStatesTable = std::vector<std::pair<DState *, std::bitset<32>>>;
 
 class DFA {
- public:
-
+public:
   // Vector of pointers of States for resizing:
-  std::vector<DState*> states;
-  std::vector<DState*> finalStates;
+  std::vector<DState *> states;
+  std::vector<DState *> finalStates;
 
   std::vector<std::string> varNames;
 
   DFA(ExtendedVA const &A);
 
   // Getter for init state
-  DState* init_state() {return init_state_;};
+  DState *init_state() { return init_state_; };
 
   DFACaptureStatesTable init_eval_states() { return init_eval_states_; }
 
@@ -42,31 +41,30 @@ class DFA {
 
   // ---  Determinization  ---  //
 
-
   // @brief Compute an on-the-fly determinization
   //
   // @param q State from which to compute the next state
   // @param a Read character to follow the transitions
   // @return Transition* The correct deterministic transition from q reading a
-  Transition* next_transition(DState* q, char a);
+  Transition *next_transition(DState *q, char a);
 
- private:
+private:
   // Utility to print a transition
-  void print_transition(std::ostream& os, DState* from, char a,
-                        DState* to, std::bitset<32> S);
+  void print_transition(std::ostream &os, DState *from, char a, DState *to,
+                        std::bitset<32> S);
 
   // Computes the reachable subsets from the deterministic state q
-	// through captures, stores them if necessary and connects p to the computed
-	// deterministic states thourgh deterministic capture transitions.
+  // through captures, stores them if necessary and connects p to the computed
+  // deterministic states thourgh deterministic capture transitions.
   // * Used inernally
-  void compute_captures(DState* p, DState* q, char a);
+  void compute_captures(DState *p, DState *q, char a);
 
   // The starting state of the dfa
-  DState* init_state_;
+  DState *init_state_;
 
   ExtendedVA const &eVA_;
 
-  std::map<std::vector<bool>, DState*> dstates_table_;
+  std::map<std::vector<bool>, DState *> dstates_table_;
 
   DFACaptureStatesTable init_eval_states_;
 

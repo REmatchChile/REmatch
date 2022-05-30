@@ -17,9 +17,8 @@ struct RegexTest {
   std::vector<std::vector<Span>> mappings;
 };
 
-
 class TestRegexResults : public CxxTest::TestSuite {
- public:
+public:
   void test_all_substrings() {
     TS_ASSERT_EQUALS(1, 1);
     TS_ASSERT_EQUALS(1, 2);
