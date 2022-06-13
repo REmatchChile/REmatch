@@ -34,9 +34,8 @@ public:
 private:
   inline void reading(char a, int64_t i);
 
-  inline void visit_direct(DState *cstate, DState *direct, int64_t pos);
-  inline void visit_capture(DState *cstate, std::bitset<32> capture, DState *to,
-                            int64_t pos);
+  inline void visit(DState *direct, internal::ECS::Node* n,
+                    int64_t pos, bool gleft=true);
 
   // Executes the evaluation phase. Returns true if there is an output to
   // enumerate but it didn't reach the end of the search interval. Returns

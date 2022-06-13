@@ -66,6 +66,7 @@ private:
   internal::Enumerator enumerator_;
 
   internal::ECS ds_; // DAG structure
+  internal::ECS::Node* bottom_node_{nullptr};
 
   std::shared_ptr<StrDocument> text_;
 

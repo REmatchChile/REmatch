@@ -55,7 +55,6 @@ struct Transition {
     case Type::kSingleCapture:
       type_ = Type::kMultiCapture;
       captures_.clear();
-      captures_.push_back(capture_);
       captures_.push_back(capture);
       break;
     case Type::kDirectSingleCapture:
@@ -87,6 +86,7 @@ struct Transition {
       break;
     case Type::kMultiCapture:
       type_ = Type::kDirectMultiCapture;
+      captures_.push_back(capture_);
       direct_ = state;
       break;
     }

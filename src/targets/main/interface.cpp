@@ -70,11 +70,12 @@ void Interface::normal_run() {
 }
 
 void Interface::benchmark_run() {
-  std::stringstream output;
+    std::stringstream output;
 
-  size_t n_mappings, detSize, nfaSize, mdfaSize, n_segments;
-  double initAutomataTime, evaluateTime, totTime;
-  /**************************** Run Algorithm ****************************/
+	size_t n_mappings, detSize, nfaSize, mdfaSize,
+         sdfaSize, n_segments, n_nodes, n_reused_nodes;
+	double initAutomataTime, evaluateTime, totTime;
+	/**************************** Run Algorithm ****************************/
 
   Timer t; // Start timer for automata creation
 
@@ -101,11 +102,12 @@ void Interface::benchmark_run() {
   nfaSize = match_iter.stats_->eva_size;
   n_segments = match_iter.stats_->n_search_intervals;
 
-  // numOfCaptures = regex.capture_counter();
-  // numOfReadings = regex.reading_counter();
+	detSize = match_iter.stats_->dfa_size;
+	mdfaSize = match_iter.stats_->mdfa_size;
+	sdfaSize = match_iter.stats_->sdfa_size;
 
-  detSize = match_iter.stats_->dfa_size;
-  mdfaSize = match_iter.stats_->mdfa_size;
+  n_nodes = match_iter.stats_->n_nodes;
+  n_reused_nodes = match_iter.stats_->n_reused_nodes;
 
   std::ofstream mfile("dump.log");
 
@@ -114,9 +116,6 @@ void Interface::benchmark_run() {
   }
 
   mfile.close();
-
-  // std::cout << "\nRaw DFA:\n" <<  regex.detManager().DFA().pprint() << '\n';
-  // std::cout << "\nRaw NFA:\n" <<  regex.detManager().NFA().pprint() << '\n';
 
   evaluateTime = t.elapsed(); // Evaluation time
 
@@ -135,15 +134,19 @@ void Interface::benchmark_run() {
 
   /************************ Output Measurments ************************/
 
-  std::cout << "Number of mappings\t\t" << pwc(n_mappings) << '\n'
-            << "Memory used \t\t\t" << memoryUsed << '\n'
-            << "MDFASize \t\t\t" << mdfaSize << '\n'
-            << "DetSize \t\t\t" << detSize << '\n'
-            << "eVASize \t\t\t" << nfaSize << '\n'
-            << "Number of segments\t\t" << n_segments << '\n'
-            << "Init Automata time\t\t" << pwc(initAutomataTime) << " ms\n"
-            << "Evaluate time\t\t\t" << pwc(evaluateTime) << " ms\n"
-            << "Total time\t\t\t" << pwc(totTime) << " ms\n\n";
+	std::cout
+	<< "Number of mappings\t\t" 			<< 	pwc(n_mappings)											<<	'\n'
+	<< "Memory used \t\t\t"						<<	memoryUsed	 												<< 	'\n'
+	<< "MDFASize \t\t\t"							<<	mdfaSize														<<	'\n'
+	<< "SDFASize \t\t\t"							<<	sdfaSize														<<	'\n'
+	<< "DetSize \t\t\t"								<<	detSize															<<	'\n'
+	<< "eVASize \t\t\t"								<<	nfaSize															<< 	'\n'
+	<< "Number of segments\t\t" 			<<  n_segments 													<<	'\n'
+  << "Number of nodes\t\t\t"        <<  pwc(n_nodes)                        <<  '\n'
+  << "Number of reused nodes\t\t"   <<  pwc(n_reused_nodes)                 <<  '\n'
+	<< "Init Automata time\t\t"				<<	pwc(initAutomataTime) 							<< 	" ms\n"
+	<< "Evaluate time\t\t\t"					<<	pwc(evaluateTime)										<< 	" ms\n"
+	<< "Total time\t\t\t"							<<	pwc(totTime) 												<< 	" ms\n\n";
 
 #ifdef COUNT_CURRENT_STATES
   auto max_pair = match_iter.evaluator_->max_count_states();

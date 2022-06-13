@@ -46,7 +46,7 @@ void NormalEvaluator::init_evaluation_phase(int64_t pos) {
     DState *q0 = elem.first;
     std::bitset<32> S = elem.second;
     if (S != 0)
-      visit_capture(dfa_->init_state(), S, q0, pos - 1);
+      visit(q0, ds_.extend(dfa_->init_state()->node, S, pos), pos - 1);
     current_states_.push_back(elem.first);
   }
 
@@ -73,39 +73,43 @@ FORCE_INLINE void NormalEvaluator::reading(char a, int64_t pos) {
 
   new_states_.clear();
 
-  for (auto &curr_state : current_states_) {
-    auto nextTransition = curr_state->next_transition(a);
+  for (auto &p : current_states_) {
+    auto nextTransition = p->next_transition(a);
 
     if (nextTransition == nullptr) {
-      nextTransition = dfa_->next_transition(curr_state, a);
+      nextTransition = dfa_->next_transition(p, a);
     }
 
     // Decrease the refcount before checking the transition. This is for
     // correct identification of the case of an empty transition, to mark the
     // node as unused.
-    curr_state->node->dec_ref_count();
+    p->node->dec_ref_count();
 
     auto *c = nextTransition->capture_;
     auto *d = nextTransition->direct_;
 
     if (nextTransition->type_ == Transition::Type::kDirect) {
-      visit_direct(curr_state, d, pos);
-    } else if (nextTransition->type_ ==
-               Transition::Type::kDirectSingleCapture) {
-      visit_direct(curr_state, d, pos);
-      visit_capture(curr_state, c->S, c->next, pos);
+      visit(d, p->node, pos);
+    } else if (nextTransition->type_ == Transition::Type::kDirectSingleCapture) {
+      visit(d, p->node, pos, false);
+      p->node->inc_ref_count();
+      visit(c->next, ds_.extend(p->node, c->S, pos+1), pos);
     } else if (nextTransition->type_ == Transition::Type::kEmpty) {
-      ds_.try_mark_unused(curr_state->node);
+      p->node->dec_ref_count();
+      ds_.try_mark_unused(p->node);
     } else if (nextTransition->type_ == Transition::Type::kSingleCapture) {
-      visit_capture(curr_state, c->S, c->next, pos);
+      visit(c->next, ds_.extend(p->node, c->S, pos+1), pos);
     } else if (nextTransition->type_ == Transition::Type::kDirectMultiCapture) {
-      visit_direct(curr_state, d, pos);
+      visit(d, p->node, pos, false);
       for (auto &capture : nextTransition->captures_) {
-        visit_capture(curr_state, capture->S, capture->next, pos);
+        p->node->inc_ref_count();
+        visit(d, ds_.extend(p->node, capture->S, pos+1), pos);
       }
     } else {
+      visit(d, ds_.extend(p->node, c->S, pos+1), pos);
       for (auto &capture : nextTransition->captures_) {
-        visit_capture(curr_state, capture->S, capture->next, pos);
+        p->node->inc_ref_count();
+        visit(d, ds_.extend(p->node, capture->S, pos+1), pos);
       }
     }
   }
@@ -122,37 +126,17 @@ inline void NormalEvaluator::pass_outputs() {
   reached_final_states_.clear();
 }
 
-inline void NormalEvaluator::visit_direct(DState *from, DState *to,
-                                          int64_t pos) {
-  if (to->visited <= pos) {
-    to->pass_node(from->node);
-    to->visited = pos + 1;
-    if (to->accepting())
-      reached_final_states_.push_back(to);
+inline void SegmentEvaluator::visit(DState *ns, internal::ECS::Node* passed_node,
+                                    int64_t pos, bool garbage_left) {
+  if (ns->visited <= pos) {
+    ns->node = passed_node;
+    ns->visited = pos + 1;
+    if (ns->accepting())
+      reached_final_states_.push_back(ns);
     else
-      new_states_.push_back(to);
+      new_states_.push_back(ns);
   } else {
-    // Decrease the refcount, as the node at reached state won't be pointed by
-    // that state anymore, only by the structure internally.
-    to->node->dec_ref_count();
-    to->pass_node(ds_.unite(from->node, to->node));
-  }
-}
-
-inline void NormalEvaluator::visit_capture(DState *cs, std::bitset<32> S,
-                                           DState *to, int64_t pos) {
-  if (to->visited <= pos) {
-    to->pass_node(ds_.extend(cs->node, S, pos + 1));
-    to->visited = pos + 1;
-    if (to->accepting())
-      reached_final_states_.push_back(to);
-    else
-      new_states_.push_back(to);
-  } else {
-    // Decrease the refcount, as the node at reached state won't be pointed by
-    // that state anymore, only by the structure internally.
-    to->node->dec_ref_count();
-    to->pass_node(ds_.unite(ds_.extend(cs->node, S, pos + 1), to->node));
+    ns->node = ds_.unite(passed_node, ns->node, garbage_left);
   }
 }
 

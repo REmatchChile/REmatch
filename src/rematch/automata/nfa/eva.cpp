@@ -172,31 +172,41 @@ void ExtendedVA::captureClosure() {
 
 void ExtendedVA::cleanUselessCaptureStates() {
 
-  bool isUselessCaptureState;
-  // Iterate through every state in the automaton
-  for (auto state = states.begin(); state != states.end();) {
+	bool isUselessCaptureState;
+	// Iterate through every state in the automaton
+	for(auto state=states.begin(); state != states.end(); ) {
 
-    isUselessCaptureState =
-        ((*state)->backward_filters_.empty() && (*state)->filters.empty() &&
-         !(*state)->accepting() && !(*state)->initial());
+		isUselessCaptureState = ((*state)->backward_filters_.empty() &&
+														(*state)->filters.empty() &&
+														!(*state)->accepting() &&
+														!(*state)->initial());
 
-    if (isUselessCaptureState) {
-      // Remove the incident capture transitions on previous states
-      for (auto &capture : (*state)->backward_captures_) {
-        for (auto it = capture->from->captures.begin();
-             it != capture->from->captures.end();) {
-          if (capture->from == (*it)->from && capture->next == (*it)->next)
-            it = capture->from->captures.erase(it);
-          else
-            ++it;
-        }
-      }
-      // Remove the state from the list of states
-      state = states.erase(state);
-    } else {
-      ++state;
-    }
-  }
+		if(isUselessCaptureState) {
+			// Remove the incident capture transitions on previous states
+			for(auto &capture: (*state)->backward_captures_) {
+				for(auto it=capture->from->captures.begin(); it != capture->from->captures.end(); ) {
+					if(capture->from == (*it)->from && capture->next == (*it)->next)
+						it = capture->from->captures.erase(it);
+					else
+						++it;
+				}
+			}
+
+			for(auto &capture: (*state)->captures) {
+				for(auto it=capture->next->backward_captures_.begin(); it != capture->next->backward_captures_.end(); ) {
+					if(capture->from == (*it)->from && capture->next == (*it)->next)
+						it = capture->next->backward_captures_.erase(it);
+					else
+						++it;
+				}
+			}
+			// Remove the state from the list of states
+			state = states.erase(state);
+		}
+		else {
+			++state;
+		}
+	}
 }
 
 void ExtendedVA::cleanUselessCaptureTransitions() {
@@ -501,40 +511,42 @@ void ExtendedVA::invTopologicalSortUtil(State *state, std::queue<State *> *Q) {
   }
 
   Q->push(state);
+
 }
 
+
 void ExtendedVA::relabelStates() {
-  for (auto &state : states) {
-    state->tempMark = false;
-  }
+	for(auto &state: states) {
+		state->tempMark = false;
+	}
 
-  idMap.clear();
-  int counter = 0;
+	idMap.clear();
+	int counter = 0;
 
-  std::vector<State *> stack;
-  stack.push_back(init_state_);
-  init_state_->tempMark = true;
+	std::vector<State*> stack;
+	stack.push_back(init_state_);
+	init_state_->tempMark = true;
 
-  while (!stack.empty()) {
-    auto cstate = stack.back();
-    stack.pop_back();
+	while(!stack.empty()) {
+		auto cstate = stack.back(); stack.pop_back();
 
-    cstate->id = counter++;
-    idMap[cstate->id] = cstate;
 
-    for (auto &capture : cstate->captures) {
-      if (!capture->next->tempMark) {
-        capture->next->tempMark = true;
-        stack.push_back(capture->next);
-      }
-    }
-    for (auto &filter : cstate->filters) {
-      if (!filter->next->tempMark) {
-        filter->next->tempMark = true;
-        stack.push_back(filter->next);
-      }
-    }
-  }
+		cstate->id = counter++;
+		idMap[cstate->id] = cstate;
+
+		for(auto &capture: cstate->captures) {
+			if(!capture->next->tempMark) {
+				capture->next->tempMark = true;
+				stack.push_back(capture->next);
+			}
+		}
+		for(auto &filter: cstate->filters) {
+			if(!filter->next->tempMark) {
+				filter->next->tempMark = true;
+				stack.push_back(filter->next);
+			}
+		}
+	}
 }
 
 std::ostream &operator<<(std::ostream &os, ExtendedVA const &A) {
@@ -715,16 +727,31 @@ void ExtendedVA::duplicate_opt() {
           // pruneUselessStates();
 }
 
-bool ExtendedVA::check_if_static() const {
-  bool is_static = true;
-  for (auto &state : states) {
-    if (!state->accepting() && !state->backward_captures_.empty()) {
-      is_static = false;
-      break;
-    }
-  }
+bool ExtendedVA::check_if_static() {
+	bool is_static = true;
+	std::bitset<32> currentS = 0;
+	for(auto &state: states) {
+		if(!state->accepting() && !state->backward_captures_.empty()) {
+			is_static = false;
+			break;
+		} else if (state->accepting()) {
+			if(!state->backward_filters_.empty() || state->backward_captures_.empty()) {
+				is_static = false;
+				break;
+			}
+			currentS = state->backward_captures_.front()->code;
+			for (auto &capture: state->backward_captures_) {
+				if(currentS != capture->code) {
+					is_static = false;
+					break;
+				}
+			}
+		}
+	}
 
-  return is_static;
+	static_S_ = currentS;
+
+	return is_static;
 }
 
 } // end namespace rematch

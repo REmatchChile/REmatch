@@ -65,7 +65,6 @@ void DState::set_initial(bool b) {
 
 void DState::pass_node(internal::ECS::Node *n) {
   node = n;
-  ++n->ref_count_;
 }
 
 void DState::update_label() {

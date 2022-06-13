@@ -32,17 +32,18 @@ public:
   SegmentEvaluator(RegEx &rgx, std::shared_ptr<StrDocument> d, Anchor a,
                    EvalStats &e);
 
-  virtual Match_ptr next();
+  virtual Match_ptr next() { return next_();}
 
 private:
   inline void reading(char a, int64_t i);
 
-  inline void visit_direct(DState *cstate, DState *direct, int64_t pos);
-  inline void visit_capture(DState *cstate, std::bitset<32> capture, DState *to,
-                            int64_t pos);
+  inline void visit(DState* ns, internal::ECS::Node *node, int64_t pos,
+                                                        bool garbage_left=true);
 
   bool searching_phase();
   void init_searching_phase();
+
+  Match_ptr static_next();
 
   // Executes the evaluation phase. Returns true if there is an output to
   // enumerate but it didn't reach the end of the search interval. Returns
@@ -52,6 +53,14 @@ private:
 
   inline void pass_current_outputs();
   inline void pass_outputs();
+
+  Match_ptr normal_next();
+
+  void update_current_static_mapping(int64_t i);
+
+  std::function<Match_ptr()> next_;
+  std::vector<int> static_capture_positions_;
+  std::vector<int64_t> current_static_mapping_;
 
   std::unique_ptr<ExtendedVA> eva_;
   std::unique_ptr<SearchVA> sva_;
@@ -64,6 +73,7 @@ private:
   internal::Enumerator enumerator_;
 
   internal::ECS ds_; // DAG structure
+  internal::ECS::Node* bottom_node_;
 
   std::shared_ptr<StrDocument> text_;
 

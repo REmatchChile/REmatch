@@ -49,6 +49,8 @@ foreach(subdir ${SUBDIRS})
         # Set timeout for tests
         set_tests_properties("${subdir}.${subsubdir}" PROPERTIES TIMEOUT 3)
 
+        # message("Added test: ${subdir}.${subsubdir}")
+
         math(EXPR COUNT "${COUNT}+1")
 
     endforeach(subsubdir ${SUBSUBDIRS})

@@ -1,5 +1,7 @@
 #include "segment_evaluator_mdfa.hpp"
 
+
+#include <boost/container/flat_set.hpp>
 #include "automata/dfa/dstate.hpp"
 #include "memmanager.hpp"
 #include "util/timer.hpp"
@@ -25,6 +27,8 @@ MacroSegmentEvaluator::MacroSegmentEvaluator(RegEx &rgx,
   mdfa_ = std::make_unique<MacroDFA>(*dfa_);
 
   current_dstate_ = sdfa_->initial_state();
+
+  bottom_node_ = ds_.bottom_node();
   // Initialize evaluation for position 0
   init_evaluation_phase(0);
 }
@@ -53,11 +57,14 @@ Evaluation:
   stats_.dfa_size = dfa_->size();
   stats_.sdfa_size = sdfa_->size();
   stats_.mdfa_size = mdfa_->size();
+  stats_.n_nodes = ds_.n_nodes();
+  stats_.n_reused_nodes = ds_.n_reused_nodes();
+
   return nullptr;
 }
 
 void MacroSegmentEvaluator::init_evaluation_phase(int64_t pos) {
-  dfa_->init_state()->pass_node(ds_.bottom_node());
+  dfa_->init_state()->pass_node(bottom_node_);
 
   std::vector<DState *> init_dstates;
 
@@ -100,11 +107,9 @@ bool MacroSegmentEvaluator::searching_phase() {
   i_min_ = i_src_;
   i_max_ = i_src_;
 
-  for (; i_src_ < text_->size();) {
+  for(;i_src_ < text_->size();++i_src_) {
 
     char a = (char)(*text_)[i_src_] & 0x7F;
-
-    ++i_src_;
 
     // nextState is reached from currentState by reading the character
     SDState *next_state = current_dstate_->next_state(a);
@@ -114,18 +119,22 @@ bool MacroSegmentEvaluator::searching_phase() {
     else
       current_dstate_ = next_state;
 
-    if (current_dstate_->accepting())
-      i_max_ = i_src_;
-
-    if ((current_dstate_->initial() || i_src_ == text_->size()) &&
-        i_min_ < i_max_) {
-      stats_.n_search_intervals++;
-      // stats_.search_intervals.emplace_back(std::make_pair(i_min_, i_max_));
-      return true;
-    }
-
-    if (current_dstate_->initial())
+    if(current_dstate_->accepting())
+      i_max_ = i_src_ + 1;
+    else if(current_dstate_->ends()) {
+      if(i_min_ < i_max_) {
+        stats_.n_search_intervals++;
+        stats_.search_intervals.emplace_back(std::make_pair(i_min_, i_max_));
+        return true;
+      }
       i_min_ = i_src_;
+    }
+  }
+
+  if (i_min_ < i_max_) {
+    stats_.n_search_intervals++;
+    stats_.search_intervals.emplace_back(std::make_pair(i_min_, i_max_));
+    return true;
   }
 
   i_min_ = text_->size();
@@ -140,8 +149,18 @@ FORCE_INLINE void MacroSegmentEvaluator::reading(char a, int64_t pos) {
   if (nt == nullptr)
     nt = mdfa_->next_transition(current_state_, a);
 
+
+  boost::container::flat_set<internal::ECS::Node*> decreasing_nodes;
+
+  for (int i = 0; i < nt->nempties_; i++) {
+    auto e = nt->empties()[i];
+    e->node->dec_ref_count();
+    ds_.try_mark_unused(e->node);
+  }
+
   for (int i = 0; i < nt->nfirstdirects_; i++) {
     auto d = nt->first_directs()[i];
+    decreasing_nodes.insert(d.from->node);
     d.to->pass_node(d.from->node);
     if (d.to->accepting())
       reached_final_states_.push_back(d.to);
@@ -149,32 +168,37 @@ FORCE_INLINE void MacroSegmentEvaluator::reading(char a, int64_t pos) {
 
   for (int i = 0; i < nt->nfirstcaptures_; i++) {
     auto c = nt->first_captures()[i];
-    c.to->pass_node(ds_.extend(c.from->node, c.S, pos + 1));
+    decreasing_nodes.insert(c.from->node);
+    auto nn = ds_.extend(c.from->node, c.S, pos + 1);
+    c.to->pass_node(nn); // Slow pass node because c.from might be already visited
     if (c.to->accepting())
       reached_final_states_.push_back(c.to);
   }
 
+  for (int i = 0; i < nt->nrepeatcaptures_; i++) {
+    auto c = nt->repeat_captures()[i];
+
+    decreasing_nodes.insert(c.to->node);
+    decreasing_nodes.insert(c.from->node);
+
+    c.to->pass_node(
+      ds_.unite(ds_.extend(c.from->node, c.S, pos + 1), c.to->node));
+  }
+
   for (int i = 0; i < nt->nrepeatdirects_; i++) {
     auto d = nt->repeat_directs()[i];
-    // Decrease the refcount, as the node at reached state won't be pointed by
-    // that state anymore, only by the structure internally.
-    d.to->node->dec_ref_count();
+
+    decreasing_nodes.insert(d.to->node);
+    decreasing_nodes.insert(d.from->node);
+
     d.to->pass_node(ds_.unite(d.from->node, d.to->node));
   }
 
-  for (int i = 0; i < nt->nempties_; i++) {
-    auto e = nt->empties()[i];
-    ds_.try_mark_unused(e->node);
+  for(auto& node: decreasing_nodes) {
+    node->dec_ref_count();
+    ds_.try_mark_unused(node);
   }
 
-  for (int i = 0; i < nt->nrepeatcaptures_; i++) {
-    auto c = nt->repeat_captures()[i];
-    // Decrease the refcount, as the node at reached state won't be pointed by
-    // that state anymore, only by the structure internally.
-    c.to->node->dec_ref_count();
-    c.to->pass_node(
-        ds_.unite(ds_.extend(c.from->node, c.S, pos + 1), c.to->node));
-  }
 
   current_state_ = nt->next_state();
 }

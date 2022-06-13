@@ -26,7 +26,8 @@ public:
   class Node;
 
   class Node {
-  public:
+    friend class ECS;
+   public:
     Node(NodeType t, Node *left = nullptr, Node *right = nullptr,
          std::bitset<32> S = 0, int64_t i = 0);
 
@@ -51,7 +52,7 @@ public:
     // friend std::ostream& operator<<(std::ostream& os, const Node& n);
 
     union {
-      uint ref_count_;
+      uint ref_count_{1};
       Node *next_free_;
     };
 
@@ -63,10 +64,12 @@ public:
       int64_t i_;
     };
 
-  private:
+    uint32_t id_;
+    NodeType type_;
+
+   private:
     static uint32_t NextID;
 
-    uint32_t id_;
     uint reset_count_ = 0;
 
   }; // end class ECS::Node
@@ -75,16 +78,24 @@ public:
 
   Node *extend(Node *v, std::bitset<32> S, int64_t i);
 
-  Node *unite(Node *v1, Node *v2);
+  Node *unite(Node *v1, Node *v2, bool delay=false);
 
   Node *bottom_node() { return pool_.alloc(NodeType::kBottom); }
 
   // Marks the node as unused iff its ref_count_ == 0. Otherwise nothing
   // happens. The Node MUST be present in this->pool_.
-  void try_mark_unused(Node *v);
+  void try_mark_unused(Node *v) {
+    if (v->ref_count_ == 0)
+      pool_.add_to_free_list(v);
+  }
+
+  size_t n_nodes() const { return pool_.n_nodes(); }
+  size_t n_reused_nodes() const { return pool_.n_reused_nodes(); }
 
 private:
   MemPool<Node> pool_;
+
+  std::vector<Node*> delay_check_unused_;
 
 }; // end class ECS
 

@@ -38,6 +38,8 @@ DESCRIPTION = data['description']
 BLACKLIST = [
 	"onig-f"
 	# ,"re2-f", 'PCRE-f', "boost-f"
+	# ,"MDFA", "REm"
+	# ,"re2", "boost", "onig", "PCRE"
 	]
 
 TIMEOUT = 10
@@ -80,7 +82,7 @@ def docstats(doc_path):
 	return filesize, int(nchars), int(nlines)+1
 
 def automata_stats(doc_path, rgx_path):
-	command = "{0}/build/Release/bin/rematch --searching --mode=benchmark -d {1} -r {2}".format(HOME_DIR, doc_path, rgx_path)
+	command = "{0}/build/Release/bin/rematch --searching --macrodfa --mode=benchmark -d {1} -r {2}".format(HOME_DIR, doc_path, rgx_path)
 	try:
 		process = subprocess.run(command, shell=True, check=True,
 														capture_output=True, universal_newlines=True)
@@ -118,6 +120,28 @@ def n2col(n):
       name = chr(r + ord('A')) + name
   return name
 
+def run_outputs(binary, doc_path, rgx_path):
+	data = BINARIES[binary]
+	args = data['args'].format(doc_path, rgx_path)
+
+	bin_path = data['command'].format(HOME_DIR)
+
+	subcommand = "{0} {1}".format(bin_path, args)
+
+	try:
+		process = subprocess.Popen(subcommand.split(' '), text=True, shell=False,
+															 start_new_session=True, stdout=subprocess.PIPE,
+															 stderr=subprocess.PIPE)
+		nout, output = process.communicate(timeout=TIMEOUT)
+	except subprocess.TimeoutExpired:
+		print(f"Timeout with command: {subcommand}")
+		os.killpg(os.getpgid(process.pid), signal.SIGTERM)
+		return 'timeout', 'timeout', 'timeout'
+	except:
+		print(f"Error while processing command: {subcommand}")
+		return 'err', 'err', 'err'
+
+	return nout
 
 def run_bench(binary, doc_path, rgx_path, nexp):
 	if binary in BLACKLIST:
@@ -167,6 +191,77 @@ def run_bench(binary, doc_path, rgx_path, nexp):
 
 	return t, mem, nout
 
+def output_main():
+	SHEETS_SERVICE = googleutils.get_sheets_service()
+	DRIVE_SERVICE = googleutils.get_drive_service()
+
+	spreadsheet_name = '({}) {} - {}'.format(str(date.today()), DATASET, DESCRIPTION)
+
+	spreadsheet_id = googleutils.get_or_create_spreadsheet(DRIVE_SERVICE,
+																												 PARENT_FOLDER,
+																												 spreadsheet_name,
+																												 TEMPLATE_FILE)
+
+	bufsize = 50
+	col_buffer = [[0] for _ in range(bufsize)]
+	rgx_buffer = [[''] for _ in range(bufsize)]
+	col_size = 0
+
+	row_counter = 5
+
+	exps_path = pth.join(HOME_DIR, EXP_SUBPATH)
+
+	for dataset in sorted(next(os.walk(exps_path, followlinks=True))[1]):
+		for experiment in sorted(map(lambda x: x[0], filter(lambda x: bool(x[2]), os.walk(os.path.join(exps_path, dataset))))):
+			print("On experiment:", experiment)
+
+			rem_rgx_path = os.path.join(experiment,"rematch.rgx")
+
+			curr_rgx = get_rgx(rem_rgx_path)
+
+			rgx_buffer[col_size][0] = curr_rgx
+
+			print(f"\nStarting query: {curr_rgx}")
+
+			doc_path = os.path.join(experiment,"doc.txt")
+
+			binary = 'SDFA'
+
+			print("\n  Testing lib:", binary)
+
+			noutputs = run_outputs(binary, doc_path, rem_rgx_path)
+
+			col_buffer[col_size][0] = noutputs
+
+			col_size += 1
+
+			if col_size == bufsize:
+				print('\nSending to GoogleSheets!\n')
+				writeInCell(SHEETS_SERVICE, spreadsheet_id,
+				f'Data!AP{row_counter-(col_size-1)}:AP{row_counter}',
+				col_buffer)
+
+				writeInCell(SHEETS_SERVICE, spreadsheet_id,
+				f'Data!A{row_counter-(col_size-1)}:A{row_counter}',
+				rgx_buffer)
+
+				col_size = 0
+
+			row_counter += 1
+
+		if col_size > bufsize:
+			writeInCell(SHEETS_SERVICE, spreadsheet_id,
+			f'Data!AP{row_counter-(col_size-1)}:AP{row_counter}',
+			col_buffer)
+
+			writeInCell(SHEETS_SERVICE, spreadsheet_id,
+			f'Data!A{row_counter-(col_size-1)}:A{row_counter}',
+			rgx_buffer)
+
+
+			print('\nSending to GoogleSheets!\n')
+
+			col_size = 0
 
 
 def main():
@@ -276,5 +371,6 @@ def main():
 
 if __name__ == '__main__':
 	main()
+	# output_main()
 
 

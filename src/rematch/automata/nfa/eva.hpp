@@ -46,6 +46,8 @@ public:
   bool is_static() const { return is_static_; }
   void set_is_static(bool b) { is_static_ = b; }
 
+	std::bitset<32> static_capture() const { return static_S_; }
+
   std::shared_ptr<VariableFactory> varFactory() const {
     return variable_factory_;
   }
@@ -95,7 +97,7 @@ private:
   CaptureVector reachableCaptures(CapturePtr &cap);
   bool isReachable(State *from, State *to);
 
-  bool check_if_static() const;
+	bool check_if_static();
 
   State *init_state_;
   State *accepting_state_;
@@ -105,7 +107,8 @@ private:
 
   Anchor anchor_;
 
-  bool is_static_{false};
+	bool is_static_{false};
+	std::bitset<32> static_S_{0};
 
   size_t currentID = 0;
 };

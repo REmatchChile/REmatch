@@ -1,8 +1,12 @@
-#ifndef STRUCTS__ECS__MEMPOOL_HPP
-#define STRUCTS__ECS__MEMPOOL_HPP
+#ifndef STRUCTS_ECS_MEMPOOL_HPP
+#define STRUCTS_ECS_MEMPOOL_HPP
 
 #include <cmath>
 #include <vector>
+#include <iostream>
+#include <fstream>
+
+#include <spdlog/spdlog.h>
 
 namespace rematch {
 namespace internal {
@@ -41,8 +45,10 @@ private:
 template <class T> class MemPool {
 public:
   MemPool(size_t starting_size = MEMORY_POOL_STARTING_SIZE)
-      : minipool_head_(new MiniPool<T>(starting_size)), tot_arenas_(1),
-        start_size_(starting_size), free_head_(nullptr) {}
+      : minipool_head_(new MiniPool<T>(starting_size)),
+        tot_arenas_(1),
+        start_size_(starting_size),
+        free_head_(nullptr) {}
 
   template <class... Args> T *alloc(Args &&...args) {
     if (minipool_head_->is_full()) {
@@ -69,15 +75,19 @@ public:
 
         // Advance the freelist head
         free_head_ = next_free;
+        ++n_reused_nodes_;
 
         return old_free_head->reset(std::forward<Args>(args)...);
       } else {
         MiniPool<T> *new_minipool = new MiniPool<T>(minipool_head_->size() * 2);
         minipool_head_->set_next(new_minipool);
+        new_minipool->set_prev(minipool_head_);
 
         minipool_head_ = new_minipool;
       }
     }
+
+    ++n_nodes_;
 
     return minipool_head_->alloc(std::forward<Args>(args)...);
   }
@@ -89,15 +99,32 @@ public:
     free_head_ = node;
   }
 
+  std::string print_free_list() {
+    std::stringstream ss;
+    auto head = free_head_;
+    while(head != nullptr) {
+      ss << head->id_ << ' ';
+      head = head->next_free_;
+    }
+    return ss.str();
+  }
+
   size_t total_arenas() const { return tot_arenas_; }
   size_t total_size() const {
     return start_size_ * std::pow(2, tot_arenas_ - 1);
   }
 
+  size_t n_nodes() const { return n_nodes_; }
+  size_t n_reused_nodes() const { return n_reused_nodes_; }
+
 private:
   MiniPool<T> *minipool_head_;
   size_t tot_arenas_;
   size_t start_size_;
+
+  size_t n_reused_nodes_{0};
+  size_t n_nodes_{0};
+
   T *free_head_;
 
 }; // end class Pool
@@ -105,4 +132,4 @@ private:
 } // end namespace internal
 } // end namespace rematch
 
-#endif // STRUCTS__ECS__MEMPOOL_HPP
+#endif // STRUCTS_ECS_MEMPOOL_HPP
