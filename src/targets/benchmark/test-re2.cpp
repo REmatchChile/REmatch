@@ -19,7 +19,10 @@ int main(int argc, char const *argv[]) {
 
   re2::StringPiece input(doc);
 
-  RE2 pattern(rgx);
+  RE2::Options opts;
+  opts.set_log_errors(false);
+
+  RE2 pattern(rgx, opts);
 
   re2::StringPiece match;
 
@@ -31,8 +34,8 @@ int main(int argc, char const *argv[]) {
   // std::cout << "Pattern: \"" << rgx << "\"\n";
 
   while (RE2::FindAndConsume(&input, pattern, &match)) {
-    // int ini = match.data() - doc.data();
-    // dump << "|" << ini << "," << ini + match.size() << ">\n";
+    int ini = match.data() - doc.data();
+    dump << "|" << ini << "," << ini + match.size() << ">\n";
     count++;
   }
 

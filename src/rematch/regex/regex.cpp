@@ -55,7 +55,7 @@ MatchIterator RegEx::findIter(std::shared_ptr<Document> d, Anchor a) {
     else
       eval = new SegmentEvaluator(*this, strd, a, *stats);
   } else {
-    eval = new NormalEvaluator(*this, strd, a);
+    eval = new NormalEvaluator(*this, strd, a, *stats);
   }
   return MatchIterator(eval, stats);
 }

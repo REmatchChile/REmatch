@@ -26,8 +26,8 @@ int main(int argc, char const *argv[]) {
 
   int count = 0;
   while (re.FindAndConsume(&input, &match)) {
-    // int ini = match.data() - doc.data();
-    // dump << "|" << ini << "," << ini + match.size() << ">\n";
+    int ini = match.data() - doc.data();
+    dump << "|" << ini << "," << ini + match.size() << ">\n";
     count++;
   }
 

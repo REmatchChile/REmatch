@@ -19,7 +19,10 @@ int main(int argc, char const *argv[]) {
 
   re2::StringPiece input(doc);
 
-  RE2 pattern(rgx);
+  RE2::Options opts;
+  opts.set_log_errors(false);
+
+  RE2 pattern(rgx, opts);
 
   std::ofstream logfile("logs/re2_force_all.log");
 
@@ -28,15 +31,15 @@ int main(int argc, char const *argv[]) {
 
   while (RE2::PartialMatch(input, pattern, &supermatch)) {
     count++;
-    // logfile << "x = |" << supermatch.data() - doc.data() << ","
-    //                  << supermatch.data() - doc.data() + supermatch.size()
-    //                  << ">\t(x = \"" << supermatch << "\")\n";
+    logfile << "x = |" << supermatch.data() - doc.data() << ","
+                     << supermatch.data() - doc.data() + supermatch.size()
+                     << ">\n";
     supermatch.remove_suffix(1);
     while (RE2::PartialMatch(supermatch, pattern, &match)) {
       count++;
-      // logfile << "x = |" << match.data() - doc.data() << ","
-      //                << match.data() - doc.data() + match.size()
-      //                << ">\t(x = \"" << match << "\")\n";
+      logfile << "x = |" << match.data() - doc.data() << ","
+                     << match.data() - doc.data() + match.size()
+                     << ">\n";
 
       supermatch.remove_suffix(supermatch.size() - match.size() + 1);
     }

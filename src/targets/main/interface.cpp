@@ -73,7 +73,7 @@ void Interface::benchmark_run() {
     std::stringstream output;
 
 	size_t n_mappings, detSize, nfaSize, mdfaSize,
-         sdfaSize, n_segments, n_nodes, n_reused_nodes;
+         sdfaSize, svaSize, n_segments, n_nodes, n_reused_nodes;
 	double initAutomataTime, evaluateTime, totTime;
 	/**************************** Run Algorithm ****************************/
 
@@ -100,6 +100,7 @@ void Interface::benchmark_run() {
   }
 
   nfaSize = match_iter.stats_->eva_size;
+  svaSize = match_iter.stats_->sva_size;
   n_segments = match_iter.stats_->n_search_intervals;
 
 	detSize = match_iter.stats_->dfa_size;
@@ -141,6 +142,7 @@ void Interface::benchmark_run() {
 	<< "SDFASize \t\t\t"							<<	sdfaSize														<<	'\n'
 	<< "DetSize \t\t\t"								<<	detSize															<<	'\n'
 	<< "eVASize \t\t\t"								<<	nfaSize															<< 	'\n'
+  << "sVASize \t\t\t"								<<	svaSize															<< 	'\n'
 	<< "Number of segments\t\t" 			<<  n_segments 													<<	'\n'
   << "Number of nodes\t\t\t"        <<  pwc(n_nodes)                        <<  '\n'
   << "Number of reused nodes\t\t"   <<  pwc(n_reused_nodes)                 <<  '\n'

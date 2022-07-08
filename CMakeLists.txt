@@ -27,7 +27,8 @@ add_compile_definitions(
 	# COUNT_CURRENT_STATES
 	# NOPT_CROSSPROD
 	# NOPT_OFFSET
-	NOPT_MEMORY
+	# NOPT_MEMORY
+	# NOPT_EARLYOUTPUT
 )
 
 # Rematch libs starts as empty list

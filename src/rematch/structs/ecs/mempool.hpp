@@ -51,6 +51,9 @@ public:
         free_head_(nullptr) {}
 
   template <class... Args> T *alloc(Args &&...args) {
+    #ifdef NOPT_MEMORY
+    return new T(std::forward<Args>(args)...);
+    #else
     if (minipool_head_->is_full()) {
       if (free_head_ != nullptr) {
         T *old_free_head = free_head_;
@@ -90,6 +93,7 @@ public:
     ++n_nodes_;
 
     return minipool_head_->alloc(std::forward<Args>(args)...);
+    #endif // NOPT_MEMORY
   }
 
   // Adds a node to the free list. It's assumed that the node has ref_count_ ==

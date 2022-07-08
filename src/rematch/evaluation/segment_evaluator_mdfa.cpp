@@ -160,7 +160,7 @@ FORCE_INLINE void MacroSegmentEvaluator::reading(char a, int64_t pos) {
 
   for (int i = 0; i < nt->nfirstdirects_; i++) {
     auto d = nt->first_directs()[i];
-    decreasing_nodes.insert(d.from->node);
+    // decreasing_nodes.insert(d.from->node);
     d.to->pass_node(d.from->node);
     if (d.to->accepting())
       reached_final_states_.push_back(d.to);
@@ -168,7 +168,7 @@ FORCE_INLINE void MacroSegmentEvaluator::reading(char a, int64_t pos) {
 
   for (int i = 0; i < nt->nfirstcaptures_; i++) {
     auto c = nt->first_captures()[i];
-    decreasing_nodes.insert(c.from->node);
+    // decreasing_nodes.insert(c.from->node);
     auto nn = ds_.extend(c.from->node, c.S, pos + 1);
     c.to->pass_node(nn); // Slow pass node because c.from might be already visited
     if (c.to->accepting())

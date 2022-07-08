@@ -27,15 +27,14 @@ namespace rematch {
 class NormalEvaluator : public Evaluator {
 
 public:
-  NormalEvaluator(RegEx &rgx, std::shared_ptr<StrDocument> d, Anchor a);
+  NormalEvaluator(RegEx &rgx, std::shared_ptr<StrDocument> d, Anchor a, EvalStats &e);
 
   virtual Match_ptr next();
 
 private:
   inline void reading(char a, int64_t i);
 
-  inline void visit(DState *direct, internal::ECS::Node* n,
-                    int64_t pos, bool gleft=true);
+  inline void visit(DState *direct, internal::ECS::Node* n, int64_t pos, bool gleft=true);
 
   // Executes the evaluation phase. Returns true if there is an output to
   // enumerate but it didn't reach the end of the search interval. Returns
@@ -77,6 +76,8 @@ private:
   uint64_t i_max_ = 0;
 
   size_t out_buf_counter = 0;
+
+  EvalStats &stats_;
 }; // end class Evaluator
 
 } // namespace rematch

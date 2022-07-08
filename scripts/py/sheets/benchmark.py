@@ -3,12 +3,15 @@ import os
 import os.path as pth
 from datetime import date
 import signal
+import csv
 
 import googleutils
 
 import subprocess
 
 import re
+
+import pandas as pd
 
 here = pth.dirname(pth.realpath(__file__))
 
@@ -38,11 +41,11 @@ DESCRIPTION = data['description']
 BLACKLIST = [
 	"onig-f"
 	# ,"re2-f", 'PCRE-f', "boost-f"
-	# ,"MDFA", "REm"
+	,"MDFA", "REm"
 	# ,"re2", "boost", "onig", "PCRE"
 	]
 
-TIMEOUT = 10
+TIMEOUT = 100
 
 def formatMem(sizeInKb):
 	units = ['K', 'M', 'G']
@@ -82,7 +85,7 @@ def docstats(doc_path):
 	return filesize, int(nchars), int(nlines)+1
 
 def automata_stats(doc_path, rgx_path):
-	command = "{0}/build/Release/bin/rematch --searching --macrodfa --mode=benchmark -d {1} -r {2}".format(HOME_DIR, doc_path, rgx_path)
+	command = "{0}/build/Release/bin/rematch --searching --mode=benchmark -d {1} -r {2}".format(HOME_DIR, doc_path, rgx_path)
 	try:
 		process = subprocess.run(command, shell=True, check=True,
 														capture_output=True, universal_newlines=True)
@@ -141,7 +144,7 @@ def run_outputs(binary, doc_path, rgx_path):
 		print(f"Error while processing command: {subcommand}")
 		return 'err', 'err', 'err'
 
-	return nout
+	return int(nout.strip())
 
 def run_bench(binary, doc_path, rgx_path, nexp):
 	if binary in BLACKLIST:
@@ -207,19 +210,30 @@ def output_main():
 	rgx_buffer = [[''] for _ in range(bufsize)]
 	col_size = 0
 
-	row_counter = 5
+	row_counter = 3276
 
 	exps_path = pth.join(HOME_DIR, EXP_SUBPATH)
+
+	df = pd.DataFrame();
 
 	for dataset in sorted(next(os.walk(exps_path, followlinks=True))[1]):
 		for experiment in sorted(map(lambda x: x[0], filter(lambda x: bool(x[2]), os.walk(os.path.join(exps_path, dataset))))):
 			print("On experiment:", experiment)
 
+			row = dict()
+
+			# if(int(experiment[-4:]) < 0):
+			# 	continue
+
+			if(int(experiment[-4:]) <= 3275):
+				continue
+
 			rem_rgx_path = os.path.join(experiment,"rematch.rgx")
 
 			curr_rgx = get_rgx(rem_rgx_path)
 
-			rgx_buffer[col_size][0] = curr_rgx
+			# rgx_buffer[col_size][0] = curr_rgx
+			row['query'] = curr_rgx
 
 			print(f"\nStarting query: {curr_rgx}")
 
@@ -231,37 +245,41 @@ def output_main():
 
 			noutputs = run_outputs(binary, doc_path, rem_rgx_path)
 
-			col_buffer[col_size][0] = noutputs
+			# col_buffer[col_size][0] = noutputs
+			row['noutputs'] = noutputs
 
 			col_size += 1
 
-			if col_size == bufsize:
-				print('\nSending to GoogleSheets!\n')
-				writeInCell(SHEETS_SERVICE, spreadsheet_id,
-				f'Data!AP{row_counter-(col_size-1)}:AP{row_counter}',
-				col_buffer)
+			# if col_size == bufsize:
+			# 	print('\nSending to GoogleSheets!\n')
+			# 	writeInCell(SHEETS_SERVICE, spreadsheet_id,
+			# 	f'Data!AP{row_counter-(col_size-1)}:AP{row_counter}',
+			# 	col_buffer)
 
-				writeInCell(SHEETS_SERVICE, spreadsheet_id,
-				f'Data!A{row_counter-(col_size-1)}:A{row_counter}',
-				rgx_buffer)
+			# 	writeInCell(SHEETS_SERVICE, spreadsheet_id,
+			# 	f'Data!A{row_counter-(col_size-1)}:A{row_counter}',
+			# 	rgx_buffer)
 
-				col_size = 0
+			# 	col_size = 0
 
 			row_counter += 1
 
-		if col_size > bufsize:
-			writeInCell(SHEETS_SERVICE, spreadsheet_id,
-			f'Data!AP{row_counter-(col_size-1)}:AP{row_counter}',
-			col_buffer)
+			df = pd.concat([df, pd.DataFrame(data=row, index=[row_counter-1])])
+			df.to_csv(pth.join(here, 'data.csv'), quoting=csv.QUOTE_NONNUMERIC)
 
-			writeInCell(SHEETS_SERVICE, spreadsheet_id,
-			f'Data!A{row_counter-(col_size-1)}:A{row_counter}',
-			rgx_buffer)
+		# if col_size > bufsize:
+		# 	writeInCell(SHEETS_SERVICE, spreadsheet_id,
+		# 	f'Data!AP{row_counter-(col_size-1)}:AP{row_counter}',
+		# 	col_buffer)
+
+		# 	writeInCell(SHEETS_SERVICE, spreadsheet_id,
+		# 	f'Data!A{row_counter-(col_size-1)}:A{row_counter}',
+		# 	rgx_buffer)
 
 
-			print('\nSending to GoogleSheets!\n')
+		# 	print('\nSending to GoogleSheets!\n')
 
-			col_size = 0
+		# 	col_size = 0
 
 
 def main():
@@ -301,6 +319,8 @@ def main():
 		for experiment in sorted(map(lambda x: x[0], filter(lambda x: bool(x[2]), os.walk(os.path.join(exps_path, dataset))))):
 
 			print("On experiment:", experiment)
+
+			
 
 			rem_rgx_path = os.path.join(experiment,"rematch.rgx")
 
@@ -370,7 +390,5 @@ def main():
 			row_counter += 1
 
 if __name__ == '__main__':
-	main()
-	# output_main()
-
-
+	# main()
+	output_main()

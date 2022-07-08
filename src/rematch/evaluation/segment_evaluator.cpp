@@ -15,15 +15,15 @@ SegmentEvaluator::SegmentEvaluator(RegEx &rgx, std::shared_ptr<StrDocument> d,
   eva_ = std::make_unique<ExtendedVA>(rgx_.logicalVA(), anchor_);
   sva_ = std::make_unique<SearchVA>(rgx_.logicalVA(), anchor_);
 
-  if(eva_->is_static()) {
-    next_ = [this]() -> Match_ptr { return static_next(); };
-    current_static_mapping_ = std::vector<int64_t>(rgx.vfactory()->size()*2, -1);
-    for(size_t i = 0; i < rgx.vfactory()->size()*2; ++i)
-      if (eva_->static_capture()[i])
-        static_capture_positions_.push_back(i);
-  } else {
-    next_ = [this]() -> Match_ptr { return normal_next(); };
-  }
+  // if(eva_->is_static()) {
+  //   next_ = [this]() -> Match_ptr { return static_next(); };
+  //   current_static_mapping_ = std::vector<int64_t>(rgx.vfactory()->size()*2, -1);
+  //   for(size_t i = 0; i < rgx.vfactory()->size()*2; ++i)
+  //     if (eva_->static_capture()[i])
+  //       static_capture_positions_.push_back(i);
+  // } else {
+  //   next_ = [this]() -> Match_ptr { return normal_next(); };
+  // }
 
   stats_.eva_size = eva_->size();
   stats_.sva_size = sva_->size();
@@ -38,7 +38,7 @@ SegmentEvaluator::SegmentEvaluator(RegEx &rgx, std::shared_ptr<StrDocument> d,
   init_evaluation_phase(0);
 }
 
-Match_ptr SegmentEvaluator::normal_next() {
+Match_ptr SegmentEvaluator::next() {
 
 Enumeration:
   if (enumerator_.has_next())
@@ -61,6 +61,14 @@ Evaluation:
 
   stats_.dfa_size = dfa_->size();
   stats_.sdfa_size = sdfa_->size();
+
+  // for(auto s1: sdfa_->states) {
+  //   for(auto s2: sdfa_->states) {
+  //     // std::cout << "Checking " << s1->id() << " and " << s2->id() << '\n';
+  //     if(s1->bitmap() == s2->bitmap())
+  //       std::cerr << "ERROR: "  << s1->id() << " and " << s2->id() << "\n";
+  //   }
+  // }
 
   stats_.n_nodes = ds_.n_nodes();
   stats_.n_reused_nodes = ds_.n_reused_nodes();
@@ -185,28 +193,30 @@ FORCE_INLINE void SegmentEvaluator::reading(char a, int64_t pos) {
     auto *c = nextTransition->capture_;
     auto *d = nextTransition->direct_;
 
+    internal::ECS::Node* from_node = p->node;
+
     if (nextTransition->type_ == Transition::Type::kDirect) {
-      visit(d, p->node, pos);
+      visit(d, from_node, pos);
     } else if (nextTransition->type_ == Transition::Type::kDirectSingleCapture) {
-      visit(d, p->node, pos, false);
-      p->node->inc_ref_count();
-      visit(c->next, ds_.extend(p->node, c->S, pos+1), pos);
+      visit(d, from_node, pos, false);
+      from_node->inc_ref_count();
+      visit(c->next, ds_.extend(from_node, c->S, pos+1), pos);
     } else if (nextTransition->type_ == Transition::Type::kEmpty) {
-      p->node->dec_ref_count();
-      ds_.try_mark_unused(p->node);
+      from_node->dec_ref_count();
+      ds_.try_mark_unused(from_node);
     } else if (nextTransition->type_ == Transition::Type::kSingleCapture) {
-      visit(c->next, ds_.extend(p->node, c->S, pos+1), pos);
+      visit(c->next, ds_.extend(from_node, c->S, pos+1), pos);
     } else if (nextTransition->type_ == Transition::Type::kDirectMultiCapture) {
-      visit(d, p->node, pos, false);
+      visit(d, from_node, pos, false);
       for (auto &capture : nextTransition->captures_) {
-        p->node->inc_ref_count();
-        visit(d, ds_.extend(p->node, capture->S, pos+1), pos);
+        from_node->inc_ref_count();
+        visit(d, ds_.extend(from_node, capture->S, pos+1), pos);
       }
     } else {
-      visit(d, ds_.extend(p->node, c->S, pos+1), pos);
+      visit(d, ds_.extend(from_node, c->S, pos+1), pos);
       for (auto &capture : nextTransition->captures_) {
-        p->node->inc_ref_count();
-        visit(d, ds_.extend(p->node, capture->S, pos+1), pos);
+        from_node->inc_ref_count();
+        visit(d, ds_.extend(from_node, capture->S, pos+1), pos);
       }
     }
   }

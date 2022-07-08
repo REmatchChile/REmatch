@@ -1,0 +1,38 @@
+{
+	"scopes": [
+		"https://www.googleapis.com/auth/spreadsheets"
+	],
+	"sheets": {
+		"RKBExplorer": "11GlbMM1ZfhR42kv8iCpA2DF4KmG157wR4fCS1cYa1mw",
+		"Dbpedia": "1mUQnlt83NaS3oQkCqFafRmbnkcDKWJFeIVha72R3WO8",
+		"RKBExplorer2": "1HU4skHQqmuMbcjMGLzkSe-XW_MAjmmsZJmof_rqb39M"
+	},
+	"dataset": "RKBExplorer",
+	"description": "Final Refactor",
+	"homedir": "/home/nicovsj/repos/research/REmatch-org/REmatch",
+	"nexp": 3,
+	"cols": [
+		"D",
+		"E"
+	],
+	"rows": [
+		1,
+		10
+	],
+	"queries": [
+		1,
+		6
+	],
+	"binaries": {
+		"D": {
+			"name": "REmatch",
+			"command": "{0}/build/Release/bin/rematch_rf",
+			"args": "--searching --mode=noutputs -d {0}/exp/benchmark_ranked/exp0{1}/doc-{2}.txt -r {0}/exp/benchmark_ranked/exp0{1}/rematch.rgx"
+		},
+		"E": {
+			"name": "Ranked",
+			"command": "{0}/build/Release/bin/ranked-enum",
+			"args": "--mode=noutputs -d {0}/exp/benchmark_ranked/exp0{1}/doc-{2}.txt -a {0}/exp/benchmark_ranked/exp0{1}/wDFA.txt"
+		}
+	}
+}

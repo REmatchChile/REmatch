@@ -85,8 +85,10 @@ public:
   // Marks the node as unused iff its ref_count_ == 0. Otherwise nothing
   // happens. The Node MUST be present in this->pool_.
   void try_mark_unused(Node *v) {
+    #ifndef NOPT_MEMORY
     if (v->ref_count_ == 0)
       pool_.add_to_free_list(v);
+    #endif
   }
 
   size_t n_nodes() const { return pool_.n_nodes(); }

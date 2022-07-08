@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "automata/dfa/dstate.hpp"
-#include "structs/prevector.hpp"
 
 namespace rematch {
 

@@ -21,8 +21,9 @@ class DState {
 public:
   std::string labl;
 
-  internal::ECS::Node *node;
-  int visited = -1;
+  internal::ECS::Node *node{nullptr};
+  internal::ECS::Node *old_node{nullptr};
+  int visited{-1};
 
   enum Flags {
     kDefaultState = 0,

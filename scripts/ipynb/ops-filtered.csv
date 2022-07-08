@@ -1,0 +1,101 @@
+"","query","noutputs"
+0,"[^\n]* WHERE [^\n]*",116659
+1,"[^\n]* SELECT [^\n]* WHERE [^\n]*",105747
+2,"[^\n]* SELECT [^\n]*",105747
+3,"[^\n]* SELECT [^\n]* WHERE [^\n]*",105747
+4,"[^\n]* PREFIX [^\n]*",100668
+5,"[^\n]* PREFIX [^\n]* WHERE [^\n]*",100656
+6,"[^\n]* PREFIX [^\n]* WHERE [^\n]*",100656
+7,"[^\n]* PREFIX [^\n]* SELECT [^\n]* WHERE [^\n]*",100655
+8,"[^\n]* PREFIX [^\n]* SELECT [^\n]*",100655
+9,"[^\n]* PREFIX [^\n]* SELECT [^\n]*",100655
+10,"[^\n]* DISTINCT [^\n]* WHERE [^\n]*",100130
+11,"[^\n]* DISTINCT [^\n]* WHERE [^\n]*",100130
+12,"[^\n]* DISTINCT [^\n]*",100130
+13,"[^\n]* PREFIX [^\n]* PREFIX [^\n]*",99725
+14,"[^\n]* PREFIX [^\n]* PREFIX [^\n]*",99725
+15,"[^\n]* PREFIX [^\n]* PREFIX [^\n]* WHERE [^\n]*",99713
+16,"[^\n]* PREFIX [^\n]* PREFIX [^\n]* SELECT [^\n]*",99713
+17,"[^\n]* PREFIX [^\n]* PREFIX [^\n]* PREFIX [^\n]*",99440
+18,"[^\n]* PREFIX [^\n]* DISTINCT [^\n]*",99123
+19,"[^\n]* PREFIX [^\n]* DISTINCT [^\n]*",99123
+20,"[^\n]* PREFIX [^\n]* PREFIX [^\n]* DISTINCT [^\n]*",99123
+21,"[^\n]* PREFIX [^\n]* DISTINCT [^\n]* WHERE [^\n]*",99123
+22,"[^\n]* OPTIONAL [^\n]*",80746
+23,"[^\n]* WHERE [^\n]* OPTIONAL [^\n]*",80745
+24,"[^\n]* WHERE [^\n]* OPTIONAL [^\n]*",80745
+25,"[^\n]* DISTINCT [^\n]* OPTIONAL [^\n]*",80142
+26,"[^\n]* DISTINCT [^\n]* OPTIONAL [^\n]*",80142
+27,"[^\n]* DISTINCT [^\n]* WHERE [^\n]* OPTIONAL [^\n]*",80142
+28,"[^\n]* SELECT [^\n]* OPTIONAL [^\n]*",79938
+29,"[^\n]* SELECT [^\n]* OPTIONAL [^\n]*",79938
+30,"[^\n]* SELECT [^\n]* WHERE [^\n]* OPTIONAL [^\n]*",79938
+31,"[^\n]* PREFIX [^\n]* PREFIX [^\n]* OPTIONAL [^\n]*",79566
+32,"[^\n]* PREFIX [^\n]* SELECT [^\n]* OPTIONAL [^\n]*",79566
+33,"[^\n]* PREFIX [^\n]* OPTIONAL [^\n]*",79566
+34,"[^\n]* PREFIX [^\n]* WHERE [^\n]* OPTIONAL [^\n]*",79566
+35,"[^\n]* PREFIX [^\n]* DISTINCT [^\n]* OPTIONAL [^\n]*",79566
+36,"[^\n]* PREFIX [^\n]* OPTIONAL [^\n]*",79566
+37,"[^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*",48396
+38,"[^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*",48396
+39,"[^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*",48395
+40,"[^\n]* SELECT [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*",48395
+41,"[^\n]* WHERE [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*",48395
+42,"[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*",48395
+43,"[^\n]* DISTINCT [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*",48395
+44,"[^\n]* FILTER [^\n]*",21333
+45,"[^\n]* WHERE [^\n]* FILTER [^\n]*",21333
+46,"[^\n]* WHERE [^\n]* FILTER [^\n]*",21333
+47,"[^\n]* SELECT [^\n]* FILTER [^\n]*",21191
+48,"[^\n]* SELECT [^\n]* WHERE [^\n]* FILTER [^\n]*",21191
+49,"[^\n]* SELECT [^\n]* FILTER [^\n]*",21191
+50,"[^\n]* PREFIX [^\n]* FILTER [^\n]*",20298
+51,"[^\n]* PREFIX [^\n]* WHERE [^\n]* FILTER [^\n]*",20298
+52,"[^\n]* PREFIX [^\n]* FILTER [^\n]*",20298
+53,"[^\n]* PREFIX [^\n]* SELECT [^\n]* FILTER [^\n]*",20297
+54,"[^\n]* WHERE [^\n]* OPTIONAL [^\n]* FILTER [^\n]*",19733
+55,"[^\n]* OPTIONAL [^\n]* FILTER [^\n]*",19733
+56,"[^\n]* SELECT [^\n]* OPTIONAL [^\n]* FILTER [^\n]*",19733
+57,"[^\n]* OPTIONAL [^\n]* FILTER [^\n]*",19733
+58,"[^\n]* PREFIX [^\n]* PREFIX [^\n]* FILTER [^\n]*",19595
+59,"[^\n]* DISTINCT [^\n]* FILTER [^\n]*",19553
+60,"[^\n]* DISTINCT [^\n]* WHERE [^\n]* FILTER [^\n]*",19553
+61,"[^\n]* DISTINCT [^\n]* FILTER [^\n]*",19553
+62,"[^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]* FILTER [^\n]*",19547
+63,"[^\n]* PREFIX [^\n]* DISTINCT [^\n]* FILTER [^\n]*",19547
+64,"[^\n]* DISTINCT [^\n]* OPTIONAL [^\n]* FILTER [^\n]*",19547
+65,"[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* FILTER [^\n]*",19547
+66,"[^\n]* WHERE [^\n]* LIMIT [^\n]*",8868
+67,"[^\n]* LIMIT [^\n]*",8868
+68,"[^\n]* WHERE [^\n]* LIMIT [^\n]*",8868
+69,"[^\n]* SELECT [^\n]* LIMIT [^\n]*",5298
+70,"[^\n]* SELECT [^\n]* WHERE [^\n]* LIMIT [^\n]*",5298
+71,"[^\n]* SELECT [^\n]* LIMIT [^\n]*",5298
+72,"[^\n]* WHERE [^\n]* GROUP BY [^\n]*",3202
+73,"[^\n]* GROUP BY [^\n]*",3202
+74,"[^\n]* WHERE [^\n]* GROUP BY [^\n]*",3202
+75,"[^\n]* SELECT [^\n]* GROUP BY [^\n]*",3158
+76,"[^\n]* SELECT [^\n]* WHERE [^\n]* GROUP BY [^\n]*",3158
+77,"[^\n]* SELECT [^\n]* GROUP BY [^\n]*",3158
+78,"[^\n]* AS [^\n]*",3058
+79,"[^\n]* AS [^\n]* WHERE [^\n]*",2945
+80,"[^\n]* AS [^\n]* WHERE [^\n]*",2945
+81,"[^\n]* WHERE [^\n]* ORDER BY [^\n]*",2546
+82,"[^\n]* ORDER BY [^\n]*",2546
+83,"[^\n]* WHERE [^\n]* ORDER BY [^\n]*",2546
+84,"[^\n]* SELECT [^\n]* ORDER BY [^\n]*",2534
+85,"[^\n]* SELECT [^\n]* WHERE [^\n]* ORDER BY [^\n]*",2534
+86,"[^\n]* SELECT [^\n]* ORDER BY [^\n]*",2534
+87,"[^\n]* PREFIX [^\n]* GROUP BY [^\n]*",2486
+88,"[^\n]* PREFIX [^\n]* GROUP BY [^\n]*",2486
+89,"[^\n]* PREFIX [^\n]* SELECT [^\n]* GROUP BY [^\n]*",2486
+90,"[^\n]* PREFIX [^\n]* WHERE [^\n]* GROUP BY [^\n]*",2486
+91,"[^\n]* GROUP BY [^\n]* ORDER BY [^\n]*",2354
+92,"[^\n]* WHERE [^\n]* GROUP BY [^\n]* ORDER BY [^\n]*",2354
+93,"[^\n]* GROUP BY [^\n]* ORDER BY [^\n]*",2354
+94,"[^\n]* DISTINCT [^\n]* GROUP BY [^\n]*",2342
+95,"[^\n]* SELECT [^\n]* OPTIONAL [^\n]* ORDER BY [^\n]*",2342
+96,"[^\n]* PREFIX [^\n]* ORDER BY [^\n]*",2342
+97,"[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* GROUP BY [^\n]*",2342
+98,"[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* ORDER BY [^\n]*",2342
+99,"[^\n]* SELECT [^\n]* GROUP BY [^\n]* ORDER BY [^\n]*",2342

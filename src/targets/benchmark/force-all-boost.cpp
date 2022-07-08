@@ -34,13 +34,15 @@ int main(int argc, char const *argv[]) {
   std::ofstream dump("logs/boost-output.log");
 
   while (boost::regex_search(start, doc.cend(), matches, pattern, flags)) {
-    // dump << "|" << matches.position() << ',' << matches.length() -
-    // matches.position() << ">\n";
+    dump << "|" << matches.position() << ',' << matches.length() -
+    matches.position() << ">\n";
     auto mstart = matches[0].first, mend = matches[0].second;
     mend--;
     count++;
     while (boost::regex_search(mstart, mend, submatches, pattern, flags)) {
       count++;
+      dump << "|" << submatches.position() << ',' << submatches.length() -
+      submatches.position() << ">\n";
       mend = submatches[0].second;
       mend--;
     }

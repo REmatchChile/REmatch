@@ -32,7 +32,7 @@ public:
   SegmentEvaluator(RegEx &rgx, std::shared_ptr<StrDocument> d, Anchor a,
                    EvalStats &e);
 
-  virtual Match_ptr next() { return next_();}
+  virtual Match_ptr next();
 
 private:
   inline void reading(char a, int64_t i);
