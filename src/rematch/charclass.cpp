@@ -8,15 +8,15 @@
 
 namespace rematch {
 
-CharClassBuilder::CharClassBuilder() : nchars_(0) {}
+CharClass::CharClass() : nchars_(0) {}
 
-CharClassBuilder::CharClassBuilder(char c) : nchars_(0) { add_single(c); }
+CharClass::CharClass(char c) : nchars_(0) { add_single(c); }
 
-CharClassBuilder::CharClassBuilder(char l, char h) : nchars_(0) {
+CharClass::CharClass(char l, char h) : nchars_(0) {
   add_range(l, h);
 }
 
-CharClassBuilder::CharClassBuilder(ast::special const &s) : nchars_(0) {
+CharClass::CharClass(ast::special const &s) : nchars_(0) {
   switch (s.code_) {
   case SpecialCode::kAnyChar:
     add_range(0, CHAR_MAX);
@@ -41,7 +41,7 @@ CharClassBuilder::CharClassBuilder(ast::special const &s) : nchars_(0) {
     negate();
 }
 
-CharClassBuilder::CharClassBuilder(ast::charset const &cs) : nchars_(0) {
+CharClass::CharClass(ast::charset const &cs) : nchars_(0) {
   for (auto &elem : cs.elements) {
     if (elem.which() == 0) {
       add_single(boost::get<char>(elem));
@@ -55,7 +55,7 @@ CharClassBuilder::CharClassBuilder(ast::charset const &cs) : nchars_(0) {
     negate();
 }
 
-bool CharClassBuilder::add_range(char lo, char hi) {
+bool CharClass::add_range(char lo, char hi) {
   if (hi < lo)
     return false;
 
@@ -106,19 +106,19 @@ bool CharClassBuilder::add_range(char lo, char hi) {
   return true;
 }
 
-bool CharClassBuilder::add_single(char c) { return add_range(c, c); }
+bool CharClass::add_single(char c) { return add_range(c, c); }
 
-void CharClassBuilder::add_charclass(CharClassBuilder *cc) {
+void CharClass::add_charclass(CharClass *cc) {
   for (iterator it = cc->begin(); it != cc->end(); it++) {
     add_range(it->lo, it->hi);
   }
 }
 
-bool CharClassBuilder::contains(char c) {
+bool CharClass::contains(char c) {
   return ranges_.find(CharRange(c, c)) != end();
 }
 
-void CharClassBuilder::negate() {
+void CharClass::negate() {
   std::vector<CharRange> v;
   v.reserve(ranges_.size() + 1);
 
@@ -148,90 +148,45 @@ void CharClassBuilder::negate() {
   nchars_ = CHAR_MAX + 1 - nchars_;
 }
 
-CharClassBuilder *CharClassBuilder::intersect(CharClassBuilder *cc) {
-  CharClassBuilder *new_cc = new CharClassBuilder();
-  for (iterator it1 = cc->begin(); it1 != cc->end(); it1++) {
+CharClass CharClass::intersect(CharClass const &cc) {
+  CharClass new_cc;
+  for (iterator it1 = cc.cbegin(); it1 != cc.cend(); it1++) {
     iterator it2 = ranges_.lower_bound(*it1); // lowest range that overlaps
     if (it2 != end()) {
       for (; it2 != ranges_.upper_bound(*it1); it2++) {
         char lo = std::max(it2->lo, it1->lo);
         char hi = std::min(it2->hi, it1->hi);
-        new_cc->add_range(lo, hi);
+        new_cc.add_range(lo, hi);
       }
     }
   }
   return new_cc;
 }
 
-CharClassBuilder *CharClassBuilder::set_minus(CharClassBuilder *cc) {
-  // Set minus is just the intersection with the complement;
-  cc->negate();
-
-  CharClassBuilder *new_cc = intersect(cc);
-
-  cc->negate();
-
-  return new_cc;
-}
-
-// std::ostream& operator<<(std::ostream &os, CharClassBuilder const &b) {
-// 	for(auto &range: b.ranges_) {
-// 		os << '[' << (int)range.lo << ',' << (int)range.hi << ']';
-// 	}
-// 	return os;
-// }
-
-bool CharClassBuilder::operator==(const CharClassBuilder &rhs) const {
-  return ranges_ == rhs.ranges_;
-}
-
-std::unique_ptr<CharClass> CharClassBuilder::get_charclass() {
-  auto cc = std::make_unique<CharClass>(static_cast<int>(ranges_.size()));
-  cc->nchars_ = nchars_;
-  int n = 0;
-  for (iterator it = begin(); it != end(); it++) {
-    cc->ranges_[n++] = *it;
-  }
-  cc->nranges_ = n;
-  return cc;
-}
-
-CharClass::~CharClass() { delete[] ranges_; }
-
-bool CharClass::contains(char a) {
-  CharRange *range = ranges_;
-  int n = nranges_;
-
-  while (n > 0) {
-    int m = n / 2;
-    if (range[m].hi < a) {
-      range += m + 1;
-      n -= m + 1;
-    } else if (a < range[m].lo) {
-      n = m;
-    } else { // range[m].lo <= a && a <= range[m].hi
+bool CharClass::do_intersect(CharClass *cc) {
+  for (iterator it1 = cc->begin(); it1 != cc->end(); it1++) {
+    iterator it2 = ranges_.lower_bound(*it1); // lowest range that overlaps
+    if (it2 != end())
       return true;
-    }
   }
   return false;
 }
 
-bool CharClass::operator<(const CharClass &cc) const {
-  for (int i = 0; i < std::min(nranges_, cc.nranges_); i++) {
-    if (ranges_[i].lo < cc.ranges_[i].lo)
-      return true;
-    else if (ranges_[i].lo > cc.ranges_[i].lo)
-      return false;
-    else if (ranges_[i].hi < cc.ranges_[i].hi)
-      return true;
-    else if (ranges_[i].hi > cc.ranges_[i].hi)
-      return false;
-  }
+CharClass CharClass::set_minus(CharClass const &cc) {
+  // Set minus is just the intersection with the complement;
+  CharClass copy_cc(cc);
+  copy_cc.negate();
 
-  return nranges_ < cc.nranges_;
+  CharClass new_cc = intersect(copy_cc);
+
+  return new_cc;
 }
 
-std::ostream &operator<<(std::ostream &os, CharClassBuilder const &cc) {
+bool CharClass::operator==(const CharClass &rhs) const {
+  return ranges_ == rhs.ranges_;
+}
+
+std::ostream &operator<<(std::ostream &os, CharClass const &cc) {
   if (cc.is_dot())
     return os << '.';
   else if (cc.nchars_ == 1)

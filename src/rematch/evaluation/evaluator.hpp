@@ -8,6 +8,7 @@ namespace rematch {
 class Evaluator {
 public:
   virtual Match_ptr next() = 0;
+  virtual bool is_ambiguous() const = 0;
 }; // end class evaluator
 
 } // end namespace rematch
@@ -20,6 +21,6 @@ public:
 // #include "evaluation/normal_evaluator_new.hpp"
 // #include "evaluation/eofilter_evaluator_new.hpp"
 #include "evaluation/segment_evaluator.hpp"
-#include "evaluation/segment_evaluator_mdfa.hpp"
+// #include "evaluation/segment_evaluator_mdfa.hpp"
 
 #endif // EVALUATION__EVALUATOR_HPP

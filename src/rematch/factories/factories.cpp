@@ -136,12 +136,6 @@ bool VariableFactory::operator==(const VariableFactory &vf) const {
   return data_ == vf.data_;
 }
 
-FilterFactory::FilterFactory() {
-  CharClassBuilder ccb;
-  ccb.add_range('\0', '\0');
-  add_filter(ccb);
-}
-
 std::string FilterFactory::pprint() {
   std::stringstream ss;
 
@@ -152,23 +146,23 @@ std::string FilterFactory::pprint() {
   return ss.str();
 }
 
-int FilterFactory::add_filter(CharClassBuilder ccb) {
+int FilterFactory::add_filter(CharClass ccb) {
   auto res = code_map_.insert({ccb, size_});
   if (res.second) {
-    filter_map_.insert({size_, ccb});
+    filter_map_.push_back(ccb);
     return size_++;
   } else {
     return res.first->second;
   }
 }
 
-int FilterFactory::get_code(CharClassBuilder cs) { return code_map_.at(cs); }
+int FilterFactory::get_code(CharClass cs) { return code_map_.at(cs); }
 
-CharClassBuilder &FilterFactory ::get_filter(int code) {
+CharClass &FilterFactory ::get_filter(int code) {
   return filter_map_[code];
 }
 
-bool FilterFactory::contains(CharClassBuilder &cs) const {
+bool FilterFactory::contains(CharClass &cs) const {
   return code_map_.find(cs) != code_map_.end();
 }
 
@@ -179,11 +173,11 @@ void FilterFactory::merge(FilterFactory &rest) {
    */
 
   for (auto &it : rest.filter_map_) {
-    if (contains(it.second))
+    if (contains(it))
       throw parsing::BadRegex("Regex is not functional.");
 
-    filter_map_[size_] = it.second;
-    code_map_[it.second] = size_;
+    filter_map_.push_back(it);
+    code_map_[it] = size_;
     size_++;
   }
 }
@@ -225,8 +219,8 @@ std::vector<bool> FilterFactory::applyFilters(char a) {
 
   if (it == bitsetMap.end()) {
     std::vector<bool> bitsetVector(size_);
-    for (auto &it : filter_map_) {
-      bitsetVector[it.first] = it.second.contains(a);
+    for (int i = 0; i < size_; i++) {
+      bitsetVector[i] = filter_map_[i].contains(a);
     }
     bitsetMap.insert(std::make_pair(a, bitsetVector));
 

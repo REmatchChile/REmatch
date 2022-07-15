@@ -1,5 +1,5 @@
-#ifndef MATCH_ITERATOR_HPP
-#define MATCH_ITERATOR_HPP
+#ifndef MATCHITERATOR_HPP
+#define MATCHITERATOR_HPP
 
 #include <iterator>
 
@@ -25,4 +25,4 @@ public:
 
 } // end namespace rematch
 
-#endif // MATCH_ITERATOR_HPP
+#endif // MATCHITERATOR_HPP

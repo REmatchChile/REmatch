@@ -11,7 +11,7 @@ import subprocess
 
 import re
 
-AutomataStats = namedtuple("AutomataStats", "dsize esize msize nsegs")
+AutomataStats = namedtuple("AutomataStats", "dsize esize msize nsegs ambig")
 DocStats = namedtuple("DocStats", "filesize nchars nlines")
 
 HERE = pth.dirname(pth.realpath(__file__))
@@ -67,14 +67,15 @@ def automata_stats(doc_path: str, rgx_path: str):
                              capture_output=True, universal_newlines=True)
 	except:
 		print(f"Error while processing command: {command}")
-		return AutomataStats('err', 'err', 'err', 'err')
+		return AutomataStats('err', 'err', 'err', 'err', 'err')
 
 	dsize = int(re.search(r'DetSize\s+(\d+)', process.stdout).group(1))
 	esize = int(re.search(r'eVASize\s+(\d+)', process.stdout).group(1))
 	msize = int(re.search(r'MDFASize\s+(\d+)', process.stdout).group(1))
 	nsegs = int(re.search(r'Number of segments\s+(\d+)', process.stdout).group(1))
+	ambig = int(re.search(r'Ambiguous\?\s+(\d)', process.stdout).group(1))
 
-	return AutomataStats(dsize, esize, msize, nsegs)
+	return AutomataStats(dsize, esize, msize, nsegs, ambig)
 
 def run_outputs(binary, doc_path, rgx_path):
 	data = BINARIES[binary]
@@ -189,10 +190,11 @@ def run_experiments():
 
 			astats = automata_stats(doc_path, os.path.join(experiment,"rematch.rgx"))
 
-			row['size(eVA)'] 			= astats.esize
-			row['size(d-eVA)'] 		= astats.esize
-			row['size(md-eVA)'] 		= astats.esize
-			row['size(segments)'] 	= astats.esize
+			row['size(eVA)'] 				= astats.esize
+			row['size(d-eVA)'] 			= astats.dsize
+			row['size(md-eVA)'] 		= astats.msize
+			row['size(segments)'] 	= astats.nsegs
+			row['ambiguous'] 				= astats.ambig
 
 			for bin, bin_data in BINARIES.items():
 

@@ -28,7 +28,7 @@ ExtendedVA::ExtendedVA(LogicalVA const &A, Anchor a)
   trim();
 
   if (anchor_ == Anchor::kUnanchored) {
-    auto code = filter_factory_->add_filter(CharClassBuilder(0, CHAR_MAX));
+    auto code = filter_factory_->add_filter(CharClass(0, CHAR_MAX));
     init_state_->add_filter(code, init_state_);
     // accepting_state_->add_filter(code, accepting_state_);
   }
@@ -56,6 +56,8 @@ ExtendedVA::ExtendedVA(LogicalVA const &A, Anchor a)
 #ifndef NDEBUG
   std::cout << "EvaluationVA after relabeling:\n" << *this << "\n\n";
 #endif
+
+  // is_ambiguous();
 }
 
 void ExtendedVA::addCapture(State *state, std::bitset<32> bs, State *next) {
@@ -63,6 +65,91 @@ void ExtendedVA::addCapture(State *state, std::bitset<32> bs, State *next) {
 }
 
 size_t ExtendedVA::size() const { return states.size(); }
+
+
+bool ExtendedVA::is_ambiguous() const {
+
+  struct StatePair {
+    State* p1 = nullptr;
+    State* p2 = nullptr;
+    bool splitted = true;
+
+    bool operator==(const StatePair &rhs) const {
+      return (p1->id == rhs.p1->id) &&
+             (p2->id == rhs.p2->id) &&
+             (splitted == rhs.splitted);
+    }
+  };
+
+  struct StatePairHasher {
+    size_t operator()(const StatePair & sp) const {
+      std::string s = std::to_string(sp.p1->id) + " " +
+                      std::to_string(sp.p2->id) + " " +
+                      std::to_string(sp.splitted);
+
+      return std::hash<std::string>()(s);
+    }
+  };
+
+  struct IntPairHasher {
+    size_t operator()(const std::pair<int, int> &p) const {
+      return std::hash<int>()(p.first) ^ std::hash<int>()(p.second);
+    }
+  };
+
+  std::unordered_set<StatePair, StatePairHasher> visited;
+  std::queue<StatePair> queue;
+
+  std::unordered_map<std::pair<int, int>, CharClass, IntPairHasher> intersects;
+
+  auto filters = filter_factory_->filters();
+
+  for(size_t i = 0; i < filters.size(); i++) {
+    for(size_t j = i; j < filters.size(); j++) {
+      CharClass fi = filters[i], fj = filters[j];
+      intersects.insert({{i,j},fi.intersect(fj)});
+    }
+  }
+
+  StatePair first_pair{init_state(), init_state(), false};
+  visited.insert(first_pair);
+  queue.push(first_pair);
+
+  while(!queue.empty()) {
+    auto spair = queue.front(); queue.pop();
+
+    if(spair.splitted && spair.p1->accepting() && spair.p2->accepting())
+      return true;
+
+    for(auto &c1: spair.p1->captures) {
+      for(auto &c2: spair.p2->captures) {
+        if(c1->code == c2->code) {
+          StatePair new_pair{c1->next, c2->next, spair.splitted};
+          auto rt = visited.insert(new_pair);
+          if(rt.second) {
+            queue.push(new_pair);
+          }
+        }
+      }
+    }
+
+    for(auto &f1: spair.p1->filters) {
+      for(auto &f2: spair.p2->filters) {
+        if(!intersects[{std::min(f1->code, f2->code), std::max(f1->code, f2->code)}].empty()) {
+          bool splitted = spair.splitted || f1->next != f2->next;
+          StatePair new_pair{f1->next, f2->next, splitted};
+          auto rt = visited.insert(new_pair);
+          if(rt.second) { // if insert was succesful
+            queue.push(new_pair);
+          }
+        }
+      }
+    }
+  }
+
+  return false;
+
+}
 
 void ExtendedVA::trim() {
   // We'll do a simple BFS from the initial and final states (using backwards

@@ -9,6 +9,7 @@
 #include <string>
 #include <unordered_set>
 #include <vector>
+#include <queue>
 
 #include "automata/nfa/state.hpp"
 #include "factories/factories.hpp"

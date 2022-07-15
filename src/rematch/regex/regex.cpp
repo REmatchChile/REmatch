@@ -50,10 +50,7 @@ MatchIterator RegEx::findIter(std::shared_ptr<Document> d, Anchor a) {
   Evaluator *eval;
   EvalStats *stats = new EvalStats();
   if (flags_ & kSearching) {
-    if (flags_ & kMacroDFA)
-      eval = new MacroSegmentEvaluator(*this, strd, a, *stats);
-    else
-      eval = new SegmentEvaluator(*this, strd, a, *stats);
+    eval = new SegmentEvaluator(*this, strd, a, *stats);
   } else {
     eval = new NormalEvaluator(*this, strd, a, *stats);
   }

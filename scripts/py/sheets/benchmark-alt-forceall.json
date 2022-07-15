@@ -7,7 +7,7 @@
   },
   "template": "1QMcMNan9QlRQ-vYCEW2vMy0bUyyweXKI8fREasefb7c",
   "dataset": "benchmark",
-  "exp-subpath": "exp/crossings/sparql/2lines",
+  "exp-subpath": "exp/crossings/morphemes/2grams/sample",
   "description": "SET 02 - PROTEOMS - OUTPUTS",
   "homedir": "/home/nicovsj/repos/research/REmatch-org/REmatch",
   "nexp": 1,

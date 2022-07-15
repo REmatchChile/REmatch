@@ -34,6 +34,8 @@ public:
 
   virtual Match_ptr next();
 
+  virtual bool is_ambiguous() const { return eva_->is_ambiguous(); }
+
 private:
   inline void reading(char a, int64_t i);
 

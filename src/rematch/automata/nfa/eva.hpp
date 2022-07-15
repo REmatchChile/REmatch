@@ -17,7 +17,6 @@ class State;
 class VariableFactory;
 class FilterFactory;
 class LogicalVA;
-class CharClass;
 class LVACapture;
 
 using CaptureVector = std::vector<std::shared_ptr<LVACapture>>;
@@ -89,6 +88,9 @@ public:
   void offset_opt();
 
   void duplicate_opt();
+
+  // Check if the automata is ambiguous.
+  bool is_ambiguous() const;
 
   friend std::ostream &operator<<(std::ostream &os, ExtendedVA const &A);
 

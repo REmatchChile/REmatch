@@ -91,15 +91,27 @@ def automata_stats(doc_path, rgx_path):
 														capture_output=True, universal_newlines=True)
 	except:
 		print(f"Error while processing command: {command}")
-		return 'err', 'err', 'err', 'err'
+		return 'err', 'err', 'err', 'err', 'err'
 
 	# print(process.stdout)
 	dsize = int(re.search(r'DetSize\s+(\d+)', process.stdout).group(1))
 	esize = int(re.search(r'eVASize\s+(\d+)', process.stdout).group(1))
 	msize = int(re.search(r'MDFASize\s+(\d+)', process.stdout).group(1))
 	nsegs = int(re.search(r'Number of segments\s+(\d+)', process.stdout).group(1))
+	ambig = int(re.search(r'Ambiguous\?\s+(\d)', process.stdout).group(1))
 
-	return dsize, esize, msize, nsegs
+	return dsize, esize, msize, nsegs, ambig
+
+def ambiguous(doc_path, rgx_path):
+	command = f"{HOME_DIR}/build/Release/bin/rematch --mode=ambiguous -d {doc_path} -r {rgx_path}"
+	try:
+		process = subprocess.run(command, shell=True, check=True,
+														capture_output=True, universal_newlines=True)
+	except:
+		print(f"Error while processing command: {command}")
+		return 'err'
+
+	return int(process.stdout)
 
 def re2_algo(doc_path, rgx_path):
 	command = "{0}/build/Release/bin/re2-algo {1} {2}".format(HOME_DIR, doc_path, rgx_path)
@@ -210,7 +222,7 @@ def output_main():
 	rgx_buffer = [[''] for _ in range(bufsize)]
 	col_size = 0
 
-	row_counter = 3276
+	row_counter = 0
 
 	exps_path = pth.join(HOME_DIR, EXP_SUBPATH)
 
@@ -225,8 +237,8 @@ def output_main():
 			# if(int(experiment[-4:]) < 0):
 			# 	continue
 
-			if(int(experiment[-4:]) <= 3275):
-				continue
+			# if(int(experiment[-4:]) <= 3275):
+			# 	continue
 
 			rem_rgx_path = os.path.join(experiment,"rematch.rgx")
 
@@ -243,10 +255,13 @@ def output_main():
 
 			print("\n  Testing lib:", binary)
 
-			noutputs = run_outputs(binary, doc_path, rem_rgx_path)
+			ambig = ambiguous(doc_path, rem_rgx_path)
+
+			# noutputs = run_outputs(binary, doc_path, rem_rgx_path)
 
 			# col_buffer[col_size][0] = noutputs
-			row['noutputs'] = noutputs
+			# row['noutputs'] = noutputs
+			row['ambiguous'] = ambig
 
 			col_size += 1
 

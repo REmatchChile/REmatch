@@ -78,9 +78,7 @@ private:
 // Filter code table. Manages the all CharClassBuilders that are associated with
 // a query (we call them Filters for shorthand).
 class FilterFactory {
-public:
-  // Constructors
-  FilterFactory();
+ public:
 
   size_t size() const { return size_; }
 
@@ -89,29 +87,31 @@ public:
   std::unordered_map<std::vector<bool>, std::vector<char>>
   allPossibleCharBitsets();
 
-  // Adds a CharClassBuilder to the factor and returns its associated code.
+  // Adds a CharClass to the factor and returns its associated code.
   // If already present then just returns the associated code.
-  int add_filter(CharClassBuilder ccb);
+  int add_filter(CharClass ccb);
 
-  // Given a CharClassBuilder, gets the associated code.
-  int get_code(CharClassBuilder ccb);
+  // Given a CharClass, gets the associated code.
+  int get_code(CharClass ccb);
 
-  // Given a code, gets the associated CharClassBuilder.
-  CharClassBuilder &get_filter(int code);
+  // Given a code, gets the associated CharClass.
+  CharClass &get_filter(int code);
 
-  // Check if a CharClassBuilder is already present in the factory.
-  bool contains(CharClassBuilder &ccb) const;
+  // Check if a CharClass is already present in the factory.
+  bool contains(CharClass &ccb) const;
 
   // Merges the Factory with another one inplace.
   void merge(FilterFactory &rest);
+
+  std::vector<CharClass> filters() const { return filter_map_;}
 
   std::vector<bool> applyFilters(char a);
 
 private:
   size_t size_ = 0;
   // Ordered vector that stores the variables.
-  std::unordered_map<CharClassBuilder, char> code_map_;
-  std::unordered_map<char, CharClassBuilder> filter_map_;
+  std::unordered_map<CharClass, int> code_map_;
+  std::vector<CharClass> filter_map_;
   // Char (document-readed) -> Bitset hash table
   std::unordered_map<char, std::vector<bool>> bitsetMap;
 };

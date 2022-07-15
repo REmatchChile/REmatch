@@ -31,24 +31,27 @@ struct CharRangeLess {
 
 using CharRangeSet = std::set<CharRange, CharRangeLess>;
 
-class CharClass;
+class CharClass {
 
-class CharClassBuilder {
-
-  friend struct std::hash<rematch::CharClassBuilder>;
+  friend struct std::hash<rematch::CharClass>;
 
 public:
-  CharClassBuilder();
+  CharClass();
   // Shorthand constructors
-  CharClassBuilder(char c);
-  CharClassBuilder(char l, char h);
+  CharClass(char c);
+  CharClass(char l, char h);
   // AST structs constructors
-  CharClassBuilder(ast::special const &s);
-  CharClassBuilder(ast::charset const &cs);
+  CharClass(ast::special const &s);
+  CharClass(ast::charset const &cs);
 
   using iterator = CharRangeSet::iterator;
+  using const_iterator = CharRangeSet::const_iterator;
+
   iterator begin() { return ranges_.begin(); }
+  const_iterator cbegin() const { return ranges_.cbegin();}
+
   iterator end() { return ranges_.end(); }
+  const_iterator cend() const { return ranges_.cend(); }
 
   int size() { return nchars_; }
   bool empty() const { return nchars_ == 0; }
@@ -56,17 +59,17 @@ public:
   bool contains(char c);
   bool add_range(char l, char h);
   bool add_single(char c);
-  void add_charclass(CharClassBuilder *cc);
+  void add_charclass(CharClass *cc);
   void negate();
 
-  std::unique_ptr<CharClass> get_charclass();
+  CharClass intersect(CharClass const &cc);
+  CharClass set_minus(CharClass const &cc);
 
-  CharClassBuilder *intersect(CharClassBuilder *cc);
-  CharClassBuilder *set_minus(CharClassBuilder *cc);
+  bool do_intersect(CharClass *cc);
 
-  bool operator==(const CharClassBuilder &rhs) const;
+  bool operator==(const CharClass &rhs) const;
 
-  friend std::ostream &operator<<(std::ostream &os, CharClassBuilder const &b);
+  friend std::ostream &operator<<(std::ostream &os, CharClass const &b);
 
   bool is_dot() const { return nchars_ == CHAR_MAX + 1; }
 
@@ -75,43 +78,13 @@ private:
   CharRangeSet ranges_;
 };
 
-class CharClass {
-public:
-  // Check if CharClass contains a char
-  bool contains(char a);
-
-  CharClass(int maxranges) : ranges_(new CharRange[maxranges]) {}
-
-  ~CharClass();
-
-  bool is_dot() const {
-    return nranges_ == 1 && ranges_[0].lo == 0 && ranges_[0].hi == CHAR_MAX;
-  }
-
-  friend std::ostream &operator<<(std::ostream &os, CharClass const &cc);
-
-private:
-  friend class CharClassBuilder;
-  friend class FilterFactory;
-  friend struct std::hash<rematch::CharClass>;
-
-  int nchars_;
-  CharRange *ranges_;
-  int nranges_;
-
-  CharClass(const CharClass &) = default;
-  CharClass &operator=(const CharClass &) = default;
-  bool operator<(const CharClass &cc) const;
-
-}; // end class CharClass
-
 } // end namespace rematch
 
-// Hashing for the class
+// Hashing for CharClass
 namespace std {
 
-template <> struct hash<rematch::CharClassBuilder> {
-  size_t operator()(const rematch::CharClassBuilder &ch) const {
+template <> struct hash<rematch::CharClass> {
+  size_t operator()(const rematch::CharClass &ch) const {
 
     size_t res = 0;
 

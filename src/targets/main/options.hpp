@@ -3,9 +3,20 @@
 
 namespace rematch {
 
-enum OutputOption { BENCHMARK, SUBMATCHES, SPANS, NMAPPINGS, DEBUG };
+enum OutputOption {
+  BENCHMARK,
+  SUBMATCHES,
+  SPANS,
+  NMAPPINGS,
+  DEBUG,
+  AMBIGUOUS
+};
 
-enum InputOption { RGXSTR, RGXFILE, NFAFILE };
+enum InputOption {
+  RGXSTR,
+  RGXFILE,
+  NFAFILE
+};
 
 // Evaluation options
 class Options {

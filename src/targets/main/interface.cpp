@@ -66,6 +66,8 @@ void Interface::normal_run() {
       std::cout << *match << "\t(" << match->pprint(str_doc) << ")"
                 << std::endl;
     }
+  } else if (out_option == rematch::AMBIGUOUS) {
+    std::cout << m_iter.evaluator_->is_ambiguous() << '\n';
   }
 }
 
@@ -73,7 +75,7 @@ void Interface::benchmark_run() {
     std::stringstream output;
 
 	size_t n_mappings, detSize, nfaSize, mdfaSize,
-         sdfaSize, svaSize, n_segments, n_nodes, n_reused_nodes;
+         sdfaSize, svaSize, n_segments, n_nodes, n_reused_nodes, is_ambiguous;
 	double initAutomataTime, evaluateTime, totTime;
 	/**************************** Run Algorithm ****************************/
 
@@ -110,6 +112,8 @@ void Interface::benchmark_run() {
   n_nodes = match_iter.stats_->n_nodes;
   n_reused_nodes = match_iter.stats_->n_reused_nodes;
 
+  is_ambiguous = (size_t) match_iter.evaluator_->is_ambiguous();
+
   std::ofstream mfile("dump.log");
 
   for (auto &e : match_iter.stats_->search_intervals) {
@@ -143,6 +147,7 @@ void Interface::benchmark_run() {
 	<< "DetSize \t\t\t"								<<	detSize															<<	'\n'
 	<< "eVASize \t\t\t"								<<	nfaSize															<< 	'\n'
   << "sVASize \t\t\t"								<<	svaSize															<< 	'\n'
+  << "Ambiguous? \t\t\t"            <<  is_ambiguous                        <<  '\n'
 	<< "Number of segments\t\t" 			<<  n_segments 													<<	'\n'
   << "Number of nodes\t\t\t"        <<  pwc(n_nodes)                        <<  '\n'
   << "Number of reused nodes\t\t"   <<  pwc(n_reused_nodes)                 <<  '\n'
