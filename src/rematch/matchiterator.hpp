@@ -10,7 +10,7 @@
 namespace rematch {
 
 class Evaluator;
-class EvalStats;
+struct EvalStats;
 
 class MatchIterator {
 public:

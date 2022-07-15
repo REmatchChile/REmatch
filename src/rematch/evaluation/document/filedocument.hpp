@@ -72,23 +72,23 @@ public:
     std::vector<char>::iterator buff_it_;
   }; // end char_iterator
 
-  CharIterator begin() const {
+  CharIterator begin() const override {
     file_->clear();
     file_->seekg(0, std::ios::beg);
-    return CharIterator(std::move(char_iterator(*file_)));
+    return CharIterator(char_iterator(*file_));
   }
-  EndCharIterator end() const { return EndCharIterator(); }
+  EndCharIterator end() const override { return EndCharIterator(); }
 
-  LineIterator line_begin() const {
+  LineIterator line_begin() const override {
     file_->clear();
     file_->seekg(0, std::ios::beg);
     return LineIterator(line_iterator(*file_));
   }
-  EndLineIterator line_end() const { return EndLineIterator(); }
+  EndLineIterator line_end() const override { return EndLineIterator(); }
 
 private:
   std::ifstream *file_;
-  std::string *line_;
+  // std::string *line_;
 
 }; // end class StrDocument
 

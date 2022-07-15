@@ -57,10 +57,10 @@ MatchIterator RegEx::findIter(std::shared_ptr<Document> d, Anchor a) {
   return MatchIterator(eval, stats);
 }
 
-Match_ptr RegEx::find(const std::string &text) {
+// Match_ptr RegEx::find(const std::string &text) {
   // auto document = std::make_shared<StrDocument>(text);
   // return EarlyOutputEvaluator(*this, document).next();
-}
+// }
 
 uint8_t RegEx::parseFlags(rematch::RegExOptions rgx_opts) {
   uint8_t ret =

@@ -241,8 +241,6 @@ void ExtendedVA::captureClosure() {
 
     std::bitset<32> newCode;
 
-    std::vector<LVACapture *>::iterator it1, it2;
-
     for (auto &capture1 : itState->captures) {
       for (auto &capture2 : capture1->next->captures) {
         newCode = (capture1->code | capture2->code);

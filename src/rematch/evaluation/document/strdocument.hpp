@@ -1,5 +1,5 @@
-#ifndef EVALUATION__DOCUMENT__STRDOCUMENT_HPP
-#define EVALUATION__DOCUMENT__STRDOCUMENT_HPP
+#ifndef EVALUATION_DOCUMENT_STRDOCUMENT_HPP
+#define EVALUATION_DOCUMENT_STRDOCUMENT_HPP
 
 #include "evaluation/document/document.hpp"
 
@@ -7,7 +7,7 @@ namespace rematch {
 
 class StrDocument : public Document {
 
-public:
+ public:
   StrDocument() : data_(nullptr), size_(0) {}
 
   StrDocument(const std::string &str) : data_(str.data()), size_(str.size()) {}
@@ -86,15 +86,15 @@ public:
     bool ended_;
   }; // end line_iterator
 
-  CharIterator begin() const {
-    return CharIterator(std::move(char_iterator(data_, size_)));
+  CharIterator begin() const override {
+    return CharIterator(char_iterator(data_, size_));
   }
-  EndCharIterator end() const { return EndCharIterator(); }
+  EndCharIterator end() const override { return EndCharIterator(); }
 
-  LineIterator line_begin() const {
+  LineIterator line_begin() const override {
     return LineIterator(line_iterator(data_, size_));
   }
-  EndLineIterator line_end() const { return EndLineIterator(); }
+  EndLineIterator line_end() const override { return EndLineIterator(); }
 
   size_t size() const { return size_; }
 
@@ -107,4 +107,4 @@ private:
 
 } // end namespace rematch
 
-#endif // EVALUATION__DOCUMENT__STRDOCUMENT_HPP
+#endif // EVALUATION_DOCUMENT_STRDOCUMENT_HPP

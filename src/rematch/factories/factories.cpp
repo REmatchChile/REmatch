@@ -219,7 +219,7 @@ std::vector<bool> FilterFactory::applyFilters(char a) {
 
   if (it == bitsetMap.end()) {
     std::vector<bool> bitsetVector(size_);
-    for (int i = 0; i < size_; i++) {
+    for (size_t i = 0; i < size_; i++) {
       bitsetVector[i] = filter_map_[i].contains(a);
     }
     bitsetMap.insert(std::make_pair(a, bitsetVector));
