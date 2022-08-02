@@ -7,58 +7,65 @@
 
 namespace rematch {
 
-class NodeList;
-class DState;
-
-struct DCapture {
-  std::bitset<32> S;
-  DState *next;
-
-  DCapture(std::bitset<32> S, DState *q) : S(S), next(q) {}
-};
-
-using DStates = std::vector<DState *>;
-using Captures = std::vector<std::unique_ptr<DCapture>>;
-
+template <typename T>
 struct Transition {
+
+  struct Capture {
+    std::bitset<32> S;
+    T *next;
+  };
+
   enum Type {
-    kEmpty = 0,
-    kDirect = 1 << 0,
-    kSingleCapture = 1 << 1,
-    kDirectSingleCapture = kDirect | kSingleCapture,
-    kMultiCapture = 1 << 2,
-    kDirectMultiCapture = kDirect | kMultiCapture
+    kEmpty                    = 0,        // 0000
+    kDirect                   = 1 << 0,   // 0001
+    kSingleCapture            = 1 << 1,   // 0010
+    kMultiCapture             = 1 << 2,   // 0100
+    kMultiDirect              = 1 << 3,   // 1000
+    kDirectSingleCapture      = kDirect       | kSingleCapture,
+    kDirectMultiCapture       = kDirect       | kMultiCapture,
+    kMultiDirectSingleCapture = kMultiDirect  | kSingleCapture,
+    kMultiDirectMultiCapture  = kMultiDirect  | kMultiCapture
   };
 
   int type_;
-  DState *direct_;
-  DCapture *capture_;
-  std::vector<DCapture *> captures_;
+  T *direct_;
+  Capture capture_;
+  std::vector<Capture> captures_;
+  std::vector<T*> directs_;
 
   // Default = EmptyTransition
   Transition() : type_(Type::kEmpty) {}
 
-  Transition(DCapture *capture)
-      : type_(Type::kSingleCapture), capture_(capture) {}
+  Transition(std::bitset<32> S, T *state)
+      : type_(Type::kSingleCapture), capture_({S, state}) {}
 
-  Transition(DState *state) : type_(Type::kDirect), direct_(state) {}
+  Transition(T *state) : type_(Type::kDirect), direct_(state) {}
 
-  void add_capture(DCapture *capture) {
+  void add_capture(Capture capture) {
     switch (type_) {
     case Type::kEmpty:
-      throw std::logic_error("Can't add capture to empty transition.");
+      type_ = kSingleCapture;
+      capture_ = capture;
       break;
     case Type::kDirect:
       type_ = Type::kDirectSingleCapture;
       capture_ = capture;
       break;
+    case Type::kMultiDirect:
+      type_ = Type::kMultiDirectSingleCapture;
+      capture_ = capture;
+      break;
     case Type::kSingleCapture:
+      //* Do not push_back capture_ into captures_, necessary for refcounts.
       type_ = Type::kMultiCapture;
       captures_.clear();
       captures_.push_back(capture);
       break;
     case Type::kDirectSingleCapture:
       type_ = Type::kDirectMultiCapture;
+    case Type::kMultiDirectSingleCapture:
+      //* Do push_back capture_ into captures_, necessary for refcounts.
+      type_ = Type::kMultiDirectMultiCapture;
       captures_.clear();
       captures_.push_back(capture_);
       captures_.push_back(capture);
@@ -69,16 +76,26 @@ struct Transition {
     }
   }
 
-  void add_direct(DState *state) {
+  void add_direct(T *state) {
     switch (type_) {
     case Type::kEmpty:
-      throw std::logic_error("Can't add direct to empty transition.");
+      type_ = Type::kDirect;
+      direct_ = state;
       break;
     case Type::kDirect:
+      type_ = kMultiDirect;
+      directs_.clear();
+      directs_.push_back(state);
+      break;
     case Type::kDirectSingleCapture:
+      type_ = kMultiDirectSingleCapture;
+      directs_.clear();
+      directs_.push_back(state);
+      break;
     case Type::kDirectMultiCapture:
-      throw std::logic_error(
-          "Can't add direct because a direct is already present.");
+      type_ = kMultiDirectMultiCapture;
+      directs_.clear();
+      directs_.push_back(state);
       break;
     case Type::kSingleCapture:
       type_ = Type::kDirectSingleCapture;
@@ -88,6 +105,9 @@ struct Transition {
       type_ = Type::kDirectMultiCapture;
       captures_.push_back(capture_);
       direct_ = state;
+      break;
+    default: // kMultiDirect, kMultiDirectSingleCapture, kMultiDirectMultiCapture
+      directs_.push_back(state);
       break;
     }
   }

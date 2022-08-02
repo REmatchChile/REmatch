@@ -131,7 +131,7 @@ void check_spanners(rematch::RegEx &rgx, std::string document_file,
   // auto document = std::make_shared<rematch::FileDocument>(doc_ifstream);
   auto document = std::make_shared<rematch::StrDocument>(doc);
 
-  rematch::MatchIterator m_iter = rgx.findIter(document);
+  rematch::MatchIterator m_iter = rgx.find_iter(document);
 
   std::cout << "Test: \"" << doc << "\"\n";
   for (auto match = m_iter.next(); match != nullptr; match = m_iter.next()) {

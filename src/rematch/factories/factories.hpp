@@ -105,7 +105,7 @@ class FilterFactory {
 
   std::vector<CharClass> filters() const { return filter_map_;}
 
-  std::vector<bool> applyFilters(char a);
+  std::vector<bool> apply_filters(char a);
 
 private:
   size_t size_ = 0;

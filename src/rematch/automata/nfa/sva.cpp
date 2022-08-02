@@ -28,20 +28,15 @@ SearchVA::SearchVA(LogicalVA const &A, Anchor a)
   states_.swap(A_prim.states);
   initial_state_ = A_prim.initial_state();
   accepting_state_ = A_prim.accepting_state();
-
-  // if(anchor_ == Anchor::kUnanchored) {
-  // 	auto code = ffactory_->add_filter(CharClass(0, CHAR_MAX));
-  // 	initial_state_->add_filter(code, initial_state_);
-  // }
 }
 
 // ---  Getters  ---  //
 
-std::vector<State *> const &SearchVA::states() const { return states_; }
+std::vector<LogicalVA::State*> const &SearchVA::states() const { return states_; }
 
-State *SearchVA::initial_state() const { return initial_state_; }
+LogicalVA::State *SearchVA::initial_state() const { return initial_state_; }
 
-State *SearchVA::accepting_state() const { return accepting_state_; }
+LogicalVA::State *SearchVA::accepting_state() const { return accepting_state_; }
 
 bool SearchVA::has_epsilon() const { return has_epsilon_; }
 

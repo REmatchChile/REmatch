@@ -34,6 +34,9 @@ public:
   bool macrodfa() const { return macrodfa_; }
   void set_macrodfa(bool b) { macrodfa_ = b; }
 
+  bool unambiguous() const { return unambiguous_; }
+  void set_unambiguous(bool b) { unambiguous_ = b; }
+
 private:
   bool multi_line_ = false;
   bool line_by_line_ = false;
@@ -44,6 +47,7 @@ private:
   bool save_anchors_ = false;
   bool searching_ = false;
   bool macrodfa_ = false;
+  bool unambiguous_ = false;
 }; // end class RegExOptions
 
 } // end namespace rematch

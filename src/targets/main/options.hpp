@@ -20,7 +20,7 @@ enum InputOption {
 
 // Evaluation options
 class Options {
-public:
+ public:
   // The options are (defaults in parenthesis):
   //
   //  output_option   (SPANS)     how to format the output
@@ -28,11 +28,7 @@ public:
   //  line_by_line    (false)     looks for matches in the span of a single
   //  line. capturing       (true)      activate capturing. early_output (false)
   //  output a result as soon as it's available..
-  //
-  Options()
-      : output_option_(SPANS), input_option_(RGXFILE), line_by_line_(false),
-        capturing_(true), early_output_(false), is_docfile_(false),
-        searching_(false), macrodfa_(false) {}
+
 
   // Getters and setters
 
@@ -60,15 +56,19 @@ public:
   bool macrodfa() const { return macrodfa_; }
   void set_macrodfa(bool b) { macrodfa_ = b; }
 
+  bool unambiguous() const { return unambiguous_; }
+  void set_unambiguous(bool b) { unambiguous_ = b; }
+
 private:
-  OutputOption output_option_;
-  InputOption input_option_;
-  bool line_by_line_;
-  bool capturing_;
-  bool early_output_;
-  bool is_docfile_;
-  bool searching_;
-  bool macrodfa_;
+  OutputOption output_option_   {SPANS};
+  InputOption input_option_     {RGXFILE};
+  bool line_by_line_            {false};
+  bool capturing_               {true};
+  bool early_output_            {false};
+  bool is_docfile_              {false};
+  bool searching_               {false};
+  bool macrodfa_                {false};
+  bool unambiguous_             {false};
 
 }; // class Options
 

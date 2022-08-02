@@ -1,545 +1,171 @@
 "","query","ambiguous"
-0,"\W!x{uni\w+\W\w+ject\w+}\W",1
-1,"\W!x{\w+auto?\w+\Wcontra\w+}\W",1
-2,"\W!x{\w+al\Wnon\w+}\W",1
-3,"\W!x{non\w+\Wun\w+}\W",1
-4,"\W!x{inter\w+\Wen\w+}\W",1
-5,"\W!x{em\w+\W\w+ous}\W",1
-6,"\W!x{\w+ary\Wir\w+}\W",1
-7,"\W!x{\w+ible\W\w+spect?\w+}\W",1
-8,"\W!x{re\w+\W\w+p(el|uls)\w+}\W",1
-9,"\W!x{\w+ly\W\w+graph\w+}\W",1
-10,"\W!x{\w+ous\W\w+less}\W",1
-11,"\W!x{de\w+\W\w+less}\W",1
-12,"\W!x{\w+ian\W\w+ive}\W",1
-13,"\W!x{multi\w+\Wre\w+}\W",1
-14,"\W!x{\w+ish\W\w+ful}\W",1
-15,"\W!x{\w+gr(ad|ess)\w+\W\w+bio?\w+}\W",1
-16,"\W!x{\w+ent\W\w+pa(th|ss)\w+}\W",1
-17,"\W!x{contra\w+\Wde\w+}\W",1
-18,"\W!x{trans\w+\Wcon\w+}\W",1
-19,"\W!x{\w+less\W\w+form\w+}\W",1
-20,"\W!x{pro\w+\W\w+ism}\W",1
-21,"\W!x{\w+scri(pt|b)\w+\W\w+ic}\W",1
-22,"\W!x{\w+ful\W\w+c[ae]pt\w+}\W",1
-23,"\W!x{de\w+\W\w+ver[ts]\w+}\W",1
-24,"\W!x{\w+less\W\w+ous}\W",1
-25,"\W!x{\w+ment\W\w+ation}\W",1
-26,"\W!x{un\w+\Wem\w+}\W",1
-27,"\W!x{sub\w+\W\w+form\w+}\W",1
-28,"\W!x{\w+ment\W\w+cide\w+}\W",1
-29,"\W!x{trans\w+\W\w+ure}\W",1
-30,"\W!x{di\w+\W\w+ship}\W",1
-31,"\W!x{mis\w+\W\w+ant}\W",1
-32,"\W!x{un\w+\Wdia\w+}\W",1
-33,"\W!x{un\w+\W\w+ize}\W",1
-34,"\W!x{\w+tract\w+\W\w+pan\w+}\W",1
-35,"\W!x{\w+ous\W\w+rupt\w+}\W",1
-36,"\W!x{pre\w+\W\w+cide\w+}\W",1
-37,"\W!x{contra\w+\W\w+p(el|uls)\w+}\W",1
-38,"\W!x{\w+ation\W\w+auto?\w+}\W",1
-39,"\W!x{\w+press\w+\Wbi\w+}\W",1
-40,"\W!x{\w+pa(th|ss)\w+\Wcom\w+}\W",1
-41,"\W!x{\w+geo?\w+\W\w+pa(th|ss)\w+}\W",1
-42,"\W!x{\w+ness\W\w+ish}\W",1
-43,"\W!x{sub\w+\W\w+able}\W",1
-44,"\W!x{re\w+\W\w+tial}\W",1
-45,"\W!x{bene\w+\Wpre\w+}\W",1
-46,"\W!x{\w+gr(ad|ess)\w+\W\w+ent}\W",1
-47,"\W!x{\w+ate\Wbi\w+}\W",1
-48,"\W!x{\w+age\W\w+port\w+}\W",1
-49,"\W!x{re\w+\Wsub\w+}\W",1
-50,"\W!x{\w+cial\W\w+eer}\W",1
-51,"\W!x{de\w+\W\w+graph\w+}\W",1
-52,"\W!x{\w+graph\w+\W\w+age}\W",1
-53,"\W!x{pro\w+\W\w+pa(th|ss)\w+}\W",1
-54,"\W!x{mono\w+\W\w+ment}\W",1
-55,"\W!x{\w+p(el|uls)\w+\Wen\w+}\W",1
-56,"\W!x{\w+ure\W\w+ary}\W",1
-57,"\W!x{bi\w+\Wpro\w+}\W",1
-58,"\W!x{en\w+\Wdia\w+}\W",1
-59,"\W!x{\w+ity\Wir\w+}\W",1
-60,"\W!x{\w+eer\Wnon\w+}\W",1
-61,"\W!x{\w+ise\W\w+ible}\W",1
-62,"\W!x{pre\w+\W\w+ize}\W",1
-63,"\W!x{de\w+\Wir\w+}\W",1
-64,"\W!x{\w+fact?\w+\Wdi\w+}\W",1
-65,"\W!x{re\w+\W\w+fle[cx]\w+}\W",1
-66,"\W!x{\w+stru(ct)?\w+\W\w+cide\w+}\W",1
-67,"\W!x{\w+ist\Wcon\w+}\W",1
-68,"\W!x{\w+c[ae]pt\w+\Wcontra\w+}\W",1
-69,"\W!x{\w+ity\W\w+age}\W",1
-70,"\W!x{\w+ment\W\w+ible}\W",1
-71,"\W!x{\w+age\W\w+scri(pt|b)\w+}\W",1
-72,"\W!x{\w+spect?\w+\W\w+port\w+}\W",1
-73,"\W!x{pre\w+\W\w+stru(ct)?\w+}\W",1
-74,"\W!x{post\w+\W\w+scri(pt|b)\w+}\W",1
-75,"\W!x{pro\w+\W\w+cide\w+}\W",1
-76,"\W!x{pro\w+\W\w+ist}\W",1
-77,"\W!x{com\w+\W\w+ise}\W",1
-78,"\W!x{col\w+\W\w+ate}\W",1
-79,"\W!x{\w+press\w+\Wanti\w+}\W",1
-80,"\W!x{im\w+\W\w+pa(th|ss)\w+}\W",1
-81,"\W!x{em\w+\W\w+ance}\W",1
-82,"\W!x{dis\w+\Winter\w+}\W",1
-83,"\W!x{\w+eer\W\w+ist}\W",1
-84,"\W!x{\w+ive\W\w+stru(ct)?\w+}\W",1
-85,"\W!x{en\w+\W\w+mi[ts]\w+}\W",1
-86,"\W!x{contra\w+\W\w+ure}\W",1
-87,"\W!x{\w+port\w+\W\w+tude}\W",1
-88,"\W!x{\w+ive\W\w+mi[ts]\w+}\W",1
-89,"\W!x{\w+ise\Wex\w+}\W",1
-90,"\W!x{\w+spire\w+\W\w+ment}\W",1
-91,"\W!x{\w+press\w+\W\w+pa(th|ss)\w+}\W",1
-92,"\W!x{\w+bio?\w+\W\w+rupt\w+}\W",1
-93,"\W!x{\w+ist\W\w+ary}\W",1
-94,"\W!x{pre\w+\W\w+scri(pt|b)\w+}\W",1
-95,"\W!x{\w+rupt\w+\Wde\w+}\W",1
-96,"\W!x{\w+ure\W\w+ism}\W",1
-97,"\W!x{\w+geo?\w+\Wpost\w+}\W",1
-98,"\W!x{\w+less\Wsub\w+}\W",1
-99,"\W!x{bene\w+\Wre\w+}\W",1
-100,"\W!x{\w+tude\W\w+ible}\W",1
-101,"\W!x{\w+spire\w+\W\w+ous}\W",1
-102,"\W!x{\w+gr(ad|ess)\w+\W\w+ment}\W",1
-103,"\W!x{\w+ject\w+\Wnon\w+}\W",1
-104,"\W!x{\w+ance\W\w+port\w+}\W",1
-105,"\W!x{trans\w+\Wco\w+}\W",1
-106,"\W!x{trans\w+\Wsub\w+}\W",1
-107,"\W!x{col\w+\Wuni\w+}\W",1
-108,"\W!x{\w+ic\W\w+ize}\W",1
-109,"\W!x{\w+cial\Wtri\w+}\W",1
-110,"\W!x{\w+rupt\w+\W\w+ness}\W",1
-111,"\W!x{mis\w+\Wtri\w+}\W",1
-112,"\W!x{en\w+\W\w+press\w+}\W",1
-113,"\W!x{il\w+\W\w+bio?\w+}\W",1
-114,"\W!x{\w+eer\W\w+ness}\W",1
-115,"\W!x{\w+able\W\w+cial}\W",1
-116,"\W!x{\w+press\w+\W\w+tude}\W",1
-117,"\W!x{\w+ible\Wmono\w+}\W",1
-118,"\W!x{\w+gr(ad|ess)\w+\W\w+ver[ts]\w+}\W",1
-119,"\W!x{\w+ate\Wmal\w+}\W",1
-120,"\W!x{\w+spect?\w+\W\w+ic}\W",1
-121,"\W!x{il\w+\Wpre\w+}\W",1
-122,"\W!x{sub\w+\W\w+ure}\W",1
-123,"\W!x{\w+ment\W\w+ive}\W",1
-124,"\W!x{\w+tial\W\w+less}\W",1
-125,"\W!x{tri\w+\Winter\w+}\W",1
-126,"\W!x{im\w+\Wmal\w+}\W",1
-127,"\W!x{\w+age\W\w+pan\w+}\W",1
-128,"\W!x{\w+pan\w+\W\w+ist}\W",1
-129,"\W!x{\w+ful\W\w+ver[ts]\w+}\W",1
-130,"\W!x{\w+pa(th|ss)\w+\W\w+ence}\W",1
-131,"\W!x{\w+pan\w+\W\w+press\w+}\W",1
-132,"\W!x{\w+port\w+\W\w+geo?\w+}\W",1
-133,"\W!x{\w+ship\W\w+ary}\W",1
-134,"\W!x{\w+ate\Wanti\w+}\W",1
-135,"\W!x{\w+ive\W\w+ous}\W",1
-136,"\W!x{\w+or\W\w+ary}\W",1
-137,"\W!x{\w+ion\W\w+ion}\W",1
-138,"\W!x{\w+ver[ts]\w+\Wex\w+}\W",1
-139,"\W!x{\w+or\W\w+ize}\W",1
-140,"\W!x{dis\w+\Wde\w+}\W",1
-141,"\W!x{\w+ance\Wde\w+}\W",1
-142,"\W!x{pro\w+\Wdis\w+}\W",1
-143,"\W!x{di\w+\Wpre\w+}\W",1
-144,"\W!x{\w+hood\W\w+ly}\W",1
-145,"\W!x{\w+ian\W\w+ent}\W",1
-146,"\W!x{co\w+\Wil\w+}\W",1
-147,"\W!x{an\w+\Wanti\w+}\W",1
-148,"\W!x{un\w+\W\w+press\w+}\W",1
-149,"\W!x{a\w+\W\w+rupt\w+}\W",1
-150,"\W!x{\w+tial\W\w+ence}\W",1
-151,"\W!x{\w+ous\Wil\w+}\W",1
-152,"\W!x{\w+geo?\w+\W\w+less}\W",1
-153,"\W!x{dis\w+\W\w+ise}\W",1
-154,"\W!x{en\w+\Wex\w+}\W",1
-155,"\W!x{en\w+\W\w+age}\W",1
-156,"\W!x{\w+ate\W\w+pan\w+}\W",1
-157,"\W!x{\w+ic\W\w+ate}\W",1
-158,"\W!x{\w+rupt\w+\Wan\w+}\W",1
-159,"\W!x{con\w+\W\w+ance}\W",1
-160,"\W!x{mal\w+\Wa\w+}\W",1
-161,"\W!x{\w+ate\W\w+bio?\w+}\W",1
-162,"\W!x{de\w+\W\w+ant}\W",1
-163,"\W!x{de\w+\W\w+ish}\W",1
-164,"\W!x{an\w+\W\w+gr(ad|ess)\w+}\W",1
-165,"\W!x{be\w+\W\w+bio?\w+}\W",1
-166,"\W!x{a\w+\W\w+logy}\W",1
-167,"\W!x{\w+pa(th|ss)\w+\Wre\w+}\W",1
-168,"\W!x{co\w+\W\w+form\w+}\W",1
-169,"\W!x{\w+ian\W\w+geo?\w+}\W",1
-170,"\W!x{\w+logy\Wan\w+}\W",1
-171,"\W!x{\w+less\Wco\w+}\W",1
-172,"\W!x{uni\w+\Wre\w+}\W",1
-173,"\W!x{pro\w+\Wun\w+}\W",1
-174,"\W!x{\w+er\W\w+cial}\W",1
-175,"\W!x{\w+ic\Wen\w+}\W",1
-176,"\W!x{\w+ly\W\w+ise}\W",1
-177,"\W!x{\w+al\W\w+pan\w+}\W",1
-178,"\W!x{con\w+\W\w+ary}\W",1
-179,"\W!x{pre\w+\Wim\w+}\W",1
-180,"\W!x{\w+fle[cx]\w+\W\w+or}\W",1
-181,"\W!x{\w+ant\W\w+ic}\W",1
-182,"\W!x{\w+ation\W\w+form\w+}\W",1
-183,"\W!x{\w+ent\W\w+press\w+}\W",1
-184,"\W!x{\w+ant\W\w+bio?\w+}\W",1
-185,"\W!x{com\w+\Wde\w+}\W",1
-186,"\W!x{de\w+\W\w+ive}\W",1
-187,"\W!x{\w+ness\W\w+ent}\W",1
-188,"\W!x{\w+ish\Win\w+}\W",1
-189,"\W!x{\w+or\W\w+tract\w+}\W",1
-190,"\W!x{ex\w+\Wim\w+}\W",1
-191,"\W!x{\w+ful\W\w+age}\W",1
-192,"\W!x{\w+ic\Wdi\w+}\W",1
-193,"\W!x{\w+pan\w+\W\w+er}\W",1
-194,"\W!x{dis\w+\W\w+ence}\W",1
-195,"\W!x{\w+spect?\w+\Wre\w+}\W",1
-196,"\W!x{\w+cide\w+\W\w+ion}\W",1
-197,"\W!x{\w+ate\W\w+al}\W",1
-198,"\W!x{\w+ian\Wbe\w+}\W",1
-199,"\W!x{\w+less\Win\w+}\W",1
-200,"\W!x{\w+ise\Wdi\w+}\W",1
-201,"\W!x{en\w+\W\w+bio?\w+}\W",1
-202,"\W!x{be\w+\W\w+fact?\w+}\W",1
-203,"\W!x{\w+er\W\w+rupt\w+}\W",1
-204,"\W!x{\w+bio?\w+\Wdi\w+}\W",1
-205,"\W!x{un\w+\W\w+auto?\w+}\W",1
-206,"\W!x{bi\w+\W\w+ment}\W",1
-207,"\W!x{\w+ian\Wex\w+}\W",1
-208,"\W!x{be\w+\W\w+ist}\W",1
-209,"\W!x{\w+ive\Wbi\w+}\W",1
-210,"\W!x{bi\w+\Wbe\w+}\W",1
-211,"\W!x{co\w+\W\w+ship}\W",1
-212,"\W!x{\w+ver[ts]\w+\W\w+or}\W",1
-213,"\W!x{\w+ish\W\w+ence}\W",1
-214,"\W!x{be\w+\Wtri\w+}\W",1
-215,"\W!x{\w+ent\W\w+ary}\W",1
-216,"\W!x{un\w+\Wtri\w+}\W",1
-217,"\W!x{\w+al\Wil\w+}\W",1
-218,"\W!x{\w+ful\W\w+ise}\W",1
-219,"\W!x{\w+pa(th|ss)\w+\Wco\w+}\W",1
-220,"\W!x{uni\w+\Wbe\w+}\W",1
-221,"\W!x{\w+press\w+\W\w+ent}\W",1
-222,"\W!x{inter\w+\Wun\w+}\W",1
-223,"\W!x{\w+mi[ts]\w+\W\w+ance}\W",1
-224,"\W!x{\w+or\Wpost\w+}\W",1
-225,"\W!x{\w+ant\W\w+al}\W",1
-226,"\W!x{\w+ary\Win\w+}\W",1
-227,"\W!x{be\w+\W\w+ance}\W",1
-228,"\W!x{\w+ate\Wcol\w+}\W",1
-229,"\W!x{a\w+\Wmulti\w+}\W",1
-230,"\W!x{col\w+\W\w+ure}\W",1
-231,"\W!x{con\w+\Wpre\w+}\W",1
-232,"\W!x{ex\w+\W\w+spect?\w+}\W",1
-233,"\W!x{sub\w+\Wex\w+}\W",1
-234,"\W!x{\w+less\W\w+tude}\W",1
-235,"\W!x{\w+ive\W\w+port\w+}\W",1
-236,"\W!x{be\w+\W\w+scri(pt|b)\w+}\W",1
-237,"\W!x{be\w+\W\w+ation}\W",1
-238,"\W!x{ir\w+\W\w+ence}\W",1
-239,"\W!x{\w+ive\Wtri\w+}\W",1
-240,"\W!x{\w+able\Wpro\w+}\W",1
-241,"\W!x{mal\w+\Wco\w+}\W",1
-242,"\W!x{\w+fact?\w+\Wre\w+}\W",1
-243,"\W!x{\w+ver[ts]\w+\W\w+ly}\W",1
-244,"\W!x{pre\w+\W\w+al}\W",1
-245,"\W!x{\w+port\w+\W\w+ment}\W",1
-246,"\W!x{\w+ible\Wcon\w+}\W",1
-247,"\W!x{be\w+\Winter\w+}\W",1
-248,"\W!x{pro\w+\W\w+ance}\W",1
-249,"\W!x{pro\w+\Wen\w+}\W",1
-250,"\W!x{\w+ure\Wpro\w+}\W",1
-251,"\W!x{\w+ful\Wsub\w+}\W",1
-252,"\W!x{in\w+\W\w+ject\w+}\W",1
-253,"\W!x{\w+auto?\w+\W\w+or}\W",1
-254,"\W!x{con\w+\W\w+age}\W",1
-255,"\W!x{\w+ure\W\w+ate}\W",1
-256,"\W!x{\w+ure\W\w+ly}\W",1
-257,"\W!x{de\w+\W\w+ate}\W",1
-258,"\W!x{\w+press\w+\W\w+ity}\W",1
-259,"\W!x{\w+mi[ts]\w+\Wde\w+}\W",1
-260,"\W!x{ir\w+\Win\w+}\W",1
-261,"\W!x{\w+tial\Wre\w+}\W",1
-262,"\W!x{\w+spect?\w+\Wco\w+}\W",1
-263,"\W!x{\w+press\w+\W\w+ment}\W",1
-264,"\W!x{\w+ment\W\w+ent}\W",1
-265,"\W!x{en\w+\W\w+ance}\W",1
-266,"\W!x{\w+or\W\w+scri(pt|b)\w+}\W",1
-267,"\W!x{sub\w+\Wco\w+}\W",1
-268,"\W!x{\w+ant\W\w+ary}\W",1
-269,"\W!x{bene\w+\W\w+er}\W",1
-270,"\W!x{an\w+\W\w+ize}\W",1
-271,"\W!x{\w+ver[ts]\w+\W\w+ation}\W",1
-272,"\W!x{\w+er\Wcom\w+}\W",1
-273,"\W!x{com\w+\Wbe\w+}\W",1
-274,"\W!x{\w+auto?\w+\Wa\w+}\W",1
-275,"\W!x{\w+ation\Wco\w+}\W",1
-276,"\W!x{\w+ly\W\w+ish}\W",1
-277,"\W!x{un\w+\Wdi\w+}\W",1
-278,"\W!x{\w+geo?\w+\Wco\w+}\W",1
-279,"\W!x{de\w+\Wbe\w+}\W",1
-280,"\W!x{\w+or\W\w+ance}\W",1
-281,"\W!x{de\w+\Wde\w+}\W",1
-282,"\W!x{be\w+\Wex\w+}\W",1
-283,"\W!x{a\w+\W\w+port\w+}\W",1
-284,"\W!x{a\w+\W\w+fact?\w+}\W",1
-285,"\W!x{\w+er\W\w+spect?\w+}\W",1
-286,"\W!x{an\w+\W\w+ness}\W",1
-287,"\W!x{\w+er\W\w+ish}\W",1
-288,"\W!x{\w+ible\W\w+ion}\W",1
-289,"\W!x{\w+ful\Wan\w+}\W",1
-290,"\W!x{co\w+\W\w+al}\W",1
-291,"\W!x{\w+or\Win\w+}\W",1
-292,"\W!x{an\w+\Wsub\w+}\W",1
-293,"\W!x{\w+ant\Wan\w+}\W",1
-294,"\W!x{\w+able\W\w+ation}\W",1
-295,"\W!x{\w+or\Wre\w+}\W",1
-296,"\W!x{re\w+\W\w+ance}\W",1
-297,"\W!x{con\w+\Wan\w+}\W",1
-298,"\W!x{in\w+\Wde\w+}\W",1
-299,"\W!x{\w+er\W\w+ance}\W",1
-300,"\W!x{a\w+\Wuni\w+}\W",1
-301,"\W!x{\w+or\Wdi\w+}\W",1
-302,"\W!x{re\w+\W\w+ate}\W",1
-303,"\W!x{\w+ance\Wan\w+}\W",1
-304,"\W!x{an\w+\W\w+tude}\W",1
-305,"\W!x{\w+age\W\w+or}\W",1
-306,"\W!x{co\w+\W\w+ure}\W",1
-307,"\W!x{in\w+\W\w+ness}\W",1
-308,"\W!x{\w+ation\W\w+or}\W",1
-309,"\W!x{\w+al\W\w+ure}\W",1
-310,"\W!x{dis\w+\W\w+er}\W",1
-311,"\W!x{\w+ous\Wen\w+}\W",1
-312,"\W!x{\w+er\W\w+al}\W",1
-313,"\W!x{be\w+\W\w+or}\W",1
-314,"\W!x{\w+pan\w+\Wa\w+}\W",1
-315,"\W!x{a\w+\W\w+form\w+}\W",1
-316,"\W!x{\w+ity\Wan\w+}\W",1
-317,"\W!x{\w+ant\W\w+ion}\W",1
-318,"\W!x{\w+ly\Wun\w+}\W",1
-319,"\W!x{\w+ish\W\w+ion}\W",1
-320,"\W!x{\w+geo?\w+\Wbe\w+}\W",1
-321,"\W!x{\w+ly\W\w+ful}\W",1
-322,"\W!x{de\w+\W\w+ly}\W",1
-323,"\W!x{\w+ance\W\w+or}\W",1
-324,"\W!x{be\w+\W\w+ion}\W",1
-325,"\W!x{\w+ous\Wco\w+}\W",1
-326,"\W!x{\w+ly\Wpro\w+}\W",1
-327,"\W!x{\w+ment\Wco\w+}\W",1
-328,"\W!x{\w+or\W\w+al}\W",1
-329,"\W!x{\w+ate\Wco\w+}\W",1
-330,"\W!x{di\w+\Wbe\w+}\W",1
-331,"\W!x{\w+ion\W\w+er}\W",1
-332,"\W!x{co\w+\W\w+ence}\W",1
-333,"\W!x{pre\w+\Wre\w+}\W",1
-334,"\W!x{\w+ic\W\w+ion}\W",1
-335,"\W!x{ex\w+\Wbe\w+}\W",1
-336,"\W!x{co\w+\W\w+ish}\W",1
-337,"\W!x{an\w+\W\w+press\w+}\W",1
-338,"\W!x{\w+ly\W\w+ant}\W",1
-339,"\W!x{\w+ous\Wdis\w+}\W",1
-340,"\W!x{ex\w+\W\w+er}\W",1
-341,"\W!x{\w+able\Wcon\w+}\W",1
-342,"\W!x{pro\w+\Wan\w+}\W",1
-343,"\W!x{\w+ous\Wpro\w+}\W",1
-344,"\W!x{re\w+\W\w+al}\W",1
-345,"\W!x{\w+er\Wdis\w+}\W",1
-346,"\W!x{\w+ful\W\w+ion}\W",1
-347,"\W!x{\w+ly\W\w+able}\W",1
-348,"\W!x{a\w+\W\w+ible}\W",1
-349,"\W!x{an\w+\W\w+ian}\W",1
-350,"\W!x{\w+geo?\w+\Wun\w+}\W",1
-351,"\W!x{\w+ent\Wdi\w+}\W",1
-352,"\W!x{\w+geo?\w+\W\w+ion}\W",1
-353,"\W!x{pre\w+\W\w+or}\W",1
-354,"\W!x{\w+or\Wde\w+}\W",1
-355,"\W!x{en\w+\Win\w+}\W",1
-356,"\W!x{an\w+\W\w+less}\W",1
-357,"\W!x{\w+al\Wdi\w+}\W",1
-358,"\W!x{re\w+\W\w+geo?\w+}\W",1
-359,"\W!x{\w+less\W\w+er}\W",1
-360,"\W!x{\w+tude\Wa\w+}\W",1
-361,"\W!x{\w+ject\w+\Wa\w+}\W",1
-362,"\W!x{ex\w+\Wan\w+}\W",1
-363,"\W!x{\w+ent\W\w+ure}\W",1
-364,"\W!x{\w+ant\W\w+er}\W",1
-365,"\W!x{\w+ary\Wa\w+}\W",1
-366,"\W!x{be\w+\Win\w+}\W",1
-367,"\W!x{im\w+\Wco\w+}\W",1
-368,"\W!x{an\w+\W\w+ance}\W",1
-369,"\W!x{de\w+\Win\w+}\W",1
-370,"\W!x{bi\w+\Wa\w+}\W",1
-371,"\W!x{pre\w+\W\w+ly}\W",1
-372,"\W!x{\w+al\W\w+ity}\W",1
-373,"\W!x{a\w+\W\w+p(el|uls)\w+}\W",1
-374,"\W!x{\w+ous\W\w+ure}\W",1
-375,"\W!x{\w+or\W\w+ion}\W",1
-376,"\W!x{a\w+\Wtri\w+}\W",1
-377,"\W!x{\w+er\W\w+ness}\W",1
-378,"\W!x{\w+ise\W\w+er}\W",1
-379,"\W!x{\w+or\Wun\w+}\W",1
-380,"\W!x{\w+er\Wem\w+}\W",1
-381,"\W!x{\w+bio?\w+\Wa\w+}\W",1
-382,"\W!x{an\w+\W\w+p(el|uls)\w+}\W",1
-383,"\W!x{\w+ly\W\w+ion}\W",1
-384,"\W!x{co\w+\W\w+ent}\W",1
-385,"\W!x{en\w+\Wbe\w+}\W",1
-386,"\W!x{\w+ly\W\w+ive}\W",1
-387,"\W!x{dis\w+\Wco\w+}\W",1
-388,"\W!x{an\w+\Wil\w+}\W",1
-389,"\W!x{\w+or\Wcom\w+}\W",1
-390,"\W!x{an\w+\W\w+ate}\W",1
-391,"\W!x{be\w+\W\w+ful}\W",1
-392,"\W!x{an\w+\W\w+cial}\W",1
-393,"\W!x{\w+er\Wex\w+}\W",1
-394,"\W!x{tri\w+\Wa\w+}\W",1
-395,"\W!x{\w+or\W\w+ness}\W",1
-396,"\W!x{\w+or\W\w+geo?\w+}\W",1
-397,"\W!x{de\w+\Wen\w+}\W",1
-398,"\W!x{\w+ous\W\w+ance}\W",1
-399,"\W!x{co\w+\W\w+ate}\W",1
-400,"\W!x{\w+ish\Wa\w+}\W",1
-401,"\W!x{\w+ish\Wco\w+}\W",1
-402,"\W!x{\w+er\Wpre\w+}\W",1
-403,"\W!x{ex\w+\Wco\w+}\W",1
-404,"\W!x{\w+ship\Wa\w+}\W",1
-405,"\W!x{dis\w+\Wan\w+}\W",1
-406,"\W!x{con\w+\W\w+ation}\W",1
-407,"\W!x{\w+al\Wbe\w+}\W",1
-408,"\W!x{an\w+\W\w+geo?\w+}\W",1
-409,"\W!x{a\w+\Wpro\w+}\W",1
-410,"\W!x{un\w+\Wa\w+}\W",1
-411,"\W!x{pro\w+\Wa\w+}\W",1
-412,"\W!x{\w+or\Wa\w+}\W",1
-413,"\W!x{\w+ness\Wa\w+}\W",1
-414,"\W!x{ex\w+\Wa\w+}\W",1
-415,"\W!x{\w+or\W\w+er}\W",1
-416,"\W!x{a\w+\W\w+ive}\W",1
-417,"\W!x{\w+er\W\w+or}\W",1
-418,"\W!x{a\w+\W\w+ful}\W",1
-419,"\W!x{\w+ive\Wa\w+}\W",1
-420,"\W!x{an\w+\W\w+ous}\W",1
-421,"\W!x{\w+ful\Wa\w+}\W",1
-422,"\W!x{\w+ly\Wdi\w+}\W",1
-423,"\W!x{a\w+\W\w+ent}\W",1
-424,"\W!x{an\w+\Wco\w+}\W",1
-425,"\W!x{\w+ly\Wbe\w+}\W",1
-426,"\W!x{\w+al\W\w+ion}\W",1
-427,"\W!x{co\w+\W\w+or}\W",1
-428,"\W!x{\w+ent\Wa\w+}\W",1
-429,"\W!x{re\w+\Wan\w+}\W",1
-430,"\W!x{\w+ment\Wa\w+}\W",1
-431,"\W!x{de\w+\Wa\w+}\W",1
-432,"\W!x{\w+er\Wre\w+}\W",1
-433,"\W!x{\w+er\Win\w+}\W",1
-434,"\W!x{a\w+\W\w+ation}\W",1
-435,"\W!x{be\w+\Wa\w+}\W",1
-436,"\W!x{de\w+\W\w+er}\W",1
-437,"\W!x{an\w+\Wre\w+}\W",1
-438,"\W!x{an\w+\W\w+or}\W",1
-439,"\W!x{co\w+\Wan\w+}\W",1
-440,"\W!x{com\w+\Wan\w+}\W",1
-441,"\W!x{\w+er\W\w+ent}\W",1
-442,"\W!x{a\w+\W\w+al}\W",1
-443,"\W!x{an\w+\W\w+ly}\W",1
-444,"\W!x{\w+ate\Wa\w+}\W",1
-445,"\W!x{a\w+\Wun\w+}\W",1
-446,"\W!x{\w+ance\Wa\w+}\W",1
-447,"\W!x{\w+er\W\w+ly}\W",1
-448,"\W!x{\w+ation\Wa\w+}\W",1
-449,"\W!x{\w+er\Wde\w+}\W",1
-450,"\W!x{an\w+\Wcom\w+}\W",1
-451,"\W!x{\w+ous\Wa\w+}\W",1
-452,"\W!x{a\w+\Win\w+}\W",1
-453,"\W!x{a\w+\W\w+ion}\W",1
-454,"\W!x{be\w+\W\w+ly}\W",1
-455,"\W!x{a\w+\W\w+ment}\W",1
-456,"\W!x{a\w+\Wcom\w+}\W",1
-457,"\W!x{a\w+\W\w+or}\W",1
-458,"\W!x{an\w+\Wdis\w+}\W",1
-459,"\W!x{a\w+\W\w+ant}\W",1
-460,"\W!x{in\w+\Wan\w+}\W",1
-461,"\W!x{\w+or\Wan\w+}\W",1
-462,"\W!x{an\w+\Win\w+}\W",1
-463,"\W!x{an\w+\Wun\w+}\W",1
-464,"\W!x{an\w+\W\w+al}\W",1
-465,"\W!x{\w+geo?\w+\Wa\w+}\W",1
-466,"\W!x{\w+geo?\w+\Wan\w+}\W",1
-467,"\W!x{an\w+\W\w+ent}\W",1
-468,"\W!x{a\w+\Wcon\w+}\W",1
-469,"\W!x{re\w+\W\w+or}\W",1
-470,"\W!x{a\w+\W\w+able}\W",1
-471,"\W!x{\w+ant\Wa\w+}\W",1
-472,"\W!x{a\w+\W\w+ate}\W",1
-473,"\W!x{\w+er\Wco\w+}\W",1
-474,"\W!x{an\w+\Wdi\w+}\W",1
-475,"\W!x{a\w+\Wpre\w+}\W",1
-476,"\W!x{\w+ure\Wa\w+}\W",1
-477,"\W!x{a\w+\Wim\w+}\W",1
-478,"\W!x{pre\w+\Wa\w+}\W",1
-479,"\W!x{re\w+\W\w+er}\W",1
-480,"\W!x{\w+al\Wa\w+}\W",1
-481,"\W!x{\w+er\W\w+er}\W",1
-482,"\W!x{\w+ent\Wan\w+}\W",1
-483,"\W!x{\w+ly\W\w+er}\W",1
-484,"\W!x{\w+ness\Wan\w+}\W",1
-485,"\W!x{\w+er\W\w+ion}\W",1
-486,"\W!x{a\w+\W\w+ure}\W",1
-487,"\W!x{a\w+\W\w+ity}\W",1
-488,"\W!x{\w+al\W\w+er}\W",1
-489,"\W!x{an\w+\Wan\w+}\W",1
-490,"\W!x{a\w+\Wbe\w+}\W",1
-491,"\W!x{com\w+\Wa\w+}\W",1
-492,"\W!x{\w+ion\Wan\w+}\W",1
-493,"\W!x{a\w+\Wco\w+}\W",1
-494,"\W!x{re\w+\Wa\w+}\W",1
-495,"\W!x{\w+ly\Win\w+}\W",1
-496,"\W!x{an\w+\Wcon\w+}\W",1
-497,"\W!x{\w+ence\Wa\w+}\W",1
-498,"\W!x{an\w+\W\w+ive}\W",1
-499,"\W!x{di\w+\Wan\w+}\W",1
-500,"\W!x{an\w+\Wex\w+}\W",1
-501,"\W!x{an\w+\Wpro\w+}\W",1
-502,"\W!x{in\w+\W\w+er}\W",1
-503,"\W!x{a\w+\Wde\w+}\W",1
-504,"\W!x{\w+ion\W\w+or}\W",1
-505,"\W!x{\w+able\Wa\w+}\W",1
-506,"\W!x{\w+ly\Wco\w+}\W",1
-507,"\W!x{\w+ly\Wre\w+}\W",1
-508,"\W!x{\w+er\Wbe\w+}\W",1
-509,"\W!x{a\w+\Wan\w+}\W",1
-510,"\W!x{a\w+\W\w+ous}\W",1
-511,"\W!x{co\w+\W\w+ly}\W",1
-512,"\W!x{dis\w+\Wa\w+}\W",1
-513,"\W!x{an\w+\W\w+ful}\W",1
-514,"\W!x{en\w+\Wa\w+}\W",1
-515,"\W!x{a\w+\Wre\w+}\W",1
-516,"\W!x{\w+ity\Wa\w+}\W",1
-517,"\W!x{\w+ion\Wa\w+}\W",1
-518,"\W!x{\w+ly\Wan\w+}\W",1
-519,"\W!x{di\w+\Wa\w+}\W",1
-520,"\W!x{a\w+\W\w+ence}\W",1
-521,"\W!x{a\w+\W\w+ness}\W",1
-522,"\W!x{\w+er\Wdi\w+}\W",1
-523,"\W!x{a\w+\Wen\w+}\W",1
-524,"\W!x{con\w+\Wa\w+}\W",1
-525,"\W!x{co\w+\Wa\w+}\W",1
-526,"\W!x{an\w+\W\w+ion}\W",1
-527,"\W!x{be\w+\W\w+er}\W",1
-528,"\W!x{an\w+\Wen\w+}\W",1
-529,"\W!x{\w+ly\Wde\w+}\W",1
-530,"\W!x{a\w+\Wex\w+}\W",1
-531,"\W!x{a\w+\W\w+geo?\w+}\W",1
-532,"\W!x{be\w+\Wan\w+}\W",1
-533,"\W!x{\w+er\Wan\w+}\W",1
-534,"\W!x{in\w+\Wa\w+}\W",1
-535,"\W!x{an\w+\Wpre\w+}\W",1
-536,"\W!x{co\w+\W\w+er}\W",1
-537,"\W!x{a\w+\Wdis\w+}\W",1
-538,"\W!x{a\w+\Wdi\w+}\W",1
-539,"\W!x{de\w+\Wan\w+}\W",1
-540,"\W!x{an\w+\W\w+able}\W",1
-541,"\W!x{an\w+\Wde\w+}\W",1
-542,"\W!x{a\w+\W\w+ance}\W",1
-543,"\W!x{an\w+\Wbe\w+}\W",1
+0,"!x{\n[^\n]* DISTINCT [^\n]* FILTER [^\n]*\n[^\n]* GROUP BY [^\n]* ORDER BY [^\n]*\n}",1
+1,"!x{\n[^\n]* DISTINCT [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n[^\n]* WHERE [^\n]* GROUP BY [^\n]* ORDER BY [^\n]*\n}",1
+2,"!x{\n[^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n[^\n]* WHERE [^\n]* GROUP BY [^\n]* ORDER BY [^\n]*\n}",1
+3,"!x{\n[^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n[^\n]* SELECT [^\n]* GROUP BY [^\n]*\n}",1
+4,"!x{\n[^\n]* SELECT [^\n]* WHERE [^\n]* ORDER BY [^\n]*\n[^\n]* PREFIX [^\n]* WHERE [^\n]* FILTER [^\n]*\n}",1
+5,"!x{\n[^\n]* WHERE [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n[^\n]* SELECT [^\n]* ORDER BY [^\n]*\n}",1
+6,"!x{\n[^\n]* DISTINCT [^\n]* WHERE [^\n]* FILTER [^\n]*\n[^\n]* WHERE [^\n]* ORDER BY [^\n]*\n}",1
+7,"!x{\n[^\n]* WHERE [^\n]* ORDER BY [^\n]*\n[^\n]* PREFIX [^\n]* FILTER [^\n]*\n}",1
+8,"!x{\n[^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n[^\n]* SELECT [^\n]* OPTIONAL [^\n]* ORDER BY [^\n]*\n}",1
+9,"!x{\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n[^\n]* DISTINCT [^\n]* GROUP BY [^\n]*\n}",1
+10,"!x{\n[^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n[^\n]* AS [^\n]*\n}",1
+11,"!x{\n[^\n]* WHERE [^\n]* FILTER [^\n]*\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* ORDER BY [^\n]*\n}",1
+12,"!x{\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n[^\n]* AS [^\n]* WHERE [^\n]*\n}",1
+13,"!x{\n[^\n]* DISTINCT [^\n]* WHERE [^\n]* FILTER [^\n]*\n[^\n]* DISTINCT [^\n]* GROUP BY [^\n]*\n}",1
+14,"!x{\n[^\n]* DISTINCT [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n[^\n]* PREFIX [^\n]* WHERE [^\n]* GROUP BY [^\n]*\n}",1
+15,"!x{\n[^\n]* WHERE [^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n[^\n]* GROUP BY [^\n]*\n}",1
+16,"!x{\n[^\n]* SELECT [^\n]* WHERE [^\n]* LIMIT [^\n]*\n[^\n]* GROUP BY [^\n]* ORDER BY [^\n]*\n}",1
+17,"!x{\n[^\n]* WHERE [^\n]* GROUP BY [^\n]* ORDER BY [^\n]*\n[^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n}",1
+18,"!x{\n[^\n]* SELECT [^\n]* ORDER BY [^\n]*\n[^\n]* DISTINCT [^\n]* WHERE [^\n]* FILTER [^\n]*\n}",1
+19,"!x{\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* ORDER BY [^\n]*\n[^\n]* AS [^\n]* WHERE [^\n]*\n}",1
+20,"!x{\n[^\n]* SELECT [^\n]* ORDER BY [^\n]*\n[^\n]* PREFIX [^\n]* PREFIX [^\n]* FILTER [^\n]*\n}",1
+21,"!x{\n[^\n]* SELECT [^\n]* ORDER BY [^\n]*\n[^\n]* DISTINCT [^\n]* FILTER [^\n]*\n}",1
+22,"!x{\n[^\n]* DISTINCT [^\n]* WHERE [^\n]* FILTER [^\n]*\n[^\n]* WHERE [^\n]* GROUP BY [^\n]*\n}",1
+23,"!x{\n[^\n]* DISTINCT [^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n[^\n]* SELECT [^\n]* OPTIONAL [^\n]* ORDER BY [^\n]*\n}",1
+24,"!x{\n[^\n]* WHERE [^\n]* ORDER BY [^\n]*\n[^\n]* AS [^\n]*\n}",1
+25,"!x{\n[^\n]* AS [^\n]* WHERE [^\n]*\n[^\n]* DISTINCT [^\n]* FILTER [^\n]*\n}",1
+26,"!x{\n[^\n]* SELECT [^\n]* FILTER [^\n]*\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* ORDER BY [^\n]*\n}",1
+27,"!x{\n[^\n]* SELECT [^\n]* GROUP BY [^\n]* ORDER BY [^\n]*\n[^\n]* DISTINCT [^\n]* FILTER [^\n]*\n}",1
+28,"!x{\n[^\n]* PREFIX [^\n]* FILTER [^\n]*\n[^\n]* DISTINCT [^\n]* GROUP BY [^\n]*\n}",1
+29,"!x{\n[^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n[^\n]* SELECT [^\n]* ORDER BY [^\n]*\n}",1
+30,"!x{\n[^\n]* PREFIX [^\n]* ORDER BY [^\n]*\n[^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n}",1
+31,"!x{\n[^\n]* AS [^\n]* WHERE [^\n]*\n[^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n}",1
+32,"!x{\n[^\n]* SELECT [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* ORDER BY [^\n]*\n}",1
+33,"!x{\n[^\n]* AS [^\n]* WHERE [^\n]*\n[^\n]* DISTINCT [^\n]* GROUP BY [^\n]*\n}",1
+34,"!x{\n[^\n]* WHERE [^\n]* ORDER BY [^\n]*\n[^\n]* LIMIT [^\n]*\n}",1
+35,"!x{\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* ORDER BY [^\n]*\n[^\n]* WHERE [^\n]* GROUP BY [^\n]*\n}",1
+36,"!x{\n[^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n[^\n]* SELECT [^\n]* LIMIT [^\n]*\n}",1
+37,"!x{\n[^\n]* SELECT [^\n]* ORDER BY [^\n]*\n[^\n]* WHERE [^\n]* FILTER [^\n]*\n}",1
+38,"!x{\n[^\n]* PREFIX [^\n]* SELECT [^\n]* GROUP BY [^\n]*\n[^\n]* WHERE [^\n]* ORDER BY [^\n]*\n}",1
+39,"!x{\n[^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n[^\n]* PREFIX [^\n]* PREFIX [^\n]* FILTER [^\n]*\n}",1
+40,"!x{\n[^\n]* AS [^\n]* WHERE [^\n]*\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]*\n}",1
+41,"!x{\n[^\n]* WHERE [^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n[^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n}",1
+42,"!x{\n[^\n]* WHERE [^\n]* GROUP BY [^\n]*\n[^\n]* GROUP BY [^\n]* ORDER BY [^\n]*\n}",1
+43,"!x{\n[^\n]* SELECT [^\n]* LIMIT [^\n]*\n[^\n]* PREFIX [^\n]* DISTINCT [^\n]* FILTER [^\n]*\n}",1
+44,"!x{\n[^\n]* SELECT [^\n]* GROUP BY [^\n]*\n[^\n]* PREFIX [^\n]* SELECT [^\n]* FILTER [^\n]*\n}",1
+45,"!x{\n[^\n]* WHERE [^\n]* GROUP BY [^\n]*\n[^\n]* PREFIX [^\n]* GROUP BY [^\n]*\n}",1
+46,"!x{\n[^\n]* PREFIX [^\n]* PREFIX [^\n]*\n[^\n]* AS [^\n]* WHERE [^\n]*\n}",1
+47,"!x{\n[^\n]* DISTINCT [^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n[^\n]* PREFIX [^\n]* FILTER [^\n]*\n}",1
+48,"!x{\n[^\n]* PREFIX [^\n]* SELECT [^\n]* GROUP BY [^\n]*\n[^\n]* PREFIX [^\n]* GROUP BY [^\n]*\n}",1
+49,"!x{\n[^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n[^\n]* WHERE [^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n}",1
+50,"!x{\n[^\n]* AS [^\n]* WHERE [^\n]*\n[^\n]* PREFIX [^\n]* FILTER [^\n]*\n}",1
+51,"!x{\n[^\n]* SELECT [^\n]* WHERE [^\n]* GROUP BY [^\n]*\n[^\n]* PREFIX [^\n]* ORDER BY [^\n]*\n}",1
+52,"!x{\n[^\n]* GROUP BY [^\n]*\n[^\n]* DISTINCT [^\n]* GROUP BY [^\n]*\n}",1
+53,"!x{\n[^\n]* WHERE [^\n]* GROUP BY [^\n]* ORDER BY [^\n]*\n[^\n]* SELECT [^\n]* ORDER BY [^\n]*\n}",1
+54,"!x{\n[^\n]* SELECT [^\n]* ORDER BY [^\n]*\n[^\n]* WHERE [^\n]* GROUP BY [^\n]* ORDER BY [^\n]*\n}",1
+55,"!x{\n[^\n]* PREFIX [^\n]* GROUP BY [^\n]*\n[^\n]* WHERE [^\n]* ORDER BY [^\n]*\n}",1
+56,"!x{\n[^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n[^\n]* LIMIT [^\n]*\n}",1
+57,"!x{\n[^\n]* SELECT [^\n]* LIMIT [^\n]*\n[^\n]* AS [^\n]* WHERE [^\n]*\n}",1
+58,"!x{\n[^\n]* WHERE [^\n]* GROUP BY [^\n]* ORDER BY [^\n]*\n[^\n]* SELECT [^\n]* LIMIT [^\n]*\n}",1
+59,"!x{\n[^\n]* AS [^\n]*\n[^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n}",1
+60,"!x{\n[^\n]* WHERE [^\n]* LIMIT [^\n]*\n[^\n]* PREFIX [^\n]* SELECT [^\n]* GROUP BY [^\n]*\n}",1
+61,"!x{\n[^\n]* DISTINCT [^\n]* FILTER [^\n]*\n[^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n}",1
+62,"!x{\n[^\n]* SELECT [^\n]* WHERE [^\n]* LIMIT [^\n]*\n[^\n]* WHERE [^\n]* GROUP BY [^\n]*\n}",1
+63,"!x{\n[^\n]* GROUP BY [^\n]* ORDER BY [^\n]*\n[^\n]* SELECT [^\n]* LIMIT [^\n]*\n}",1
+64,"!x{\n[^\n]* LIMIT [^\n]*\n[^\n]* WHERE [^\n]* GROUP BY [^\n]*\n}",1
+65,"!x{\n[^\n]* AS [^\n]*\n[^\n]* DISTINCT [^\n]* WHERE [^\n]* OPTIONAL [^\n]*\n}",1
+66,"!x{\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* GROUP BY [^\n]*\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* ORDER BY [^\n]*\n}",1
+67,"!x{\n[^\n]* WHERE [^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n[^\n]* SELECT [^\n]* FILTER [^\n]*\n}",1
+68,"!x{\n[^\n]* PREFIX [^\n]* DISTINCT [^\n]* FILTER [^\n]*\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]*\n}",1
+69,"!x{\n[^\n]* WHERE [^\n]* FILTER [^\n]*\n[^\n]* DISTINCT [^\n]* OPTIONAL [^\n]*\n}",1
+70,"!x{\n[^\n]* DISTINCT [^\n]*\n[^\n]* PREFIX [^\n]* ORDER BY [^\n]*\n}",1
+71,"!x{\n[^\n]* SELECT [^\n]* GROUP BY [^\n]*\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n}",1
+72,"!x{\n[^\n]* PREFIX [^\n]* GROUP BY [^\n]*\n[^\n]* PREFIX [^\n]* PREFIX [^\n]*\n}",1
+73,"!x{\n[^\n]* PREFIX [^\n]* SELECT [^\n]* FILTER [^\n]*\n[^\n]* PREFIX [^\n]* DISTINCT [^\n]* OPTIONAL [^\n]*\n}",1
+74,"!x{\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]*\n[^\n]* SELECT [^\n]* LIMIT [^\n]*\n}",1
+75,"!x{\n[^\n]* SELECT [^\n]* WHERE [^\n]* LIMIT [^\n]*\n[^\n]* WHERE [^\n]* OPTIONAL [^\n]*\n}",1
+76,"!x{\n[^\n]* PREFIX [^\n]* SELECT [^\n]* WHERE [^\n]*\n[^\n]* GROUP BY [^\n]*\n}",1
+77,"!x{\n[^\n]* WHERE [^\n]* LIMIT [^\n]*\n[^\n]* PREFIX [^\n]* DISTINCT [^\n]* OPTIONAL [^\n]*\n}",1
+78,"!x{\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* GROUP BY [^\n]*\n[^\n]* PREFIX [^\n]* SELECT [^\n]* OPTIONAL [^\n]*\n}",1
+79,"!x{\n[^\n]* PREFIX [^\n]* ORDER BY [^\n]*\n[^\n]* WHERE [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n}",1
+80,"!x{\n[^\n]* ORDER BY [^\n]*\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]*\n}",1
+81,"!x{\n[^\n]* PREFIX [^\n]* PREFIX [^\n]* PREFIX [^\n]*\n[^\n]* WHERE [^\n]* LIMIT [^\n]*\n}",1
+82,"!x{\n[^\n]* PREFIX [^\n]* PREFIX [^\n]*\n[^\n]* WHERE [^\n]* ORDER BY [^\n]*\n}",1
+83,"!x{\n[^\n]* PREFIX [^\n]* DISTINCT [^\n]* OPTIONAL [^\n]*\n[^\n]* GROUP BY [^\n]*\n}",1
+84,"!x{\n[^\n]* AS [^\n]* WHERE [^\n]*\n[^\n]* AS [^\n]* WHERE [^\n]*\n}",1
+85,"!x{\n[^\n]* SELECT [^\n]* GROUP BY [^\n]*\n[^\n]* PREFIX [^\n]* PREFIX [^\n]* WHERE [^\n]*\n}",1
+86,"!x{\n[^\n]* PREFIX [^\n]* SELECT [^\n]*\n[^\n]* WHERE [^\n]* ORDER BY [^\n]*\n}",1
+87,"!x{\n[^\n]* SELECT [^\n]* ORDER BY [^\n]*\n[^\n]* PREFIX [^\n]* SELECT [^\n]*\n}",1
+88,"!x{\n[^\n]* PREFIX [^\n]* WHERE [^\n]*\n[^\n]* PREFIX [^\n]* SELECT [^\n]* GROUP BY [^\n]*\n}",1
+89,"!x{\n[^\n]* SELECT [^\n]* WHERE [^\n]* GROUP BY [^\n]*\n[^\n]* SELECT [^\n]* WHERE [^\n]* OPTIONAL [^\n]*\n}",1
+90,"!x{\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* GROUP BY [^\n]*\n[^\n]* PREFIX [^\n]* SELECT [^\n]*\n}",1
+91,"!x{\n[^\n]* PREFIX [^\n]* GROUP BY [^\n]*\n[^\n]* PREFIX [^\n]* PREFIX [^\n]* WHERE [^\n]*\n}",1
+92,"!x{\n[^\n]* WHERE [^\n]* LIMIT [^\n]*\n[^\n]* PREFIX [^\n]* WHERE [^\n]*\n}",1
+93,"!x{\n[^\n]* WHERE [^\n]*\n[^\n]* AS [^\n]* WHERE [^\n]*\n}",1
+94,"!x{\n[^\n]* WHERE [^\n]* LIMIT [^\n]*\n[^\n]* PREFIX [^\n]* WHERE [^\n]*\n}",1
+95,"!x{\n[^\n]* LIMIT [^\n]*\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]*\n}",1
+96,"!x{\n[^\n]* PREFIX [^\n]* SELECT [^\n]* GROUP BY [^\n]*\n[^\n]* PREFIX [^\n]* SELECT [^\n]*\n}",1
+97,"!x{\n[^\n]* DISTINCT [^\n]* WHERE [^\n]*\n[^\n]* WHERE [^\n]* GROUP BY [^\n]* ORDER BY [^\n]*\n}",1
+98,"!x{\n[^\n]* SELECT [^\n]* LIMIT [^\n]*\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n}",1
+99,"!x{\n[^\n]* SELECT [^\n]* ORDER BY [^\n]*\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n}",1
+100,"!x{\n[^\n]* PREFIX [^\n]* ORDER BY [^\n]*\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]*\n}",1
+101,"!x{\n[^\n]* PREFIX [^\n]* PREFIX [^\n]* PREFIX [^\n]*\n[^\n]* WHERE [^\n]* GROUP BY [^\n]*\n}",1
+102,"!x{\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n[^\n]* DISTINCT [^\n]* WHERE [^\n]* OPTIONAL [^\n]*\n}",1
+103,"!x{\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n[^\n]* PREFIX [^\n]* WHERE [^\n]* FILTER [^\n]*\n}",1
+104,"!x{\n[^\n]* PREFIX [^\n]* WHERE [^\n]*\n[^\n]* DISTINCT [^\n]* OPTIONAL [^\n]*\n}",1
+105,"!x{\n[^\n]* DISTINCT [^\n]*\n[^\n]* DISTINCT [^\n]* WHERE [^\n]*\n}",1
+106,"!x{\n[^\n]* DISTINCT [^\n]* FILTER [^\n]*\n[^\n]* PREFIX [^\n]* DISTINCT [^\n]*\n}",1
+107,"!x{\n[^\n]* WHERE [^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n[^\n]* PREFIX [^\n]* PREFIX [^\n]* WHERE [^\n]*\n}",1
+108,"!x{\n[^\n]* PREFIX [^\n]* DISTINCT [^\n]*\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n}",1
+109,"!x{\n[^\n]* PREFIX [^\n]* PREFIX [^\n]*\n[^\n]* DISTINCT [^\n]* WHERE [^\n]*\n}",1
+110,"!x{\n[^\n]* PREFIX [^\n]* FILTER [^\n]*\n[^\n]* PREFIX [^\n]* SELECT [^\n]* WHERE [^\n]*\n}",1
+111,"!x{\n[^\n]* SELECT [^\n]* FILTER [^\n]*\n[^\n]* PREFIX [^\n]* PREFIX [^\n]*\n}",1
+112,"!x{\n[^\n]* DISTINCT [^\n]* OPTIONAL [^\n]*\n[^\n]* DISTINCT [^\n]* WHERE [^\n]* FILTER [^\n]*\n}",1
+113,"!x{\n[^\n]* PREFIX [^\n]* PREFIX [^\n]* WHERE [^\n]*\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n}",1
+114,"!x{\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]*\n[^\n]* DISTINCT [^\n]*\n}",1
+115,"!x{\n[^\n]* DISTINCT [^\n]* OPTIONAL [^\n]*\n[^\n]* WHERE [^\n]*\n}",1
+116,"!x{\n[^\n]* PREFIX [^\n]* PREFIX [^\n]* OPTIONAL [^\n]*\n[^\n]* SELECT [^\n]* WHERE [^\n]* OPTIONAL [^\n]*\n}",1
+117,"!x{\n[^\n]* PREFIX [^\n]* DISTINCT [^\n]*\n[^\n]* WHERE [^\n]* OPTIONAL [^\n]*\n}",1
+118,"!x{\n[^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n[^\n]* WHERE [^\n]* OPTIONAL [^\n]*\n}",1
+119,"!x{\n[^\n]* SELECT [^\n]* OPTIONAL [^\n]*\n[^\n]* WHERE [^\n]*\n}",1
+120,"!x{\n[^\n]* DISTINCT [^\n]* OPTIONAL [^\n]*\n[^\n]* PREFIX [^\n]* WHERE [^\n]* FILTER [^\n]*\n}",1
+121,"!x{\n[^\n]* DISTINCT [^\n]* WHERE [^\n]*\n[^\n]* PREFIX [^\n]*\n}",1
+122,"!x{\n[^\n]* DISTINCT [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n[^\n]* DISTINCT [^\n]* OPTIONAL [^\n]*\n}",1
+123,"!x{\n[^\n]* DISTINCT [^\n]* WHERE [^\n]* OPTIONAL [^\n]*\n[^\n]* DISTINCT [^\n]* OPTIONAL [^\n]*\n}",1
+124,"!x{\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n[^\n]* PREFIX [^\n]* PREFIX [^\n]*\n}",1
+125,"!x{\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]*\n[^\n]* SELECT [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n}",1
+126,"!x{\n[^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n[^\n]* PREFIX [^\n]* PREFIX [^\n]* SELECT [^\n]*\n}",1
+127,"!x{\n[^\n]* DISTINCT [^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n}",1
+128,"!x{\n[^\n]* SELECT [^\n]*\n[^\n]* PREFIX [^\n]* PREFIX [^\n]* SELECT [^\n]*\n}",1
+129,"!x{\n[^\n]* OPTIONAL [^\n]*\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]*\n}",1
+130,"!x{\n[^\n]* PREFIX [^\n]* PREFIX [^\n]* PREFIX [^\n]*\n[^\n]* DISTINCT [^\n]*\n}",1
+131,"!x{\n[^\n]* PREFIX [^\n]* PREFIX [^\n]* OPTIONAL [^\n]*\n[^\n]* SELECT [^\n]* WHERE [^\n]* FILTER [^\n]*\n}",1
+132,"!x{\n[^\n]* PREFIX [^\n]* SELECT [^\n]*\n[^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n}",1
+133,"!x{\n[^\n]* SELECT [^\n]* WHERE [^\n]* OPTIONAL [^\n]*\n[^\n]* PREFIX [^\n]* DISTINCT [^\n]* OPTIONAL [^\n]*\n}",1
+134,"!x{\n[^\n]* PREFIX [^\n]* SELECT [^\n]*\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n}",1
+135,"!x{\n[^\n]* PREFIX [^\n]* PREFIX [^\n]*\n[^\n]* DISTINCT [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n}",1
+136,"!x{\n[^\n]* WHERE [^\n]*\n[^\n]* PREFIX [^\n]* SELECT [^\n]*\n}",1
+137,"!x{\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n[^\n]* SELECT [^\n]*\n}",1
+138,"!x{\n[^\n]* PREFIX [^\n]*\n[^\n]* WHERE [^\n]*\n}",1
+139,"!x{\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n[^\n]* WHERE [^\n]*\n}",1
+140,"!x{\n[^\n]* PREFIX [^\n]* WHERE [^\n]*\n[^\n]* WHERE [^\n]*\n}",1
+141,"!x{\n[^\n]* SELECT [^\n]*\n[^\n]* WHERE [^\n]*\n}",1
+142,"!x{\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n[^\n]* SELECT [^\n]*\n}",1
+143,"!x{\n[^\n]* WHERE [^\n]*\n[^\n]* PREFIX [^\n]*\n}",1
+144,"!x{\n[^\n]* WHERE [^\n]*\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n}",1
+145,"!x{\n[^\n]* SELECT [^\n]*\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n}",1
+146,"!x{\n[^\n]* DISTINCT [^\n]*\n[^\n]* WHERE [^\n]*\n}",1
+147,"!x{\n[^\n]* PREFIX [^\n]* SELECT [^\n]*\n[^\n]* WHERE [^\n]*\n}",1
+148,"!x{\n[^\n]* WHERE [^\n]*\n[^\n]* PREFIX [^\n]* SELECT [^\n]* WHERE [^\n]*\n}",1
+149,"!x{\n[^\n]* PREFIX [^\n]* SELECT [^\n]* WHERE [^\n]*\n[^\n]* WHERE [^\n]*\n}",1
+150,"!x{\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n[^\n]* WHERE [^\n]*\n}",1
+151,"!x{\n[^\n]* WHERE [^\n]*\n[^\n]* DISTINCT [^\n]* WHERE [^\n]*\n}",1
+152,"!x{\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n}",1
+153,"!x{\n[^\n]* PREFIX [^\n]* WHERE [^\n]*\n[^\n]* WHERE [^\n]*\n}",1
+154,"!x{\n[^\n]* WHERE [^\n]*\n[^\n]* DISTINCT [^\n]*\n}",1
+155,"!x{\n[^\n]* WHERE [^\n]*\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n}",1
+156,"!x{\n[^\n]* WHERE [^\n]*\n[^\n]* WHERE [^\n]*\n}",1
+157,"!x{\n[^\n]* SELECT [^\n]*\n[^\n]* SELECT [^\n]*\n}",1
+158,"!x{\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n}",1
+159,"!x{\n[^\n]* DISTINCT [^\n]* WHERE [^\n]*\n[^\n]* WHERE [^\n]*\n}",1
+160,"!x{\n[^\n]* WHERE [^\n]*\n[^\n]* PREFIX [^\n]* WHERE [^\n]*\n}",1
+161,"!x{\n[^\n]* WHERE [^\n]*\n[^\n]* DISTINCT [^\n]* WHERE [^\n]*\n}",1
+162,"!x{\n[^\n]* PREFIX [^\n]* SELECT [^\n]*\n[^\n]* WHERE [^\n]*\n}",1
+163,"!x{\n[^\n]* WHERE [^\n]*\n[^\n]* PREFIX [^\n]* SELECT [^\n]*\n}",1
+164,"!x{\n[^\n]* WHERE [^\n]*\n[^\n]* SELECT [^\n]*\n}",1
+165,"!x{\n[^\n]* WHERE [^\n]*\n[^\n]* PREFIX [^\n]* WHERE [^\n]*\n}",1
+166,"!x{\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n}",1
+167,"!x{\n[^\n]* SELECT [^\n]*\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n}",1
+168,"!x{\n[^\n]* DISTINCT [^\n]* WHERE [^\n]*\n[^\n]* WHERE [^\n]*\n}",1
+169,"!x{\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n[^\n]* SELECT [^\n]* WHERE [^\n]*\n}",1

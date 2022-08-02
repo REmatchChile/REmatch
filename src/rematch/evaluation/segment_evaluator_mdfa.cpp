@@ -66,10 +66,10 @@ Evaluation:
 void MacroSegmentEvaluator::init_evaluation_phase(int64_t pos) {
   dfa_->init_state()->pass_node(bottom_node_);
 
-  std::vector<DState *> init_dstates;
+  std::vector<DFA::State*> init_dstates;
 
   for (auto &elem : dfa_->init_eval_states()) {
-    DState *q0 = elem.first;
+    DFA::State *q0 = elem.first;
     std::bitset<32> S = elem.second;
     if (S != 0)
       visit_capture(dfa_->init_state(), S, q0, pos - 1);
@@ -215,8 +215,8 @@ inline void MacroSegmentEvaluator::pass_outputs() {
   reached_final_states_.clear();
 }
 
-inline void MacroSegmentEvaluator::visit_capture(DState *cs, std::bitset<32> S,
-                                                 DState *to, int64_t pos) {
+inline void MacroSegmentEvaluator::visit_capture(DFA::State *cs, std::bitset<32> S,
+                                                 DFA::State *to, int64_t pos) {
   if (to->visited <= pos) {
     to->pass_node(ds_.extend(cs->node, S, pos + 1));
     to->visited = pos + 1;

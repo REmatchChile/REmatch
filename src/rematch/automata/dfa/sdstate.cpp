@@ -11,7 +11,7 @@ int SDState::ID = 0;
 SDState::SDState(size_t tot_states)
     : id_(ID++), states_bitmap_(tot_states, false) {}
 
-SDState::SDState(size_t tot_states, std::vector<State *> states)
+SDState::SDState(size_t tot_states, std::vector<LogicalVA::State*> states)
     : id_(ID++), states_bitmap_(tot_states, false), states_subset_(states) {
   for (auto &p : states_subset_) {
     states_bitmap_[p->id] = true;
@@ -20,7 +20,7 @@ SDState::SDState(size_t tot_states, std::vector<State *> states)
   }
 }
 
-SDState::SDState(size_t tot_states, std::set<State *> states)
+SDState::SDState(size_t tot_states, std::set<LogicalVA::State *> states)
     : id_(ID++), states_bitmap_(tot_states, false),
       states_subset_(states.begin(), states.end()) {
   for (auto &p : states_subset_) {
@@ -30,10 +30,10 @@ SDState::SDState(size_t tot_states, std::set<State *> states)
   }
 }
 
-void SDState::add_state(State *p) {
+void SDState::add_state(LogicalVA::State *p) {
   auto lower = std::lower_bound(
       states_subset_.begin(), states_subset_.end(), p,
-      [](const State *s1, const State *s2) { return s1->id < s2->id; });
+      [](const LogicalVA::State *s1, const LogicalVA::State *s2) { return s1->id < s2->id; });
 
   if (lower == states_subset_.end() || (*lower)->id != p->id) {
     states_subset_.insert(lower, p);

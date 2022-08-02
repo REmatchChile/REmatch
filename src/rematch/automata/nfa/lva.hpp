@@ -10,15 +10,19 @@ namespace rematch {
 
 class VariableFactory;
 class FilterFactory;
-class State;
 class ExtendedVA;
 
 class LogicalVA {
   /* A basic implementation of a Variable Automaton  */
   friend class ExtendedVA;
 
-public:
-  std::vector<State *> states;
+ public:
+  class State;
+  struct Capture;
+  struct Filter;
+  struct Epsilon;
+
+  std::vector<State*> states;
 
   // Empty LogicalVA construction (only one State)
   LogicalVA();

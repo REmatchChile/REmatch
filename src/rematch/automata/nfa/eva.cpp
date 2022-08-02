@@ -18,6 +18,10 @@ ExtendedVA::ExtendedVA(LogicalVA const &A, Anchor a)
   // Copy the VA
   LogicalVA A_prim(A);
 
+  #ifndef NDEBUG
+  std::cout << "LogicalVA:\n" << A_prim << "\n\n";
+  #endif
+
   A_prim.remove_epsilon();
 
   // Swap the VA's state graph for the EvaluationVA
@@ -27,6 +31,7 @@ ExtendedVA::ExtendedVA(LogicalVA const &A, Anchor a)
 
   trim();
 
+  // Add searching loop to init state if search is unanchored.
   if (anchor_ == Anchor::kUnanchored) {
     auto code = filter_factory_->add_filter(CharClass(0, CHAR_MAX));
     init_state_->add_filter(code, init_state_);
@@ -56,11 +61,9 @@ ExtendedVA::ExtendedVA(LogicalVA const &A, Anchor a)
 #ifndef NDEBUG
   std::cout << "EvaluationVA after relabeling:\n" << *this << "\n\n";
 #endif
-
-  // is_ambiguous();
 }
 
-void ExtendedVA::addCapture(State *state, std::bitset<32> bs, State *next) {
+void ExtendedVA::addCapture(LogicalVA::State *state, std::bitset<32> bs, LogicalVA::State *next) {
   state->add_capture(bs, next);
 }
 
@@ -70,8 +73,8 @@ size_t ExtendedVA::size() const { return states.size(); }
 bool ExtendedVA::is_ambiguous() const {
 
   struct StatePair {
-    State* p1 = nullptr;
-    State* p2 = nullptr;
+    LogicalVA::State* p1 = nullptr;
+    LogicalVA::State* p2 = nullptr;
     bool splitted = true;
 
     bool operator==(const StatePair &rhs) const {
@@ -162,15 +165,15 @@ void ExtendedVA::trim() {
   const int kReachable = 1 << 0; // 0000 0000 0000 0001
   const int kUseful = 1 << 1;    // 0000 0000 0000 0010
 
-  std::vector<State *> trimmed_states; // New states vector
-  std::deque<State *> queue;
+  std::vector<LogicalVA::State *> trimmed_states; // New states vector
+  std::deque<LogicalVA::State *> queue;
 
   // Start the search forward from the initial state.
   queue.push_back(init_state_);
   init_state_->visitedBy |= kReachable;
 
   while (!queue.empty()) {
-    State *p = queue.front();
+    LogicalVA::State *p = queue.front();
     queue.pop_front();
 
     for (auto &f : p->filters) {
@@ -193,7 +196,7 @@ void ExtendedVA::trim() {
   accepting_state_->visitedBy |= kUseful;
 
   while (!queue.empty()) {
-    State *p = queue.front();
+    LogicalVA::State *p = queue.front();
     queue.pop_front();
     for (auto &f : p->backward_filters_) {
       if (!(f->from->visitedBy & kUseful)) {
@@ -229,11 +232,11 @@ void ExtendedVA::captureClosure() {
   states computes the capture closure of it */
 
   // Get the modified topological sort of the e-VA
-  std::queue<State *> topOrder = invTopologicalSort();
+  std::queue<LogicalVA::State*> topOrder = invTopologicalSort();
 
   relabelStates();
 
-  State *itState; // Iterator state
+  LogicalVA::State *itState; // Iterator state
 
   while (!topOrder.empty()) {
     itState = topOrder.front();
@@ -333,9 +336,9 @@ void ExtendedVA::offset_opt() {
 }
 
 void ExtendedVA::compute_offset(CaptureList &captureList, int codeIndex) {
-  std::shared_ptr<LVAFilter> filter;
+  std::shared_ptr<LogicalVA::Filter> filter;
   CapturePtr capture;
-  State *p, *q, *r;
+  LogicalVA::State *p, *q, *r;
 
   // states p,q,r will label in the following way:
   // (p) ---[capture]---> (q) -----[filter]----> (r)
@@ -350,7 +353,7 @@ void ExtendedVA::compute_offset(CaptureList &captureList, int codeIndex) {
         r = filter->next;
 
         // Create new state q'
-        State *q_prim = new State();
+        LogicalVA::State *q_prim = new LogicalVA::State();
         states.push_back(q_prim);
 
         filter->next->backward_filters_.remove(filter);
@@ -381,7 +384,7 @@ void ExtendedVA::compute_offset(CaptureList &captureList, int codeIndex) {
       p->captures.remove(capture);
       q->backward_captures_.remove(capture);
       if (q->backward_captures_.empty())
-        q->flags_ &= ~State::kCaptureState;
+        q->flags_ &= ~LogicalVA::State::kCaptureState;
 
       // Current picture:
       // (p)                (q) ---[filter]---> (q') --[capture]--> (r)
@@ -431,7 +434,7 @@ bool ExtendedVA::offset_possible(CapturePtr capture) {
   //  2. (q) can't be a final state.
   //	3. (q) has at least 1 filter transition and no capture transitions.
 
-  State *q;
+  LogicalVA::State *q;
   q = capture->next;
 
   if (capture->code.count() != 1)
@@ -450,16 +453,16 @@ bool ExtendedVA::offset_possible(CapturePtr capture) {
   return true;
 }
 
-bool ExtendedVA::isReachable(State *from, State *end) {
+bool ExtendedVA::isReachable(LogicalVA::State *from, LogicalVA::State *end) {
   for (auto &state : states)
     state->tempMark = false;
 
-  std::vector<State *> stack;
+  std::vector<LogicalVA::State *> stack;
   for (auto &filter : from->filters)
     stack.push_back(filter->next);
 
   while (!stack.empty()) {
-    State *currentState = stack.back();
+    LogicalVA::State *currentState = stack.back();
     stack.pop_back();
     if (currentState == end)
       return true;
@@ -543,12 +546,12 @@ CaptureVector ExtendedVA::reachableCaptures(CapturePtr &cap) {
   for (auto &state : states)
     state->tempMark = false;
 
-  std::vector<State *> stack;
+  std::vector<LogicalVA::State *> stack;
   stack.push_back(cap->next);
 
   CaptureVector ret;
 
-  State *s;
+  LogicalVA::State *s;
 
   while (!stack.empty()) {
     s = stack.back();
@@ -567,8 +570,8 @@ CaptureVector ExtendedVA::reachableCaptures(CapturePtr &cap) {
   return ret;
 }
 
-std::queue<State *> ExtendedVA ::invTopologicalSort() {
-  std::queue<State *> *Q = new std::queue<State *>();
+std::queue<LogicalVA::State *> ExtendedVA ::invTopologicalSort() {
+  std::queue<LogicalVA::State *> *Q = new std::queue<LogicalVA::State *>();
 
   for (auto &state : states) {
     state->tempMark = false;
@@ -583,7 +586,7 @@ std::queue<State *> ExtendedVA ::invTopologicalSort() {
   return *Q;
 }
 
-void ExtendedVA::invTopologicalSortUtil(State *state, std::queue<State *> *Q) {
+void ExtendedVA::invTopologicalSortUtil(LogicalVA::State *state, std::queue<LogicalVA::State *> *Q) {
   state->tempMark = true;
 
   if (state->captures.empty())
@@ -608,7 +611,7 @@ void ExtendedVA::relabelStates() {
 	idMap.clear();
 	int counter = 0;
 
-	std::vector<State*> stack;
+	std::vector<LogicalVA::State*> stack;
 	stack.push_back(init_state_);
 	init_state_->tempMark = true;
 
@@ -641,7 +644,7 @@ std::ostream &operator<<(std::ostream &os, ExtendedVA const &A) {
      each State */
 
   // Declarations
-  State *current;
+  LogicalVA::State *current;
   int cid, nid; // cid: current State id; nid : next State id
   std::bitset<32> S;
 
@@ -651,7 +654,7 @@ std::ostream &operator<<(std::ostream &os, ExtendedVA const &A) {
   std::unordered_set<unsigned int> visited;
 
   // Use of list to implement a FIFO queue
-  std::list<State *> queue;
+  std::list<LogicalVA::State *> queue;
 
   // Start on the init State
   visited.insert(A.init_state_->id);
@@ -662,9 +665,9 @@ std::ostream &operator<<(std::ostream &os, ExtendedVA const &A) {
     current = queue.front();
     queue.pop_front();
 
-    if (current->flags() & State::kCaptureState)
+    if (current->flags() & LogicalVA::State::kCaptureState)
       capture_states.push_back(current->id);
-    if (current->flags() & State::kPreCaptureState)
+    if (current->flags() & LogicalVA::State::kPreCaptureState)
       pcapture_states.push_back(current->id);
     cid = current->id;
 
@@ -715,8 +718,8 @@ std::ostream &operator<<(std::ostream &os, ExtendedVA const &A) {
   return os;
 }
 
-std::set<State *> ExtendedVA::get_subset(std::vector<bool> bs) const {
-  std::set<State *> ret;
+std::set<LogicalVA::State*> ExtendedVA::get_subset(std::vector<bool> bs) const {
+  std::set<LogicalVA::State*> ret;
   for (size_t i = 0; i < bs.size(); i++)
     if (bs[i])
       ret.insert(idMap.at(i));
@@ -738,10 +741,10 @@ void ExtendedVA::duplicate_opt() {
 
   // --- Duplicate states --- //
 
-  std::vector<State *> states0, states1;
+  std::vector<LogicalVA::State*> states0, states1;
 
   // State pointer to index at statevector
-  std::map<State *, size_t> ptr2index;
+  std::map<LogicalVA::State*, size_t> ptr2index;
   size_t initStateIdx, acceptingStateIdx;
 
   for (size_t i = 0; i < states.size(); ++i) {
@@ -751,8 +754,8 @@ void ExtendedVA::duplicate_opt() {
     else if (states[i]->accepting())
       acceptingStateIdx = i;
 
-    states0.push_back(new State(*states[i]));
-    states1.push_back(new State(*states[i]));
+    states0.push_back(new LogicalVA::State(*states[i]));
+    states1.push_back(new LogicalVA::State(*states[i]));
 
     // Store state's ptr corresponding index
     ptr2index[states[i]] = i;
@@ -761,7 +764,7 @@ void ExtendedVA::duplicate_opt() {
   // --- Connect new states --- //
 
   // Here p and q represent transition p->q
-  State *pOld, *qOld, *p0New, *p1New, *q0New, *q1New;
+  LogicalVA::State *pOld, *qOld, *p0New, *p1New, *q0New, *q1New;
   size_t qOldIdx; // Needed for pairing new states to old states
   for (size_t i = 0; i < states.size(); ++i) {
     pOld = states[i];

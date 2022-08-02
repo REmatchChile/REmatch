@@ -43,10 +43,11 @@ void Interface::normal_run() {
   rgx_opts.set_early_output(options_.early_output());
   rgx_opts.set_searching(options_.searching());
   rgx_opts.set_macrodfa(options_.macrodfa());
+  rgx_opts.set_unambiguous(options_.unambiguous());
 
   rematch::RegEx regex(pattern_, rgx_opts);
 
-  rematch::MatchIterator m_iter = regex.findIter(document_);
+  rematch::MatchIterator m_iter = regex.find_iter(document_);
 
   auto out_option = options_.output_option();
 
@@ -86,6 +87,7 @@ void Interface::benchmark_run() {
   rgx_opt.set_early_output(options_.early_output());
   rgx_opt.set_searching(options_.searching());
   rgx_opt.set_macrodfa(options_.macrodfa());
+  rgx_opt.set_unambiguous(options_.unambiguous());
   rematch::RegEx regex(pattern_, rgx_opt);
   rematch::Match_ptr match_ptr;
 
@@ -94,7 +96,7 @@ void Interface::benchmark_run() {
 
   n_mappings = 0;
 
-  rematch::MatchIterator match_iter = regex.findIter(document_);
+  rematch::MatchIterator match_iter = regex.find_iter(document_);
 
   for (auto match = match_iter.next(); match != nullptr;
        match = match_iter.next()) {

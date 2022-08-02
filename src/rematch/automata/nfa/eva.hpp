@@ -10,37 +10,35 @@
 #include <unordered_map>
 
 #include "regex/regex_options.hpp"
+#include "automata/nfa/lva.hpp"
 
 namespace rematch {
 
-class State;
 class VariableFactory;
 class FilterFactory;
-class LogicalVA;
-class LVACapture;
 
-using CaptureVector = std::vector<std::shared_ptr<LVACapture>>;
-using CaptureList = std::list<std::shared_ptr<LVACapture>>;
-using CapturePtr = std::shared_ptr<LVACapture>;
+using CaptureVector = std::vector<std::shared_ptr<LogicalVA::Capture>>;
+using CaptureList = std::list<std::shared_ptr<LogicalVA::Capture>>;
+using CapturePtr = std::shared_ptr<LogicalVA::Capture>;
 
 // @brief An eVA that builds its graph from a VA.
 class ExtendedVA {
 
 public:
-  std::vector<State *> states;
+  std::vector<LogicalVA::State*> states;
 
-  std::unordered_map<unsigned int, State *> idMap;
+  std::unordered_map<unsigned int, LogicalVA::State*> idMap;
 
   ExtendedVA(LogicalVA const &A, Anchor a);
   ExtendedVA();
 
   // ~ExtendedVA();
 
-  State *init_state() const { return init_state_; }
+  LogicalVA::State *init_state() const { return init_state_; }
+  void set_initial(LogicalVA::State *s) { init_state_ = s; }
 
-  void set_initial(State *s) { init_state_ = s; }
-
-  void set_accepting(State *s) { accepting_state_ = s; }
+  LogicalVA::State *accepting_state() const { return accepting_state_; }
+  void set_accepting(LogicalVA::State *s) { accepting_state_ = s; }
 
   bool is_static() const { return is_static_; }
   void set_is_static(bool b) { is_static_ = b; }
@@ -54,7 +52,7 @@ public:
     return filter_factory_;
   }
 
-  void addCapture(State *state, std::bitset<32> bs, State *next);
+  void addCapture(LogicalVA::State *state, std::bitset<32> bs, LogicalVA::State *next);
 
   void trim();
 
@@ -65,12 +63,12 @@ public:
   void cleanUselessCaptureStates();
   void cleanUselessCaptureTransitions();
 
-  std::queue<State *> invTopologicalSort();
-  void invTopologicalSortUtil(State *state, std::queue<State *> *Q);
+  std::queue<LogicalVA::State*> invTopologicalSort();
+  void invTopologicalSortUtil(LogicalVA::State *state, std::queue<LogicalVA::State*> *Q);
 
   void relabelStates();
 
-  std::set<State *> get_subset(std::vector<bool> bs) const;
+  std::set<LogicalVA::State*> get_subset(std::vector<bool> bs) const;
 
   // @brief Computes the inverse topological sort of the captures.
   // @return A vector of the reverse topological sorting of all capture
@@ -97,12 +95,12 @@ public:
 private:
   void getInvTopSortCapturesUtil(CapturePtr &cap, CaptureVector &L);
   CaptureVector reachableCaptures(CapturePtr &cap);
-  bool isReachable(State *from, State *to);
+  bool isReachable(LogicalVA::State *from, LogicalVA::State *to);
 
 	bool check_if_static();
 
-  State *init_state_;
-  State *accepting_state_;
+  LogicalVA::State *init_state_;
+  LogicalVA::State *accepting_state_;
 
   std::shared_ptr<VariableFactory> variable_factory_;
   std::shared_ptr<FilterFactory> filter_factory_;

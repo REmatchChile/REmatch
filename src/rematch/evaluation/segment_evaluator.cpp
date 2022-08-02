@@ -82,7 +82,7 @@ void SegmentEvaluator::init_evaluation_phase(int64_t pos) {
   current_states_.clear();
 
   for (auto &elem : dfa_->init_eval_states()) {
-    DState *q0 = elem.first;
+    DFA::State *q0 = elem.first;
     std::bitset<32> S = elem.second;
     if (S != 0)
       visit(q0, ds_.extend(dfa_->init_state()->node, S, pos), pos - 1);
@@ -181,6 +181,8 @@ bool SegmentEvaluator::searching_phase() {
 
 FORCE_INLINE void SegmentEvaluator::reading(char a, int64_t pos) {
 
+  using Transition = Transition<DFA::State>;
+
   new_states_.clear();
 
   for (auto &p : current_states_) {
@@ -190,7 +192,7 @@ FORCE_INLINE void SegmentEvaluator::reading(char a, int64_t pos) {
       nextTransition = dfa_->next_transition(p, a);
     }
 
-    auto *c = nextTransition->capture_;
+    auto c = nextTransition->capture_;
     auto *d = nextTransition->direct_;
 
     internal::ECS::Node* from_node = p->node;
@@ -200,23 +202,23 @@ FORCE_INLINE void SegmentEvaluator::reading(char a, int64_t pos) {
     } else if (nextTransition->type_ == Transition::Type::kDirectSingleCapture) {
       visit(d, from_node, pos, false);
       from_node->inc_ref_count();
-      visit(c->next, ds_.extend(from_node, c->S, pos+1), pos);
+      visit(c.next, ds_.extend(from_node, c.S, pos+1), pos);
     } else if (nextTransition->type_ == Transition::Type::kEmpty) {
       from_node->dec_ref_count();
       ds_.try_mark_unused(from_node);
     } else if (nextTransition->type_ == Transition::Type::kSingleCapture) {
-      visit(c->next, ds_.extend(from_node, c->S, pos+1), pos);
+      visit(c.next, ds_.extend(from_node, c.S, pos+1), pos);
     } else if (nextTransition->type_ == Transition::Type::kDirectMultiCapture) {
       visit(d, from_node, pos, false);
       for (auto &capture : nextTransition->captures_) {
         from_node->inc_ref_count();
-        visit(d, ds_.extend(from_node, capture->S, pos+1), pos);
+        visit(d, ds_.extend(from_node, capture.S, pos+1), pos);
       }
     } else {
-      visit(d, ds_.extend(from_node, c->S, pos+1), pos);
+      visit(d, ds_.extend(from_node, c.S, pos+1), pos);
       for (auto &capture : nextTransition->captures_) {
         from_node->inc_ref_count();
-        visit(d, ds_.extend(from_node, capture->S, pos+1), pos);
+        visit(d, ds_.extend(from_node, capture.S, pos+1), pos);
       }
     }
   }
@@ -233,7 +235,7 @@ inline void SegmentEvaluator::pass_outputs() {
   reached_final_states_.clear();
 }
 
-inline void SegmentEvaluator::visit(DState *ns, internal::ECS::Node* passed_node,
+inline void SegmentEvaluator::visit(DFA::State *ns, internal::ECS::Node* passed_node,
                                     int64_t pos, bool garbage_left) {
   if (ns->visited <= pos) {
     ns->node = passed_node;

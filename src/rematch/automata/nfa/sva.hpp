@@ -15,10 +15,10 @@ public:
   SearchVA() = delete;
   SearchVA(LogicalVA const &A, Anchor a);
 
-  std::vector<State *> const &states() const;
+  std::vector<LogicalVA::State*> const &states() const;
 
-  State *initial_state() const;
-  State *accepting_state() const;
+  LogicalVA::State *initial_state() const;
+  LogicalVA::State *accepting_state() const;
 
   bool has_epsilon() const;
 
@@ -30,9 +30,9 @@ public:
   }
 
 private:
-  std::vector<State *> states_;
-  State *initial_state_;
-  State *accepting_state_;
+  std::vector<LogicalVA::State*> states_;
+  LogicalVA::State *initial_state_;
+  LogicalVA::State *accepting_state_;
 
   bool has_epsilon_;
 

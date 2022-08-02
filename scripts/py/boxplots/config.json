@@ -1,5 +1,5 @@
 {
-  "exp-subpath": "exp/crossings/sparql/2lines/sample",
+  "exp-subpath": "exp/crossings/dna/sample",
   "title": "SET 02 - MORPHEMES",
   "description": "SET 02 - PROTEOMS",
   "homedir": "/home/nicovsj/repos/research/REmatch-org/REmatch",
@@ -14,6 +14,11 @@
     "REm": {
       "command": "{0}/build/Release/bin/rematch",
       "args": "--mode=noutputs -d {0} -r {1}",
+      "rgx_type": "rematch"
+    },
+    "REm-U": {
+      "command": "{0}/build/Release/bin/rematch",
+      "args": "--unambiguous --mode=noutputs -d {0} -r {1}",
       "rgx_type": "rematch"
     },
     "re2": {

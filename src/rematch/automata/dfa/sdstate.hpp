@@ -10,24 +10,25 @@
 #include "automata/dfa/transition.hpp"
 #include "structs/ecs/ecs.hpp"
 
+#include "automata/nfa/lva.hpp"
+
 namespace rematch {
 
-class State;
 class SDState;
 
 class SDState {
 public:
   SDState(size_t tot_states);
-  SDState(size_t tot_states, std::vector<State *> states);
-  SDState(size_t tot_states, std::set<State *> states);
+  SDState(size_t tot_states, std::vector<LogicalVA::State *> states);
+  SDState(size_t tot_states, std::set<LogicalVA::State *> states);
 
-  void add_state(State *p);
+  void add_state(LogicalVA::State *p);
 
   std::vector<bool> bitmap() const { return states_bitmap_; }
 
   // @brief Returns the subset of associated NFA states.
-  // @return std::vector<State*> Subset of NFA states
-  std::vector<State *> subset() const { return states_subset_; }
+  // @return std::vector<LogicalVA::State*> Subset of NFA states
+  std::vector<LogicalVA::State *> subset() const { return states_subset_; }
 
   int id() const { return id_; }
 
@@ -52,7 +53,7 @@ private:
   std::vector<SDState *> transitions_{128, nullptr};
 
   std::vector<bool> states_bitmap_;
-  std::vector<State *> states_subset_;
+  std::vector<LogicalVA::State *> states_subset_;
 
   bool initial_{false};
   bool accepting_{false};

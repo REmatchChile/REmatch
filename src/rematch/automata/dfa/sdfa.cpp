@@ -27,9 +27,9 @@ SDState *SearchDFA::new_dstate() {
 
 SDState *SearchDFA::next_state(SDState *q, char a) {
 
-  std::vector<bool> triggered_filters = ffactory_->applyFilters(a);
+  std::vector<bool> triggered_filters = ffactory_->apply_filters(a);
 
-  std::set<State *> new_subset;              // Store the next subset
+  std::set<LogicalVA::State*> new_subset;              // Store the next subset
   std::vector<bool> new_bitset(sVA_.size()); // Subset bitset representation
 
   for (auto &state : q->subset()) {

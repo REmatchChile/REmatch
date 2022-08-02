@@ -38,7 +38,7 @@ public:
 private:
   inline void reading(char a, int64_t i);
 
-  inline void visit_capture(DState *cstate, std::bitset<32> capture, DState *to,
+  inline void visit_capture(DFA::State *cstate, std::bitset<32> capture, DFA::State *to,
                             int64_t pos);
 
   bool searching_phase();
@@ -73,9 +73,9 @@ private:
   Anchor anchor_;
 
   MacroState *current_state_;
-  std::vector<DState *> new_states_;
+  std::vector<DFA::State *> new_states_;
 
-  std::vector<DState *> reached_final_states_;
+  std::vector<DFA::State *> reached_final_states_;
 
   SDState *current_dstate_;
 

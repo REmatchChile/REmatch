@@ -13,15 +13,15 @@ class MacroState;
 
 struct MTAbs {
   MTAbs() = default;
-  MTAbs(DState &from, DState &to) : from(&from), to(&to) {}
+  MTAbs(DFA::State &from, DFA::State &to) : from(&from), to(&to) {}
 
-  DState *from;
-  DState *to;
+  DFA::State *from;
+  DFA::State *to;
 };
 
 struct MTCapture : public MTAbs {
   MTCapture() = default;
-  MTCapture(DState &from, std::bitset<32> S, DState &to)
+  MTCapture(DFA::State &from, std::bitset<32> S, DFA::State &to)
       : MTAbs(from, to), S(S) {}
 
   std::bitset<32> S;
@@ -29,7 +29,7 @@ struct MTCapture : public MTAbs {
 
 struct MTDirect : public MTAbs {
   MTDirect() = default;
-  MTDirect(DState &from, DState &to) : MTAbs(from, to) {}
+  MTDirect(DFA::State &from, DFA::State &to) : MTAbs(from, to) {}
 };
 
 enum MacroType { kOneDirect, kTwoDirects, kOther };
@@ -37,7 +37,7 @@ enum MacroType { kOneDirect, kTwoDirects, kOther };
 #ifdef MACRO_TRANSITIONS_RAW_ARRAYS
 using DirectsArray = MTDirect *;
 using CapturesArray = MTCapture *;
-using EmptiesArray = DState **;
+using EmptiesArray = DFA::State **;
 #else
 using DirectsArray = rematch::prevector<MTDirect>;
 using CapturesArray = rematch::prevector<MTCapture>;
@@ -51,9 +51,9 @@ public:
                   size_t nfirstcaptures, size_t nrepeatcaptures,
                   size_t nempties);
 
-  void add_direct(DState &from, DState &to, bool first);
-  void add_capture(DState &from, std::bitset<32> S, DState &to, bool first);
-  void add_empty(DState &from);
+  void add_direct(DFA::State &from, DFA::State &to, bool first);
+  void add_capture(DFA::State &from, std::bitset<32> S, DFA::State &to, bool first);
+  void add_empty(DFA::State &from);
 
   DirectsArray first_directs();
   DirectsArray repeat_directs();
@@ -83,7 +83,7 @@ private:
   MTDirect *repeat_directs_;
   MTCapture *first_captures_;
   MTCapture *repeat_captures_;
-  DState **empties_;
+  DFA::State **empties_;
 #else
   rematch::prevector<MTDirect> directs_;
   rematch::prevector<MTCapture> captures_;

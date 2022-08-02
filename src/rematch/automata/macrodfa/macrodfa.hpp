@@ -14,10 +14,12 @@ namespace rematch {
 class MacroSegmentEvaluator;
 
 class MacroDFA {
-public:
+ public:
   using MacroStatesTable =
       std::unordered_map<std::vector<size_t>, MacroState *, util::VectorHasher>;
+
   friend MacroSegmentEvaluator;
+
   MacroDFA(DFA &dA);
 
   // @brief Add a state to the set of states of the macro-automaton. Returning
@@ -25,8 +27,8 @@ public:
   //
   // @param state a deterministic state.
   // @return MacroState* The new macro-state.
-  MacroState *add_state(DState *state);
-  MacroState *add_state(std::vector<DState *> states);
+  MacroState *add_state(DFA::State *state);
+  MacroState *add_state(std::vector<DFA::State*> states);
 
   void set_as_init(MacroState *ms);
 
@@ -38,7 +40,7 @@ public:
 
   std::vector<MacroState *> &states() { return states_; }
 
-private:
+ private:
   MacroState *init_state_; // Raw ptr
   std::vector<MacroState *> states_;
 

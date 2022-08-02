@@ -10,15 +10,16 @@
 #include "automata/dfa/transition.hpp"
 #include "structs/ecs/ecs.hpp"
 
-namespace rematch {
+#include "automata/nfa/lva.hpp"
 
-class State;
-class DState;
+#include "automata/dfa/dfa.hpp"
+
+namespace rematch {
 
 using StatesBitmap = std::vector<bool>;
 
-class DState {
-public:
+class DFA::State {
+ public:
   std::string labl;
 
   internal::ECS::Node *node{nullptr};
@@ -32,17 +33,17 @@ public:
     kLeftAntiAnchor = kInitialState << 1
   };
 
-  DState(size_t tot_states);
-  DState(size_t tot_states, std::vector<State *> states);
-  DState(size_t tot_states, std::set<State *> states);
+  State(size_t tot_states);
+  State(size_t tot_states, std::vector<LogicalVA::State*> states);
+  State(size_t tot_states, std::set<LogicalVA::State*> states);
 
   void pass_node(internal::ECS::Node *n);
 
   StatesBitmap bitmap() const { return states_bitmap_; }
 
   // @brief Returns the subset of associated NFA states.
-  // @return std::vector<State*> Subset of NFA states
-  std::vector<State *> subset() const { return states_subset_; }
+  // @return std::vector<LogicalVA::State*> Subset of NFA states
+  std::vector<LogicalVA::State*> subset() const { return states_subset_; }
 
   // @brief Returns the subset representation string (i.e. {q1,q2,...}).
   // @return std::string Subset representation of the DState.
@@ -58,22 +59,22 @@ public:
   bool initial() const { return flags_ & kInitialState; }
   void set_initial(bool b);
 
-  void add_direct(char a, DState *q);
-  void add_capture(char a, std::bitset<32> S, DState *q);
+  void add_direct(char a, State *q);
+  void add_capture(char a, std::bitset<32> S, State *q);
   void add_empty(char a);
 
-  Transition *next_transition(char a) const { return transitions_[a]; }
+  Transition<State> *next_transition(char a) const { return transitions_[a]; }
 
-private:
+ private:
   static int ID;
 
   void update_label();
   uint id_;
 
-  std::vector<Transition *> transitions_{128, nullptr};
+  std::vector<Transition<State>*> transitions_{128, nullptr};
 
   StatesBitmap states_bitmap_;
-  std::vector<State *> states_subset_;
+  std::vector<LogicalVA::State*> states_subset_;
 
   uint8_t flags_ = kDefaultState;
 

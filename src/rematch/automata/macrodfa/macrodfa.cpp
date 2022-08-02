@@ -11,25 +11,27 @@ namespace rematch {
 
 MacroDFA::MacroDFA(DFA &dA) : dfa_(dA) {}
 
-MacroState *MacroDFA::add_state(DState *state) {
+MacroState *MacroDFA::add_state(DFA::State *state) {
   states_.push_back(new MacroState(state));
   return states_.back();
 }
 
-MacroState *MacroDFA::add_state(std::vector<DState *> states) {
+MacroState *MacroDFA::add_state(std::vector<DFA::State *> states) {
   states_.push_back(new MacroState(states));
   return states_.back();
 }
 
 MacroTransition *MacroDFA::next_transition(MacroState *ms, char a) {
 
+  using Transition = Transition<DFA::State>;
+
   // Set to store the key
   std::set<size_t> dstates_key;
 
   // Set to store the reached states
-  std::set<DState *> dstates_storage;
+  std::set<DFA::State *> dstates_storage;
 
-  std::vector<std::pair<DState *, DState *>> first_storage, repeats_storage;
+  std::vector<std::pair<DFA::State *, DFA::State *>> first_storage, repeats_storage;
 
   int nfirstdirects = 0, nrepeatdirects = 0, nfirstcaptures = 0,
       nrepeatcaptures = 0, nempties = 0;
@@ -53,14 +55,14 @@ MacroTransition *MacroDFA::next_transition(MacroState *ms, char a) {
       continue;
     }
     if (nextTransition->type_ & Transition::kSingleCapture) {
-      auto res = dstates_key.insert(nextTransition->capture_->next->id());
+      auto res = dstates_key.insert(nextTransition->capture_.next->id());
       if (!res.second)
         nrepeatcaptures++;
       else
         nfirstcaptures++;
     } else if (nextTransition->type_ & Transition::kMultiCapture) {
       for (auto &capture : nextTransition->captures_) {
-        auto res = dstates_key.insert(capture->next->id());
+        auto res = dstates_key.insert(capture.next->id());
         if (!res.second)
           nrepeatcaptures++;
         else
@@ -88,20 +90,20 @@ MacroTransition *MacroDFA::next_transition(MacroState *ms, char a) {
       continue;
     }
     if (nextTransition->type_ & Transition::kSingleCapture) {
-      auto res = dstates_storage.insert(nextTransition->capture_->next);
+      auto res = dstates_storage.insert(nextTransition->capture_.next);
       if (res.second)
-        mtrans->add_capture(*state, nextTransition->capture_->S,
-                            *nextTransition->capture_->next, true);
+        mtrans->add_capture(*state, nextTransition->capture_.S,
+                            *nextTransition->capture_.next, true);
       else
-        mtrans->add_capture(*state, nextTransition->capture_->S,
-                            *nextTransition->capture_->next, false);
+        mtrans->add_capture(*state, nextTransition->capture_.S,
+                            *nextTransition->capture_.next, false);
     } else if (nextTransition->type_ & Transition::kMultiCapture) {
       for (auto &capture : nextTransition->captures_) {
-        auto res = dstates_storage.insert(capture->next);
+        auto res = dstates_storage.insert(capture.next);
         if (res.second)
-          mtrans->add_capture(*state, capture->S, *capture->next, true);
+          mtrans->add_capture(*state, capture.S, *capture.next, true);
         else
-          mtrans->add_capture(*state, capture->S, *capture->next, false);
+          mtrans->add_capture(*state, capture.S, *capture.next, false);
       }
     }
   }
@@ -119,7 +121,7 @@ MacroTransition *MacroDFA::next_transition(MacroState *ms, char a) {
   // Check if not inside table already
   if (found == mstates_table_.end()) {
     // Convert set to vector
-    std::vector<DState *> real_dstates_storage(dstates_storage.begin(),
+    std::vector<DFA::State *> real_dstates_storage(dstates_storage.begin(),
                                                dstates_storage.end());
 
     // Create the new MacroState

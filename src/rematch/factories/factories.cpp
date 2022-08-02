@@ -186,7 +186,7 @@ std::unordered_map<std::vector<bool>, std::vector<char>>
 FilterFactory::allPossibleCharBitsets() {
   std::unordered_map<std::vector<bool>, std::vector<char>> ret;
   for (char a = (char)32; a < 127; a++) {
-    std::vector<bool> bs = applyFilters(a);
+    std::vector<bool> bs = apply_filters(a);
     auto it = ret.find(bs);
     if (it == ret.end())
       ret.insert(std::make_pair(bs, std::vector<char>(1, a)));
@@ -196,7 +196,7 @@ FilterFactory::allPossibleCharBitsets() {
   return ret;
 }
 
-std::vector<bool> FilterFactory::applyFilters(char a) {
+std::vector<bool> FilterFactory::apply_filters(char a) {
   /**
    * Returns the bitset vector corresponding to the character after applying
    * all the filters. Searches in bitsetMap hash table. Computes and stores

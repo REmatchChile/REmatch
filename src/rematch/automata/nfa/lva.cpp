@@ -45,7 +45,7 @@ LogicalVA::LogicalVA(const LogicalVA &A)
   std::unordered_map<State *, State *> new_states;
 
   // Prepare states vectors
-  states.reserve(states.size());
+  states.reserve(A.states.size());
   // Iterative Search using stack for cleanliness in function definitions,
   std::vector<std::pair<State *, State *>> stack;
 
@@ -490,7 +490,7 @@ std::ostream &operator<<(std::ostream &os, LogicalVA const &A) {
      each State */
 
   // Declarations
-  State *current;
+  LogicalVA::State *current;
   int cid, nid; // cid: current State id; nid : next State id
   std::bitset<32> S;
 
@@ -500,7 +500,7 @@ std::ostream &operator<<(std::ostream &os, LogicalVA const &A) {
   std::unordered_set<unsigned int> visited;
 
   // Use of list to implement a FIFO queue
-  std::deque<State *> queue;
+  std::deque<LogicalVA::State*> queue;
 
   // Start on the init State
   visited.insert(A.init_state_->id);
@@ -565,7 +565,7 @@ std::ostream &operator<<(std::ostream &os, LogicalVA const &A) {
   return os;
 }
 
-State *LogicalVA::new_state() {
+LogicalVA::State *LogicalVA::new_state() {
   State *nstate = new State();
   states.push_back(nstate);
 

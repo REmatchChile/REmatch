@@ -21,10 +21,12 @@ namespace rematch {
 
 class Evaluator;
 
+
+
 class RegEx {
 
-public:
-  using flags_t = uint8_t;
+ public:
+  using flags_t = uint16_t;
 
   RegEx(const std::string &regex, RegExOptions opt = RegExOptions());
 
@@ -34,20 +36,21 @@ public:
   std::string getRegex();
 
   enum RegExFlags {
-    kNoFlags = 0,
-    kMultiLine = 1 << 0,
-    kDotNL = 1 << 1,
-    kLineByLine = 1 << 2,
-    kEarlyOutput = 1 << 3,
-    kSaveAnchors = 1 << 4,
-    kSearching = 1 << 5,
-    kMacroDFA = 1 << 6
+    kNoFlags       = 0,
+    kMultiLine     = 1 << 0,
+    kDotNL         = 1 << 1,
+    kLineByLine    = 1 << 2,
+    kEarlyOutput   = 1 << 3,
+    kSaveAnchors   = 1 << 4,
+    kSearching     = 1 << 5,
+    kMacroDFA      = 1 << 6,
+    kUnambiguous   = 1 << 7
   };
 
   // Calls the evaluator to get first
   Match_ptr find(const std::string &text);
 
-  MatchIterator findIter(std::shared_ptr<Document> d,
+  MatchIterator find_iter(std::shared_ptr<Document> d,
                          Anchor a = Anchor::kUnanchored);
 
   int varCount() const { return vfactory_->size(); }
@@ -58,6 +61,7 @@ public:
   std::shared_ptr<VariableFactory> vfactory() { return vfactory_; }
 
   const LogicalVA &logicalVA() const { return *VA_; }
+  std::shared_ptr<ExtendedVA> extendedVA() const { return eVA_; }
 
 private:
   static flags_t parseFlags(RegExOptions rgx_opt);
@@ -67,6 +71,8 @@ private:
   std::unique_ptr<LogicalVA> VA_;
 
   std::shared_ptr<VariableFactory> vfactory_;
+
+  std::shared_ptr<ExtendedVA> eVA_;
 
   // Regex flags.
   flags_t flags_;

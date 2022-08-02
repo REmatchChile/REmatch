@@ -39,7 +39,7 @@ public:
 private:
   inline void reading(char a, int64_t i);
 
-  inline void visit(DState* ns, internal::ECS::Node *node, int64_t pos,
+  inline void visit(DFA::State* ns, internal::ECS::Node *node, int64_t pos,
                                                         bool garbage_left=true);
 
   bool searching_phase();
@@ -81,10 +81,10 @@ private:
 
   Anchor anchor_;
 
-  std::vector<DState *> current_states_;
-  std::vector<DState *> new_states_;
+  std::vector<DFA::State*> current_states_;
+  std::vector<DFA::State*> new_states_;
 
-  std::vector<DState *> reached_final_states_;
+  std::vector<DFA::State*> reached_final_states_;
 
   SDState *current_dstate_;
 

@@ -7,7 +7,7 @@
 #include "automata/nfa/lva.hpp"
 
 class SearchVA : public AbstractVA {
-public:
+ public:
   class State;
   class Transition;
 
