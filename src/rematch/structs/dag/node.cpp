@@ -3,11 +3,10 @@
 #include <queue>
 
 namespace rematch {
-namespace internal {
 
-size_t Node::ID = 2;
+size_t NodeList::Node::ID = 2;
 
-Node::Node(Type t)
+NodeList::Node::Node(Type t)
     : S(0), i(-1), next(nullptr), start(nullptr), end(nullptr), refCount(0) {
   if (t == Type::kBottom) {
     id_ = 1;
@@ -18,7 +17,7 @@ Node::Node(Type t)
   }
 }
 
-Node::Node(std::bitset<32> S, int64_t i, Node *head, Node *tail)
+NodeList::Node::Node(std::bitset<32> S, int64_t i, Node *head, Node *tail)
     : id_(Node::ID++), S(S), i(i), next(nullptr), start(head), end(tail),
       refCount(0) {
 
@@ -26,7 +25,7 @@ Node::Node(std::bitset<32> S, int64_t i, Node *head, Node *tail)
   end->refCount++;
 }
 
-Node *Node::reset(std::bitset<32> S, int64_t i, Node *head, Node *tail) {
+NodeList::Node *NodeList::Node::reset(std::bitset<32> S, int64_t i, Node *head, Node *tail) {
   /* Same as constructor but inplace on an already constructed object */
 
   // Remove a refCount from head and tail of list
@@ -55,7 +54,7 @@ Node *Node::reset(std::bitset<32> S, int64_t i, Node *head, Node *tail) {
   return this;
 }
 
-Node *Node::reset() {
+NodeList::Node *NodeList::Node::reset() {
   // Remove a refCount from head and tail of list
   this->start->refCount--;
   this->end->refCount--;
@@ -77,13 +76,12 @@ Node *Node::reset() {
   return this;
 }
 
-void Node::getNodeContent(int content[2]) {
+void NodeList::Node::getNodeContent(int content[2]) {
   // Get's the S and the i in the content array/
   content[0] = this->S.to_ulong();
   content[1] = this->i;
 }
 
-bool Node::isNodeEmpty() { return this->i == -1; }
+bool NodeList::Node::isNodeEmpty() { return this->i == -1; }
 
-} // end namespace internal
 } // end namespace rematch

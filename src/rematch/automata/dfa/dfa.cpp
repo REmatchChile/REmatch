@@ -64,7 +64,9 @@ DFA::DFA(ExtendedVA const &A)
   }
 }
 
-Transition<DFA::State> *DFA::next_transition(State *q, char a) {
+Transition DFA::next_transition(abstract::DState *dq, char a) {
+
+  State* q = dynamic_cast<State*>(dq);
 
   std::vector<bool> char_bitset = ffactory_->apply_filters(a);
 
@@ -105,7 +107,7 @@ Transition<DFA::State> *DFA::next_transition(State *q, char a) {
     q->add_empty(a);
   }
 
-  return q->next_transition(a);
+  return *q->next_transition(a);
 }
 
 void DFA::compute_captures(State *p, State *q, char a) {

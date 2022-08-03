@@ -7,12 +7,15 @@
 
 namespace rematch {
 
-template <typename T>
+namespace abstract {
+class DState;
+}
+
 struct Transition {
 
   struct Capture {
     std::bitset<32> S;
-    T *next;
+    abstract::DState *next;
   };
 
   enum Type {
@@ -28,18 +31,18 @@ struct Transition {
   };
 
   int type_;
-  T *direct_;
+  abstract::DState *direct_;
   Capture capture_;
   std::vector<Capture> captures_;
-  std::vector<T*> directs_;
+  std::vector<abstract::DState*> directs_;
 
   // Default = EmptyTransition
   Transition() : type_(Type::kEmpty) {}
 
-  Transition(std::bitset<32> S, T *state)
+  Transition(std::bitset<32> S, abstract::DState *state)
       : type_(Type::kSingleCapture), capture_({S, state}) {}
 
-  Transition(T *state) : type_(Type::kDirect), direct_(state) {}
+  Transition(abstract::DState *state) : type_(Type::kDirect), direct_(state) {}
 
   void add_capture(Capture capture) {
     switch (type_) {
@@ -76,7 +79,7 @@ struct Transition {
     }
   }
 
-  void add_direct(T *state) {
+  void add_direct(abstract::DState *state) {
     switch (type_) {
     case Type::kEmpty:
       type_ = Type::kDirect;

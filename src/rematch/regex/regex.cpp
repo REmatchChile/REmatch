@@ -4,6 +4,7 @@
 #include "automata/nfa/sva.hpp"
 #include "evaluation/evaluator.hpp"
 #include "parse/parser.hpp"
+#include "automata/nfa/udfa.hpp"
 
 namespace rematch {
 
@@ -53,7 +54,7 @@ MatchIterator RegEx::find_iter(std::shared_ptr<Document> d, Anchor a) {
   if (flags_ & kSearching) {
     eval = new SegmentEvaluator(*this, strd, a, *stats);
   } else if(flags_ & kUnambiguous && !eVA_->is_ambiguous()) {
-    eval = new NormalEvaluator<UnambiguousVA>(*this, strd, a, *stats);
+    eval = new NormalEvaluator<UDFA>(*this, strd, a, *stats);
   } else {
     eval = new NormalEvaluator<DFA>(*this, strd, a, *stats);
   }

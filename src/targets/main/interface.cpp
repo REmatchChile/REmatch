@@ -10,7 +10,6 @@
 #include "evaluation/evaluator.hpp"
 #include "interface.hpp"
 #include "matchiterator.hpp"
-#include "memmanager.hpp"
 #include "parse/parser.hpp"
 #include "regex/regex.hpp"
 #include "regex/regex_options.hpp"

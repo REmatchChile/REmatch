@@ -23,8 +23,6 @@ MacroState *MacroDFA::add_state(std::vector<DFA::State *> states) {
 
 MacroTransition *MacroDFA::next_transition(MacroState *ms, char a) {
 
-  using Transition = Transition<DFA::State>;
-
   // Set to store the key
   std::set<size_t> dstates_key;
 
@@ -40,12 +38,15 @@ MacroTransition *MacroDFA::next_transition(MacroState *ms, char a) {
     // Classic on-the-fly determinization
     auto nextTransition = state->next_transition(a);
 
-    if (nextTransition == nullptr) {
+    if (!nextTransition) {
       nextTransition = dfa_.next_transition(state, a);
     }
 
+    DFA::State *direct = dynamic_cast<DFA::State*>(nextTransition->direct_),
+               *cap    = dynamic_cast<DFA::State*>(nextTransition->capture_.next);
+
     if (nextTransition->type_ & Transition::kDirect) {
-      auto res = dstates_key.insert(nextTransition->direct_->id());
+      auto res = dstates_key.insert(direct->id());
       if (!res.second)
         nrepeatdirects++;
       else
@@ -55,14 +56,15 @@ MacroTransition *MacroDFA::next_transition(MacroState *ms, char a) {
       continue;
     }
     if (nextTransition->type_ & Transition::kSingleCapture) {
-      auto res = dstates_key.insert(nextTransition->capture_.next->id());
+      auto res = dstates_key.insert(cap->id());
       if (!res.second)
         nrepeatcaptures++;
       else
         nfirstcaptures++;
     } else if (nextTransition->type_ & Transition::kMultiCapture) {
       for (auto &capture : nextTransition->captures_) {
-        auto res = dstates_key.insert(capture.next->id());
+        DFA::State *c = dynamic_cast<DFA::State*>(capture.next);
+        auto res = dstates_key.insert(c->id());
         if (!res.second)
           nrepeatcaptures++;
         else
@@ -79,31 +81,35 @@ MacroTransition *MacroDFA::next_transition(MacroState *ms, char a) {
     // Classic on-the-fly determinization
     auto nextTransition = state->next_transition(a);
 
+    DFA::State *direct = dynamic_cast<DFA::State*>(nextTransition->direct_),
+               *cap    = dynamic_cast<DFA::State*>(nextTransition->capture_.next);
+
     if (nextTransition->type_ & Transition::kDirect) {
-      auto res = dstates_storage.insert(nextTransition->direct_);
+      auto res = dstates_storage.insert(direct);
       if (res.second)
-        mtrans->add_direct(*state, *nextTransition->direct_, true);
+        mtrans->add_direct(*state, *direct, true);
       else
-        mtrans->add_direct(*state, *nextTransition->direct_, false);
+        mtrans->add_direct(*state, *direct, false);
     } else if (nextTransition->type_ == Transition::kEmpty) {
       mtrans->add_empty(*state);
       continue;
     }
     if (nextTransition->type_ & Transition::kSingleCapture) {
-      auto res = dstates_storage.insert(nextTransition->capture_.next);
+      auto res = dstates_storage.insert(cap);
       if (res.second)
         mtrans->add_capture(*state, nextTransition->capture_.S,
-                            *nextTransition->capture_.next, true);
+                            *cap, true);
       else
         mtrans->add_capture(*state, nextTransition->capture_.S,
-                            *nextTransition->capture_.next, false);
+                            *cap, false);
     } else if (nextTransition->type_ & Transition::kMultiCapture) {
       for (auto &capture : nextTransition->captures_) {
-        auto res = dstates_storage.insert(capture.next);
+        DFA::State* c = dynamic_cast<DFA::State*>(capture.next);
+        auto res = dstates_storage.insert(c);
         if (res.second)
-          mtrans->add_capture(*state, capture.S, *capture.next, true);
+          mtrans->add_capture(*state, capture.S, *c, true);
         else
-          mtrans->add_capture(*state, capture.S, *capture.next, false);
+          mtrans->add_capture(*state, capture.S, *c, false);
       }
     }
   }

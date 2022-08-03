@@ -12,7 +12,6 @@
 #include "structs/dag/nodelist.hpp"
 
 namespace rematch {
-namespace internal {
 
 Enumerator::Enumerator(RegEx &r)
     : var_factory_(r.vfactory()),
@@ -31,7 +30,7 @@ Match_ptr Enumerator::next() {
     }
 
     if (current_node->is_output()) { // If label node
-      internal::ECS::Data dt = current_node->data();
+      ECS::Data dt = current_node->data();
       for (size_t j = 0; j < var_factory_->size() * 2; j++) {
         if (dt.S[j])
           current_mapping_[j] = dt.i - var_factory_->get_offset(j);
@@ -46,7 +45,5 @@ Match_ptr Enumerator::next() {
 
   throw std::exception();
 }
-
-} // end namespace internal
 
 } // end namespace rematch

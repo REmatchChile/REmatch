@@ -4,8 +4,6 @@
 #include "ecs.hpp"
 
 namespace rematch {
-namespace internal {
-
 uint32_t ECS::Node::NextID = 0;
 
 ECS::Node::Node(NodeType t, Node *left, Node *right, std::bitset<32> S,
@@ -96,5 +94,4 @@ ECS::Node *ECS::unite(ECS::Node *v1, ECS::Node *v2, bool garbage_left) {
   return v_prim;
 }
 
-} // namespace internal
 } // namespace rematch

@@ -1,7 +1,8 @@
 #include "nodelist.hpp"
 
+#include "structs/dag/node.hpp"
+
 namespace rematch {
-namespace internal {
 
 NodeList::NodeList() : head_(nullptr), tail_(nullptr) {}
 
@@ -82,5 +83,4 @@ bool NodeList ::empty() {
   return this->head_ == nullptr && this->tail_ == nullptr;
 }
 
-} // end namespace internal
 } // end namespace rematch

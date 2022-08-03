@@ -18,7 +18,6 @@
 
 #include "automata/dfa/transition.hpp"
 #include "evaluation/document/document.hpp"
-#include "memmanager.hpp"
 
 #include "automata/macrodfa/macrodfa.hpp"
 #include "automata/macrodfa/macrostate.hpp"
@@ -27,7 +26,7 @@
 
 namespace rematch {
 
-template <typename AT>
+template <typename A>
 class NormalEvaluator : public Evaluator {
 
 public:
@@ -41,8 +40,7 @@ public:
 private:
   inline void reading(char a, int64_t i);
 
-  inline void visit(typename AT::State *direct, internal::ECS::Node* n,
-                    int64_t pos, bool gleft=true);
+  inline void visit(abstract::DState *direct, ECS::Node* n, int64_t pos, bool gleft=true);
 
   // Executes the evaluation phase. Returns true if there is an output to
   // enumerate but it didn't reach the end of the search interval. Returns
@@ -56,23 +54,23 @@ private:
   std::shared_ptr<ExtendedVA> eva_;
   std::unique_ptr<SearchVA> sva_;
 
-  std::unique_ptr<AT> dfa_;        // Normal DFA
+  std::unique_ptr<A> dfa_;        // Normal DFA
   std::unique_ptr<SearchDFA> sdfa_; // Search DFA
 
   RegEx &rgx_;
 
-  internal::Enumerator enumerator_;
+  Enumerator enumerator_;
 
-  internal::ECS ds_; // DAG structure
+  ECS ds_; // DAG structure
 
   std::shared_ptr<StrDocument> text_;
 
   Anchor anchor_;
 
-  std::vector<typename AT::State*> current_states_;
-  std::vector<typename AT::State*> new_states_;
+  std::vector<abstract::DState*> current_states_;
+  std::vector<abstract::DState*> new_states_;
 
-  std::vector<typename AT::State*> reached_final_states_;
+  std::vector<abstract::DState*> reached_final_states_;
 
   SDState *current_dstate_;
 
@@ -92,15 +90,15 @@ private:
 //        DEFINITIONS        //
 ///////////////////////////////
 
-template <typename AT>
-NormalEvaluator<AT>::NormalEvaluator(RegEx &rgx, std::shared_ptr<StrDocument> d,
-                                     Anchor a, EvalStats &e)
+template <typename A>
+NormalEvaluator<A>::NormalEvaluator(RegEx &rgx, std::shared_ptr<StrDocument> d,
+                                    Anchor a, EvalStats &e)
     : rgx_(rgx), enumerator_(rgx_), text_(d), anchor_(a), stats_(e) {
 
   eva_ = rgx_.extendedVA();
   sva_ = std::make_unique<SearchVA>(rgx_.logicalVA(), anchor_);
 
-  dfa_ = std::make_unique<AT>(*eva_);
+  dfa_ = std::make_unique<A>(*eva_);
   sdfa_ = std::make_unique<SearchDFA>(*sva_);
 
   stats_.eva_size = eva_->size();
@@ -111,8 +109,8 @@ NormalEvaluator<AT>::NormalEvaluator(RegEx &rgx, std::shared_ptr<StrDocument> d,
   init_evaluation_phase(0);
 }
 
-template <typename AT>
-Match_ptr NormalEvaluator<AT>::next() {
+template <typename A>
+Match_ptr NormalEvaluator<A>::next() {
 
  Enumeration:
   if (enumerator_.has_next())
@@ -131,25 +129,25 @@ Match_ptr NormalEvaluator<AT>::next() {
   return nullptr;
 }
 
-template <typename AT>
-void NormalEvaluator<AT>::init_evaluation_phase(int64_t pos) {
-  dfa_->init_state()->pass_node(ds_.bottom_node());
+template <typename A>
+void NormalEvaluator<A>::init_evaluation_phase(int64_t pos) {
+  dfa_->init_state()->set_node(ds_.bottom_node());
 
   current_states_.clear();
 
   for (auto &elem : dfa_->init_eval_states()) {
-    typename AT::State *q0 = elem.first;
+    typename A::State *q0 = elem.first;
     std::bitset<32> S = elem.second;
     if (S != 0)
-      visit(q0, ds_.extend(dfa_->init_state()->node, S, pos), pos-1);
+      visit(q0, ds_.extend(dfa_->init_state()->node(), S, pos), pos-1);
     current_states_.push_back(elem.first);
   }
 
   i_pos_ = pos;
 }
 
-template <typename AT>
-bool NormalEvaluator<AT>::evaluation_phase() {
+template <typename A>
+bool NormalEvaluator<A>::evaluation_phase() {
   while (i_pos_ < text_->size()) {
     char a = (*text_)[i_pos_];
     a &= 0x7F; // Only ASCII chars for now
@@ -174,29 +172,28 @@ bool NormalEvaluator<AT>::evaluation_phase() {
   return false;
 }
 
-template <typename AT>
-inline void NormalEvaluator<AT>::reading(char a, int64_t pos) {
-  using Transition = Transition<typename AT::State>;
+template <typename A>
+inline void NormalEvaluator<A>::reading(char a, int64_t pos) {
   new_states_.clear();
 
   for (auto &p : current_states_) {
-    Transition* nextTransition = p->next_transition(a);
+    auto nextTransition = p->next_transition(a);
 
-    if (nextTransition == nullptr) {
+    if (!nextTransition) {
       nextTransition = dfa_->next_transition(p, a);
     }
 
     auto c = nextTransition->capture_;
     auto *d = nextTransition->direct_;
 
-    internal::ECS::Node* from_node;
+    ECS::Node* from_node;
     #ifdef NOPT_CROSSPROD
       if(p->visited <= pos)
         from_node = p->node;
       else
         from_node = p->old_node;
     #else
-      from_node = p->node;
+      from_node = p->node();
     #endif
 
     switch(nextTransition->type_) {
@@ -262,34 +259,34 @@ inline void NormalEvaluator<AT>::reading(char a, int64_t pos) {
   current_states_.swap(new_states_);
 }
 
-template <typename AT>
-inline void NormalEvaluator<AT>::pass_outputs() {
+template <typename A>
+inline void NormalEvaluator<A>::pass_outputs() {
   for (auto &state : reached_final_states_) {
-    enumerator_.add_node(state->node);
+    enumerator_.add_node(state->node());
     #ifndef NOPT_EARLYOUTPUT
-    ds_.try_mark_unused(state->node);
+    ds_.try_mark_unused(state->node());
     #endif
-    state->node = nullptr;
+    state->set_node(nullptr);
   }
   reached_final_states_.clear();
 }
 
-template <typename AT>
-inline void NormalEvaluator<AT>::visit(typename AT::State *ns,
-                                       internal::ECS::Node* passed_node,
-                                       int64_t pos, bool garbage_left) {
-  if (ns->visited <= pos) {
+template <typename A>
+inline void NormalEvaluator<A>::visit(abstract::DState *ns,
+                                      ECS::Node* passed_node,
+                                      int64_t pos, bool garbage_left) {
+  if (ns->visited() <= pos) {
     #ifdef NOPT_CROSSPROD
     ns->old_node = ns->node;
     #endif
-    ns->node = passed_node;
-    ns->visited = pos + 1;
+    ns->set_node(passed_node);
+    ns->set_visited(pos + 1);
     if (ns->accepting())
       reached_final_states_.push_back(ns);
     else
       new_states_.push_back(ns);
   } else {
-    ns->node = ds_.unite(passed_node, ns->node, garbage_left);
+    ns->set_node(ds_.unite(passed_node, ns->node(), garbage_left));
   }
 }
 

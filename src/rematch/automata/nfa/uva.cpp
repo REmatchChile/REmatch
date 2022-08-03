@@ -32,13 +32,14 @@ UnambiguousVA::State* UnambiguousVA::obtain_ustate(LogicalVA::State* p) {
   return nq;
 }
 
-Transition<UnambiguousVA::State>* UnambiguousVA::next_transition(State* q, char a) {
+Transition UnambiguousVA::next_transition(abstract::DState* dq, char a) {
+  State* q = dynamic_cast<State*>(dq);
   const LogicalVA::State* q_old = state_bimap_.left.at(q);
   std::vector<bool> char_bitset = ffactory_->apply_filters(a);
 
-  auto *ntrans = new Transition<State>();
+  auto &ntrans = q->transitions_[a];
 
-  q->transitions[a] = ntrans; // defaults to empty transition
+  ntrans = Transition(); // defaults to empty transition
 
   for(auto& filter: q_old->filters) {
     if(char_bitset[filter->code]) {
@@ -52,7 +53,7 @@ Transition<UnambiguousVA::State>* UnambiguousVA::next_transition(State* q, char 
     }
   }
 
-  return q->transitions[a];
+  return *ntrans;
 }
 
 } // end namespace rematch

@@ -4,13 +4,13 @@
 #include <string>
 
 #include "factories/factories.hpp"
-#include "structs/dag/node.hpp"
 
 namespace rematch {
-namespace internal {
 
 class NodeList {
-public:
+ public:
+  class Node;
+
   Node *head_;
   Node *tail_;
 
@@ -29,7 +29,6 @@ public:
   NodeList &operator=(const NodeList &nl);
 }; // end class NodeList
 
-} // end namespace internal
 } // end namespace rematch
 
 #endif // STRUCTS__DAG__NODELIST_HPP

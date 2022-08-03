@@ -10,8 +10,6 @@
 
 namespace rematch {
 
-namespace internal {
-
 class ECS {
 public:
   struct Data {
@@ -101,7 +99,6 @@ private:
 
 }; // end class ECS
 
-} // end namespace internal
 } // end namespace rematch
 
 #endif // STRUCTS__ECS__ECS_HPP

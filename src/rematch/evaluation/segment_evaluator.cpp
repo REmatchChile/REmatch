@@ -1,7 +1,6 @@
 #include "segment_evaluator.hpp"
 
 #include "automata/dfa/dstate.hpp"
-#include "memmanager.hpp"
 #include "util/timer.hpp"
 
 #define FORCE_INLINE inline __attribute__((always_inline))
@@ -77,7 +76,7 @@ Evaluation:
 }
 
 void SegmentEvaluator::init_evaluation_phase(int64_t pos) {
-  dfa_->init_state()->node = bottom_node_;
+  dfa_->init_state()->set_node(bottom_node_);
 
   current_states_.clear();
 
@@ -85,7 +84,7 @@ void SegmentEvaluator::init_evaluation_phase(int64_t pos) {
     DFA::State *q0 = elem.first;
     std::bitset<32> S = elem.second;
     if (S != 0)
-      visit(q0, ds_.extend(dfa_->init_state()->node, S, pos), pos - 1);
+      visit(q0, ds_.extend(dfa_->init_state()->node(), S, pos), pos - 1);
     current_states_.push_back(elem.first);
   }
   i_pos_ = pos;
@@ -181,44 +180,42 @@ bool SegmentEvaluator::searching_phase() {
 
 FORCE_INLINE void SegmentEvaluator::reading(char a, int64_t pos) {
 
-  using Transition = Transition<DFA::State>;
-
   new_states_.clear();
 
   for (auto &p : current_states_) {
     auto nextTransition = p->next_transition(a);
 
-    if (nextTransition == nullptr) {
+    if (!nextTransition) {
       nextTransition = dfa_->next_transition(p, a);
     }
 
     auto c = nextTransition->capture_;
-    auto *d = nextTransition->direct_;
+    DFA::State *d = dynamic_cast<DFA::State*>(nextTransition->direct_);
 
-    internal::ECS::Node* from_node = p->node;
+    ECS::Node* from_node = p->node();
 
     if (nextTransition->type_ == Transition::Type::kDirect) {
       visit(d, from_node, pos);
     } else if (nextTransition->type_ == Transition::Type::kDirectSingleCapture) {
       visit(d, from_node, pos, false);
       from_node->inc_ref_count();
-      visit(c.next, ds_.extend(from_node, c.S, pos+1), pos);
+      visit(dynamic_cast<DFA::State*>(c.next), ds_.extend(from_node, c.S, pos+1), pos);
     } else if (nextTransition->type_ == Transition::Type::kEmpty) {
       from_node->dec_ref_count();
       ds_.try_mark_unused(from_node);
     } else if (nextTransition->type_ == Transition::Type::kSingleCapture) {
-      visit(c.next, ds_.extend(from_node, c.S, pos+1), pos);
+      visit(dynamic_cast<DFA::State*>(c.next), ds_.extend(from_node, c.S, pos+1), pos);
     } else if (nextTransition->type_ == Transition::Type::kDirectMultiCapture) {
       visit(d, from_node, pos, false);
       for (auto &capture : nextTransition->captures_) {
         from_node->inc_ref_count();
-        visit(d, ds_.extend(from_node, capture.S, pos+1), pos);
+        visit(dynamic_cast<DFA::State*>(capture.next), ds_.extend(from_node, capture.S, pos+1), pos);
       }
     } else {
       visit(d, ds_.extend(from_node, c.S, pos+1), pos);
       for (auto &capture : nextTransition->captures_) {
         from_node->inc_ref_count();
-        visit(d, ds_.extend(from_node, capture.S, pos+1), pos);
+        visit(dynamic_cast<DFA::State*>(capture.next), ds_.extend(from_node, capture.S, pos+1), pos);
       }
     }
   }
@@ -228,24 +225,24 @@ FORCE_INLINE void SegmentEvaluator::reading(char a, int64_t pos) {
 
 inline void SegmentEvaluator::pass_outputs() {
   for (auto &state : reached_final_states_) {
-    enumerator_.add_node(state->node);
-    ds_.try_mark_unused(state->node);
-    state->node = nullptr;
+    enumerator_.add_node(state->node());
+    ds_.try_mark_unused(state->node());
+    state->set_node(nullptr);
   }
   reached_final_states_.clear();
 }
 
-inline void SegmentEvaluator::visit(DFA::State *ns, internal::ECS::Node* passed_node,
+inline void SegmentEvaluator::visit(DFA::State *ns, ECS::Node* passed_node,
                                     int64_t pos, bool garbage_left) {
-  if (ns->visited <= pos) {
-    ns->node = passed_node;
-    ns->visited = pos + 1;
+  if (ns->visited() <= pos) {
+    ns->set_node(passed_node);
+    ns->set_visited(pos + 1);
     if (ns->accepting())
       reached_final_states_.push_back(ns);
     else
       new_states_.push_back(ns);
   } else {
-    ns->node = ds_.unite(passed_node, ns->node, garbage_left);
+    ns->set_node(ds_.unite(passed_node, ns->node(), garbage_left));
   }
 }
 

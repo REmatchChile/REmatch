@@ -18,7 +18,6 @@
 
 #include "automata/dfa/transition.hpp"
 #include "evaluation/document/document.hpp"
-#include "memmanager.hpp"
 
 #include "automata/macrodfa/macrodfa.hpp"
 #include "automata/macrodfa/macrostate.hpp"
@@ -63,10 +62,10 @@ private:
 
   RegEx &rgx_;
 
-  internal::Enumerator enumerator_;
+  Enumerator enumerator_;
 
-  internal::ECS ds_; // DAG structure
-  internal::ECS::Node* bottom_node_{nullptr};
+  ECS ds_; // DAG structure
+  ECS::Node* bottom_node_{nullptr};
 
   std::shared_ptr<StrDocument> text_;
 

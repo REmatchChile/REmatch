@@ -4,13 +4,14 @@
 #include "structs/dag/node.hpp"
 
 namespace rematch {
-namespace internal {
 
 class FastNodeList {
-public:
+ public:
+  class Node : public NodeList::Node { using NodeList::Node::Node; };
+
   FastNodeList() : head_(new Node(Node::Type::kDummy)), tail_(head_) {}
 
-  Node *start() { return head_->next; }
+  Node *start() { return static_cast<Node*>(head_->next); }
 
   Node *end() { return tail_; }
 
@@ -49,7 +50,6 @@ private:
   Node *tail_;
 };
 
-} // end namespace internal
 } // namespace rematch
 
 #endif // STRUCTS__DAG__FASTNODELIST_HPP

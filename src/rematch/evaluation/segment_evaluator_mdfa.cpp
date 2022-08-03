@@ -3,7 +3,6 @@
 
 #include <boost/container/flat_set.hpp>
 #include "automata/dfa/dstate.hpp"
-#include "memmanager.hpp"
 #include "util/timer.hpp"
 
 #define FORCE_INLINE inline __attribute__((always_inline))
@@ -64,7 +63,7 @@ Evaluation:
 }
 
 void MacroSegmentEvaluator::init_evaluation_phase(int64_t pos) {
-  dfa_->init_state()->pass_node(bottom_node_);
+  dfa_->init_state()->set_node(bottom_node_);
 
   std::vector<DFA::State*> init_dstates;
 
@@ -150,18 +149,18 @@ FORCE_INLINE void MacroSegmentEvaluator::reading(char a, int64_t pos) {
     nt = mdfa_->next_transition(current_state_, a);
 
 
-  boost::container::flat_set<internal::ECS::Node*> decreasing_nodes;
+  boost::container::flat_set<ECS::Node*> decreasing_nodes;
 
   for (int i = 0; i < nt->nempties_; i++) {
     auto e = nt->empties()[i];
-    e->node->dec_ref_count();
-    ds_.try_mark_unused(e->node);
+    e->node()->dec_ref_count();
+    ds_.try_mark_unused(e->node());
   }
 
   for (int i = 0; i < nt->nfirstdirects_; i++) {
     auto d = nt->first_directs()[i];
     // decreasing_nodes.insert(d.from->node);
-    d.to->pass_node(d.from->node);
+    d.to->set_node(d.from->node());
     if (d.to->accepting())
       reached_final_states_.push_back(d.to);
   }
@@ -169,8 +168,8 @@ FORCE_INLINE void MacroSegmentEvaluator::reading(char a, int64_t pos) {
   for (int i = 0; i < nt->nfirstcaptures_; i++) {
     auto c = nt->first_captures()[i];
     // decreasing_nodes.insert(c.from->node);
-    auto nn = ds_.extend(c.from->node, c.S, pos + 1);
-    c.to->pass_node(nn); // Slow pass node because c.from might be already visited
+    auto nn = ds_.extend(c.from->node(), c.S, pos + 1);
+    c.to->set_node(nn); // Slow pass node because c.from might be already visited
     if (c.to->accepting())
       reached_final_states_.push_back(c.to);
   }
@@ -178,20 +177,20 @@ FORCE_INLINE void MacroSegmentEvaluator::reading(char a, int64_t pos) {
   for (int i = 0; i < nt->nrepeatcaptures_; i++) {
     auto c = nt->repeat_captures()[i];
 
-    decreasing_nodes.insert(c.to->node);
-    decreasing_nodes.insert(c.from->node);
+    decreasing_nodes.insert(c.to->node());
+    decreasing_nodes.insert(c.from->node());
 
-    c.to->pass_node(
-      ds_.unite(ds_.extend(c.from->node, c.S, pos + 1), c.to->node));
+    c.to->set_node(
+      ds_.unite(ds_.extend(c.from->node(), c.S, pos + 1), c.to->node()));
   }
 
   for (int i = 0; i < nt->nrepeatdirects_; i++) {
     auto d = nt->repeat_directs()[i];
 
-    decreasing_nodes.insert(d.to->node);
-    decreasing_nodes.insert(d.from->node);
+    decreasing_nodes.insert(d.to->node());
+    decreasing_nodes.insert(d.from->node());
 
-    d.to->pass_node(ds_.unite(d.from->node, d.to->node));
+    d.to->set_node(ds_.unite(d.from->node(), d.to->node()));
   }
 
   for(auto& node: decreasing_nodes) {
@@ -205,8 +204,8 @@ FORCE_INLINE void MacroSegmentEvaluator::reading(char a, int64_t pos) {
 
 inline void MacroSegmentEvaluator::pass_outputs() {
   for (auto &state : reached_final_states_) {
-    enumerator_.add_node(state->node);
-    ds_.try_mark_unused(state->node);
+    enumerator_.add_node(state->node());
+    ds_.try_mark_unused(state->node());
     // state->node = nullptr;
     // NOTE: In MacroDFA we're not realising the accepting state from the next
     // iteration. In a normalized automaton, unanchored search, the accepting
@@ -217,9 +216,9 @@ inline void MacroSegmentEvaluator::pass_outputs() {
 
 inline void MacroSegmentEvaluator::visit_capture(DFA::State *cs, std::bitset<32> S,
                                                  DFA::State *to, int64_t pos) {
-  if (to->visited <= pos) {
-    to->pass_node(ds_.extend(cs->node, S, pos + 1));
-    to->visited = pos + 1;
+  if (to->visited() <= pos) {
+    to->set_node(ds_.extend(cs->node(), S, pos + 1));
+    to->set_visited(pos + 1);
     if (to->accepting())
       reached_final_states_.push_back(to);
     else
@@ -227,8 +226,8 @@ inline void MacroSegmentEvaluator::visit_capture(DFA::State *cs, std::bitset<32>
   } else {
     // Decrease the refcount, as the node at reached state won't be pointed by
     // that state anymore, only by the structure internally.
-    to->node->dec_ref_count();
-    to->pass_node(ds_.unite(ds_.extend(cs->node, S, pos + 1), to->node));
+    to->node()->dec_ref_count();
+    to->set_node(ds_.unite(ds_.extend(cs->node(), S, pos + 1), to->node()));
   }
 }
 

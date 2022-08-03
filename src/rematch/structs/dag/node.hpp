@@ -3,15 +3,15 @@
 
 #include <bitset>
 
+#include "structs/dag/nodelist.hpp"
+
 namespace rematch {
 
-namespace internal {
-
-class Node {
-private:
+class NodeList::Node {
+ private:
   static size_t ID;
 
-public:
+ public:
   enum class Type {
     kBottom,
     kDummy,
@@ -45,7 +45,7 @@ public:
   bool isNodeEmpty();
 };
 
-} // end namespace internal
+
 } // end namespace rematch
 
 #endif // STRUCTS__DAG__NODE_HPP

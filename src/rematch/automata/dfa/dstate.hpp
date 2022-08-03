@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "automata/dfa/transition.hpp"
+#include "automata/abs_dstate.hpp"
 #include "structs/ecs/ecs.hpp"
 
 #include "automata/nfa/lva.hpp"
@@ -18,26 +19,22 @@ namespace rematch {
 
 using StatesBitmap = std::vector<bool>;
 
-class DFA::State {
+class DFA::State : public abstract::DState {
+
  public:
   std::string labl;
 
-  internal::ECS::Node *node{nullptr};
-  internal::ECS::Node *old_node{nullptr};
-  int visited{-1};
-
-  enum Flags {
-    kDefaultState = 0,
-    kAcceptingState = 1,
-    kInitialState = kAcceptingState << 1,
-    kLeftAntiAnchor = kInitialState << 1
-  };
+  ECS::Node *old_node{nullptr};
 
   State(size_t tot_states);
   State(size_t tot_states, std::vector<LogicalVA::State*> states);
   State(size_t tot_states, std::set<LogicalVA::State*> states);
 
-  void pass_node(internal::ECS::Node *n);
+  ECS::Node* node() const override { return node_;  }
+  void set_node(ECS::Node *n) override { node_ = n; }
+
+  int visited() const override { return visited_; }
+  void set_visited(int n) override { visited_ = n; }
 
   StatesBitmap bitmap() const { return states_bitmap_; }
 
@@ -53,30 +50,38 @@ class DFA::State {
 
   bool empty_subset() const { return states_subset_.empty(); }
 
-  bool accepting() const { return flags_ & kAcceptingState; }
-  void set_accepting(bool b);
+  bool accepting() const override { return accepting_; }
+  void set_accepting(bool b) { accepting_ = b; }
 
-  bool initial() const { return flags_ & kInitialState; }
-  void set_initial(bool b);
+  bool initial() const override { return initial_; }
+  void set_initial(bool b) { initial_ = b; }
 
   void add_direct(char a, State *q);
   void add_capture(char a, std::bitset<32> S, State *q);
   void add_empty(char a);
 
-  Transition<State> *next_transition(char a) const { return transitions_[a]; }
+  std::optional<Transition> next_transition(char a) const override {
+    return transitions_[a];
+  }
 
  private:
   static int ID;
 
   void update_label();
+
   uint id_;
 
-  std::vector<Transition<State>*> transitions_{128, nullptr};
+  std::vector<std::optional<Transition>> transitions_{128, std::nullopt};
 
   StatesBitmap states_bitmap_;
   std::vector<LogicalVA::State*> states_subset_;
 
-  uint8_t flags_ = kDefaultState;
+  bool accepting_;
+  bool initial_;
+
+  int visited_{-1};
+
+  ECS::Node *node_{nullptr};
 
 }; // end class DState
 

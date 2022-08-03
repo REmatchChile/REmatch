@@ -9,7 +9,6 @@
 #include <spdlog/spdlog.h>
 
 namespace rematch {
-namespace internal {
 
 const size_t MEMORY_POOL_STARTING_SIZE = 2048;
 
@@ -133,7 +132,6 @@ private:
 
 }; // end class Pool
 
-} // end namespace internal
 } // end namespace rematch
 
 #endif // STRUCTS_ECS_MEMPOOL_HPP

@@ -4,7 +4,6 @@
 #include <bitset>
 
 namespace rematch {
-namespace internal {
 
 class OutputID;
 
@@ -16,7 +15,6 @@ public:
   virtual OutputID *empty_oid() = 0;
 }; // end class OStruct
 
-} // end namespace internal
 } // end namespace rematch
 
 #endif // STRUCTS__OSTRUCT

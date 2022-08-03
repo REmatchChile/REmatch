@@ -17,7 +17,6 @@
 
 #include "automata/dfa/transition.hpp"
 #include "evaluation/document/document.hpp"
-#include "memmanager.hpp"
 
 #include "automata/macrodfa/macrodfa.hpp"
 #include "automata/macrodfa/macrostate.hpp"
@@ -39,7 +38,7 @@ public:
 private:
   inline void reading(char a, int64_t i);
 
-  inline void visit(DFA::State* ns, internal::ECS::Node *node, int64_t pos,
+  inline void visit(DFA::State* ns, ECS::Node *node, int64_t pos,
                                                         bool garbage_left=true);
 
   bool searching_phase();
@@ -72,10 +71,10 @@ private:
 
   RegEx &rgx_;
 
-  internal::Enumerator enumerator_;
+  Enumerator enumerator_;
 
-  internal::ECS ds_; // DAG structure
-  internal::ECS::Node* bottom_node_;
+  ECS ds_; // DAG structure
+  ECS::Node* bottom_node_;
 
   std::shared_ptr<StrDocument> text_;
 

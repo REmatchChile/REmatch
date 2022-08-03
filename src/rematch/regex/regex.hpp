@@ -4,9 +4,7 @@
 #include <memory>
 #include <string>
 
-#include "enumeration.hpp"
 #include "match.hpp"
-#include "memmanager.hpp"
 
 #include "automata/nfa/eva.hpp"
 #include "automata/nfa/sva.hpp"

@@ -49,7 +49,7 @@ class DFA {
   // @param q State from which to compute the next state
   // @param a Read character to follow the transitions
   // @return Transition* The correct deterministic transition from q reading a
-  Transition<State> *next_transition(State *q, char a);
+  Transition next_transition(abstract::DState *q, char a);
 
 private:
   // Utility to print a transition
