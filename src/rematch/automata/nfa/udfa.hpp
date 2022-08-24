@@ -7,23 +7,9 @@
 #include "automata/nfa/state.hpp"
 #include "automata/dfa/dstate.hpp"
 #include "automata/abs_dstate.hpp"
+#include "automata/state_subset.hpp"
 
 namespace rematch {
-
-struct StateSubset {
-  StateSubset(size_t nfa_size) : bitset(nfa_size, false) {}
-
-  void add(LogicalVA::State* q) {
-    if(!bitset[q->id]) {
-      subset.push_back(q);
-      bitset[q->id] = true;
-    }
-  }
-
-  std::vector<LogicalVA::State*> subset;
-  std::vector<bool> bitset;
-
-}; // end struct StateSubset
 
 class UDFA {
  public:
@@ -90,6 +76,23 @@ class UDFA {
   Transition next_transition(abstract::DState *q, char a);
 
   size_t size() const { return states_.size(); }
+
+  size_t tot_size() const {
+    size_t res = 0;
+    for(auto &p: states_) {
+      res += p->transitions_.size() * sizeof(std::optional<Transition>);
+      res += p->states_subset_.size() * sizeof(LogicalVA::State*);
+      res += sizeof(State);
+    }
+
+    for(auto &t: transitions_) {
+      res += t->captures_.size() * sizeof(Transition::Capture);
+      res += t->directs_.size() * sizeof(abstract::DState*);
+      res += sizeof(Transition);
+    };
+
+    return sizeof(UDFA) + res;
+  }
 
  private:
 

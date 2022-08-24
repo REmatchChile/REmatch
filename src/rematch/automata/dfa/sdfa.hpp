@@ -24,8 +24,8 @@ using SubsetTable = std::unordered_map<std::vector<bool>, SDState *>;
 class SearchDFA {
 public:
   // Vector of pointers of States for resizing:
-  std::vector<SDState *> states;
-  std::vector<SDState *> final_states;
+  std::vector<SDState*> states;
+  std::vector<SDState*> final_states;
 
   std::vector<std::string> varNames;
 

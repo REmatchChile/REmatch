@@ -22,13 +22,13 @@ using StatesBitmap = std::vector<bool>;
 class DFA::State : public abstract::DState {
 
  public:
-  std::string labl;
+  friend class DFA;
 
-  ECS::Node *old_node{nullptr};
+  #ifndef NDEBUG
+  std::string label_;
+  #endif
 
-  State(size_t tot_states);
-  State(size_t tot_states, std::vector<LogicalVA::State*> states);
-  State(size_t tot_states, std::set<LogicalVA::State*> states);
+  State(std::vector<LogicalVA::State*> states);
 
   ECS::Node* node() const override { return node_;  }
   void set_node(ECS::Node *n) override { node_ = n; }
@@ -36,15 +36,13 @@ class DFA::State : public abstract::DState {
   int visited() const override { return visited_; }
   void set_visited(int n) override { visited_ = n; }
 
-  StatesBitmap bitmap() const { return states_bitmap_; }
-
   // @brief Returns the subset of associated NFA states.
   // @return std::vector<LogicalVA::State*> Subset of NFA states
   std::vector<LogicalVA::State*> subset() const { return states_subset_; }
 
   // @brief Returns the subset representation string (i.e. {q1,q2,...}).
   // @return std::string Subset representation of the DState.
-  std::string label() const { return labl; }
+  // std::string label() const { return labl; }
 
   int id() const { return id_; }
 
@@ -67,17 +65,20 @@ class DFA::State : public abstract::DState {
  private:
   static int ID;
 
+  #ifndef NDEBUG
   void update_label();
+  #endif
 
   uint id_;
 
   std::vector<std::optional<Transition>> transitions_{128, std::nullopt};
 
-  StatesBitmap states_bitmap_;
+  std::unordered_map<std::vector<bool>, BaseTransition> base_transitions_;
+
   std::vector<LogicalVA::State*> states_subset_;
 
-  bool accepting_;
-  bool initial_;
+  bool accepting_{false};
+  bool initial_{false};
 
   int visited_{-1};
 

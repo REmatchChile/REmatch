@@ -160,7 +160,7 @@ bool SegmentEvaluator::searching_phase() {
     else if (current_dstate_->ends()) {
       if (i_min_ < i_max_) {
         stats_.n_search_intervals++;
-        stats_.search_intervals.emplace_back(std::make_pair(i_min_, i_max_));
+        // stats_.search_intervals.emplace_back(std::make_pair(i_min_, i_max_));
         return true;
       }
       i_min_ = i_src_;
@@ -169,7 +169,7 @@ bool SegmentEvaluator::searching_phase() {
 
   if (i_min_ < i_max_) {
     stats_.n_search_intervals++;
-    stats_.search_intervals.emplace_back(std::make_pair(i_min_, i_max_));
+    // stats_.search_intervals.emplace_back(std::make_pair(i_min_, i_max_));
     return true;
   }
 
@@ -225,8 +225,10 @@ FORCE_INLINE void SegmentEvaluator::reading(char a, int64_t pos) {
 
 inline void SegmentEvaluator::pass_outputs() {
   for (auto &state : reached_final_states_) {
-    enumerator_.add_node(state->node());
-    ds_.try_mark_unused(state->node());
+    auto node = state->node();
+    enumerator_.add_node(node);
+    node->dec_ref_count();
+    ds_.try_mark_unused(node);
     state->set_node(nullptr);
   }
   reached_final_states_.clear();

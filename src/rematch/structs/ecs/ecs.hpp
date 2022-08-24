@@ -91,6 +91,7 @@ public:
 
   size_t n_nodes() const { return pool_.n_nodes(); }
   size_t n_reused_nodes() const { return pool_.n_reused_nodes(); }
+  size_t tot_size() const { return pool_.tot_size(); }
 
 private:
   MemPool<Node> pool_;

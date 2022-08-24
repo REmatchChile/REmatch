@@ -15,6 +15,8 @@ struct EvalStats {
   size_t mdfa_size = 0;
   size_t n_nodes = 0;
   size_t n_reused_nodes = 0;
+  size_t pool_total_size = 0;
+  size_t dfa_total_size = 0;
 }; // end class EvalStats
 
 } // end namespace rematch

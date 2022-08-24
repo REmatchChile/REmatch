@@ -124,7 +124,12 @@ Match_ptr NormalEvaluator<A>::next() {
   }
 
   stats_.dfa_size = dfa_->size();
+  stats_.dfa_total_size = dfa_->tot_size();
   stats_.sdfa_size = sdfa_->size();
+
+  stats_.n_nodes = ds_.n_nodes();
+  stats_.n_reused_nodes = ds_.n_reused_nodes();
+  stats_.pool_total_size = ds_.tot_size();
 
   return nullptr;
 }
@@ -262,9 +267,11 @@ inline void NormalEvaluator<A>::reading(char a, int64_t pos) {
 template <typename A>
 inline void NormalEvaluator<A>::pass_outputs() {
   for (auto &state : reached_final_states_) {
-    enumerator_.add_node(state->node());
+    auto node = state->node();
+    enumerator_.add_node(node);
     #ifndef NOPT_EARLYOUTPUT
-    ds_.try_mark_unused(state->node());
+    node->dec_ref_count();
+    ds_.try_mark_unused(node);
     #endif
     state->set_node(nullptr);
   }

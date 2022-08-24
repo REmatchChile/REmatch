@@ -75,6 +75,8 @@ Transition UDFA::next_transition(abstract::DState* dq, char a) {
 
   auto &ntrans = q->transitions_[a];
 
+  transitions_.push_back(&*ntrans);
+
   ntrans = Transition();
 
   for (LogicalVA::State* q_old: q->states_subset_) {
@@ -82,6 +84,8 @@ Transition UDFA::next_transition(abstract::DState* dq, char a) {
       if(chbst[filter->code]) ss.add(filter->next);
     }
   }
+
+  if (ss.subset.empty()) return *ntrans; // Empty transition case
 
   for(State* nq: obtain_states(ss))
     ntrans->add_direct(nq);

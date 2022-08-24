@@ -31,9 +31,9 @@ public:
     os << "{";
     for (auto &dstate : m.states_) {
       if (dstate == *m.states_.begin())
-        os << dstate->label();
+        os << " ";
       else
-        os << " " << dstate->label();
+        os << " ";
     }
     os << "}";
     return os;

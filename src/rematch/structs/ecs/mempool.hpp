@@ -14,7 +14,7 @@ const size_t MEMORY_POOL_STARTING_SIZE = 2048;
 
 template <class T> class MiniPool {
 public:
-  MiniPool(size_t cap) : capacity_(cap), next_(nullptr), prev_(nullptr) {
+  MiniPool(size_t cap) : capacity_(cap) {
     container_.reserve(capacity_);
   }
 
@@ -36,8 +36,8 @@ public:
 private:
   size_t capacity_;
   std::vector<T> container_;
-  MiniPool *next_;
-  MiniPool *prev_;
+  MiniPool *next_{nullptr};
+  MiniPool *prev_{nullptr};
 
 }; // end class MiniPool
 
@@ -113,12 +113,19 @@ public:
   }
 
   size_t total_arenas() const { return tot_arenas_; }
-  size_t total_size() const {
-    return start_size_ * std::pow(2, tot_arenas_ - 1);
-  }
 
   size_t n_nodes() const { return n_nodes_; }
   size_t n_reused_nodes() const { return n_reused_nodes_; }
+
+  size_t tot_size() const {
+    size_t res = 0;
+    for(MiniPool<T> *mpool = minipool_head_; mpool != nullptr; mpool = mpool->prev()) {
+      res += sizeof(*mpool) + mpool->size() * sizeof(T);
+    }
+
+    return sizeof(*this) + res;
+  }
+
 
 private:
   MiniPool<T> *minipool_head_;

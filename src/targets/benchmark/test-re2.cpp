@@ -24,7 +24,9 @@ int main(int argc, char const *argv[]) {
 
   RE2 pattern(rgx, opts);
 
-  re2::StringPiece match;
+  int ncapturegroups = pattern.NumberOfCapturingGroups();
+
+  re2::StringPiece match[5];
 
   int count = 0;
 
@@ -33,9 +35,12 @@ int main(int argc, char const *argv[]) {
   // std::cout << "Input: \"" << input << "\"\n";
   // std::cout << "Pattern: \"" << rgx << "\"\n";
 
-  while (RE2::FindAndConsume(&input, pattern, &match)) {
-    int ini = match.data() - doc.data();
-    dump << "|" << ini << "," << ini + match.size() << ">\n";
+  while (RE2::FindAndConsume(&input, pattern, &match[0], &match[1], &match[2], &match[3], &match[4])) {
+    for(int i = 0; i < 5; i++) {
+      int ini = match[i].data() - doc.data();
+      dump << "m" << (i+1) << " = |" << ini << "," << ini + match[i].size() << ">\t";
+    }
+    dump << '\n';
     count++;
   }
 

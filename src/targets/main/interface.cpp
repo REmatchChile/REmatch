@@ -115,6 +115,9 @@ void Interface::benchmark_run() {
 
   is_ambiguous = (size_t) match_iter.evaluator_->is_ambiguous();
 
+  std::string dfa_mem = formatMem(match_iter.stats_->dfa_total_size);
+  std::string pool_mem = formatMem(match_iter.stats_->pool_total_size);
+
   std::ofstream mfile("dump.log");
 
   for (auto &e : match_iter.stats_->search_intervals) {
@@ -142,7 +145,9 @@ void Interface::benchmark_run() {
 
 	std::cout
 	<< "Number of mappings\t\t" 			<< 	pwc(n_mappings)											<<	'\n'
-	<< "Memory used \t\t\t"						<<	memoryUsed	 												<< 	'\n'
+	<< "Memory used (total)\t\t"			<<	memoryUsed	 												<< 	'\n'
+  << "Memory used (DFA)\t\t"        <<  dfa_mem                             <<  '\n'
+  << "Memory used (pool)\t\t"       <<  pool_mem                            <<  '\n'
 	<< "MDFASize \t\t\t"							<<	mdfaSize														<<	'\n'
 	<< "SDFASize \t\t\t"							<<	sdfaSize														<<	'\n'
 	<< "DetSize \t\t\t"								<<	detSize															<<	'\n'

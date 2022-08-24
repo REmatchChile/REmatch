@@ -21,6 +21,8 @@ class UnambiguousVA {
 
     State() = delete;
 
+    // TODO: Destructor virtual
+
     std::optional<Transition> next_transition(char a) const override {
       return transitions_[a];
     }

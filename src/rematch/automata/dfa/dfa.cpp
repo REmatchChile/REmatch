@@ -23,39 +23,24 @@ DFA::DFA(ExtendedVA const &A)
       ffactory_(A.filterFactory()) {
 
   // Code initial state
-  std::set<LogicalVA::State*> new_subset;
-  new_subset.insert(eVA_.init_state());
+  StateSubset ss(eVA_.size());
+  ss.add(eVA_.init_state());
 
-  init_state_ = new State(eVA_.size(), new_subset);
+  init_state_ = new State(ss.subset);
 
-  dstates_table_[init_state_->bitmap()] = init_state_;
+  dstates_table_[ss.bitset] = init_state_;
 
   // Compute init eval states
 
-  std::unordered_map<std::bitset<32>, std::set<LogicalVA::State *>> reach_captures;
+  std::unordered_map<std::bitset<32>, StateSubset> reach_captures;
 
   for (auto &capture : eVA_.init_state()->captures) {
-    auto res = reach_captures.emplace(capture->code, std::set<LogicalVA::State *>());
-    res.first->second.insert(capture->next);
+    auto res = reach_captures.emplace(capture->code, StateSubset(eVA_.size()));
+    res.first->second.add(capture->next);
   }
 
   for (auto &elem : reach_captures) {
-    State *nq = new State(eVA_.size(), elem.second);
-
-    auto found = dstates_table_.find(nq->bitmap());
-
-    if (found == dstates_table_.end()) {
-      dstates_table_[nq->bitmap()] = nq;
-
-      states.push_back(nq);
-
-      if (nq->accepting())
-        finalStates.push_back(nq);
-    } else {
-      delete nq;
-      nq = found->second;
-    }
-
+    auto nq = obtain_state(elem.second);
     init_eval_states_.emplace_back(std::make_pair(nq, elem.first));
   }
 
@@ -64,33 +49,15 @@ DFA::DFA(ExtendedVA const &A)
   }
 }
 
-Transition DFA::next_transition(abstract::DState *dq, char a) {
-
-  State* q = dynamic_cast<State*>(dq);
-
-  std::vector<bool> char_bitset = ffactory_->apply_filters(a);
-
-  std::set<LogicalVA::State *> new_ss;                   // Store the next subset
-  StatesBitmap ss_bitset(eVA_.size(), false); // Subset bitset representation
-
-  for (auto &state : q->subset()) {
-
-    for (auto &filter : state->filters) {
-      if (char_bitset[filter->code] && !ss_bitset[filter->next->id]) {
-        new_ss.insert(filter->next);
-        ss_bitset[filter->next->id] = true;
-      }
-    }
-  }
-
-  auto found = dstates_table_.find(ss_bitset);
+DFA::State* DFA::obtain_state(StateSubset ss) {
+  auto found = dstates_table_.find(ss.bitset);
 
   State *nq;
 
   if (found == dstates_table_.end()) { // Check if already stored subset
-    nq = new State(eVA_.size(), new_ss);
+    nq = new State(ss.subset);
 
-    found = dstates_table_.emplace_hint(found, std::make_pair(ss_bitset, nq));
+    found = dstates_table_.emplace_hint(found, ss.bitset, nq);
 
     states.push_back(nq);
 
@@ -98,63 +65,125 @@ Transition DFA::next_transition(abstract::DState *dq, char a) {
       finalStates.push_back(nq);
     }
   }
-  nq = found->second;
 
-  if (!nq->empty_subset()) {
-    compute_captures(q, nq, a);
-    q->add_direct(a, nq);
-  } else {
-    q->add_empty(a);
-  }
-
-  return *q->next_transition(a);
+  return found->second;
 }
 
-void DFA::compute_captures(State *p, State *q, char a) {
+Transition DFA::next_transition(abstract::DState *dq, char a) {
 
-  std::unordered_map<std::bitset<32>,
-                     std::pair<std::set<LogicalVA::State*>, StatesBitmap>>
-      capture_reach;
+  State* q = dynamic_cast<State*>(dq);
 
-  for (auto &extState : q->subset()) {
-    for (auto &capture : extState->captures) {
+  std::vector<bool> char_bitset = ffactory_->apply_filters(a);
 
-      auto it = capture_reach.find(capture->code);
+  StateSubset ss(eVA_.size());
 
-      if (it == capture_reach.end()) {
-        it = capture_reach
-                 .emplace(capture->code,
-                          std::make_pair(std::set<LogicalVA::State *>(),
-                                         StatesBitmap(eVA_.size(), false)))
-                 .first;
-      }
+  auto &ntrans = q->transitions_[a];
 
-      it->second.first.insert(capture->next);
-      it->second.second[capture->next->id] = true;
+  ntrans = Transition(); // Defaults to empty transition
+
+  transitions.push_back(&*ntrans);
+
+  for (auto &state : q->subset()) {
+    for (auto &filter : state->filters) {
+      if (char_bitset[filter->code]) ss.add(filter->next);
     }
   }
 
-  for (auto el : capture_reach) {
-    /* Check if subset is not on hash table */
+  State* nq = obtain_state(ss);
 
-    auto found = dstates_table_.find(el.second.second);
+  if (ss.subset.empty()) return *ntrans;
 
-    if (found == dstates_table_.end()) {
-      State *nq = new State(eVA_.size(), el.second.first);
-      found =
-          dstates_table_.emplace_hint(found, std::make_pair(nq->bitmap(), nq));
+  ntrans->add_direct(nq);
 
-      states.push_back(nq);
+  std::unordered_map<std::bitset<32>, StateSubset> capture_reach;
 
-      if (nq->accepting()) {
-        finalStates.push_back(nq);
+  for (LogicalVA::State* q_old: ss.subset) {
+    for (auto &capture: q_old->captures) {
+      auto it = capture_reach.find(capture->code);
+
+      if(it == capture_reach.end()) {
+        it = capture_reach.emplace(std::piecewise_construct,
+                                   std::forward_as_tuple(capture->code),
+                                   std::forward_as_tuple(eVA_.size())).first;
+      }
+      it->second.add(capture->next);
+    }
+  }
+
+  for (auto &elem: capture_reach) {
+    ntrans->add_capture({elem.first, obtain_state(elem.second)});
+  }
+
+  return *ntrans;
+}
+
+size_t DFA::tot_size() const {
+  size_t res = 0;
+  for(auto &p: states) {
+    res += p->transitions_.size() * sizeof(std::optional<Transition>);
+    res += p->states_subset_.size() * sizeof(LogicalVA::State*);
+    res += sizeof(State);
+  }
+
+  for(auto &t: transitions) {
+    res += t->captures_.size() * sizeof(Transition::Capture);
+    res += t->directs_.size() * sizeof(abstract::DState*);
+    res += sizeof(Transition);
+  };
+
+  return sizeof(*this) + res;
+}
+
+BaseTransition DFA::next_base_transition(abstract::DState *dq, char a) {
+  auto *q = dynamic_cast<State*>(dq);
+
+  std::vector<bool> char_bitset = ffactory_->apply_filters(a);
+
+  auto found = q->base_transitions_.find(char_bitset);
+
+  if(found != q->base_transitions_.end()) {
+    return found->second;
+  } else {
+    StateSubset ss(eVA_.size());
+
+    BaseTransition ntrans;
+
+    for (auto &state : q->subset()) {
+      for (auto &filter : state->filters) {
+        if (char_bitset[filter->code]) ss.add(filter->next);
       }
     }
 
-    // This is the deterministic state where the capture reaches
-    State *r = found->second;
+    State* nq = obtain_state(ss);
 
-    p->add_capture(a, el.first, r);
+    if (ss.subset.empty()) return ntrans;
+
+    ntrans.add({0,nq});
+
+    std::unordered_map<std::bitset<32>, StateSubset> capture_reach;
+
+    for (LogicalVA::State* q_old: ss.subset) {
+      for (auto &capture: q_old->captures) {
+        auto it = capture_reach.find(capture->code);
+
+        if(it == capture_reach.end()) {
+          it = capture_reach.emplace(std::piecewise_construct,
+                                    std::forward_as_tuple(capture->code),
+                                    std::forward_as_tuple(eVA_.size())).first;
+        }
+        it->second.add(capture->next);
+      }
+    }
+
+    for (auto &elem: capture_reach) {
+      auto S = elem.first;
+      auto nq = obtain_state(elem.second);
+      ntrans.add({S, nq});
+    }
+
+    q->base_transitions_.emplace_hint(found, char_bitset, ntrans);
+
+    return ntrans;
   }
 }
 
