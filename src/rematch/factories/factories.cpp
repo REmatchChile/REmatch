@@ -15,7 +15,7 @@ namespace rematch {
 
 VariableFactory::VariableFactory() {}
 
-std::string VariableFactory::get_var(uint position) { return data_[position]; }
+std::string VariableFactory::get_var(unsigned int position) { return data_[position]; }
 
 int VariableFactory::position(std::string var) const {
   auto it = std::lower_bound(data_.begin(), data_.end(), var);

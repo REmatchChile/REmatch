@@ -61,7 +61,7 @@ class DFA::State : public abstract::DState {
   void update_label();
   #endif
 
-  uint id_;
+  unsigned int id_;
 
   #ifdef NOPT_ASCIIARRAY
   std::unordered_map<std::vector<bool>, Transition> base_transitions_;

@@ -28,7 +28,7 @@ LogicalVA::LogicalVA()
   accepting_state_->set_accepting(true);
 }
 
-LogicalVA::LogicalVA(uint code) {
+LogicalVA::LogicalVA(unsigned int code) {
   init_state_ = new_state();
   init_state_->set_initial(true);
 

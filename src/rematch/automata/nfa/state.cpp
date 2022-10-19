@@ -69,7 +69,7 @@ void LogicalVA::State::add_capture(std::bitset<32> code, State *next) {
   next->backward_captures_.push_back(sp);
 }
 
-void LogicalVA::State::add_filter(uint code, State *next) {
+void LogicalVA::State::add_filter(unsigned int code, State *next) {
   for (auto const &filter : this->filters)
     if (filter->code == code && filter->next == next)
       return;

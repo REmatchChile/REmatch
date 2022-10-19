@@ -6,8 +6,6 @@
 #include <iostream>
 #include <fstream>
 
-#include <spdlog/spdlog.h>
-
 namespace rematch {
 
 const size_t MEMORY_POOL_STARTING_SIZE = 2048;

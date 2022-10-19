@@ -11,7 +11,7 @@ class AbsTransition;
 class AbsState {
 public:
   virtual std::vector<AbsTransition *> transitions() const = 0;
-  virtual std::vector<AbsTransition *> next_transitions(uint code) const = 0;
+  virtual std::vector<AbsTransition *> next_transitions(unsigned int code) const = 0;
 
   virtual bool accepting() const = 0;
   virtual bool initial() const = 0;
@@ -20,7 +20,7 @@ public:
 
 class AbsTransition {
 public:
-  virtual uint code() const = 0;
+  virtual unsigned int code() const = 0;
   virtual AbsState *prev() const = 0;
   virtual AbsState *next() const = 0;
 

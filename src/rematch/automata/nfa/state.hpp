@@ -31,7 +31,7 @@ struct LogicalVA::Capture {
 struct LogicalVA::Filter {
   State *from;
   State *next;
-  uint code;
+  unsigned int code;
   bool flag;
 
   Filter(State *from, unsigned int coding, State *next)

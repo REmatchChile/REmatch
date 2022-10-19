@@ -1,8 +1,8 @@
 {
-  "exp-subpath": "exp/crossings/dna/sample",
+  "exp-subpath": "exp/crossings/morphemes/2grams/small-sample",
   "title": "SET 02 - MORPHEMES",
   "description": "SET 02 - PROTEOMS",
-  "homedir": "/home/nicovsj/repos/research/REmatch-org/REmatch",
+  "homedir": "/Users/nicovsjj/Documents/rem/REmatch",
   "nexp": 1,
   "timeout-s": 100,
   "binaries": {

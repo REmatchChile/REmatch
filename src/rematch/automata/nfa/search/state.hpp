@@ -13,7 +13,7 @@ public:
     return transitions_;
   }
 
-  std::vector<SearchVA::Transition *> next_transitions(uint code) const;
+  std::vector<SearchVA::Transition *> next_transitions(unsigned int code) const;
 
 private:
   std::vector<SearchVA::Transition *> transitions_;

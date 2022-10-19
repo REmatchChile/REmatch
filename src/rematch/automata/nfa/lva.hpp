@@ -31,7 +31,7 @@ class LogicalVA {
   LogicalVA(const LogicalVA &A);
 
   // Atomic VA
-  LogicalVA(uint code);
+  LogicalVA(unsigned int code);
 
   // Sets a reference for the associated factories.
   void set_factories(std::shared_ptr<VariableFactory> v,

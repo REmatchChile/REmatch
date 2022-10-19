@@ -2,8 +2,6 @@
 #include <string>
 
 #include <CLI11.hpp>
-#include <spdlog/spdlog.h>
-#include <spdlog/sinks/basic_file_sink.h>
 
 #include "interface.hpp"
 #include "options.hpp"
@@ -15,8 +13,6 @@ int main(int argc, char *argv[]) {
   rematch::Options opts;
 
   CLI::App app{"REmatch"};
-
-  auto logger = spdlog::basic_logger_st("free_list", "logs/free_list.log", true);
 
   auto docinput = app.add_option_group("document_input");
   auto rgxinput = app.add_option_group("regex_input");

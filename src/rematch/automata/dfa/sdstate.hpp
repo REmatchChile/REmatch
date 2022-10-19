@@ -48,7 +48,7 @@ public:
 private:
   static int ID;
 
-  uint id_;
+  unsigned int id_;
 
   std::vector<SDState *> transitions_{128, nullptr};
 
