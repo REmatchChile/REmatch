@@ -139,6 +139,28 @@ private:
 
 }; // end class Pool
 
+
+template<typename T>
+class FakeMemPool {
+ public:
+  template <class... Args> 
+  T *alloc(Args &&...args) {
+    nnodes_++;
+    return new T(std::forward<Args>(args)...);
+  }
+
+  void add_to_free_list(T*) {}
+
+  size_t n_nodes() const { return nnodes_; }
+  size_t n_reused_nodes() const { return 0; }
+  size_t tot_size() const { return 0;}
+
+ private:
+  size_t nnodes_{0};
+
+
+}; // end class FakeMemPool
+
 } // end namespace rematch
 
 #endif // STRUCTS_ECS_MEMPOOL_HPP

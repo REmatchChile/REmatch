@@ -50,14 +50,19 @@ class DFA {
 
   // ---  Determinization  ---  //
 
+  
+  #ifdef NOPT_ASCIIARRAY
+  Transition next_base_transition(abstract::DState *q, char a);
+  #else
   // @brief Compute an on-the-fly determinization
   //
   // @param q State from which to compute the next state
   // @param a Read character to follow the transitions
   // @return Transition* The correct deterministic transition from q reading a
   Transition next_transition(abstract::DState *q, char a);
+  #endif
 
-  BaseTransition next_base_transition(abstract::DState *q, char a);
+  
 
   size_t tot_size() const;
 
@@ -65,12 +70,8 @@ private:
   // Utility to print a transition
   void print_transition(std::ostream &os, State *from, char a, State *to,
                         std::bitset<32> S);
-
-  // Computes the reachable subsets from the deterministic state q
-  // through captures, stores them if necessary and connects p to the computed
-  // deterministic states thourgh deterministic capture transitions.
-  // * Used inernally
-  void compute_captures(State *p, Transition& ntrans);
+  
+  Transition compute_transition(State* q, std::vector<bool> chbst);
 
   State* obtain_state(StateSubset ss);
 

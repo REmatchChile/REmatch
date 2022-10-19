@@ -12,8 +12,6 @@ namespace abstract {
 
 class DState {
  public:
-  virtual std::optional<Transition> next_transition(char a) const = 0;
-
   virtual ECS::Node* node() const = 0;
   virtual void set_node(ECS::Node* n) = 0;
 

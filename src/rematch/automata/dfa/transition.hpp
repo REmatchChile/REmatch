@@ -15,7 +15,7 @@ struct Transition {
 
   struct Capture {
     std::bitset<32> S;
-    abstract::DState *next;
+    abstract::DState *next{nullptr};
   };
 
   enum Type {
@@ -31,7 +31,7 @@ struct Transition {
   };
 
   int type_;
-  abstract::DState *direct_;
+  abstract::DState *direct_{nullptr};
   Capture capture_;
   std::vector<Capture> captures_;
   std::vector<abstract::DState*> directs_;
@@ -43,6 +43,13 @@ struct Transition {
       : type_(Type::kSingleCapture), capture_({S, state}) {}
 
   Transition(abstract::DState *state) : type_(Type::kDirect), direct_(state) {}
+
+  void add(Capture capture) {
+    if (capture.S != 0)
+      add_capture(capture);
+    else
+      add_direct(capture.next);
+  }
 
   void add_capture(Capture capture) {
     switch (type_) {

@@ -1,0 +1,38 @@
+{
+  "exp-subpath": "benchmark/crossings/dna/small-sample",
+  "homedir": "/home/nicovsj/repos/research/REmatch-org/REmatch",
+  "nexp": 1,
+  "timeout-s": 100,
+  "binaries": {
+    "REm-0": {
+      "command": "{0}/build/Release/bin/rematch-0",
+      "args": "--mode=benchmark -d {0} -r {1}",
+      "rgx_type": "rematch"
+    },
+    "REm-1": {
+      "command": "{0}/build/Release/bin/rematch-1",
+      "args": "--mode=benchmark -d {0} -r {1}",
+      "rgx_type": "rematch"
+    },
+    "REm-2": {
+      "command": "{0}/build/Release/bin/rematch-2",
+      "args": "--mode=benchmark -d {0} -r {1}",
+      "rgx_type": "rematch"
+    },
+    "REm-3": {
+      "command": "{0}/build/Release/bin/rematch-3",
+      "args": "--mode=benchmark -d {0} -r {1}",
+      "rgx_type": "rematch"
+    },
+    "REm-4": {
+      "command": "{0}/build/Release/bin/rematch-4",
+      "args": "--mode=benchmark -d {0} -r {1}",
+      "rgx_type": "rematch"
+    },
+    "REm-5": {
+      "command": "{0}/build/Release/bin/rematch-4 --searching",
+      "args": "--mode=benchmark -d {0} -r {1}",
+      "rgx_type": "rematch"
+    }
+  }
+}

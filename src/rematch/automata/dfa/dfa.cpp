@@ -26,12 +26,9 @@ DFA::DFA(ExtendedVA const &A)
   StateSubset ss(eVA_.size());
   ss.add(eVA_.init_state());
 
-  init_state_ = new State(ss.subset);
-
-  dstates_table_[ss.bitset] = init_state_;
+  init_state_ = obtain_state(ss);
 
   // Compute init eval states
-
   std::unordered_map<std::bitset<32>, StateSubset> reach_captures;
 
   for (auto &capture : eVA_.init_state()->captures) {
@@ -69,58 +66,11 @@ DFA::State* DFA::obtain_state(StateSubset ss) {
   return found->second;
 }
 
-Transition DFA::next_transition(abstract::DState *dq, char a) {
 
-  State* q = dynamic_cast<State*>(dq);
-
-  std::vector<bool> char_bitset = ffactory_->apply_filters(a);
-
-  StateSubset ss(eVA_.size());
-
-  auto &ntrans = q->transitions_[a];
-
-  ntrans = Transition(); // Defaults to empty transition
-
-  transitions.push_back(&*ntrans);
-
-  for (auto &state : q->subset()) {
-    for (auto &filter : state->filters) {
-      if (char_bitset[filter->code]) ss.add(filter->next);
-    }
-  }
-
-  State* nq = obtain_state(ss);
-
-  if (ss.subset.empty()) return *ntrans;
-
-  ntrans->add_direct(nq);
-
-  std::unordered_map<std::bitset<32>, StateSubset> capture_reach;
-
-  for (LogicalVA::State* q_old: ss.subset) {
-    for (auto &capture: q_old->captures) {
-      auto it = capture_reach.find(capture->code);
-
-      if(it == capture_reach.end()) {
-        it = capture_reach.emplace(std::piecewise_construct,
-                                   std::forward_as_tuple(capture->code),
-                                   std::forward_as_tuple(eVA_.size())).first;
-      }
-      it->second.add(capture->next);
-    }
-  }
-
-  for (auto &elem: capture_reach) {
-    ntrans->add_capture({elem.first, obtain_state(elem.second)});
-  }
-
-  return *ntrans;
-}
 
 size_t DFA::tot_size() const {
   size_t res = 0;
   for(auto &p: states) {
-    res += p->transitions_.size() * sizeof(std::optional<Transition>);
     res += p->states_subset_.size() * sizeof(LogicalVA::State*);
     res += sizeof(State);
   }
@@ -134,57 +84,83 @@ size_t DFA::tot_size() const {
   return sizeof(*this) + res;
 }
 
-BaseTransition DFA::next_base_transition(abstract::DState *dq, char a) {
+#ifdef NOPT_ASCIIARRAY
+
+Transition DFA::next_base_transition(abstract::DState *dq, char a) {
   auto *q = dynamic_cast<State*>(dq);
 
   std::vector<bool> char_bitset = ffactory_->apply_filters(a);
 
   auto found = q->base_transitions_.find(char_bitset);
 
-  if(found != q->base_transitions_.end()) {
-    return found->second;
-  } else {
-    StateSubset ss(eVA_.size());
+  if(found != q->base_transitions_.end()) return found->second;
 
-    BaseTransition ntrans;
+  Transition ntrans = compute_transition(q, char_bitset);
 
-    for (auto &state : q->subset()) {
-      for (auto &filter : state->filters) {
-        if (char_bitset[filter->code]) ss.add(filter->next);
-      }
+  q->base_transitions_.emplace_hint(found, char_bitset, ntrans);
+
+  return ntrans;
+  
+}
+
+#else
+
+Transition DFA::next_transition(abstract::DState *dq, char a) {
+
+  State* q = dynamic_cast<State*>(dq);
+
+  auto &ntrans = q->transitions_[a];
+
+  if(ntrans) return *ntrans;
+
+  std::vector<bool> chbst = ffactory_->apply_filters(a);
+
+  ntrans = compute_transition(q, chbst);
+
+  return *ntrans;
+}
+
+#endif
+
+Transition DFA::compute_transition(State* q, std::vector<bool> chbst) {
+  StateSubset ss(eVA_.size());
+
+  Transition ntrans;
+
+  for (auto &state : q->subset()) {
+    for (auto &filter : state->filters) {
+      if (chbst[filter->code]) ss.add(filter->next);
     }
-
-    State* nq = obtain_state(ss);
-
-    if (ss.subset.empty()) return ntrans;
-
-    ntrans.add({0,nq});
-
-    std::unordered_map<std::bitset<32>, StateSubset> capture_reach;
-
-    for (LogicalVA::State* q_old: ss.subset) {
-      for (auto &capture: q_old->captures) {
-        auto it = capture_reach.find(capture->code);
-
-        if(it == capture_reach.end()) {
-          it = capture_reach.emplace(std::piecewise_construct,
-                                    std::forward_as_tuple(capture->code),
-                                    std::forward_as_tuple(eVA_.size())).first;
-        }
-        it->second.add(capture->next);
-      }
-    }
-
-    for (auto &elem: capture_reach) {
-      auto S = elem.first;
-      auto nq = obtain_state(elem.second);
-      ntrans.add({S, nq});
-    }
-
-    q->base_transitions_.emplace_hint(found, char_bitset, ntrans);
-
-    return ntrans;
   }
+
+  State* nq = obtain_state(ss);
+
+  if (ss.subset.empty()) return ntrans;
+
+  ntrans.add({0,nq});
+
+  std::unordered_map<std::bitset<32>, StateSubset> capture_reach;
+
+  for (LogicalVA::State* q_old: ss.subset) {
+    for (auto &capture: q_old->captures) {
+      auto it = capture_reach.find(capture->code);
+
+      if(it == capture_reach.end()) {
+        it = capture_reach.emplace(std::piecewise_construct,
+                                  std::forward_as_tuple(capture->code),
+                                  std::forward_as_tuple(eVA_.size())).first;
+      }
+      it->second.add(capture->next);
+    }
+  }
+
+  for (auto &elem: capture_reach) {
+    auto S = elem.first;
+    auto nq = obtain_state(elem.second);
+    ntrans.add({S, nq});
+  }
+
+  return ntrans;
 }
 
 } // end namespace rematch

@@ -54,14 +54,6 @@ class DFA::State : public abstract::DState {
   bool initial() const override { return initial_; }
   void set_initial(bool b) { initial_ = b; }
 
-  void add_direct(char a, State *q);
-  void add_capture(char a, std::bitset<32> S, State *q);
-  void add_empty(char a);
-
-  std::optional<Transition> next_transition(char a) const override {
-    return transitions_[a];
-  }
-
  private:
   static int ID;
 
@@ -71,9 +63,11 @@ class DFA::State : public abstract::DState {
 
   uint id_;
 
+  #ifdef NOPT_ASCIIARRAY
+  std::unordered_map<std::vector<bool>, Transition> base_transitions_;
+  #else
   std::vector<std::optional<Transition>> transitions_{128, std::nullopt};
-
-  std::unordered_map<std::vector<bool>, BaseTransition> base_transitions_;
+  #endif
 
   std::vector<LogicalVA::State*> states_subset_;
 

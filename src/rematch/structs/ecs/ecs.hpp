@@ -11,7 +11,7 @@
 namespace rematch {
 
 class ECS {
-public:
+ public:
   struct Data {
     Data(std::bitset<32> S, int64_t i) : S(S), i(i) {}
     Data() : S(0), i(0) {}
@@ -83,20 +83,21 @@ public:
   // Marks the node as unused iff its ref_count_ == 0. Otherwise nothing
   // happens. The Node MUST be present in this->pool_.
   void try_mark_unused(Node *v) {
-    #ifndef NOPT_MEMORY
     if (v->ref_count_ == 0)
       pool_.add_to_free_list(v);
-    #endif
   }
 
   size_t n_nodes() const { return pool_.n_nodes(); }
   size_t n_reused_nodes() const { return pool_.n_reused_nodes(); }
   size_t tot_size() const { return pool_.tot_size(); }
 
-private:
+ private:
+  #ifdef NOPT_MEMORY
+  FakeMemPool<Node> pool_;
+  #else
   MemPool<Node> pool_;
-
-  std::vector<Node*> delay_check_unused_;
+  #endif
+  
 
 }; // end class ECS
 

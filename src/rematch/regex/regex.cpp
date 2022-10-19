@@ -56,7 +56,7 @@ MatchIterator RegEx::find_iter(std::shared_ptr<Document> d, Anchor a) {
   } else if(flags_ & kUnambiguous && !eVA_->is_ambiguous()) {
     eval = new NormalEvaluator<UDFA>(*this, strd, a, *stats);
   } else {
-    eval = new BaseEvaluator(*this, strd, a, *stats);
+    eval = new NormalEvaluator<DFA>(*this, strd, a, *stats);
   }
   return MatchIterator(eval, stats);
 }

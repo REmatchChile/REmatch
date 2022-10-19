@@ -82,10 +82,11 @@ private:
 
   std::vector<DFA::State*> current_states_;
   std::vector<DFA::State*> new_states_;
-
   std::vector<DFA::State*> reached_final_states_;
 
   SDState *current_dstate_;
+
+  ECS::Node *final_node_{nullptr};
 
   static const size_t kSizeMaxOutputBuffer = 100;
 

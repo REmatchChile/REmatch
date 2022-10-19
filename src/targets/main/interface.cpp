@@ -13,7 +13,7 @@
 #include "parse/parser.hpp"
 #include "regex/regex.hpp"
 #include "regex/regex_options.hpp"
-#include "util/timer.hpp"
+#include "util/util.hpp"
 
 Interface::Interface(std::string &docstr, const std::string &pattern,
                      rematch::Options opt)
@@ -76,10 +76,10 @@ void Interface::benchmark_run() {
 
 	size_t n_mappings, detSize, nfaSize, mdfaSize,
          sdfaSize, svaSize, n_segments, n_nodes, n_reused_nodes, is_ambiguous;
-	double initAutomataTime, evaluateTime, totTime;
+	double initAutomataTime, evaluateTime, totTime, first_output_time;
 	/**************************** Run Algorithm ****************************/
 
-  Timer t; // Start timer for automata creation
+  rematch::util::Timer t; // Start timer for automata creation
 
   rematch::RegExOptions rgx_opt;
   rgx_opt.set_line_by_line(options_.line_by_line());
@@ -97,8 +97,10 @@ void Interface::benchmark_run() {
 
   rematch::MatchIterator match_iter = regex.find_iter(document_);
 
-  for (auto match = match_iter.next(); match != nullptr;
-       match = match_iter.next()) {
+  auto match = match_iter.next();
+  first_output_time = t.elapsed();
+
+  for (; match != nullptr; match = match_iter.next()) {
     n_mappings++;
   }
 
@@ -159,6 +161,7 @@ void Interface::benchmark_run() {
   << "Number of reused nodes\t\t"   <<  pwc(n_reused_nodes)                 <<  '\n'
 	<< "Init Automata time\t\t"				<<	pwc(initAutomataTime) 							<< 	" ms\n"
 	<< "Evaluate time\t\t\t"					<<	pwc(evaluateTime)										<< 	" ms\n"
+  << "First output time\t\t"        <<  pwc(first_output_time)              <<  " ms\n"
 	<< "Total time\t\t\t"							<<	pwc(totTime) 												<< 	" ms\n\n";
 
 #ifdef COUNT_CURRENT_STATES

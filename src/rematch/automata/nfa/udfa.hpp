@@ -32,10 +32,6 @@ class UDFA {
       }
     }
 
-    std::optional<Transition> next_transition(char a) const override {
-      return transitions_[a];
-    };
-
     ECS::Node *node() const override { return node_; }
     void set_node(ECS::Node *n) override { node_ = n; }
 
@@ -51,6 +47,7 @@ class UDFA {
     int id_{-1};
 
     std::array<std::optional<Transition>, 128> transitions_;
+    std::unordered_map<std::vector<bool>, Transition> base_transitions_;
 
     bool initial_{false};
     bool accepting_{false};
@@ -74,6 +71,7 @@ class UDFA {
   CaptureStatesTable init_eval_states() { return init_eval_states_; }
 
   Transition next_transition(abstract::DState *q, char a);
+  Transition next_base_transition(abstract::DState *dq, char a);
 
   size_t size() const { return states_.size(); }
 
@@ -101,6 +99,8 @@ class UDFA {
   std::vector<State*> obtain_states(StateSubset const &ss);
 
   State* obtain_state(LogicalVA::State *q);
+
+  Transition compute_transition(State* q, std::vector<bool> chbst);
 
   size_t nfa_size_;
 

@@ -38,23 +38,21 @@ ExtendedVA::ExtendedVA(LogicalVA const &A, Anchor a)
     // accepting_state_->add_filter(code, accepting_state_);
   }
 
-#ifndef NDEBUG
+  #ifndef NDEBUG
   std::cout << "EvaluationVA before offset:\n" << *this << "\n\n";
-#endif
+  #endif
 
-#ifndef NOPT_OFFSET
+  #ifndef NOPT_OFFSET
   offset_opt();
-#endif
+  #endif
 
   captureClosure();
 
-#ifndef NDEBUG
+  #ifndef NDEBUG
   std::cout << "EvaluationVA after capture closure:\n" << *this << "\n\n";
-#endif
+  #endif
 
-#ifndef NOPT_CROSSPROD
   duplicate_opt();
-#endif
 
   relabelStates();
 

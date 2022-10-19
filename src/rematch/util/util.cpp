@@ -3,6 +3,7 @@
 namespace rematch {
 namespace util {
 
+
 std::string file2str(std::string filename) {
   std::ifstream in(filename, std::ios::in | std::ios::binary);
   if (in) {

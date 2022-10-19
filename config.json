@@ -1,36 +1,24 @@
 {
-  "scopes": ["https://www.googleapis.com/auth/spreadsheets"],
-  "sheets": {
-    "RKBExplorer": "11GlbMM1ZfhR42kv8iCpA2DF4KmG157wR4fCS1cYa1mw",
-    "Dbpedia": "1mUQnlt83NaS3oQkCqFafRmbnkcDKWJFeIVha72R3WO8",
-    "RKBExplorer2": "1HU4skHQqmuMbcjMGLzkSe-XW_MAjmmsZJmof_rqb39M"
-  },
-  "template": "1QMcMNan9QlRQ-vYCEW2vMy0bUyyweXKI8fREasefb7c",
-  "dataset": "benchmark",
-  "exp-subpath": "exp/crossings/sparql/2line/sample",
-  "description": "SET 02 - PROTEOMS - OUTPUTS",
+  "exp-subpath": "exp/crossings/dna/sample",
+  "title": "SET 02 - MORPHEMES",
+  "description": "SET 02 - PROTEOMS",
   "homedir": "/home/nicovsj/repos/research/REmatch-org/REmatch",
   "nexp": 1,
-  "cols": [
-    "D", "E", "F", "G"
-  ],
-  "queries": [
-    1, 3
-  ],
+  "timeout-s": 100,
   "binaries": {
     "SDFA": {
       "command": "{0}/build/Release/bin/rematch",
       "args": "--searching --mode=noutputs -d {0} -r {1}",
       "rgx_type": "rematch"
     },
-    "MDFA": {
-      "command": "{0}/build/Release/bin/rematch",
-      "args": "--searching --macrodfa --mode=noutputs -d {0} -r {1}",
-      "rgx_type": "rematch"
-    },
     "REm": {
       "command": "{0}/build/Release/bin/rematch",
       "args": "--mode=noutputs -d {0} -r {1}",
+      "rgx_type": "rematch"
+    },
+    "REm-U": {
+      "command": "{0}/build/Release/bin/rematch",
+      "args": "--unambiguous --mode=noutputs -d {0} -r {1}",
       "rgx_type": "rematch"
     },
     "re2": {
@@ -55,11 +43,6 @@
     },
     "onig": {
       "command": "{0}/build/Release/bin/test-onig",
-      "args": "{0} {1}",
-      "rgx_type": "perl"
-    },
-    "onig-f": {
-      "command": "{0}/build/Release/bin/force-all-onig",
       "args": "{0} {1}",
       "rgx_type": "perl"
     },

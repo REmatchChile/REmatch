@@ -3,6 +3,8 @@
 
 #include <chrono>
 
+namespace rematch {
+
 class Timer
 /*
 Usage:
@@ -36,5 +38,7 @@ protected:
 private:
   std::uint64_t start_time_;
 };
+
+} // namespace rematch
 
 #endif

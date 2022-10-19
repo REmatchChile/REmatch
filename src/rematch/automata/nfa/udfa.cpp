@@ -65,52 +65,75 @@ UDFA::State* UDFA::obtain_state(LogicalVA::State *q) {
   return ret[0];
 }
 
+Transition UDFA::next_transition(abstract::DState *dq, char a) {
 
-
-Transition UDFA::next_transition(abstract::DState* dq, char a) {
   State* q = dynamic_cast<State*>(dq);
-  std::vector<bool> chbst = ffactory_->apply_filters(a);
-
-  auto ss = StateSubset(nfa_size_);
 
   auto &ntrans = q->transitions_[a];
 
-  transitions_.push_back(&*ntrans);
+  if(ntrans) return *ntrans;
 
-  ntrans = Transition();
+  std::vector<bool> chbst = ffactory_->apply_filters(a);
 
-  for (LogicalVA::State* q_old: q->states_subset_) {
-    for(auto& filter: q_old->filters) {
-      if(chbst[filter->code]) ss.add(filter->next);
+  ntrans = compute_transition(q, chbst);
+
+  return *ntrans;
+}
+
+Transition UDFA::next_base_transition(abstract::DState *dq, char a) {
+  auto *q = dynamic_cast<State*>(dq);
+
+  std::vector<bool> char_bitset = ffactory_->apply_filters(a);
+
+  auto found = q->base_transitions_.find(char_bitset);
+
+  if(found != q->base_transitions_.end()) return found->second;
+
+  Transition ntrans = compute_transition(q, char_bitset);
+
+  q->base_transitions_.emplace_hint(found, char_bitset, ntrans);
+
+  return ntrans;
+}
+
+Transition UDFA::compute_transition(State* q, std::vector<bool> chbst) {
+  StateSubset ss(nfa_size_);
+
+  Transition ntrans;
+
+  for (auto &state : q->states_subset_) {
+    for (auto &filter : state->filters) {
+      if (chbst[filter->code]) ss.add(filter->next);
     }
   }
 
-  if (ss.subset.empty()) return *ntrans; // Empty transition case
+  if (ss.subset.empty()) return ntrans;
 
   for(State* nq: obtain_states(ss))
-    ntrans->add_direct(nq);
+    ntrans.add({0,nq});
 
-  std::unordered_map<std::bitset<32>, StateSubset> reached_captures;
+  std::unordered_map<std::bitset<32>, StateSubset> capture_reach;
 
   for (LogicalVA::State* q_old: ss.subset) {
     for (auto &capture: q_old->captures) {
-      auto it = reached_captures.find(capture->code);
+      auto it = capture_reach.find(capture->code);
 
-      if(it == reached_captures.end()) {
-        it = reached_captures.emplace(std::piecewise_construct,
-                                      std::forward_as_tuple(capture->code),
-                                      std::forward_as_tuple(nfa_size_)).first;
+      if(it == capture_reach.end()) {
+        it = capture_reach.emplace(std::piecewise_construct,
+                                  std::forward_as_tuple(capture->code),
+                                  std::forward_as_tuple(nfa_size_)).first;
       }
       it->second.add(capture->next);
     }
   }
 
-  for (auto &elem: reached_captures) {
+  for (auto &elem: capture_reach) {
+    auto S = elem.first;
     for(State* nq: obtain_states(elem.second))
-      ntrans->add_capture({elem.first, nq});
+      ntrans.add({S, nq});
   }
 
-  return *ntrans;
+  return ntrans;
 }
 
 } // end namespace rematch

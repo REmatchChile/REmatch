@@ -36,33 +36,33 @@ MacroTransition *MacroDFA::next_transition(MacroState *ms, char a) {
 
   for (auto &state : ms->states()) {
     // Classic on-the-fly determinization
-    auto nextTransition = state->next_transition(a);
+    #ifdef NOPT_ASCIIARRAY
+    auto nextTransition = dfa_.next_base_transition(state, a);
+    #else
+    auto nextTransition = dfa_.next_transition(state, a);
+    #endif
 
-    if (!nextTransition) {
-      nextTransition = dfa_.next_transition(state, a);
-    }
+    DFA::State *direct = dynamic_cast<DFA::State*>(nextTransition.direct_),
+               *cap    = dynamic_cast<DFA::State*>(nextTransition.capture_.next);
 
-    DFA::State *direct = dynamic_cast<DFA::State*>(nextTransition->direct_),
-               *cap    = dynamic_cast<DFA::State*>(nextTransition->capture_.next);
-
-    if (nextTransition->type_ & Transition::kDirect) {
+    if (nextTransition.type_ & Transition::kDirect) {
       auto res = dstates_key.insert(direct->id());
       if (!res.second)
         nrepeatdirects++;
       else
         nfirstdirects++;
-    } else if (nextTransition->type_ == Transition::kEmpty) {
+    } else if (nextTransition.type_ == Transition::kEmpty) {
       nempties++;
       continue;
     }
-    if (nextTransition->type_ & Transition::kSingleCapture) {
+    if (nextTransition.type_ & Transition::kSingleCapture) {
       auto res = dstates_key.insert(cap->id());
       if (!res.second)
         nrepeatcaptures++;
       else
         nfirstcaptures++;
-    } else if (nextTransition->type_ & Transition::kMultiCapture) {
-      for (auto &capture : nextTransition->captures_) {
+    } else if (nextTransition.type_ & Transition::kMultiCapture) {
+      for (auto &capture : nextTransition.captures_) {
         DFA::State *c = dynamic_cast<DFA::State*>(capture.next);
         auto res = dstates_key.insert(c->id());
         if (!res.second)
@@ -79,31 +79,35 @@ MacroTransition *MacroDFA::next_transition(MacroState *ms, char a) {
 
   for (auto &state : ms->states()) {
     // Classic on-the-fly determinization
-    auto nextTransition = state->next_transition(a);
+    #ifdef NOPT_ASCIIARRAY
+    auto nextTransition = dfa_.next_base_transition(state, a);
+    #else
+    auto nextTransition = dfa_.next_transition(state,a);
+    #endif
 
-    DFA::State *direct = dynamic_cast<DFA::State*>(nextTransition->direct_),
-               *cap    = dynamic_cast<DFA::State*>(nextTransition->capture_.next);
+    DFA::State *direct = dynamic_cast<DFA::State*>(nextTransition.direct_),
+               *cap    = dynamic_cast<DFA::State*>(nextTransition.capture_.next);
 
-    if (nextTransition->type_ & Transition::kDirect) {
+    if (nextTransition.type_ & Transition::kDirect) {
       auto res = dstates_storage.insert(direct);
       if (res.second)
         mtrans->add_direct(*state, *direct, true);
       else
         mtrans->add_direct(*state, *direct, false);
-    } else if (nextTransition->type_ == Transition::kEmpty) {
+    } else if (nextTransition.type_ == Transition::kEmpty) {
       mtrans->add_empty(*state);
       continue;
     }
-    if (nextTransition->type_ & Transition::kSingleCapture) {
+    if (nextTransition.type_ & Transition::kSingleCapture) {
       auto res = dstates_storage.insert(cap);
       if (res.second)
-        mtrans->add_capture(*state, nextTransition->capture_.S,
+        mtrans->add_capture(*state, nextTransition.capture_.S,
                             *cap, true);
       else
-        mtrans->add_capture(*state, nextTransition->capture_.S,
+        mtrans->add_capture(*state, nextTransition.capture_.S,
                             *cap, false);
-    } else if (nextTransition->type_ & Transition::kMultiCapture) {
-      for (auto &capture : nextTransition->captures_) {
+    } else if (nextTransition.type_ & Transition::kMultiCapture) {
+      for (auto &capture : nextTransition.captures_) {
         DFA::State* c = dynamic_cast<DFA::State*>(capture.next);
         auto res = dstates_storage.insert(c);
         if (res.second)

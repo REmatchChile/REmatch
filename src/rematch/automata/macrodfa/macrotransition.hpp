@@ -34,14 +34,9 @@ struct MTDirect : public MTAbs {
 
 enum MacroType { kOneDirect, kTwoDirects, kOther };
 
-#ifdef MACRO_TRANSITIONS_RAW_ARRAYS
 using DirectsArray = MTDirect *;
 using CapturesArray = MTCapture *;
 using EmptiesArray = DFA::State **;
-#else
-using DirectsArray = rematch::prevector<MTDirect>;
-using CapturesArray = rematch::prevector<MTCapture>;
-#endif
 
 class MacroTransition {
 public:
@@ -78,16 +73,11 @@ public:
   size_t ncaptures_ = 0;
 
 private:
-#ifdef MACRO_TRANSITIONS_RAW_ARRAYS
   MTDirect *first_directs_;
   MTDirect *repeat_directs_;
   MTCapture *first_captures_;
   MTCapture *repeat_captures_;
   DFA::State **empties_;
-#else
-  rematch::prevector<MTDirect> directs_;
-  rematch::prevector<MTCapture> captures_;
-#endif
 
   MacroState *next_;
 

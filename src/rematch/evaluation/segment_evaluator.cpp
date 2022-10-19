@@ -49,6 +49,9 @@ Evaluation:
       init_evaluation_phase(i_min_);
     if (evaluation_phase()) { // Then there's output to enumerate
       pass_outputs();
+      #ifdef NOPT_EARLYOUTPUT
+      enumerator_.add_node(final_node_);
+      #endif
       goto Enumeration;
     }
   }
@@ -99,8 +102,11 @@ bool SegmentEvaluator::evaluation_phase() {
 
     ++i_pos_;
 
-    if (!reached_final_states_.empty())
+    if (!reached_final_states_.empty()) {
       return true; // On-line output
+    }
+    if(i_pos_ >= text_->size())
+      return true;
   }
 
   return false;
@@ -183,37 +189,37 @@ FORCE_INLINE void SegmentEvaluator::reading(char a, int64_t pos) {
   new_states_.clear();
 
   for (auto &p : current_states_) {
-    auto nextTransition = p->next_transition(a);
+    #ifdef NOPT_ASCIIARRAY
+    auto nextTransition = dfa_->next_base_transition(p, a);
+    #else
+    auto nextTransition = dfa_->next_transition(p, a);
+    #endif
 
-    if (!nextTransition) {
-      nextTransition = dfa_->next_transition(p, a);
-    }
-
-    auto c = nextTransition->capture_;
-    DFA::State *d = dynamic_cast<DFA::State*>(nextTransition->direct_);
+    auto c = nextTransition.capture_;
+    DFA::State *d = dynamic_cast<DFA::State*>(nextTransition.direct_);
 
     ECS::Node* from_node = p->node();
 
-    if (nextTransition->type_ == Transition::Type::kDirect) {
+    if (nextTransition.type_ == Transition::Type::kDirect) {
       visit(d, from_node, pos);
-    } else if (nextTransition->type_ == Transition::Type::kDirectSingleCapture) {
+    } else if (nextTransition.type_ == Transition::Type::kDirectSingleCapture) {
       visit(d, from_node, pos, false);
       from_node->inc_ref_count();
       visit(dynamic_cast<DFA::State*>(c.next), ds_.extend(from_node, c.S, pos+1), pos);
-    } else if (nextTransition->type_ == Transition::Type::kEmpty) {
+    } else if (nextTransition.type_ == Transition::Type::kEmpty) {
       from_node->dec_ref_count();
       ds_.try_mark_unused(from_node);
-    } else if (nextTransition->type_ == Transition::Type::kSingleCapture) {
+    } else if (nextTransition.type_ == Transition::Type::kSingleCapture) {
       visit(dynamic_cast<DFA::State*>(c.next), ds_.extend(from_node, c.S, pos+1), pos);
-    } else if (nextTransition->type_ == Transition::Type::kDirectMultiCapture) {
+    } else if (nextTransition.type_ == Transition::Type::kDirectMultiCapture) {
       visit(d, from_node, pos, false);
-      for (auto &capture : nextTransition->captures_) {
+      for (auto &capture : nextTransition.captures_) {
         from_node->inc_ref_count();
         visit(dynamic_cast<DFA::State*>(capture.next), ds_.extend(from_node, capture.S, pos+1), pos);
       }
     } else {
       visit(d, ds_.extend(from_node, c.S, pos+1), pos);
-      for (auto &capture : nextTransition->captures_) {
+      for (auto &capture : nextTransition.captures_) {
         from_node->inc_ref_count();
         visit(dynamic_cast<DFA::State*>(capture.next), ds_.extend(from_node, capture.S, pos+1), pos);
       }
@@ -226,9 +232,16 @@ FORCE_INLINE void SegmentEvaluator::reading(char a, int64_t pos) {
 inline void SegmentEvaluator::pass_outputs() {
   for (auto &state : reached_final_states_) {
     auto node = state->node();
+    #ifdef NOPT_EARLYOUTPUT
+    if(final_node_ == nullptr)
+      final_node_ = node;
+    else
+      final_node_ = ds_.unite(final_node_, node);
+    #else
     enumerator_.add_node(node);
     node->dec_ref_count();
     ds_.try_mark_unused(node);
+    #endif
     state->set_node(nullptr);
   }
   reached_final_states_.clear();

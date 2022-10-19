@@ -19,22 +19,6 @@ DFA::State::State(std::vector<LogicalVA::State*> states)
   #endif
 }
 
-void DFA::State::add_direct(char a, State *q) {
-  if (!transitions_[a])
-    transitions_[a] = Transition(q);
-  else
-    transitions_[a]->add_direct(q);
-}
-
-void DFA::State::add_capture(char a, std::bitset<32> S, State *q) {
-  if (!transitions_[a])
-    transitions_[a] = Transition(S, q);
-  else
-    transitions_[a]->add_capture({S, q});
-}
-
-void DFA::State::add_empty(char a) { transitions_[a] = Transition(); }
-
 #ifndef NDEBUG
 void DFA::State::update_label() {
   std::stringstream ss;
