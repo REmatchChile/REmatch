@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.23.2)
 
 project(rematch LANGUAGES CXX)
 
-if(NOT CMAKE_BUILD_TYPE)
-	set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
-	message(STATUS "Build type not specified. Using Release by default.")
-endif()
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+    message(STATUS "Build type not specified. Using Release by default.")
+endif ()
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -22,11 +22,11 @@ set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
 set(LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
 
 add_compile_definitions(
-	BENCHMARK_MODE
-	# NOPT_MEMORY
-	# NOPT_ASCIIARRAY
-	# NOPT_OFFSET
-	# NOPT_EARLYOUTPUT
+        BENCHMARK_MODE
+        # NOPT_MEMORY
+        # NOPT_ASCIIARRAY
+        # NOPT_OFFSET
+        # NOPT_EARLYOUTPUT
 )
 
 # Rematch libs starts as empty list
@@ -50,8 +50,8 @@ message("REmatch libs: ${REMATCH_LIBS}")
 
 add_subdirectory(src/targets)
 
-if(REMATCH_BUILD_TESTING)
-	add_subdirectory(tests)
-endif(REMATCH_BUILD_TESTING)
+if (REMATCH_BUILD_TESTING)
+    add_subdirectory(tests)
+endif (REMATCH_BUILD_TESTING)
 
 
