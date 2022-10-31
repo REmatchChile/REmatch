@@ -1,59 +1,14 @@
-enable_testing()
-
-find_package(CxxTest)
-
-if(CXXTEST_FOUND)
-  include_directories(${CXXTEST_INCLUDE_DIR})
-  CXXTEST_ADD_TEST(sample_unittest test_regex_search.cpp
-                                  ${CMAKE_CURRENT_SOURCE_DIR}/regex_search.hpp)
-  target_link_libraries(sample_unittest ${PROJECT_NAME}lib)
-endif()
-
-message(STATUS "Tests found")
-
-# Macro for listing all subirectories at current directory
-MACRO(SUBDIRLIST result curdir)
-  FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
-  SET(dirlist "")
-  FOREACH(child ${children})
-    IF(IS_DIRECTORY ${curdir}/${child})
-      LIST(APPEND dirlist ${child})
-    ENDIF()
-  ENDFOREACH()
-  SET(${result} ${dirlist})
-ENDMACRO()
-
 # Set testing binary filename
 set(BINARY rematch_test)
 
-file(GLOB_RECURSE TEST_SOURCES *.hpp *.cpp)
+set(TEST_SOURCES
+        test_searching.hpp
+        test_searching.cpp
+        data/search.cpp)
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # NOTE: Maybe use add_library instead if too many source files
 add_executable(${BINARY} ${TEST_SOURCES})
-
-SUBDIRLIST(SUBDIRS ${CMAKE_CURRENT_SOURCE_DIR})
-
-foreach(subdir ${SUBDIRS})
-
-    SUBDIRLIST(SUBSUBDIRS "${CMAKE_CURRENT_SOURCE_DIR}/${subdir}")
-    set(COUNT 0)
-
-    foreach(subsubdir ${SUBSUBDIRS})
-
-        add_test(NAME "${subdir}.${subsubdir}"
-                 COMMAND ${BINARY}
-                          --run_test=${subdir}/_${COUNT}
-                          --catch_system_error=yes
-                 WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
-
-        # Set timeout for tests
-        set_tests_properties("${subdir}.${subsubdir}" PROPERTIES TIMEOUT 3)
-
-        # message("Added test: ${subdir}.${subsubdir}")
-
-        math(EXPR COUNT "${COUNT}+1")
-
-    endforeach(subsubdir ${SUBSUBDIRS})
-endforeach(subdir ${SUBDIRS})
 
 target_link_libraries(${BINARY} PUBLIC ${PROJECT_NAME}lib)
