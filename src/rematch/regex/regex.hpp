@@ -19,49 +19,40 @@ namespace rematch {
 
 class Evaluator;
 
-
-
 class RegEx {
 
  public:
   using flags_t = uint16_t;
 
-  RegEx(const std::string &regex, RegExOptions opt = RegExOptions());
+  explicit RegEx(const std::string& regex, RegExOptions opt = RegExOptions());
 
   ~RegEx();
 
-  // std::string uniformGenerate(uint32_t n);
-  std::string getRegex();
-
   enum RegExFlags {
-    kNoFlags       = 0,
-    kMultiLine     = 1 << 0,
-    kDotNL         = 1 << 1,
-    kLineByLine    = 1 << 2,
-    kEarlyOutput   = 1 << 3,
-    kSaveAnchors   = 1 << 4,
-    kSearching     = 1 << 5,
-    kMacroDFA      = 1 << 6,
-    kUnambiguous   = 1 << 7
+    kNoFlags = 0,
+    kMultiLine = 1 << 0,
+    kDotNL = 1 << 1,
+    kLineByLine = 1 << 2,
+    kEarlyOutput = 1 << 3,
+    kSaveAnchors = 1 << 4,
+    kSearching = 1 << 5,
+    kMacroDFA = 1 << 6,
+    kUnambiguous = 1 << 7
   };
 
-  // Calls the evaluator to get first
-  Match_ptr find(const std::string &text);
-
-  MatchIterator find_iter(std::shared_ptr<Document> d,
-                         Anchor a = Anchor::kUnanchored);
+  MatchIterator find_iter(std::string_view d, Anchor a = Anchor::kUnanchored);
 
   int varCount() const { return vfactory_->size(); }
 
   // Getters
 
-  const std::string pattern() const { return pattern_; }
+  std::string pattern() const { return pattern_; }
   std::shared_ptr<VariableFactory> vfactory() { return vfactory_; }
 
-  const LogicalVA &logicalVA() const { return *VA_; }
+  const LogicalVA& logicalVA() const { return *VA_; }
   std::shared_ptr<ExtendedVA> extendedVA() const { return eVA_; }
 
-private:
+ private:
   static flags_t parseFlags(RegExOptions rgx_opt);
 
   const std::string pattern_;
@@ -78,8 +69,8 @@ private:
   // Is DFA fully computed.
   bool full_dfa_;
 
-}; // end class Regex
+};  // end class Regex
 
-} // end namespace rematch
+}  // end namespace rematch
 
-#endif // RGX_HPP
+#endif  // RGX_HPP

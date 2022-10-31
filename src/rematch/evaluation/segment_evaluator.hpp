@@ -27,19 +27,18 @@ namespace rematch {
 
 class SegmentEvaluator : public Evaluator {
 
-public:
-  SegmentEvaluator(RegEx &rgx, std::shared_ptr<StrDocument> d, Anchor a,
-                   EvalStats &e);
+ public:
+  SegmentEvaluator(RegEx& rgx, std::string_view d, Anchor a, EvalStats& e);
 
-  virtual Match_ptr next();
+  Match_ptr next() override;
 
-  virtual bool is_ambiguous() const { return eva_->is_ambiguous(); }
+  bool is_ambiguous() const override { return eva_->is_ambiguous(); }
 
-private:
+ private:
   inline void reading(char a, int64_t i);
 
-  inline void visit(DFA::State* ns, ECS::Node *node, int64_t pos,
-                                                        bool garbage_left=true);
+  inline void visit(DFA::State* ns, ECS::Node* node, int64_t pos,
+                    bool garbage_left = true);
 
   bool searching_phase();
   void init_searching_phase();
@@ -52,10 +51,7 @@ private:
   bool evaluation_phase();
   void init_evaluation_phase(int64_t init_from);
 
-  inline void pass_current_outputs();
   inline void pass_outputs();
-
-  Match_ptr normal_next();
 
   void update_current_static_mapping(int64_t i);
 
@@ -66,17 +62,17 @@ private:
   std::unique_ptr<ExtendedVA> eva_;
   std::unique_ptr<SearchVA> sva_;
 
-  std::unique_ptr<DFA> dfa_;        // Normal DFA
-  std::unique_ptr<SearchDFA> sdfa_; // Search DFA
+  std::unique_ptr<DFA> dfa_;         // Normal DFA
+  std::unique_ptr<SearchDFA> sdfa_;  // Search DFA
 
-  RegEx &rgx_;
+  RegEx& rgx_;
 
   Enumerator enumerator_;
 
-  ECS ds_; // DAG structure
+  ECS ds_;  // DAG structure
   ECS::Node* bottom_node_;
 
-  std::shared_ptr<StrDocument> text_;
+  std::string_view text_;
 
   Anchor anchor_;
 
@@ -84,9 +80,9 @@ private:
   std::vector<DFA::State*> new_states_;
   std::vector<DFA::State*> reached_final_states_;
 
-  SDState *current_dstate_;
+  SDState* current_dstate_;
 
-  ECS::Node *final_node_{nullptr};
+  ECS::Node* final_node_{nullptr};
 
   static const size_t kSizeMaxOutputBuffer = 100;
 
@@ -97,9 +93,9 @@ private:
 
   size_t out_buf_counter = 0;
 
-  EvalStats &stats_;
-}; // end class Evaluator
+  EvalStats& stats_;
+};  // end class Evaluator
 
-} // namespace rematch
+}  // namespace rematch
 
-#endif // EVALUATION__EOFILTER_EVALUATOR_HPP
+#endif  // EVALUATION__EOFILTER_EVALUATOR_HPP

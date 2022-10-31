@@ -1,6 +1,5 @@
 #include "segment_evaluator_mdfa.hpp"
 
-
 #include <boost/container/flat_set.hpp>
 #include "automata/dfa/dstate.hpp"
 #include "util/timer.hpp"
@@ -9,10 +8,14 @@
 
 namespace rematch {
 
-MacroSegmentEvaluator::MacroSegmentEvaluator(RegEx &rgx,
+MacroSegmentEvaluator::MacroSegmentEvaluator(RegEx& rgx,
                                              std::shared_ptr<StrDocument> d,
-                                             Anchor a, EvalStats &e)
-    : rgx_(rgx), enumerator_(rgx_), text_(d), anchor_(a), stats_(e) {
+                                             Anchor a, EvalStats& e)
+    : rgx_(rgx),
+      enumerator_(rgx_, std::string_view()),
+      text_(d),
+      anchor_(a),
+      stats_(e) {
 
   eva_ = std::make_unique<ExtendedVA>(rgx_.logicalVA(), anchor_);
   sva_ = std::make_unique<SearchVA>(rgx_.logicalVA(), anchor_);
@@ -40,9 +43,9 @@ Enumeration:
 
 Evaluation:
   if (i_pos_ < i_max_) {
-    if (i_pos_ < i_min_) // Then we know that the current runs are useless
+    if (i_pos_ < i_min_)  // Then we know that the current runs are useless
       init_evaluation_phase(i_min_);
-    if (evaluation_phase()) { // Then there's output to enumerate
+    if (evaluation_phase()) {  // Then there's output to enumerate
       pass_outputs();
       goto Enumeration;
     }
@@ -67,8 +70,8 @@ void MacroSegmentEvaluator::init_evaluation_phase(int64_t pos) {
 
   std::vector<DFA::State*> init_dstates;
 
-  for (auto &elem : dfa_->init_eval_states()) {
-    DFA::State *q0 = elem.first;
+  for (auto& elem : dfa_->init_eval_states()) {
+    DFA::State* q0 = elem.first;
     std::bitset<32> S = elem.second;
     if (S != 0)
       visit_capture(dfa_->init_state(), S, q0, pos - 1);
@@ -86,14 +89,14 @@ void MacroSegmentEvaluator::init_evaluation_phase(int64_t pos) {
 bool MacroSegmentEvaluator::evaluation_phase() {
   while (i_pos_ < i_max_) {
     char a = (*text_)[i_pos_];
-    a &= 0x7F; // Only ASCII chars for now
+    a &= 0x7F;  // Only ASCII chars for now
 
     reading(a, i_pos_);
 
     ++i_pos_;
 
     if (!reached_final_states_.empty())
-      return true; // On-line output
+      return true;  // On-line output
   }
 
   return false;
@@ -106,22 +109,22 @@ bool MacroSegmentEvaluator::searching_phase() {
   i_min_ = i_src_;
   i_max_ = i_src_;
 
-  for(;i_src_ < text_->size();++i_src_) {
+  for (; i_src_ < text_->size(); ++i_src_) {
 
     char a = (char)(*text_)[i_src_] & 0x7F;
 
     // nextState is reached from currentState by reading the character
-    SDState *next_state = current_dstate_->next_state(a);
+    SDState* next_state = current_dstate_->next_state(a);
 
-    if (next_state == nullptr) // Then maybe a determinization is needed
+    if (next_state == nullptr)  // Then maybe a determinization is needed
       current_dstate_ = sdfa_->next_state(current_dstate_, a);
     else
       current_dstate_ = next_state;
 
-    if(current_dstate_->accepting())
+    if (current_dstate_->accepting())
       i_max_ = i_src_ + 1;
-    else if(current_dstate_->ends()) {
-      if(i_min_ < i_max_) {
+    else if (current_dstate_->ends()) {
+      if (i_min_ < i_max_) {
         stats_.n_search_intervals++;
         stats_.search_intervals.emplace_back(std::make_pair(i_min_, i_max_));
         return true;
@@ -148,7 +151,6 @@ FORCE_INLINE void MacroSegmentEvaluator::reading(char a, int64_t pos) {
   if (nt == nullptr)
     nt = mdfa_->next_transition(current_state_, a);
 
-
   boost::container::flat_set<ECS::Node*> decreasing_nodes;
 
   for (int i = 0; i < nt->nempties_; i++) {
@@ -169,7 +171,8 @@ FORCE_INLINE void MacroSegmentEvaluator::reading(char a, int64_t pos) {
     auto c = nt->first_captures()[i];
     // decreasing_nodes.insert(c.from->node);
     auto nn = ds_.extend(c.from->node(), c.S, pos + 1);
-    c.to->set_node(nn); // Slow pass node because c.from might be already visited
+    c.to->set_node(
+        nn);  // Slow pass node because c.from might be already visited
     if (c.to->accepting())
       reached_final_states_.push_back(c.to);
   }
@@ -181,7 +184,7 @@ FORCE_INLINE void MacroSegmentEvaluator::reading(char a, int64_t pos) {
     decreasing_nodes.insert(c.from->node());
 
     c.to->set_node(
-      ds_.unite(ds_.extend(c.from->node(), c.S, pos + 1), c.to->node()));
+        ds_.unite(ds_.extend(c.from->node(), c.S, pos + 1), c.to->node()));
   }
 
   for (int i = 0; i < nt->nrepeatdirects_; i++) {
@@ -193,17 +196,16 @@ FORCE_INLINE void MacroSegmentEvaluator::reading(char a, int64_t pos) {
     d.to->set_node(ds_.unite(d.from->node(), d.to->node()));
   }
 
-  for(auto& node: decreasing_nodes) {
+  for (auto& node : decreasing_nodes) {
     node->dec_ref_count();
     ds_.try_mark_unused(node);
   }
-
 
   current_state_ = nt->next_state();
 }
 
 inline void MacroSegmentEvaluator::pass_outputs() {
-  for (auto &state : reached_final_states_) {
+  for (auto& state : reached_final_states_) {
     enumerator_.add_node(state->node());
     ds_.try_mark_unused(state->node());
     // state->node = nullptr;
@@ -214,8 +216,9 @@ inline void MacroSegmentEvaluator::pass_outputs() {
   reached_final_states_.clear();
 }
 
-inline void MacroSegmentEvaluator::visit_capture(DFA::State *cs, std::bitset<32> S,
-                                                 DFA::State *to, int64_t pos) {
+inline void MacroSegmentEvaluator::visit_capture(DFA::State* cs,
+                                                 std::bitset<32> S,
+                                                 DFA::State* to, int64_t pos) {
   if (to->visited() <= pos) {
     to->set_node(ds_.extend(cs->node(), S, pos + 1));
     to->set_visited(pos + 1);
@@ -231,4 +234,4 @@ inline void MacroSegmentEvaluator::visit_capture(DFA::State *cs, std::bitset<32>
   }
 }
 
-} // end namespace rematch
+}  // end namespace rematch

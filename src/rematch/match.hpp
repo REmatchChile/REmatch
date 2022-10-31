@@ -38,11 +38,12 @@ class Match {
   friend class ECS;
   friend class Interface;
 
-public:
+ public:
   Match() = default;
 
-  Match(std::shared_ptr<VariableFactory> vf, std::vector<int64_t> m)
-      : data_(m), var_factory_(vf) {}
+  Match(std::shared_ptr<VariableFactory> vf, std::vector<int64_t> m,
+        std::string_view doc)
+      : data_(std::move(m)), var_factory_(std::move(vf)), document_(doc) {}
 
   operator bool() const { return !data_.empty(); }
 
@@ -52,21 +53,21 @@ public:
   Span span(std::string var) const;
 
   // Returns a variable's captured substring
-  std::string group(std::string var, std::shared_ptr<StrDocument> &doc) const;
+  std::string_view group(std::string var) const;
 
   // Returns referece to the sublaying document.
-  const std::string &doc() const;
+  std::string_view doc() const;
 
   // Returns a vector with the variable names in order
   std::vector<std::string> variables() const;
 
-  SpanMap &data();
+  SpanMap& data();
 
-  std::string pprint(std::shared_ptr<StrDocument> &doc) const;
+  std::string pprint() const;
 
-  friend std::ostream &operator<<(std::ostream &os, Match &m);
+  friend std::ostream& operator<<(std::ostream& os, Match& m);
 
-private:
+ private:
   // Enumerator needs to access data_ to fill out the mappings
   void set_mapping(int var_code, int64_t pos) { data_[var_code] = pos; }
 
@@ -75,8 +76,10 @@ private:
   // Access to variable names
   std::shared_ptr<VariableFactory> var_factory_;
 
-}; // end class Match
+  std::string_view document_;
 
-} // end namespace rematch
+};  // end class Match
 
-#endif // MATCH_HPP
+}  // end namespace rematch
+
+#endif  // MATCH_HPP

@@ -13,9 +13,10 @@
 
 namespace rematch {
 
-Enumerator::Enumerator(RegEx &r)
+Enumerator::Enumerator(RegEx& r, std::string_view document)
     : var_factory_(r.vfactory()),
-      current_mapping_(var_factory_->size() * 2, -1) {}
+      current_mapping_(var_factory_->size() * 2, -1),
+      document_(document) {}
 
 Match_ptr Enumerator::next() {
   while (!stack_.empty()) {
@@ -25,11 +26,12 @@ Match_ptr Enumerator::next() {
 
     if (current_node->is_bottom()) {
       tot_mappings_++;
-      std::unique_ptr<Match> ret(new Match(var_factory_, current_mapping_));
+      std::unique_ptr<Match> ret(
+          new Match(var_factory_, current_mapping_, document_));
       return ret;
     }
 
-    if (current_node->is_output()) { // If label node
+    if (current_node->is_output()) {  // If label node
       ECS::Data dt = current_node->data();
       for (size_t j = 0; j < var_factory_->size() * 2; j++) {
         if (dt.S[j])
@@ -37,13 +39,13 @@ Match_ptr Enumerator::next() {
         // TODO: Hacer una version con/sin offset dependiendo del automata
       }
       stack_.push_back(current_node->next());
-    } else { // If union node
+    } else {  // If union node
       stack_.push_back(current_node->right());
       stack_.push_back(current_node->left());
     }
-  } // end while()
+  }  // end while()
 
   throw std::exception();
 }
 
-} // end namespace rematch
+}  // end namespace rematch

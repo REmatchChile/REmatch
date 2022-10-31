@@ -10,13 +10,14 @@
 #include "options.hpp"
 
 class Interface {
-public:
-  Interface(std::string &doc, const std::string &pattern, rematch::Options opt);
+ public:
+  Interface(const std::string& doc, const std::string& pattern,
+            rematch::Options opt);
 
   // Algorithm runs
   void run();
 
-private:
+ private:
   void normal_run();
   void benchmark_run();
 
@@ -28,10 +29,10 @@ private:
 
   // Docstring might be a path to a file to-be-read or the document per se.
   // This is indicated by options_.is_docfile() .
-  std::shared_ptr<rematch::Document> document_;
+  const std::string& document_;
 
   // Regular pattern given
-  const std::string &pattern_;
+  const std::string& pattern_;
 
   // Options for commanding evaluation
   rematch::Options options_;
