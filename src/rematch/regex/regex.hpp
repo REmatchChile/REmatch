@@ -66,8 +66,8 @@ class RegEx {
   // Regex flags.
   flags_t flags_;
 
-  // Is DFA fully computed.
-  bool full_dfa_;
+ public:
+  const std::vector<std::string> variables;
 
 };  // end class Regex
 

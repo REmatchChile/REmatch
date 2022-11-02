@@ -9,7 +9,10 @@
 namespace rematch {
 
 RegEx::RegEx(const std::string& pattern, rematch::RegExOptions rgx_opts)
-    : pattern_(pattern), VA_(regex2LVA(pattern)), flags_(parseFlags(rgx_opts)) {
+    : pattern_(pattern),
+      VA_(regex2LVA(pattern)),
+      flags_(parseFlags(rgx_opts)),
+      variables(VA_->varFactory()->variables()) {
 
   vfactory_ = VA_->varFactory();
 

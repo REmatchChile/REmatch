@@ -11,8 +11,20 @@
 namespace rematch::testing {
 
 struct Span {
-  int lo;
-  int hi;
+  long long lo;
+  long long hi;
+
+  bool operator<(const Span& rhs) const {
+    return std::tie(lo, hi) < std::tie(rhs.lo, rhs.hi);
+  }
+  bool operator>(const Span& rhs) const { return rhs < *this; }
+  bool operator<=(const Span& rhs) const { return !(rhs < *this); }
+  bool operator>=(const Span& rhs) const { return !(*this < rhs); }
+
+  bool operator==(const Span& rhs) const {
+    return std::tie(lo, hi) == std::tie(rhs.lo, rhs.hi);
+  }
+  bool operator!=(const Span& rhs) const { return !(rhs == *this); }
 };
 
 struct RegexTest {

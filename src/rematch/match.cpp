@@ -54,4 +54,22 @@ std::ostream& operator<<(std::ostream& os, Match& m) {
   return os;
 }
 
+int64_t Match::start(std::string var) const {
+  try {
+    int pos = var_factory_->position(std::move(var));
+    return data_[pos * 2];
+  } catch (...) {
+    throw std::logic_error("No mapping assigned to variable.");
+  }
+}
+
+int64_t Match::end(std::string var) const {
+  try {
+    int pos = var_factory_->position(std::move(var));
+    return data_[pos * 2 + 1];
+  } catch (...) {
+    throw std::logic_error("No mapping assigned to variable.");
+  }
+}
+
 }  // end namespace rematch
