@@ -1,6 +1,6 @@
 {
-  "exp-subpath": "benchmark/crossings/dna/small-sample",
-  "homedir": "/home/nicovsj/repos/research/REmatch-org/REmatch",
+  "exp-subpath": "exp/crossings/sparql/1-var/2lines/small-sample",
+  "homedir": "/Users/nicovsjj/Documents/Repos/rem/REmatch",
   "nexp": 1,
   "timeout-s": 100,
   "binaries": {
