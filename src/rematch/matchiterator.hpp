@@ -17,7 +17,7 @@ public:
   MatchIterator() = default;
   MatchIterator(Evaluator *e, EvalStats *s);
 
-  Match_ptr next();
+  Match_ptr next() const;
 
   Evaluator *evaluator_;
   EvalStats *stats_;

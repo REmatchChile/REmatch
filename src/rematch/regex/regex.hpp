@@ -24,7 +24,7 @@ class RegEx {
  public:
   using flags_t = uint16_t;
 
-  explicit RegEx(const std::string& regex, RegExOptions opt = RegExOptions());
+  explicit RegEx(std::string_view regex, RegExOptions opt = RegExOptions());
 
   ~RegEx();
 

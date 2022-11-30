@@ -18,7 +18,7 @@ Span Match::span(std::string var) const {
 std::string_view Match::group(std::string var) const {
   try {
     int pos = var_factory_->position(var);
-    return document_.substr(data_[pos * 2], data_[pos * 2 + 1]);
+    return document_.substr(data_[pos * 2], data_[pos * 2 + 1] - data_[pos * 2]);
   } catch (...) {
     throw std::logic_error("No mapping assigned to variable.");
   }

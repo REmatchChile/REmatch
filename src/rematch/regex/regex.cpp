@@ -3,18 +3,19 @@
 #include "automata/nfa/lva.hpp"
 #include "automata/nfa/sva.hpp"
 #include "automata/nfa/udfa.hpp"
-#include "evaluation/evaluator.hpp"
+#include "evaluation/evaluation.hpp"
 #include "parse/parser.hpp"
 
 namespace rematch {
 
-RegEx::RegEx(const std::string& pattern, rematch::RegExOptions rgx_opts)
+RegEx::RegEx(std::string_view pattern, rematch::RegExOptions rgx_opts)
     : pattern_(pattern),
       VA_(regex2LVA(pattern)),
       flags_(parseFlags(rgx_opts)),
       variables(VA_->varFactory()->variables()) {
 
   vfactory_ = VA_->varFactory();
+  eVA_ = std::make_shared<ExtendedVA>(*VA_, Anchor::kUnanchored);
 
   // std::cout << "LogicalVA:\n" << *VA_ << "\n\n";
 }
@@ -50,7 +51,6 @@ RegEx::~RegEx() {}
 // }
 
 MatchIterator RegEx::find_iter(std::string_view d, Anchor a) {
-  eVA_ = std::make_shared<ExtendedVA>(*VA_, a);
   Evaluator* eval;
   auto* stats = new EvalStats();
   if (flags_ & kSearching) {

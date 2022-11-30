@@ -28,7 +28,7 @@ public:
 
   std::string get_var(uint position);
 
-  std::vector<std::string> variables() { return data_; }
+  std::vector<std::string> variables() const { return data_; }
 
   int position(std::string var) const;
 

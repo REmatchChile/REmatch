@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+#include "regex/regex_options.hpp"
+
 namespace rematch::testing {
 
 struct Span {
@@ -34,7 +36,7 @@ struct RegexTest {
   std::vector<std::vector<Span>> mappings;
 };
 
-bool test_searching(const RegexTest& test);
+bool test_searching(const RegexTest& test, RegExOptions opts = {});
 
 }  // end namespace rematch::testing
 

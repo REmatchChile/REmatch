@@ -8,11 +8,11 @@
 
 namespace rematch {
 
-bool doParse(const std::string &input, ast::altern &data)
+bool doParse(std::string_view input, ast::altern &data)
 /* Parses input and stores the AST in data */
 {
 
-  static const parser<std::string::const_iterator> p; // Parser
+  static const parser<std::string_view::const_iterator> p; // Parser
 
   auto f(begin(input)), l(end(input));
   bool ok = qi::parse(f, l, p, data);
@@ -27,7 +27,7 @@ bool doParse(const std::string &input, ast::altern &data)
   return ok;
 }
 
-std::unique_ptr<LogicalVA> regex2LVA(std::string regex) {
+std::unique_ptr<LogicalVA> regex2LVA(std::string_view regex) {
   ast::altern tree;
 
   doParse(regex, tree);

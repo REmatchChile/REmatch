@@ -16,12 +16,12 @@ struct RegexSubTest {
   std::vector<std::vector<Span>> maps;
 };
 
-bool test_searching(const RegexTest& test) {
+bool test_searching(const RegexTest& test, RegExOptions opts) {
   auto expected = test.mappings;
 
   std::sort(expected.begin(), expected.end());
 
-  RegEx rgx{test.pattern};
+  RegEx rgx{test.pattern, opts};
 
   INFO("Pattern to search: " << test.pattern);
   INFO("Document to match: \"" << test.doc << "\"");
@@ -53,18 +53,18 @@ bool test_searching(const RegexTest& test) {
   std::stringstream ss1, ss2;
   if(!additional.empty()) {
     for(const auto &elem: additional) {
-      for (int i = 0; i < rgx.variables.size() - 1; ++i) {
+      for (size_t i = 0; i < rgx.variables.size() - 1; ++i) {
         ss1 << rgx.variables[i] << "|" << elem[i].lo << "," << elem[i].hi << ">, ";
       }
-      ss1 << rgx.variables.back() << "|" << elem.back().lo << "," << elem.back().hi << ">";
+      ss1 << rgx.variables.back() << "|" << elem.back().lo << "," << elem.back().hi << "> ";
     }
   }
   if(!missing.empty()) {
     for(const auto &elem: missing) {
-      for (int i = 0; i < rgx.variables.size() - 1; ++i) {
-        ss1 << rgx.variables[i] << "|" << elem[i].lo << "," << elem[i].hi << ">, ";
+      for (size_t i = 0; i < rgx.variables.size() - 1; ++i) {
+        ss2 << rgx.variables[i] << "|" << elem[i].lo << "," << elem[i].hi << ">, ";
       }
-      ss1 << rgx.variables.back() << "|" << elem.back().lo << "," << elem.back().hi << ">";
+      ss2 << rgx.variables.back() << "|" << elem.back().lo << "," << elem.back().hi << "> ";
     }
   }
   INFO("Additional values yielded: " << ss1.str());
@@ -74,7 +74,7 @@ bool test_searching(const RegexTest& test) {
   return false;
 }
 
-TEST_CASE("All substrings", "[searching]") {
+TEST_CASE("All substrings", "[evaluation]") {
 
   const std::string pattern = "!x{.+}";
   std::vector<std::string> vars = {"x"};
@@ -114,8 +114,21 @@ TEST_CASE("All substrings", "[searching]") {
       }
   };
 
-  for (auto const& subtest: cases) {
-    test_searching({subtest.doc, pattern, vars, subtest.maps});
+  RegExOptions opts;
+
+
+  SECTION("Normal mode", "[normal]") {
+    opts.set_searching(false);
+    for (auto const& subtest: cases) {
+      test_searching({subtest.doc, pattern, vars, subtest.maps}, opts);
+    }
+  }
+
+  SECTION("Searching mode", "[searching]") {
+    opts.set_searching(true);
+    for (auto const& subtest: cases) {
+      test_searching({subtest.doc, pattern, vars, subtest.maps}, opts);
+    }
   }
 }
 
@@ -132,8 +145,20 @@ TEST_CASE("Character sets", "[searching]") {
       {"11d_", {}},
   };
 
-  for (auto const& subtest: cases) {
-    test_searching({subtest.doc, pattern, vars, subtest.maps});
+  RegExOptions opts;
+
+  SECTION("Normal mode", "[normal]") {
+    opts.set_searching(false);
+    for (auto const& subtest: cases) {
+      test_searching({subtest.doc, pattern, vars, subtest.maps}, opts);
+    }
+  }
+
+  SECTION("Searching mode", "[searching]") {
+    opts.set_searching(true);
+    for (auto const& subtest: cases) {
+      test_searching({subtest.doc, pattern, vars, subtest.maps}, opts);
+    }
   }
 }
 

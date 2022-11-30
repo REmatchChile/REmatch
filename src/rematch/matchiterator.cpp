@@ -8,6 +8,6 @@ namespace rematch {
 MatchIterator::MatchIterator(Evaluator *e, EvalStats *s)
     : evaluator_(e), stats_(s) {}
 
-Match_ptr MatchIterator::next() { return evaluator_->next(); }
+Match_ptr MatchIterator::next() const { return evaluator_->next(); }
 
 } // end namespace rematch

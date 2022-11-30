@@ -19,15 +19,15 @@ struct Transition {
   };
 
   enum Type {
-    kEmpty                    = 0,        // 0000
-    kDirect                   = 1 << 0,   // 0001
-    kSingleCapture            = 1 << 1,   // 0010
-    kMultiCapture             = 1 << 2,   // 0100
-    kMultiDirect              = 1 << 3,   // 1000
-    kDirectSingleCapture      = kDirect       | kSingleCapture,
-    kDirectMultiCapture       = kDirect       | kMultiCapture,
-    kMultiDirectSingleCapture = kMultiDirect  | kSingleCapture,
-    kMultiDirectMultiCapture  = kMultiDirect  | kMultiCapture
+    kEmpty                    = 0,        // 0000 = 0
+    kDirect                   = 1 << 0,   // 0001 = 1
+    kSingleCapture            = 1 << 1,   // 0010 = 2
+    kMultiCapture             = 1 << 2,   // 0100 = 4
+    kMultiDirect              = 1 << 3,   // 1000 = 8
+    kDirectSingleCapture      = kDirect       | kSingleCapture,  // 0011 = 3
+    kDirectMultiCapture       = kDirect       | kMultiCapture,   // 0101 = 5
+    kMultiDirectSingleCapture = kMultiDirect  | kSingleCapture,  // 1010 = 10
+    kMultiDirectMultiCapture  = kMultiDirect  | kMultiCapture    // 1100 = 12
   };
 
   int type_;
@@ -73,6 +73,8 @@ struct Transition {
       break;
     case Type::kDirectSingleCapture:
       type_ = Type::kDirectMultiCapture;
+      captures_.clear();
+      captures_.push_back(capture);
     case Type::kMultiDirectSingleCapture:
       //* Do push_back capture_ into captures_, necessary for refcounts.
       type_ = Type::kMultiDirectMultiCapture;

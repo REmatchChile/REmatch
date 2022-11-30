@@ -531,7 +531,7 @@ std::ostream &operator<<(std::ostream &os, LogicalVA const &A) {
 
       nid = capture->next->id;
 
-      os << "t " << cid << " " << A.vfactory_->print_varset(S) << " " << nid
+      os << "c " << cid << " " << A.vfactory_->print_varset(S) << " " << nid
          << '\n';
 
       // If not visited enqueue and add to visited

@@ -8,6 +8,7 @@
 #include "automata/dfa/dfa.hpp"
 #include "automata/nfa/eva.hpp"
 #include "evaluation/evaluator.hpp"
+#include "evaluation/stats.hpp"
 #include "interface.hpp"
 #include "matchiterator.hpp"
 #include "parse/parser.hpp"
@@ -132,7 +133,7 @@ void Interface::benchmark_run() {
   std::string memoryUsed;
   ret = getrusage(RUSAGE_SELF, &usage);
   if (ret == 0) {
-    memoryUsed = formatMem(usage.ru_maxrss * 1024);
+    memoryUsed = formatMem(usage.ru_maxrss);
   }
 
   /************************ Output Measurments ************************/
