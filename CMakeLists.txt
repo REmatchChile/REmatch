@@ -27,6 +27,7 @@ add_compile_definitions(
         # NOPT_ASCIIARRAY
         # NOPT_OFFSET
         # NOPT_EARLYOUTPUT
+#         NOPT_SEGMENT_RATIO
 )
 
 # Rematch libs starts as empty list
@@ -40,7 +41,7 @@ include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 # No need to add Boost's libraries, we're using only boost's headers
 # list(APPEND project_LIBS ${Boost_LIBRARIES})
 
- add_subdirectory(src/thirdparty)
+add_subdirectory(src/thirdparty)
 
 # list(APPEND REMATCH_LIBS spdlog)
 
@@ -51,6 +52,7 @@ message("REmatch libs: ${REMATCH_LIBS}")
 add_subdirectory(src/targets)
 
 if (REMATCH_BUILD_TESTING)
+    include(CTest)
     add_subdirectory(tests)
 endif (REMATCH_BUILD_TESTING)
 
