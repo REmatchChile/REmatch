@@ -6,12 +6,12 @@
 namespace rematch {
 
 ECSNode::ECSNode(ECSNodeType node_type, ECSNode *left,
-                 ECSNode *right, std::bitset<32> variable_markers) {
+                 ECSNode *right, std::bitset<64> variable_markers) {
   assign_attributes(node_type, left, right, variable_markers);
 }
 
 ECSNode *ECSNode::reset(ECSNodeType node_type, ECSNode *left, ECSNode *right,
-                        std::bitset<32> variable_markers) {
+                        std::bitset<64> variable_markers) {
   reset_attributes();
   ++reset_count_;
   assign_attributes(node_type, left, right, variable_markers);
@@ -25,9 +25,23 @@ bool ECSNode::is_bottom() const {
   return variable_markers_[variable_markers_.size() - 2] && 
          !variable_markers_[variable_markers_.size() - 1]; }
 
+std::ostream& operator<<(std::ostream& os, const ECSNode& n) {
+  switch (n.type_) {
+    case ECSNodeType::kBottom:
+      os << "bottom";
+      break;
+    case ECSNodeType::kUnion:
+      os << "kUnion";
+      break;
+    case ECSNodeType::kLabel:
+      os << "kLabel: " << n.variable_markers_;
+  }
+  return os;
+}
+
 void ECSNode::assign_attributes(
     ECSNodeType node_type, ECSNode *left, ECSNode *right,
-    std::bitset<32> variable_markers) {
+    std::bitset<64> variable_markers) {
   switch (node_type) {
   case ECSNodeType::kBottom:
     label_node_as_kBottom();
@@ -70,7 +84,7 @@ void ECSNode::label_node_as_kLabel() {
 }
 
 void ECSNode::create_kLabel_node(ECSNode *left,
-                                 std::bitset<32> variable_markers) {
+                                 std::bitset<64> variable_markers) {
     left_ = left;
     variable_markers_ = variable_markers;
     label_node_as_kLabel();
