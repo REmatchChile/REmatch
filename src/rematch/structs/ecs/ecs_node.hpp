@@ -13,16 +13,16 @@ class ECSNode {
 
   public:
     union {
-      int ref_count_{1};
-      ECSNode *next_free_;
+      int ref_count{1};
+      ECSNode *next_free_node;
     };
-    std::bitset<64> variable_markers_;
-    ECSNode *left_ = nullptr;
-    ECSNode *right_ = nullptr;
-    ECSNodeType type_;
+    std::bitset<64> variable_markers;
+    ECSNode *left = nullptr;
+    ECSNode *right = nullptr;
+    ECSNodeType type;
 
   private:
-    int reset_count_ = 0;
+    int reset_count = 0;
 
   public:
     ECSNode(ECSNodeType node_type, ECSNode *left = nullptr,
@@ -34,14 +34,14 @@ class ECSNode {
     bool is_output() const;
     bool is_bottom() const;
 
-    ECSNode *left() const { return left_; }
-    ECSNode *right() const { return is_output() ? nullptr : right_; }
-    ECSNode *next() const { return left_; };
+    ECSNode *left_node() const { return left; }
+    ECSNode *right_node() const { return is_output() ? nullptr : right; }
+    ECSNode *next() const { return left; };
 
     // TODO: Tal vez agregar un node container o
     //       enumerator que se encarga de los ref_counts
-    void dec_ref_count() { --ref_count_; }
-    void inc_ref_count() { ++ref_count_; }
+    void dec_ref_count() { --ref_count; }
+    void inc_ref_count() { ++ref_count; }
 
     friend std::ostream& operator<<(std::ostream& os, const ECSNode& n);
 

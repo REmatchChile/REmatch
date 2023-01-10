@@ -6,22 +6,22 @@ template <class... Args> ECSNode *GarbageCollector::alloc(Args &&...args) {
   if (minipool_head_->is_full()) {
     if (free_head_ != nullptr) {
       ECSNode *old_free_head = free_head_;
-      ECSNode *next_free = free_head_->next_free_;
-      ECSNode *right_ptr = free_head_->right();
-      ECSNode *left_ptr = free_head_->left();
+      ECSNode *next_free = free_head_->next_free_node;
+      ECSNode *right_ptr = free_head_->right_node();
+      ECSNode *left_ptr = free_head_->left_node();
 
-      // Need to decrease the ref_count_ of left and right.
-      --left_ptr->ref_count_;
+      // Need to decrease the ref_count of left and right.
+      --left_ptr->ref_count;
       if (right_ptr != nullptr)
-        --right_ptr->ref_count_;
+        --right_ptr->ref_count;
 
-      if (left_ptr->ref_count_ == 0 && !left_ptr->is_bottom()) {
-        left_ptr->next_free_ = next_free;
+      if (left_ptr->ref_count == 0 && !left_ptr->is_bottom()) {
+        left_ptr->next_free_node = next_free;
         next_free = left_ptr;
       }
-      if (!free_head_->is_output() && right_ptr->ref_count_ == 0 &&
+      if (!free_head_->is_output() && right_ptr->ref_count == 0 &&
           !right_ptr->is_bottom()) {
-        right_ptr->next_free_ = next_free;
+        right_ptr->next_free_node = next_free;
         next_free = right_ptr;
       }
 
@@ -45,7 +45,7 @@ template <class... Args> ECSNode *GarbageCollector::alloc(Args &&...args) {
 }
 
 void GarbageCollector::add_to_list_of_free_memory(ECSNode *node) {
-    node->next_free_ = free_head_;
+    node->next_free_node = free_head_;
     free_head_ = node;
 }
 
@@ -54,7 +54,7 @@ std::string GarbageCollector::print_list_of_free_memory() {
     auto head = free_head_;
     while(head != nullptr) {
       ss << "()" << ' ';
-      head = head->next_free_;
+      head = head->next_free_node;
     }
     return ss.str();
 }

@@ -17,13 +17,13 @@ ECSNode *ECS::unite(ECSNode *v1, ECSNode *v2, bool garbage_left) {
   } else if (v2->is_output()) {
     v_prim = garbage_collector_.alloc(ECSNodeType::kUnion, v2, v1);
   } else {
-    ECSNode *u2 = garbage_collector_.alloc(ECSNodeType::kUnion, v1->right(), v2->right());
-    v1->right()->inc_ref_count();
-    v2->right()->inc_ref_count();
-    ECSNode *u1 = garbage_collector_.alloc(ECSNodeType::kUnion, v2->left(), u2);
-    v2->left()->inc_ref_count();
-    v_prim = garbage_collector_.alloc(ECSNodeType::kUnion, v1->left(), u1);
-    v1->left()->inc_ref_count();
+    ECSNode *u2 = garbage_collector_.alloc(ECSNodeType::kUnion, v1->right_node(), v2->right_node());
+    v1->right_node()->inc_ref_count();
+    v2->right_node()->inc_ref_count();
+    ECSNode *u1 = garbage_collector_.alloc(ECSNodeType::kUnion, v2->left_node(), u2);
+    v2->left_node()->inc_ref_count();
+    v_prim = garbage_collector_.alloc(ECSNodeType::kUnion, v1->left_node(), u1);
+    v1->left_node()->inc_ref_count();
 
     v1->dec_ref_count();
     v2->dec_ref_count();
