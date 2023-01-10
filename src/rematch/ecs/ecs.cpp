@@ -19,19 +19,23 @@ ECSNode *ECS::unite(ECSNode *node_1, ECSNode *node_2, bool garbage_left) {
   }
 }
 
-ECSNode *ECS::create_union_of_two_non_output_nodes(ECSNode *node_1, ECSNode *node_2, bool garbage_left) {
-
-   /*****************/
-   /*      U        */
-   /*     / \       */
-   /*    /   \      */
-   /*   /     U     */
-   /*  /     / \    */
-   /* / U   /   U   */
-   /* |/ \ /   / \  */
-   /* o1  O   o2  O */
-   /*****************/
-
+ECSNode *ECS::create_union_of_two_non_output_nodes(
+    ECSNode *node_1, ECSNode *node_2, bool garbage_left) {
+  /*       _\|/_
+           (o o)
+   +----oOO-{_}-OOo-------------------------------+
+   |_________________                             |
+   ||      U        | The union of two nodes that |
+   ||     / \       | are non output nodes creates|
+   ||    /   \      | the union that is shown on  |
+   ||   /     U     | the left.                   |
+   ||  /     / \    |                             |
+   || / U   /   U   |                             |
+   || |/ \ /   / \  |                             |
+   || o1  O   o2  O |                             |
+   |-----------------                             |
+   |                                              |
+   +---------------------------------------------*/
     ECSNode *u2 = garbage_collector_.alloc(ECSNodeType::kUnion, node_1->right_node(), node_2->right_node());
     node_1->right_node()->inc_ref_count();
     node_2->right_node()->inc_ref_count();
