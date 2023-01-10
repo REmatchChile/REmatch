@@ -1,3 +1,5 @@
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 cmake_minimum_required(VERSION 3.23.2)
 
 project(rematch LANGUAGES CXX)
@@ -35,6 +37,8 @@ set(REMATCH_LIBS "")
 
 include_directories(src/rematch)
 include_directories(SYSTEM src/thirdparty)
+include_directories(src/thirdparty/antlr4/runtime/src)
+
 
 find_package(Boost 1.58)
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
@@ -55,5 +59,4 @@ if (REMATCH_BUILD_TESTING)
     include(CTest)
     add_subdirectory(tests)
 endif (REMATCH_BUILD_TESTING)
-
 

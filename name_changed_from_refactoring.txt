@@ -1,0 +1,3 @@
+%s/mempool/garbage_collector/g
+%s/MemPool/GarbageCollector/g
+%s/add_to_free_list/add_to_list_of_free_memory/g

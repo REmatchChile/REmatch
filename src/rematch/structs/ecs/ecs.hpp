@@ -6,101 +6,40 @@
 #include <string>
 #include <vector>
 
-#include "structs/ecs/mempool.hpp"
+#include "structs/ecs/garbage_collector.hpp"
+#include "ecs_node.hpp"
 
 namespace rematch {
 
 class ECS {
  public:
-  struct Data {
-    Data(std::bitset<32> S, int64_t i) : S(S), i(i) {}
-    Data() : S(0), i(0) {}
-    std::bitset<32> S;
-    int64_t i;
-  };
 
-  enum class NodeType { kBottom = 0, kUnion = 1, kLabel = 2 };
 
-  class Node;
-
-  class Node {
-    friend class ECS;
-   public:
-    Node(NodeType t, Node *left = nullptr, Node *right = nullptr,
-         std::bitset<32> S = 0, int64_t i = 0);
-
-    bool is_output() const { return S_[S_.size() - 2]; }
-    bool is_bottom() const { return S_[S_.size() - 2] && !S_[S_.size() - 1]; }
-    Node *left() const { return left_; }
-    Node *right() const { return is_output() ? nullptr : right_; }
-    Node *next() const { return left_; };
-    Data data() const {
-      return !is_output() || is_bottom() ? Data() : Data(S_, i_);
-    }
-    // std::string print(int depth=0) const = 0;
-
-    // Decrease the reference counter (for garbage collection)
-    void dec_ref_count() { --ref_count_; }
-    // Increase the reference counter (for garbage collection)
-    void inc_ref_count() { ++ref_count_; }
-
-    Node *reset(NodeType t, Node *left = nullptr, Node *right = nullptr,
-                std::bitset<32> S = 0, int64_t i = 0);
-
-    // friend std::ostream& operator<<(std::ostream& os, const Node& n);
-
-    union {
-      uint ref_count_{1};
-      Node *next_free_;
-    };
-
-    std::bitset<32> S_;
-    Node *left_ = nullptr;
-
-    union {
-      Node *right_ = nullptr;
-      int64_t i_;
-    };
-
-    uint32_t id_;
-    NodeType type_;
-
-   private:
-    static uint32_t NextID;
-
-    uint reset_count_ = 0;
-
-  }; // end class ECS::Node
 
   ECS() = default;
 
-  Node *extend(Node *v, std::bitset<32> S, int64_t i);
+  ECSNode* extend(ECSNode* v, std::bitset<32> S, int64_t i);
 
-  Node *unite(Node *v1, Node *v2, bool delay=false);
+  ECSNode *unite(ECSNode *v1, ECSNode *v2, bool delay=false);
 
-  Node *bottom_node() { return pool_.alloc(NodeType::kBottom); }
+  ECSNode *bottom_node() { return garbage_collector_.alloc(ECSNodeType::kBottom); }
 
   // Marks the node as unused iff its ref_count_ == 0. Otherwise nothing
-  // happens. The Node MUST be present in this->pool_.
-  void try_mark_unused(Node *v) {
+  // happens. The Node MUST be present in this->garbage_collector_.
+  void try_mark_unused(ECSNode *v) {
     if (v->ref_count_ == 0)
-      pool_.add_to_free_list(v);
+      garbage_collector_.add_to_list_of_free_memory(v);
   }
 
-  size_t n_nodes() const { return pool_.n_nodes(); }
-  size_t n_reused_nodes() const { return pool_.n_reused_nodes(); }
-  size_t tot_size() const { return pool_.tot_size(); }
+  size_t n_nodes() const { return garbage_collector_.n_nodes(); }
+  size_t tot_size() const { return garbage_collector_.tot_size(); }
 
  private:
-  #ifdef NOPT_MEMORY
-  FakeMemPool<Node> pool_;
-  #else
-  MemPool<Node> pool_;
-  #endif
+  GarbageCollector garbage_collector_;
   
 
 }; // end class ECS
 
 } // end namespace rematch
 
-#endif // STRUCTS__ECS__ECS_HPP
+#endif

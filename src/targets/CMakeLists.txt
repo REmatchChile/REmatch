@@ -1,29 +1,13 @@
 include_directories(main)
 
 set(sources
-  main/interface.cpp
-  main/interface.hpp
 )
 
 set(BUILD_TARGETS
   rematch
-  test-ecs
-  test-mempool
 )
 
 set(BENCHMARK_TARGETS
-  test-onig
-  test-hscan
-  test-pcre
-  test-re2
-  test-boost
-  test-tre
-  force-all-re2
-  force-all-re2-timeout
-  # force-all-re2-2vars
-  force-all-boost
-  force-all-pcre
-  force-suffix-re2
 )
 
 set(REGEX_LIBS
