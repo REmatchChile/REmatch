@@ -1,6 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
-#include "structs/ecs/ecs_node.hpp"
+#include "ecs/ecs_node.hpp"
 
 namespace rematch::testing {
 

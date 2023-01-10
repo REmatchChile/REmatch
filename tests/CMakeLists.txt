@@ -9,10 +9,8 @@ add_compile_definitions(private=public)
 set(TEST_BINARY rematch_test)
 
 set(TEST_SOURCES
-        structs/garbage_collector.cpp
-        structs/ecs_node.cpp
-        test_searching.cpp
-        test_searching.hpp test_segments.cpp)
+        ecs/garbage_collector.cpp
+        ecs/ecs_node.cpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(${TEST_BINARY} ${TEST_SOURCES})
