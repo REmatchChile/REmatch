@@ -12,6 +12,7 @@ The `/tests` folder contains all the automatic tests for our code.
 
 ### Build instructions
 
+The setup of CMake, Catch2, boost and g++-11 on a clean ubuntu system can be done using the script `setup_cpp_to_execute_rematch.sh`
 Use the script "run_and_execute.sh" to build and run the tests.
 
 If you want to use a debugger such as `gdb`, then you should add `-DCMAKE_BUILD_TYPE=Debug` in the first CMake command.
