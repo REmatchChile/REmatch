@@ -12,10 +12,7 @@ The `/tests` folder contains all the automatic tests for our code.
 
 ### Build instructions
 
-```
-cmake -H. -Bbuild/Release
-cmake --build build/Release
-```
+Use the script "run_and_execute.sh" to build and run the tests.
 
 If you want to use a debugger such as `gdb`, then you should add `-DCMAKE_BUILD_TYPE=Debug` in the first CMake command.
 

@@ -31,6 +31,8 @@ class ECS {
       garbage_collector_.add_to_list_of_free_memory(v);
   }
 
+  // Add function that accepts a ECSNode and manages the ref_count to this node.
+
   size_t n_nodes() const { return garbage_collector_.n_nodes(); }
   size_t tot_size() const { return garbage_collector_.tot_size(); }
 

@@ -10,6 +10,7 @@ set(TEST_BINARY rematch_test)
 
 set(TEST_SOURCES
         structs/garbage_collector.cpp
+        structs/ecs_node.cpp
         test_searching.cpp
         test_searching.hpp test_segments.cpp)
 

@@ -38,10 +38,12 @@ class ECSNode {
     ECSNode *right() const { return is_output() ? nullptr : right_; }
     ECSNode *next() const { return left_; };
 
+    // TODO: Tal vez agregar un node container o
+    //       enumerator que se encarga de los ref_counts
     void dec_ref_count() { --ref_count_; }
     void inc_ref_count() { ++ref_count_; }
 
-  friend std::ostream& operator<<(std::ostream& os, const ECSNode& n);
+    friend std::ostream& operator<<(std::ostream& os, const ECSNode& n);
 
  private:
   void assign_attributes(ECSNodeType node_type, ECSNode *left,
