@@ -36,6 +36,16 @@ class ECS {
   private:
     ECSNode *create_union_of_two_non_output_nodes(
         ECSNode *v1, ECSNode *v2, bool garbage_left);
+    ECSNode *create_first_intermediate_union_node(ECSNode *node_1,
+                                                  ECSNode *node_2);
+    ECSNode *create_second_intermediate_union_node(ECSNode *node_2,
+                                                   ECSNode *u1);
+    ECSNode *create_union_node(ECSNode *node_1, ECSNode *u2);
+    void rectify_node_references_after_union(ECSNode *node_1, ECSNode *node_2);
+    void check_if_previous_nodes_are_unused(ECSNode *node_1,
+                                            ECSNode *node_2,
+                                            bool garbage_left);
+
 
 
   
