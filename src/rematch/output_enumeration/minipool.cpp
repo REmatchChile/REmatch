@@ -1,4 +1,4 @@
-#include "ecs/minipool.hpp"
+#include "output_enumeration/minipool.hpp"
 
 namespace rematch {
 

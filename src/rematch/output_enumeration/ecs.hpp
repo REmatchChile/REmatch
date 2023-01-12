@@ -6,8 +6,8 @@
 #include <string>
 #include <vector>
 
-#include "ecs/node_manager.hpp"
-#include "ecs_node.hpp"
+#include "output_enumeration/node_manager.hpp"
+#include "output_enumeration/ecs_node.hpp"
 
 namespace rematch {
 

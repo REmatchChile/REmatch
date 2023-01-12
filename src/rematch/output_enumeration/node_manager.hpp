@@ -1,7 +1,7 @@
 #ifndef STRUCTS_ECS_GARBAGE_COLLECTOR_HPP
 #define STRUCTS_ECS_GARBAGE_COLLECTOR_HPP
 
-#include "minipool.hpp"
+#include "output_enumeration/minipool.hpp"
 #include <sstream>
 // Borré tot_arenas_ (no había funcionalidad en tot_arenas),
 // id (se usa para hacer el print)

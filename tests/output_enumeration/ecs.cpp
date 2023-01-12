@@ -1,7 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
-#include "ecs/ecs.hpp"
-#include "ecs/node_manager.hpp"
+#include "output_enumeration/ecs.hpp"
+#include "output_enumeration/node_manager.hpp"
 
 namespace rematch::testing {
 

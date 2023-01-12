@@ -1,4 +1,4 @@
-#include "node_manager.hpp"
+#include "output_enumeration/node_manager.hpp"
 
 namespace rematch {
 

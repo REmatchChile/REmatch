@@ -1,0 +1,94 @@
+\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
+\contentsline {chapter}{\numberline {1}Namespace Index}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Namespace List}{1}{section.1.1}%
+\contentsline {chapter}{\numberline {2}Class Index}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Class List}{3}{section.2.1}%
+\contentsline {chapter}{\numberline {3}File Index}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}File List}{5}{section.3.1}%
+\contentsline {chapter}{\numberline {4}Namespace Documentation}{7}{chapter.4}%
+\contentsline {section}{\numberline {4.1}rematch Namespace Reference}{7}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Enumeration Type Documentation}{7}{subsection.4.1.1}%
+\contentsline {subsubsection}{\numberline {4.1.1.1}ECSNodeType}{7}{subsubsection.4.1.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Function Documentation}{8}{subsection.4.1.2}%
+\contentsline {subsubsection}{\numberline {4.1.2.1}operator$<$$<$()}{8}{subsubsection.4.1.2.1}%
+\contentsline {subsection}{\numberline {4.1.3}Variable Documentation}{8}{subsection.4.1.3}%
+\contentsline {subsubsection}{\numberline {4.1.3.1}MEMORY\_POOL\_STARTING\_SIZE}{8}{subsubsection.4.1.3.1}%
+\contentsline {chapter}{\numberline {5}Class Documentation}{9}{chapter.5}%
+\contentsline {section}{\numberline {5.1}rematch\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::E\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}CS Class Reference}{9}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Constructor \& Destructor Documentation}{9}{subsection.5.1.1}%
+\contentsline {subsubsection}{\numberline {5.1.1.1}ECS()}{9}{subsubsection.5.1.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Member Function Documentation}{9}{subsection.5.1.2}%
+\contentsline {subsubsection}{\numberline {5.1.2.1}amount\_of\_nodes\_allocated()}{10}{subsubsection.5.1.2.1}%
+\contentsline {subsubsection}{\numberline {5.1.2.2}create\_bottom\_node()}{10}{subsubsection.5.1.2.2}%
+\contentsline {subsubsection}{\numberline {5.1.2.3}create\_extend\_node()}{10}{subsubsection.5.1.2.3}%
+\contentsline {subsubsection}{\numberline {5.1.2.4}create\_union\_node()}{10}{subsubsection.5.1.2.4}%
+\contentsline {subsubsection}{\numberline {5.1.2.5}get\_amount\_of\_nodes\_used()}{10}{subsubsection.5.1.2.5}%
+\contentsline {subsubsection}{\numberline {5.1.2.6}pin\_node()}{10}{subsubsection.5.1.2.6}%
+\contentsline {subsubsection}{\numberline {5.1.2.7}unpin\_node()}{10}{subsubsection.5.1.2.7}%
+\contentsline {section}{\numberline {5.2}rematch\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::E\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}C\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}S\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Node Class Reference}{11}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Constructor \& Destructor Documentation}{11}{subsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.1.1}ECSNode()}{12}{subsubsection.5.2.1.1}%
+\contentsline {subsection}{\numberline {5.2.2}Member Function Documentation}{12}{subsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.2.1}is\_bottom()}{12}{subsubsection.5.2.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2.2}is\_output()}{12}{subsubsection.5.2.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.2.3}left\_node()}{12}{subsubsection.5.2.2.3}%
+\contentsline {subsubsection}{\numberline {5.2.2.4}next()}{12}{subsubsection.5.2.2.4}%
+\contentsline {subsubsection}{\numberline {5.2.2.5}reset()}{12}{subsubsection.5.2.2.5}%
+\contentsline {subsubsection}{\numberline {5.2.2.6}right\_node()}{13}{subsubsection.5.2.2.6}%
+\contentsline {subsection}{\numberline {5.2.3}Friends And Related Function Documentation}{13}{subsection.5.2.3}%
+\contentsline {subsubsection}{\numberline {5.2.3.1}NodeManager}{13}{subsubsection.5.2.3.1}%
+\contentsline {subsubsection}{\numberline {5.2.3.2}operator$<$$<$}{13}{subsubsection.5.2.3.2}%
+\contentsline {subsection}{\numberline {5.2.4}Member Data Documentation}{13}{subsection.5.2.4}%
+\contentsline {subsubsection}{\numberline {5.2.4.1}"@1}{13}{subsubsection.5.2.4.1}%
+\contentsline {subsubsection}{\numberline {5.2.4.2}document\_position}{13}{subsubsection.5.2.4.2}%
+\contentsline {subsubsection}{\numberline {5.2.4.3}left}{13}{subsubsection.5.2.4.3}%
+\contentsline {subsubsection}{\numberline {5.2.4.4}next\_free\_node}{14}{subsubsection.5.2.4.4}%
+\contentsline {subsubsection}{\numberline {5.2.4.5}ref\_count}{14}{subsubsection.5.2.4.5}%
+\contentsline {subsubsection}{\numberline {5.2.4.6}right}{14}{subsubsection.5.2.4.6}%
+\contentsline {subsubsection}{\numberline {5.2.4.7}type}{14}{subsubsection.5.2.4.7}%
+\contentsline {subsubsection}{\numberline {5.2.4.8}variable\_markers}{14}{subsubsection.5.2.4.8}%
+\contentsline {section}{\numberline {5.3}rematch\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::Enumerator Class Reference}{14}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Constructor \& Destructor Documentation}{15}{subsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.1.1}Enumerator()}{15}{subsubsection.5.3.1.1}%
+\contentsline {subsection}{\numberline {5.3.2}Member Function Documentation}{15}{subsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.2.1}add\_node()}{15}{subsubsection.5.3.2.1}%
+\contentsline {subsubsection}{\numberline {5.3.2.2}has\_next()}{15}{subsubsection.5.3.2.2}%
+\contentsline {subsubsection}{\numberline {5.3.2.3}next()}{15}{subsubsection.5.3.2.3}%
+\contentsline {section}{\numberline {5.4}rematch\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::Mini\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Pool Class Reference}{15}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Constructor \& Destructor Documentation}{16}{subsection.5.4.1}%
+\contentsline {subsubsection}{\numberline {5.4.1.1}MiniPool()}{16}{subsubsection.5.4.1.1}%
+\contentsline {subsection}{\numberline {5.4.2}Member Function Documentation}{16}{subsection.5.4.2}%
+\contentsline {subsubsection}{\numberline {5.4.2.1}alloc()}{16}{subsubsection.5.4.2.1}%
+\contentsline {subsubsection}{\numberline {5.4.2.2}capacity()}{16}{subsubsection.5.4.2.2}%
+\contentsline {subsubsection}{\numberline {5.4.2.3}is\_full()}{16}{subsubsection.5.4.2.3}%
+\contentsline {subsubsection}{\numberline {5.4.2.4}next()}{17}{subsubsection.5.4.2.4}%
+\contentsline {subsubsection}{\numberline {5.4.2.5}prev()}{17}{subsubsection.5.4.2.5}%
+\contentsline {subsubsection}{\numberline {5.4.2.6}set\_next()}{17}{subsubsection.5.4.2.6}%
+\contentsline {subsubsection}{\numberline {5.4.2.7}set\_prev()}{17}{subsubsection.5.4.2.7}%
+\contentsline {subsubsection}{\numberline {5.4.2.8}size()}{17}{subsubsection.5.4.2.8}%
+\contentsline {section}{\numberline {5.5}rematch\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}::Node\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Manager Class Reference}{17}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Constructor \& Destructor Documentation}{18}{subsection.5.5.1}%
+\contentsline {subsubsection}{\numberline {5.5.1.1}NodeManager()}{18}{subsubsection.5.5.1.1}%
+\contentsline {subsection}{\numberline {5.5.2}Member Function Documentation}{18}{subsection.5.5.2}%
+\contentsline {subsubsection}{\numberline {5.5.2.1}add\_to\_list\_of\_free\_memory()}{18}{subsubsection.5.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.5.2.2}alloc()}{18}{subsubsection.5.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.5.2.3}amount\_of\_nodes\_allocated()}{18}{subsubsection.5.5.2.3}%
+\contentsline {subsubsection}{\numberline {5.5.2.4}decrease\_ref\_count()}{18}{subsubsection.5.5.2.4}%
+\contentsline {subsubsection}{\numberline {5.5.2.5}get\_amount\_of\_nodes\_used()}{19}{subsubsection.5.5.2.5}%
+\contentsline {subsubsection}{\numberline {5.5.2.6}increase\_ref\_count()}{19}{subsubsection.5.5.2.6}%
+\contentsline {subsubsection}{\numberline {5.5.2.7}print\_list\_of\_free\_memory()}{19}{subsubsection.5.5.2.7}%
+\contentsline {subsection}{\numberline {5.5.3}Member Data Documentation}{19}{subsection.5.5.3}%
+\contentsline {subsubsection}{\numberline {5.5.3.1}amount\_of\_nodes\_used}{19}{subsubsection.5.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.5.3.2}amount\_of\_recycled\_nodes}{19}{subsubsection.5.5.3.2}%
+\contentsline {chapter}{\numberline {6}File Documentation}{21}{chapter.6}%
+\contentsline {section}{\numberline {6.1}src/rematch/ecs/ecs.cpp File Reference}{21}{section.6.1}%
+\contentsline {section}{\numberline {6.2}src/rematch/ecs/ecs.hpp File Reference}{22}{section.6.2}%
+\contentsline {section}{\numberline {6.3}src/rematch/ecs/ecs\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}node.cpp File Reference}{23}{section.6.3}%
+\contentsline {section}{\numberline {6.4}src/rematch/ecs/ecs\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}node.hpp File Reference}{23}{section.6.4}%
+\contentsline {section}{\numberline {6.5}src/rematch/ecs/enumerator.cpp File Reference}{25}{section.6.5}%
+\contentsline {section}{\numberline {6.6}src/rematch/ecs/enumerator.hpp File Reference}{25}{section.6.6}%
+\contentsline {section}{\numberline {6.7}src/rematch/ecs/minipool.cpp File Reference}{27}{section.6.7}%
+\contentsline {section}{\numberline {6.8}src/rematch/ecs/minipool.hpp File Reference}{27}{section.6.8}%
+\contentsline {section}{\numberline {6.9}src/rematch/ecs/node\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.cpp File Reference}{28}{section.6.9}%
+\contentsline {section}{\numberline {6.10}src/rematch/ecs/node\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.hpp File Reference}{29}{section.6.10}%
+\contentsline {chapter}{Index}{31}{section*.47}%

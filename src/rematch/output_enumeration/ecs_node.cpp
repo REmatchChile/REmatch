@@ -1,7 +1,7 @@
 #include <iostream>
 #include <memory>
 
-#include "ecs_node.hpp"
+#include "output_enumeration/ecs_node.hpp"
 
 namespace rematch {
 

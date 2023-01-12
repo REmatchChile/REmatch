@@ -1,6 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include <vector>
-#include "ecs/node_manager.hpp"
+#include "output_enumeration/node_manager.hpp"
 
 //#include "regex/regex.hpp"
 //#include "data/search.cpp"

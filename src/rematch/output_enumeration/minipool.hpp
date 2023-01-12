@@ -5,7 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include "ecs_node.hpp"
+#include "output_enumeration/ecs_node.hpp"
 
 namespace rematch {
 
