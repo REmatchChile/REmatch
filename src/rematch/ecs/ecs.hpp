@@ -11,23 +11,23 @@
 
 namespace rematch {
 
-class ECS {
+class ECS { // Enumerable Compact Set
  public:
   size_t get_amount_of_nodes_used() const;
   size_t amount_of_nodes_allocated() const { return node_manager.amount_of_nodes_allocated(); }
  private:
-  NodeManager node_manager; // node_manager
+  NodeManager node_manager;
 
  public:
   ECS() = default;
 
-  ECSNode *create_bottom_node(); // create_bottom_node
+  ECSNode *create_bottom_node();
   ECSNode *create_extend_node(ECSNode* node, std::bitset<64> variable_markers,
-                  int document_position); // create_extend_node
-  ECSNode *create_union_node(ECSNode *node_1, ECSNode *node_2); // create_unite_node
+                  int document_position);
+  ECSNode *create_union_node(ECSNode *node_1, ECSNode *node_2);
 
-  ECSNode *pin_node(ECSNode *node); // pin_node
-  void unpin_node(ECSNode *node); // unpin_node
+  ECSNode *pin_node(ECSNode *node);
+  void unpin_node(ECSNode *node);
 
   private:
     ECSNode *create_union_of_two_non_output_nodes(
