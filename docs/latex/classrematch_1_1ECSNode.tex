@@ -1,0 +1,179 @@
+\hypertarget{classrematch_1_1ECSNode}{}\doxysection{rematch\+::E\+C\+S\+Node Class Reference}
+\label{classrematch_1_1ECSNode}\index{rematch::ECSNode@{rematch::ECSNode}}
+
+
+{\ttfamily \#include $<$ecs\+\_\+node.\+hpp$>$}
+
+
+
+Collaboration diagram for rematch\+::E\+C\+S\+Node\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=281pt]{classrematch_1_1ECSNode__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrematch_1_1ECSNode_a176723b037b62ee941deaf61092b0cc8}{E\+C\+S\+Node}} (\mbox{\hyperlink{namespacerematch_a5db0313485e45a12b7478ea1d53733e1}{E\+C\+S\+Node\+Type}} node\+\_\+type, \mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$\mbox{\hyperlink{classrematch_1_1ECSNode_a5eacf66d456cf3375e250dfd1a67b065}{left}}=nullptr, \mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$\mbox{\hyperlink{classrematch_1_1ECSNode_a03451a015dac7112e4d0e660aa8fb26b}{right}}=nullptr, std\+::bitset$<$ 64 $>$ \mbox{\hyperlink{classrematch_1_1ECSNode_a26eb9c9b2ef81415905767bea30a6170}{variable\+\_\+markers}}=0, int \mbox{\hyperlink{classrematch_1_1ECSNode_a9b0c97ef549f8a39c6bb32fa8a48e644}{document\+\_\+position}}=0)
+\item 
+\mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$ \mbox{\hyperlink{classrematch_1_1ECSNode_a0419734915c94f7aeb2270f25e2a4acd}{reset}} (\mbox{\hyperlink{namespacerematch_a5db0313485e45a12b7478ea1d53733e1}{E\+C\+S\+Node\+Type}} node\+\_\+type, \mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$\mbox{\hyperlink{classrematch_1_1ECSNode_a5eacf66d456cf3375e250dfd1a67b065}{left}}=nullptr, \mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$\mbox{\hyperlink{classrematch_1_1ECSNode_a03451a015dac7112e4d0e660aa8fb26b}{right}}=nullptr, std\+::bitset$<$ 64 $>$ \mbox{\hyperlink{classrematch_1_1ECSNode_a26eb9c9b2ef81415905767bea30a6170}{variable\+\_\+markers}}=0, int \mbox{\hyperlink{classrematch_1_1ECSNode_a9b0c97ef549f8a39c6bb32fa8a48e644}{document\+\_\+position}}=0)
+\item 
+bool \mbox{\hyperlink{classrematch_1_1ECSNode_a84285cb30860f1545dbb30f0d3473c2c}{is\+\_\+output}} () const
+\item 
+bool \mbox{\hyperlink{classrematch_1_1ECSNode_a24e8e26b505a6161003c66acf87d6c2c}{is\+\_\+bottom}} () const
+\item 
+\mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$ \mbox{\hyperlink{classrematch_1_1ECSNode_aab81681f1f36fa84dc9132c11fb06d85}{left\+\_\+node}} () const
+\item 
+\mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$ \mbox{\hyperlink{classrematch_1_1ECSNode_a20a3ec68739924a97dd197429baf6c22}{right\+\_\+node}} () const
+\item 
+\mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$ \mbox{\hyperlink{classrematch_1_1ECSNode_aadf9cd56201d1f3e1a533f17cddfa336}{next}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::bitset$<$ 64 $>$ \mbox{\hyperlink{classrematch_1_1ECSNode_a26eb9c9b2ef81415905767bea30a6170}{variable\+\_\+markers}}
+\item 
+\mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$ \mbox{\hyperlink{classrematch_1_1ECSNode_a5eacf66d456cf3375e250dfd1a67b065}{left}} = nullptr
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>\mbox{\hyperlink{classrematch_1_1ECSNode}{ECSNode}} $\ast$ \mbox{\hyperlink{classrematch_1_1ECSNode_a03451a015dac7112e4d0e660aa8fb26b}{right}} = nullptr\\
+\>int \mbox{\hyperlink{classrematch_1_1ECSNode_a9b0c97ef549f8a39c6bb32fa8a48e644}{document\_position}}\\
+\}; \\
+
+\end{tabbing}\item 
+\mbox{\hyperlink{namespacerematch_a5db0313485e45a12b7478ea1d53733e1}{E\+C\+S\+Node\+Type}} \mbox{\hyperlink{classrematch_1_1ECSNode_a8c1c0d5743386ad99dc097457dfed927}{type}}
+\item 
+int \mbox{\hyperlink{classrematch_1_1ECSNode_ac5bc94938f9621d4940f8bdae7b46917}{ref\+\_\+count}} \{1\}
+\item 
+\mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$ \mbox{\hyperlink{classrematch_1_1ECSNode_acf09b57b3b0aae97bd70e24e4037478b}{next\+\_\+free\+\_\+node}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classrematch_1_1ECSNode_aa49a527d01a369f21afaddd4e13a9748}{Node\+Manager}}
+\item 
+std\+::ostream \& \mbox{\hyperlink{classrematch_1_1ECSNode_aabee7ef7768b590ce9ff44470d5f2e84}{operator$<$$<$}} (std\+::ostream \&os, const \mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} \&n)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classrematch_1_1ECSNode_a176723b037b62ee941deaf61092b0cc8}\label{classrematch_1_1ECSNode_a176723b037b62ee941deaf61092b0cc8}} 
+\index{rematch::ECSNode@{rematch::ECSNode}!ECSNode@{ECSNode}}
+\index{ECSNode@{ECSNode}!rematch::ECSNode@{rematch::ECSNode}}
+\doxysubsubsection{\texorpdfstring{ECSNode()}{ECSNode()}}
+{\footnotesize\ttfamily rematch\+::\+E\+C\+S\+Node\+::\+E\+C\+S\+Node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacerematch_a5db0313485e45a12b7478ea1d53733e1}{E\+C\+S\+Node\+Type}}}]{node\+\_\+type,  }\item[{\mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$}]{left = {\ttfamily nullptr},  }\item[{\mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$}]{right = {\ttfamily nullptr},  }\item[{std\+::bitset$<$ 64 $>$}]{variable\+\_\+markers = {\ttfamily 0},  }\item[{int}]{document\+\_\+position = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrematch_1_1ECSNode_a24e8e26b505a6161003c66acf87d6c2c}\label{classrematch_1_1ECSNode_a24e8e26b505a6161003c66acf87d6c2c}} 
+\index{rematch::ECSNode@{rematch::ECSNode}!is\_bottom@{is\_bottom}}
+\index{is\_bottom@{is\_bottom}!rematch::ECSNode@{rematch::ECSNode}}
+\doxysubsubsection{\texorpdfstring{is\_bottom()}{is\_bottom()}}
+{\footnotesize\ttfamily bool rematch\+::\+E\+C\+S\+Node\+::is\+\_\+bottom (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classrematch_1_1ECSNode_a84285cb30860f1545dbb30f0d3473c2c}\label{classrematch_1_1ECSNode_a84285cb30860f1545dbb30f0d3473c2c}} 
+\index{rematch::ECSNode@{rematch::ECSNode}!is\_output@{is\_output}}
+\index{is\_output@{is\_output}!rematch::ECSNode@{rematch::ECSNode}}
+\doxysubsubsection{\texorpdfstring{is\_output()}{is\_output()}}
+{\footnotesize\ttfamily bool rematch\+::\+E\+C\+S\+Node\+::is\+\_\+output (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classrematch_1_1ECSNode_aab81681f1f36fa84dc9132c11fb06d85}\label{classrematch_1_1ECSNode_aab81681f1f36fa84dc9132c11fb06d85}} 
+\index{rematch::ECSNode@{rematch::ECSNode}!left\_node@{left\_node}}
+\index{left\_node@{left\_node}!rematch::ECSNode@{rematch::ECSNode}}
+\doxysubsubsection{\texorpdfstring{left\_node()}{left\_node()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}}$\ast$ rematch\+::\+E\+C\+S\+Node\+::left\+\_\+node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classrematch_1_1ECSNode_aadf9cd56201d1f3e1a533f17cddfa336}\label{classrematch_1_1ECSNode_aadf9cd56201d1f3e1a533f17cddfa336}} 
+\index{rematch::ECSNode@{rematch::ECSNode}!next@{next}}
+\index{next@{next}!rematch::ECSNode@{rematch::ECSNode}}
+\doxysubsubsection{\texorpdfstring{next()}{next()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}}$\ast$ rematch\+::\+E\+C\+S\+Node\+::next (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classrematch_1_1ECSNode_a0419734915c94f7aeb2270f25e2a4acd}\label{classrematch_1_1ECSNode_a0419734915c94f7aeb2270f25e2a4acd}} 
+\index{rematch::ECSNode@{rematch::ECSNode}!reset@{reset}}
+\index{reset@{reset}!rematch::ECSNode@{rematch::ECSNode}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$ rematch\+::\+E\+C\+S\+Node\+::reset (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacerematch_a5db0313485e45a12b7478ea1d53733e1}{E\+C\+S\+Node\+Type}}}]{node\+\_\+type,  }\item[{\mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$}]{left = {\ttfamily nullptr},  }\item[{\mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$}]{right = {\ttfamily nullptr},  }\item[{std\+::bitset$<$ 64 $>$}]{variable\+\_\+markers = {\ttfamily 0},  }\item[{int}]{document\+\_\+position = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classrematch_1_1ECSNode_a20a3ec68739924a97dd197429baf6c22}\label{classrematch_1_1ECSNode_a20a3ec68739924a97dd197429baf6c22}} 
+\index{rematch::ECSNode@{rematch::ECSNode}!right\_node@{right\_node}}
+\index{right\_node@{right\_node}!rematch::ECSNode@{rematch::ECSNode}}
+\doxysubsubsection{\texorpdfstring{right\_node()}{right\_node()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}}$\ast$ rematch\+::\+E\+C\+S\+Node\+::right\+\_\+node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classrematch_1_1ECSNode_aa49a527d01a369f21afaddd4e13a9748}\label{classrematch_1_1ECSNode_aa49a527d01a369f21afaddd4e13a9748}} 
+\index{rematch::ECSNode@{rematch::ECSNode}!NodeManager@{NodeManager}}
+\index{NodeManager@{NodeManager}!rematch::ECSNode@{rematch::ECSNode}}
+\doxysubsubsection{\texorpdfstring{NodeManager}{NodeManager}}
+{\footnotesize\ttfamily friend class \mbox{\hyperlink{classrematch_1_1NodeManager}{Node\+Manager}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+\mbox{\Hypertarget{classrematch_1_1ECSNode_aabee7ef7768b590ce9ff44470d5f2e84}\label{classrematch_1_1ECSNode_aabee7ef7768b590ce9ff44470d5f2e84}} 
+\index{rematch::ECSNode@{rematch::ECSNode}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!rematch::ECSNode@{rematch::ECSNode}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os,  }\item[{const \mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} \&}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classrematch_1_1ECSNode_a9a3f5c4f4b5cdf6c023b3d5ec98d2821}\label{classrematch_1_1ECSNode_a9a3f5c4f4b5cdf6c023b3d5ec98d2821}} 
+\doxysubsubsection{\texorpdfstring{"@1}{@1}}
+{\footnotesize\ttfamily union \{ ... \} }
+
+\mbox{\Hypertarget{classrematch_1_1ECSNode_a9b0c97ef549f8a39c6bb32fa8a48e644}\label{classrematch_1_1ECSNode_a9b0c97ef549f8a39c6bb32fa8a48e644}} 
+\index{rematch::ECSNode@{rematch::ECSNode}!document\_position@{document\_position}}
+\index{document\_position@{document\_position}!rematch::ECSNode@{rematch::ECSNode}}
+\doxysubsubsection{\texorpdfstring{document\_position}{document\_position}}
+{\footnotesize\ttfamily int rematch\+::\+E\+C\+S\+Node\+::document\+\_\+position}
+
+\mbox{\Hypertarget{classrematch_1_1ECSNode_a5eacf66d456cf3375e250dfd1a67b065}\label{classrematch_1_1ECSNode_a5eacf66d456cf3375e250dfd1a67b065}} 
+\index{rematch::ECSNode@{rematch::ECSNode}!left@{left}}
+\index{left@{left}!rematch::ECSNode@{rematch::ECSNode}}
+\doxysubsubsection{\texorpdfstring{left}{left}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}}$\ast$ rematch\+::\+E\+C\+S\+Node\+::left = nullptr}
+
+\mbox{\Hypertarget{classrematch_1_1ECSNode_acf09b57b3b0aae97bd70e24e4037478b}\label{classrematch_1_1ECSNode_acf09b57b3b0aae97bd70e24e4037478b}} 
+\index{rematch::ECSNode@{rematch::ECSNode}!next\_free\_node@{next\_free\_node}}
+\index{next\_free\_node@{next\_free\_node}!rematch::ECSNode@{rematch::ECSNode}}
+\doxysubsubsection{\texorpdfstring{next\_free\_node}{next\_free\_node}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}}$\ast$ rematch\+::\+E\+C\+S\+Node\+::next\+\_\+free\+\_\+node}
+
+\mbox{\Hypertarget{classrematch_1_1ECSNode_ac5bc94938f9621d4940f8bdae7b46917}\label{classrematch_1_1ECSNode_ac5bc94938f9621d4940f8bdae7b46917}} 
+\index{rematch::ECSNode@{rematch::ECSNode}!ref\_count@{ref\_count}}
+\index{ref\_count@{ref\_count}!rematch::ECSNode@{rematch::ECSNode}}
+\doxysubsubsection{\texorpdfstring{ref\_count}{ref\_count}}
+{\footnotesize\ttfamily int rematch\+::\+E\+C\+S\+Node\+::ref\+\_\+count \{1\}}
+
+\mbox{\Hypertarget{classrematch_1_1ECSNode_a03451a015dac7112e4d0e660aa8fb26b}\label{classrematch_1_1ECSNode_a03451a015dac7112e4d0e660aa8fb26b}} 
+\index{rematch::ECSNode@{rematch::ECSNode}!right@{right}}
+\index{right@{right}!rematch::ECSNode@{rematch::ECSNode}}
+\doxysubsubsection{\texorpdfstring{right}{right}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}}$\ast$ rematch\+::\+E\+C\+S\+Node\+::right = nullptr}
+
+\mbox{\Hypertarget{classrematch_1_1ECSNode_a8c1c0d5743386ad99dc097457dfed927}\label{classrematch_1_1ECSNode_a8c1c0d5743386ad99dc097457dfed927}} 
+\index{rematch::ECSNode@{rematch::ECSNode}!type@{type}}
+\index{type@{type}!rematch::ECSNode@{rematch::ECSNode}}
+\doxysubsubsection{\texorpdfstring{type}{type}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacerematch_a5db0313485e45a12b7478ea1d53733e1}{E\+C\+S\+Node\+Type}} rematch\+::\+E\+C\+S\+Node\+::type}
+
+\mbox{\Hypertarget{classrematch_1_1ECSNode_a26eb9c9b2ef81415905767bea30a6170}\label{classrematch_1_1ECSNode_a26eb9c9b2ef81415905767bea30a6170}} 
+\index{rematch::ECSNode@{rematch::ECSNode}!variable\_markers@{variable\_markers}}
+\index{variable\_markers@{variable\_markers}!rematch::ECSNode@{rematch::ECSNode}}
+\doxysubsubsection{\texorpdfstring{variable\_markers}{variable\_markers}}
+{\footnotesize\ttfamily std\+::bitset$<$64$>$ rematch\+::\+E\+C\+S\+Node\+::variable\+\_\+markers}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/rematch/ecs/\mbox{\hyperlink{ecs__node_8hpp}{ecs\+\_\+node.\+hpp}}\item 
+src/rematch/ecs/\mbox{\hyperlink{ecs__node_8cpp}{ecs\+\_\+node.\+cpp}}\end{DoxyCompactItemize}

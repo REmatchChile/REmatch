@@ -1,0 +1,108 @@
+\hypertarget{classrematch_1_1NodeManager}{}\doxysection{rematch\+::Node\+Manager Class Reference}
+\label{classrematch_1_1NodeManager}\index{rematch::NodeManager@{rematch::NodeManager}}
+
+
+{\ttfamily \#include $<$node\+\_\+manager.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+size\+\_\+t \mbox{\hyperlink{classrematch_1_1NodeManager_a9e344074e4584b2cadc7b62d84af932f}{amount\+\_\+of\+\_\+nodes\+\_\+allocated}} () const
+\item 
+\mbox{\hyperlink{classrematch_1_1NodeManager_ab5287cd25a901a33a713ac713522727c}{Node\+Manager}} (size\+\_\+t starting\+\_\+size=\mbox{\hyperlink{namespacerematch_a27393999f694dd9ce6204dbb0137ecd3}{M\+E\+M\+O\+R\+Y\+\_\+\+P\+O\+O\+L\+\_\+\+S\+T\+A\+R\+T\+I\+N\+G\+\_\+\+S\+I\+ZE}})
+\item 
+{\footnotesize template$<$class... Args$>$ }\\\mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$ \mbox{\hyperlink{classrematch_1_1NodeManager_a8429fc93955f7da8de08802c7d13a2c0}{alloc}} (Args \&\&...args)
+\item 
+void \mbox{\hyperlink{classrematch_1_1NodeManager_a9c4740b091acd3e49991fbedd1da27c9}{decrease\+\_\+ref\+\_\+count}} (\mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$node)
+\item 
+void \mbox{\hyperlink{classrematch_1_1NodeManager_a54a4488fb7097eeccce98ffb49c9e7e0}{increase\+\_\+ref\+\_\+count}} (\mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$node)
+\item 
+void \mbox{\hyperlink{classrematch_1_1NodeManager_aa57cc830ed8f8460c7a6c59cf8fa7fd6}{add\+\_\+to\+\_\+list\+\_\+of\+\_\+free\+\_\+memory}} (\mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$node)
+\item 
+size\+\_\+t \mbox{\hyperlink{classrematch_1_1NodeManager_a66f57bcac9f77eaf77d058d9815abd44}{get\+\_\+amount\+\_\+of\+\_\+nodes\+\_\+used}} () const
+\item 
+std\+::string \mbox{\hyperlink{classrematch_1_1NodeManager_a48266ec9dbd77e72385df2cdc417cb8d}{print\+\_\+list\+\_\+of\+\_\+free\+\_\+memory}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+size\+\_\+t \mbox{\hyperlink{classrematch_1_1NodeManager_a4dd73444cd25e4d35b4ee187a81548e1}{amount\+\_\+of\+\_\+nodes\+\_\+used}} \{0\}
+\item 
+size\+\_\+t \mbox{\hyperlink{classrematch_1_1NodeManager_a0a683aa7def4602f64b409cd69c6865c}{amount\+\_\+of\+\_\+recycled\+\_\+nodes}} \{0\}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classrematch_1_1NodeManager_ab5287cd25a901a33a713ac713522727c}\label{classrematch_1_1NodeManager_ab5287cd25a901a33a713ac713522727c}} 
+\index{rematch::NodeManager@{rematch::NodeManager}!NodeManager@{NodeManager}}
+\index{NodeManager@{NodeManager}!rematch::NodeManager@{rematch::NodeManager}}
+\doxysubsubsection{\texorpdfstring{NodeManager()}{NodeManager()}}
+{\footnotesize\ttfamily rematch\+::\+Node\+Manager\+::\+Node\+Manager (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{starting\+\_\+size = {\ttfamily \mbox{\hyperlink{namespacerematch_a27393999f694dd9ce6204dbb0137ecd3}{M\+E\+M\+O\+R\+Y\+\_\+\+P\+O\+O\+L\+\_\+\+S\+T\+A\+R\+T\+I\+N\+G\+\_\+\+S\+I\+ZE}}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrematch_1_1NodeManager_aa57cc830ed8f8460c7a6c59cf8fa7fd6}\label{classrematch_1_1NodeManager_aa57cc830ed8f8460c7a6c59cf8fa7fd6}} 
+\index{rematch::NodeManager@{rematch::NodeManager}!add\_to\_list\_of\_free\_memory@{add\_to\_list\_of\_free\_memory}}
+\index{add\_to\_list\_of\_free\_memory@{add\_to\_list\_of\_free\_memory}!rematch::NodeManager@{rematch::NodeManager}}
+\doxysubsubsection{\texorpdfstring{add\_to\_list\_of\_free\_memory()}{add\_to\_list\_of\_free\_memory()}}
+{\footnotesize\ttfamily void rematch\+::\+Node\+Manager\+::add\+\_\+to\+\_\+list\+\_\+of\+\_\+free\+\_\+memory (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$}]{node }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classrematch_1_1NodeManager_a8429fc93955f7da8de08802c7d13a2c0}\label{classrematch_1_1NodeManager_a8429fc93955f7da8de08802c7d13a2c0}} 
+\index{rematch::NodeManager@{rematch::NodeManager}!alloc@{alloc}}
+\index{alloc@{alloc}!rematch::NodeManager@{rematch::NodeManager}}
+\doxysubsubsection{\texorpdfstring{alloc()}{alloc()}}
+{\footnotesize\ttfamily template$<$class... Args$>$ \\
+\mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}}$\ast$ rematch\+::\+Node\+Manager\+::alloc (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classrematch_1_1NodeManager_a9e344074e4584b2cadc7b62d84af932f}\label{classrematch_1_1NodeManager_a9e344074e4584b2cadc7b62d84af932f}} 
+\index{rematch::NodeManager@{rematch::NodeManager}!amount\_of\_nodes\_allocated@{amount\_of\_nodes\_allocated}}
+\index{amount\_of\_nodes\_allocated@{amount\_of\_nodes\_allocated}!rematch::NodeManager@{rematch::NodeManager}}
+\doxysubsubsection{\texorpdfstring{amount\_of\_nodes\_allocated()}{amount\_of\_nodes\_allocated()}}
+{\footnotesize\ttfamily size\+\_\+t rematch\+::\+Node\+Manager\+::amount\+\_\+of\+\_\+nodes\+\_\+allocated (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classrematch_1_1NodeManager_a9c4740b091acd3e49991fbedd1da27c9}\label{classrematch_1_1NodeManager_a9c4740b091acd3e49991fbedd1da27c9}} 
+\index{rematch::NodeManager@{rematch::NodeManager}!decrease\_ref\_count@{decrease\_ref\_count}}
+\index{decrease\_ref\_count@{decrease\_ref\_count}!rematch::NodeManager@{rematch::NodeManager}}
+\doxysubsubsection{\texorpdfstring{decrease\_ref\_count()}{decrease\_ref\_count()}}
+{\footnotesize\ttfamily void rematch\+::\+Node\+Manager\+::decrease\+\_\+ref\+\_\+count (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$}]{node }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classrematch_1_1NodeManager_a66f57bcac9f77eaf77d058d9815abd44}\label{classrematch_1_1NodeManager_a66f57bcac9f77eaf77d058d9815abd44}} 
+\index{rematch::NodeManager@{rematch::NodeManager}!get\_amount\_of\_nodes\_used@{get\_amount\_of\_nodes\_used}}
+\index{get\_amount\_of\_nodes\_used@{get\_amount\_of\_nodes\_used}!rematch::NodeManager@{rematch::NodeManager}}
+\doxysubsubsection{\texorpdfstring{get\_amount\_of\_nodes\_used()}{get\_amount\_of\_nodes\_used()}}
+{\footnotesize\ttfamily size\+\_\+t rematch\+::\+Node\+Manager\+::get\+\_\+amount\+\_\+of\+\_\+nodes\+\_\+used (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classrematch_1_1NodeManager_a54a4488fb7097eeccce98ffb49c9e7e0}\label{classrematch_1_1NodeManager_a54a4488fb7097eeccce98ffb49c9e7e0}} 
+\index{rematch::NodeManager@{rematch::NodeManager}!increase\_ref\_count@{increase\_ref\_count}}
+\index{increase\_ref\_count@{increase\_ref\_count}!rematch::NodeManager@{rematch::NodeManager}}
+\doxysubsubsection{\texorpdfstring{increase\_ref\_count()}{increase\_ref\_count()}}
+{\footnotesize\ttfamily void rematch\+::\+Node\+Manager\+::increase\+\_\+ref\+\_\+count (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrematch_1_1ECSNode}{E\+C\+S\+Node}} $\ast$}]{node }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classrematch_1_1NodeManager_a48266ec9dbd77e72385df2cdc417cb8d}\label{classrematch_1_1NodeManager_a48266ec9dbd77e72385df2cdc417cb8d}} 
+\index{rematch::NodeManager@{rematch::NodeManager}!print\_list\_of\_free\_memory@{print\_list\_of\_free\_memory}}
+\index{print\_list\_of\_free\_memory@{print\_list\_of\_free\_memory}!rematch::NodeManager@{rematch::NodeManager}}
+\doxysubsubsection{\texorpdfstring{print\_list\_of\_free\_memory()}{print\_list\_of\_free\_memory()}}
+{\footnotesize\ttfamily std\+::string rematch\+::\+Node\+Manager\+::print\+\_\+list\+\_\+of\+\_\+free\+\_\+memory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classrematch_1_1NodeManager_a4dd73444cd25e4d35b4ee187a81548e1}\label{classrematch_1_1NodeManager_a4dd73444cd25e4d35b4ee187a81548e1}} 
+\index{rematch::NodeManager@{rematch::NodeManager}!amount\_of\_nodes\_used@{amount\_of\_nodes\_used}}
+\index{amount\_of\_nodes\_used@{amount\_of\_nodes\_used}!rematch::NodeManager@{rematch::NodeManager}}
+\doxysubsubsection{\texorpdfstring{amount\_of\_nodes\_used}{amount\_of\_nodes\_used}}
+{\footnotesize\ttfamily size\+\_\+t rematch\+::\+Node\+Manager\+::amount\+\_\+of\+\_\+nodes\+\_\+used \{0\}}
+
+\mbox{\Hypertarget{classrematch_1_1NodeManager_a0a683aa7def4602f64b409cd69c6865c}\label{classrematch_1_1NodeManager_a0a683aa7def4602f64b409cd69c6865c}} 
+\index{rematch::NodeManager@{rematch::NodeManager}!amount\_of\_recycled\_nodes@{amount\_of\_recycled\_nodes}}
+\index{amount\_of\_recycled\_nodes@{amount\_of\_recycled\_nodes}!rematch::NodeManager@{rematch::NodeManager}}
+\doxysubsubsection{\texorpdfstring{amount\_of\_recycled\_nodes}{amount\_of\_recycled\_nodes}}
+{\footnotesize\ttfamily size\+\_\+t rematch\+::\+Node\+Manager\+::amount\+\_\+of\+\_\+recycled\+\_\+nodes \{0\}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/rematch/ecs/\mbox{\hyperlink{node__manager_8hpp}{node\+\_\+manager.\+hpp}}\item 
+src/rematch/ecs/\mbox{\hyperlink{node__manager_8cpp}{node\+\_\+manager.\+cpp}}\end{DoxyCompactItemize}
