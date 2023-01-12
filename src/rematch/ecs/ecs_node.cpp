@@ -6,24 +6,27 @@
 namespace rematch {
 
 ECSNode::ECSNode(ECSNodeType node_type, ECSNode *left,
-                 ECSNode *right, std::bitset<64> variable_markers) {
-  assign_attributes(node_type, left, right, variable_markers);
+                 ECSNode *right, std::bitset<64> variable_markers,
+                 int document_position) {
+  assign_attributes(node_type, left, right, variable_markers, document_position);
 }
 
 ECSNode *ECSNode::reset(ECSNodeType node_type, ECSNode *left, ECSNode *right,
-                        std::bitset<64> variable_markers) {
+                        std::bitset<64> variable_markers, int document_position) {
   reset_attributes();
   ++reset_count;
-  assign_attributes(node_type, left, right, variable_markers);
+  assign_attributes(node_type, left, right, variable_markers, document_position);
   return this;
 }
 
 bool ECSNode::is_output() const {
-  return variable_markers[variable_markers.size() - 2]; }
+  return variable_markers[variable_markers.size() - 2];
+}
 
 bool ECSNode::is_bottom() const {
   return variable_markers[variable_markers.size() - 2] && 
-         !variable_markers[variable_markers.size() - 1]; }
+         !variable_markers[variable_markers.size() - 1];
+}
 
 std::ostream& operator<<(std::ostream& os, const ECSNode& n) {
   switch (n.type) {
@@ -41,7 +44,7 @@ std::ostream& operator<<(std::ostream& os, const ECSNode& n) {
 
 void ECSNode::assign_attributes(
     ECSNodeType node_type, ECSNode *left, ECSNode *right,
-    std::bitset<64> variable_markers) {
+    std::bitset<64> variable_markers, int document_position) {
   switch (node_type) {
   case ECSNodeType::kBottom:
     label_node_as_kBottom();
@@ -50,7 +53,7 @@ void ECSNode::assign_attributes(
     create_kUnion_node(left, right);
     break;
   case ECSNodeType::kLabel:
-    create_kLabel_node(left, variable_markers);
+    create_kLabel_node(left, variable_markers, document_position);
   }
 }
 
@@ -67,9 +70,21 @@ void ECSNode::label_node_as_kBottom() {
 }
 
 void ECSNode::create_kUnion_node(ECSNode *left, ECSNode *right) {
-    this->left = left;
-    this->right = right;
+    add_left_node(left);
+    add_right_node(right);
     label_node_as_kUnion();
+}
+
+void ECSNode::add_left_node(ECSNode *node) {
+  this->left = node;
+  if (node != nullptr)
+    node->increase_ref_count();
+}
+
+void ECSNode::add_right_node(ECSNode *node) {
+  this->right = node;
+  if (node != nullptr)
+    node->increase_ref_count();
 }
 
 void ECSNode::label_node_as_kUnion() {
@@ -84,10 +99,12 @@ void ECSNode::label_node_as_kLabel() {
 }
 
 void ECSNode::create_kLabel_node(ECSNode *left,
-                                 std::bitset<64> variable_markers) {
-    this->left = left;
+                                 std::bitset<64> variable_markers,
+                                 int document_position) {
+    add_left_node(left);
     this->variable_markers = variable_markers;
     label_node_as_kLabel();
+    this->document_position = document_position;
 }
 
 } // namespace rematch

@@ -28,7 +28,7 @@ void ensure_nodes_variable_markers_has_the_correct_value(
 
 TEST_CASE("label stores variable_markers correctly after removing the labels") {
   int value = GENERATE(0, 3, 7, 12, 500, 1000);
-  ECSNode *node = new ECSNode(ECSNodeType::kLabel, nullptr, nullptr, value);
+  ECSNode *node = new ECSNode(ECSNodeType::kLabel, nullptr, nullptr, value, 0);
   ensure_nodes_variable_markers_has_the_correct_value(node, value);
 }
 

@@ -10,31 +10,31 @@
 namespace rematch {
 
 class MiniPool {
-public:
-  MiniPool(size_t cap) : capacity_(cap) {
-    container_.reserve(capacity_);
-  }
-
-  bool is_full() const { return container_.size() >= capacity_; }
-
-  size_t size() const { return container_.size(); }
-  size_t capacity() const { return container_.capacity(); }
-
-  MiniPool *next() const { return next_; }
-  void set_next(MiniPool *mp) { next_ = mp; }
-  MiniPool *prev() const { return prev_; }
-  void set_prev(MiniPool *mp) { prev_ = mp; }
-
-  template <class... Args> ECSNode *alloc(Args... args) {
-    container_.emplace_back(std::forward<Args>(args)...);
-    return &container_.back();
-  }
 
 private:
   size_t capacity_;
-  std::vector<ECSNode> container_;
+  std::vector<ECSNode> node_container;
   MiniPool *next_{nullptr};
   MiniPool *prev_{nullptr};
+
+public:
+  MiniPool(size_t cap) : capacity_(cap) {
+    node_container.reserve(capacity_);
+  }
+
+  size_t capacity() const;
+  size_t size() const;
+  bool is_full() const;
+  MiniPool *next() const;
+  void set_next(MiniPool *mp);
+  MiniPool *prev() const;
+  void set_prev(MiniPool *mp);
+
+  template <class... Args> ECSNode *alloc(Args... args) {
+    node_container.emplace_back(std::forward<Args>(args)...);
+    return &node_container.back();
+  }
+
 
 }; // end class MiniPool
 

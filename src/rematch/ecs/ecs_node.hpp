@@ -9,27 +9,33 @@ namespace rematch {
 enum class ECSNodeType { kBottom = 0, kUnion = 1, kLabel = 2 };
 
 class ECSNode {
-  friend class ECS;
+  friend class GarbageCollector;
 
   public:
+    std::bitset<64> variable_markers;
+    ECSNode *left = nullptr;
+    union {
+      ECSNode *right = nullptr;
+      int document_position;
+    };
+    ECSNodeType type;
+
+  //private:
     union {
       int ref_count{1};
       ECSNode *next_free_node;
     };
-    std::bitset<64> variable_markers;
-    ECSNode *left = nullptr;
-    ECSNode *right = nullptr;
-    ECSNodeType type;
-
-  private:
     int reset_count = 0;
 
   public:
-    ECSNode(ECSNodeType node_type, ECSNode *left = nullptr,
-            ECSNode *right = nullptr, std::bitset<64> variable_markers = 0);
-    ECSNode *reset(
-        ECSNodeType node_type, ECSNode *left = nullptr,
-        ECSNode *right = nullptr, std::bitset<64> variable_markers = 0);
+    ECSNode(ECSNodeType node_type,
+            ECSNode *left = nullptr, ECSNode *right = nullptr,
+            std::bitset<64> variable_markers = 0,
+            int document_position = 0);
+    ECSNode *reset(ECSNodeType node_type,
+                   ECSNode *left = nullptr, ECSNode *right = nullptr,
+                   std::bitset<64> variable_markers = 0,
+                   int document_position = 0);
 
     bool is_output() const;
     bool is_bottom() const;
@@ -40,19 +46,24 @@ class ECSNode {
 
     // TODO: Tal vez agregar un node container o
     //       enumerator que se encarga de los ref_counts
-    void dec_ref_count() { --ref_count; }
-    void inc_ref_count() { ++ref_count; }
 
     friend std::ostream& operator<<(std::ostream& os, const ECSNode& n);
 
  private:
+  void decrease_ref_count() { --ref_count; }
+  void increase_ref_count() { ++ref_count; }
+
   void assign_attributes(ECSNodeType node_type, ECSNode *left,
-                     ECSNode *right, std::bitset<64> variable_markers);
+                     ECSNode *right, std::bitset<64> variable_markers,
+                     int document_position);
   void reset_attributes();
   void label_node_as_kBottom();
   void create_kUnion_node(ECSNode *left, ECSNode *right);
+  void add_left_node(ECSNode *node);
+  void add_right_node(ECSNode *node);
   void label_node_as_kUnion();
-  void create_kLabel_node(ECSNode *left, std::bitset<64> variable_markers);
+  void create_kLabel_node(ECSNode *left, std::bitset<64> variable_markers,
+                          int document_position);
   void label_node_as_kLabel();
 
 }; // end class ECSNode

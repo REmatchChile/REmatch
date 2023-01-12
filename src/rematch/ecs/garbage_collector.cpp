@@ -2,56 +2,28 @@
 
 namespace rematch {
 
-template <class... Args> ECSNode *GarbageCollector::alloc(Args &&...args) {
-  if (minipool_head_->is_full()) {
-    if (free_head_ != nullptr) {
-      ECSNode *old_free_head = free_head_;
-      ECSNode *next_free = free_head_->next_free_node;
-      ECSNode *right_ptr = free_head_->right_node();
-      ECSNode *left_ptr = free_head_->left_node();
+void GarbageCollector::decrease_ref_count(ECSNode* node) {
+  node->decrease_ref_count();
+  try_to_mark_node_as_unused(node);
+}
 
-      // Need to decrease the ref_count of left and right.
-      --left_ptr->ref_count;
-      if (right_ptr != nullptr)
-        --right_ptr->ref_count;
+void GarbageCollector::increase_ref_count(ECSNode* node) {
+  node->increase_ref_count();
+}
 
-      if (left_ptr->ref_count == 0 && !left_ptr->is_bottom()) {
-        left_ptr->next_free_node = next_free;
-        next_free = left_ptr;
-      }
-      if (!free_head_->is_output() && right_ptr->ref_count == 0 &&
-          !right_ptr->is_bottom()) {
-        right_ptr->next_free_node = next_free;
-        next_free = right_ptr;
-      }
-
-      // Advance the freelist head
-      free_head_ = next_free;
-      ++n_reused_nodes_;
-
-      return old_free_head->reset(std::forward<Args>(args)...);
-    } else {
-      MiniPool *new_minipool = new MiniPool(minipool_head_->size() * 2);
-      minipool_head_->set_next(new_minipool);
-      new_minipool->set_prev(minipool_head_);
-
-      minipool_head_ = new_minipool;
-    }
-  }
-
-  ++n_nodes_;
-
-  return minipool_head_->alloc(std::forward<Args>(args)...);
+void GarbageCollector::try_to_mark_node_as_unused(ECSNode* node) {
+  if (node->ref_count == 0)
+    add_to_list_of_free_memory(node);
 }
 
 void GarbageCollector::add_to_list_of_free_memory(ECSNode *node) {
-    node->next_free_node = free_head_;
-    free_head_ = node;
+    node->next_free_node = recyclable_node_head;
+    recyclable_node_head = node;
 }
 
 std::string GarbageCollector::print_list_of_free_memory() {
     std::stringstream ss;
-    auto head = free_head_;
+    auto head = recyclable_node_head;
     while(head != nullptr) {
       ss << "()" << ' ';
       head = head->next_free_node;
@@ -59,12 +31,56 @@ std::string GarbageCollector::print_list_of_free_memory() {
     return ss.str();
 }
 
-size_t GarbageCollector::tot_size() const {
-  size_t res = 0;
+size_t GarbageCollector::amount_of_nodes_allocated() const {
+  size_t amount = 0;
   for(MiniPool *mpool = minipool_head_; mpool != nullptr; mpool = mpool->prev())
-    res += sizeof(*mpool) + mpool->size() * sizeof(ECSNode);
-
-  return sizeof(*this) + res;
+    amount += mpool->capacity();
+  return amount;
 }
 
+ECSNode *GarbageCollector::
+get_node_to_recycle_or_increase_mempool_size_if_necessary() {
+  if(!minipool_head_->is_full())
+    return nullptr;
+  if (recyclable_node_head == nullptr) {
+    increase_mempool_size();
+    return nullptr;
+  }
+  return get_node_to_recycle();
 }
+
+void GarbageCollector::increase_mempool_size() {
+    MiniPool *new_minipool = new MiniPool(minipool_head_->size() * 2);
+    minipool_head_->set_next(new_minipool);
+    new_minipool->set_prev(minipool_head_);
+
+    minipool_head_ = new_minipool;
+}
+
+ECSNode *GarbageCollector::get_node_to_recycle() {
+    ECSNode *node_to_recycle = recyclable_node_head;
+    ECSNode *children_of_the_recycled_node[] = {
+      recyclable_node_head->right_node(),
+      recyclable_node_head->left_node() };
+
+    advance_recyclable_nodes_list_head();
+    decrease_references_to_children(children_of_the_recycled_node);
+
+    return node_to_recycle;
+}
+
+void GarbageCollector::decrease_references_to_children(
+    ECSNode *children[2]) {
+  for (int i=0; i<2; i++) {
+    ECSNode *node = children[i];
+    if (node != nullptr)
+      decrease_ref_count(node);
+  }
+}
+
+void GarbageCollector::advance_recyclable_nodes_list_head() {
+    recyclable_node_head = recyclable_node_head->next_free_node;
+    ++amount_of_recycled_nodes;
+}
+
+} // end namespace rematch
