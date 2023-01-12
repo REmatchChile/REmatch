@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "ecs/garbage_collector.hpp"
+#include "ecs/node_manager.hpp"
 #include "ecs_node.hpp"
 
 namespace rematch {
@@ -14,20 +14,20 @@ namespace rematch {
 class ECS {
  public:
   size_t get_amount_of_nodes_used() const;
-  size_t amount_of_nodes_allocated() const { return garbage_collector.amount_of_nodes_allocated(); }
+  size_t amount_of_nodes_allocated() const { return node_manager.amount_of_nodes_allocated(); }
  private:
-  GarbageCollector garbage_collector;
+  NodeManager node_manager; // node_manager
 
  public:
   ECS() = default;
 
-  ECSNode *bottom_node();
-  ECSNode* extend(ECSNode* node, std::bitset<64> variable_markers,
-                  int document_position);
-  ECSNode *unite(ECSNode *node_1, ECSNode *node_2);
+  ECSNode *create_bottom_node(); // create_bottom_node
+  ECSNode *create_extend_node(ECSNode* node, std::bitset<64> variable_markers,
+                  int document_position); // create_extend_node
+  ECSNode *create_union_node(ECSNode *node_1, ECSNode *node_2); // create_unite_node
 
-  ECSNode *copy_node(ECSNode *node);
-  void return_node(ECSNode *node);
+  ECSNode *pin_node(ECSNode *node); // pin_node
+  void unpin_node(ECSNode *node); // unpin_node
 
   private:
     ECSNode *create_union_of_two_non_output_nodes(
@@ -36,7 +36,8 @@ class ECS {
                                                   ECSNode *node_2);
     ECSNode *create_second_intermediate_union_node(ECSNode *node_2,
                                                    ECSNode *u1);
-    ECSNode *create_union_node(ECSNode *node_1, ECSNode *u2);
+    ECSNode *create_union_of_output_and_intermediate_node(
+        ECSNode *node_1, ECSNode *u2);
 }; // end class ECS
 
 } // end namespace rematch

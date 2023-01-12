@@ -12,7 +12,8 @@ ECSNode::ECSNode(ECSNodeType node_type, ECSNode *left,
 }
 
 ECSNode *ECSNode::reset(ECSNodeType node_type, ECSNode *left, ECSNode *right,
-                        std::bitset<64> variable_markers, int document_position) {
+                        std::bitset<64> variable_markers,
+                        int document_position) {
   reset_attributes();
   ++reset_count;
   assign_attributes(node_type, left, right, variable_markers, document_position);

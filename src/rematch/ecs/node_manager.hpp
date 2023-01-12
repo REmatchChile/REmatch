@@ -11,7 +11,7 @@ namespace rematch {
 
 const size_t MEMORY_POOL_STARTING_SIZE = 2048;
 
-class GarbageCollector {
+class NodeManager {
 
 public:
   size_t amount_of_nodes_allocated() const;
@@ -21,13 +21,11 @@ public:
 private:
   MiniPool *minipool_head_;
   ECSNode *recyclable_node_head;
-  size_t initial_size;
 
 public:
-  GarbageCollector(size_t starting_size = MEMORY_POOL_STARTING_SIZE)
+  NodeManager(size_t starting_size = MEMORY_POOL_STARTING_SIZE)
       : minipool_head_(new MiniPool(starting_size)),
-        recyclable_node_head(nullptr),
-        initial_size(starting_size) {}
+        recyclable_node_head(nullptr) {}
 
   template <class... Args> ECSNode *alloc(Args &&...args) {
     ECSNode *recycled_node =

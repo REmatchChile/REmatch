@@ -9,7 +9,7 @@ namespace rematch {
 enum class ECSNodeType { kBottom = 0, kUnion = 1, kLabel = 2 };
 
 class ECSNode {
-  friend class GarbageCollector;
+  friend class NodeManager;
 
   public:
     std::bitset<64> variable_markers;
@@ -20,7 +20,7 @@ class ECSNode {
     };
     ECSNodeType type;
 
-  //private:
+  private:
     union {
       int ref_count{1};
       ECSNode *next_free_node;
