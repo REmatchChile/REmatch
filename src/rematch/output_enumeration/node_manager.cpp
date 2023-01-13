@@ -2,6 +2,14 @@
 
 namespace rematch {
 
+NodeManager::NodeManager(size_t starting_size)
+    : minipool_head_(new MiniPool(starting_size)),
+      recyclable_node_head(nullptr) {}
+
+NodeManager::~NodeManager() {
+  delete minipool_head_;
+}
+
 void NodeManager::decrease_ref_count(ECSNode* node) {
   node->decrease_ref_count();
   try_to_mark_node_as_unused(node);

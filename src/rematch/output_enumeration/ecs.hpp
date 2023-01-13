@@ -20,6 +20,7 @@ class ECS { // Enumerable Compact Set
 
  public:
   ECS() = default;
+  ~ECS() = default;
 
   ECSNode *create_bottom_node();
   ECSNode *create_extend_node(ECSNode* node, std::bitset<64> variable_markers,

@@ -18,9 +18,8 @@ private:
   MiniPool *prev_{nullptr};
 
 public:
-  MiniPool(size_t cap) : capacity_(cap) {
-    node_container.reserve(capacity_);
-  }
+  MiniPool(size_t cap);
+  ~MiniPool();
 
   size_t capacity() const;
   size_t size() const;

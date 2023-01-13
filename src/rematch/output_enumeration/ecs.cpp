@@ -5,7 +5,6 @@
 
 namespace rematch {
 
-
 size_t ECS::get_amount_of_nodes_used() const {
   return node_manager.get_amount_of_nodes_used(); 
 }

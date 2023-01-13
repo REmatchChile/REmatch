@@ -11,7 +11,9 @@ set(TEST_BINARY rematch_test)
 set(TEST_SOURCES
         output_enumeration/garbage_collector.cpp
         output_enumeration/ecs_node.cpp
-        output_enumeration/ecs.cpp)
+        output_enumeration/ecs.cpp
+        output_enumeration/enumerator.cpp
+        )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(${TEST_BINARY} ${TEST_SOURCES})

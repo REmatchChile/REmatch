@@ -23,9 +23,8 @@ private:
   ECSNode *recyclable_node_head;
 
 public:
-  NodeManager(size_t starting_size = MEMORY_POOL_STARTING_SIZE)
-      : minipool_head_(new MiniPool(starting_size)),
-        recyclable_node_head(nullptr) {}
+  NodeManager(size_t starting_size = MEMORY_POOL_STARTING_SIZE);
+  ~NodeManager();
 
   template <class... Args> ECSNode *alloc(Args &&...args) {
     ECSNode *recycled_node =

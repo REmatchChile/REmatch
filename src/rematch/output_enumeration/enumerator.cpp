@@ -10,25 +10,31 @@ Enumerator::Enumerator(int amount_of_variables)
     : current_mapping(amount_of_variables * 2) {}
 
 Mapping Enumerator::next() {
-  while (!stack_.empty()) {
-
-    auto current_node = stack_.back();
-    stack_.pop_back();
+  while (!stack.empty()) {
+    ECSNode *current_node = stack.back();
+    stack.pop_back();
 
     if (current_node->is_bottom()) {
-      tot_mappings_++;
       return current_mapping;
-    } else if (current_node->is_output()) {  // If label node
-      current_mapping.add_annotations(current_node->variable_markers,
-                                      current_node->document_position);
-      stack_.push_back(current_node->next());
-    } else { // if union node
-      stack_.push_back(current_node->right_node());
-      stack_.push_back(current_node->left_node());
+    } else if (current_node->is_output()) {
+        consume_KLabel_node(current_node);
+    } else {
+        consume_union_node(current_node);
     }
   }
+  throw EndOfIterationException();
+  return current_mapping; // to disable warning about missing return statement
+}
 
-  throw std::exception();
+void Enumerator::consume_KLabel_node(ECSNode *current_kLabel_node) {
+  current_mapping.add_annotations(current_kLabel_node->variable_markers,
+                                  current_kLabel_node->document_position);
+  stack.push_back(current_kLabel_node->next());
+}
+
+void Enumerator::consume_union_node(ECSNode *current_union_node) {
+  stack.push_back(current_union_node->right_node());
+  stack.push_back(current_union_node->left_node());
 }
 
 }  // end namespace rematch

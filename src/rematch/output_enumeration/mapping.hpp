@@ -26,4 +26,4 @@ class Mapping {
 
 }  // end namespace rematch
 
-#endif  // STRUCTS__OUTPUT_ENUMERATOR__MAPPING_HPP
+#endif  // OUTPUT_ENUMERATOR__MAPPING_HPP
