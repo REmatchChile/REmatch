@@ -19,7 +19,6 @@ private:
 
 public:
   MiniPool(size_t cap);
-  ~MiniPool();
 
   size_t capacity() const;
   size_t size() const;

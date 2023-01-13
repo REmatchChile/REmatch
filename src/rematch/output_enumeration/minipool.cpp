@@ -6,9 +6,6 @@ MiniPool::MiniPool(size_t cap) : capacity_(cap) {
   node_container.reserve(capacity_);
 }
 
-MiniPool::~MiniPool() {
-}
-
 size_t MiniPool::capacity() const { return node_container.capacity(); }
 size_t MiniPool::size() const { return node_container.size(); }
 

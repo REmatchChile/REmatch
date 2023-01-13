@@ -7,7 +7,11 @@ NodeManager::NodeManager(size_t starting_size)
       recyclable_node_head(nullptr) {}
 
 NodeManager::~NodeManager() {
-  delete minipool_head_;
+  for (MiniPool *mp = minipool_head_; mp != nullptr;) {
+    MiniPool *next = mp->next();
+    delete mp;
+    mp = next;
+  }
 }
 
 void NodeManager::decrease_ref_count(ECSNode* node) {

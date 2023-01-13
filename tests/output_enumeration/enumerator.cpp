@@ -19,7 +19,7 @@ ECSNode* create_linked_list_node_of_depth(ECS* ecs, int depth) {
 
 TEST_CASE("Enumerator returns only one mapping when no unions are used") {
   ECS ecs = ECS();
-  int depth = GENERATE(0, 5, 20);
+  int depth = GENERATE(0, 3, 7, 31);
   ECSNode* linked_list = create_linked_list_node_of_depth(&ecs, depth);
   Enumerator enumerator = Enumerator();
   enumerator.add_node(linked_list);
@@ -32,8 +32,8 @@ TEST_CASE("Enumerator returns only one mapping when no unions are used") {
 }
 
 TEST_CASE("One union returns two mappings") {
-  ECS ecs;
-  int depth = GENERATE(0, 5, 20);
+  ECS ecs = ECS();
+  int depth = GENERATE(0, 3, 7, 31);
   ECSNode* union_node = ecs.create_union_node(
       create_linked_list_node_of_depth(&ecs, depth),
       create_linked_list_node_of_depth(&ecs, depth)
@@ -61,29 +61,29 @@ void add_closing_annotation_to_variable(
 }
 
 ECSNode *extend_current_node_with_annotation(
-    ECS &ecs, ECSNode *current_node, std::bitset<64> variable_markers,
+    ECS *ecs, ECSNode *current_node, std::bitset<64> variable_markers,
     int &last_document_position) {
-  ECSNode *new_left_node = ecs.create_extend_node(
+  ECSNode *new_left_node = ecs->create_extend_node(
       current_node,
       variable_markers,
       last_document_position--
   );
-  ECSNode *new_right_node = ecs.create_extend_node(
+  ECSNode *new_right_node = ecs->create_extend_node(
       current_node,
       variable_markers,
       last_document_position--
   );
-  ecs.unpin_node(current_node);
-  ECSNode *new_union_node = ecs.create_union_node(
+  ecs->unpin_node(current_node);
+  ECSNode *new_union_node = ecs->create_union_node(
       new_left_node, new_right_node
   );
-  ecs.unpin_node(new_left_node);
-  ecs.unpin_node(new_right_node);
+  ecs->unpin_node(new_left_node);
+  ecs->unpin_node(new_right_node);
   return new_union_node;
 }
 
 ECSNode *extend_current_node_with_closing_hexagon(
-    ECS &ecs, ECSNode *current_node, int variable_number,
+    ECS *ecs, ECSNode *current_node, int variable_number,
     int &last_document_position) {
   std::bitset<64> variable_markers;
   add_closing_annotation_to_variable(variable_markers, variable_number);
@@ -93,7 +93,7 @@ ECSNode *extend_current_node_with_closing_hexagon(
 }
 
 ECSNode *extend_current_node_with_opening_hexagon(
-    ECS &ecs, ECSNode *current_node, int variable_number,
+    ECS *ecs, ECSNode *current_node, int variable_number,
     int &last_document_position) {
   std::bitset<64> variable_markers;
   add_oppening_annotation_to_variable(variable_markers, variable_number);
@@ -127,8 +127,8 @@ TEST_CASE("Complex ECS structure returns correct mappings") {
    |#       Bottom                                  #|
    |#################################################|
    +------------------------------------------------*/
-  ECS ecs;
-  ECSNode* bottom = ecs.create_bottom_node();
+  ECS *ecs = new ECS();
+  ECSNode* bottom = ecs->create_bottom_node();
   int last_document_position_used = 10000;
   int amount_of_variables = GENERATE(1, 3, 5, 7);
   ECSNode* current_node = bottom;
@@ -148,6 +148,7 @@ TEST_CASE("Complex ECS structure returns correct mappings") {
     amount_of_mappings++;
   }
   REQUIRE(amount_of_mappings == pow(2, amount_of_variables * 2));
+  delete ecs;
 }
 
 
