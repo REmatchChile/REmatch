@@ -5,6 +5,8 @@ cmake_minimum_required(VERSION 3.23.2)
 
 project(rematch LANGUAGES CXX)
 
+set(CMAKE_BUILD_TYPE Debug)
+
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
     message(STATUS "Build type not specified. Using Release by default.")
