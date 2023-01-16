@@ -1,10 +1,12 @@
-#ifndef STRUCTvariable_markers_ECvariable_markers_NODE_HPP
-#define STRUCTvariable_markers_ECvariable_markers_NODE_HPP
+#ifndef OUTPUT_ENUMERATION__NODE_HPP
+#define OUTPUT_ENUMERATION__NODE_HPP
 
 #include <cinttypes>
 #include <bitset>
 
 namespace rematch {
+
+inline namespace output_enumeration {
 
 enum class ECSNodeType { kBottom = 0, kUnion = 1, kLabel = 2 };
 
@@ -68,6 +70,8 @@ class ECSNode {
 
 }; // end class ECSNode
 
-} // namespace rematch
+} // end namespace output_enumeration
 
-#endif // STRUCTS_ECvariable_markers_NODE_HPP
+} // end namespace rematch
+
+#endif // OUTPUT_ENUMERATION__NODE_HPP

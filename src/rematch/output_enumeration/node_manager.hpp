@@ -1,5 +1,5 @@
-#ifndef STRUCTS_ECS_GARBAGE_COLLECTOR_HPP
-#define STRUCTS_ECS_GARBAGE_COLLECTOR_HPP
+#ifndef OUTPUT_ENUMERATION__GARBAGE_COLLECTOR_HPP
+#define OUTPUT_ENUMERATION__GARBAGE_COLLECTOR_HPP
 
 #include "output_enumeration/minipool.hpp"
 #include <sstream>
@@ -8,6 +8,8 @@
 // n_reused_nodes: no se actualizaba
 
 namespace rematch {
+
+inline namespace output_enumeration {
 
 const size_t MEMORY_POOL_STARTING_SIZE = 2048;
 
@@ -58,6 +60,8 @@ private:
 }; // end class GarbageCollector
 
 
+} // end namespace output_enumeration
+
 } // end namespace rematch
 
-#endif // STRUCTS_ECS_GARBAGE_COLLECTOR_HPP
+#endif // OUTPUT_ENUMERATION__GARBAGE_COLLECTOR_HPP

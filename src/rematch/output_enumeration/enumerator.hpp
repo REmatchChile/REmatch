@@ -6,6 +6,8 @@
 
 namespace rematch {
 
+inline namespace output_enumeration {
+
 class EndOfIterationException : public std::exception {
  public:
   const char * what() const throw () {
@@ -41,6 +43,8 @@ class Enumerator {
   void consume_union_node(ECSNode *current_union_node);
 
 };  // end class Enumerator
+
+} // end namespace output_enumeration
 
 }  // end namespace rematch
 

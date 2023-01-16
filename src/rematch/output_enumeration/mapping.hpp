@@ -5,6 +5,8 @@
 
 namespace rematch {
 
+inline namespace output_enumeration {
+
 using Span = std::pair<int64_t, int64_t>;
 
 class Mapping {
@@ -35,6 +37,8 @@ class Mapping {
     int marker_id, int &current_position) const;
 
 };  // end class Mapping
+
+}  // end namespace output_enumeration
 
 }  // end namespace rematch
 

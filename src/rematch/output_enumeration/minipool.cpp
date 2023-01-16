@@ -2,6 +2,8 @@
 
 namespace rematch {
 
+inline namespace output_enumeration {
+
 MiniPool::MiniPool(size_t cap) : capacity_(cap) {
   node_container.reserve(capacity_);
 }
@@ -14,5 +16,7 @@ MiniPool *MiniPool::next() const { return next_; }
 void MiniPool::set_next(MiniPool *mp) { next_ = mp; }
 MiniPool *MiniPool::prev() const { return prev_; }
 void MiniPool::set_prev(MiniPool *mp) { prev_ = mp; }
+
+} // end namespace output_enumeration
 
 } // end namespace rematch

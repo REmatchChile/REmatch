@@ -5,6 +5,8 @@
 
 namespace rematch {
 
+inline namespace output_enumeration {
+
 ECSNode::ECSNode(ECSNodeType node_type, ECSNode *left,
                  ECSNode *right, std::bitset<64> variable_markers,
                  int document_position) {
@@ -107,5 +109,7 @@ void ECSNode::create_kLabel_node(ECSNode *left,
     label_node_as_kLabel();
     this->document_position = document_position;
 }
+
+} // namespace output_enumeration
 
 } // namespace rematch

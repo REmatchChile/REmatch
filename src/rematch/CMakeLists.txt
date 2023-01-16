@@ -3,16 +3,8 @@ file(GLOB fix_srcs
 )
 
 file(GLOB_RECURSE glob_srcs
-  ${CMAKE_CURRENT_SOURCE_DIR}/automata/*.[ch]pp
-  ${CMAKE_CURRENT_SOURCE_DIR}/parse/*.[ch]pp
-  ${CMAKE_CURRENT_SOURCE_DIR}/structs/*.[ch]pp
-  ${CMAKE_CURRENT_SOURCE_DIR}/det/*.[ch]pp
-  ${CMAKE_CURRENT_SOURCE_DIR}/factories/*.[ch]pp
-  ${CMAKE_CURRENT_SOURCE_DIR}/parser_automata/*.[ch]pp
-  ${CMAKE_CURRENT_SOURCE_DIR}/regex/*.[ch]pp
-  ${CMAKE_CURRENT_SOURCE_DIR}/evaluation/*.[ch]pp
-  ${CMAKE_CURRENT_SOURCE_DIR}/util/*.[ch]pp
   ${CMAKE_CURRENT_SOURCE_DIR}/output_enumeration/*.[ch]pp
+  ${CMAKE_CURRENT_SOURCE_DIR}/library_interface/*.[ch]pp
 )
 
 set(sources ${fix_srcs} ${glob_srcs})

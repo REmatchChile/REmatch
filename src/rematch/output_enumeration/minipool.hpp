@@ -1,5 +1,5 @@
-#ifndef STRUCTS_ECS_MINI_POOL_HPP
-#define STRUCTS_ECS_MINI_POOL_HPP
+#ifndef OUTPUT_ENUMERATION_MINI_POOL_HPP
+#define OUTPUT_ENUMERATION_MINI_POOL_HPP
 
 #include <cmath>
 #include <vector>
@@ -8,6 +8,8 @@
 #include "output_enumeration/ecs_node.hpp"
 
 namespace rematch {
+
+inline namespace output_enumeration {
 
 class MiniPool {
 
@@ -36,6 +38,8 @@ public:
 
 }; // end class MiniPool
 
+} // end namespace output_enumeration
+
 } // end namespace rematch
 
-#endif // STRUCTS_ECS_MINI_POOL_HPP
+#endif // OUTPUT_ENUMERATION_MINI_POOL_HPP

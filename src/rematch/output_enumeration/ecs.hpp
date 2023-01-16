@@ -1,5 +1,5 @@
-#ifndef STRUCTS__ECS__ECS_HPP
-#define STRUCTS__ECS__ECS_HPP
+#ifndef OUTPUT_ENUMERATION__ECS_HPP
+#define OUTPUT_ENUMERATION__ECS_HPP
 
 #include <bitset>
 #include <sstream>
@@ -10,6 +10,8 @@
 #include "output_enumeration/ecs_node.hpp"
 
 namespace rematch {
+
+inline namespace output_enumeration {
 
 class ECS { // Enumerable Compact Set
  public:
@@ -40,6 +42,8 @@ class ECS { // Enumerable Compact Set
     ECSNode *create_union_of_output_and_intermediate_node(
         ECSNode *node_1, ECSNode *u2);
 }; // end class ECS
+
+} // end inline namespace output_enumeration
 
 } // end namespace rematch
 

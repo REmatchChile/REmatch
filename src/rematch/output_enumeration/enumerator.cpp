@@ -6,6 +6,8 @@
 
 namespace rematch {
 
+inline namespace output_enumeration {
+
 Enumerator::Enumerator() {
   current_mapping = new Mapping(MAXIMUM_AMOUNT_OF_VARIABLES);
   amount_of_annotations_added_before_union.push_back(0);
@@ -64,5 +66,7 @@ void Enumerator::consume_union_node(ECSNode *current_union_node) {
   stack.push_back(current_union_node->left_node());
   amount_of_annotations_added_before_union.push_back(0);
 }
+
+} // end namespace output_enumeration
 
 }  // end namespace rematch

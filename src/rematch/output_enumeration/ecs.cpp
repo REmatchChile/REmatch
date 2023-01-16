@@ -5,6 +5,8 @@
 
 namespace rematch {
 
+inline namespace output_enumeration {
+
 size_t ECS::get_amount_of_nodes_used() const {
   return node_manager.get_amount_of_nodes_used(); 
 }
@@ -86,5 +88,7 @@ ECSNode *ECS::create_union_of_output_and_intermediate_node(
                                                  node_1->left_node(), u2);
     return new_node;
 }
+
+} // inline namespace output_enumeration
 
 } // namespace rematch

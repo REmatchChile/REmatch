@@ -2,6 +2,8 @@
 
 namespace rematch {
 
+inline namespace output_enumeration {
+
 Mapping::Mapping(int amount_of_variables) : 
     annotations() {}
 
@@ -78,4 +80,6 @@ int Mapping::find_next_document_position_where_the_specified_marker_is_true(
   return -1;
 }
 
-}  // end namespace rematch
+} // namespace output_enumeration
+
+} // namespace rematch
