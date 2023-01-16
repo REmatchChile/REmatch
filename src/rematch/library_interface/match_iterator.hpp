@@ -5,6 +5,10 @@ namespace rematch {
 
 inline namespace library_interface {
   class MatchIterator {
+    // TODO:
+    // for (Match match: iterator) {
+    // 
+    // }
   public:
   };
 } // end namespace library_interface

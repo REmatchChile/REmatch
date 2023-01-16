@@ -39,7 +39,8 @@ std::vector<Span> Mapping::get_spans_of_variable_id(int variable_id) const {
 }
 
 void Mapping::delete_previous_annotation() {
-  annotations.pop_back();
+  annotations.pop_back(); // TODO: change this so that it goes back to the last
+                          // annotation that was added
 }
 
 Span Mapping::get_next_span(int variable_id,

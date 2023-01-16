@@ -50,7 +50,7 @@ void Enumerator::delete_annotations_until_previous_union() {
     amount_of_annotations_added_before_union.back();
   amount_of_annotations_added_before_union.pop_back();
   for (int i = 0; i < amount_of_annotations_to_delete; i++) {
-    current_mapping->delete_previous_annotation();
+    current_mapping->delete_previous_annotation();  // TODO: saltar para atrás en vez de borrar
   }
 }
 
