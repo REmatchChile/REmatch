@@ -5,27 +5,27 @@ namespace rematch {
 inline namespace output_enumeration {
 
 Mapping::Mapping(int amount_of_variables) : 
-    annotations() {}
+    inverted_annotations() {}
 
 void Mapping::add_annotations(std::bitset<64> variable_markers,
                      size_t document_position) {
-  annotations.push_back(Annotation{variable_markers, document_position});
+  inverted_annotations.push_back(Annotation{variable_markers, document_position});
 }
 
 std::vector<Span> Mapping::get_spans_of_variable_id(int variable_id) const {
   /**
-   * assumptions: annotations are sorted by document_position, and
+   * assumptions: inverted_annotations are sorted by document_position, and
    * are functional.
    *
    * The current implementation is not optimal, as it traverses the
-   * annotations vector twice. Furthermore, if the spans of all the 
+   * inverted_annotations vector twice. Furthermore, if the spans of all the 
    * variables are found in a single pass it would be more efficient.
    */
 
   std::vector<Span> spans;
   int next_possible_opening_position = 0, next_possible_closure_position = 0;
-  while (next_possible_opening_position < (int) annotations.size() &&
-         next_possible_closure_position < (int) annotations.size()) {
+  while (next_possible_opening_position < (int) inverted_annotations.size() &&
+         next_possible_closure_position < (int) inverted_annotations.size()) {
     Span span = get_next_span(
         variable_id,
         next_possible_opening_position,
@@ -39,10 +39,11 @@ std::vector<Span> Mapping::get_spans_of_variable_id(int variable_id) const {
 }
 
 void Mapping::delete_previous_annotation() {
-  annotations.pop_back(); // TODO: change this so that it goes back to the last
+  inverted_annotations.pop_back(); // TODO: change this so that it goes back to the last
                           // annotation that was added
 }
 
+// TODO: Change logic to have less function calls or make it cleaner.
 Span Mapping::get_next_span(int variable_id,
                    int &next_possible_opening_position,
                    int &next_possible_closure_position) const {
@@ -73,9 +74,9 @@ int Mapping::get_next_variable_closure(int variable_id,
 int Mapping::find_next_document_position_where_the_specified_marker_is_true(
     int marker_id, int &current_position
 ) const {
-  while (current_position < (int) annotations.size()) {
-    if (annotations[current_position].variable_markers[marker_id]) {
-      return annotations[current_position++].document_position;
+  while (current_position < (int) inverted_annotations.size()) {
+    if (inverted_annotations[current_position].variable_markers[marker_id]) {
+      return inverted_annotations[current_position++].document_position;
     }
   }
   return -1;

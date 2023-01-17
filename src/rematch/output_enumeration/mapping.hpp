@@ -17,7 +17,7 @@ class Mapping {
     std::bitset<64> variable_markers;
     size_t document_position;
   };
-  std::vector<Annotation> annotations;
+  std::vector<Annotation> inverted_annotations;
 
  public:
   Mapping(int amount_of_variables);
