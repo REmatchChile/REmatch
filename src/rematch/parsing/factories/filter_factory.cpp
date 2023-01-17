@@ -6,7 +6,7 @@
 #include <unordered_set>
 #include <algorithm>
 
-#include "parsing/filter_factory.hpp"
+#include "parsing/factories/filter_factory.hpp"
 #include "parsing/charclass.hpp"
 #include "parsing/bad_regex_exception.hpp"
 

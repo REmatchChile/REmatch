@@ -16,8 +16,6 @@
 namespace rematch {
 
 LogicalVA::LogicalVA()
-    //: vfactory_(std::make_shared<VariableFactory>()),
-      //ffactory_(std::make_shared<FilterFactory>()) 
       {
   init_state_ = new_state();
   accepting_state_ = new_state();
@@ -37,8 +35,6 @@ LogicalVA::LogicalVA(unsigned int code) {
 
 LogicalVA::LogicalVA(const LogicalVA &A)
     : 
-      //vfactory_(A.vfactory_),
-      //ffactory_(A.ffactory_),
       init_state_(nullptr) {
 
   // Table to map old states to newly allocated copied states
@@ -73,12 +69,6 @@ LogicalVA::LogicalVA(const LogicalVA &A)
   accepting_state_ = new_states[A.accepting_state_];
   has_epsilon_ = A.has_epsilon_;
 }
-
-//void LogicalVA::set_factories(std::shared_ptr<VariableFactory> v,
-															//std::shared_ptr<FilterFactory>   f) {
-  //vfactory_ = v;
-  //ffactory_ = f;
-//}
 
 void LogicalVA::remove_captures() {
   std::vector<LogicalVAState*> stack;
@@ -531,7 +521,7 @@ std::ostream& operator<<(std::ostream& os, LogicalVA const &A) {
 
       nid = capture->next->id;
 
-      //os << "t " << cid << " " << A.vfactory_->print_varset(S) << " " << nid << '\n';
+      os << "t " << cid << " " << S << " " << nid << '\n';
 
       // If not visited enqueue and add to visited
       if (visited.find(nid) == visited.end()) {
@@ -544,8 +534,6 @@ std::ostream& operator<<(std::ostream& os, LogicalVA const &A) {
     for (auto &filter: current->filters) {
       nid = filter->next->id;
       S = filter->code;
-
-      //os << "t " << cid << ' ' << A.ffactory_->get_filter(filter->code) << ' ' << nid << '\n';
 
       // If not visited enqueue and add to visited
       if (visited.find(nid) == visited.end()) {

@@ -26,9 +26,6 @@ class LogicalVA {
   // Atomic VA
   LogicalVA(unsigned int code);
 
-  // Sets a reference for the associated factories.
-  //void set_factories(std::shared_ptr<VariableFactory> v,
-                     //std::shared_ptr<FilterFactory> f);
 
   // Transforms the automaton graph to a trimmed automaton. This being that every
   // state is reacheable from the initial state, and the final state is reachable
@@ -63,9 +60,6 @@ class LogicalVA {
 
   void relabel_states();
 
-  //std::shared_ptr<VariableFactory> varFactory() const {return vfactory_;}
-  //std::shared_ptr<FilterFactory> filterFactory() const {return ffactory_;}
-
   LogicalVAState* initial_state() const { return init_state_; }
   LogicalVAState* accepting_state() const { return accepting_state_; }
 
@@ -82,9 +76,6 @@ class LogicalVA {
   LogicalVAState* accepting_state_;
 
   bool has_epsilon_ = false;
-
-  //std::shared_ptr<VariableFactory> vfactory_;
-  //std::shared_ptr<FilterFactory> ffactory_;
 };
 
 }

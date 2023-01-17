@@ -11,11 +11,10 @@
 #include <map>
 #include <utility>
 
-#include "charclass.hpp"
+#include "parsing/charclass.hpp"
 
 namespace rematch {
 // Maximum variables supported
-const int MAX_VARS = 15;
 
 // Filter code table. Manages the all CharClassBuilders that are associated with
 // a query (we call them Filters for shorthand).

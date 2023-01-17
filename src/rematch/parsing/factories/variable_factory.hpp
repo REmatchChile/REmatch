@@ -1,5 +1,5 @@
-#ifndef FACTORIES_FACTORIES_HPP
-#define FACTORIES_FACTORIES_HPP
+#ifndef VARIABLE_FACTORIES_HPP
+#define VARIABLE_FACTORIES_HPP
 
 #include <iostream>
 #include <unordered_map>
@@ -11,7 +11,7 @@
 #include <map>
 #include <utility>
 
-#include "charclass.hpp"
+#include "parsing/charclass.hpp"
 
 namespace rematch {
 // Maximum variables supported
@@ -77,4 +77,4 @@ class VariableFactory {
 
 } // end namespace rematch
 
-#endif // FACTORIES_FACTORIES_HPP
+#endif

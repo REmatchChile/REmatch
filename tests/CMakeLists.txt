@@ -13,6 +13,7 @@ set(TEST_SOURCES
         output_enumeration/ecs_node.cpp
         output_enumeration/ecs.cpp
         output_enumeration/enumerator.cpp
+        parsing/parser.cpp
         )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
