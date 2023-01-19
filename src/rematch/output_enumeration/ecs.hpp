@@ -2,7 +2,6 @@
 #define OUTPUT_ENUMERATION__ECS_HPP
 
 #include <bitset>
-#include <sstream>
 #include <string>
 #include <vector>
 

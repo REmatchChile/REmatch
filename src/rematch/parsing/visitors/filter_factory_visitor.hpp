@@ -397,6 +397,7 @@ class FilterFactoryVisitor : public REmatchParserBaseVisitor {
     }
   }
 
+ private:
   std::any visitAlternation(REmatchParser::AlternationContext *ctx) override {
     // Build the automaton for the first expression
     visit(ctx->expr(0));

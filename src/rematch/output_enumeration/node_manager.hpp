@@ -2,7 +2,7 @@
 #define OUTPUT_ENUMERATION__GARBAGE_COLLECTOR_HPP
 
 #include "output_enumeration/minipool.hpp"
-#include <sstream>
+// #include <sstream>
 // Borré tot_arenas_ (no había funcionalidad en tot_arenas),
 // id (se usa para hacer el print)
 // n_reused_nodes: no se actualizaba
@@ -41,8 +41,6 @@ public:
 
   void add_to_list_of_free_memory(ECSNode *node);
   size_t get_amount_of_nodes_used() const { return amount_of_nodes_used; }
-
-  std::string print_list_of_free_memory();
 
 
 

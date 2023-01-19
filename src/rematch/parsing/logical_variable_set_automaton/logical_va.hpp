@@ -14,6 +14,10 @@ class LogicalVA {
   /* A basic implementation of a Variable Automaton  */
   friend class ExtendedVA;
 
+public:
+  LogicalVAState* initial_state() const { return init_state_; }
+  LogicalVAState* accepting_state() const { return accepting_state_; }
+
  public:
   std::vector<LogicalVAState*> states;
 
@@ -59,9 +63,6 @@ class LogicalVA {
   void remove_epsilon();
 
   void relabel_states();
-
-  LogicalVAState* initial_state() const { return init_state_; }
-  LogicalVAState* accepting_state() const { return accepting_state_; }
 
   bool has_epsilon() const { return has_epsilon_; }
 

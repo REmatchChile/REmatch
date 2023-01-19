@@ -3,12 +3,31 @@
 
 #include <string>
 
+#define private public
+#undef private
+#include "parsing/visitors/visitor_headers.hpp"
+
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
 
 namespace rematch {
 
-LogicalVA doParse(const std::string& input);
-std::unique_ptr<LogicalVA> regex2LVA(std::string regex);
+class Parser {
+
+
+  public:
+
+  private:
+    std::shared_ptr<VariableFactory> vfact_ptr;
+    std::shared_ptr<FilterFactory> ffact_ptr;
+    std::unique_ptr<LogicalVA> logical_va;
+
+  public:
+    Parser(const std::string& input);
+
+  private:
+    void create_logical_va(const std::string& input);
+
+};
 
 } // end namespace rematch
 
