@@ -12,6 +12,7 @@
 #include <utility>
 
 #include "parsing/charclass.hpp"
+#include "parsing/charclass_builder.hpp"
 
 namespace rematch {
 // Maximum variables supported
