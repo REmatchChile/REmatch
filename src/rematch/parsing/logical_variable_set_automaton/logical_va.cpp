@@ -21,14 +21,14 @@ LogicalVA::LogicalVA()
   accepting_state_->set_accepting(true);
 }
 
-LogicalVA::LogicalVA(unsigned int code) {
+LogicalVA::LogicalVA(CharClass charclass) {
   init_state_ = new_state();
   init_state_->set_initial(true);
 
   accepting_state_ = new_state();
   accepting_state_->set_accepting(true);
 
-  init_state_->add_filter(code, accepting_state_);
+  init_state_->add_filter(charclass, accepting_state_);
 }
 
 LogicalVA::LogicalVA(const LogicalVA &A)

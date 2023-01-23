@@ -32,7 +32,6 @@ void Parser::create_logical_va(const std::string &input) {
 
   // LVA creation
   ffv.visit(root);
-  ffact_ptr = ffv.ffact_ptr;
   std::unique_ptr<LogicalVA> lva_ptr = std::move(ffv.lva_ptr);
 
 

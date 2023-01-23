@@ -4,7 +4,6 @@
 #include <string>
 
 #undef private
-#include "parsing/factories/filter_factory.hpp"
 #include "parsing/factories/variable_factory.hpp"
 
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
@@ -18,7 +17,6 @@ class Parser {
 
   private:
     std::shared_ptr<VariableFactory> vfact_ptr;
-    std::shared_ptr<FilterFactory> ffact_ptr;
     std::unique_ptr<LogicalVA> logical_va;
 
   public:

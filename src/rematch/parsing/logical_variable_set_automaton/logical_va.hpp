@@ -43,7 +43,7 @@ public:
   LogicalVA(const LogicalVA &A);
 
   // Atomic VA
-  LogicalVA(unsigned int code);
+  LogicalVA(CharClass charclass);
 
 
   // Transforms the automaton graph to a trimmed automaton. This being that every
