@@ -314,7 +314,7 @@ class FilterFactoryVisitor : public REmatchParserBaseVisitor {
     stack.push(*it);
     // 1 byte automaton
     {
-      CharClassBuilder ccb;
+      CharClass ccb;
       while (!stack.empty()) {
         UnicodeRange r = stack.top();
         if (r.lo > 0x7F) break;

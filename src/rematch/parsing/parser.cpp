@@ -1,4 +1,4 @@
-#include "parser.hpp"
+#include "parsing/parser.hpp"
 
 #include "antlr4-runtime.h"
 #include "parsing/visitors/variable_factory_visitor.hpp"
@@ -33,10 +33,14 @@ void Parser::create_logical_va(const std::string &input) {
   // LVA creation
   ffv.visit(root);
   ffact_ptr = ffv.ffact_ptr;
-  std::unique_ptr<LogicalVA>     lva_ptr   = std::move(ffv.lva_ptr);
+  std::unique_ptr<LogicalVA> lva_ptr = std::move(ffv.lva_ptr);
 
 
   logical_va = std::move(lva_ptr);
+}
+
+LogicalVA Parser::get_logical_va() {
+  return *logical_va;
 }
 
 } // end namespace rematch

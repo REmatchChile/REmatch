@@ -4,7 +4,7 @@ namespace rematch {
 
 inline namespace output_enumeration {
 
-Mapping::Mapping(int amount_of_variables) : 
+Mapping::Mapping(int amount_of_variables) :
     inverted_annotations() {}
 
 void Mapping::add_annotations(std::bitset<64> variable_markers,

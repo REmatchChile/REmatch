@@ -38,6 +38,4 @@ inline namespace library_interface {
   };
 } // end namespace library_interface
 
-} // end namespace rematch
-
 #endif

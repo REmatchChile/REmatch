@@ -14,6 +14,16 @@ class LogicalVA {
   /* A basic implementation of a Variable Automaton  */
   friend class ExtendedVA;
 
+ private:
+
+  // Creates a new LogicalVAState for the automaton.
+  LogicalVAState* new_state();
+
+  LogicalVAState* init_state_;
+  LogicalVAState* accepting_state_;
+
+  bool has_epsilon_ = false;
+
 public:
   LogicalVAState* initial_state() const { return init_state_; }
   LogicalVAState* accepting_state() const { return accepting_state_; }
@@ -68,15 +78,6 @@ public:
 
   friend std::ostream& operator<<(std::ostream& os, LogicalVA const &A);
 
- private:
-
-  // Creates a new LogicalVAState for the automaton.
-  LogicalVAState* new_state();
-
-  LogicalVAState* init_state_;
-  LogicalVAState* accepting_state_;
-
-  bool has_epsilon_ = false;
 };
 
 }

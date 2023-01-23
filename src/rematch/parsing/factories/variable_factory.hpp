@@ -2,6 +2,7 @@
 #define VARIABLE_FACTORIES_HPP
 
 #include <iostream>
+#include <sstream>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -11,8 +12,6 @@
 #include <map>
 #include <utility>
 
-#include "parsing/charclass.hpp"
-#include "parsing/charclass_builder.hpp"
 
 namespace rematch {
 // Maximum variables supported

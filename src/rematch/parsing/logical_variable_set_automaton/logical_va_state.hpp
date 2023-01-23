@@ -1,65 +1,39 @@
-#ifndef SRC_REMATCH_AUTOMATA_NFA_STATE_HPP
-#define SRC_REMATCH_AUTOMATA_NFA_STATE_HPP
+#ifndef SRC_REMATCH_LOGICAL_VA_STATE_HPP
+#define SRC_REMATCH_LOGICAL_VA_STATE_HPP
 
 #include <list>
 #include <set>
 #include <bitset>
 #include <memory>
 
+#include "parsing/bad_regex_exception.hpp"
+#include "parsing/logical_variable_set_automaton/logical_va_capture.hpp"
+#include "parsing/logical_variable_set_automaton/logical_va_filter.hpp"
+#include "parsing/logical_variable_set_automaton/logical_va_epsilon.hpp"
+
 namespace rematch {
 
-class LogicalVAState;
-
-class LogicalVACapture{
-public:
-  LogicalVAState* from;
-  LogicalVAState* next;
-  std::bitset<64> code;
-  bool flag;
-
-  LogicalVACapture(LogicalVAState* from, std::bitset<64> coding, LogicalVAState* next);
-
-  void reset_states(LogicalVAState* insiding, LogicalVAState *to) {from = insiding; next=to;}
-
-  bool operator==(const LogicalVACapture &rhs) const;
-
-  bool operator<(const LogicalVACapture &rhs) const;
-};
-
-class LogicalVAFilter {
-public:
-  LogicalVAState* from;
-  LogicalVAState* next;
-  unsigned int code;
-  bool flag;
-
-  LogicalVAFilter(LogicalVAState* from, unsigned int coding, LogicalVAState* next): from(from), next(next), code(coding) {}
-
-  void reset_states(LogicalVAState *s) {next = s;}
-
-  bool operator==(const LogicalVAFilter &rhs) const {
-    return (from == rhs.from) && (next == rhs.next) && (code == rhs.code);
-  }
-
-};
-
-class LogicalVAEpsilon {
-public:
-  LogicalVAState* next;
-  LogicalVAState* from;
-  LogicalVAEpsilon(LogicalVAState* from, LogicalVAState* next): next(next), from(from) {}
-
-  void reset_states(LogicalVAState *s) {next = s;}
-};
 
 class LogicalVAState {
+
+  enum LogicalVAStateFlags {
+    kDefaultLogicalVAState = 0,
+    kFinalLogicalVAState = 1,
+    kSuperFinalLogicalVAState = 1 << 1,
+    kInitialLogicalVAState = 1 << 2,
+    kStartAnchorLogicalVAState = 1 << 3,
+    kEndAnchorLogicalVAState = 1 << 4,
+    kCaptureLogicalVAState = 1 << 5,
+    kPreCaptureLogicalVAState = 1 << 6
+  };
+
   private:
     static unsigned int ID; // Static var to make sequential id's
   public:
-    unsigned int id;               // id
+    unsigned int id;
 
-    std::list<std::shared_ptr<LogicalVAFilter>> filters;    // Filter array
-    std::list<std::shared_ptr<LogicalVACapture>> captures;  // Capture pointers array
+    std::list<std::shared_ptr<LogicalVAFilter>> filters;
+    std::list<std::shared_ptr<LogicalVACapture>> captures;
     std::list<std::shared_ptr<LogicalVAEpsilon>> epsilons;
 
     // Booleans for graph algorithms
@@ -68,17 +42,6 @@ class LogicalVAState {
     unsigned int visitedBy = 0;
 
     unsigned int flags_;
-
-    enum LogicalVAStateFlags {
-      kDefaultLogicalVAState = 0,
-      kFinalLogicalVAState = 1,
-      kSuperFinalLogicalVAState = kFinalLogicalVAState << 1,
-      kInitialLogicalVAState = kSuperFinalLogicalVAState << 1,
-      kStartAnchorLogicalVAState = kInitialLogicalVAState << 1,
-      kEndAnchorLogicalVAState = kStartAnchorLogicalVAState << 1,
-      kCaptureLogicalVAState = kEndAnchorLogicalVAState << 1,
-      kPreCaptureLogicalVAState = kCaptureLogicalVAState << 1
-    };
 
     std::list<std::shared_ptr<LogicalVACapture>> backward_captures_;
     std::list<std::shared_ptr<LogicalVAFilter>> backward_filters_;
@@ -116,4 +79,4 @@ class LogicalVAState {
 
 } // end namespace rematch
 
-#endif // SRC_REMATCH_AUTOMATA_NFA_STATE_HPP
+#endif

@@ -7,13 +7,12 @@
 #include <algorithm>
 
 #include "parsing/factories/filter_factory.hpp"
-#include "parsing/charclass.hpp"
 #include "parsing/bad_regex_exception.hpp"
 
 namespace rematch {
 
 FilterFactory::FilterFactory() {
-	CharClassBuilder ccb;
+	CharClass ccb;
 	ccb.add_range('\0', '\0');
 	add_filter(ccb);
 }
@@ -29,26 +28,26 @@ std::string FilterFactory::pprint() {
 }
 
 
-int FilterFactory::add_filter(CharClassBuilder ccb) {
+int FilterFactory::add_filter(CharClass ccb) {
 	auto res = code_map_.insert({ccb, size_});
 	if(res.second) {
 		filter_map_.insert({size_, ccb});
-		return size_++;
+		return (int) size_++;
 	} else {
 		return res.first->second;
 	}
 }
 
-int FilterFactory::get_code(CharClassBuilder cs) {
+int FilterFactory::get_code(CharClass cs) {
 	return code_map_.at(cs);
 }
 
-CharClassBuilder& FilterFactory :: get_filter(int code) {
+CharClass& FilterFactory :: get_filter(int code) {
 	return filter_map_[code];
 }
 
-bool FilterFactory::contains(CharClassBuilder &cs) const {
-	return code_map_.find(cs) != code_map_.end();
+bool FilterFactory::contains(CharClass &ccb) const {
+	return code_map_.find(ccb) != code_map_.end();
 }
 
 void FilterFactory::merge(FilterFactory &rest) {
@@ -92,8 +91,7 @@ std::vector<bool> FilterFactory::applyFilters(char a) {
 	*	codes 0, 1, 2. Then the following table shows the returned bitsets for
 	*	different chars
 	*
-	*	 	CHAR 		 RETURNED BITSET
-	*	 		a  					111
+	*	 	CHAR 		 RETURNED BITSET a  					111
 	*	 		b 					011
 	*	 		c 					001
 	*	 		1					010

@@ -3,9 +3,9 @@
 
 #include <string>
 
-#define private public
 #undef private
-#include "parsing/visitors/visitor_headers.hpp"
+#include "parsing/factories/filter_factory.hpp"
+#include "parsing/factories/variable_factory.hpp"
 
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
 
@@ -23,6 +23,7 @@ class Parser {
 
   public:
     Parser(const std::string& input);
+    LogicalVA get_logical_va();
 
   private:
     void create_logical_va(const std::string& input);

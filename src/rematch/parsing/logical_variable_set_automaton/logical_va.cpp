@@ -10,8 +10,6 @@
 #include <vector>
 
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
-#include "parsing/logical_variable_set_automaton/logical_va_state.hpp"
-#include "parsing/bad_regex_exception.hpp"
 
 namespace rematch {
 

@@ -7,7 +7,6 @@
 #include <algorithm>
 
 #include "parsing/factories/variable_factory.hpp"
-#include "parsing/charclass.hpp"
 #include "parsing/bad_regex_exception.hpp"
 
 namespace rematch {

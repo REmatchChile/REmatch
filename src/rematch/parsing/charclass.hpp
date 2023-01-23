@@ -1,6 +1,7 @@
-#ifndef CHARCLASS_HPP
-#define CHARCLASS_HPP
+#ifndef CHARCLASS_BUILDER_HPP
+#define CHARCLASS_BUILDER_HPP
 
+//#include "parsing/charclass.hpp"
 #include <set>
 #include <string>
 #include <ostream>
@@ -27,39 +28,64 @@ struct CharRangeLess {
 	}
 };
 
-
 using CharRangeSet = std::set<CharRange, CharRangeLess>;
 
-class CharClassBuilder;
 
 class CharClass {
- public:
-	// Check if CharClass contains a char
-	bool contains(char a);
 
-	CharClass(int maxranges) : ranges_(new CharRange[maxranges]) {}
+ friend struct std::hash<rematch::CharClass>;
 
-	~CharClass();
-
-	bool is_dot() const {return nranges_ == 1 && ranges_[0].lo == 0 && ranges_[0].hi == CHAR_MAX;}
-
-	friend std::ostream& operator<<(std::ostream &os, CharClass const &cc);
  private:
+	int nchars;
+	CharRangeSet ranges;
 
-	friend class CharClassBuilder;
-	friend class FilterFactory;
-	friend struct std::hash<rematch::CharClass>;
+ public:
+	CharClass();
+	// Shorthand constructors
+	CharClass(char c);
+	CharClass(char l, char h);
 
-	int nchars_;
-	CharRange* ranges_;
-	int nranges_;
+	using iterator = CharRangeSet::iterator;
+	iterator begin() {return ranges.begin();}
+	iterator end() {return ranges.end();}
 
-	CharClass(const CharClass&) = default;
-	CharClass& operator=(const CharClass&) = default;
-	bool operator<(const CharClass& cc) const;
+	void add_charclass(CharClass* cc);
+	bool add_range(char l, char h);
+	bool add_single(char c);
+	void negate();
 
-}; // end class CharClass
+	CharClass* intersect(CharClass* cc);
+	CharClass* set_minus(CharClass* cc);
 
-} // end namespace rematch
+	int size() const {return nchars;}
+	bool empty() const {return nchars == 0;}
+	bool contains(char c);
+	bool is_dot() const { return nchars == CHAR_MAX+1;}
+	bool operator==(const CharClass& rhs) const;
+
+	friend std::ostream& operator<<(std::ostream &os, CharClass const &b);
+};
+
+}
+
+// Hashing for the class
+namespace std {
+
+template <>
+struct hash<rematch::CharClass> {
+  size_t operator()(const rematch::CharClass& ch) const {
+
+    size_t res = 0;
+
+    for(auto &elem: ch.ranges) {
+      boost::hash_combine(res, elem.lo);
+      boost::hash_combine(res, elem.hi);
+    }
+
+    return res;
+  }
+};
+
+} // end namespace std
 
 #endif // end charclass_hpp

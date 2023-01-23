@@ -6,12 +6,13 @@
 namespace rematch::testing {
   TEST_CASE("the regex 'a' is parsed correctly into a LogicalVA.") {
   Parser parser = Parser("a");
-  //rematch::LogicalVA va = parser.doParse("a");
-  //INFO("" << va);
-  //INFO("" << va.accepting_state_ -> filters.size() );
+  rematch::LogicalVA va = parser.get_logical_va();
+  INFO("" << va);
+  //INFO("" << va.accepting_state()-> filters.size() );
+  INFO("" << va.initial_state()-> filters.size() );
   //INFO("" << va.init_state_-> filters.size() );
   //INFO("" << va.init_state_-> filters.front() );
-  REQUIRE(false);
+  //REQUIRE(false);
   }
 
 }  // namespace rematch::testing
