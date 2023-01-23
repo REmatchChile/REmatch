@@ -12,7 +12,6 @@ public:
   LogicalVAState* from;
   LogicalVAState* next;
   CharClass charclass;
-  bool flag;
 
   LogicalVAFilter(
       LogicalVAState* from, CharClass charclass, LogicalVAState* next):
