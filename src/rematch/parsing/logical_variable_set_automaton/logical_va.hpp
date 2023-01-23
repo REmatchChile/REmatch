@@ -8,6 +8,11 @@
 
 #include "parsing/logical_variable_set_automaton/logical_va_state.hpp"
 
+// TODO: Rearrange all variables.
+// TODO: Change representation of states to a list of the form:
+//             (initial, type of transition, final)
+// TODO: Test backward transitions if the type of transition is not changed.
+
 namespace rematch {
 
 class LogicalVA {

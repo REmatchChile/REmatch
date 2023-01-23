@@ -7,37 +7,33 @@
 
 namespace rematch {
 
-LogicalVAState::LogicalVAState(): flags_(kDefaultLogicalVAState) { id = ID++; }
+LogicalVAState::LogicalVAState(): flags(kDefaultLogicalVAState) { id = ID++; }
 
-LogicalVAState::LogicalVAState(const LogicalVAState& s): flags_(s.flags_) { id = ID++; }
+LogicalVAState::LogicalVAState(const LogicalVAState& s): flags(s.flags) { id = ID++; }
 
 LogicalVAState::~LogicalVAState() {
   // We remove every transition coming out and coming into the state.
   for(auto &f: filters)
-    f->next->backward_filters_.remove(f);
+    delete f;
   for(auto &c: captures)
-    c->next->backward_captures_.remove(c);
-  for(auto &f: backward_filters_)
-    f->from->filters.remove(f);
-  for(auto &c: backward_captures_)
-    c->from->captures.remove(c);
+    delete c;
 }
 
 bool LogicalVAState::operator==(const LogicalVAState &rhs) const { return id == rhs.id;}
 
 void LogicalVAState::set_accepting(bool b) {
   if(b)
-    flags_ |= kFinalLogicalVAState;
+    flags |= kFinalLogicalVAState;
   else
-    flags_ &= ~kFinalLogicalVAState;
+    flags &= ~kFinalLogicalVAState;
 
 }
 
 void LogicalVAState::set_initial(bool b) {
   if(b)
-    flags_ |= kInitialLogicalVAState;
+    flags |= kInitialLogicalVAState;
   else
-    flags_ &= ~kInitialLogicalVAState;
+    flags &= ~kInitialLogicalVAState;
 }
 
 void LogicalVAState::add_capture(std::bitset<64> code, LogicalVAState* next) {
@@ -46,27 +42,27 @@ void LogicalVAState::add_capture(std::bitset<64> code, LogicalVAState* next) {
       return;
   }
 
-  auto sp = std::make_shared<LogicalVACapture>(this, code, next);
-  captures.push_back(sp);
-  next->backward_captures_.push_back(sp);
+  auto *capture = new LogicalVACapture(this, code, next);
+  captures.push_back(capture);
+  next->backward_captures_.push_back(capture);
 }
 
 void LogicalVAState::add_filter(CharClass charclass, LogicalVAState* next) {
   for(auto const& filter: this->filters)
     if(filter->charclass == charclass && filter->next == next) return;
 
-  auto sp = std::make_shared<LogicalVAFilter>(this, charclass, next);
-  filters.push_back(sp);
-  next->backward_filters_.push_back(sp);
+  auto *filter = new LogicalVAFilter(this, charclass, next);
+  filters.push_back(filter);
+  next->backward_filters_.push_back(filter);
 }
 
-void LogicalVAState::add_epsilon(LogicalVAState* q) {
+void LogicalVAState::add_epsilon(LogicalVAState* next) {
   for(auto const& epsilon: epsilons)
-    if(epsilon->next == q) return;
+    if(epsilon->next == next) return;
 
-  auto sp = std::make_shared<LogicalVAEpsilon>(this, q);
-  epsilons.push_back(sp);
-  q->backward_epsilons_.push_back(sp);
+  auto *epsilon = new LogicalVAEpsilon(this, next);
+  epsilons.push_back(epsilon);
+  next->backward_epsilons_.push_back(epsilon);
 }
 
 unsigned int LogicalVAState::ID = 0;

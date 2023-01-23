@@ -33,20 +33,21 @@ class LogicalVAState {
   public:
     unsigned int id;
 
-    std::list<std::shared_ptr<LogicalVAFilter>> filters;
-    std::list<std::shared_ptr<LogicalVACapture>> captures;
-    std::list<std::shared_ptr<LogicalVAEpsilon>> epsilons;
+    std::list<LogicalVAFilter*> filters;
+    std::list<LogicalVACapture*> captures;
+    std::list<LogicalVAEpsilon*> epsilons;
+
+    std::list<LogicalVACapture*> backward_captures_;
+    std::list<LogicalVAFilter*> backward_filters_;
+    std::list<LogicalVAEpsilon*> backward_epsilons_;
+
 
     // Booleans for graph algorithms
     bool tempMark = false;
     char colorMark = 'w';
     unsigned int visitedBy = 0;
 
-    unsigned int flags_;
-
-    std::list<std::shared_ptr<LogicalVACapture>> backward_captures_;
-    std::list<std::shared_ptr<LogicalVAFilter>> backward_filters_;
-    std::list<std::shared_ptr<LogicalVAEpsilon>> backward_epsilons_;
+    unsigned int flags;
 
     LogicalVAState();
 
@@ -64,16 +65,16 @@ class LogicalVAState {
     void add_epsilon(LogicalVAState* next);
 
     // Getters and setters
-    bool initial() const { return flags_ & kInitialLogicalVAState; }
+    bool initial() const { return flags & kInitialLogicalVAState; }
     void set_initial(bool b);
 
-    bool accepting() const { return flags_ & kFinalLogicalVAState; }
+    bool accepting() const { return flags & kFinalLogicalVAState; }
     void set_accepting(bool b);
 
-    bool super_final() const { return flags_ & kSuperFinalLogicalVAState; }
+    bool super_final() const { return flags & kSuperFinalLogicalVAState; }
 
-    unsigned int flags() const {return flags_;}
-    void set_flags(unsigned int f) {flags_ = f;}
+    unsigned int get_flags() const {return flags;}
+    void set_flags(unsigned int f) {flags = f;}
 
     bool operator==(const LogicalVAState &rhs) const;
 };
