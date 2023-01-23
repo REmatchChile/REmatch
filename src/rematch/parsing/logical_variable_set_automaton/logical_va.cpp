@@ -55,7 +55,7 @@ LogicalVA::LogicalVA(const LogicalVA &A)
     LogicalVAState* q_new = new_states[q_old];
 
     for(auto& filt: q_old->filters)
-      q_new->add_filter(filt->code, new_states[filt->next]);
+      q_new->add_filter(filt->charclass, new_states[filt->next]);
     for(auto& cap: q_old->captures)
       q_new->add_capture(cap->code, new_states[cap->next]);
     for(auto& eps: q_old->epsilons)
@@ -244,8 +244,8 @@ void LogicalVA::strict_kleene() {
 
   for(auto& filter:  accepting_state_->backward_filters_)  {
     if(filter->from == init_state_)
-      nstate->add_filter(filter->code, nstate);
-    filter->from->add_filter(filter->code, nstate);
+      nstate->add_filter(filter->charclass, nstate);
+    filter->from->add_filter(filter->charclass, nstate);
   }
 
   for(auto& capture:  accepting_state_->backward_captures_)  {
@@ -259,7 +259,7 @@ void LogicalVA::strict_kleene() {
   }
 
   for(auto& filter:  init_state_->filters)
-    nstate->add_filter(filter->code, filter->next);
+    nstate->add_filter(filter->charclass, filter->next);
 
   for(auto& capture:  init_state_->captures)
     nstate->add_capture(capture->code, capture->next);
@@ -381,7 +381,7 @@ void LogicalVA::remove_epsilon() {
 				root_state->add_capture(capture->code, capture->next);
 
 			for(auto &filter: cstate->filters)
-				root_state->add_filter(filter->code, filter->next);
+				root_state->add_filter(filter->charclass, filter->next);
 
 			for(auto &epsilon: cstate->epsilons) {
 				if(epsilon->next->visitedBy != root_state->id) {
@@ -412,7 +412,7 @@ void LogicalVA::remove_epsilon() {
       capture->from->add_capture(capture->code, accepting_state_);
 
     for(auto &filter: cstate->backward_filters_)
-      filter->from->add_filter(filter->code, accepting_state_);
+      filter->from->add_filter(filter->charclass, accepting_state_);
 
     for(auto &epsilon: cstate->backward_epsilons_) {
       if(epsilon->from->visitedBy != accepting_state_->id) {
@@ -531,7 +531,6 @@ std::ostream& operator<<(std::ostream& os, LogicalVA const &A) {
     // For every filter transition
     for (auto &filter: current->filters) {
       nid = filter->next->id;
-      S = filter->code;
 
       // If not visited enqueue and add to visited
       if (visited.find(nid) == visited.end()) {

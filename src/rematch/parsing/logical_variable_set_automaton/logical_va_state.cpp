@@ -51,11 +51,11 @@ void LogicalVAState::add_capture(std::bitset<64> code, LogicalVAState* next) {
   next->backward_captures_.push_back(sp);
 }
 
-void LogicalVAState::add_filter(unsigned int code, LogicalVAState* next) {
+void LogicalVAState::add_filter(CharClass charclass, LogicalVAState* next) {
   for(auto const& filter: this->filters)
-    if(filter->code == code && filter->next == next) return;
+    if(filter->charclass == charclass && filter->next == next) return;
 
-  auto sp = std::make_shared<LogicalVAFilter>(this, code, next);
+  auto sp = std::make_shared<LogicalVAFilter>(this, charclass, next);
   filters.push_back(sp);
   next->backward_filters_.push_back(sp);
 }

@@ -7,6 +7,7 @@
 #include <memory>
 
 #include "parsing/bad_regex_exception.hpp"
+#include "parsing/charclass.hpp"
 #include "parsing/logical_variable_set_automaton/logical_va_capture.hpp"
 #include "parsing/logical_variable_set_automaton/logical_va_filter.hpp"
 #include "parsing/logical_variable_set_automaton/logical_va_epsilon.hpp"
@@ -55,11 +56,11 @@ class LogicalVAState {
 
     void init();
 
-    LogicalVAState* nextFilter(unsigned int code);
+    LogicalVAState* nextFilter(CharClass charclass);
     LogicalVAState* nextCapture(std::bitset<64> code);
 
     void add_capture(std::bitset<64> code, LogicalVAState* next);
-    void add_filter(unsigned int code, LogicalVAState* next);
+    void add_filter(CharClass charclass, LogicalVAState* next);
     void add_epsilon(LogicalVAState* next);
 
     // Getters and setters
