@@ -7,7 +7,6 @@
 #include <bitset>
 #include <unordered_map>
 
-#include "segment_identification/search_variable_set_automaton/dfa/search_dfa_transition.hpp"
 #include "segment_identification/search_variable_set_automaton/dfa/search_dfa_state.hpp"
 
 #include "segment_identification/search_variable_set_automaton/nfa/search_nfa.hpp"
@@ -23,7 +22,6 @@ class SearchDFA {
   std::vector<SearchDFAState*> states;
   std::vector<SearchDFAState*> final_states;
 
-  std::vector<std::string> varNames;
  private:
   // The starting state of the dfa
   SearchDFAState* initial_state_;
@@ -31,8 +29,6 @@ class SearchDFA {
   bool has_epsilon_;
 
   SearchVA const &sVA_;
-
-  DFAStatesTableBools dstates_table_;
 
 
  public:
@@ -58,6 +54,11 @@ class SearchDFA {
  private:
 
   SearchDFAState* new_dstate();
+  void visit_states(
+    std::vector<SearchNFAState*> const &states_subset,
+    std::set<SearchNFAState*> &subset,  // Store the next subset
+    std::vector<bool> &subsetBitset,
+    char &a);  // Subset bitset representation
 };
 
 } // end namespace rematch

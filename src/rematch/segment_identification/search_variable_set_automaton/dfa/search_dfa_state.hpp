@@ -8,31 +8,34 @@
 #include <set>
 
 #include "output_enumeration/ecs.hpp"
-#include "segment_identification/search_variable_set_automaton/dfa/search_dfa_transition.hpp"
 #include "segment_identification/search_variable_set_automaton/nfa/search_nfa_state.hpp"
 
 namespace rematch {
 
 class SearchDFAState {
  public:
+  std::vector<SearchDFAState*> transitions;
 
-  ECSNode* node;
-  int visited = -1;
+ private:
+  uint id;
+  static int ID;
+  std::string label_;
+  std::vector<bool> states_bitmap_;
+  std::vector<SearchNFAState*> states_subset_;
+  uint8_t flags = kDefaultSearchNFAState;
+
+ public:
 
   enum Flags {
     kDefaultSearchNFAState    =  0,
     kAcceptingSearchNFAState  =  1,
-    kInitialSearchNFAState    =  kAcceptingSearchNFAState << 1,
-    kLeftAntiAnchor  =  kInitialSearchNFAState  << 1
+    kInitialSearchNFAState    =  1 << 1,
+    kLeftAntiAnchor  =  1 << 2
   };
 
-  SearchDFAState(size_t tot_states);
-  SearchDFAState(size_t tot_states, std::vector<SearchNFAState*> states);
-  SearchDFAState(size_t tot_states, std::set<SearchNFAState*> states);
-
-  void add_state(SearchNFAState* p);
-
-  void pass_node(ECSNode* n);
+  SearchDFAState();
+  SearchDFAState(std::vector<SearchNFAState*> states);
+  SearchDFAState(std::set<SearchNFAState*> states);
 
   std::vector<bool> bitmap() const { return states_bitmap_; }
 
@@ -44,7 +47,7 @@ class SearchDFAState {
   // @return std::string Subset representation of the SearchDFAState.
   std::string label() const { return label_; }
 
-  int id() const { return id_; }
+  int get_id() const { return id; }
 
   bool empty_subset() const { return states_subset_.empty(); }
 
@@ -57,25 +60,6 @@ class SearchDFAState {
   void add_direct(char a, SearchDFAState* q);
   void add_capture(char a, std::bitset<64> S, SearchDFAState* q);
   void add_empty(char a);
-
-  Transition* next_transition(char a) const {
-    return transitions_[a].get();
-  }
-
- private:
-  static int ID;
-
-  uint id_;
-
-  std::vector<std::unique_ptr<Transition>> transitions_;
-
-  std::string label_;
-
-  std::vector<bool> states_bitmap_;
-
-  std::vector<SearchNFAState*> states_subset_;
-
-  uint8_t flags = kDefaultSearchNFAState;
 
 }; // end class SearchDFAState
 
