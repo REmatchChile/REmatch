@@ -7,6 +7,7 @@
 #include <bitset>
 #include <unordered_map>
 
+#include "parsing/logical_variable_set_automaton/logical_va.hpp"
 #include "segment_identification/search_variable_set_automaton/dfa/search_dfa_state.hpp"
 
 #include "segment_identification/search_variable_set_automaton/nfa/search_nfa.hpp"
@@ -24,23 +25,20 @@ class SearchDFA {
 
  private:
   // The starting state of the dfa
-  SearchDFAState* initial_state_;
-
-  bool has_epsilon_;
-
-  SearchVA const &sVA_;
+  SearchDFAState* current_state;
+  SearchDFAState* initial_state;
+  SearchNFA sVA_;
 
 
  public:
 
-  SearchDFA(SearchVA const &A);
+  SearchDFA(LogicalVA const &logical_va);
 
   //  ---  Getters  ---  //
 
-  SearchDFAState* initial_state() {return initial_state_;}
+  SearchDFAState* get_initial_state() {return initial_state;}
 
   // @brief Check if the empty word is inside the automaton's language
-  bool has_epsilon() const { return has_epsilon_; }
 
   std::string pprint();
 
@@ -49,7 +47,7 @@ class SearchDFA {
 
   // ---  Determinization  ---  //
 
-  SearchDFAState* next_state(SearchDFAState* q, char a);
+  SearchDFAState* next_state(char a);
 
  private:
 
@@ -59,6 +57,7 @@ class SearchDFA {
     std::set<SearchNFAState*> &subset,  // Store the next subset
     std::vector<bool> &subsetBitset,
     char &a);  // Subset bitset representation
+  void reset() { current_state = initial_state;}
 };
 
 } // end namespace rematch

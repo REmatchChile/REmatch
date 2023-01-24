@@ -30,12 +30,12 @@ class SearchDFAState {
     kDefaultSearchNFAState    =  0,
     kAcceptingSearchNFAState  =  1,
     kInitialSearchNFAState    =  1 << 1,
-    kLeftAntiAnchor  =  1 << 2
+    kEndsNFAState = 1 << 2
   };
 
   SearchDFAState();
-  SearchDFAState(std::vector<SearchNFAState*> states);
-  SearchDFAState(std::set<SearchNFAState*> states);
+  SearchDFAState(std::vector<SearchNFAState*> &states);
+  SearchDFAState(std::set<SearchNFAState*> &states);
 
   std::vector<bool> bitmap() const { return states_bitmap_; }
 
@@ -52,10 +52,13 @@ class SearchDFAState {
   bool empty_subset() const { return states_subset_.empty(); }
 
   bool accepting() const { return  flags & kAcceptingSearchNFAState; }
-  void set_accepting(bool b);
+  void set_accepting();
 
   bool initial() const { return flags & kInitialSearchNFAState; }
-  void set_initial(bool b);
+  void set_initial();
+
+  bool ends() const { return flags & kEndsNFAState; }
+  void set_ends();
 
   void add_direct(char a, SearchDFAState* q);
   void add_capture(char a, std::bitset<64> S, SearchDFAState* q);

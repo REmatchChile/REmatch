@@ -7,7 +7,7 @@
 
 namespace rematch {
 
-SearchVA::SearchVA(LogicalVA const &A) {
+SearchNFA::SearchNFA(LogicalVA const &A) {
   LogicalVA A_prim(A); // Make a copy of the automaton
 
   A_prim.remove_captures();
@@ -19,7 +19,7 @@ SearchVA::SearchVA(LogicalVA const &A) {
   A_prim.relabel_states();
 
   #ifndef NDEBUG
-  std::cout << "SearchVA:\n" << A_prim << "\n\n";
+  std::cout << "SearchNFA:\n" << A_prim << "\n\n";
   #endif
 
 
@@ -50,11 +50,11 @@ SearchVA::SearchVA(LogicalVA const &A) {
 
 // ---  Getters  ---  //
 
-std::vector<SearchNFAState*> const & SearchVA::get_states() const { return states; }
+std::vector<SearchNFAState*> const & SearchNFA::get_states() const { return states; }
 
-SearchNFAState* SearchVA::initial_state() const { return initial_state_; }
+SearchNFAState* SearchNFA::initial_state() const { return initial_state_; }
 
-SearchNFAState* SearchVA::accepting_state() const { return accepting_state_; }
+SearchNFAState* SearchNFA::accepting_state() const { return accepting_state_; }
 
 
 

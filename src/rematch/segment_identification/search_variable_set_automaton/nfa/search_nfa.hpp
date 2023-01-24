@@ -9,7 +9,7 @@
 namespace rematch {
 
 // A non-deterministic automaton optimized for output fast searching.
-class SearchVA {
+class SearchNFA {
  public:
 
  private:
@@ -18,8 +18,8 @@ class SearchVA {
   SearchNFAState* accepting_state_;
 
  public:
-  SearchVA() = delete;
-  SearchVA(LogicalVA const &A);
+  SearchNFA() = delete;
+  SearchNFA(LogicalVA const &A);
 
   std::vector<SearchNFAState*> const & get_states() const;
 
@@ -32,7 +32,7 @@ class SearchVA {
 
  private:
 
-}; // end class SearchVA
+}; // end class SearchNFA
 
 } // end namespace rematch
 
