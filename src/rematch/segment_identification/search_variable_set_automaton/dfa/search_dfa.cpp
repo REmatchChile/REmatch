@@ -12,6 +12,7 @@ SearchDFA::SearchDFA(LogicalVA const &logical_va)
   initial_state = create_initial_dfa_state();
 	initial_state->set_initial();
   current_state = initial_state;
+  dfa_state_catalog[initial_state->bitmap()] = initial_state;
 }
 
 SearchDFAState* SearchDFA::create_initial_dfa_state() {
@@ -38,8 +39,17 @@ SearchDFAState* SearchDFA::next_state(char a) {
   visit_states(initial_state->subset(), newSubset, subsetBitset, a);
 
   std::cout << "new subsetBitset[1]: " << subsetBitset[1] << std::endl;
+  
+  // find the new_state if it was already created.
+  SearchDFAState *new_state;
+  if (dfa_state_catalog.count(subsetBitset)) {
+    new_state = dfa_state_catalog.at(subsetBitset);
+  }
+  else {
+    new_state = new SearchDFAState(newSubset);
+    dfa_state_catalog[subsetBitset] = new_state;
+  }
 
-  auto new_state = new SearchDFAState(newSubset);
   current_state->transitions[a] = new_state;
   current_state = new_state;
   return current_state;

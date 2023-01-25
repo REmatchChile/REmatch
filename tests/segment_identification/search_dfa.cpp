@@ -13,8 +13,15 @@ TEST_CASE("search_dfa with 'a' is accepting after any 'a' transition") {
   SearchDFA search_dfa = SearchDFA(logical_va);
   INFO("initial state: " << search_dfa.get_initial_state()->get_id());
   SearchDFAState *current_state = search_dfa.next_state('a');
-  INFO("Current state: " << current_state->get_id());
   REQUIRE(current_state->accepting());
+  INFO("Current state: " << current_state->get_id());
+  current_state = search_dfa.next_state('b');
+  REQUIRE(current_state->ends());
+  current_state = search_dfa.next_state('a');
+  REQUIRE(current_state->accepting());
+  current_state = search_dfa.next_state('a');
+  REQUIRE(current_state->accepting());
+  REQUIRE(search_dfa.states.size() == 2);
 }
 
 }  // namespace rematch::testing

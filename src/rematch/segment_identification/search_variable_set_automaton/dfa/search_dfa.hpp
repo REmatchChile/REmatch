@@ -21,13 +21,13 @@ class SearchDFA {
  public:
   // Vector of pointers of States for resizing:
   std::vector<SearchDFAState*> states;
-  std::vector<SearchDFAState*> final_states;
 
  private:
   // The starting state of the dfa
   SearchDFAState* current_state;
   SearchDFAState* initial_state;
   SearchNFA sVA_;
+  std::unordered_map<std::vector<bool>, SearchDFAState*> dfa_state_catalog;
 
 
  public:
