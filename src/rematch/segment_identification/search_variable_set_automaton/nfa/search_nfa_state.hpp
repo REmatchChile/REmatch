@@ -7,8 +7,6 @@
 #include <memory>
 #include "parsing/charclass.hpp"
 #include "parsing/logical_variable_set_automaton/logical_va_state.hpp"
-#include "segment_identification/search_variable_set_automaton/nfa/search_nfa_epsilon.hpp"
-#include "segment_identification/search_variable_set_automaton/nfa/search_nfa_capture.hpp"
 #include "segment_identification/search_variable_set_automaton/nfa/search_nfa_filter.hpp"
 
 namespace rematch {
