@@ -106,11 +106,16 @@ void LogicalVA::remove_captures() {
 }
 
 void LogicalVA::trim() {
-  // We'll do a simple BFS from the initial and final states (using backwards
-  // transitions), storing the states that are reached by both procedures
+  /**
+   * Transforms the automaton graph to a trimmed automaton. This being that every
+   * state is reacheable from the initial state, and the final state is reachable
+   * from every state.
+   * We'll do a simple BFS from the initial and final states (using backwards
+   * transitions), storing the states that are reached by both procedures
+   */
 
   for(auto &p: states)
-    p->visitedBy = 0;
+    p->visited_and_useful_marks = 0;
 
   // Marked constants
   const int kReachable  = 1 << 0;  // 0000 0000 0000 0001
@@ -121,21 +126,21 @@ void LogicalVA::trim() {
 
   // Start the search forward from the initial state.
   queue.push_back(init_state_);
-  init_state_->visitedBy |= kReachable;
+  init_state_->visited_and_useful_marks |= kReachable;
 
   while(!queue.empty()) {
     LogicalVAState* p = queue.front(); queue.pop_front();
 
     for(auto &f: p->filters) {
-      if(!(f->next->visitedBy & kReachable)) {
-        f->next->visitedBy |= kReachable;
+      if(!(f->next->visited_and_useful_marks & kReachable)) {
+        f->next->visited_and_useful_marks |= kReachable;
         queue.push_back(f->next);
       }
     }
 
     for(auto &c: p->captures) {
-      if(!(c->next->visitedBy & kReachable)) {
-        c->next->visitedBy |= kReachable;
+      if(!(c->next->visited_and_useful_marks & kReachable)) {
+        c->next->visited_and_useful_marks |= kReachable;
         queue.push_back(c->next);
       }
     }
@@ -143,23 +148,23 @@ void LogicalVA::trim() {
 
   // Now start the search backwards from the final state.
   queue.push_back(accepting_state_);
-  accepting_state_->visitedBy |= kUseful;
+  accepting_state_->visited_and_useful_marks |= kUseful;
 
   while(!queue.empty()) {
     LogicalVAState* p = queue.front(); queue.pop_front();
     for(auto &f: p->backward_filters_) {
-      if(!(f->from->visitedBy & kUseful)) {
-        if(f->from->visitedBy & kReachable)
+      if(!(f->from->visited_and_useful_marks & kUseful)) {
+        if(f->from->visited_and_useful_marks & kReachable)
           trimmed_states.push_back(f->from);
-        f->from->visitedBy |= kUseful;
+        f->from->visited_and_useful_marks |= kUseful;
         queue.push_back(f->from);
       }
     }
     for(auto &c: p->backward_captures_) {
-      if(!(c->from->visitedBy & kUseful)) {
-        if(c->from->visitedBy & kReachable)
+      if(!(c->from->visited_and_useful_marks & kUseful)) {
+        if(c->from->visited_and_useful_marks & kReachable)
           trimmed_states.push_back(c->from);
-        c->from->visitedBy |= kUseful;
+        c->from->visited_and_useful_marks |= kUseful;
         queue.push_back(c->from);
       }
     }
@@ -167,10 +172,42 @@ void LogicalVA::trim() {
 
   trimmed_states.push_back(accepting_state_);
 
+  // delete useless transitions
+  for(auto state: states) {
+    state->filters.remove_if(
+        [](LogicalVAFilter* filter) {
+        if (filter->next->visited_and_useful_marks != (kReachable | kUseful)) {
+          delete filter;
+          return true;
+        }
+        return false;
+      });
+
+    state->captures.remove_if(
+        [](LogicalVACapture* capture) {
+        if (capture->next->visited_and_useful_marks != (kReachable | kUseful)) {
+          delete capture;
+          return true;
+        }
+        return false;
+      });
+
+    state->epsilons.remove_if(
+        [](LogicalVAEpsilon* epsilon) {
+        if (epsilon->next->visited_and_useful_marks != (kReachable | kUseful)) {
+          delete epsilon;
+          return true;
+        }
+        return false;
+      });
+  }
+
   // Delete useless states
   for(auto *p: states) {
-    if(p->visitedBy != (kReachable | kUseful))
+    if(p->visited_and_useful_marks != (kReachable | kUseful))
+    {
       delete p;
+    }
   }
 
   states.swap(trimmed_states);
@@ -356,19 +393,19 @@ void LogicalVA::repeat(int min, int max) {
 
 void LogicalVA::remove_epsilon() {
   for(auto &state: states)
-		state->visitedBy = -1;
+		state->visited_and_useful_marks = -1;
 
   std::vector<LogicalVAState*> stack;
   stack.reserve(states.size());
 
 	for(auto &root_state: states) {
-		root_state->visitedBy = root_state->id;
+		root_state->visited_and_useful_marks = root_state->id;
 
 		stack.clear();
 
 		for(auto &epsilon: root_state->epsilons) {
 			stack.push_back(epsilon->next);
-      epsilon->next->visitedBy = root_state->id;
+      epsilon->next->visited_and_useful_marks = root_state->id;
 		}
 
 		while(!stack.empty()) {
@@ -384,8 +421,8 @@ void LogicalVA::remove_epsilon() {
 				root_state->add_filter(filter->charclass, filter->next);
 
 			for(auto &epsilon: cstate->epsilons) {
-				if(epsilon->next->visitedBy != root_state->id) {
-          cstate->visitedBy = root_state->id;
+				if(epsilon->next->visited_and_useful_marks != root_state->id) {
+          cstate->visited_and_useful_marks = root_state->id;
           stack.push_back(epsilon->next);
         }
 
@@ -398,11 +435,11 @@ void LogicalVA::remove_epsilon() {
   stack.clear();
 
   for(auto &state: states)
-		state->visitedBy = -1;
+		state->visited_and_useful_marks = -1;
 
   for(auto &epsilon: accepting_state_->backward_epsilons_) {
     stack.push_back(epsilon->from);
-    epsilon->from->visitedBy = accepting_state_->id;
+    epsilon->from->visited_and_useful_marks = accepting_state_->id;
   }
 
   while(!stack.empty()) {
@@ -415,8 +452,8 @@ void LogicalVA::remove_epsilon() {
       filter->from->add_filter(filter->charclass, accepting_state_);
 
     for(auto &epsilon: cstate->backward_epsilons_) {
-      if(epsilon->from->visitedBy != accepting_state_->id) {
-        cstate->visitedBy = accepting_state_->id;
+      if(epsilon->from->visited_and_useful_marks != accepting_state_->id) {
+        cstate->visited_and_useful_marks = accepting_state_->id;
         stack.push_back(epsilon->from);
       }
 		}

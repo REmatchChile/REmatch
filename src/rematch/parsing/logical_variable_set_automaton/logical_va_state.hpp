@@ -45,7 +45,7 @@ class LogicalVAState {
     // Booleans for graph algorithms
     bool tempMark = false;
     char colorMark = 'w';
-    unsigned int visitedBy = 0;
+    unsigned int visited_and_useful_marks = 0;
 
     unsigned int flags;
 

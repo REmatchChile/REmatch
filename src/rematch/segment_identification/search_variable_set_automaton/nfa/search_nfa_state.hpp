@@ -53,6 +53,8 @@ class SearchNFAState {
     SearchNFAState(const LogicalVAState* state) :
       flags(state->flags), id(ID++)
     {
+      set_initial(state->initial());
+      set_accepting(state->accepting());
     }
 
     void init();
@@ -71,9 +73,6 @@ class SearchNFAState {
     void set_accepting(bool b);
 
     bool super_final() const { return flags & kSuperFinalSearchNFAState; }
-
-    uint32_t get_flags() const {return flags;}
-    void set_flags(uint32_t f) {flags = f;}
 
     bool operator==(const SearchNFAState &rhs) const;
 };

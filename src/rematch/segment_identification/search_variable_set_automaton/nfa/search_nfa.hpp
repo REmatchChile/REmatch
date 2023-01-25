@@ -26,8 +26,6 @@ class SearchNFA {
   SearchNFAState* initial_state() const;
   SearchNFAState* accepting_state() const;
 
-  bool has_epsilon() const;
-
   size_t size() const { return states.size(); }
 
  private:

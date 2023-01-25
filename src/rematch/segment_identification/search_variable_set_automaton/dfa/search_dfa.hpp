@@ -48,6 +48,7 @@ class SearchDFA {
   // ---  Determinization  ---  //
 
   SearchDFAState* next_state(char a);
+  void reset() { current_state = initial_state;}
 
  private:
 
@@ -57,7 +58,6 @@ class SearchDFA {
     std::set<SearchNFAState*> &subset,  // Store the next subset
     std::vector<bool> &subsetBitset,
     char &a);  // Subset bitset representation
-  void reset() { current_state = initial_state;}
 };
 
 } // end namespace rematch

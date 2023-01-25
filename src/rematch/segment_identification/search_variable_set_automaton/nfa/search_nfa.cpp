@@ -16,11 +16,15 @@ SearchNFA::SearchNFA(LogicalVA const &A) {
 
   A_prim.trim();
 
+  std::cout << "Trimmed states" << std::endl;
+
   A_prim.relabel_states();
 
-  #ifndef NDEBUG
-  std::cout << "SearchNFA:\n" << A_prim << "\n\n";
-  #endif
+  std::cout << "Relabeled states " << std::endl;
+
+  //#ifndef NDEBUG
+  //std::cout << "SearchNFA:\n" << A_prim << "\n\n";
+  //#endif
 
 
   std::map<unsigned int, SearchNFAState*> logical_va_state_id_to_search_nfa_state;
@@ -31,14 +35,14 @@ SearchNFA::SearchNFA(LogicalVA const &A) {
   }
 
   for (LogicalVAState *logical_va_state : A_prim.states) {
-    SearchNFAState *initial_state =
+    SearchNFAState *from_state =
       logical_va_state_id_to_search_nfa_state[logical_va_state->id];
     for (LogicalVAFilter *logical_va_filter : logical_va_state->filters) {
       CharClass charclass = logical_va_filter->charclass;
       SearchNFAState *next =
         logical_va_state_id_to_search_nfa_state
           [logical_va_filter->next->id];
-      initial_state->add_filter(charclass, next);
+      from_state->add_filter(charclass, next);
     }
   }
 
