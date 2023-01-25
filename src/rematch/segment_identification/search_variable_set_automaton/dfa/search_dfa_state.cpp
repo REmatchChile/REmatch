@@ -21,7 +21,6 @@ SearchDFAState::SearchDFAState(std::set<SearchNFAState*> &states)
     if(p->accepting())
       set_accepting();
   }
-  std::cout << "Id: " << id << " count: " << states.size() << std::endl;
   if (states_subset_.empty())
     set_ends();
 }

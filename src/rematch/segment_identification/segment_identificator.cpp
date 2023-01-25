@@ -29,7 +29,6 @@ bool SegmentIdentificator::has_next() {
     if (current_state->accepting())
       i_max = i_src + 1;
     else if (current_state->ends()) {
-      search_dfa.reset();
       if (i_min < i_max) {
         i_src++;
         return true;
