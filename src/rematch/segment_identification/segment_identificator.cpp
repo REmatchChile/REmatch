@@ -20,7 +20,7 @@ bool SegmentIdentificator::has_next() {
   i_min = i_src;
   i_max = i_src;
 
-  for (; i_src < document.size(); ++i_src) {
+  for (; i_src < document.size(); i_src++) {
 
     char a = (char)(document[i_src] & 0x7F); // remove 0x7F?
 
@@ -33,7 +33,7 @@ bool SegmentIdentificator::has_next() {
         i_src++;
         return true;
       }
-      i_min = i_src;
+      i_min = i_src + 1;
     }
   }
 
