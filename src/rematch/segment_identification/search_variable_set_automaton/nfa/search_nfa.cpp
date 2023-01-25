@@ -16,11 +16,9 @@ SearchNFA::SearchNFA(LogicalVA const &A) {
 
   A_prim.trim();
 
-  std::cout << "Trimmed states" << std::endl;
 
   A_prim.relabel_states();
 
-  std::cout << "Relabeled states " << std::endl;
 
   //#ifndef NDEBUG
   //std::cout << "SearchNFA:\n" << A_prim << "\n\n";
@@ -50,6 +48,32 @@ SearchNFA::SearchNFA(LogicalVA const &A) {
     logical_va_state_id_to_search_nfa_state[A_prim.initial_state()->id];
   accepting_state_ =
     logical_va_state_id_to_search_nfa_state[A_prim.accepting_state()->id];
+  relabel_states();
+}
+
+void SearchNFA::relabel_states() {
+  for(auto& state: states) {
+    state->tempMark = false;
+  }
+
+  std::deque<SearchNFAState*> stack;
+
+  int current_id = 0;
+
+  stack.push_back(initial_state_);
+  initial_state_->tempMark = true;
+
+  while(!stack.empty()) {
+    SearchNFAState* current = stack.back(); stack.pop_back();
+
+    current->id = current_id++;
+    for(auto &filt: current->filters) {
+      if(!filt->next->tempMark) {
+        stack.push_back(filt->next);
+        filt->next->tempMark = true;
+      }
+    }
+  }
 }
 
 // ---  Getters  ---  //

@@ -21,7 +21,7 @@ TEST_CASE("search_dfa with 'a' is accepting after any 'a' transition") {
   REQUIRE(current_state->accepting());
   current_state = search_dfa.next_state('a');
   REQUIRE(current_state->accepting());
-  REQUIRE(search_dfa.states.size() == 2);
+  REQUIRE(search_dfa.states.size() == 3);
 }
 
 }  // namespace rematch::testing

@@ -10,14 +10,19 @@ namespace rematch {
 SearchDFA::SearchDFA(LogicalVA const &logical_va)
     : sVA_(SearchNFA(logical_va)) {
   initial_state = create_initial_dfa_state();
-	initial_state->set_initial();
   current_state = initial_state;
-  dfa_state_catalog[initial_state->bitmap()] = initial_state;
 }
 
 SearchDFAState* SearchDFA::create_initial_dfa_state() {
   auto np = new SearchDFAState(sVA_.initial_state());
   states.push_back(np);
+	np->set_initial();
+  if (sVA_.initial_state()->accepting()) {
+    np->set_accepting();
+  }
+  std::vector<bool> initial_state_bitset(sVA_.size());
+  initial_state_bitset[sVA_.initial_state()->id] = true;
+  dfa_state_catalog[initial_state_bitset] = initial_state;
   return np;
 }
 
@@ -38,8 +43,6 @@ SearchDFAState* SearchDFA::next_state(char a) {
   visit_states(current_state->subset(), newSubset, subsetBitset, a);
   visit_states(initial_state->subset(), newSubset, subsetBitset, a);
 
-  std::cout << "new subsetBitset[1]: " << subsetBitset[1] << std::endl;
-  
   // find the new_state if it was already created.
   SearchDFAState *new_state;
   if (dfa_state_catalog.count(subsetBitset)) {
@@ -48,6 +51,7 @@ SearchDFAState* SearchDFA::next_state(char a) {
   else {
     new_state = new SearchDFAState(newSubset);
     dfa_state_catalog[subsetBitset] = new_state;
+    states.push_back(new_state);
   }
 
   current_state->transitions[a] = new_state;

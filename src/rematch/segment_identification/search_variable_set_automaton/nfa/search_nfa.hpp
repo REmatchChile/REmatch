@@ -26,6 +26,8 @@ class SearchNFA {
   SearchNFAState* initial_state() const;
   SearchNFAState* accepting_state() const;
 
+  void relabel_states();
+
   size_t size() const { return states.size(); }
 
  private:

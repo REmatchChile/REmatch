@@ -20,7 +20,6 @@ class SearchDFAState {
   uint id;
   static int ID;
   std::string label_;
-  std::vector<bool> states_bitmap_;
   std::vector<SearchNFAState*> states_subset_;
   uint8_t flags = kDefaultSearchNFAState;
 
@@ -34,10 +33,7 @@ class SearchDFAState {
   };
 
   SearchDFAState(SearchNFAState *state);
-  SearchDFAState(std::vector<SearchNFAState*> &states);
   SearchDFAState(std::set<SearchNFAState*> &states);
-
-  std::vector<bool> bitmap() const { return states_bitmap_; }
 
   // @brief Returns the subset of associated NFA states.
   // @return std::vector<SearchNFAState*> Subset of NFA states

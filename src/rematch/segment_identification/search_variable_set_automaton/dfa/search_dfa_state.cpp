@@ -1,5 +1,6 @@
 #include "segment_identification/search_variable_set_automaton/dfa/search_dfa_state.hpp"
 #include <algorithm>
+#include <iostream>
 
 
 namespace rematch {
@@ -12,18 +13,6 @@ SearchDFAState::SearchDFAState(SearchNFAState *state)
       states_subset_.push_back(state);
     }
 
-SearchDFAState::SearchDFAState(std::vector<SearchNFAState*> &states)
-    : transitions(256),
-      id(ID++),
-      states_subset_(states) {
-  for(auto &p: states) {
-    if(p->accepting())
-      set_accepting();
-  }
-  if (states_subset_.empty())
-    set_ends();
-}
-
 SearchDFAState::SearchDFAState(std::set<SearchNFAState*> &states)
     : transitions(256),
       id(ID++),
@@ -32,6 +21,7 @@ SearchDFAState::SearchDFAState(std::set<SearchNFAState*> &states)
     if(p->accepting())
       set_accepting();
   }
+  std::cout << "Id: " << id << " count: " << states.size() << std::endl;
   if (states_subset_.empty())
     set_ends();
 }
