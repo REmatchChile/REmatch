@@ -3,18 +3,19 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <iostream>
 
 namespace rematch {
 
 SearchDFA::SearchDFA(LogicalVA const &logical_va)
     : sVA_(SearchNFA(logical_va)) {
-  initial_state = new_dstate();
+  initial_state = create_initial_dfa_state();
 	initial_state->set_initial();
   current_state = initial_state;
 }
 
-SearchDFAState* SearchDFA::new_dstate() {
-  auto np = new SearchDFAState();
+SearchDFAState* SearchDFA::create_initial_dfa_state() {
+  auto np = new SearchDFAState(sVA_.initial_state());
   states.push_back(np);
   return np;
 }
@@ -35,6 +36,8 @@ SearchDFAState* SearchDFA::next_state(char a) {
 
   visit_states(current_state->subset(), newSubset, subsetBitset, a);
   visit_states(initial_state->subset(), newSubset, subsetBitset, a);
+
+  std::cout << "new subsetBitset[1]: " << subsetBitset[1] << std::endl;
 
   auto new_state = new SearchDFAState(newSubset);
   current_state->transitions[a] = new_state;

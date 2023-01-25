@@ -33,7 +33,7 @@ class SearchDFAState {
     kEndsNFAState = 1 << 2
   };
 
-  SearchDFAState();
+  SearchDFAState(SearchNFAState *state);
   SearchDFAState(std::vector<SearchNFAState*> &states);
   SearchDFAState(std::set<SearchNFAState*> &states);
 

@@ -12,6 +12,7 @@ void conditions_for_basic_a_search_nfa_automaton(SearchNFA &search_nfa) {
   REQUIRE(search_nfa.initial_state()->initial());
   REQUIRE(search_nfa.initial_state()->filters.size() == 1);
   REQUIRE(search_nfa.initial_state()->filters.back()->charclass.contains('a'));;
+  REQUIRE(search_nfa.initial_state()->filters.back()->next == search_nfa.accepting_state());
   REQUIRE(search_nfa.accepting_state()->accepting());
 }
 
@@ -23,10 +24,10 @@ TEST_CASE("search_nfa with 'a' parsed correctly") {
 }
 
 TEST_CASE("search_nfa with '!x{a}' parsed correctly") {
-  //Parser parser = Parser("!x{a}");
-  //LogicalVA logical_va = parser.get_logical_va();
-  //SearchNFA search_nfa = SearchNFA(logical_va);
-  //conditions_for_basic_a_search_nfa_automaton(search_nfa);
+  Parser parser = Parser("!x{a}");
+  LogicalVA logical_va = parser.get_logical_va();
+  SearchNFA search_nfa = SearchNFA(logical_va);
+  conditions_for_basic_a_search_nfa_automaton(search_nfa);
 }
 
 }  // namespace rematch::testing

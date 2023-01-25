@@ -6,15 +6,17 @@ namespace rematch {
 
 int SearchDFAState::ID = 0;
 
-SearchDFAState::SearchDFAState()
+SearchDFAState::SearchDFAState(SearchNFAState *state)
   : transitions(256) ,
-    id(ID++) {}
+    id(ID++) {
+      states_subset_.push_back(state);
+    }
 
 SearchDFAState::SearchDFAState(std::vector<SearchNFAState*> &states)
     : transitions(256),
       id(ID++),
       states_subset_(states) {
-  for(auto &p: states_subset_) {
+  for(auto &p: states) {
     if(p->accepting())
       set_accepting();
   }
@@ -26,7 +28,7 @@ SearchDFAState::SearchDFAState(std::set<SearchNFAState*> &states)
     : transitions(256),
       id(ID++),
       states_subset_(states.begin(), states.end()) {
-  for(auto &p: states_subset_) {
+  for(auto &p: states) {
     if(p->accepting())
       set_accepting();
   }

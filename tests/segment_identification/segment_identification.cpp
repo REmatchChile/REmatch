@@ -7,8 +7,8 @@
 
 namespace rematch::testing {
 TEST_CASE("The regex 'a' will return the span 0,5 on the document 'aaaaa'") {
-  //Parser parser = Parser("a");
-  //rematch::LogicalVA logical_va = parser.get_logical_va();
+  Parser parser = Parser("a");
+  rematch::LogicalVA logical_va = parser.get_logical_va();
   //std::string_view document = "aaaaa";
   //auto segment_identificator = SegmentIdentificator(logical_va, document);
   //bool has_an_output = segment_identificator.has_next();

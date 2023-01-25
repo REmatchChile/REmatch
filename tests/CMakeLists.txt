@@ -17,6 +17,7 @@ set(TEST_SOURCES
         parsing/logical_va.cpp
         segment_identification/segment_identification.cpp
         segment_identification/search_nfa.cpp
+        segment_identification/search_dfa.cpp
         )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})

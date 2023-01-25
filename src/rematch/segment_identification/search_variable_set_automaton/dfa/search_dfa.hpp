@@ -52,7 +52,7 @@ class SearchDFA {
 
  private:
 
-  SearchDFAState* new_dstate();
+  SearchDFAState* create_initial_dfa_state();
   void visit_states(
     std::vector<SearchNFAState*> const &states_subset,
     std::set<SearchNFAState*> &subset,  // Store the next subset
