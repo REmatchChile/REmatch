@@ -8,9 +8,9 @@
 #include <unordered_map>
 
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
-#include "segment_identification/search_variable_set_automaton/dfa/search_dfa_state.hpp"
+#include "filtering_module/search_variable_set_automaton/dfa/search_dfa_state.hpp"
 
-#include "segment_identification/search_variable_set_automaton/nfa/search_nfa.hpp"
+#include "filtering_module/search_variable_set_automaton/nfa/search_nfa.hpp"
 
 namespace rematch {
 

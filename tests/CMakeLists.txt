@@ -15,9 +15,9 @@ set(TEST_SOURCES
         output_enumeration/enumerator.cpp
         parsing/parser.cpp
         parsing/logical_va.cpp
-        segment_identification/segment_identification.cpp
-        segment_identification/search_nfa.cpp
-        segment_identification/search_dfa.cpp
+        filtering_module/segment_identification.cpp
+        filtering_module/search_nfa.cpp
+        filtering_module/search_dfa.cpp
         )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})

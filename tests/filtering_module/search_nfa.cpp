@@ -3,7 +3,7 @@
 #undef private
 #include "parsing/parser.hpp"
 #include "string_view"
-#include "segment_identification/search_variable_set_automaton/nfa/search_nfa.hpp"
+#include "filtering_module/search_variable_set_automaton/nfa/search_nfa.hpp"
 
 namespace rematch::testing {
 

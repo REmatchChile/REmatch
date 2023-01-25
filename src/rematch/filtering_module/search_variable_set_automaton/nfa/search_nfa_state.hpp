@@ -7,7 +7,7 @@
 #include <memory>
 #include "parsing/charclass.hpp"
 #include "parsing/logical_variable_set_automaton/logical_va_state.hpp"
-#include "segment_identification/search_variable_set_automaton/nfa/search_nfa_filter.hpp"
+#include "filtering_module/search_variable_set_automaton/nfa/search_nfa_filter.hpp"
 
 namespace rematch {
 
@@ -31,12 +31,6 @@ class SearchNFAState {
 
     std::list<SearchNFAFilter*> filters;    // Filter array
     std::list<SearchNFAFilter*> backward_filters_;
-
-    //std::list<std::shared_ptr<SearchNFACapture>> captures;  // Capture pointers array
-    //std::list<std::shared_ptr<SearchNFACapture>> backward_captures_;
-    //std::list<std::shared_ptr<SearchNFAEpsilon>> epsilons;
-    //std::list<std::shared_ptr<SearchNFAEpsilon>> backward_epsilons_;
-
 
   private:
     static unsigned int ID; // Static var to make sequential id's

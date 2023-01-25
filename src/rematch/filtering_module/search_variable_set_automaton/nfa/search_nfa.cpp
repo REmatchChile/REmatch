@@ -1,4 +1,4 @@
-#include "segment_identification/search_variable_set_automaton/nfa/search_nfa.hpp"
+#include "filtering_module/search_variable_set_automaton/nfa/search_nfa.hpp"
 
 #include <iostream>
 #include <map>

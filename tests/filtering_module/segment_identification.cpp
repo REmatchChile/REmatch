@@ -3,7 +3,7 @@
 #undef private
 #include "parsing/parser.hpp"
 #include "string_view"
-#include "segment_identification/segment_identificator.hpp"
+#include "filtering_module/segment_identificator.hpp"
 
 namespace rematch::testing {
 TEST_CASE("The regex 'a' will return the span 0,5 on the document 'aaaaa'") {
