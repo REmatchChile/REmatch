@@ -22,7 +22,7 @@ bool SegmentIdentificator::has_next() {
 
   for (; i_src < document.size(); i_src++) {
 
-    char a = (char)(document[i_src] & 0x7F); // remove 0x7F?
+    char a = (char) document[i_src];
 
     SearchDFAState* current_state = search_dfa.next_state(a);
 
@@ -33,13 +33,14 @@ bool SegmentIdentificator::has_next() {
         i_src++;
         return true;
       }
-      i_min = i_src + 1;
+      if (current_state->empty_subset())
+        i_min = i_src + 1; // Added +1
+      else
+       i_min = i_src;
     }
   }
 
   if (i_min < i_max) {
-    search_dfa.reset();
-    i_src++;
     return true;
   }
 

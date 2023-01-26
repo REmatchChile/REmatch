@@ -11,17 +11,17 @@ SearchDFA::SearchDFA(LogicalVA const &logical_va)
     : sVA_(SearchNFA(logical_va)) {
   initial_state = create_initial_dfa_state();
   current_state = initial_state;
+  initial_nfa_states.push_back(sVA_.initial_state());
 }
 
 SearchDFAState* SearchDFA::create_initial_dfa_state() {
-  auto np = new SearchDFAState(sVA_.initial_state());
+  auto np = new SearchDFAState();
   states.push_back(np);
 	np->set_initial();
-  if (sVA_.initial_state()->accepting()) {
-    np->set_accepting();
-  }
-  std::vector<bool> initial_state_bitset(sVA_.size());
+  // To store that the state ends the sVA_size() position is used.
+  std::vector<bool> initial_state_bitset(sVA_.size() + 1);
   initial_state_bitset[sVA_.initial_state()->id] = true;
+  initial_state_bitset[sVA_.size()] = true; // it starts as ends.
   dfa_state_catalog[initial_state_bitset] = initial_state;
   return np;
 }
@@ -38,10 +38,13 @@ SearchDFAState* SearchDFA::next_state(char a) {
   }
 
   std::set<SearchNFAState*> newSubset;  // Store the next subset
-	std::vector<bool> subsetBitset(sVA_.size());  // Subset bitset representation
+	std::vector<bool> subsetBitset(sVA_.size() + 1);  // Subset bitset representation
 
   visit_states(current_state->subset(), newSubset, subsetBitset, a);
-  visit_states(initial_state->subset(), newSubset, subsetBitset, a);
+  if (newSubset.empty()) {
+    subsetBitset[sVA_.size()] = true;
+  }
+  visit_states(initial_nfa_states, newSubset, subsetBitset, a);
 
   // find the new_state if it was already created.
   SearchDFAState *new_state;
@@ -49,7 +52,8 @@ SearchDFAState* SearchDFA::next_state(char a) {
     new_state = dfa_state_catalog.at(subsetBitset);
   }
   else {
-    new_state = new SearchDFAState(newSubset);
+    new_state = new SearchDFAState(
+        newSubset, subsetBitset[sVA_.size()]);
     dfa_state_catalog[subsetBitset] = new_state;
     states.push_back(new_state);
   }

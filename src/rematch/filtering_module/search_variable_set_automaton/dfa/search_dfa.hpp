@@ -26,6 +26,8 @@ class SearchDFA {
   // The starting state of the dfa
   SearchDFAState* current_state;
   SearchDFAState* initial_state;
+  std::vector<SearchNFAState*> initial_nfa_states;
+
   SearchNFA sVA_;
   std::unordered_map<std::vector<bool>, SearchDFAState*> dfa_state_catalog;
 

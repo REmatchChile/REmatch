@@ -29,11 +29,11 @@ class SearchDFAState {
     kDefaultSearchNFAState    =  0,
     kAcceptingSearchNFAState  =  1,
     kInitialSearchNFAState    =  1 << 1,
-    kEndsNFAState = 1 << 2
+    kEndsNFAState = 1 << 2,
   };
 
-  SearchDFAState(SearchNFAState *state);
-  SearchDFAState(std::set<SearchNFAState*> &states);
+  SearchDFAState();
+  SearchDFAState(std::set<SearchNFAState*> &states, bool is_ends);
 
   // @brief Returns the subset of associated NFA states.
   // @return std::vector<SearchNFAState*> Subset of NFA states
