@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "filtering_module/segment_identificator.hpp"
 
 #define	FORCE_INLINE inline __attribute__((always_inline))
@@ -26,11 +28,11 @@ bool SegmentIdentificator::has_next() {
 
     SearchDFAState* current_state = search_dfa.next_state(a);
 
-    if (current_state->accepting())
+    if (current_state->accepting()) {
       i_max = i_src + 1;
+  }
     else if (current_state->ends()) {
       if (i_min < i_max) {
-        i_src++;
         return true;
       }
       if (current_state->empty_subset())

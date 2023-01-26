@@ -30,4 +30,18 @@ TEST_CASE("search_nfa with '!x{a}' parsed correctly") {
   conditions_for_basic_a_search_nfa_automaton(search_nfa);
 }
 
+TEST_CASE("search_nfa with 'α' parsed correctly") {
+  Parser parser = Parser("α");
+  LogicalVA logical_va = parser.get_logical_va();
+  SearchNFA search_nfa = SearchNFA(logical_va);
+  REQUIRE(search_nfa.size() == 3);
+  REQUIRE(search_nfa.initial_state()->initial());
+  REQUIRE(search_nfa.initial_state()->filters.size() == 1);
+  REQUIRE(search_nfa.initial_state()->filters.back()->charclass.contains((char) 0xce));;
+  SearchNFAState* second_state = search_nfa.initial_state()->filters.back()->next;
+  REQUIRE(second_state->filters.size() == 1);
+  REQUIRE(second_state->filters.back()->charclass.contains((char) 0xb1));;
+}
+
+
 }  // namespace rematch::testing

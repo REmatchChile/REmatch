@@ -32,8 +32,8 @@ SearchDFAState* SearchDFA::next_state(char a) {
  *   the ids are from 0 upwards (necessary to use the subsetBitset.)
  */
 
-  if (current_state->transitions[a] != nullptr) {
-    current_state = current_state -> transitions[a];
+  if (current_state->transitions[(uint8_t) a] != nullptr) {
+    current_state = current_state -> transitions[(uint8_t) a];
     return current_state;
   }
 
@@ -58,7 +58,7 @@ SearchDFAState* SearchDFA::next_state(char a) {
     states.push_back(new_state);
   }
 
-  current_state->transitions[a] = new_state;
+  current_state->transitions[(uint8_t) a] = new_state;
   current_state = new_state;
   return current_state;
 }
