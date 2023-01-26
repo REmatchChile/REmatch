@@ -96,5 +96,21 @@ TEST_CASE("The regex '[α-ε]' will return the spans: <0,5> <6,10> \
   REQUIRE(segment_identificator.has_next() == false);
 }
 
+TEST_CASE("The regex .α returns 0,8 on the document: δεζαβab") {
+  /**
+   * The reason why the output it 0,8 is because there is no ends before
+   * reaching alpha, as it enters the 2 char utf-8 branch, continues and
+   * while doing that reenters that branch until it is finished.
+   */
+  Parser parser = Parser(".α");
+  rematch::LogicalVA logical_va = parser.get_logical_va();
+  std::string_view document = "δεζαβab";
+  auto segment_identificator = SegmentIdentificator(logical_va, document);
+  REQUIRE(segment_identificator.has_next());
+  Span output_span = segment_identificator.next();
+  REQUIRE(output_span.first == 0);
+  REQUIRE(output_span.second == 8);
+}
+
 
 }  // namespace rematch::testing

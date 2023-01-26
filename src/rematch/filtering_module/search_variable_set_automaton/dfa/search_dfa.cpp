@@ -32,7 +32,9 @@ SearchDFAState* SearchDFA::next_state(char a) {
  *   the ids are from 0 upwards (necessary to use the subsetBitset.)
  */
 
+  //std::cout << "Finding next state of " << (int) ((uint8_t) a) << std::endl;
   if (current_state->transitions[(uint8_t) a] != nullptr) {
+    //std::cout << "Next state already computed for " << (int) ((uint8_t) a) << std::endl;
     current_state = current_state -> transitions[(uint8_t) a];
     return current_state;
   }
@@ -41,7 +43,9 @@ SearchDFAState* SearchDFA::next_state(char a) {
 	std::vector<bool> subsetBitset(sVA_.size() + 1);  // Subset bitset representation
 
   visit_states(current_state->subset(), newSubset, subsetBitset, a);
+  //std::cout << "newSubset size: " << newSubset.size() << " for: " << (int) ((uint8_t) a) << std::endl;
   if (newSubset.empty()) {
+    //std::cout << "Saying it is ends " << (int) ((uint8_t) a) << std::endl;
     subsetBitset[sVA_.size()] = true;
   }
   visit_states(initial_nfa_states, newSubset, subsetBitset, a);

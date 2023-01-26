@@ -60,7 +60,6 @@ TEST_CASE("the regex 'α' is parsed correctly into a LogicalVA. \
   rematch::LogicalVA va = parser.get_logical_va();
   va.remove_epsilon();
   va.trim();
-  // initial - !x{ -> 2 - a -> 3 - !x} -> final
   INFO(va.initial_state()->filters.back()->charclass);
   REQUIRE(va.states.size() == 3);
   REQUIRE(va.initial_state()->captures.empty());
@@ -71,6 +70,17 @@ TEST_CASE("the regex 'α' is parsed correctly into a LogicalVA. \
   REQUIRE(second_state->filters.size() == 1);
   REQUIRE(second_state->filters.back()->charclass.contains((char) 0xb1));
   REQUIRE(second_state->filters.back());
+}
+
+TEST_CASE("the regex '.α' has 13 states  (after minimization)") {
+  Parser parser = Parser(".α");
+  rematch::LogicalVA va = parser.get_logical_va();
+  va.remove_epsilon();
+  va.trim();
+  INFO(va.initial_state()->filters.size());
+  INFO(va.initial_state()->filters.back()->charclass);
+  REQUIRE(va.states.size() == 13);
+  REQUIRE(va.initial_state()->filters.size() == 4);
 }
 
 }  // namespace rematch::testing

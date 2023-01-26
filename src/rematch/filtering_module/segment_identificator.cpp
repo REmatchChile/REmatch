@@ -26,12 +26,15 @@ bool SegmentIdentificator::has_next() {
 
     char a = (char) document[i_src];
 
+    //std::cout << "pos: " << i_src << " reading: " << (int) ((uint8_t) a) << std::endl;
     SearchDFAState* current_state = search_dfa.next_state(a);
 
     if (current_state->accepting()) {
+      //std::cout << "accepting" << std::endl;
       i_max = i_src + 1;
   }
     else if (current_state->ends()) {
+      //std::cout << "ends" << std::endl;
       if (i_min < i_max) {
         return true;
       }
