@@ -1,3 +1,6 @@
+# metadata for text editors
+compile_commands.json
+tags
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -5,6 +8,7 @@ __pycache__/
 
 # C extensions
 *.so
+
 
 # C++ extensions
 # Compiled Object files
