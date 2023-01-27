@@ -44,7 +44,6 @@ class SearchDFA {
 
   std::string pprint();
 
-  // @brief Number of states in the automaton's graph
   size_t size() const {return states.size();}
 
   // ---  Determinization  ---  //

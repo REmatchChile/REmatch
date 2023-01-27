@@ -8,9 +8,11 @@
 
 namespace rematch {
 SegmentIdentificator::SegmentIdentificator(
-    LogicalVA& logical_va, std::string_view document
-  ) : search_dfa(SearchDFA(logical_va)),
-      document(document) {}
+    SearchDFA &search_dfa, std::string_view document
+  ) : search_dfa(search_dfa),
+      document(document) {
+      search_dfa.reset();
+    }
 
 bool SegmentIdentificator::has_next() {
   /**

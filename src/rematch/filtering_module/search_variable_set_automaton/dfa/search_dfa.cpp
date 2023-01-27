@@ -82,6 +82,4 @@ void SearchDFA::visit_states(
   }
 }
 
-
-
 } // end namespace rematch

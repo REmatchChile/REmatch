@@ -9,11 +9,11 @@
 
 namespace rematch {
 
-Parser::Parser(const std::string &input) {
+Parser::Parser(const std::string_view input) {
   create_logical_va(input);
 }
 
-void Parser::create_logical_va(const std::string &input) {
+void Parser::create_logical_va(const std::string_view input) {
   // * Parse Tree
   antlr4::ANTLRInputStream stream(input);
   REmatchLexer lexer(&stream);

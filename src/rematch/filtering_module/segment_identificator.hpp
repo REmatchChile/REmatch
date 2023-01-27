@@ -19,7 +19,7 @@ class SegmentIdentificator {
 
  public:
   SegmentIdentificator(
-      LogicalVA& logical_va,
+      SearchDFA &search_dfa,
       std::string_view document
   );
 
@@ -30,7 +30,7 @@ class SegmentIdentificator {
 
   inline void reading(char a, int64_t i);
 
-  SearchDFA search_dfa;
+  SearchDFA &search_dfa;
   std::string_view document;
 
   uint64_t i_src = 0;
