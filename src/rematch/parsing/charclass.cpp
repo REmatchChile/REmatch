@@ -1,6 +1,7 @@
 #include "parsing/charclass.hpp"
 
 namespace rematch{
+inline namespace parsing {
 
 CharClass::CharClass(): nchars(0) {}
 
@@ -155,4 +156,5 @@ std::ostream& operator<<(std::ostream &os, CharClass const &cc) {
 }
 
 
+}
 }

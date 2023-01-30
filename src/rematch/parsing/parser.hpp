@@ -9,6 +9,7 @@
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
 
 namespace rematch {
+inline namespace parsing{
 
 class Parser {
 
@@ -28,6 +29,7 @@ class Parser {
 
 };
 
-} // end namespace rematch
+}
+}
 
 #endif

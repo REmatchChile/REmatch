@@ -1,6 +1,7 @@
 #include "parsing/logical_variable_set_automaton/logical_va_capture.hpp"
 
 namespace rematch {
+inline namespace parsing {
 
 LogicalVACapture::LogicalVACapture(LogicalVAState* from, std::bitset<64> coding, LogicalVAState* next):
     from(from), next(next), code(coding) {}
@@ -22,4 +23,5 @@ bool LogicalVACapture :: operator<(const LogicalVACapture &rhs) const {
   return from < rhs.from;
 }
 
+}
 }

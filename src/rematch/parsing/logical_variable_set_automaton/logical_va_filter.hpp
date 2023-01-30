@@ -4,6 +4,7 @@
 #include "parsing/charclass.hpp"
 
 namespace rematch {
+inline namespace parsing {
 
 class LogicalVAState;
 
@@ -25,5 +26,6 @@ public:
 
 };
 
+}
 }
 #endif

@@ -14,6 +14,7 @@
 // TODO: Test backward transitions if the type of transition is not changed.
 
 namespace rematch {
+inline namespace parsing {
 
 class LogicalVA {
   /* A basic implementation of a Variable Automaton  */
@@ -81,6 +82,7 @@ public:
 
 };
 
+}
 }
 #endif // AUTOMATA_NFA_LogicalVA_HPP
 

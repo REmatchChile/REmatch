@@ -6,6 +6,7 @@
 #include "parsing/logical_variable_set_automaton/logical_va_capture.hpp"
 
 namespace rematch {
+inline namespace parsing {
 
 LogicalVAState::LogicalVAState(): flags(kDefaultLogicalVAState) { id = ID++; }
 
@@ -67,4 +68,5 @@ void LogicalVAState::add_epsilon(LogicalVAState* next) {
 
 unsigned int LogicalVAState::ID = 0;
 
-} // end namespace rematch
+}
+}

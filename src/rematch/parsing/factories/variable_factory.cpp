@@ -10,6 +10,7 @@
 #include "parsing/bad_regex_exception.hpp"
 
 namespace rematch {
+inline namespace parsing {
 
 VariableFactory::VariableFactory() {}
 
@@ -134,4 +135,5 @@ bool VariableFactory::operator ==(const VariableFactory &vf) const {
 	return data_ == vf.data_;
 }
 
+}
 }

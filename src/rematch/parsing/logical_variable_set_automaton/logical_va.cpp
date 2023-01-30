@@ -12,6 +12,7 @@
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
 
 namespace rematch {
+inline namespace parsing {
 
 LogicalVA::LogicalVA()
       {
@@ -592,4 +593,5 @@ LogicalVAState* LogicalVA::new_state() {
   return nstate;
 }
 
-} // end namespace rematch
+}
+}

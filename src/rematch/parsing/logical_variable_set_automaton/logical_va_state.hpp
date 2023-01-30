@@ -13,7 +13,7 @@
 #include "parsing/logical_variable_set_automaton/logical_va_epsilon.hpp"
 
 namespace rematch {
-
+inline namespace parsing {
 
 class LogicalVAState {
 
@@ -80,5 +80,6 @@ class LogicalVAState {
 };
 
 } // end namespace rematch
+}
 
 #endif

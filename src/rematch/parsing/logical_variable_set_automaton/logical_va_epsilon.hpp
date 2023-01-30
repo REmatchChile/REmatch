@@ -1,6 +1,7 @@
 #ifndef LOGICAL_VA_EPSILON
 #define LOGICAL_VA_EPSILON
 namespace rematch {
+inline namespace parsing {
 
 class LogicalVAState;
 
@@ -14,5 +15,6 @@ public:
   void reset_states(LogicalVAState *s) {next = s;}
 };
 
+}
 }
 #endif

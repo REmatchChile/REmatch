@@ -6,6 +6,7 @@
 #include <string>
 
 namespace rematch {
+inline namespace parsing {
 
 class BadRegexException : public std::logic_error {
 public:
@@ -15,8 +16,9 @@ public:
 protected:
   std::string error_;
 
-}; // end class bad_regex
+};
 
-} // end namespace rematch
+}
+}
 
-#endif // PARSER_EXCEPTIONS_HPP
+#endif

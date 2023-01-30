@@ -14,7 +14,8 @@
 
 
 namespace rematch {
-// Maximum variables supported
+inline namespace parsing {
+
 const int MAX_VARS = 15;
 
 // Manager of the parsed RGX formula variables where each variable name
@@ -75,6 +76,7 @@ class VariableFactory {
 	bool computedOffsets; // True iff offsetMap was computed.
 };
 
-} // end namespace rematch
+}
+}
 
 #endif

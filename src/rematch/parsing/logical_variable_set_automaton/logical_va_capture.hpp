@@ -2,6 +2,7 @@
 #define LOGICAL_VA_CAPTURE_HPP
 #include <bitset>
 namespace rematch {
+inline namespace parsing {
   class LogicalVAState;
 
   class LogicalVACapture{
@@ -19,5 +20,6 @@ namespace rematch {
 
     bool operator<(const LogicalVACapture &rhs) const;
   };
+}
 }
 #endif
