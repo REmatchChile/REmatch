@@ -1,0 +1,284 @@
+\hypertarget{classREmatchLexer}{}\doxysection{REmatch\+Lexer Class Reference}
+\label{classREmatchLexer}\index{REmatchLexer@{REmatchLexer}}
+
+
+{\ttfamily \#include $<$REmatch\+Lexer.\+h$>$}
+
+
+
+Inheritance diagram for REmatch\+Lexer\+:
+% FIG 0
+
+
+Collaboration diagram for REmatch\+Lexer\+:
+% FIG 1
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a6bd24131394dc026ee50e8b396ddc362}{DECIMAL\+\_\+\+DIGIT}} = 1
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854abb59584437af046aa574350a54ad6e73}{NOT\+\_\+\+DECIMAL\+\_\+\+DIGIT}} = 2
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a79846dee2539487b5ad8e5758774171f}{WHITESPACE}} = 3
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854ac49a1bc1aca7fb74ebc83b11610803cc}{NOT\+\_\+\+WHITESPACE}} = 4
+, \newline
+\mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854aa00239a518ab5ad057c46719b89ad5e6}{ALPHANUMERIC}} = 5
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a9402fa2f8624d9c3ee20ac18a0d751cb}{NOT\+\_\+\+ALPHANUMERIC}} = 6
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854adf8cd1fbaf4b673f7e3d21af84a52619}{TAB}} = 7
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854afa5b45b50af4baf5e6a27b5021531a2d}{CARRIAGE\+\_\+\+RETURN}} = 8
+, \newline
+\mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854abebd2f5fb819ce066b024752f1bdbe37}{NEWLINE}} = 9
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a703a7b7d62de198a5dfea267f19d9e94}{VERTICAL\+\_\+\+WHITESPACE}} = 10
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a02e1d6bb9a2a2a5ca13c0d1cf5d64a2d}{FORM\+\_\+\+FEED}} = 11
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a2a9143e4093e6c225b11e767d9238e48}{PIPE}} = 12
+, \newline
+\mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a17fdd6039bcd53065028f6aff82d119f}{EXCLAMAITON}} = 13
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854ae94e60e741fb38b75e3041965bf24656}{L\+\_\+\+CURLY}} = 14
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854af053e647c207c4c6a9a8774439c90e51}{R\+\_\+\+CURLY}} = 15
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a83fc6bc580b9b011bd927cf97addab4a}{L\+\_\+\+PAR}} = 16
+, \newline
+\mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a88fe083be6b7eac54c88cab4e4267e50}{R\+\_\+\+PAR}} = 17
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a06d62f650ccb5d976c43e4989d625c9a}{COMMA}} = 18
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a1128d12588e8d972d9383210c943cb4f}{QUESTION}} = 19
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a22fd8bd548b69d5cd5974c5da2b065db}{PLUS}} = 20
+, \newline
+\mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a3ea3f929ec38ee2a613e3f80dc4ceb97}{STAR}} = 21
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a6baa7b1c11f56fe99aa1a6f703593b88}{HAT}} = 22
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a036ef427ecdf2ce3c5a700af8c043981}{HYPHEN}} = 23
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a248a36fdb418b99c25747ff2d0baebb3}{L\+\_\+\+BRACK}} = 24
+, \newline
+\mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854ab6f8bc4271b2775c2f76953fe18530f5}{R\+\_\+\+BRACK}} = 25
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a27bdcab9c39e2d7356a608cf382fc02b}{BACKSLASH}} = 26
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a67d9ab01e8da215374e047c7d51fd7ab}{ALPHA}} = 27
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854ab70b34794cb917ff5714cae8ae282d72}{DIGIT}} = 28
+, \newline
+\mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a55662ca51a43477f6152d9e9578f1184}{DOT}} = 29
+, \mbox{\hyperlink{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854acd67a4b4d049172a4d31502f19d4b7b1}{UNRECOGNIZED}} = 30
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classREmatchLexer_a1741e311a1e8f67f349cd384ec38d2bb}{REmatch\+Lexer}} (antlr4\+::\+Char\+Stream $\ast$input)
+\item 
+\mbox{\hyperlink{classREmatchLexer_abda43458ba37c414236bb631f8a6551a}{$\sim$\+REmatch\+Lexer}} () override
+\item 
+std\+::string \mbox{\hyperlink{classREmatchLexer_ae16f8d934cf9af07437df61148bb6a5c}{get\+Grammar\+File\+Name}} () const override
+\item 
+const std\+::vector$<$ std\+::string $>$ \& \mbox{\hyperlink{classREmatchLexer_acc5f5bc1967088c43fbdc5f0b91eea08}{get\+Rule\+Names}} () const override
+\item 
+const std\+::vector$<$ std\+::string $>$ \& \mbox{\hyperlink{classREmatchLexer_a217b972291e055cb61eb3334f49217cd}{get\+Channel\+Names}} () const override
+\item 
+const std\+::vector$<$ std\+::string $>$ \& \mbox{\hyperlink{classREmatchLexer_ae45aabb4e5746a69a4553aa053c60d5c}{get\+Mode\+Names}} () const override
+\item 
+const antlr4\+::dfa\+::\+Vocabulary \& \mbox{\hyperlink{classREmatchLexer_af64a4f459bb32ed960f6feb0762cc7bd}{get\+Vocabulary}} () const override
+\item 
+antlr4\+::atn\+::\+Serialized\+ATNView \mbox{\hyperlink{classREmatchLexer_ac4d7ba877d1dc1b4245cbcc7531c46c2}{get\+Serialized\+ATN}} () const override
+\item 
+const antlr4\+::atn\+::\+ATN \& \mbox{\hyperlink{classREmatchLexer_a5d362e0c4376e883ecf8adce130b7371}{get\+ATN}} () const override
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{classREmatchLexer_a24964cfb955533a4dd69b56c694a7353}{initialize}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DECIMAL\_DIGIT@{DECIMAL\_DIGIT}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!DECIMAL\_DIGIT@{DECIMAL\_DIGIT}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a6bd24131394dc026ee50e8b396ddc362}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a6bd24131394dc026ee50e8b396ddc362}} 
+DECIMAL\+\_\+\+DIGIT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NOT\_DECIMAL\_DIGIT@{NOT\_DECIMAL\_DIGIT}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!NOT\_DECIMAL\_DIGIT@{NOT\_DECIMAL\_DIGIT}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854abb59584437af046aa574350a54ad6e73}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854abb59584437af046aa574350a54ad6e73}} 
+NOT\+\_\+\+DECIMAL\+\_\+\+DIGIT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WHITESPACE@{WHITESPACE}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!WHITESPACE@{WHITESPACE}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a79846dee2539487b5ad8e5758774171f}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a79846dee2539487b5ad8e5758774171f}} 
+WHITESPACE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NOT\_WHITESPACE@{NOT\_WHITESPACE}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!NOT\_WHITESPACE@{NOT\_WHITESPACE}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854ac49a1bc1aca7fb74ebc83b11610803cc}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854ac49a1bc1aca7fb74ebc83b11610803cc}} 
+NOT\+\_\+\+WHITESPACE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ALPHANUMERIC@{ALPHANUMERIC}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!ALPHANUMERIC@{ALPHANUMERIC}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854aa00239a518ab5ad057c46719b89ad5e6}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854aa00239a518ab5ad057c46719b89ad5e6}} 
+ALPHANUMERIC&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NOT\_ALPHANUMERIC@{NOT\_ALPHANUMERIC}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!NOT\_ALPHANUMERIC@{NOT\_ALPHANUMERIC}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a9402fa2f8624d9c3ee20ac18a0d751cb}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a9402fa2f8624d9c3ee20ac18a0d751cb}} 
+NOT\+\_\+\+ALPHANUMERIC&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{TAB@{TAB}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!TAB@{TAB}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854adf8cd1fbaf4b673f7e3d21af84a52619}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854adf8cd1fbaf4b673f7e3d21af84a52619}} 
+TAB&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CARRIAGE\_RETURN@{CARRIAGE\_RETURN}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!CARRIAGE\_RETURN@{CARRIAGE\_RETURN}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854afa5b45b50af4baf5e6a27b5021531a2d}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854afa5b45b50af4baf5e6a27b5021531a2d}} 
+CARRIAGE\+\_\+\+RETURN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NEWLINE@{NEWLINE}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!NEWLINE@{NEWLINE}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854abebd2f5fb819ce066b024752f1bdbe37}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854abebd2f5fb819ce066b024752f1bdbe37}} 
+NEWLINE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VERTICAL\_WHITESPACE@{VERTICAL\_WHITESPACE}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!VERTICAL\_WHITESPACE@{VERTICAL\_WHITESPACE}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a703a7b7d62de198a5dfea267f19d9e94}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a703a7b7d62de198a5dfea267f19d9e94}} 
+VERTICAL\+\_\+\+WHITESPACE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FORM\_FEED@{FORM\_FEED}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!FORM\_FEED@{FORM\_FEED}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a02e1d6bb9a2a2a5ca13c0d1cf5d64a2d}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a02e1d6bb9a2a2a5ca13c0d1cf5d64a2d}} 
+FORM\+\_\+\+FEED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PIPE@{PIPE}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!PIPE@{PIPE}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a2a9143e4093e6c225b11e767d9238e48}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a2a9143e4093e6c225b11e767d9238e48}} 
+PIPE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EXCLAMAITON@{EXCLAMAITON}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!EXCLAMAITON@{EXCLAMAITON}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a17fdd6039bcd53065028f6aff82d119f}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a17fdd6039bcd53065028f6aff82d119f}} 
+EXCLAMAITON&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{L\_CURLY@{L\_CURLY}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!L\_CURLY@{L\_CURLY}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854ae94e60e741fb38b75e3041965bf24656}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854ae94e60e741fb38b75e3041965bf24656}} 
+L\+\_\+\+CURLY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{R\_CURLY@{R\_CURLY}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!R\_CURLY@{R\_CURLY}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854af053e647c207c4c6a9a8774439c90e51}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854af053e647c207c4c6a9a8774439c90e51}} 
+R\+\_\+\+CURLY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{L\_PAR@{L\_PAR}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!L\_PAR@{L\_PAR}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a83fc6bc580b9b011bd927cf97addab4a}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a83fc6bc580b9b011bd927cf97addab4a}} 
+L\+\_\+\+PAR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{R\_PAR@{R\_PAR}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!R\_PAR@{R\_PAR}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a88fe083be6b7eac54c88cab4e4267e50}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a88fe083be6b7eac54c88cab4e4267e50}} 
+R\+\_\+\+PAR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{COMMA@{COMMA}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!COMMA@{COMMA}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a06d62f650ccb5d976c43e4989d625c9a}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a06d62f650ccb5d976c43e4989d625c9a}} 
+COMMA&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{QUESTION@{QUESTION}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!QUESTION@{QUESTION}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a1128d12588e8d972d9383210c943cb4f}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a1128d12588e8d972d9383210c943cb4f}} 
+QUESTION&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PLUS@{PLUS}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!PLUS@{PLUS}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a22fd8bd548b69d5cd5974c5da2b065db}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a22fd8bd548b69d5cd5974c5da2b065db}} 
+PLUS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STAR@{STAR}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!STAR@{STAR}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a3ea3f929ec38ee2a613e3f80dc4ceb97}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a3ea3f929ec38ee2a613e3f80dc4ceb97}} 
+STAR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HAT@{HAT}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!HAT@{HAT}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a6baa7b1c11f56fe99aa1a6f703593b88}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a6baa7b1c11f56fe99aa1a6f703593b88}} 
+HAT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{HYPHEN@{HYPHEN}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!HYPHEN@{HYPHEN}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a036ef427ecdf2ce3c5a700af8c043981}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a036ef427ecdf2ce3c5a700af8c043981}} 
+HYPHEN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{L\_BRACK@{L\_BRACK}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!L\_BRACK@{L\_BRACK}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a248a36fdb418b99c25747ff2d0baebb3}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a248a36fdb418b99c25747ff2d0baebb3}} 
+L\+\_\+\+BRACK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{R\_BRACK@{R\_BRACK}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!R\_BRACK@{R\_BRACK}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854ab6f8bc4271b2775c2f76953fe18530f5}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854ab6f8bc4271b2775c2f76953fe18530f5}} 
+R\+\_\+\+BRACK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{BACKSLASH@{BACKSLASH}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!BACKSLASH@{BACKSLASH}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a27bdcab9c39e2d7356a608cf382fc02b}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a27bdcab9c39e2d7356a608cf382fc02b}} 
+BACKSLASH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ALPHA@{ALPHA}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!ALPHA@{ALPHA}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a67d9ab01e8da215374e047c7d51fd7ab}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a67d9ab01e8da215374e047c7d51fd7ab}} 
+ALPHA&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DIGIT@{DIGIT}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!DIGIT@{DIGIT}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854ab70b34794cb917ff5714cae8ae282d72}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854ab70b34794cb917ff5714cae8ae282d72}} 
+DIGIT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DOT@{DOT}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!DOT@{DOT}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a55662ca51a43477f6152d9e9578f1184}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854a55662ca51a43477f6152d9e9578f1184}} 
+DOT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UNRECOGNIZED@{UNRECOGNIZED}!REmatchLexer@{REmatchLexer}}\index{REmatchLexer@{REmatchLexer}!UNRECOGNIZED@{UNRECOGNIZED}}}\mbox{\Hypertarget{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854acd67a4b4d049172a4d31502f19d4b7b1}\label{classREmatchLexer_a13407584d2a00fa2fb7848fd15c24854acd67a4b4d049172a4d31502f19d4b7b1}} 
+UNRECOGNIZED&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classREmatchLexer_a1741e311a1e8f67f349cd384ec38d2bb}\label{classREmatchLexer_a1741e311a1e8f67f349cd384ec38d2bb}} 
+\index{REmatchLexer@{REmatchLexer}!REmatchLexer@{REmatchLexer}}
+\index{REmatchLexer@{REmatchLexer}!REmatchLexer@{REmatchLexer}}
+\doxysubsubsection{\texorpdfstring{REmatchLexer()}{REmatchLexer()}}
+{\footnotesize\ttfamily REmatch\+Lexer\+::\+REmatch\+Lexer (\begin{DoxyParamCaption}\item[{antlr4\+::\+Char\+Stream $\ast$}]{input }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+\mbox{\Hypertarget{classREmatchLexer_abda43458ba37c414236bb631f8a6551a}\label{classREmatchLexer_abda43458ba37c414236bb631f8a6551a}} 
+\index{REmatchLexer@{REmatchLexer}!````~REmatchLexer@{$\sim$REmatchLexer}}
+\index{````~REmatchLexer@{$\sim$REmatchLexer}!REmatchLexer@{REmatchLexer}}
+\doxysubsubsection{\texorpdfstring{$\sim$REmatchLexer()}{~REmatchLexer()}}
+{\footnotesize\ttfamily REmatch\+Lexer\+::$\sim$\+REmatch\+Lexer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classREmatchLexer_a5d362e0c4376e883ecf8adce130b7371}\label{classREmatchLexer_a5d362e0c4376e883ecf8adce130b7371}} 
+\index{REmatchLexer@{REmatchLexer}!getATN@{getATN}}
+\index{getATN@{getATN}!REmatchLexer@{REmatchLexer}}
+\doxysubsubsection{\texorpdfstring{getATN()}{getATN()}}
+{\footnotesize\ttfamily const atn\+::\+ATN \& REmatch\+Lexer\+::get\+ATN (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}}
+
+\mbox{\Hypertarget{classREmatchLexer_a217b972291e055cb61eb3334f49217cd}\label{classREmatchLexer_a217b972291e055cb61eb3334f49217cd}} 
+\index{REmatchLexer@{REmatchLexer}!getChannelNames@{getChannelNames}}
+\index{getChannelNames@{getChannelNames}!REmatchLexer@{REmatchLexer}}
+\doxysubsubsection{\texorpdfstring{getChannelNames()}{getChannelNames()}}
+{\footnotesize\ttfamily const std\+::vector$<$ std\+::string $>$ \& REmatch\+Lexer\+::get\+Channel\+Names (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}}
+
+\mbox{\Hypertarget{classREmatchLexer_ae16f8d934cf9af07437df61148bb6a5c}\label{classREmatchLexer_ae16f8d934cf9af07437df61148bb6a5c}} 
+\index{REmatchLexer@{REmatchLexer}!getGrammarFileName@{getGrammarFileName}}
+\index{getGrammarFileName@{getGrammarFileName}!REmatchLexer@{REmatchLexer}}
+\doxysubsubsection{\texorpdfstring{getGrammarFileName()}{getGrammarFileName()}}
+{\footnotesize\ttfamily std\+::string REmatch\+Lexer\+::get\+Grammar\+File\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}}
+
+\mbox{\Hypertarget{classREmatchLexer_ae45aabb4e5746a69a4553aa053c60d5c}\label{classREmatchLexer_ae45aabb4e5746a69a4553aa053c60d5c}} 
+\index{REmatchLexer@{REmatchLexer}!getModeNames@{getModeNames}}
+\index{getModeNames@{getModeNames}!REmatchLexer@{REmatchLexer}}
+\doxysubsubsection{\texorpdfstring{getModeNames()}{getModeNames()}}
+{\footnotesize\ttfamily const std\+::vector$<$ std\+::string $>$ \& REmatch\+Lexer\+::get\+Mode\+Names (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}}
+
+\mbox{\Hypertarget{classREmatchLexer_acc5f5bc1967088c43fbdc5f0b91eea08}\label{classREmatchLexer_acc5f5bc1967088c43fbdc5f0b91eea08}} 
+\index{REmatchLexer@{REmatchLexer}!getRuleNames@{getRuleNames}}
+\index{getRuleNames@{getRuleNames}!REmatchLexer@{REmatchLexer}}
+\doxysubsubsection{\texorpdfstring{getRuleNames()}{getRuleNames()}}
+{\footnotesize\ttfamily const std\+::vector$<$ std\+::string $>$ \& REmatch\+Lexer\+::get\+Rule\+Names (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}}
+
+\mbox{\Hypertarget{classREmatchLexer_ac4d7ba877d1dc1b4245cbcc7531c46c2}\label{classREmatchLexer_ac4d7ba877d1dc1b4245cbcc7531c46c2}} 
+\index{REmatchLexer@{REmatchLexer}!getSerializedATN@{getSerializedATN}}
+\index{getSerializedATN@{getSerializedATN}!REmatchLexer@{REmatchLexer}}
+\doxysubsubsection{\texorpdfstring{getSerializedATN()}{getSerializedATN()}}
+{\footnotesize\ttfamily antlr4\+::atn\+::\+Serialized\+ATNView REmatch\+Lexer\+::get\+Serialized\+ATN (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}}
+
+\mbox{\Hypertarget{classREmatchLexer_af64a4f459bb32ed960f6feb0762cc7bd}\label{classREmatchLexer_af64a4f459bb32ed960f6feb0762cc7bd}} 
+\index{REmatchLexer@{REmatchLexer}!getVocabulary@{getVocabulary}}
+\index{getVocabulary@{getVocabulary}!REmatchLexer@{REmatchLexer}}
+\doxysubsubsection{\texorpdfstring{getVocabulary()}{getVocabulary()}}
+{\footnotesize\ttfamily const dfa\+::\+Vocabulary \& REmatch\+Lexer\+::get\+Vocabulary (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}}
+
+\mbox{\Hypertarget{classREmatchLexer_a24964cfb955533a4dd69b56c694a7353}\label{classREmatchLexer_a24964cfb955533a4dd69b56c694a7353}} 
+\index{REmatchLexer@{REmatchLexer}!initialize@{initialize}}
+\index{initialize@{initialize}!REmatchLexer@{REmatchLexer}}
+\doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily void REmatch\+Lexer\+::initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/rematch/parsing/grammar/autogenerated/\mbox{\hyperlink{REmatchLexer_8h}{REmatch\+Lexer.\+h}}\item 
+src/rematch/parsing/grammar/autogenerated/\mbox{\hyperlink{REmatchLexer_8cpp}{REmatch\+Lexer.\+cpp}}\end{DoxyCompactItemize}

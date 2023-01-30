@@ -5,7 +5,6 @@
 #include "output_enumeration/enumerator.hpp"
 
 namespace rematch {
-
 inline namespace output_enumeration {
 
 Enumerator::Enumerator() {
@@ -67,6 +66,5 @@ void Enumerator::consume_union_node(ECSNode *current_union_node) {
   amount_of_annotations_added_before_union.push_back(0);
 }
 
-} // end namespace output_enumeration
-
-}  // end namespace rematch
+}
+}

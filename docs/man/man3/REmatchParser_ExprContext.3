@@ -1,0 +1,49 @@
+.TH "REmatchParser::ExprContext" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+REmatchParser::ExprContext
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <REmatchParser\&.h>\fP
+.PP
+Inherits antlr4::ParserRuleContext\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBExprContext\fP (antlr4::ParserRuleContext *parent, size_t invokingState)"
+.br
+.ti -1c
+.RI "virtual size_t \fBgetRuleIndex\fP () const override"
+.br
+.ti -1c
+.RI "std::vector< \fBElementContext\fP * > \fBelement\fP ()"
+.br
+.ti -1c
+.RI "\fBElementContext\fP * \fBelement\fP (size_t i)"
+.br
+.ti -1c
+.RI "virtual std::any \fBaccept\fP (antlr4::tree::ParseTreeVisitor *visitor) override"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "REmatchParser::ExprContext::ExprContext (antlr4::ParserRuleContext * parent, size_t invokingState)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "std::any REmatchParser::ExprContext::accept (antlr4::tree::ParseTreeVisitor * visitor)\fC [override]\fP, \fC [virtual]\fP"
+
+.SS "std::vector< \fBREmatchParser::ElementContext\fP * > REmatchParser::ExprContext::element ()"
+
+.SS "\fBREmatchParser::ElementContext\fP * REmatchParser::ExprContext::element (size_t i)"
+
+.SS "size_t REmatchParser::ExprContext::getRuleIndex () const\fC [override]\fP, \fC [virtual]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Rematch from the source code\&.

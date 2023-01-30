@@ -1,0 +1,61 @@
+.TH "src/rematch/library_interface/rematch.hpp" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/rematch/library_interface/rematch.hpp
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <vector>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <optional>\fP
+.br
+\fC#include 'library_interface/match\&.hpp'\fP
+.br
+\fC#include 'library_interface/flags\&.hpp'\fP
+.br
+\fC#include 'library_interface/match_iterator\&.hpp'\fP
+.br
+\fC#include 'library_interface/regex\&.hpp'\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fBREMatch\fP"
+.br
+.ti -1c
+.RI "namespace \fBREMatch::library_interface\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "Regex \fBREMatch::library_interface::compile\fP (std::string_view pattern, Flags flags)"
+.br
+.ti -1c
+.RI "std::optional< Match > \fBREMatch::library_interface::find\fP (std::string_view pattern, std::string_view document, Flags flags)"
+.br
+.ti -1c
+.RI "std::vector< Match > \fBREMatch::library_interface::findall\fP (std::string_view pattern, std::string_view document, Flags flags)"
+.br
+.ti -1c
+.RI "MatchIterator \fBREMatch::library_interface::finditer\fP (std::string_view pattern, std::string_view document, Flags flags)"
+.br
+.ti -1c
+.RI "std::optional< Match > \fBREMatch::library_interface::search\fP (std::string_view pattern, std::string_view document, Flags flags)"
+.br
+.ti -1c
+.RI "std::optional< Match > \fBREMatch::library_interface::match\fP (std::string_view pattern, std::string_view document, Flags flags)"
+.br
+.ti -1c
+.RI "std::optional< Match > \fBREMatch::library_interface::fullmatch\fP (std::string_view pattern, std::string_view document, Flags flags)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Rematch from the source code\&.

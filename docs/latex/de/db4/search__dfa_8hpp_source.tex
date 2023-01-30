@@ -1,0 +1,72 @@
+\hypertarget{search__dfa_8hpp_source}{}\doxysection{search\+\_\+dfa.\+hpp}
+\label{search__dfa_8hpp_source}\index{src/rematch/filtering\_module/search\_variable\_set\_automaton/dfa/search\_dfa.hpp@{src/rematch/filtering\_module/search\_variable\_set\_automaton/dfa/search\_dfa.hpp}}
+\mbox{\hyperlink{search__dfa_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ AUTOMATA\_DFA\_SDFA\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ AUTOMATA\_DFA\_SDFA\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <bitset>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{logical__va_8hpp}{parsing/logical\_variable\_set\_automaton/logical\_va.hpp}}"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{search__dfa__state_8hpp}{filtering\_module/search\_variable\_set\_automaton/dfa/search\_dfa\_state.hpp}}"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{search__nfa_8hpp}{filtering\_module/search\_variable\_set\_automaton/nfa/search\_nfa.hpp}}"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacerematch}{rematch}}\ \{}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespacerematch_ad3cca09f64266c03a74e735d1b0c19f9}{DFAStatesTableBools}}\ =\ std::unordered\_map<std::vector<bool>,\ \mbox{\hyperlink{classrematch_1_1SearchDFAState}{SearchDFAState}}*>;}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrematch_1_1SearchDFA}{SearchDFA}}\ \{}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00022\ \ \ \textcolor{comment}{//\ Vector\ of\ pointers\ of\ States\ for\ resizing:}}
+\DoxyCodeLine{00023\ \ \ std::vector<SearchDFAState*>\ \mbox{\hyperlink{classrematch_1_1SearchDFA_a64a7132ca7c74d73c22114f535899180}{states}};}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00026\ \ \ \textcolor{comment}{//\ The\ starting\ state\ of\ the\ dfa}}
+\DoxyCodeLine{00027\ \ \ \mbox{\hyperlink{classrematch_1_1SearchDFAState}{SearchDFAState}}*\ current\_state;}
+\DoxyCodeLine{00028\ \ \ \mbox{\hyperlink{classrematch_1_1SearchDFAState}{SearchDFAState}}*\ initial\_state;}
+\DoxyCodeLine{00029\ \ \ std::vector<SearchNFAState*>\ initial\_nfa\_states;}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFA}{SearchNFA}}\ sVA\_;}
+\DoxyCodeLine{00032\ \ \ std::unordered\_map<std::vector<bool>,\ \mbox{\hyperlink{classrematch_1_1SearchDFAState}{SearchDFAState}}*>\ dfa\_state\_catalog;}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \mbox{\hyperlink{classrematch_1_1SearchDFA}{SearchDFA}}(\mbox{\hyperlink{classrematch_1_1LogicalVA}{LogicalVA}}\ \textcolor{keyword}{const}\ \&logical\_va);}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \textcolor{comment}{//\ \ -\/-\/-\/\ \ Getters\ \ -\/-\/-\/\ \ //}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \mbox{\hyperlink{classrematch_1_1SearchDFAState}{SearchDFAState}}*\ \mbox{\hyperlink{classrematch_1_1SearchDFA_a96d8e8b4d04718d9108f8c3ac3879803}{get\_initial\_state}}()\ \{\textcolor{keywordflow}{return}\ initial\_state;\}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \textcolor{comment}{//\ @brief\ Check\ if\ the\ empty\ word\ is\ inside\ the\ automaton's\ language}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ std::string\ \mbox{\hyperlink{classrematch_1_1SearchDFA_a8c3248dd99451b12153fa65eabff6a9b}{pprint}}();}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classrematch_1_1SearchDFA_a3b59368440581216fdf15aa6e35973f8}{size}}()\textcolor{keyword}{\ const\ }\{\textcolor{keywordflow}{return}\ \mbox{\hyperlink{classrematch_1_1SearchDFA_a64a7132ca7c74d73c22114f535899180}{states}}.size();\}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \textcolor{comment}{//\ -\/-\/-\/\ \ Determinization\ \ -\/-\/-\/\ \ //}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \mbox{\hyperlink{classrematch_1_1SearchDFAState}{SearchDFAState}}*\ \mbox{\hyperlink{classrematch_1_1SearchDFA_ae2e6eb71137c5ac626724d82cc6290e6}{next\_state}}(\textcolor{keywordtype}{char}\ a);}
+\DoxyCodeLine{00052\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1SearchDFA_a6dafdb2fe306b84b017b1b5ae50d2353}{reset}}()\ \{\ current\_state\ =\ initial\_state;\}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \mbox{\hyperlink{classrematch_1_1SearchDFAState}{SearchDFAState}}*\ create\_initial\_dfa\_state();}
+\DoxyCodeLine{00057\ \ \ \textcolor{keywordtype}{void}\ visit\_states(}
+\DoxyCodeLine{00058\ \ \ \ \ std::vector<SearchNFAState*>\ \textcolor{keyword}{const}\ \&states\_subset,}
+\DoxyCodeLine{00059\ \ \ \ \ std::set<SearchNFAState*>\ \&subset,\ \ \textcolor{comment}{//\ Store\ the\ next\ subset}}
+\DoxyCodeLine{00060\ \ \ \ \ std::vector<bool>\ \&subsetBitset,}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{char}\ \&a);\ \ \textcolor{comment}{//\ Subset\ bitset\ representation}}
+\DoxyCodeLine{00062\ \};}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \}\ \textcolor{comment}{//\ end\ namespace\ rematch}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ AUTOMATA\_DFA\_SDFA\_HPP}}
+
+\end{DoxyCode}

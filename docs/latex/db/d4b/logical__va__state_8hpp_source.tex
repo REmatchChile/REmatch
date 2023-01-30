@@ -1,0 +1,90 @@
+\hypertarget{logical__va__state_8hpp_source}{}\doxysection{logical\+\_\+va\+\_\+state.\+hpp}
+\label{logical__va__state_8hpp_source}\index{src/rematch/parsing/logical\_variable\_set\_automaton/logical\_va\_state.hpp@{src/rematch/parsing/logical\_variable\_set\_automaton/logical\_va\_state.hpp}}
+\mbox{\hyperlink{logical__va__state_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SRC\_REMATCH\_LOGICAL\_VA\_STATE\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SRC\_REMATCH\_LOGICAL\_VA\_STATE\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <list>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <set>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <bitset>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{bad__regex__exception_8hpp}{parsing/bad\_regex\_exception.hpp}}"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{charclass_8hpp}{parsing/charclass.hpp}}"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{logical__va__capture_8hpp}{parsing/logical\_variable\_set\_automaton/logical\_va\_capture.hpp}}"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{logical__va__filter_8hpp}{parsing/logical\_variable\_set\_automaton/logical\_va\_filter.hpp}}"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{logical__va__epsilon_8hpp}{parsing/logical\_variable\_set\_automaton/logical\_va\_epsilon.hpp}}"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacerematch}{rematch}}\ \{}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrematch_1_1LogicalVAState}{LogicalVAState}}\ \{}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \textcolor{keyword}{enum}\ LogicalVAStateFlags\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ kDefaultLogicalVAState\ =\ 0,}
+\DoxyCodeLine{00022\ \ \ \ \ kFinalLogicalVAState\ =\ 1,}
+\DoxyCodeLine{00023\ \ \ \ \ kSuperFinalLogicalVAState\ =\ 1\ <<\ 1,}
+\DoxyCodeLine{00024\ \ \ \ \ kInitialLogicalVAState\ =\ 1\ <<\ 2,}
+\DoxyCodeLine{00025\ \ \ \ \ kStartAnchorLogicalVAState\ =\ 1\ <<\ 3,}
+\DoxyCodeLine{00026\ \ \ \ \ kEndAnchorLogicalVAState\ =\ 1\ <<\ 4,}
+\DoxyCodeLine{00027\ \ \ \ \ kCaptureLogicalVAState\ =\ 1\ <<\ 5,}
+\DoxyCodeLine{00028\ \ \ \ \ kPreCaptureLogicalVAState\ =\ 1\ <<\ 6}
+\DoxyCodeLine{00029\ \ \ \};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ ID;\ \textcolor{comment}{//\ Static\ var\ to\ make\ sequential\ id's}}
+\DoxyCodeLine{00033\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a95b2645c9458cf17d26570a3bf12c95e}{id}};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ std::list<LogicalVAFilter*>\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_ae0688861014ac1875e94c7c537651b7b}{filters}};}
+\DoxyCodeLine{00037\ \ \ \ \ std::list<LogicalVACapture*>\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a12abdec9f9434b7653d99196b80f101a}{captures}};}
+\DoxyCodeLine{00038\ \ \ \ \ std::list<LogicalVAEpsilon*>\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a79f1246c66f280b56c4548f4bb69bb96}{epsilons}};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ std::list<LogicalVACapture*>\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a5154ce18b3b733e7715b5fa3a950341f}{backward\_captures\_}};}
+\DoxyCodeLine{00041\ \ \ \ \ std::list<LogicalVAFilter*>\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a49b3d14288368061ec89eca88703dcbc}{backward\_filters\_}};}
+\DoxyCodeLine{00042\ \ \ \ \ std::list<LogicalVAEpsilon*>\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_ac3480201540714b681c179292b7e9042}{backward\_epsilons\_}};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{comment}{//\ Booleans\ for\ graph\ algorithms}}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a55fb0d7e23023d2c882f8cf68cdded54}{tempMark}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a960a33de173718faabb470dc6cce0a0a}{colorMark}}\ =\ \textcolor{charliteral}{'w'};}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_acb52a82eec569ba8556900b49a708aca}{visited\_and\_useful\_marks}}\ =\ 0;}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a1da7ef3bfaf94b5f05e4efcc4a91001b}{flags}};}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1LogicalVAState_af42f8a0ffe98cd2ad8a3bc28a9f1baeb}{LogicalVAState}}();}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1LogicalVAState_aa148dc44fc54b52b3b5a58e85ea59b75}{\string~LogicalVAState}}();}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1LogicalVAState_af42f8a0ffe98cd2ad8a3bc28a9f1baeb}{LogicalVAState}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState}{LogicalVAState}}\&\ s);}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_ac59ff476a47fd5629b04c294ceafb2c5}{init}}();}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1LogicalVAState}{LogicalVAState}}*\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_ac1f723248434e31050fc52d4f94c1745}{nextFilter}}(\mbox{\hyperlink{classrematch_1_1CharClass}{CharClass}}\ charclass);}
+\DoxyCodeLine{00061\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1LogicalVAState}{LogicalVAState}}*\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a9f4a5f85d37d8ebe9860db1ebe90ba97}{nextCapture}}(std::bitset<64>\ code);}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a90f725c1e305f9b7bda38410b84a1f2d}{add\_capture}}(std::bitset<64>\ code,\ \mbox{\hyperlink{classrematch_1_1LogicalVAState}{LogicalVAState}}*\ next);}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a66620f02a054df1eabd4d48602fdfd63}{add\_filter}}(\mbox{\hyperlink{classrematch_1_1CharClass}{CharClass}}\ charclass,\ \mbox{\hyperlink{classrematch_1_1LogicalVAState}{LogicalVAState}}*\ next);}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_aa9c1792a2267094bbf74bd0387196062}{add\_epsilon}}(\mbox{\hyperlink{classrematch_1_1LogicalVAState}{LogicalVAState}}*\ next);}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{comment}{//\ Getters\ and\ setters}}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a65b964733797c6d7f00bf105e0bba4c1}{initial}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a1da7ef3bfaf94b5f05e4efcc4a91001b}{flags}}\ \&\ kInitialLogicalVAState;\ \}}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a3fcaaefb83cdc6b5677e660329788946}{set\_initial}}(\textcolor{keywordtype}{bool}\ b);}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a7773ae75d1dbe796c9f3d32c0e465a4c}{accepting}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a1da7ef3bfaf94b5f05e4efcc4a91001b}{flags}}\ \&\ kFinalLogicalVAState;\ \}}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a010bb818f9942df304a1f937856b3188}{set\_accepting}}(\textcolor{keywordtype}{bool}\ b);}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_aef5f2fa99814d00eb030835d08d7f006}{super\_final}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a1da7ef3bfaf94b5f05e4efcc4a91001b}{flags}}\ \&\ kSuperFinalLogicalVAState;\ \}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a4be19ec0d14c0cac9b7d3513882a5ba2}{get\_flags}}()\textcolor{keyword}{\ const\ }\{\textcolor{keywordflow}{return}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a1da7ef3bfaf94b5f05e4efcc4a91001b}{flags}};\}}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a8a42f25d839f8fdf44f64b9defd610eb}{set\_flags}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ f)\ \{\mbox{\hyperlink{classrematch_1_1LogicalVAState_a1da7ef3bfaf94b5f05e4efcc4a91001b}{flags}}\ =\ f;\}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState_a549b4951517ab652c99b811dd3dee090}{operator==}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState}{LogicalVAState}}\ \&rhs)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00080\ \};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \}\ \textcolor{comment}{//\ end\ namespace\ rematch}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

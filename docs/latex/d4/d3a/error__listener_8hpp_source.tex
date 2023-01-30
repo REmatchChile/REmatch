@@ -1,0 +1,28 @@
+\hypertarget{error__listener_8hpp_source}{}\doxysection{error\+\_\+listener.\+hpp}
+\label{error__listener_8hpp_source}\index{src/rematch/parsing/error\_listener.hpp@{src/rematch/parsing/error\_listener.hpp}}
+\mbox{\hyperlink{error__listener_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ "{}antlr4-\/runtime.h"{}}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceantlr4}{antlr4}}\ \{}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ Custom\ error\ listener\ for\ handling\ parsing\ errors\ throwing\ exceptions\ }}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ instead\ of\ continuing\ execution,\ which\ is\ the\ ANTLR's\ default\ behavior}}
+\DoxyCodeLine{00009\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classantlr4_1_1ParserErrorListener}{ParserErrorListener}}\ :\ \textcolor{keyword}{public}\ BaseErrorListener\ \{}
+\DoxyCodeLine{00010\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00011\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classantlr4_1_1ParserErrorListener_ac4af92087ff71aafea02803dcddacd0b}{syntaxError}}(Recognizer\ *\ \textcolor{comment}{/*\ recognizer\ */},}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Token\ *\ \textcolor{comment}{/*\ offendingSymbol\ */},}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ line,}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ charPositionInLine,}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\ \&msg,}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::exception\_ptr\ \textcolor{comment}{/*\ e\ */})\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00017\ \ \ \ \ std::stringstream\ ss;}
+\DoxyCodeLine{00018\ \ \ \ \ ss\ <<\ \textcolor{stringliteral}{"{}line\ "{}}\ <<\ line\ <<\ \textcolor{stringliteral}{"{}:"{}}\ <<\ (charPositionInLine\ +\ 1)\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ msg;}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(ss.str());}
+\DoxyCodeLine{00020\ \ \ \}}
+\DoxyCodeLine{00021\ \};}
+\DoxyCodeLine{00022\ \}\ \textcolor{comment}{//\ namespace\ antlr4}}
+
+\end{DoxyCode}

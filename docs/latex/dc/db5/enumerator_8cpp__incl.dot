@@ -1,0 +1,42 @@
+digraph "src/rematch/output_enumeration/enumerator.cpp"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  Node1 [label="src/rematch/output\l_enumeration/enumerator.cpp",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="steelblue1",style="solid"];
+  Node2 [label="bitset",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node1 -> Node3 [color="steelblue1",style="solid"];
+  Node3 [label="iostream",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node1 -> Node4 [color="steelblue1",style="solid"];
+  Node4 [label="sstream",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node1 -> Node5 [color="steelblue1",style="solid"];
+  Node5 [label="output_enumeration\l/enumerator.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d0/dcf/enumerator_8hpp.html",tooltip=" "];
+  Node5 -> Node6 [color="steelblue1",style="solid"];
+  Node6 [label="output_enumeration\l/ecs.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$de/d8c/ecs_8hpp.html",tooltip=" "];
+  Node6 -> Node2 [color="steelblue1",style="solid"];
+  Node6 -> Node7 [color="steelblue1",style="solid"];
+  Node7 [label="string",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node6 -> Node8 [color="steelblue1",style="solid"];
+  Node8 [label="vector",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node6 -> Node9 [color="steelblue1",style="solid"];
+  Node9 [label="output_enumeration\l/node_manager.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d1/de4/node__manager_8hpp.html",tooltip=" "];
+  Node9 -> Node10 [color="steelblue1",style="solid"];
+  Node10 [label="output_enumeration\l/minipool.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d8/d69/minipool_8hpp.html",tooltip=" "];
+  Node10 -> Node11 [color="steelblue1",style="solid"];
+  Node11 [label="cmath",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node10 -> Node8 [color="steelblue1",style="solid"];
+  Node10 -> Node3 [color="steelblue1",style="solid"];
+  Node10 -> Node12 [color="steelblue1",style="solid"];
+  Node12 [label="fstream",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node10 -> Node13 [color="steelblue1",style="solid"];
+  Node13 [label="output_enumeration\l/ecs_node.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d0/df8/ecs__node_8hpp.html",tooltip=" "];
+  Node13 -> Node14 [color="steelblue1",style="solid"];
+  Node14 [label="cinttypes",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node13 -> Node2 [color="steelblue1",style="solid"];
+  Node6 -> Node13 [color="steelblue1",style="solid"];
+  Node5 -> Node15 [color="steelblue1",style="solid"];
+  Node15 [label="output_enumeration\l/mapping.hpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d5/ddf/mapping_8hpp.html",tooltip=" "];
+  Node15 -> Node6 [color="steelblue1",style="solid"];
+}

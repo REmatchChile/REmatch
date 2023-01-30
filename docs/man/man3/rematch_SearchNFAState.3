@@ -1,0 +1,128 @@
+.TH "rematch::SearchNFAState" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+rematch::SearchNFAState
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <search_nfa_state\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSearchNFAState\fP ()"
+.br
+.ti -1c
+.RI "\fB~SearchNFAState\fP ()"
+.br
+.ti -1c
+.RI "\fBSearchNFAState\fP (const \fBSearchNFAState\fP &s)"
+.br
+.ti -1c
+.RI "\fBSearchNFAState\fP (const \fBLogicalVAState\fP *state)"
+.br
+.ti -1c
+.RI "void \fBinit\fP ()"
+.br
+.ti -1c
+.RI "\fBSearchNFAState\fP * \fBnextFilter\fP (\fBCharClass\fP charclass)"
+.br
+.ti -1c
+.RI "void \fBadd_filter\fP (\fBCharClass\fP charclass, \fBSearchNFAState\fP *next)"
+.br
+.ti -1c
+.RI "bool \fBinitial\fP () const"
+.br
+.ti -1c
+.RI "void \fBset_initial\fP (bool b)"
+.br
+.ti -1c
+.RI "bool \fBaccepting\fP () const"
+.br
+.ti -1c
+.RI "void \fBset_accepting\fP (bool b)"
+.br
+.ti -1c
+.RI "bool \fBsuper_final\fP () const"
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (const \fBSearchNFAState\fP &rhs) const"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "bool \fBtempMark\fP = false"
+.br
+.ti -1c
+.RI "char \fBcolorMark\fP = 'w'"
+.br
+.ti -1c
+.RI "uint32_t \fBvisitedBy\fP = 0"
+.br
+.ti -1c
+.RI "uint32_t \fBflags\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBid\fP"
+.br
+.ti -1c
+.RI "std::list< \fBSearchNFAFilter\fP * > \fBfilters\fP"
+.br
+.ti -1c
+.RI "std::list< \fBSearchNFAFilter\fP * > \fBbackward_filters_\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "rematch::SearchNFAState::SearchNFAState ()"
+
+.SS "rematch::SearchNFAState::~SearchNFAState ()"
+
+.SS "rematch::SearchNFAState::SearchNFAState (const \fBSearchNFAState\fP & s)"
+
+.SS "rematch::SearchNFAState::SearchNFAState (const \fBLogicalVAState\fP * state)\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "bool rematch::SearchNFAState::accepting () const\fC [inline]\fP"
+
+.SS "void rematch::SearchNFAState::add_filter (\fBCharClass\fP charclass, \fBSearchNFAState\fP * next)"
+
+.SS "void rematch::SearchNFAState::init ()"
+
+.SS "bool rematch::SearchNFAState::initial () const\fC [inline]\fP"
+
+.SS "\fBSearchNFAState\fP * rematch::SearchNFAState::nextFilter (\fBCharClass\fP charclass)"
+
+.SS "bool rematch::SearchNFAState::operator== (const \fBSearchNFAState\fP & rhs) const"
+
+.SS "void rematch::SearchNFAState::set_accepting (bool b)"
+
+.SS "void rematch::SearchNFAState::set_initial (bool b)"
+
+.SS "bool rematch::SearchNFAState::super_final () const\fC [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "std::list<\fBSearchNFAFilter\fP*> rematch::SearchNFAState::backward_filters_"
+
+.SS "char rematch::SearchNFAState::colorMark = 'w'"
+
+.SS "std::list<\fBSearchNFAFilter\fP*> rematch::SearchNFAState::filters"
+
+.SS "uint32_t rematch::SearchNFAState::flags"
+
+.SS "unsigned int rematch::SearchNFAState::id"
+
+.SS "bool rematch::SearchNFAState::tempMark = false"
+
+.SS "uint32_t rematch::SearchNFAState::visitedBy = 0"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Rematch from the source code\&.

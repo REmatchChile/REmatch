@@ -1,0 +1,45 @@
+\hypertarget{search__nfa_8hpp_source}{}\doxysection{search\+\_\+nfa.\+hpp}
+\label{search__nfa_8hpp_source}\index{src/rematch/filtering\_module/search\_variable\_set\_automaton/nfa/search\_nfa.hpp@{src/rematch/filtering\_module/search\_variable\_set\_automaton/nfa/search\_nfa.hpp}}
+\mbox{\hyperlink{search__nfa_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SRC\_REMATCH\_AUTOMATA\_NFA\_SVA\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SRC\_REMATCH\_AUTOMATA\_NFA\_SVA\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{search__nfa__state_8hpp}{filtering\_module/search\_variable\_set\_automaton/nfa/search\_nfa\_state.hpp}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{logical__va_8hpp}{parsing/logical\_variable\_set\_automaton/logical\_va.hpp}}"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacerematch}{rematch}}\ \{}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ A\ non-\/deterministic\ automaton\ optimized\ for\ output\ fast\ searching.}}
+\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrematch_1_1SearchNFA}{SearchNFA}}\ \{}
+\DoxyCodeLine{00013\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00016\ \ \ std::vector<SearchNFAState*>\ states;}
+\DoxyCodeLine{00017\ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}*\ initial\_state\_;}
+\DoxyCodeLine{00018\ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}*\ accepting\_state\_;}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00021\ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFA_a02d84625afdc27af9bebd5faa3b1da02}{SearchNFA}}()\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00022\ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFA_a02d84625afdc27af9bebd5faa3b1da02}{SearchNFA}}(\mbox{\hyperlink{classrematch_1_1LogicalVA}{LogicalVA}}\ \textcolor{keyword}{const}\ \&A);}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ std::vector<SearchNFAState*>\ \textcolor{keyword}{const}\ \&\ \mbox{\hyperlink{classrematch_1_1SearchNFA_ad55cd5f79bd3f043e1f05d840783de32}{get\_states}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}*\ \mbox{\hyperlink{classrematch_1_1SearchNFA_a6c0b33997f20f914b1c60b464f418d71}{initial\_state}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00027\ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}*\ \mbox{\hyperlink{classrematch_1_1SearchNFA_aa5d284adcf1eea282f5f6f5204cc93e8}{accepting\_state}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1SearchNFA_a5494d4d9a1a5cc62086054c2a6ce0f26}{relabel\_states}}();}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classrematch_1_1SearchNFA_ad83be434f98ceaffa9eeaad9baf465e6}{size}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ states.size();\ \}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \};\ \textcolor{comment}{//\ end\ class\ SearchNFA}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \}\ \textcolor{comment}{//\ end\ namespace\ rematch}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SRC\_REMATCH\_AUTOMATA\_NFA\_SVA\_HPP}}
+
+\end{DoxyCode}

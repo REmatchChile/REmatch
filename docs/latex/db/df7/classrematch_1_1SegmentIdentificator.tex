@@ -1,0 +1,45 @@
+\hypertarget{classrematch_1_1SegmentIdentificator}{}\doxysection{rematch\+::Segment\+Identificator Class Reference}
+\label{classrematch_1_1SegmentIdentificator}\index{rematch::SegmentIdentificator@{rematch::SegmentIdentificator}}
+
+
+{\ttfamily \#include $<$segment\+\_\+identificator.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrematch_1_1SegmentIdentificator_af4405ccb4940d071f7ed4738a3cda59e}{Segment\+Identificator}} (\mbox{\hyperlink{classrematch_1_1SearchDFA}{Search\+DFA}} \&search\+\_\+dfa, std\+::string\+\_\+view document)
+\item 
+bool \mbox{\hyperlink{classrematch_1_1SegmentIdentificator_adf3032762dc82a5cf64fd77ea9abbae9}{has\+\_\+next}} ()
+\item 
+\mbox{\hyperlink{namespacerematch_1_1output__enumeration_aa4e928067309968505c98129c79404c1}{Span}} \mbox{\hyperlink{classrematch_1_1SegmentIdentificator_a1d2d27c244f5cf99852a9f00be3d6e89}{next}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classrematch_1_1SegmentIdentificator_af4405ccb4940d071f7ed4738a3cda59e}\label{classrematch_1_1SegmentIdentificator_af4405ccb4940d071f7ed4738a3cda59e}} 
+\index{rematch::SegmentIdentificator@{rematch::SegmentIdentificator}!SegmentIdentificator@{SegmentIdentificator}}
+\index{SegmentIdentificator@{SegmentIdentificator}!rematch::SegmentIdentificator@{rematch::SegmentIdentificator}}
+\doxysubsubsection{\texorpdfstring{SegmentIdentificator()}{SegmentIdentificator()}}
+{\footnotesize\ttfamily rematch\+::\+Segment\+Identificator\+::\+Segment\+Identificator (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrematch_1_1SearchDFA}{Search\+DFA}} \&}]{search\+\_\+dfa,  }\item[{std\+::string\+\_\+view}]{document }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrematch_1_1SegmentIdentificator_adf3032762dc82a5cf64fd77ea9abbae9}\label{classrematch_1_1SegmentIdentificator_adf3032762dc82a5cf64fd77ea9abbae9}} 
+\index{rematch::SegmentIdentificator@{rematch::SegmentIdentificator}!has\_next@{has\_next}}
+\index{has\_next@{has\_next}!rematch::SegmentIdentificator@{rematch::SegmentIdentificator}}
+\doxysubsubsection{\texorpdfstring{has\_next()}{has\_next()}}
+{\footnotesize\ttfamily bool rematch\+::\+Segment\+Identificator\+::has\+\_\+next (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Tries to compute the next span that has an output if it is computed correctly, \mbox{\hyperlink{classrematch_1_1SegmentIdentificator_a1d2d27c244f5cf99852a9f00be3d6e89}{next()}} will return that span and the method will return true. If not, this method will return false and \mbox{\hyperlink{classrematch_1_1SegmentIdentificator_a1d2d27c244f5cf99852a9f00be3d6e89}{next()}} will return an arbitrary span.\mbox{\Hypertarget{classrematch_1_1SegmentIdentificator_a1d2d27c244f5cf99852a9f00be3d6e89}\label{classrematch_1_1SegmentIdentificator_a1d2d27c244f5cf99852a9f00be3d6e89}} 
+\index{rematch::SegmentIdentificator@{rematch::SegmentIdentificator}!next@{next}}
+\index{next@{next}!rematch::SegmentIdentificator@{rematch::SegmentIdentificator}}
+\doxysubsubsection{\texorpdfstring{next()}{next()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespacerematch_1_1output__enumeration_aa4e928067309968505c98129c79404c1}{Span}} rematch\+::\+Segment\+Identificator\+::next (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+This method returns the current span in the document that has output(s). It MUST be called after \mbox{\hyperlink{classrematch_1_1SegmentIdentificator_adf3032762dc82a5cf64fd77ea9abbae9}{has\+\_\+next()}}.
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/rematch/filtering\+\_\+module/\mbox{\hyperlink{segment__identificator_8hpp}{segment\+\_\+identificator.\+hpp}}\item 
+src/rematch/filtering\+\_\+module/\mbox{\hyperlink{segment__identificator_8cpp}{segment\+\_\+identificator.\+cpp}}\end{DoxyCompactItemize}

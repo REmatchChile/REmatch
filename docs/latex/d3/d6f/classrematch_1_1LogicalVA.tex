@@ -1,0 +1,193 @@
+\hypertarget{classrematch_1_1LogicalVA}{}\doxysection{rematch\+::Logical\+VA Class Reference}
+\label{classrematch_1_1LogicalVA}\index{rematch::LogicalVA@{rematch::LogicalVA}}
+
+
+{\ttfamily \#include $<$logical\+\_\+va.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrematch_1_1LogicalVAState}{Logical\+VAState}} $\ast$ \mbox{\hyperlink{classrematch_1_1LogicalVA_a68a462836154c11251d50923af1d40ce}{initial\+\_\+state}} () const
+\item 
+\mbox{\hyperlink{classrematch_1_1LogicalVAState}{Logical\+VAState}} $\ast$ \mbox{\hyperlink{classrematch_1_1LogicalVA_af330636114d51426e928fbf2150777c0}{accepting\+\_\+state}} () const
+\item 
+\mbox{\hyperlink{classrematch_1_1LogicalVA_af0f0f7f44ac23bb978165b026957e06f}{Logical\+VA}} ()
+\item 
+\mbox{\hyperlink{classrematch_1_1LogicalVA_a79f4b196e0325a3c89ffa7b7007eef77}{Logical\+VA}} (const \mbox{\hyperlink{classrematch_1_1LogicalVA}{Logical\+VA}} \&A)
+\item 
+\mbox{\hyperlink{classrematch_1_1LogicalVA_aab94d1f64af8038f50b9f4cc874dae84}{Logical\+VA}} (\mbox{\hyperlink{classrematch_1_1CharClass}{Char\+Class}} charclass)
+\item 
+void \mbox{\hyperlink{classrematch_1_1LogicalVA_a457dfa0193178b65b35180620bbbb85b}{trim}} ()
+\item 
+void \mbox{\hyperlink{classrematch_1_1LogicalVA_a462f94a90d1984b3214673500ae7c4af}{cat}} (\mbox{\hyperlink{classrematch_1_1LogicalVA}{Logical\+VA}} \&a2)
+\item 
+void \mbox{\hyperlink{classrematch_1_1LogicalVA_aff106c3b5290d9760130b9dd9bdd15e5}{alter}} (\mbox{\hyperlink{classrematch_1_1LogicalVA}{Logical\+VA}} \&a2)
+\item 
+void \mbox{\hyperlink{classrematch_1_1LogicalVA_a1633bd502cc433da06cef41d7e63da58}{kleene}} ()
+\item 
+void \mbox{\hyperlink{classrematch_1_1LogicalVA_a38b45ab970a3256a173e9cbf5f5f645e}{strict\+\_\+kleene}} ()
+\item 
+void \mbox{\hyperlink{classrematch_1_1LogicalVA_a4f5eecc649931226242705fb22f18519}{optional}} ()
+\item 
+void \mbox{\hyperlink{classrematch_1_1LogicalVA_a58b6be0b68bf8657a9a40fb2a8673835}{assign}} (std\+::bitset$<$ 64 $>$ open\+\_\+code, std\+::bitset$<$ 64 $>$ close\+\_\+code)
+\item 
+void \mbox{\hyperlink{classrematch_1_1LogicalVA_a3642a4fecaefb6493a8d5d85597ed41c}{repeat}} (int min, int max)
+\item 
+void \mbox{\hyperlink{classrematch_1_1LogicalVA_a3007ca03e016fdb96845c2db924c2ef9}{remove\+\_\+captures}} ()
+\item 
+void \mbox{\hyperlink{classrematch_1_1LogicalVA_a53ac7edb0e97e4de04e8df7a381a77bc}{remove\+\_\+epsilon}} ()
+\item 
+void \mbox{\hyperlink{classrematch_1_1LogicalVA_a3a3726d5a654ecfac06d97b50667cbfc}{relabel\+\_\+states}} ()
+\item 
+bool \mbox{\hyperlink{classrematch_1_1LogicalVA_a60b2e8e9cf4b2947770fe27d6fbff2e8}{has\+\_\+epsilon}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \mbox{\hyperlink{classrematch_1_1LogicalVAState}{Logical\+VAState}} $\ast$ $>$ \mbox{\hyperlink{classrematch_1_1LogicalVA_a0d7c8a6ee2ee6dafe31bbb48be76a240}{states}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classrematch_1_1LogicalVA_aba86bef962fd88fece23bcaec828c115}{Extended\+VA}}
+\item 
+std\+::ostream \& \mbox{\hyperlink{classrematch_1_1LogicalVA_a8ccf3e76b7e30a0ef0bdcf33a1dcce46}{operator$<$$<$}} (std\+::ostream \&os, \mbox{\hyperlink{classrematch_1_1LogicalVA}{Logical\+VA}} const \&A)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classrematch_1_1LogicalVA_af0f0f7f44ac23bb978165b026957e06f}\label{classrematch_1_1LogicalVA_af0f0f7f44ac23bb978165b026957e06f}} 
+\index{rematch::LogicalVA@{rematch::LogicalVA}!LogicalVA@{LogicalVA}}
+\index{LogicalVA@{LogicalVA}!rematch::LogicalVA@{rematch::LogicalVA}}
+\doxysubsubsection{\texorpdfstring{LogicalVA()}{LogicalVA()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily rematch\+::\+Logical\+VA\+::\+Logical\+VA (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classrematch_1_1LogicalVA_a79f4b196e0325a3c89ffa7b7007eef77}\label{classrematch_1_1LogicalVA_a79f4b196e0325a3c89ffa7b7007eef77}} 
+\index{rematch::LogicalVA@{rematch::LogicalVA}!LogicalVA@{LogicalVA}}
+\index{LogicalVA@{LogicalVA}!rematch::LogicalVA@{rematch::LogicalVA}}
+\doxysubsubsection{\texorpdfstring{LogicalVA()}{LogicalVA()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily rematch\+::\+Logical\+VA\+::\+Logical\+VA (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classrematch_1_1LogicalVA}{Logical\+VA}} \&}]{A }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classrematch_1_1LogicalVA_aab94d1f64af8038f50b9f4cc874dae84}\label{classrematch_1_1LogicalVA_aab94d1f64af8038f50b9f4cc874dae84}} 
+\index{rematch::LogicalVA@{rematch::LogicalVA}!LogicalVA@{LogicalVA}}
+\index{LogicalVA@{LogicalVA}!rematch::LogicalVA@{rematch::LogicalVA}}
+\doxysubsubsection{\texorpdfstring{LogicalVA()}{LogicalVA()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily rematch\+::\+Logical\+VA\+::\+Logical\+VA (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrematch_1_1CharClass}{Char\+Class}}}]{charclass }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrematch_1_1LogicalVA_af330636114d51426e928fbf2150777c0}\label{classrematch_1_1LogicalVA_af330636114d51426e928fbf2150777c0}} 
+\index{rematch::LogicalVA@{rematch::LogicalVA}!accepting\_state@{accepting\_state}}
+\index{accepting\_state@{accepting\_state}!rematch::LogicalVA@{rematch::LogicalVA}}
+\doxysubsubsection{\texorpdfstring{accepting\_state()}{accepting\_state()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrematch_1_1LogicalVAState}{Logical\+VAState}} $\ast$ rematch\+::\+Logical\+VA\+::accepting\+\_\+state (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classrematch_1_1LogicalVA_aff106c3b5290d9760130b9dd9bdd15e5}\label{classrematch_1_1LogicalVA_aff106c3b5290d9760130b9dd9bdd15e5}} 
+\index{rematch::LogicalVA@{rematch::LogicalVA}!alter@{alter}}
+\index{alter@{alter}!rematch::LogicalVA@{rematch::LogicalVA}}
+\doxysubsubsection{\texorpdfstring{alter()}{alter()}}
+{\footnotesize\ttfamily void rematch\+::\+Logical\+VA\+::alter (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrematch_1_1LogicalVA}{Logical\+VA}} \&}]{a2 }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classrematch_1_1LogicalVA_a58b6be0b68bf8657a9a40fb2a8673835}\label{classrematch_1_1LogicalVA_a58b6be0b68bf8657a9a40fb2a8673835}} 
+\index{rematch::LogicalVA@{rematch::LogicalVA}!assign@{assign}}
+\index{assign@{assign}!rematch::LogicalVA@{rematch::LogicalVA}}
+\doxysubsubsection{\texorpdfstring{assign()}{assign()}}
+{\footnotesize\ttfamily void rematch\+::\+Logical\+VA\+::assign (\begin{DoxyParamCaption}\item[{std\+::bitset$<$ 64 $>$}]{open\+\_\+code,  }\item[{std\+::bitset$<$ 64 $>$}]{close\+\_\+code }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classrematch_1_1LogicalVA_a462f94a90d1984b3214673500ae7c4af}\label{classrematch_1_1LogicalVA_a462f94a90d1984b3214673500ae7c4af}} 
+\index{rematch::LogicalVA@{rematch::LogicalVA}!cat@{cat}}
+\index{cat@{cat}!rematch::LogicalVA@{rematch::LogicalVA}}
+\doxysubsubsection{\texorpdfstring{cat()}{cat()}}
+{\footnotesize\ttfamily void rematch\+::\+Logical\+VA\+::cat (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrematch_1_1LogicalVA}{Logical\+VA}} \&}]{a2 }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classrematch_1_1LogicalVA_a60b2e8e9cf4b2947770fe27d6fbff2e8}\label{classrematch_1_1LogicalVA_a60b2e8e9cf4b2947770fe27d6fbff2e8}} 
+\index{rematch::LogicalVA@{rematch::LogicalVA}!has\_epsilon@{has\_epsilon}}
+\index{has\_epsilon@{has\_epsilon}!rematch::LogicalVA@{rematch::LogicalVA}}
+\doxysubsubsection{\texorpdfstring{has\_epsilon()}{has\_epsilon()}}
+{\footnotesize\ttfamily bool rematch\+::\+Logical\+VA\+::has\+\_\+epsilon (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classrematch_1_1LogicalVA_a68a462836154c11251d50923af1d40ce}\label{classrematch_1_1LogicalVA_a68a462836154c11251d50923af1d40ce}} 
+\index{rematch::LogicalVA@{rematch::LogicalVA}!initial\_state@{initial\_state}}
+\index{initial\_state@{initial\_state}!rematch::LogicalVA@{rematch::LogicalVA}}
+\doxysubsubsection{\texorpdfstring{initial\_state()}{initial\_state()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrematch_1_1LogicalVAState}{Logical\+VAState}} $\ast$ rematch\+::\+Logical\+VA\+::initial\+\_\+state (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classrematch_1_1LogicalVA_a1633bd502cc433da06cef41d7e63da58}\label{classrematch_1_1LogicalVA_a1633bd502cc433da06cef41d7e63da58}} 
+\index{rematch::LogicalVA@{rematch::LogicalVA}!kleene@{kleene}}
+\index{kleene@{kleene}!rematch::LogicalVA@{rematch::LogicalVA}}
+\doxysubsubsection{\texorpdfstring{kleene()}{kleene()}}
+{\footnotesize\ttfamily void rematch\+::\+Logical\+VA\+::kleene (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classrematch_1_1LogicalVA_a4f5eecc649931226242705fb22f18519}\label{classrematch_1_1LogicalVA_a4f5eecc649931226242705fb22f18519}} 
+\index{rematch::LogicalVA@{rematch::LogicalVA}!optional@{optional}}
+\index{optional@{optional}!rematch::LogicalVA@{rematch::LogicalVA}}
+\doxysubsubsection{\texorpdfstring{optional()}{optional()}}
+{\footnotesize\ttfamily void rematch\+::\+Logical\+VA\+::optional (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classrematch_1_1LogicalVA_a3a3726d5a654ecfac06d97b50667cbfc}\label{classrematch_1_1LogicalVA_a3a3726d5a654ecfac06d97b50667cbfc}} 
+\index{rematch::LogicalVA@{rematch::LogicalVA}!relabel\_states@{relabel\_states}}
+\index{relabel\_states@{relabel\_states}!rematch::LogicalVA@{rematch::LogicalVA}}
+\doxysubsubsection{\texorpdfstring{relabel\_states()}{relabel\_states()}}
+{\footnotesize\ttfamily void rematch\+::\+Logical\+VA\+::relabel\+\_\+states (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classrematch_1_1LogicalVA_a3007ca03e016fdb96845c2db924c2ef9}\label{classrematch_1_1LogicalVA_a3007ca03e016fdb96845c2db924c2ef9}} 
+\index{rematch::LogicalVA@{rematch::LogicalVA}!remove\_captures@{remove\_captures}}
+\index{remove\_captures@{remove\_captures}!rematch::LogicalVA@{rematch::LogicalVA}}
+\doxysubsubsection{\texorpdfstring{remove\_captures()}{remove\_captures()}}
+{\footnotesize\ttfamily void rematch\+::\+Logical\+VA\+::remove\+\_\+captures (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classrematch_1_1LogicalVA_a53ac7edb0e97e4de04e8df7a381a77bc}\label{classrematch_1_1LogicalVA_a53ac7edb0e97e4de04e8df7a381a77bc}} 
+\index{rematch::LogicalVA@{rematch::LogicalVA}!remove\_epsilon@{remove\_epsilon}}
+\index{remove\_epsilon@{remove\_epsilon}!rematch::LogicalVA@{rematch::LogicalVA}}
+\doxysubsubsection{\texorpdfstring{remove\_epsilon()}{remove\_epsilon()}}
+{\footnotesize\ttfamily void rematch\+::\+Logical\+VA\+::remove\+\_\+epsilon (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classrematch_1_1LogicalVA_a3642a4fecaefb6493a8d5d85597ed41c}\label{classrematch_1_1LogicalVA_a3642a4fecaefb6493a8d5d85597ed41c}} 
+\index{rematch::LogicalVA@{rematch::LogicalVA}!repeat@{repeat}}
+\index{repeat@{repeat}!rematch::LogicalVA@{rematch::LogicalVA}}
+\doxysubsubsection{\texorpdfstring{repeat()}{repeat()}}
+{\footnotesize\ttfamily void rematch\+::\+Logical\+VA\+::repeat (\begin{DoxyParamCaption}\item[{int}]{min,  }\item[{int}]{max }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classrematch_1_1LogicalVA_a38b45ab970a3256a173e9cbf5f5f645e}\label{classrematch_1_1LogicalVA_a38b45ab970a3256a173e9cbf5f5f645e}} 
+\index{rematch::LogicalVA@{rematch::LogicalVA}!strict\_kleene@{strict\_kleene}}
+\index{strict\_kleene@{strict\_kleene}!rematch::LogicalVA@{rematch::LogicalVA}}
+\doxysubsubsection{\texorpdfstring{strict\_kleene()}{strict\_kleene()}}
+{\footnotesize\ttfamily void rematch\+::\+Logical\+VA\+::strict\+\_\+kleene (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classrematch_1_1LogicalVA_a457dfa0193178b65b35180620bbbb85b}\label{classrematch_1_1LogicalVA_a457dfa0193178b65b35180620bbbb85b}} 
+\index{rematch::LogicalVA@{rematch::LogicalVA}!trim@{trim}}
+\index{trim@{trim}!rematch::LogicalVA@{rematch::LogicalVA}}
+\doxysubsubsection{\texorpdfstring{trim()}{trim()}}
+{\footnotesize\ttfamily void rematch\+::\+Logical\+VA\+::trim (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Transforms the automaton graph to a trimmed automaton. This being that every state is reacheable from the initial state, and the final state is reachable from every state. We\textquotesingle{}ll do a simple BFS from the initial and final states (using backwards transitions), storing the states that are reached by both procedures
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classrematch_1_1LogicalVA_aba86bef962fd88fece23bcaec828c115}\label{classrematch_1_1LogicalVA_aba86bef962fd88fece23bcaec828c115}} 
+\index{rematch::LogicalVA@{rematch::LogicalVA}!ExtendedVA@{ExtendedVA}}
+\index{ExtendedVA@{ExtendedVA}!rematch::LogicalVA@{rematch::LogicalVA}}
+\doxysubsubsection{\texorpdfstring{ExtendedVA}{ExtendedVA}}
+{\footnotesize\ttfamily friend class Extended\+VA\hspace{0.3cm}{\ttfamily [friend]}}
+
+\mbox{\Hypertarget{classrematch_1_1LogicalVA_a8ccf3e76b7e30a0ef0bdcf33a1dcce46}\label{classrematch_1_1LogicalVA_a8ccf3e76b7e30a0ef0bdcf33a1dcce46}} 
+\index{rematch::LogicalVA@{rematch::LogicalVA}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!rematch::LogicalVA@{rematch::LogicalVA}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream \& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os,  }\item[{\mbox{\hyperlink{classrematch_1_1LogicalVA}{Logical\+VA}} const \&}]{A }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classrematch_1_1LogicalVA_a0d7c8a6ee2ee6dafe31bbb48be76a240}\label{classrematch_1_1LogicalVA_a0d7c8a6ee2ee6dafe31bbb48be76a240}} 
+\index{rematch::LogicalVA@{rematch::LogicalVA}!states@{states}}
+\index{states@{states}!rematch::LogicalVA@{rematch::LogicalVA}}
+\doxysubsubsection{\texorpdfstring{states}{states}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{classrematch_1_1LogicalVAState}{Logical\+VAState}}$\ast$$>$ rematch\+::\+Logical\+VA\+::states}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/rematch/parsing/logical\+\_\+variable\+\_\+set\+\_\+automaton/\mbox{\hyperlink{logical__va_8hpp}{logical\+\_\+va.\+hpp}}\item 
+src/rematch/parsing/logical\+\_\+variable\+\_\+set\+\_\+automaton/\mbox{\hyperlink{logical__va_8cpp}{logical\+\_\+va.\+cpp}}\end{DoxyCompactItemize}

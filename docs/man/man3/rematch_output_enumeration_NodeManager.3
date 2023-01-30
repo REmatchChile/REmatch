@@ -1,0 +1,84 @@
+.TH "rematch::output_enumeration::NodeManager" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+rematch::output_enumeration::NodeManager \- The Node Manager class stores the pointers to all allocated \fBECSNode\fP's\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <node_manager\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "size_t \fBamount_of_nodes_allocated\fP () const"
+.br
+.ti -1c
+.RI "\fBNodeManager\fP (size_t starting_size=\fBMEMORY_POOL_STARTING_SIZE\fP)"
+.br
+.ti -1c
+.RI "\fB~NodeManager\fP ()"
+.br
+.ti -1c
+.RI "template<class\&.\&.\&. Args> \fBECSNode\fP * \fBalloc\fP (Args &&\&.\&.\&.args)"
+.br
+.ti -1c
+.RI "void \fBdecrease_ref_count\fP (\fBECSNode\fP *node)"
+.br
+.ti -1c
+.RI "void \fBincrease_ref_count\fP (\fBECSNode\fP *node)"
+.br
+.ti -1c
+.RI "void \fBadd_to_list_of_free_memory\fP (\fBECSNode\fP *node)"
+.br
+.ti -1c
+.RI "size_t \fBget_amount_of_nodes_used\fP () const"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "size_t \fBamount_of_nodes_used\fP {0}"
+.br
+.ti -1c
+.RI "size_t \fBamount_of_recycled_nodes\fP {0}"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The Node Manager class stores the pointers to all allocated \fBECSNode\fP's\&. 
+
+When an \fBECSNode\fP is no longer used, i\&.e, when the amount of references to it has become 0, that memory is available to be recycled\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "rematch::output_enumeration::NodeManager::NodeManager (size_t starting_size = \fC\fBMEMORY_POOL_STARTING_SIZE\fP\fP)"
+
+.SS "rematch::output_enumeration::NodeManager::~NodeManager ()"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void rematch::output_enumeration::NodeManager::add_to_list_of_free_memory (\fBECSNode\fP * node)"
+
+.SS "template<class\&.\&.\&. Args> \fBECSNode\fP * rematch::output_enumeration::NodeManager::alloc (Args &&\&.\&.\&. args)\fC [inline]\fP"
+
+.SS "size_t rematch::output_enumeration::NodeManager::amount_of_nodes_allocated () const"
+
+.SS "void rematch::output_enumeration::NodeManager::decrease_ref_count (\fBECSNode\fP * node)"
+
+.SS "size_t rematch::output_enumeration::NodeManager::get_amount_of_nodes_used () const\fC [inline]\fP"
+
+.SS "void rematch::output_enumeration::NodeManager::increase_ref_count (\fBECSNode\fP * node)"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "size_t rematch::output_enumeration::NodeManager::amount_of_nodes_used {0}"
+
+.SS "size_t rematch::output_enumeration::NodeManager::amount_of_recycled_nodes {0}"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Rematch from the source code\&.

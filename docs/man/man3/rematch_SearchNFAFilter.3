@@ -1,0 +1,63 @@
+.TH "rematch::SearchNFAFilter" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+rematch::SearchNFAFilter
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <search_nfa_filter\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSearchNFAFilter\fP (\fBSearchNFAState\fP *\fBfrom\fP, \fBCharClass\fP \fBcharclass\fP, \fBSearchNFAState\fP *\fBnext\fP)"
+.br
+.ti -1c
+.RI "void \fBreset_states\fP (\fBSearchNFAState\fP *s)"
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (const \fBSearchNFAFilter\fP &rhs) const"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBSearchNFAState\fP * \fBfrom\fP"
+.br
+.ti -1c
+.RI "\fBSearchNFAState\fP * \fBnext\fP"
+.br
+.ti -1c
+.RI "\fBCharClass\fP \fBcharclass\fP"
+.br
+.ti -1c
+.RI "bool \fBflag\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "rematch::SearchNFAFilter::SearchNFAFilter (\fBSearchNFAState\fP * from, \fBCharClass\fP charclass, \fBSearchNFAState\fP * next)\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "bool rematch::SearchNFAFilter::operator== (const \fBSearchNFAFilter\fP & rhs) const\fC [inline]\fP"
+
+.SS "void rematch::SearchNFAFilter::reset_states (\fBSearchNFAState\fP * s)\fC [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBCharClass\fP rematch::SearchNFAFilter::charclass"
+
+.SS "bool rematch::SearchNFAFilter::flag"
+
+.SS "\fBSearchNFAState\fP* rematch::SearchNFAFilter::from"
+
+.SS "\fBSearchNFAState\fP* rematch::SearchNFAFilter::next"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Rematch from the source code\&.

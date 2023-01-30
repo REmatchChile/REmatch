@@ -1,0 +1,40 @@
+\hypertarget{search__nfa__filter_8hpp_source}{}\doxysection{search\+\_\+nfa\+\_\+filter.\+hpp}
+\label{search__nfa__filter_8hpp_source}\index{src/rematch/filtering\_module/search\_variable\_set\_automaton/nfa/search\_nfa\_filter.hpp@{src/rematch/filtering\_module/search\_variable\_set\_automaton/nfa/search\_nfa\_filter.hpp}}
+\mbox{\hyperlink{search__nfa__filter_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ search\_nfa\_filter}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ search\_nfa\_filter}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{charclass_8hpp}{parsing/charclass.hpp}}"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacerematch}{rematch}}\ \{}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }SearchNFAState;}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrematch_1_1SearchNFAFilter}{SearchNFAFilter}}\ \{}
+\DoxyCodeLine{00011\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00012\ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}*\ \mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a0e0581bae769ec984bc2f7acfd7b1274}{from}};}
+\DoxyCodeLine{00013\ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}*\ \mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a31f68698f27601290eabce7906045664}{next}};}
+\DoxyCodeLine{00014\ \ \ \mbox{\hyperlink{classrematch_1_1CharClass}{CharClass}}\ \mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a8fef7e00392f94aed30669c247051f56}{charclass}};}
+\DoxyCodeLine{00015\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a64da7a350d3237bd8370ee15527fc1c3}{flag}};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00020\ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a2e947445366b2dfbec010a5debb2c580}{SearchNFAFilter}}(\mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}*\ \mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a0e0581bae769ec984bc2f7acfd7b1274}{from}},\ \mbox{\hyperlink{classrematch_1_1CharClass}{CharClass}}\ \mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a8fef7e00392f94aed30669c247051f56}{charclass}},}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}*\ \mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a31f68698f27601290eabce7906045664}{next}})\ :}
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a0e0581bae769ec984bc2f7acfd7b1274}{from}}(\mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a0e0581bae769ec984bc2f7acfd7b1274}{from}}),\ \mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a31f68698f27601290eabce7906045664}{next}}(\mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a31f68698f27601290eabce7906045664}{next}}),\ \mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a8fef7e00392f94aed30669c247051f56}{charclass}}(\mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a8fef7e00392f94aed30669c247051f56}{charclass}})\ \{\}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a02b3ba816fea359752adc4f3304ed712}{reset\_states}}(\mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}\ *s)\ \{\mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a31f68698f27601290eabce7906045664}{next}}\ =\ s;\}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a20f44c0dc0d87f52269af30f795bad65}{operator==}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classrematch_1_1SearchNFAFilter}{SearchNFAFilter}}\ \&rhs)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a0e0581bae769ec984bc2f7acfd7b1274}{from}}\ ==\ rhs.\mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a0e0581bae769ec984bc2f7acfd7b1274}{from}})\ \&\&\ (\mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a31f68698f27601290eabce7906045664}{next}}\ ==\ rhs.\mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a31f68698f27601290eabce7906045664}{next}})\ \&\&\ (\mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a8fef7e00392f94aed30669c247051f56}{charclass}}\ ==\ rhs.\mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a8fef7e00392f94aed30669c247051f56}{charclass}});}
+\DoxyCodeLine{00028\ \ \ \}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \};}
+\DoxyCodeLine{00033\ \}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

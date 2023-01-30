@@ -1,0 +1,63 @@
+.TH "rematch::SearchDFA" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+rematch::SearchDFA
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <search_dfa\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSearchDFA\fP (\fBLogicalVA\fP const &logical_va)"
+.br
+.ti -1c
+.RI "\fBSearchDFAState\fP * \fBget_initial_state\fP ()"
+.br
+.ti -1c
+.RI "std::string \fBpprint\fP ()"
+.br
+.ti -1c
+.RI "size_t \fBsize\fP () const"
+.br
+.ti -1c
+.RI "\fBSearchDFAState\fP * \fBnext_state\fP (char a)"
+.br
+.ti -1c
+.RI "void \fBreset\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::vector< \fBSearchDFAState\fP * > \fBstates\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "rematch::SearchDFA::SearchDFA (\fBLogicalVA\fP const & logical_va)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBSearchDFAState\fP * rematch::SearchDFA::get_initial_state ()\fC [inline]\fP"
+
+.SS "\fBSearchDFAState\fP * rematch::SearchDFA::next_state (char a)"
+Assumptions: the ids are from 0 upwards (necessary to use the subsetBitset\&.)
+.SS "std::string rematch::SearchDFA::pprint ()"
+
+.SS "void rematch::SearchDFA::reset ()\fC [inline]\fP"
+
+.SS "size_t rematch::SearchDFA::size () const\fC [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "std::vector<\fBSearchDFAState\fP*> rematch::SearchDFA::states"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Rematch from the source code\&.

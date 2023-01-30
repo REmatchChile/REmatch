@@ -1,7 +1,6 @@
 #include "output_enumeration/node_manager.hpp"
 
 namespace rematch {
-
 inline namespace output_enumeration {
 
 NodeManager::NodeManager(size_t starting_size)
@@ -87,6 +86,5 @@ void NodeManager::advance_recyclable_nodes_list_head() {
     ++amount_of_recycled_nodes;
 }
 
-} // end namespace output_enumeration
-
-} // end namespace rematch
+}
+}

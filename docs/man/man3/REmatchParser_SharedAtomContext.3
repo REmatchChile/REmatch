@@ -1,0 +1,69 @@
+.TH "REmatchParser::SharedAtomContext" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+REmatchParser::SharedAtomContext
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <REmatchParser\&.h>\fP
+.PP
+Inherits antlr4::ParserRuleContext\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSharedAtomContext\fP (antlr4::ParserRuleContext *parent, size_t invokingState)"
+.br
+.ti -1c
+.RI "virtual size_t \fBgetRuleIndex\fP () const override"
+.br
+.ti -1c
+.RI "antlr4::tree::TerminalNode * \fBDECIMAL_DIGIT\fP ()"
+.br
+.ti -1c
+.RI "antlr4::tree::TerminalNode * \fBNOT_DECIMAL_DIGIT\fP ()"
+.br
+.ti -1c
+.RI "antlr4::tree::TerminalNode * \fBWHITESPACE\fP ()"
+.br
+.ti -1c
+.RI "antlr4::tree::TerminalNode * \fBNOT_WHITESPACE\fP ()"
+.br
+.ti -1c
+.RI "antlr4::tree::TerminalNode * \fBALPHANUMERIC\fP ()"
+.br
+.ti -1c
+.RI "antlr4::tree::TerminalNode * \fBNOT_ALPHANUMERIC\fP ()"
+.br
+.ti -1c
+.RI "virtual std::any \fBaccept\fP (antlr4::tree::ParseTreeVisitor *visitor) override"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "REmatchParser::SharedAtomContext::SharedAtomContext (antlr4::ParserRuleContext * parent, size_t invokingState)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "std::any REmatchParser::SharedAtomContext::accept (antlr4::tree::ParseTreeVisitor * visitor)\fC [override]\fP, \fC [virtual]\fP"
+
+.SS "tree::TerminalNode * REmatchParser::SharedAtomContext::ALPHANUMERIC ()"
+
+.SS "tree::TerminalNode * REmatchParser::SharedAtomContext::DECIMAL_DIGIT ()"
+
+.SS "size_t REmatchParser::SharedAtomContext::getRuleIndex () const\fC [override]\fP, \fC [virtual]\fP"
+
+.SS "tree::TerminalNode * REmatchParser::SharedAtomContext::NOT_ALPHANUMERIC ()"
+
+.SS "tree::TerminalNode * REmatchParser::SharedAtomContext::NOT_DECIMAL_DIGIT ()"
+
+.SS "tree::TerminalNode * REmatchParser::SharedAtomContext::NOT_WHITESPACE ()"
+
+.SS "tree::TerminalNode * REmatchParser::SharedAtomContext::WHITESPACE ()"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Rematch from the source code\&.

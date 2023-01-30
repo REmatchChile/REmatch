@@ -11,6 +11,9 @@ namespace rematch {
 
 inline namespace output_enumeration {
 
+/**
+ * The NodeManager class stores its nodes through a linked list of MiniPools.
+ */
 class MiniPool {
 
 private:
@@ -36,10 +39,8 @@ public:
   }
 
 
-}; // end class MiniPool
+};
+}
+}
 
-} // end namespace output_enumeration
-
-} // end namespace rematch
-
-#endif // OUTPUT_ENUMERATION_MINI_POOL_HPP
+#endif

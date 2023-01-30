@@ -1,0 +1,176 @@
+\hypertarget{classrematch_1_1visitors_1_1VariableFactoryVisitor}{}\doxysection{rematch\+::visitors\+::Variable\+Factory\+Visitor Class Reference}
+\label{classrematch_1_1visitors_1_1VariableFactoryVisitor}\index{rematch::visitors::VariableFactoryVisitor@{rematch::visitors::VariableFactoryVisitor}}
+
+
+{\ttfamily \#include $<$variable\+\_\+factory\+\_\+visitor.\+hpp$>$}
+
+
+
+Inheritance diagram for rematch\+::visitors\+::Variable\+Factory\+Visitor\+:
+% FIG 0
+
+
+Collaboration diagram for rematch\+::visitors\+::Variable\+Factory\+Visitor\+:
+% FIG 1
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::any \mbox{\hyperlink{classrematch_1_1visitors_1_1VariableFactoryVisitor_ac7c535bf6b77e49c7996e33335fd09aa}{visit\+Root}} (\mbox{\hyperlink{classREmatchParser_1_1RootContext}{REmatch\+Parser\+::\+Root\+Context}} $\ast$ctx) override
+\begin{DoxyCompactList}\small\item\em Visit parse trees produced by \mbox{\hyperlink{classREmatchParser}{REmatch\+Parser}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions inherited from \mbox{\hyperlink{classREmatchParserBaseVisitor}{REmatch\+Parser\+Base\+Visitor}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_a9c97c6c8fa7e7cd9a3dbe684ac5c11b2}{visit\+Root}} (\mbox{\hyperlink{classREmatchParser_1_1RootContext}{REmatch\+Parser\+::\+Root\+Context}} $\ast$ctx) override
+\begin{DoxyCompactList}\small\item\em Visit parse trees produced by \mbox{\hyperlink{classREmatchParser}{REmatch\+Parser}}. \end{DoxyCompactList}\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_ad8e5803db673850d78167624ddaecf74}{visit\+Alternation}} (\mbox{\hyperlink{classREmatchParser_1_1AlternationContext}{REmatch\+Parser\+::\+Alternation\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_a0697b6e89136ee435fb2e09877ac333a}{visit\+Expr}} (\mbox{\hyperlink{classREmatchParser_1_1ExprContext}{REmatch\+Parser\+::\+Expr\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_a030d32c58ab086b7d031dfd5a6924143}{visit\+Element}} (\mbox{\hyperlink{classREmatchParser_1_1ElementContext}{REmatch\+Parser\+::\+Element\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_a779dd3a72e88213ab4945e84d8a27b0e}{visit\+Group}} (\mbox{\hyperlink{classREmatchParser_1_1GroupContext}{REmatch\+Parser\+::\+Group\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_a049738935c2e9445000766a37c8de69c}{visit\+Parentheses}} (\mbox{\hyperlink{classREmatchParser_1_1ParenthesesContext}{REmatch\+Parser\+::\+Parentheses\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_a5397f7aef1cfaaf24d973b2aaf7a8c73}{visit\+Assignation}} (\mbox{\hyperlink{classREmatchParser_1_1AssignationContext}{REmatch\+Parser\+::\+Assignation\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_a1c6ff8285391b249ee3bc9802fde5dee}{visit\+Varname}} (\mbox{\hyperlink{classREmatchParser_1_1VarnameContext}{REmatch\+Parser\+::\+Varname\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_a93c9b6ae62f2dde42a994440a9483248}{visit\+Atom}} (\mbox{\hyperlink{classREmatchParser_1_1AtomContext}{REmatch\+Parser\+::\+Atom\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_acbca1f5c1ab0e680863e8422c007884c}{visit\+Character\+Class}} (\mbox{\hyperlink{classREmatchParser_1_1CharacterClassContext}{REmatch\+Parser\+::\+Character\+Class\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_ae2800326eb061cf7ec002b2573a0dee0}{visit\+Cc\+Atom}} (\mbox{\hyperlink{classREmatchParser_1_1CcAtomContext}{REmatch\+Parser\+::\+Cc\+Atom\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_aa15921efd18238aa80da576c3063e4ab}{visit\+Cc\+Range}} (\mbox{\hyperlink{classREmatchParser_1_1CcRangeContext}{REmatch\+Parser\+::\+Cc\+Range\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_ab14346f77bc82c4da1386b342ea11650}{visit\+Cc\+Single}} (\mbox{\hyperlink{classREmatchParser_1_1CcSingleContext}{REmatch\+Parser\+::\+Cc\+Single\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_a77714bb51aab8fa6da545b5a8ee69fa7}{visit\+Cc\+Literal}} (\mbox{\hyperlink{classREmatchParser_1_1CcLiteralContext}{REmatch\+Parser\+::\+Cc\+Literal\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_a5bc6d542e896064534b99bfa87d48b29}{visit\+Cc\+Escapes}} (\mbox{\hyperlink{classREmatchParser_1_1CcEscapesContext}{REmatch\+Parser\+::\+Cc\+Escapes\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_a9069f35058cbed4cb033b0909d455d40}{visit\+Cc\+Other}} (\mbox{\hyperlink{classREmatchParser_1_1CcOtherContext}{REmatch\+Parser\+::\+Cc\+Other\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_ad8bfd31fdc9434acbd1fb40f1a176443}{visit\+Single\+Shared\+Atom}} (\mbox{\hyperlink{classREmatchParser_1_1SingleSharedAtomContext}{REmatch\+Parser\+::\+Single\+Shared\+Atom\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_ab3fafa7a90ad28733df787211c624caa}{visit\+Literal}} (\mbox{\hyperlink{classREmatchParser_1_1LiteralContext}{REmatch\+Parser\+::\+Literal\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_ac50ca07661fc48a7dc53cd1b65144fd1}{visit\+Escapes}} (\mbox{\hyperlink{classREmatchParser_1_1EscapesContext}{REmatch\+Parser\+::\+Escapes\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_a17ba1fbc14457da9a6a27f0f19d8e54e}{visit\+Special}} (\mbox{\hyperlink{classREmatchParser_1_1SpecialContext}{REmatch\+Parser\+::\+Special\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_ae4f57c1fd9f08da2337f190e616e32f6}{visit\+Other}} (\mbox{\hyperlink{classREmatchParser_1_1OtherContext}{REmatch\+Parser\+::\+Other\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_a70e24fdd7fe7b515a6ff0054d18fc26b}{visit\+Shared\+Atom}} (\mbox{\hyperlink{classREmatchParser_1_1SharedAtomContext}{REmatch\+Parser\+::\+Shared\+Atom\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_adab601ec1dcf2da6be203fb19f1bb479}{visit\+Quantifier}} (\mbox{\hyperlink{classREmatchParser_1_1QuantifierContext}{REmatch\+Parser\+::\+Quantifier\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_ab7c424a11b1d8dbcbb268552a50af6a9}{visit\+Quantity}} (\mbox{\hyperlink{classREmatchParser_1_1QuantityContext}{REmatch\+Parser\+::\+Quantity\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_aa1271d563d1991e668c067e3103eb7cb}{visit\+Quant\+Exact}} (\mbox{\hyperlink{classREmatchParser_1_1QuantExactContext}{REmatch\+Parser\+::\+Quant\+Exact\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_ab8415897ccea7cbadbbebc49be98d3b7}{visit\+Quant\+Range}} (\mbox{\hyperlink{classREmatchParser_1_1QuantRangeContext}{REmatch\+Parser\+::\+Quant\+Range\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_a244f2eb1cc374af5e591fc7caee6df1a}{visit\+Quant\+Min}} (\mbox{\hyperlink{classREmatchParser_1_1QuantMinContext}{REmatch\+Parser\+::\+Quant\+Min\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_a94d40430a6d3d4c27941f2192a58ccc8}{visit\+Quant\+Max}} (\mbox{\hyperlink{classREmatchParser_1_1QuantMaxContext}{REmatch\+Parser\+::\+Quant\+Max\+Context}} $\ast$ctx) override
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserBaseVisitor_aa218246eacf5ac32375382fc2dd8a348}{visit\+Number}} (\mbox{\hyperlink{classREmatchParser_1_1NumberContext}{REmatch\+Parser\+::\+Number\+Context}} $\ast$ctx) override
+\end{DoxyCompactItemize}
+\begin{DoxyCompactItemize}
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_ad74a85fca9b7c3a05c2c77b0a1c1c44b}{visit\+Root}} (\mbox{\hyperlink{classREmatchParser_1_1RootContext}{REmatch\+Parser\+::\+Root\+Context}} $\ast$context)=0
+\begin{DoxyCompactList}\small\item\em Visit parse trees produced by \mbox{\hyperlink{classREmatchParser}{REmatch\+Parser}}. \end{DoxyCompactList}\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_a4f53b24feead342ace1ff659402da4b7}{visit\+Alternation}} (\mbox{\hyperlink{classREmatchParser_1_1AlternationContext}{REmatch\+Parser\+::\+Alternation\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_a0ec2357a858e633115f82b804a790599}{visit\+Expr}} (\mbox{\hyperlink{classREmatchParser_1_1ExprContext}{REmatch\+Parser\+::\+Expr\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_a2b4e9811d7e11136434eec655b194aa6}{visit\+Element}} (\mbox{\hyperlink{classREmatchParser_1_1ElementContext}{REmatch\+Parser\+::\+Element\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_a8172e6f9e74f4df36b553fb5576ebbde}{visit\+Group}} (\mbox{\hyperlink{classREmatchParser_1_1GroupContext}{REmatch\+Parser\+::\+Group\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_ac06ac46923c79fd199462a2a95ddce8e}{visit\+Parentheses}} (\mbox{\hyperlink{classREmatchParser_1_1ParenthesesContext}{REmatch\+Parser\+::\+Parentheses\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_aa6a5ff0645cb2f0c94e4eb171171c724}{visit\+Assignation}} (\mbox{\hyperlink{classREmatchParser_1_1AssignationContext}{REmatch\+Parser\+::\+Assignation\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_a1b957cbc578ef4b5c9476c1a7dc178bb}{visit\+Varname}} (\mbox{\hyperlink{classREmatchParser_1_1VarnameContext}{REmatch\+Parser\+::\+Varname\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_a5601a9f17e351e6c728c152b405128da}{visit\+Atom}} (\mbox{\hyperlink{classREmatchParser_1_1AtomContext}{REmatch\+Parser\+::\+Atom\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_a93f16166d4bbd5789611848328eaebf4}{visit\+Character\+Class}} (\mbox{\hyperlink{classREmatchParser_1_1CharacterClassContext}{REmatch\+Parser\+::\+Character\+Class\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_ac8be62a3a732be251f39cc2b51e265f1}{visit\+Cc\+Atom}} (\mbox{\hyperlink{classREmatchParser_1_1CcAtomContext}{REmatch\+Parser\+::\+Cc\+Atom\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_aad5a01e1e8f55011e78d9aebf5a409e8}{visit\+Cc\+Range}} (\mbox{\hyperlink{classREmatchParser_1_1CcRangeContext}{REmatch\+Parser\+::\+Cc\+Range\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_a1847bc4863fc4679e82b23e12a7bdea7}{visit\+Cc\+Single}} (\mbox{\hyperlink{classREmatchParser_1_1CcSingleContext}{REmatch\+Parser\+::\+Cc\+Single\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_ab420651f29fd5498ea6ec617a41f16bc}{visit\+Cc\+Literal}} (\mbox{\hyperlink{classREmatchParser_1_1CcLiteralContext}{REmatch\+Parser\+::\+Cc\+Literal\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_abaaa0c825689c472073ef23b541714ba}{visit\+Cc\+Escapes}} (\mbox{\hyperlink{classREmatchParser_1_1CcEscapesContext}{REmatch\+Parser\+::\+Cc\+Escapes\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_a733f8111424e48007539f4f40e116117}{visit\+Cc\+Other}} (\mbox{\hyperlink{classREmatchParser_1_1CcOtherContext}{REmatch\+Parser\+::\+Cc\+Other\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_afb4116719ca9281968864db2404b5666}{visit\+Single\+Shared\+Atom}} (\mbox{\hyperlink{classREmatchParser_1_1SingleSharedAtomContext}{REmatch\+Parser\+::\+Single\+Shared\+Atom\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_adb47b99728552a9aa9a724b61a6acfe8}{visit\+Literal}} (\mbox{\hyperlink{classREmatchParser_1_1LiteralContext}{REmatch\+Parser\+::\+Literal\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_a64a242a11b5881f779a18cb21384495f}{visit\+Escapes}} (\mbox{\hyperlink{classREmatchParser_1_1EscapesContext}{REmatch\+Parser\+::\+Escapes\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_a2b3468f1adc5c6bd5390ee1a18bf3bbd}{visit\+Special}} (\mbox{\hyperlink{classREmatchParser_1_1SpecialContext}{REmatch\+Parser\+::\+Special\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_ae5c4e85acdc7b59ab0acdab227f778f7}{visit\+Other}} (\mbox{\hyperlink{classREmatchParser_1_1OtherContext}{REmatch\+Parser\+::\+Other\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_a214c9627be6cef174b6772a9a2af9775}{visit\+Shared\+Atom}} (\mbox{\hyperlink{classREmatchParser_1_1SharedAtomContext}{REmatch\+Parser\+::\+Shared\+Atom\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_a3fa4c698ba03c41327b69e10f76e3fd9}{visit\+Quantifier}} (\mbox{\hyperlink{classREmatchParser_1_1QuantifierContext}{REmatch\+Parser\+::\+Quantifier\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_ad974e307cab843215e80c33901076e64}{visit\+Quantity}} (\mbox{\hyperlink{classREmatchParser_1_1QuantityContext}{REmatch\+Parser\+::\+Quantity\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_ae38a9b7883bc97d7f83ff819a79440a9}{visit\+Quant\+Exact}} (\mbox{\hyperlink{classREmatchParser_1_1QuantExactContext}{REmatch\+Parser\+::\+Quant\+Exact\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_a2c80d8622232269b22d5be48eafdeb55}{visit\+Quant\+Range}} (\mbox{\hyperlink{classREmatchParser_1_1QuantRangeContext}{REmatch\+Parser\+::\+Quant\+Range\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_a771c86195cc35545c9275bbb86643338}{visit\+Quant\+Min}} (\mbox{\hyperlink{classREmatchParser_1_1QuantMinContext}{REmatch\+Parser\+::\+Quant\+Min\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_a9bb09164cd37f6c382c2e76bc2f301cf}{visit\+Quant\+Max}} (\mbox{\hyperlink{classREmatchParser_1_1QuantMaxContext}{REmatch\+Parser\+::\+Quant\+Max\+Context}} $\ast$context)=0
+\item 
+virtual std\+::any \mbox{\hyperlink{classREmatchParserVisitor_a687025b81688c3214741e0acfff09d6b}{visit\+Number}} (\mbox{\hyperlink{classREmatchParser_1_1NumberContext}{REmatch\+Parser\+::\+Number\+Context}} $\ast$context)=0
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classrematch_1_1VariableFactory}{Variable\+Factory}} $>$ \mbox{\hyperlink{classrematch_1_1visitors_1_1VariableFactoryVisitor_a4b257ae2b2dbbe2933640126e1d93efa}{vfact\+\_\+ptr}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrematch_1_1visitors_1_1VariableFactoryVisitor_ac7c535bf6b77e49c7996e33335fd09aa}\label{classrematch_1_1visitors_1_1VariableFactoryVisitor_ac7c535bf6b77e49c7996e33335fd09aa}} 
+\index{rematch::visitors::VariableFactoryVisitor@{rematch::visitors::VariableFactoryVisitor}!visitRoot@{visitRoot}}
+\index{visitRoot@{visitRoot}!rematch::visitors::VariableFactoryVisitor@{rematch::visitors::VariableFactoryVisitor}}
+\doxysubsubsection{\texorpdfstring{visitRoot()}{visitRoot()}}
+{\footnotesize\ttfamily std\+::any rematch\+::visitors\+::\+Variable\+Factory\+Visitor\+::visit\+Root (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classREmatchParser_1_1RootContext}{REmatch\+Parser\+::\+Root\+Context}} $\ast$}]{context }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Visit parse trees produced by \mbox{\hyperlink{classREmatchParser}{REmatch\+Parser}}. 
+
+
+
+Reimplemented from \mbox{\hyperlink{classREmatchParserBaseVisitor_a9c97c6c8fa7e7cd9a3dbe684ac5c11b2}{REmatch\+Parser\+Base\+Visitor}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classrematch_1_1visitors_1_1VariableFactoryVisitor_a4b257ae2b2dbbe2933640126e1d93efa}\label{classrematch_1_1visitors_1_1VariableFactoryVisitor_a4b257ae2b2dbbe2933640126e1d93efa}} 
+\index{rematch::visitors::VariableFactoryVisitor@{rematch::visitors::VariableFactoryVisitor}!vfact\_ptr@{vfact\_ptr}}
+\index{vfact\_ptr@{vfact\_ptr}!rematch::visitors::VariableFactoryVisitor@{rematch::visitors::VariableFactoryVisitor}}
+\doxysubsubsection{\texorpdfstring{vfact\_ptr}{vfact\_ptr}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$\mbox{\hyperlink{classrematch_1_1VariableFactory}{Variable\+Factory}}$>$ rematch\+::visitors\+::\+Variable\+Factory\+Visitor\+::vfact\+\_\+ptr}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/rematch/parsing/visitors/\mbox{\hyperlink{variable__factory__visitor_8hpp}{variable\+\_\+factory\+\_\+visitor.\+hpp}}\end{DoxyCompactItemize}

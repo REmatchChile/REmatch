@@ -1,0 +1,167 @@
+\hypertarget{namespacerematch}{}\doxysection{rematch Namespace Reference}
+\label{namespacerematch}\index{rematch@{rematch}}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacerematch_1_1output__enumeration}{output\+\_\+enumeration}}
+\item 
+namespace \mbox{\hyperlink{namespacerematch_1_1visitors}{visitors}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classrematch_1_1BadRegexException}{Bad\+Regex\+Exception}}
+\item 
+class \mbox{\hyperlink{classrematch_1_1CharClass}{Char\+Class}}
+\item 
+struct \mbox{\hyperlink{structrematch_1_1CharRange}{Char\+Range}}
+\item 
+struct \mbox{\hyperlink{structrematch_1_1CharRangeLess}{Char\+Range\+Less}}
+\item 
+class \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS}{ECS}}
+\begin{DoxyCompactList}\small\item\em An Enumerable Compact Set stores all combinations of outputs through the interface of creating bottom nodes, extend nodes and union nodes such that outputs can be enumerated with constant delay. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}
+\item 
+class \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1EndOfIterationException}{End\+Of\+Iteration\+Exception}}
+\item 
+class \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Enumerator}{Enumerator}}
+\item 
+class \mbox{\hyperlink{classrematch_1_1LogicalVA}{Logical\+VA}}
+\item 
+class \mbox{\hyperlink{classrematch_1_1LogicalVACapture}{Logical\+VACapture}}
+\item 
+class \mbox{\hyperlink{classrematch_1_1LogicalVAEpsilon}{Logical\+VAEpsilon}}
+\item 
+class \mbox{\hyperlink{classrematch_1_1LogicalVAFilter}{Logical\+VAFilter}}
+\item 
+class \mbox{\hyperlink{classrematch_1_1LogicalVAState}{Logical\+VAState}}
+\item 
+class \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Mapping}{Mapping}}
+\begin{DoxyCompactList}\small\item\em A \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Mapping}{Mapping}} is also known as an s-\/tuple, asigns a span to all it\textquotesingle{}s variables. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool}{Mini\+Pool}}
+\begin{DoxyCompactList}\small\item\em The \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1NodeManager}{Node\+Manager}} class stores its nodes through a linked list of Mini\+Pools. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1NodeManager}{Node\+Manager}}
+\begin{DoxyCompactList}\small\item\em The Node Manager class stores the pointers to all allocated \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\textquotesingle{}s. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classrematch_1_1Parser}{Parser}}
+\item 
+class \mbox{\hyperlink{classrematch_1_1SearchDFA}{Search\+DFA}}
+\item 
+class \mbox{\hyperlink{classrematch_1_1SearchDFAState}{Search\+DFAState}}
+\item 
+class \mbox{\hyperlink{classrematch_1_1SearchNFA}{Search\+NFA}}
+\item 
+class \mbox{\hyperlink{classrematch_1_1SearchNFAFilter}{Search\+NFAFilter}}
+\item 
+class \mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}}
+\item 
+class \mbox{\hyperlink{classrematch_1_1SegmentIdentificator}{Segment\+Identificator}}
+\item 
+class \mbox{\hyperlink{classrematch_1_1VariableFactory}{Variable\+Factory}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespacerematch_ad3cca09f64266c03a74e735d1b0c19f9}{DFAStates\+Table\+Bools}} = std\+::unordered\+\_\+map$<$ std\+::vector$<$ bool $>$, \mbox{\hyperlink{classrematch_1_1SearchDFAState}{Search\+DFAState}} $\ast$ $>$
+\item 
+using \mbox{\hyperlink{namespacerematch_1_1output__enumeration_aa4e928067309968505c98129c79404c1}{Span}} = std\+::pair$<$ int64\+\_\+t, int64\+\_\+t $>$
+\item 
+using \mbox{\hyperlink{namespacerematch_ab06e30c6c172d9723f1c986fa7386a61}{Char\+Range\+Set}} = std\+::set$<$ \mbox{\hyperlink{structrematch_1_1CharRange}{Char\+Range}}, \mbox{\hyperlink{structrematch_1_1CharRangeLess}{Char\+Range\+Less}} $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespacerematch_ab349a86abf5cba548a171c89ec9d3544}{Search\+NFAState\+Flags}} \{ \mbox{\hyperlink{namespacerematch_ab349a86abf5cba548a171c89ec9d3544a772c56c366d7a6092a2d316bd4975ead}{k\+Default\+Search\+NFAState}} = 0
+, \mbox{\hyperlink{namespacerematch_ab349a86abf5cba548a171c89ec9d3544a10c318e231264d658e0645243c6848b4}{k\+Final\+Search\+NFAState}} = 1
+, \mbox{\hyperlink{namespacerematch_ab349a86abf5cba548a171c89ec9d3544a5a694ca741140b5a48f70e4bc34282de}{k\+Super\+Final\+Search\+NFAState}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 1
+, \mbox{\hyperlink{namespacerematch_ab349a86abf5cba548a171c89ec9d3544a7f8864a3747c00483b02f8368e56600e}{k\+Initial\+Search\+NFAState}} = 1 \texorpdfstring{$<$}{<}\texorpdfstring{$<$}{<} 2
+ \}
+\item 
+enum class \mbox{\hyperlink{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77}{ECSNode\+Type}} \{ \mbox{\hyperlink{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77a78cd851b433d8d6864110dd678e43586}{k\+Bottom}} = 0
+, \mbox{\hyperlink{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77a519268cd3a9af56838648120b3e53b36}{k\+Union}} = 1
+, \mbox{\hyperlink{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77a6608e709edce0bfd1bb1eb49eb5f8bea}{k\+Label}} = 2
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{namespacerematch_1_1output__enumeration_a1798290fd18125c3d72865654c63ad12}{operator$<$$<$}} (std\+::ostream \&os, const \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} \&n)
+\item 
+std\+::ostream \& \mbox{\hyperlink{namespacerematch_ae529cbbe2e2d045438a0e13316e2e24a}{operator$<$$<$}} (std\+::ostream \&os, \mbox{\hyperlink{classrematch_1_1CharClass}{Char\+Class}} const \&cc)
+\item 
+std\+::ostream \& \mbox{\hyperlink{namespacerematch_a2e7d0813c681e39cca6aaf62466bcae5}{operator$<$$<$}} (std\+::ostream \&os, \mbox{\hyperlink{classrematch_1_1LogicalVA}{Logical\+VA}} const \&A)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{namespacerematch_1_1output__enumeration_ab7c0339e327875b37bb81fed9953aa12}{MAXIMUM\+\_\+\+AMOUNT\+\_\+\+OF\+\_\+\+VARIABLES}} = 31
+\item 
+const size\+\_\+t \mbox{\hyperlink{namespacerematch_1_1output__enumeration_a95988a39f6501304410c1039b17e3d3b}{MEMORY\+\_\+\+POOL\+\_\+\+STARTING\+\_\+\+SIZE}} = 2048
+\item 
+const int \mbox{\hyperlink{namespacerematch_a24e44f109941f2e5eb955bb1aee92651}{MAX\+\_\+\+VARS}} = 15
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{namespacerematch_ab06e30c6c172d9723f1c986fa7386a61}\label{namespacerematch_ab06e30c6c172d9723f1c986fa7386a61}} 
+\index{rematch@{rematch}!CharRangeSet@{CharRangeSet}}
+\index{CharRangeSet@{CharRangeSet}!rematch@{rematch}}
+\doxysubsubsection{\texorpdfstring{CharRangeSet}{CharRangeSet}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespacerematch_ab06e30c6c172d9723f1c986fa7386a61}{rematch\+::\+Char\+Range\+Set}} = typedef std\+::set$<$\mbox{\hyperlink{structrematch_1_1CharRange}{Char\+Range}}, \mbox{\hyperlink{structrematch_1_1CharRangeLess}{Char\+Range\+Less}}$>$}
+
+\mbox{\Hypertarget{namespacerematch_ad3cca09f64266c03a74e735d1b0c19f9}\label{namespacerematch_ad3cca09f64266c03a74e735d1b0c19f9}} 
+\index{rematch@{rematch}!DFAStatesTableBools@{DFAStatesTableBools}}
+\index{DFAStatesTableBools@{DFAStatesTableBools}!rematch@{rematch}}
+\doxysubsubsection{\texorpdfstring{DFAStatesTableBools}{DFAStatesTableBools}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespacerematch_ad3cca09f64266c03a74e735d1b0c19f9}{rematch\+::\+DFAStates\+Table\+Bools}} = typedef std\+::unordered\+\_\+map$<$std\+::vector$<$bool$>$, \mbox{\hyperlink{classrematch_1_1SearchDFAState}{Search\+DFAState}}$\ast$$>$}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{namespacerematch_ab349a86abf5cba548a171c89ec9d3544}\label{namespacerematch_ab349a86abf5cba548a171c89ec9d3544}} 
+\index{rematch@{rematch}!SearchNFAStateFlags@{SearchNFAStateFlags}}
+\index{SearchNFAStateFlags@{SearchNFAStateFlags}!rematch@{rematch}}
+\doxysubsubsection{\texorpdfstring{SearchNFAStateFlags}{SearchNFAStateFlags}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{namespacerematch_ab349a86abf5cba548a171c89ec9d3544}{rematch\+::\+Search\+NFAState\+Flags}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kDefaultSearchNFAState@{kDefaultSearchNFAState}!rematch@{rematch}}\index{rematch@{rematch}!kDefaultSearchNFAState@{kDefaultSearchNFAState}}}\mbox{\Hypertarget{namespacerematch_ab349a86abf5cba548a171c89ec9d3544a772c56c366d7a6092a2d316bd4975ead}\label{namespacerematch_ab349a86abf5cba548a171c89ec9d3544a772c56c366d7a6092a2d316bd4975ead}} 
+k\+Default\+Search\+NFAState&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kFinalSearchNFAState@{kFinalSearchNFAState}!rematch@{rematch}}\index{rematch@{rematch}!kFinalSearchNFAState@{kFinalSearchNFAState}}}\mbox{\Hypertarget{namespacerematch_ab349a86abf5cba548a171c89ec9d3544a10c318e231264d658e0645243c6848b4}\label{namespacerematch_ab349a86abf5cba548a171c89ec9d3544a10c318e231264d658e0645243c6848b4}} 
+k\+Final\+Search\+NFAState&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kSuperFinalSearchNFAState@{kSuperFinalSearchNFAState}!rematch@{rematch}}\index{rematch@{rematch}!kSuperFinalSearchNFAState@{kSuperFinalSearchNFAState}}}\mbox{\Hypertarget{namespacerematch_ab349a86abf5cba548a171c89ec9d3544a5a694ca741140b5a48f70e4bc34282de}\label{namespacerematch_ab349a86abf5cba548a171c89ec9d3544a5a694ca741140b5a48f70e4bc34282de}} 
+k\+Super\+Final\+Search\+NFAState&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kInitialSearchNFAState@{kInitialSearchNFAState}!rematch@{rematch}}\index{rematch@{rematch}!kInitialSearchNFAState@{kInitialSearchNFAState}}}\mbox{\Hypertarget{namespacerematch_ab349a86abf5cba548a171c89ec9d3544a7f8864a3747c00483b02f8368e56600e}\label{namespacerematch_ab349a86abf5cba548a171c89ec9d3544a7f8864a3747c00483b02f8368e56600e}} 
+k\+Initial\+Search\+NFAState&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacerematch_ae529cbbe2e2d045438a0e13316e2e24a}\label{namespacerematch_ae529cbbe2e2d045438a0e13316e2e24a}} 
+\index{rematch@{rematch}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!rematch@{rematch}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily std\+::ostream \& rematch\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os,  }\item[{\mbox{\hyperlink{classrematch_1_1CharClass}{Char\+Class}} const \&}]{cc }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacerematch_a2e7d0813c681e39cca6aaf62466bcae5}\label{namespacerematch_a2e7d0813c681e39cca6aaf62466bcae5}} 
+\index{rematch@{rematch}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!rematch@{rematch}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily std\+::ostream \& rematch\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os,  }\item[{\mbox{\hyperlink{classrematch_1_1LogicalVA}{Logical\+VA}} const \&}]{A }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespacerematch_a24e44f109941f2e5eb955bb1aee92651}\label{namespacerematch_a24e44f109941f2e5eb955bb1aee92651}} 
+\index{rematch@{rematch}!MAX\_VARS@{MAX\_VARS}}
+\index{MAX\_VARS@{MAX\_VARS}!rematch@{rematch}}
+\doxysubsubsection{\texorpdfstring{MAX\_VARS}{MAX\_VARS}}
+{\footnotesize\ttfamily const int rematch\+::\+MAX\+\_\+\+VARS = 15}
+

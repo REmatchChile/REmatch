@@ -1,0 +1,86 @@
+\hypertarget{variable__factory_8hpp_source}{}\doxysection{variable\+\_\+factory.\+hpp}
+\label{variable__factory_8hpp_source}\index{src/rematch/parsing/factories/variable\_factory.hpp@{src/rematch/parsing/factories/variable\_factory.hpp}}
+\mbox{\hyperlink{variable__factory_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ VARIABLE\_FACTORIES\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ VARIABLE\_FACTORIES\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <ostream>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <bitset>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacerematch}{rematch}}\ \{}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ Maximum\ variables\ supported}}
+\DoxyCodeLine{00018\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacerematch_a24e44f109941f2e5eb955bb1aee92651}{MAX\_VARS}}\ =\ 15;}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ Manager\ of\ the\ parsed\ RGX\ formula\ variables\ where\ each\ variable\ name}}
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ has\ a\ corresponding\ code.}}
+\DoxyCodeLine{00022\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrematch_1_1VariableFactory}{VariableFactory}}\ \{}
+\DoxyCodeLine{00023\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00024\ \ \ \textcolor{comment}{//\ Simple\ constructor}}
+\DoxyCodeLine{00025\ \ \ \mbox{\hyperlink{classrematch_1_1VariableFactory_aceca55e1ad022ce114bc2607f6a18199}{VariableFactory}}();}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classrematch_1_1VariableFactory_adadcee1efd36fe24a93164dd2ff33da5}{size}}()\ \{\textcolor{keywordflow}{return}\ data\_.size();\}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ std::string\ \mbox{\hyperlink{classrematch_1_1VariableFactory_ad786675bdd8c61becb93b3fac17f576f}{get\_var}}(uint\ \mbox{\hyperlink{classrematch_1_1VariableFactory_a9b5eea801181aa6e32a678d993d91ce7}{position}});}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ std::vector<std::string>\ \mbox{\hyperlink{classrematch_1_1VariableFactory_aeb1fa20cd681792a42b2ddbdbd3f053c}{variables}}()\ \{\textcolor{keywordflow}{return}\ data\_;\}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classrematch_1_1VariableFactory_a9b5eea801181aa6e32a678d993d91ce7}{position}}(std::string\ var)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \textcolor{comment}{//\ Add\ a\ variable\ to\ the\ struct}}
+\DoxyCodeLine{00036\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1VariableFactory_a18627da879a42195cbc3f925c377ce08}{add}}(std::string\ var);}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \textcolor{comment}{//\ Given\ a\ variable\ name\ outputs\ the\ corresponding\ opening\ bitset}}
+\DoxyCodeLine{00039\ \ \ std::bitset<64>\ \mbox{\hyperlink{classrematch_1_1VariableFactory_aa38e9cc0a6e14768f5e0c801bd34f59c}{open\_code}}(std::string\ var);}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \textcolor{comment}{//\ Given\ a\ variable\ name\ outputs\ the\ corresponding\ closing\ bitset}}
+\DoxyCodeLine{00042\ \ \ std::bitset<64>\ \mbox{\hyperlink{classrematch_1_1VariableFactory_a926d1087341a322dc1f52df0ea6905c5}{close\_code}}(std::string\ var);}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \textcolor{comment}{//\ Given\ a\ bitset\ outputs\ the\ corresponding\ opening\ and\ closing\ variables}}
+\DoxyCodeLine{00045\ \ \ \textcolor{comment}{//\ as\ a\ std::string}}
+\DoxyCodeLine{00046\ \ \ std::string\ \mbox{\hyperlink{classrematch_1_1VariableFactory_a80ecd0a4b66473c1e9c0fa92b2b08423}{print\_varset}}(std::bitset<64>\ code);}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \textcolor{comment}{//\ Prints\ the\ hash\ table}}
+\DoxyCodeLine{00049\ \ \ std::string\ \mbox{\hyperlink{classrematch_1_1VariableFactory_a3fe38e9cab7f6829cbf983a6eda7fe36}{pprint}}();}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \textcolor{comment}{//\ Merges\ the\ variables\ present\ in\ another\ VariableFactory\ inplace}}
+\DoxyCodeLine{00052\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1VariableFactory_ab8a1d131d5621ed69e964d0bb22b3e1c}{merge}}(\mbox{\hyperlink{classrematch_1_1VariableFactory}{VariableFactory}}\ \&rhs);}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \textcolor{comment}{//\ Checks\ if\ a\ variable\ name\ is\ present}}
+\DoxyCodeLine{00055\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1VariableFactory_a5f0c898d564988f1c22d9961725fa04d}{contains}}(std::string\ var);}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1VariableFactory_a2b6695e0babb3471f083bf6b5715dd0a}{empty}}();}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \textcolor{comment}{//\ Equality\ operator\ overload}}
+\DoxyCodeLine{00060\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1VariableFactory_a45fae4dbad3b4e21ba30dd5958b162c3}{operator==}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classrematch_1_1VariableFactory}{VariableFactory}}\ \&vf)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \textcolor{keywordtype}{int}\&\ \mbox{\hyperlink{classrematch_1_1VariableFactory_a014710ad5ad571991c656068a6f2d59a}{get\_offset}}(\textcolor{keywordtype}{int}\ index)\ \{\textcolor{keywordflow}{return}\ offsetMap[index];\}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00065\ \ \ \textcolor{comment}{//\ Ordered\ vector\ that\ stores\ the\ variables.}}
+\DoxyCodeLine{00066\ \ \ std::vector<std::string>\ data\_;}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \textcolor{comment}{//\ Offset\ capturing\ optimization.\ Maps\ each\ opening\ and\ closing}}
+\DoxyCodeLine{00069\ \ \ \textcolor{comment}{//\ capture\ variable\ to\ its\ computed\ offset.\ Then\ it's\ a\ vector\ of\ size}}
+\DoxyCodeLine{00070\ \ \ \textcolor{comment}{//\ numVars*2.\ The\ vector\ is\ such\ that:}}
+\DoxyCodeLine{00071\ \ \ \textcolor{comment}{//\ \ \ \ -\/\ offsetMap[2*c]\ \ \ \ \ \ \ \ \ is\ the\ opening\ (x<)\ offset.}}
+\DoxyCodeLine{00072\ \ \ \textcolor{comment}{//\ \ \ \ -\/\ offsetMap[2*c\ +\ 1]\ \ \ \ \ is\ the\ closing\ (x>)\ offset.}}
+\DoxyCodeLine{00073\ \ \ std::vector<int>\ offsetMap;}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \textcolor{keywordtype}{bool}\ computedOffsets;\ \textcolor{comment}{//\ True\ iff\ offsetMap\ was\ computed.}}
+\DoxyCodeLine{00076\ \};}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \}\ \textcolor{comment}{//\ end\ namespace\ rematch}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

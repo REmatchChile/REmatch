@@ -12,6 +12,18 @@ namespace rematch {
 
 inline namespace output_enumeration {
 
+  /**
+   * An Enumerable Compact Set stores all combinations of outputs through
+   * the interface of creating bottom nodes, extend nodes and union nodes
+   * such that outputs can be enumerated with constant delay. Furthermore,
+   * memory management is optimized through a node manager, so that memory
+   * space is recycled and it is not necessary to allocate  memory an
+   * extensive amount of times.
+   *
+   * This structure is specified by the paper:
+   *   REmatch: a regex engine for finding all matches
+   *   (Riveros, Van Sint, Vrgoc 2023).
+   */
 class ECS { // Enumerable Compact Set
  public:
   size_t get_amount_of_nodes_used() const;
@@ -23,12 +35,35 @@ class ECS { // Enumerable Compact Set
   ECS() = default;
   ~ECS() = default;
 
+  /**
+   * The bottom node, also known as the terminal node, has no children and
+   * tells us that we reached the end of an output
+   */
   ECSNode *create_bottom_node();
+
+  /**
+   * Extend nodes, also known as content nodes store the opened and closed
+   * variables and the position in the document that this annotation is
+   * referring to.
+   */
   ECSNode *create_extend_node(ECSNode* node, std::bitset<64> variable_markers,
                   int document_position);
+  /**
+   * Union nodes allow us to enumerate multiple outputs starting from a
+   * single node.
+   */
   ECSNode *create_union_node(ECSNode *node_1, ECSNode *node_2);
 
+  /**
+   * If the node is going to be used in another scope, it is necessary to
+   * pin it so that the memory manager does not recycle its memory location.
+   */
   ECSNode *pin_node(ECSNode *node);
+
+  /**
+   * If a node is no longer used, it should be unpinned, this allows the
+   * memory manager to recycle the memory allocated to it.
+   */
   void unpin_node(ECSNode *node);
 
   private:
@@ -40,10 +75,9 @@ class ECS { // Enumerable Compact Set
                                                    ECSNode *u1);
     ECSNode *create_union_of_output_and_intermediate_node(
         ECSNode *node_1, ECSNode *u2);
-}; // end class ECS
 
-} // end inline namespace output_enumeration
-
-} // end namespace rematch
+};
+}
+}
 
 #endif

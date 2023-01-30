@@ -1,0 +1,55 @@
+\hypertarget{mapping_8hpp_source}{}\doxysection{mapping.\+hpp}
+\label{mapping_8hpp_source}\index{src/rematch/output\_enumeration/mapping.hpp@{src/rematch/output\_enumeration/mapping.hpp}}
+\mbox{\hyperlink{mapping_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ OUTPUT\_ENUMERATOR\_\_MAPPING\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ OUTPUT\_ENUMERATOR\_\_MAPPING\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ecs_8hpp}{output\_enumeration/ecs.hpp}}"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacerematch}{rematch}}\ \{}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{inline}\ \textcolor{keyword}{namespace\ }output\_enumeration\ \{}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespacerematch_1_1output__enumeration_aa4e928067309968505c98129c79404c1}{Span}}\ =\ std::pair<int64\_t,\ int64\_t>;}
+\DoxyCodeLine{00011\ \textcolor{comment}{}}
+\DoxyCodeLine{00012\ \textcolor{comment}{/**}}
+\DoxyCodeLine{00013\ \textcolor{comment}{\ *\ A\ Mapping\ is\ also\ known\ as\ an\ s-\/tuple,\ asigns\ a\ span\ to\ all\ it's}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ variables.\ This\ is\ an\ internal\ mapping,\ therefore\ the\ spans\ are}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ assigned\ to\ the\ variable\ id's,\ to\ get\ the\ original\ variable\ names\ the}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ *\ VariableCatalog\ class\ should\ be\ used.}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00018\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Mapping}{Mapping}}\ \{}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \textcolor{keyword}{struct\ }Annotation\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ std::bitset<64>\ variable\_markers;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ document\_position;}
+\DoxyCodeLine{00025\ \ \ \};}
+\DoxyCodeLine{00026\ \ \ std::vector<Annotation>\ inverted\_annotations;}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00029\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Mapping}{Mapping}}(\textcolor{keywordtype}{int}\ amount\_of\_variables);}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Mapping_af668c016eda3e6ed41e0f97c6fb6c72a}{add\_annotations}}(std::bitset<64>\ variable\_markers,}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ document\_position);}
+\DoxyCodeLine{00033\ \ \ std::vector<Span>\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Mapping_a9a6f60011ce2d1d03bb9dbafc7f5d3a6}{get\_spans\_of\_variable\_id}}(\textcolor{keywordtype}{int}\ \textcolor{keywordtype}{id})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00034\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Mapping_a168f97e4dbfebe57055ae50fbc8cfe6d}{delete\_previous\_annotation}}();}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00037\ \ \ \mbox{\hyperlink{namespacerematch_1_1output__enumeration_aa4e928067309968505c98129c79404c1}{Span}}\ get\_next\_span(\textcolor{keywordtype}{int}\ variable\_id,}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \&next\_possible\_opening\_position,}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \&next\_possible\_closure\_position)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00040\ \ \ \textcolor{keywordtype}{int}\ get\_next\_variable\_oppening(\textcolor{keywordtype}{int}\ variable\_id,\ \textcolor{keywordtype}{int}\ \&current\_position)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00041\ \ \ \textcolor{keywordtype}{int}\ get\_next\_variable\_closure(\textcolor{keywordtype}{int}\ variable\_id,\ \textcolor{keywordtype}{int}\ \&current\_position)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00042\ \ \ \textcolor{keywordtype}{int}\ find\_next\_document\_position\_where\_the\_specified\_marker\_is\_true(}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{int}\ marker\_id,\ \textcolor{keywordtype}{int}\ \&current\_position)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \};}
+\DoxyCodeLine{00046\ \}}
+\DoxyCodeLine{00047\ \}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

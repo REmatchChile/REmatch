@@ -2,17 +2,17 @@
 #define OUTPUT_ENUMERATION__GARBAGE_COLLECTOR_HPP
 
 #include "output_enumeration/minipool.hpp"
-// #include <sstream>
-// Borré tot_arenas_ (no había funcionalidad en tot_arenas),
-// id (se usa para hacer el print)
-// n_reused_nodes: no se actualizaba
 
 namespace rematch {
-
 inline namespace output_enumeration {
 
 const size_t MEMORY_POOL_STARTING_SIZE = 2048;
 
+/**
+ * The Node Manager class stores the pointers to all allocated
+ * ECSNode's. When an ECSNode is no longer used, i.e, when the amount
+ * of references to it has become 0, that memory is available to be recycled.
+ */
 class NodeManager {
 
 public:
@@ -55,11 +55,9 @@ private:
     return minipool_head_->alloc(std::forward<Args>(args)...);
   }
   void try_to_mark_node_as_unused(ECSNode* node);
-}; // end class GarbageCollector
 
+};
+}
+}
 
-} // end namespace output_enumeration
-
-} // end namespace rematch
-
-#endif // OUTPUT_ENUMERATION__GARBAGE_COLLECTOR_HPP
+#endif

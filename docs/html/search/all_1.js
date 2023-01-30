@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['capacity_6',['capacity',['../classrematch_1_1MiniPool.html#a60ebee22179152de1e2b5ddc09d2422c',1,'rematch::MiniPool']]],
-  ['create_5fbottom_5fnode_7',['create_bottom_node',['../classrematch_1_1ECS.html#a2b747c03003bd9fbf6b3d18940098c74',1,'rematch::ECS']]],
-  ['create_5fextend_5fnode_8',['create_extend_node',['../classrematch_1_1ECS.html#aebe61d91c7fc29c6bd2f05453537e6d6',1,'rematch::ECS']]],
-  ['create_5funion_5fnode_9',['create_union_node',['../classrematch_1_1ECS.html#a54fe85795657b4abdb963bb974e892ea',1,'rematch::ECS']]]
+  ['backslash_0',['BACKSLASH',['../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854a27bdcab9c39e2d7356a608cf382fc02b',1,'REmatchLexer::BACKSLASH()'],['../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaae591d34d86106bd769dc39f185e1f42e',1,'REmatchParser::BACKSLASH()'],['../da/d44/classREmatchParser_1_1CcEscapesContext.html#ac971a694b136644ef8a1f369eea21bc0',1,'REmatchParser::CcEscapesContext::BACKSLASH()'],['../da/d44/classREmatchParser_1_1CcEscapesContext.html#a94e63bd8d05df117fb45bba76198da50',1,'REmatchParser::CcEscapesContext::BACKSLASH(size_t i)'],['../dd/d46/classREmatchParser_1_1CcOtherContext.html#a8e54d199a02009f8232bf01281b3038f',1,'REmatchParser::CcOtherContext::BACKSLASH()'],['../d2/d2c/classREmatchParser_1_1EscapesContext.html#a975522c54f9a068db0562a3da1572606',1,'REmatchParser::EscapesContext::BACKSLASH()'],['../d2/d2c/classREmatchParser_1_1EscapesContext.html#a0b353739875e472245db84cf069b19b3',1,'REmatchParser::EscapesContext::BACKSLASH(size_t i)'],['../df/d0f/classREmatchParser_1_1OtherContext.html#ab1c5a37046d92edf22f6838e875dd148',1,'REmatchParser::OtherContext::BACKSLASH()']]],
+  ['backward_5fcaptures_5f_1',['backward_captures_',['../d6/dcc/classrematch_1_1LogicalVAState.html#a5154ce18b3b733e7715b5fa3a950341f',1,'rematch::LogicalVAState']]],
+  ['backward_5fepsilons_5f_2',['backward_epsilons_',['../d6/dcc/classrematch_1_1LogicalVAState.html#ac3480201540714b681c179292b7e9042',1,'rematch::LogicalVAState']]],
+  ['backward_5ffilters_5f_3',['backward_filters_',['../d6/d17/classrematch_1_1SearchNFAState.html#adc4897fd1312b7aa68741c3e4f086ce8',1,'rematch::SearchNFAState::backward_filters_()'],['../d6/dcc/classrematch_1_1LogicalVAState.html#a49b3d14288368061ec89eca88703dcbc',1,'rematch::LogicalVAState::backward_filters_()']]],
+  ['bad_5fregex_5fexception_2ehpp_4',['bad_regex_exception.hpp',['../d8/dc7/bad__regex__exception_8hpp.html',1,'']]],
+  ['badregexexception_5',['BadRegexException',['../d4/de5/classrematch_1_1BadRegexException.html#ab30cf83064bcfa07e442d14eab18daa0',1,'rematch::BadRegexException::BadRegexException()'],['../d4/de5/classrematch_1_1BadRegexException.html',1,'rematch::BadRegexException']]],
+  ['begin_6',['begin',['../d3/d23/classrematch_1_1CharClass.html#a3e0384cde894a7ae470c1230144800b8',1,'rematch::CharClass']]]
 ];

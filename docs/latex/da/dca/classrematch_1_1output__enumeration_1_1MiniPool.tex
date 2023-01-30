@@ -1,0 +1,102 @@
+\hypertarget{classrematch_1_1output__enumeration_1_1MiniPool}{}\doxysection{rematch\+::output\+\_\+enumeration\+::Mini\+Pool Class Reference}
+\label{classrematch_1_1output__enumeration_1_1MiniPool}\index{rematch::output\_enumeration::MiniPool@{rematch::output\_enumeration::MiniPool}}
+
+
+The \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1NodeManager}{Node\+Manager}} class stores its nodes through a linked list of Mini\+Pools.  
+
+
+
+
+{\ttfamily \#include $<$minipool.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool_a8e18d47c37ecebef335c4a32b193a167}{Mini\+Pool}} (size\+\_\+t cap)
+\item 
+size\+\_\+t \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool_a888c8071ed10f70a7389ba286add3adc}{capacity}} () const
+\item 
+size\+\_\+t \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool_a6d54c3bec8b70634266a5f7386612e29}{size}} () const
+\item 
+bool \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool_a5486784c2a69a07236c4ee0be2427d08}{is\+\_\+full}} () const
+\item 
+\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool}{Mini\+Pool}} $\ast$ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool_a28ba218d777e1cc22a75baac7f51d9a7}{next}} () const
+\item 
+void \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool_a619ba90bba8652b07c1d5198fac3b7e3}{set\+\_\+next}} (\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool}{Mini\+Pool}} $\ast$mp)
+\item 
+\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool}{Mini\+Pool}} $\ast$ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool_a9fb8ee1754f4f6e6837b0786ff2f31f5}{prev}} () const
+\item 
+void \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool_a0e7ba0d91ee5ab0401a7e622ca3862a8}{set\+\_\+prev}} (\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool}{Mini\+Pool}} $\ast$mp)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool_ad4b85bb4accd8d893df5d11141bb2bf5}{alloc}} (Args... args)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1NodeManager}{Node\+Manager}} class stores its nodes through a linked list of Mini\+Pools. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1MiniPool_a8e18d47c37ecebef335c4a32b193a167}\label{classrematch_1_1output__enumeration_1_1MiniPool_a8e18d47c37ecebef335c4a32b193a167}} 
+\index{rematch::output\_enumeration::MiniPool@{rematch::output\_enumeration::MiniPool}!MiniPool@{MiniPool}}
+\index{MiniPool@{MiniPool}!rematch::output\_enumeration::MiniPool@{rematch::output\_enumeration::MiniPool}}
+\doxysubsubsection{\texorpdfstring{MiniPool()}{MiniPool()}}
+{\footnotesize\ttfamily rematch\+::output\+\_\+enumeration\+::\+Mini\+Pool\+::\+Mini\+Pool (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{cap }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1MiniPool_ad4b85bb4accd8d893df5d11141bb2bf5}\label{classrematch_1_1output__enumeration_1_1MiniPool_ad4b85bb4accd8d893df5d11141bb2bf5}} 
+\index{rematch::output\_enumeration::MiniPool@{rematch::output\_enumeration::MiniPool}!alloc@{alloc}}
+\index{alloc@{alloc}!rematch::output\_enumeration::MiniPool@{rematch::output\_enumeration::MiniPool}}
+\doxysubsubsection{\texorpdfstring{alloc()}{alloc()}}
+{\footnotesize\ttfamily template$<$class... Args$>$ \\
+\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$ rematch\+::output\+\_\+enumeration\+::\+Mini\+Pool\+::alloc (\begin{DoxyParamCaption}\item[{Args...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1MiniPool_a888c8071ed10f70a7389ba286add3adc}\label{classrematch_1_1output__enumeration_1_1MiniPool_a888c8071ed10f70a7389ba286add3adc}} 
+\index{rematch::output\_enumeration::MiniPool@{rematch::output\_enumeration::MiniPool}!capacity@{capacity}}
+\index{capacity@{capacity}!rematch::output\_enumeration::MiniPool@{rematch::output\_enumeration::MiniPool}}
+\doxysubsubsection{\texorpdfstring{capacity()}{capacity()}}
+{\footnotesize\ttfamily size\+\_\+t rematch\+::output\+\_\+enumeration\+::\+Mini\+Pool\+::capacity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1MiniPool_a5486784c2a69a07236c4ee0be2427d08}\label{classrematch_1_1output__enumeration_1_1MiniPool_a5486784c2a69a07236c4ee0be2427d08}} 
+\index{rematch::output\_enumeration::MiniPool@{rematch::output\_enumeration::MiniPool}!is\_full@{is\_full}}
+\index{is\_full@{is\_full}!rematch::output\_enumeration::MiniPool@{rematch::output\_enumeration::MiniPool}}
+\doxysubsubsection{\texorpdfstring{is\_full()}{is\_full()}}
+{\footnotesize\ttfamily bool rematch\+::output\+\_\+enumeration\+::\+Mini\+Pool\+::is\+\_\+full (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1MiniPool_a28ba218d777e1cc22a75baac7f51d9a7}\label{classrematch_1_1output__enumeration_1_1MiniPool_a28ba218d777e1cc22a75baac7f51d9a7}} 
+\index{rematch::output\_enumeration::MiniPool@{rematch::output\_enumeration::MiniPool}!next@{next}}
+\index{next@{next}!rematch::output\_enumeration::MiniPool@{rematch::output\_enumeration::MiniPool}}
+\doxysubsubsection{\texorpdfstring{next()}{next()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool}{Mini\+Pool}} $\ast$ rematch\+::output\+\_\+enumeration\+::\+Mini\+Pool\+::next (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1MiniPool_a9fb8ee1754f4f6e6837b0786ff2f31f5}\label{classrematch_1_1output__enumeration_1_1MiniPool_a9fb8ee1754f4f6e6837b0786ff2f31f5}} 
+\index{rematch::output\_enumeration::MiniPool@{rematch::output\_enumeration::MiniPool}!prev@{prev}}
+\index{prev@{prev}!rematch::output\_enumeration::MiniPool@{rematch::output\_enumeration::MiniPool}}
+\doxysubsubsection{\texorpdfstring{prev()}{prev()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool}{Mini\+Pool}} $\ast$ rematch\+::output\+\_\+enumeration\+::\+Mini\+Pool\+::prev (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1MiniPool_a619ba90bba8652b07c1d5198fac3b7e3}\label{classrematch_1_1output__enumeration_1_1MiniPool_a619ba90bba8652b07c1d5198fac3b7e3}} 
+\index{rematch::output\_enumeration::MiniPool@{rematch::output\_enumeration::MiniPool}!set\_next@{set\_next}}
+\index{set\_next@{set\_next}!rematch::output\_enumeration::MiniPool@{rematch::output\_enumeration::MiniPool}}
+\doxysubsubsection{\texorpdfstring{set\_next()}{set\_next()}}
+{\footnotesize\ttfamily void rematch\+::output\+\_\+enumeration\+::\+Mini\+Pool\+::set\+\_\+next (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool}{Mini\+Pool}} $\ast$}]{mp }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1MiniPool_a0e7ba0d91ee5ab0401a7e622ca3862a8}\label{classrematch_1_1output__enumeration_1_1MiniPool_a0e7ba0d91ee5ab0401a7e622ca3862a8}} 
+\index{rematch::output\_enumeration::MiniPool@{rematch::output\_enumeration::MiniPool}!set\_prev@{set\_prev}}
+\index{set\_prev@{set\_prev}!rematch::output\_enumeration::MiniPool@{rematch::output\_enumeration::MiniPool}}
+\doxysubsubsection{\texorpdfstring{set\_prev()}{set\_prev()}}
+{\footnotesize\ttfamily void rematch\+::output\+\_\+enumeration\+::\+Mini\+Pool\+::set\+\_\+prev (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool}{Mini\+Pool}} $\ast$}]{mp }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1MiniPool_a6d54c3bec8b70634266a5f7386612e29}\label{classrematch_1_1output__enumeration_1_1MiniPool_a6d54c3bec8b70634266a5f7386612e29}} 
+\index{rematch::output\_enumeration::MiniPool@{rematch::output\_enumeration::MiniPool}!size@{size}}
+\index{size@{size}!rematch::output\_enumeration::MiniPool@{rematch::output\_enumeration::MiniPool}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily size\+\_\+t rematch\+::output\+\_\+enumeration\+::\+Mini\+Pool\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/rematch/output\+\_\+enumeration/\mbox{\hyperlink{minipool_8hpp}{minipool.\+hpp}}\item 
+src/rematch/output\+\_\+enumeration/\mbox{\hyperlink{minipool_8cpp}{minipool.\+cpp}}\end{DoxyCompactItemize}

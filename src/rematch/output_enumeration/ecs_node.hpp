@@ -23,17 +23,26 @@ class ECSNode {
     ECSNodeType type;
 
   private:
+    /**
+     * Once the ref_count is 0, then the node is treated as a recycleable
+     * node, thus joining the linked list of free nodes used by the memory
+     * manager.
+     */
     union {
       int ref_count{1};
       ECSNode *next_free_node;
     };
-    int reset_count = 0;
 
   public:
     ECSNode(ECSNodeType node_type,
             ECSNode *left = nullptr, ECSNode *right = nullptr,
             std::bitset<64> variable_markers = 0,
             int document_position = 0);
+
+    /**
+     * The reset function reinstantiates the node but recycling the memory
+     * position that was used beforehand.
+     */
     ECSNode *reset(ECSNodeType node_type,
                    ECSNode *left = nullptr, ECSNode *right = nullptr,
                    std::bitset<64> variable_markers = 0,
@@ -45,9 +54,6 @@ class ECSNode {
     ECSNode *left_node() const { return left; }
     ECSNode *right_node() const { return is_output() ? nullptr : right; }
     ECSNode *next() const { return left; };
-
-    // TODO: Tal vez agregar un node container o
-    //       enumerator que se encarga de los ref_counts
 
     friend std::ostream& operator<<(std::ostream& os, const ECSNode& n);
 
@@ -68,10 +74,8 @@ class ECSNode {
                           int document_position);
   void label_node_as_kLabel();
 
-}; // end class ECSNode
+};
+}
+}
 
-} // end namespace output_enumeration
-
-} // end namespace rematch
-
-#endif // OUTPUT_ENUMERATION__NODE_HPP
+#endif

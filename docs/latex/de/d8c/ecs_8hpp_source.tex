@@ -1,0 +1,89 @@
+\hypertarget{ecs_8hpp_source}{}\doxysection{ecs.\+hpp}
+\label{ecs_8hpp_source}\index{src/rematch/output\_enumeration/ecs.hpp@{src/rematch/output\_enumeration/ecs.hpp}}
+\mbox{\hyperlink{ecs_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ OUTPUT\_ENUMERATION\_\_ECS\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ OUTPUT\_ENUMERATION\_\_ECS\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <bitset>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{node__manager_8hpp}{output\_enumeration/node\_manager.hpp}}"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ecs__node_8hpp}{output\_enumeration/ecs\_node.hpp}}"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacerematch}{rematch}}\ \{}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{inline}\ \textcolor{keyword}{namespace\ }output\_enumeration\ \{}
+\DoxyCodeLine{00014\ \textcolor{comment}{}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ \ /**}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ \ \ *\ An\ Enumerable\ Compact\ Set\ stores\ all\ combinations\ of\ outputs\ through}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ \ \ *\ the\ interface\ of\ creating\ bottom\ nodes,\ extend\ nodes\ and\ union\ nodes}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ \ \ *\ such\ that\ outputs\ can\ be\ enumerated\ with\ constant\ delay.\ Furthermore,}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ \ \ *\ memory\ management\ is\ optimized\ through\ a\ node\ manager,\ so\ that\ memory}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ \ \ *\ space\ is\ recycled\ and\ it\ is\ not\ necessary\ to\ allocate\ \ memory\ an}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ \ \ *\ extensive\ amount\ of\ times.}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ \ \ *}}
+\DoxyCodeLine{00023\ \textcolor{comment}{\ \ \ *\ This\ structure\ is\ specified\ by\ the\ paper:}}
+\DoxyCodeLine{00024\ \textcolor{comment}{\ \ \ *\ \ \ REmatch:\ a\ regex\ engine\ for\ finding\ all\ matches}}
+\DoxyCodeLine{00025\ \textcolor{comment}{\ \ \ *\ \ \ (Riveros,\ Van\ Sint,\ Vrgoc\ 2023).}}
+\DoxyCodeLine{00026\ \textcolor{comment}{\ \ \ */}}
+\DoxyCodeLine{00027\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS}{ECS}}\ \{\ \textcolor{comment}{//\ Enumerable\ Compact\ Set}}
+\DoxyCodeLine{00028\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00029\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_a3ed1b27b8109ff6b5203942fdb247b86}{get\_amount\_of\_nodes\_used}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00030\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_a0328989fbabfaa75aba05db92f748502}{amount\_of\_nodes\_allocated}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ node\_manager.\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1NodeManager_a492a1e2860b03d782eb27f5c396b91af}{amount\_of\_nodes\_allocated}}();\ \}}
+\DoxyCodeLine{00031\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00032\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1NodeManager}{NodeManager}}\ node\_manager;}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00035\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_a6592800865d7578dc9a89c1972fb116e}{ECS}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00036\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_ae576dd468e08220bfd45e06b78f6dd0a}{\string~ECS}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00037\ \textcolor{comment}{}}
+\DoxyCodeLine{00038\ \textcolor{comment}{\ \ /**}}
+\DoxyCodeLine{00039\ \textcolor{comment}{\ \ \ *\ The\ bottom\ node,\ also\ known\ as\ the\ terminal\ node,\ has\ no\ children\ and}}
+\DoxyCodeLine{00040\ \textcolor{comment}{\ \ \ *\ tells\ us\ that\ we\ reached\ the\ end\ of\ an\ output}}
+\DoxyCodeLine{00041\ \textcolor{comment}{\ \ \ */}}
+\DoxyCodeLine{00042\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_a773297023b6e86a1c22c57851c976402}{create\_bottom\_node}}();}
+\DoxyCodeLine{00043\ \textcolor{comment}{}}
+\DoxyCodeLine{00044\ \textcolor{comment}{\ \ /**}}
+\DoxyCodeLine{00045\ \textcolor{comment}{\ \ \ *\ Extend\ nodes,\ also\ known\ as\ content\ nodes\ store\ the\ opened\ and\ closed}}
+\DoxyCodeLine{00046\ \textcolor{comment}{\ \ \ *\ variables\ and\ the\ position\ in\ the\ document\ that\ this\ annotation\ is}}
+\DoxyCodeLine{00047\ \textcolor{comment}{\ \ \ *\ referring\ to.}}
+\DoxyCodeLine{00048\ \textcolor{comment}{\ \ \ */}}
+\DoxyCodeLine{00049\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_a933f6c95d69109cfc490e6580c03bb12}{create\_extend\_node}}(\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}*\ node,\ std::bitset<64>\ variable\_markers,}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ document\_position);\textcolor{comment}{}}
+\DoxyCodeLine{00051\ \textcolor{comment}{\ \ /**}}
+\DoxyCodeLine{00052\ \textcolor{comment}{\ \ \ *\ Union\ nodes\ allow\ us\ to\ enumerate\ multiple\ outputs\ starting\ from\ a}}
+\DoxyCodeLine{00053\ \textcolor{comment}{\ \ \ *\ single\ node.}}
+\DoxyCodeLine{00054\ \textcolor{comment}{\ \ \ */}}
+\DoxyCodeLine{00055\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_afe0f9450cf8625574fc68ceb496c021d}{create\_union\_node}}(\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *node\_1,\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *node\_2);}
+\DoxyCodeLine{00056\ \textcolor{comment}{}}
+\DoxyCodeLine{00057\ \textcolor{comment}{\ \ /**}}
+\DoxyCodeLine{00058\ \textcolor{comment}{\ \ \ *\ If\ the\ node\ is\ going\ to\ be\ used\ in\ another\ scope,\ it\ is\ necessary\ to}}
+\DoxyCodeLine{00059\ \textcolor{comment}{\ \ \ *\ pin\ it\ so\ that\ the\ memory\ manager\ does\ not\ recycle\ its\ memory\ location.}}
+\DoxyCodeLine{00060\ \textcolor{comment}{\ \ \ */}}
+\DoxyCodeLine{00061\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_a011208ce2e153bb1f938dc83eac25050}{pin\_node}}(\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *node);}
+\DoxyCodeLine{00062\ \textcolor{comment}{}}
+\DoxyCodeLine{00063\ \textcolor{comment}{\ \ /**}}
+\DoxyCodeLine{00064\ \textcolor{comment}{\ \ \ *\ If\ a\ node\ is\ no\ longer\ used,\ it\ should\ be\ unpinned,\ this\ allows\ the}}
+\DoxyCodeLine{00065\ \textcolor{comment}{\ \ \ *\ memory\ manager\ to\ recycle\ the\ memory\ allocated\ to\ it.}}
+\DoxyCodeLine{00066\ \textcolor{comment}{\ \ \ */}}
+\DoxyCodeLine{00067\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_a40c7c91853631b5f242a69ecbf44b02b}{unpin\_node}}(\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *node);}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00070\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *create\_union\_of\_two\_non\_output\_nodes(}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *node\_1,\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *node\_2);}
+\DoxyCodeLine{00072\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *create\_first\_intermediate\_union\_node(\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *node\_1,}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *node\_2);}
+\DoxyCodeLine{00074\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *create\_second\_intermediate\_union\_node(\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *node\_2,}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *u1);}
+\DoxyCodeLine{00076\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *create\_union\_of\_output\_and\_intermediate\_node(}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *node\_1,\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *u2);}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \};}
+\DoxyCodeLine{00080\ \}}
+\DoxyCodeLine{00081\ \}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

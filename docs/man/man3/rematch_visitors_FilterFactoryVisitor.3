@@ -1,0 +1,225 @@
+.TH "rematch::visitors::FilterFactoryVisitor" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+rematch::visitors::FilterFactoryVisitor
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <filter_factory_visitor\&.hpp>\fP
+.PP
+Inherits \fBREmatchParserBaseVisitor\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBFilterFactoryVisitor\fP (std::shared_ptr< \fBVariableFactory\fP > _vfact_ptr)"
+.br
+.in -1c
+
+Public Member Functions inherited from \fBREmatchParserBaseVisitor\fP
+.in +1c
+.ti -1c
+.RI "virtual std::any \fBvisitRoot\fP (\fBREmatchParser::RootContext\fP *ctx) override"
+.br
+.RI "Visit parse trees produced by \fBREmatchParser\fP\&. "
+.ti -1c
+.RI "virtual std::any \fBvisitAlternation\fP (\fBREmatchParser::AlternationContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitExpr\fP (\fBREmatchParser::ExprContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitElement\fP (\fBREmatchParser::ElementContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitGroup\fP (\fBREmatchParser::GroupContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitParentheses\fP (\fBREmatchParser::ParenthesesContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitAssignation\fP (\fBREmatchParser::AssignationContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitVarname\fP (\fBREmatchParser::VarnameContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitAtom\fP (\fBREmatchParser::AtomContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitCharacterClass\fP (\fBREmatchParser::CharacterClassContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitCcAtom\fP (\fBREmatchParser::CcAtomContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitCcRange\fP (\fBREmatchParser::CcRangeContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitCcSingle\fP (\fBREmatchParser::CcSingleContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitCcLiteral\fP (\fBREmatchParser::CcLiteralContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitCcEscapes\fP (\fBREmatchParser::CcEscapesContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitCcOther\fP (\fBREmatchParser::CcOtherContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitSingleSharedAtom\fP (\fBREmatchParser::SingleSharedAtomContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitLiteral\fP (\fBREmatchParser::LiteralContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitEscapes\fP (\fBREmatchParser::EscapesContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitSpecial\fP (\fBREmatchParser::SpecialContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitOther\fP (\fBREmatchParser::OtherContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitSharedAtom\fP (\fBREmatchParser::SharedAtomContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitQuantifier\fP (\fBREmatchParser::QuantifierContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitQuantity\fP (\fBREmatchParser::QuantityContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitQuantExact\fP (\fBREmatchParser::QuantExactContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitQuantRange\fP (\fBREmatchParser::QuantRangeContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitQuantMin\fP (\fBREmatchParser::QuantMinContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitQuantMax\fP (\fBREmatchParser::QuantMaxContext\fP *ctx) override"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitNumber\fP (\fBREmatchParser::NumberContext\fP *ctx) override"
+.br
+.in -1c
+.in +1c
+.ti -1c
+.RI "virtual std::any \fBvisitRoot\fP (\fBREmatchParser::RootContext\fP *context)=0"
+.br
+.RI "Visit parse trees produced by \fBREmatchParser\fP\&. "
+.ti -1c
+.RI "virtual std::any \fBvisitAlternation\fP (\fBREmatchParser::AlternationContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitExpr\fP (\fBREmatchParser::ExprContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitElement\fP (\fBREmatchParser::ElementContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitGroup\fP (\fBREmatchParser::GroupContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitParentheses\fP (\fBREmatchParser::ParenthesesContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitAssignation\fP (\fBREmatchParser::AssignationContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitVarname\fP (\fBREmatchParser::VarnameContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitAtom\fP (\fBREmatchParser::AtomContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitCharacterClass\fP (\fBREmatchParser::CharacterClassContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitCcAtom\fP (\fBREmatchParser::CcAtomContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitCcRange\fP (\fBREmatchParser::CcRangeContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitCcSingle\fP (\fBREmatchParser::CcSingleContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitCcLiteral\fP (\fBREmatchParser::CcLiteralContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitCcEscapes\fP (\fBREmatchParser::CcEscapesContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitCcOther\fP (\fBREmatchParser::CcOtherContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitSingleSharedAtom\fP (\fBREmatchParser::SingleSharedAtomContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitLiteral\fP (\fBREmatchParser::LiteralContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitEscapes\fP (\fBREmatchParser::EscapesContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitSpecial\fP (\fBREmatchParser::SpecialContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitOther\fP (\fBREmatchParser::OtherContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitSharedAtom\fP (\fBREmatchParser::SharedAtomContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitQuantifier\fP (\fBREmatchParser::QuantifierContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitQuantity\fP (\fBREmatchParser::QuantityContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitQuantExact\fP (\fBREmatchParser::QuantExactContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitQuantRange\fP (\fBREmatchParser::QuantRangeContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitQuantMin\fP (\fBREmatchParser::QuantMinContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitQuantMax\fP (\fBREmatchParser::QuantMaxContext\fP *context)=0"
+.br
+.ti -1c
+.RI "virtual std::any \fBvisitNumber\fP (\fBREmatchParser::NumberContext\fP *context)=0"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::shared_ptr< \fBVariableFactory\fP > \fBvfact_ptr\fP"
+.br
+.ti -1c
+.RI "std::unique_ptr< \fBLogicalVA\fP > \fBlva_ptr\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "rematch::visitors::FilterFactoryVisitor::FilterFactoryVisitor (std::shared_ptr< \fBVariableFactory\fP > _vfact_ptr)\fC [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "std::unique_ptr<\fBLogicalVA\fP> rematch::visitors::FilterFactoryVisitor::lva_ptr"
+
+.SS "std::shared_ptr<\fBVariableFactory\fP> rematch::visitors::FilterFactoryVisitor::vfact_ptr"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Rematch from the source code\&.

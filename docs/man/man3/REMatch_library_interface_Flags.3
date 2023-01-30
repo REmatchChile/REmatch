@@ -1,0 +1,110 @@
+.TH "REMatch::library_interface::Flags" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+REMatch::library_interface::Flags
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <flags\&.hpp>\fP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBFlagTypes\fP { \fBMultiLine\fP, \fBDotNewLine\fP, \fBLineByLine\fP, \fBEarlyOutput\fP, \fBSaveAnchors\fP }"
+.br
+.RI "Multiline(default=false) * Los símbolos ^ y $ hacen match con 
+.br
+ *
+.IP "\(bu" 2
+Dotnewline (default=false) * El símbolo \&. 
+.PP
+"
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBFlags\fP ()=default"
+.br
+.ti -1c
+.RI "\fBFlags\fP (int num,\&.\&.\&.)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "bool \fBmulti_line\fP = false"
+.br
+.ti -1c
+.RI "bool \fBdot_new_line\fP = false"
+.br
+.ti -1c
+.RI "bool \fBline_by_line\fP = false"
+.br
+.ti -1c
+.RI "bool \fBearly_output\fP = false"
+.br
+.ti -1c
+.RI "bool \fBsave_anchors\fP = false"
+.br
+.in -1c
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBREMatch::library_interface::Flags::FlagTypes\fP"
+
+.PP
+Multiline(default=false) * Los símbolos ^ y $ hacen match con 
+.br
+ *
+.IP "\(bu" 2
+Dotnewline (default=false) * El símbolo \&. 
+.PP
+hace match con 
+.br
+ *
+.IP "\(bu" 2
+Linebyline (default=false) * El documento se carga línea por línea\&. *
+.IP "\(bu" 2
+Earlyoutput (default=false) * El algoritmo entrega outputs a medida que los encuentra, de * otra forma el algoritmo escanea todo el documento y luego * enumera\&. *
+.IP "\(bu" 2
+SaveAnchors (default=false) * Guarda el group[0] (match completo del regex) * 
+.PP
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIMultiLine \fP\fP
+.TP
+\fB\fIDotNewLine \fP\fP
+.TP
+\fB\fILineByLine \fP\fP
+.TP
+\fB\fIEarlyOutput \fP\fP
+.TP
+\fB\fISaveAnchors \fP\fP
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "REMatch::library_interface::Flags::Flags ()\fC [default]\fP"
+
+.SS "REMatch::library_interface::Flags::Flags (int num,  \&.\&.\&.)"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "bool REMatch::library_interface::Flags::dot_new_line = false"
+
+.SS "bool REMatch::library_interface::Flags::early_output = false"
+
+.SS "bool REMatch::library_interface::Flags::line_by_line = false"
+
+.SS "bool REMatch::library_interface::Flags::multi_line = false"
+
+.SS "bool REMatch::library_interface::Flags::save_anchors = false"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Rematch from the source code\&.

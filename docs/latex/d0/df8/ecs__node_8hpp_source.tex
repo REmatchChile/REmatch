@@ -1,0 +1,87 @@
+\hypertarget{ecs__node_8hpp_source}{}\doxysection{ecs\+\_\+node.\+hpp}
+\label{ecs__node_8hpp_source}\index{src/rematch/output\_enumeration/ecs\_node.hpp@{src/rematch/output\_enumeration/ecs\_node.hpp}}
+\mbox{\hyperlink{ecs__node_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ OUTPUT\_ENUMERATION\_\_NODE\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ OUTPUT\_ENUMERATION\_\_NODE\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <cinttypes>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <bitset>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacerematch}{rematch}}\ \{}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{inline}\ \textcolor{keyword}{namespace\ }output\_enumeration\ \{}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77}{ECSNodeType}}\ \{\ \mbox{\hyperlink{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77a78cd851b433d8d6864110dd678e43586}{kBottom}}\ =\ 0,\ \mbox{\hyperlink{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77a519268cd3a9af56838648120b3e53b36}{kUnion}}\ =\ 1,\ \mbox{\hyperlink{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77a6608e709edce0bfd1bb1eb49eb5f8bea}{kLabel}}\ =\ 2\ \};}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ \{}
+\DoxyCodeLine{00014\ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1NodeManager}{NodeManager}};}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00017\ \ \ \ \ std::bitset<64>\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a5c685c65034160558be126df9ae28790}{variable\_markers}};}
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a84c488b44effa9e2cae8ca00d71e8aed}{left}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_ad83b9776b98810f1e4d8eafa7e26871d}{right}}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a36c0d86dcefa57b6ab9a4c15682df899}{document\_position}};}
+\DoxyCodeLine{00022\ \ \ \ \ \};}
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77}{ECSNodeType}}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a2b2042f4e64fe53ddbc2d2839966a6e0}{type}};}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \textcolor{keyword}{private}:\textcolor{comment}{}}
+\DoxyCodeLine{00026\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{00027\ \textcolor{comment}{\ \ \ \ \ *\ Once\ the\ ref\_count\ is\ 0,\ then\ the\ node\ is\ treated\ as\ a\ recycleable}}
+\DoxyCodeLine{00028\ \textcolor{comment}{\ \ \ \ \ *\ node,\ thus\ joining\ the\ linked\ list\ of\ free\ nodes\ used\ by\ the\ memory}}
+\DoxyCodeLine{00029\ \textcolor{comment}{\ \ \ \ \ *\ manager.}}
+\DoxyCodeLine{00030\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a6320aa6970be9c3a1609271a280c9e52}{ref\_count}}\{1\};}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a51ab39c711e1524a75540f61469b5999}{next\_free\_node}};}
+\DoxyCodeLine{00034\ \ \ \ \ \};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}(\mbox{\hyperlink{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77}{ECSNodeType}}\ node\_type,}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a84c488b44effa9e2cae8ca00d71e8aed}{left}}\ =\ \textcolor{keyword}{nullptr},\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_ad83b9776b98810f1e4d8eafa7e26871d}{right}}\ =\ \textcolor{keyword}{nullptr},}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ std::bitset<64>\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a5c685c65034160558be126df9ae28790}{variable\_markers}}\ =\ 0,}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a36c0d86dcefa57b6ab9a4c15682df899}{document\_position}}\ =\ 0);}
+\DoxyCodeLine{00041\ \textcolor{comment}{}}
+\DoxyCodeLine{00042\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{00043\ \textcolor{comment}{\ \ \ \ \ *\ The\ reset\ function\ reinstantiates\ the\ node\ but\ recycling\ the\ memory}}
+\DoxyCodeLine{00044\ \textcolor{comment}{\ \ \ \ \ *\ position\ that\ was\ used\ beforehand.}}
+\DoxyCodeLine{00045\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_aba522acf6087035640d3fd9c22cb56a8}{reset}}(\mbox{\hyperlink{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77}{ECSNodeType}}\ node\_type,}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a84c488b44effa9e2cae8ca00d71e8aed}{left}}\ =\ \textcolor{keyword}{nullptr},\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_ad83b9776b98810f1e4d8eafa7e26871d}{right}}\ =\ \textcolor{keyword}{nullptr},}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::bitset<64>\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a5c685c65034160558be126df9ae28790}{variable\_markers}}\ =\ 0,}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a36c0d86dcefa57b6ab9a4c15682df899}{document\_position}}\ =\ 0);}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_ac97482e1c3ec55aaf461ae1515337331}{is\_output}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a285bb5023db6be9e8a3c158354f9fc78}{is\_bottom}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a5c42d25327a2b4dcd2689f7d8f756ce8}{left\_node}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a84c488b44effa9e2cae8ca00d71e8aed}{left}};\ \}}
+\DoxyCodeLine{00055\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a76ebcd7f8cbe364d1cf3d039b4b47ed2}{right\_node}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_ac97482e1c3ec55aaf461ae1515337331}{is\_output}}()\ ?\ nullptr\ :\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_ad83b9776b98810f1e4d8eafa7e26871d}{right}};\ \}}
+\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a5d15abec420430f26c75940059f7cd58}{next}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a84c488b44effa9e2cae8ca00d71e8aed}{left}};\ \};}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{friend}\ std::ostream\&\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_ab04bc6226812e8bb309db67045c39ca6}{operator<<}}(std::ostream\&\ os,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\&\ n);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00061\ \ \ \textcolor{keywordtype}{void}\ decrease\_ref\_count()\ \{\ -\/-\/\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a6320aa6970be9c3a1609271a280c9e52}{ref\_count}};\ \}}
+\DoxyCodeLine{00062\ \ \ \textcolor{keywordtype}{void}\ increase\_ref\_count()\ \{\ ++\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a6320aa6970be9c3a1609271a280c9e52}{ref\_count}};\ \}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \textcolor{keywordtype}{void}\ assign\_attributes(\mbox{\hyperlink{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77}{ECSNodeType}}\ node\_type,\ ECSNode\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a84c488b44effa9e2cae8ca00d71e8aed}{left}},}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ECSNode\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_ad83b9776b98810f1e4d8eafa7e26871d}{right}},\ std::bitset<64>\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a5c685c65034160558be126df9ae28790}{variable\_markers}},}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a36c0d86dcefa57b6ab9a4c15682df899}{document\_position}});}
+\DoxyCodeLine{00067\ \ \ \textcolor{keywordtype}{void}\ reset\_attributes();}
+\DoxyCodeLine{00068\ \ \ \textcolor{keywordtype}{void}\ label\_node\_as\_kBottom();}
+\DoxyCodeLine{00069\ \ \ \textcolor{keywordtype}{void}\ create\_kUnion\_node(ECSNode\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a84c488b44effa9e2cae8ca00d71e8aed}{left}},\ ECSNode\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_ad83b9776b98810f1e4d8eafa7e26871d}{right}});}
+\DoxyCodeLine{00070\ \ \ \textcolor{keywordtype}{void}\ add\_left\_node(ECSNode\ *node);}
+\DoxyCodeLine{00071\ \ \ \textcolor{keywordtype}{void}\ add\_right\_node(ECSNode\ *node);}
+\DoxyCodeLine{00072\ \ \ \textcolor{keywordtype}{void}\ label\_node\_as\_kUnion();}
+\DoxyCodeLine{00073\ \ \ \textcolor{keywordtype}{void}\ create\_kLabel\_node(ECSNode\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a84c488b44effa9e2cae8ca00d71e8aed}{left}},\ std::bitset<64>\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a5c685c65034160558be126df9ae28790}{variable\_markers}},}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode_a36c0d86dcefa57b6ab9a4c15682df899}{document\_position}});}
+\DoxyCodeLine{00075\ \ \ \textcolor{keywordtype}{void}\ label\_node\_as\_kLabel();}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \};}
+\DoxyCodeLine{00078\ \}}
+\DoxyCodeLine{00079\ \}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

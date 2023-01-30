@@ -1,0 +1,69 @@
+.TH "REmatchParser::SpecialContext" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+REmatchParser::SpecialContext
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <REmatchParser\&.h>\fP
+.PP
+Inherits antlr4::ParserRuleContext\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSpecialContext\fP (antlr4::ParserRuleContext *parent, size_t invokingState)"
+.br
+.ti -1c
+.RI "virtual size_t \fBgetRuleIndex\fP () const override"
+.br
+.ti -1c
+.RI "antlr4::tree::TerminalNode * \fBDOT\fP ()"
+.br
+.ti -1c
+.RI "antlr4::tree::TerminalNode * \fBTAB\fP ()"
+.br
+.ti -1c
+.RI "antlr4::tree::TerminalNode * \fBCARRIAGE_RETURN\fP ()"
+.br
+.ti -1c
+.RI "antlr4::tree::TerminalNode * \fBNEWLINE\fP ()"
+.br
+.ti -1c
+.RI "antlr4::tree::TerminalNode * \fBVERTICAL_WHITESPACE\fP ()"
+.br
+.ti -1c
+.RI "antlr4::tree::TerminalNode * \fBFORM_FEED\fP ()"
+.br
+.ti -1c
+.RI "virtual std::any \fBaccept\fP (antlr4::tree::ParseTreeVisitor *visitor) override"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "REmatchParser::SpecialContext::SpecialContext (antlr4::ParserRuleContext * parent, size_t invokingState)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "std::any REmatchParser::SpecialContext::accept (antlr4::tree::ParseTreeVisitor * visitor)\fC [override]\fP, \fC [virtual]\fP"
+
+.SS "tree::TerminalNode * REmatchParser::SpecialContext::CARRIAGE_RETURN ()"
+
+.SS "tree::TerminalNode * REmatchParser::SpecialContext::DOT ()"
+
+.SS "tree::TerminalNode * REmatchParser::SpecialContext::FORM_FEED ()"
+
+.SS "size_t REmatchParser::SpecialContext::getRuleIndex () const\fC [override]\fP, \fC [virtual]\fP"
+
+.SS "tree::TerminalNode * REmatchParser::SpecialContext::NEWLINE ()"
+
+.SS "tree::TerminalNode * REmatchParser::SpecialContext::TAB ()"
+
+.SS "tree::TerminalNode * REmatchParser::SpecialContext::VERTICAL_WHITESPACE ()"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Rematch from the source code\&.

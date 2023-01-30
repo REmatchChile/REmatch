@@ -42,10 +42,8 @@ class Enumerator {
   void consume_KLabel_node(ECSNode *current_kLabel_node);
   void consume_union_node(ECSNode *current_union_node);
 
-};  // end class Enumerator
+};
+}
+}
 
-} // end namespace output_enumeration
-
-}  // end namespace rematch
-
-#endif  // OUTPUT_ENUMERATOR__ENUMERATION_HPP
+#endif

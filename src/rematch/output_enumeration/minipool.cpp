@@ -1,7 +1,6 @@
 #include "output_enumeration/minipool.hpp"
 
 namespace rematch {
-
 inline namespace output_enumeration {
 
 MiniPool::MiniPool(size_t cap) : capacity_(cap) {
@@ -17,6 +16,5 @@ void MiniPool::set_next(MiniPool *mp) { next_ = mp; }
 MiniPool *MiniPool::prev() const { return prev_; }
 void MiniPool::set_prev(MiniPool *mp) { prev_ = mp; }
 
-} // end namespace output_enumeration
-
-} // end namespace rematch
+}
+}

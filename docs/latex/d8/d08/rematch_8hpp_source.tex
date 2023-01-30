@@ -1,0 +1,37 @@
+\hypertarget{rematch_8hpp_source}{}\doxysection{rematch.\+hpp}
+\label{rematch_8hpp_source}\index{src/rematch/library\_interface/rematch.hpp@{src/rematch/library\_interface/rematch.hpp}}
+\mbox{\hyperlink{rematch_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ LIBRARY\_INTERFACE\_\_REMATCH\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ LIBRARY\_INTERFACE\_\_REMATCH\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{match_8hpp}{library\_interface/match.hpp}}"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{flags_8hpp}{library\_interface/flags.hpp}}"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{match__iterator_8hpp}{library\_interface/match\_iterator.hpp}}"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{regex_8hpp}{library\_interface/regex.hpp}}"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceREMatch}{REMatch}}\ \{}
+\DoxyCodeLine{00014\ \textcolor{keyword}{inline}\ \textcolor{keyword}{namespace\ }library\_interface\ \{}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ Regex\ \mbox{\hyperlink{namespaceREMatch_1_1library__interface_a7e6690ce4bb5392f0c03d791c992aebd}{compile}}(std::string\_view\ pattern,\ Flags\ flags\ =\ Flags());}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ std::optional<Match>\ \mbox{\hyperlink{namespaceREMatch_1_1library__interface_a3339bb3d07f588484135f046c39cf537}{find}}(std::string\_view\ pattern,\ std::string\_view\ document,\ Flags\ flags\ =\ Flags());}
+\DoxyCodeLine{00019\ std::vector<Match>\ \mbox{\hyperlink{namespaceREMatch_1_1library__interface_aba159a354efa57298bd06ea6ee24c7fc}{findall}}(std::string\_view\ pattern,\ std::string\_view\ document,}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Flags\ flags\ =\ Flags());}
+\DoxyCodeLine{00021\ MatchIterator\ \mbox{\hyperlink{namespaceREMatch_1_1library__interface_a04bfdab409e8976583798ba3b2f02bc6}{finditer}}(std::string\_view\ pattern,\ std::string\_view\ document,}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Flags\ flags\ =\ Flags());}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ std::optional<Match>\ \mbox{\hyperlink{namespaceREMatch_1_1library__interface_ac8e6713a84303c13443a897c578a8888}{search}}(std::string\_view\ pattern,\ std::string\_view\ document,\ Flags\ flags\ =\ Flags());}
+\DoxyCodeLine{00025\ std::optional<Match>\ \mbox{\hyperlink{namespaceREMatch_1_1library__interface_a3abc1e1eee4f8f6ee64b43946c4e558e}{match}}(std::string\_view\ pattern,\ std::string\_view\ document,\ Flags\ flags\ =\ Flags());}
+\DoxyCodeLine{00026\ std::optional<Match>\ \mbox{\hyperlink{namespaceREMatch_1_1library__interface_a9340418394f7e03ef47d617668ab3a98}{fullmatch}}(std::string\_view\ pattern,\ std::string\_view\ document,\ Flags\ flags\ =\ Flags());}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \}}
+\DoxyCodeLine{00029\ \}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

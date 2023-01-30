@@ -121,13 +121,11 @@ TEST_CASE("The regex .α returns 0,8 on the document: δεζαβab") {
 class Test {
   public:
     int val;
+    Test* next;
     Test(int val) : val(val) {}
 };
 
 class Test2 {
-  public:
-    Test &test;
-    Test2(Test &test) : test(test) {}
 };
 
 

@@ -1,0 +1,54 @@
+\hypertarget{flags_8hpp_source}{}\doxysection{flags.\+hpp}
+\label{flags_8hpp_source}\index{src/rematch/library\_interface/flags.hpp@{src/rematch/library\_interface/flags.hpp}}
+\mbox{\hyperlink{flags_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ LIBRARY\_INTERFACE\_\_FLAGS\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ LIBRARY\_INTERFACE\_\_FLAGS\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceREMatch}{REMatch}}\ \{}
+\DoxyCodeLine{00005\ \textcolor{keyword}{inline}\ \textcolor{keyword}{namespace\ }library\_interface\ \{}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classREMatch_1_1library__interface_1_1Flags}{Flags}}\ \{}
+\DoxyCodeLine{00008\ \textcolor{comment}{\ \ /***************************************************************}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ \ \ \ *\ Multiline(default=false)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ \ \ \ *\ Los\ símbolos\ \string^\ y\ \$\ hacen\ match\ con\ \(\backslash\)n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ \ \ \ *\ Dotnewline\ (default=false)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}}
+\DoxyCodeLine{00013\ \textcolor{comment}{\ \ \ \ *\ El\ símbolo\ .\ hace\ match\ con\ \(\backslash\)n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ \ \ \ *\ Linebyline\ \ (default=false)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ \ \ \ *\ El\ documento\ se\ carga\ línea\ por\ línea.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}}
+\DoxyCodeLine{00018\ \textcolor{comment}{\ \ \ \ *\ Earlyoutput\ (default=false)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ \ \ \ *\ El\ algoritmo\ entrega\ outputs\ a\ medida\ que\ los\ encuentra,\ de\ *}}
+\DoxyCodeLine{00020\ \textcolor{comment}{\ \ \ \ *\ otra\ forma\ el\ algoritmo\ escanea\ todo\ el\ documento\ y\ luego\ \ \ *}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ \ \ \ *\ enumera.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}}
+\DoxyCodeLine{00022\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}}
+\DoxyCodeLine{00023\ \textcolor{comment}{\ \ \ \ *\ SaveAnchors\ (default=false)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}}
+\DoxyCodeLine{00024\ \textcolor{comment}{\ \ \ \ *\ Guarda\ el\ group[0]\ (match\ completo\ del\ regex)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}}
+\DoxyCodeLine{00025\ \textcolor{comment}{\ \ \ \ ***************************************************************/}}
+\DoxyCodeLine{00026\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00027\ \ \ \textcolor{keyword}{enum}\ \mbox{\hyperlink{classREMatch_1_1library__interface_1_1Flags_af3963789714ad6356667702f3af10917}{FlagTypes}}\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{classREMatch_1_1library__interface_1_1Flags_af3963789714ad6356667702f3af10917a49dc3ee0f2bb29458639b41feadf05d7}{MultiLine}},}
+\DoxyCodeLine{00029\ \ \ \ \ \mbox{\hyperlink{classREMatch_1_1library__interface_1_1Flags_af3963789714ad6356667702f3af10917aae4f30d7ccc9cd98035a204ab5a9887f}{DotNewLine}},}
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{classREMatch_1_1library__interface_1_1Flags_af3963789714ad6356667702f3af10917aea2bb9cc829adfb1c8f328f2c1f9da3e}{LineByLine}},}
+\DoxyCodeLine{00031\ \ \ \ \ \mbox{\hyperlink{classREMatch_1_1library__interface_1_1Flags_af3963789714ad6356667702f3af10917ac7ea968779807535cc52cb3b693c5e42}{EarlyOutput}},}
+\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{classREMatch_1_1library__interface_1_1Flags_af3963789714ad6356667702f3af10917ab51a55f10383f60e5962eb96296c452d}{SaveAnchors}}}
+\DoxyCodeLine{00033\ \ \ \};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classREMatch_1_1library__interface_1_1Flags_a666f1e4d27f57c845cd2c9e5e18f6673}{multi\_line}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00036\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classREMatch_1_1library__interface_1_1Flags_ae02dce87fac3e1f644e67945139053ae}{dot\_new\_line}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00037\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classREMatch_1_1library__interface_1_1Flags_a62d48374486b47119582fca8521cc5e8}{line\_by\_line}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00038\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classREMatch_1_1library__interface_1_1Flags_a224c91a96e541cbcb998e016a487652f}{early\_output}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00039\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classREMatch_1_1library__interface_1_1Flags_a2b460138ac0a8e66f36db2bafc7ad172}{save\_anchors}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \mbox{\hyperlink{classREMatch_1_1library__interface_1_1Flags_af1d84163e13f8e192e0b3e80d15d3930}{Flags}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00042\ \ \ \mbox{\hyperlink{classREMatch_1_1library__interface_1_1Flags_af1d84163e13f8e192e0b3e80d15d3930}{Flags}}(\textcolor{keywordtype}{int}\ num,\ ...);}
+\DoxyCodeLine{00043\ \};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \}}
+\DoxyCodeLine{00046\ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

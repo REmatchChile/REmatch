@@ -1,0 +1,42 @@
+.TH "REMatch::library_interface::Regex" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+REMatch::library_interface::Regex
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <regex\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBRegex\fP (std::string_view pattern, \fBFlags\fP flags=\fBFlags\fP())"
+.br
+.ti -1c
+.RI "\fB~Regex\fP ()"
+.br
+.ti -1c
+.RI "std::optional< \fBMatch\fP > \fBfind\fP (std::string_view text, \fBFlags\fP flags=\fBFlags\fP())"
+.br
+.ti -1c
+.RI "\fBMatchIterator\fP \fBfinditer\fP (std::string_view text, \fBFlags\fP flags=\fBFlags\fP())"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "REMatch::library_interface::Regex::Regex (std::string_view pattern, \fBFlags\fP flags = \fC\fBFlags\fP()\fP)"
+
+.SS "REMatch::library_interface::Regex::~Regex ()"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "std::optional< \fBMatch\fP > REMatch::library_interface::Regex::find (std::string_view text, \fBFlags\fP flags = \fC\fBFlags\fP()\fP)"
+
+.SS "\fBMatchIterator\fP REMatch::library_interface::Regex::finditer (std::string_view text, \fBFlags\fP flags = \fC\fBFlags\fP()\fP)"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Rematch from the source code\&.

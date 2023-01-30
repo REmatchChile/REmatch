@@ -1,0 +1,79 @@
+.TH "REMatch::library_interface" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+REMatch::library_interface
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBFlags\fP"
+.br
+.ti -1c
+.RI "class \fBMatch\fP"
+.br
+.ti -1c
+.RI "class \fBMatchIterator\fP"
+.br
+.ti -1c
+.RI "class \fBRegex\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "using \fBSpan\fP = std::pair< size_t, size_t >"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBRegex\fP \fBcompile\fP (std::string_view pattern, \fBFlags\fP flags)"
+.br
+.ti -1c
+.RI "std::optional< \fBMatch\fP > \fBfind\fP (std::string_view pattern, std::string_view document, \fBFlags\fP flags)"
+.br
+.ti -1c
+.RI "std::vector< \fBMatch\fP > \fBfindall\fP (std::string_view pattern, std::string_view document, \fBFlags\fP flags)"
+.br
+.ti -1c
+.RI "\fBMatchIterator\fP \fBfinditer\fP (std::string_view pattern, std::string_view document, \fBFlags\fP flags)"
+.br
+.ti -1c
+.RI "std::optional< \fBMatch\fP > \fBsearch\fP (std::string_view pattern, std::string_view document, \fBFlags\fP flags)"
+.br
+.ti -1c
+.RI "std::optional< \fBMatch\fP > \fBmatch\fP (std::string_view pattern, std::string_view document, \fBFlags\fP flags)"
+.br
+.ti -1c
+.RI "std::optional< \fBMatch\fP > \fBfullmatch\fP (std::string_view pattern, std::string_view document, \fBFlags\fP flags)"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "using \fBREMatch::library_interface::Span\fP = typedef std::pair<size_t, size_t>"
+
+.SH "Function Documentation"
+.PP 
+.SS "\fBRegex\fP REMatch::library_interface::compile (std::string_view pattern, \fBFlags\fP flags)"
+
+.SS "std::optional< \fBMatch\fP > REMatch::library_interface::find (std::string_view pattern, std::string_view document, \fBFlags\fP flags)"
+
+.SS "std::vector< \fBMatch\fP > REMatch::library_interface::findall (std::string_view pattern, std::string_view document, \fBFlags\fP flags)"
+
+.SS "\fBMatchIterator\fP REMatch::library_interface::finditer (std::string_view pattern, std::string_view document, \fBFlags\fP flags)"
+
+.SS "std::optional< \fBMatch\fP > REMatch::library_interface::fullmatch (std::string_view pattern, std::string_view document, \fBFlags\fP flags)"
+
+.SS "std::optional< \fBMatch\fP > REMatch::library_interface::match (std::string_view pattern, std::string_view document, \fBFlags\fP flags)"
+
+.SS "std::optional< \fBMatch\fP > REMatch::library_interface::search (std::string_view pattern, std::string_view document, \fBFlags\fP flags)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Rematch from the source code\&.

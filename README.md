@@ -51,3 +51,10 @@ We are using Boost.Test for unit testing.
 
 To add more tests, add a new folder inside `tests/[test_name_folder]/` that starts with the word _test_ as a
 prefix. Follow the same structure (same file names) of the other folders.
+
+
+## Automatic documentation
+
+to build the automatic documentation two packages are needed:
+
+graphviz and doxygen.

@@ -4,7 +4,6 @@
 #include "output_enumeration/ecs_node.hpp"
 
 namespace rematch {
-
 inline namespace output_enumeration {
 
 ECSNode::ECSNode(ECSNodeType node_type, ECSNode *left,
@@ -17,7 +16,6 @@ ECSNode *ECSNode::reset(ECSNodeType node_type, ECSNode *left, ECSNode *right,
                         std::bitset<64> variable_markers,
                         int document_position) {
   reset_attributes();
-  ++reset_count;
   assign_attributes(node_type, left, right, variable_markers, document_position);
   return this;
 }
@@ -27,7 +25,7 @@ bool ECSNode::is_output() const {
 }
 
 bool ECSNode::is_bottom() const {
-  return variable_markers[variable_markers.size() - 2] && 
+  return variable_markers[variable_markers.size() - 2] &&
          !variable_markers[variable_markers.size() - 1];
 }
 
@@ -110,6 +108,5 @@ void ECSNode::create_kLabel_node(ECSNode *left,
     this->document_position = document_position;
 }
 
-} // namespace output_enumeration
-
-} // namespace rematch
+}
+}

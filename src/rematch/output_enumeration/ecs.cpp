@@ -4,11 +4,10 @@
 #include "output_enumeration/ecs.hpp"
 
 namespace rematch {
-
 inline namespace output_enumeration {
 
 size_t ECS::get_amount_of_nodes_used() const {
-  return node_manager.get_amount_of_nodes_used(); 
+  return node_manager.get_amount_of_nodes_used();
 }
 
 ECSNode *ECS::create_bottom_node() {
@@ -42,8 +41,7 @@ ECSNode *ECS::create_union_node(ECSNode *node_1, ECSNode *node_2) {
 }
 
 ECSNode *ECS::create_union_of_two_non_output_nodes(
-    ECSNode *node_1, ECSNode *node_2) {
-   /*       _\|/_
+  /*!       _\|/_
             (o o)
     +----oOO-{_}-OOo---------------------------------------+
     |          new                                         |
@@ -58,7 +56,9 @@ ECSNode *ECS::create_union_of_two_non_output_nodes(
     | /  n1     /  |   n2\ |                               |
     || /   \   /   | /    \|                               |
     |o1      O     o2      O                               |
-    +-----------------------------------------------------*/
+    +----------------------------------------------------- +
+  */
+    ECSNode *node_1, ECSNode *node_2) {
 
     ECSNode *u1 = create_first_intermediate_union_node(node_1, node_2);
     ECSNode *u2 = create_second_intermediate_union_node(node_2, u1);
@@ -74,7 +74,7 @@ ECSNode *ECS::create_first_intermediate_union_node(ECSNode *node_1,
     return u1;
 }
 
-ECSNode *ECS::create_second_intermediate_union_node(ECSNode *node_2, 
+ECSNode *ECS::create_second_intermediate_union_node(ECSNode *node_2,
                                                     ECSNode *u1) {
     ECSNode *u2 = node_manager.alloc(ECSNodeType::kUnion,
                                            node_2->left_node(),
@@ -88,7 +88,5 @@ ECSNode *ECS::create_union_of_output_and_intermediate_node(
                                                  node_1->left_node(), u2);
     return new_node;
 }
-
-} // inline namespace output_enumeration
-
-} // namespace rematch
+}
+}

@@ -1,0 +1,100 @@
+\hypertarget{namespacerematch_1_1output__enumeration}{}\doxysection{rematch\+::output\+\_\+enumeration Namespace Reference}
+\label{namespacerematch_1_1output__enumeration}\index{rematch::output\_enumeration@{rematch::output\_enumeration}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS}{ECS}}
+\begin{DoxyCompactList}\small\item\em An Enumerable Compact Set stores all combinations of outputs through the interface of creating bottom nodes, extend nodes and union nodes such that outputs can be enumerated with constant delay. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}
+\item 
+class \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1EndOfIterationException}{End\+Of\+Iteration\+Exception}}
+\item 
+class \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Enumerator}{Enumerator}}
+\item 
+class \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Mapping}{Mapping}}
+\begin{DoxyCompactList}\small\item\em A \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Mapping}{Mapping}} is also known as an s-\/tuple, asigns a span to all it\textquotesingle{}s variables. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool}{Mini\+Pool}}
+\begin{DoxyCompactList}\small\item\em The \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1NodeManager}{Node\+Manager}} class stores its nodes through a linked list of Mini\+Pools. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1NodeManager}{Node\+Manager}}
+\begin{DoxyCompactList}\small\item\em The Node Manager class stores the pointers to all allocated \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\textquotesingle{}s. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespacerematch_1_1output__enumeration_aa4e928067309968505c98129c79404c1}{Span}} = std\+::pair$<$ int64\+\_\+t, int64\+\_\+t $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \mbox{\hyperlink{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77}{ECSNode\+Type}} \{ \mbox{\hyperlink{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77a78cd851b433d8d6864110dd678e43586}{k\+Bottom}} = 0
+, \mbox{\hyperlink{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77a519268cd3a9af56838648120b3e53b36}{k\+Union}} = 1
+, \mbox{\hyperlink{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77a6608e709edce0bfd1bb1eb49eb5f8bea}{k\+Label}} = 2
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{namespacerematch_1_1output__enumeration_a1798290fd18125c3d72865654c63ad12}{operator$<$$<$}} (std\+::ostream \&os, const \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} \&n)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{namespacerematch_1_1output__enumeration_ab7c0339e327875b37bb81fed9953aa12}{MAXIMUM\+\_\+\+AMOUNT\+\_\+\+OF\+\_\+\+VARIABLES}} = 31
+\item 
+const size\+\_\+t \mbox{\hyperlink{namespacerematch_1_1output__enumeration_a95988a39f6501304410c1039b17e3d3b}{MEMORY\+\_\+\+POOL\+\_\+\+STARTING\+\_\+\+SIZE}} = 2048
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{namespacerematch_1_1output__enumeration_aa4e928067309968505c98129c79404c1}\label{namespacerematch_1_1output__enumeration_aa4e928067309968505c98129c79404c1}} 
+\index{rematch::output\_enumeration@{rematch::output\_enumeration}!Span@{Span}}
+\index{Span@{Span}!rematch::output\_enumeration@{rematch::output\_enumeration}}
+\doxysubsubsection{\texorpdfstring{Span}{Span}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespacerematch_1_1output__enumeration_aa4e928067309968505c98129c79404c1}{rematch\+::output\+\_\+enumeration\+::\+Span}} = typedef std\+::pair$<$int64\+\_\+t, int64\+\_\+t$>$}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77}\label{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77}} 
+\index{rematch::output\_enumeration@{rematch::output\_enumeration}!ECSNodeType@{ECSNodeType}}
+\index{ECSNodeType@{ECSNodeType}!rematch::output\_enumeration@{rematch::output\_enumeration}}
+\doxysubsubsection{\texorpdfstring{ECSNodeType}{ECSNodeType}}
+{\footnotesize\ttfamily enum class \mbox{\hyperlink{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77}{rematch\+::output\+\_\+enumeration\+::\+ECSNode\+Type}}\hspace{0.3cm}{\ttfamily [strong]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kBottom@{kBottom}!rematch::output\_enumeration@{rematch::output\_enumeration}}\index{rematch::output\_enumeration@{rematch::output\_enumeration}!kBottom@{kBottom}}}\mbox{\Hypertarget{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77a78cd851b433d8d6864110dd678e43586}\label{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77a78cd851b433d8d6864110dd678e43586}} 
+k\+Bottom&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kUnion@{kUnion}!rematch::output\_enumeration@{rematch::output\_enumeration}}\index{rematch::output\_enumeration@{rematch::output\_enumeration}!kUnion@{kUnion}}}\mbox{\Hypertarget{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77a519268cd3a9af56838648120b3e53b36}\label{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77a519268cd3a9af56838648120b3e53b36}} 
+k\+Union&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{kLabel@{kLabel}!rematch::output\_enumeration@{rematch::output\_enumeration}}\index{rematch::output\_enumeration@{rematch::output\_enumeration}!kLabel@{kLabel}}}\mbox{\Hypertarget{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77a6608e709edce0bfd1bb1eb49eb5f8bea}\label{namespacerematch_1_1output__enumeration_accd100cc6854074c5ab133a6a32afd77a6608e709edce0bfd1bb1eb49eb5f8bea}} 
+k\+Label&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacerematch_1_1output__enumeration_a1798290fd18125c3d72865654c63ad12}\label{namespacerematch_1_1output__enumeration_a1798290fd18125c3d72865654c63ad12}} 
+\index{rematch::output\_enumeration@{rematch::output\_enumeration}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!rematch::output\_enumeration@{rematch::output\_enumeration}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}}
+{\footnotesize\ttfamily std\+::ostream \& rematch\+::output\+\_\+enumeration\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os,  }\item[{const \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} \&}]{n }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespacerematch_1_1output__enumeration_ab7c0339e327875b37bb81fed9953aa12}\label{namespacerematch_1_1output__enumeration_ab7c0339e327875b37bb81fed9953aa12}} 
+\index{rematch::output\_enumeration@{rematch::output\_enumeration}!MAXIMUM\_AMOUNT\_OF\_VARIABLES@{MAXIMUM\_AMOUNT\_OF\_VARIABLES}}
+\index{MAXIMUM\_AMOUNT\_OF\_VARIABLES@{MAXIMUM\_AMOUNT\_OF\_VARIABLES}!rematch::output\_enumeration@{rematch::output\_enumeration}}
+\doxysubsubsection{\texorpdfstring{MAXIMUM\_AMOUNT\_OF\_VARIABLES}{MAXIMUM\_AMOUNT\_OF\_VARIABLES}}
+{\footnotesize\ttfamily const int rematch\+::output\+\_\+enumeration\+::\+MAXIMUM\+\_\+\+AMOUNT\+\_\+\+OF\+\_\+\+VARIABLES = 31}
+
+\mbox{\Hypertarget{namespacerematch_1_1output__enumeration_a95988a39f6501304410c1039b17e3d3b}\label{namespacerematch_1_1output__enumeration_a95988a39f6501304410c1039b17e3d3b}} 
+\index{rematch::output\_enumeration@{rematch::output\_enumeration}!MEMORY\_POOL\_STARTING\_SIZE@{MEMORY\_POOL\_STARTING\_SIZE}}
+\index{MEMORY\_POOL\_STARTING\_SIZE@{MEMORY\_POOL\_STARTING\_SIZE}!rematch::output\_enumeration@{rematch::output\_enumeration}}
+\doxysubsubsection{\texorpdfstring{MEMORY\_POOL\_STARTING\_SIZE}{MEMORY\_POOL\_STARTING\_SIZE}}
+{\footnotesize\ttfamily const size\+\_\+t rematch\+::output\+\_\+enumeration\+::\+MEMORY\+\_\+\+POOL\+\_\+\+STARTING\+\_\+\+SIZE = 2048}
+

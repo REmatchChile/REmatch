@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['operator_3c_3c_120',['operator&lt;&lt;',['../classrematch_1_1ECSNode.html#aabee7ef7768b590ce9ff44470d5f2e84',1,'rematch::ECSNode']]]
+  ['nodemanager_0',['NodeManager',['../d5/d63/classrematch_1_1output__enumeration_1_1ECSNode.html#aa49a527d01a369f21afaddd4e13a9748',1,'rematch::output_enumeration::ECSNode']]]
 ];
