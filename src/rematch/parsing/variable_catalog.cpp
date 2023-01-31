@@ -6,19 +6,19 @@
 #include <unordered_set>
 #include <algorithm>
 
-#include "parsing/factories/variable_factory.hpp"
+#include "parsing/variable_catalog.hpp"
 #include "parsing/bad_regex_exception.hpp"
 
 namespace rematch {
 inline namespace parsing {
 
-VariableFactory::VariableFactory() {}
+VariableCatalog::VariableCatalog() {}
 
-std::string VariableFactory::get_var(uint position) {
+std::string VariableCatalog::get_var(uint position) {
 	return data_[position];
 }
 
-int VariableFactory::position(std::string var) const {
+int VariableCatalog::position(std::string var) const {
 	auto it = std::lower_bound(data_.begin(), data_.end(), var);
 
 	if(it != data_.end() && var >= *it) {
@@ -29,7 +29,7 @@ int VariableFactory::position(std::string var) const {
 	}
 }
 
-void VariableFactory::add(std::string var) {
+void VariableCatalog::add(std::string var) {
 	if(size() >= MAX_VARS)
 		return;
 
@@ -43,7 +43,7 @@ void VariableFactory::add(std::string var) {
 	}
 }
 
-std::bitset<64> VariableFactory::open_code(std::string var) {
+std::bitset<64> VariableCatalog::open_code(std::string var) {
 	std::bitset<64> bitstring;
 
 	auto it = std::lower_bound(data_.begin(), data_.end(), var);
@@ -55,7 +55,7 @@ std::bitset<64> VariableFactory::open_code(std::string var) {
 	return bitstring;
 }
 
-std::bitset<64> VariableFactory::close_code(std::string var) {
+std::bitset<64> VariableCatalog::close_code(std::string var) {
 	std::bitset<64> bitstring;
 
 	auto it = std::lower_bound(data_.begin(), data_.end(), var);
@@ -67,7 +67,7 @@ std::bitset<64> VariableFactory::close_code(std::string var) {
 	return bitstring;
 }
 
-std::string VariableFactory :: print_varset(std::bitset<64> code) {
+std::string VariableCatalog :: print_varset(std::bitset<64> code) {
 	std::stringstream ss;
 
 	// Get a container just for printing output correctly with commas
@@ -100,7 +100,7 @@ std::string VariableFactory :: print_varset(std::bitset<64> code) {
 	return ss.str();
 }
 
-std::string VariableFactory::pprint() {
+std::string VariableCatalog::pprint() {
 	std::stringstream ss;
 	for(size_t i = 0; i < size(); i++) {
 		ss << data_[i]  << " -> " << i << "\n";
@@ -109,7 +109,7 @@ std::string VariableFactory::pprint() {
 	return ss.str();
 }
 
-void VariableFactory :: merge(VariableFactory &rhs) {
+void VariableCatalog :: merge(VariableCatalog &rhs) {
 	for(auto &var: rhs.data_) {
 		auto it = std::lower_bound(data_.begin(), data_.end(), var);
 		if(size() >= MAX_VARS) {}
@@ -123,15 +123,15 @@ void VariableFactory :: merge(VariableFactory &rhs) {
 
 }
 
-bool VariableFactory::contains(std::string var) {
+bool VariableCatalog::contains(std::string var) {
 	return std::binary_search(data_.begin(), data_.end(), var);
 }
 
-bool VariableFactory::empty() {
+bool VariableCatalog::empty() {
 	return data_.empty();
 }
 
-bool VariableFactory::operator ==(const VariableFactory &vf) const {
+bool VariableCatalog::operator ==(const VariableCatalog &vf) const {
 	return data_ == vf.data_;
 }
 

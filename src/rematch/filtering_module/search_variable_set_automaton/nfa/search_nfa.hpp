@@ -7,8 +7,10 @@
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
 
 namespace rematch {
+inline namespace filtering_module {
 
-// A non-deterministic automaton optimized for output fast searching.
+/// A non-deterministic automaton without captures nor epsilons
+/// optimized for output fast searching.
 class SearchNFA {
  public:
 
@@ -32,8 +34,9 @@ class SearchNFA {
 
  private:
 
-}; // end class SearchNFA
+};
 
-} // end namespace rematch
+}
+}
 
-#endif // SRC_REMATCH_AUTOMATA_NFA_SVA_HPP
+#endif

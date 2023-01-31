@@ -6,9 +6,10 @@
 #include "parsing/charclass.hpp"
 
 namespace rematch {
+inline namespace filtering_module {
 
 SearchNFA::SearchNFA(LogicalVA const &A) {
-  LogicalVA A_prim(A); // Make a copy of the automaton
+  LogicalVA A_prim(A);
 
   A_prim.remove_captures();
 
@@ -16,14 +17,7 @@ SearchNFA::SearchNFA(LogicalVA const &A) {
 
   A_prim.trim();
 
-
   A_prim.relabel_states();
-
-
-  //#ifndef NDEBUG
-  //std::cout << "SearchNFA:\n" << A_prim << "\n\n";
-  //#endif
-
 
   std::map<unsigned int, SearchNFAState*> logical_va_state_id_to_search_nfa_state;
   for (LogicalVAState *logical_va_state : A_prim.states) {
@@ -76,14 +70,11 @@ void SearchNFA::relabel_states() {
   }
 }
 
-// ---  Getters  ---  //
-
 std::vector<SearchNFAState*> const & SearchNFA::get_states() const { return states; }
 
 SearchNFAState* SearchNFA::initial_state() const { return initial_state_; }
 
 SearchNFAState* SearchNFA::accepting_state() const { return accepting_state_; }
 
-
-
-} // end namespace rematch
+}
+}

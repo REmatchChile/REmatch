@@ -33,40 +33,47 @@ LogicalVA::LogicalVA(CharClass charclass) {
 }
 
 LogicalVA::LogicalVA(const LogicalVA &A)
-    : 
-      init_state_(nullptr) {
+    : init_state_(nullptr) {
 
-  // Table to map old states to newly allocated copied states
-  std::unordered_map<LogicalVAState*, LogicalVAState*> new_states;
+  std::unordered_map<LogicalVAState*, LogicalVAState*>
+    old_state_to_new_state_mapping;
 
-  // Prepare states vectors
   states.reserve(states.size());
-  // Iterative Search using stack for cleanliness in function definitions,
-  std::vector<std::pair<LogicalVAState*, LogicalVAState*>> stack;
 
-  // First, make a copy of all states
-  for(auto& q_old: A.states) {
-    LogicalVAState* q_new = new LogicalVAState(*q_old);
-    new_states[q_old] = q_new;
+  copy_states(A.states, old_state_to_new_state_mapping);
+  copy_transitions(A.states, old_state_to_new_state_mapping);
+
+  init_state_ = old_state_to_new_state_mapping[A.init_state_];
+  accepting_state_ = old_state_to_new_state_mapping[A.accepting_state_];
+  has_epsilon_ = A.has_epsilon_;
+}
+
+void LogicalVA::copy_states(
+      const std::vector<LogicalVAState*> &old_states,
+      std::unordered_map<LogicalVAState*, LogicalVAState*>
+        &old_state_to_new_state_mapping) {
+  for(auto& q_old: old_states) {
+    auto q_new = new LogicalVAState(*q_old);
+    old_state_to_new_state_mapping[q_old] = q_new;
     states.push_back(q_new);
   }
+}
 
-  // Then start copying the transitions
-  for(auto& q_old: A.states) {
-    LogicalVAState* q_new = new_states[q_old];
-
+void LogicalVA::copy_transitions(
+      const std::vector<LogicalVAState*> &old_states,
+      std::unordered_map<LogicalVAState*, LogicalVAState*>
+        &old_state_to_new_state_mapping) {
+  for(auto& q_old: old_states) {
+    LogicalVAState* q_new = old_state_to_new_state_mapping[q_old];
     for(auto& filt: q_old->filters)
-      q_new->add_filter(filt->charclass, new_states[filt->next]);
+      q_new->add_filter(
+          filt->charclass, old_state_to_new_state_mapping[filt->next]);
     for(auto& cap: q_old->captures)
-      q_new->add_capture(cap->code, new_states[cap->next]);
+      q_new->add_capture(
+          cap->code, old_state_to_new_state_mapping[cap->next]);
     for(auto& eps: q_old->epsilons)
-      q_new->add_epsilon(new_states[eps->next]);
+      q_new->add_epsilon(old_state_to_new_state_mapping[eps->next]);
   }
-
-
-  init_state_ = new_states[A.init_state_];
-  accepting_state_ = new_states[A.accepting_state_];
-  has_epsilon_ = A.has_epsilon_;
 }
 
 void LogicalVA::remove_captures() {
@@ -108,9 +115,6 @@ void LogicalVA::remove_captures() {
 
 void LogicalVA::trim() {
   /**
-   * Transforms the automaton graph to a trimmed automaton. This being that every
-   * state is reacheable from the initial state, and the final state is reachable
-   * from every state.
    * We'll do a simple BFS from the initial and final states (using backwards
    * transitions), storing the states that are reached by both procedures
    */
@@ -340,7 +344,6 @@ void LogicalVA::assign(std::bitset<64> open_code, std::bitset<64> close_code) {
 }
 
 void LogicalVA::repeat(int min, int max) {
-  // std::cout << pprint() << "\n\n";
   LogicalVA copied(*this);
   if (min == 0 && max == -1) {
     kleene(); return;
@@ -388,8 +391,6 @@ void LogicalVA::repeat(int min, int max) {
       cat(*copied_automaton);
     }
   }
-
-  //  std::cout << pprint() << "\n\n";
 }
 
 void LogicalVA::remove_epsilon() {
@@ -428,8 +429,8 @@ void LogicalVA::remove_epsilon() {
         }
 
 			}
-		} // end while
-	} // end for
+		}
+	}
 
   // Backward epsilon removal from accepting state
 

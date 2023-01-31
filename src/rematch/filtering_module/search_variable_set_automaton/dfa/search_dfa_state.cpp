@@ -4,6 +4,7 @@
 
 
 namespace rematch {
+inline namespace filtering_module {
 
 int SearchDFAState::ID = 0;
 
@@ -36,4 +37,5 @@ void SearchDFAState::set_ends() {
   flags |= Flags::kEndsNFAState;
 }
 
-} // end namespace rematch
+}
+}

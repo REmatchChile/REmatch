@@ -6,6 +6,7 @@
 #include <iostream>
 
 namespace rematch {
+inline namespace filtering_module {
 
 SearchDFA::SearchDFA(LogicalVA const &logical_va)
     : sVA_(SearchNFA(logical_va)) {
@@ -82,4 +83,5 @@ void SearchDFA::visit_states(
   }
 }
 
-} // end namespace rematch
+}
+}

@@ -4,6 +4,7 @@
 #include "parsing/charclass.hpp"
 
 namespace rematch {
+inline namespace filtering_module {
 
 class SearchNFAState;
 
@@ -30,5 +31,6 @@ class SearchNFAFilter {
  private:
 
 };
+}
 }
 #endif

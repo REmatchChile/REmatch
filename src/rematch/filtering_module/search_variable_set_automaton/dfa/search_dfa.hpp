@@ -13,17 +13,19 @@
 #include "filtering_module/search_variable_set_automaton/nfa/search_nfa.hpp"
 
 namespace rematch {
+inline namespace filtering_module {
 
 using DFAStatesTableBools = std::unordered_map<std::vector<bool>, SearchDFAState*>;
 
+/**
+ * A searchDFA simulates a deterministic SearchNFA automaton
+ */
 class SearchDFA {
 
  public:
-  // Vector of pointers of States for resizing:
   std::vector<SearchDFAState*> states;
 
  private:
-  // The starting state of the dfa
   SearchDFAState* current_state;
   SearchDFAState* initial_state;
   std::vector<SearchNFAState*> initial_nfa_states;
@@ -36,18 +38,16 @@ class SearchDFA {
 
   SearchDFA(LogicalVA const &logical_va);
 
-  //  ---  Getters  ---  //
-
   SearchDFAState* get_initial_state() {return initial_state;}
-
-  // @brief Check if the empty word is inside the automaton's language
 
   std::string pprint();
 
   size_t size() const {return states.size();}
 
-  // ---  Determinization  ---  //
-
+  /**
+   * next_state is the workhorse that allows DFASimulation, it returns
+   * precomputed DFAState's or computes them and stores the result.
+   */
   SearchDFAState* next_state(char a);
   void reset() { current_state = initial_state;}
 
@@ -56,11 +56,12 @@ class SearchDFA {
   SearchDFAState* create_initial_dfa_state();
   void visit_states(
     std::vector<SearchNFAState*> const &states_subset,
-    std::set<SearchNFAState*> &subset,  // Store the next subset
+    std::set<SearchNFAState*> &subset,
     std::vector<bool> &subsetBitset,
-    char &a);  // Subset bitset representation
+    char &a);
 };
 
-} // end namespace rematch
+}
+}
 
-#endif // AUTOMATA_DFA_SDFA_HPP
+#endif

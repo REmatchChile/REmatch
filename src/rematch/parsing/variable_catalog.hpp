@@ -20,10 +20,10 @@ const int MAX_VARS = 15;
 
 // Manager of the parsed RGX formula variables where each variable name
 // has a corresponding code.
-class VariableFactory {
+class VariableCatalog {
  public:
 	// Simple constructor
-	VariableFactory();
+	VariableCatalog();
 
 	size_t size() {return data_.size();}
 
@@ -49,8 +49,8 @@ class VariableFactory {
 	// Prints the hash table
 	std::string pprint();
 
-	// Merges the variables present in another VariableFactory inplace
-	void merge(VariableFactory &rhs);
+	// Merges the variables present in another VariableCatalog inplace
+	void merge(VariableCatalog &rhs);
 
 	// Checks if a variable name is present
 	bool contains(std::string var);
@@ -58,7 +58,7 @@ class VariableFactory {
 	bool empty();
 
 	// Equality operator overload
-	bool operator==(const VariableFactory &vf) const;
+	bool operator==(const VariableCatalog &vf) const;
 
 	int& get_offset(int index) {return offsetMap[index];}
 

@@ -11,6 +11,7 @@
 #include "filtering_module/search_variable_set_automaton/nfa/search_nfa_state.hpp"
 
 namespace rematch {
+inline namespace filtering_module {
 
 class SearchDFAState {
  public:
@@ -62,7 +63,8 @@ class SearchDFAState {
 
 }; // end class SearchDFAState
 
-} // end namespace rematch
+}
+}
 
 
 #endif // AUTOMATA_DFA_DSTATE_HPP

@@ -4,7 +4,7 @@
 #include <string_view>
 
 #undef private
-#include "parsing/factories/variable_factory.hpp"
+#include "parsing/variable_catalog.hpp"
 
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
 
@@ -17,7 +17,7 @@ class Parser {
   public:
 
   private:
-    std::shared_ptr<VariableFactory> vfact_ptr;
+    std::shared_ptr<VariableCatalog> vfact_ptr;
     std::unique_ptr<LogicalVA> logical_va;
 
   public:

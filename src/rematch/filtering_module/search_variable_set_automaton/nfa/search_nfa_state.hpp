@@ -10,6 +10,7 @@
 #include "filtering_module/search_variable_set_automaton/nfa/search_nfa_filter.hpp"
 
 namespace rematch {
+inline namespace filtering_module {
 
 class SearchNFAState;
 
@@ -53,11 +54,8 @@ class SearchNFAState {
 
     SearchNFAState* nextFilter(CharClass charclass);
 
-    //void add_capture(std::bitset<64> code, SearchNFAState* next);
     void add_filter(CharClass charclass, SearchNFAState* next);
-    //void add_epsilon(SearchNFAState* next);
 
-    // Getters and setters
     bool initial() const { return flags & kInitialSearchNFAState; }
     void set_initial(bool b);
 
@@ -69,8 +67,7 @@ class SearchNFAState {
     bool operator==(const SearchNFAState &rhs) const;
 };
 
-} // end namespace rematch
+}
+}
 
-#endif // SRC_REMATCH_AUTOMATA_NFA_STATE_HPP
-
-
+#endif

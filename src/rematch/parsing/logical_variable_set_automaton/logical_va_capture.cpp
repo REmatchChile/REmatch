@@ -11,7 +11,7 @@ bool LogicalVACapture :: operator==(const LogicalVACapture &rhs) const {
 }
 
 bool LogicalVACapture :: operator<(const LogicalVACapture &rhs) const {
-  /* Simple ordering for being able to construct an std::set<LogicalVACapture> */
+  /*! Simple ordering for being able to construct an std::set<LogicalVACapture> */
   if(code.to_ulong() != rhs.code.to_ulong()) {
     return code.to_ulong() < rhs.code.to_ulong();
   }

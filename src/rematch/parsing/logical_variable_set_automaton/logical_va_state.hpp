@@ -42,9 +42,11 @@ class LogicalVAState {
     std::list<LogicalVAEpsilon*> backward_epsilons_;
 
 
-    // Booleans for graph algorithms
+    /// For graph algorithms
     bool tempMark = false;
+    /// For graph algorithms
     char colorMark = 'w';
+    /// For trimming
     unsigned int visited_and_useful_marks = 0;
 
     unsigned int flags;
