@@ -78,8 +78,6 @@ $(function() {
   <div class="headertitle"><div class="title">REmatchLexer Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p><code>#include &lt;<a class="el" href="../../d7/d44/REmatchLexer_8h_source.html">REmatchLexer.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for REmatchLexer:</div>
 <div class="dyncontent">
@@ -101,377 +99,84 @@ Collaboration diagram for REmatchLexer:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a13407584d2a00fa2fb7848fd15c24854"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
-&#160;&#160;<a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854a6bd24131394dc026ee50e8b396ddc362">DECIMAL_DIGIT</a> = 1
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854abb59584437af046aa574350a54ad6e73">NOT_DECIMAL_DIGIT</a> = 2
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854a79846dee2539487b5ad8e5758774171f">WHITESPACE</a> = 3
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854ac49a1bc1aca7fb74ebc83b11610803cc">NOT_WHITESPACE</a> = 4
+<tr class="memitem:a13407584d2a00fa2fb7848fd15c24854"><td class="memItemLeft" align="right" valign="top"><a id="a13407584d2a00fa2fb7848fd15c24854" name="a13407584d2a00fa2fb7848fd15c24854"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
+&#160;&#160;<b>DECIMAL_DIGIT</b> = 1
+, <b>NOT_DECIMAL_DIGIT</b> = 2
+, <b>WHITESPACE</b> = 3
+, <b>NOT_WHITESPACE</b> = 4
 , <br />
-&#160;&#160;<a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854aa00239a518ab5ad057c46719b89ad5e6">ALPHANUMERIC</a> = 5
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854a9402fa2f8624d9c3ee20ac18a0d751cb">NOT_ALPHANUMERIC</a> = 6
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854adf8cd1fbaf4b673f7e3d21af84a52619">TAB</a> = 7
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854afa5b45b50af4baf5e6a27b5021531a2d">CARRIAGE_RETURN</a> = 8
+&#160;&#160;<b>ALPHANUMERIC</b> = 5
+, <b>NOT_ALPHANUMERIC</b> = 6
+, <b>TAB</b> = 7
+, <b>CARRIAGE_RETURN</b> = 8
 , <br />
-&#160;&#160;<a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854abebd2f5fb819ce066b024752f1bdbe37">NEWLINE</a> = 9
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854a703a7b7d62de198a5dfea267f19d9e94">VERTICAL_WHITESPACE</a> = 10
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854a02e1d6bb9a2a2a5ca13c0d1cf5d64a2d">FORM_FEED</a> = 11
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854a2a9143e4093e6c225b11e767d9238e48">PIPE</a> = 12
+&#160;&#160;<b>NEWLINE</b> = 9
+, <b>VERTICAL_WHITESPACE</b> = 10
+, <b>FORM_FEED</b> = 11
+, <b>PIPE</b> = 12
 , <br />
-&#160;&#160;<a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854a17fdd6039bcd53065028f6aff82d119f">EXCLAMAITON</a> = 13
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854ae94e60e741fb38b75e3041965bf24656">L_CURLY</a> = 14
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854af053e647c207c4c6a9a8774439c90e51">R_CURLY</a> = 15
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854a83fc6bc580b9b011bd927cf97addab4a">L_PAR</a> = 16
+&#160;&#160;<b>EXCLAMAITON</b> = 13
+, <b>L_CURLY</b> = 14
+, <b>R_CURLY</b> = 15
+, <b>L_PAR</b> = 16
 , <br />
-&#160;&#160;<a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854a88fe083be6b7eac54c88cab4e4267e50">R_PAR</a> = 17
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854a06d62f650ccb5d976c43e4989d625c9a">COMMA</a> = 18
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854a1128d12588e8d972d9383210c943cb4f">QUESTION</a> = 19
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854a22fd8bd548b69d5cd5974c5da2b065db">PLUS</a> = 20
+&#160;&#160;<b>R_PAR</b> = 17
+, <b>COMMA</b> = 18
+, <b>QUESTION</b> = 19
+, <b>PLUS</b> = 20
 , <br />
-&#160;&#160;<a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854a3ea3f929ec38ee2a613e3f80dc4ceb97">STAR</a> = 21
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854a6baa7b1c11f56fe99aa1a6f703593b88">HAT</a> = 22
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854a036ef427ecdf2ce3c5a700af8c043981">HYPHEN</a> = 23
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854a248a36fdb418b99c25747ff2d0baebb3">L_BRACK</a> = 24
+&#160;&#160;<b>STAR</b> = 21
+, <b>HAT</b> = 22
+, <b>HYPHEN</b> = 23
+, <b>L_BRACK</b> = 24
 , <br />
-&#160;&#160;<a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854ab6f8bc4271b2775c2f76953fe18530f5">R_BRACK</a> = 25
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854a27bdcab9c39e2d7356a608cf382fc02b">BACKSLASH</a> = 26
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854a67d9ab01e8da215374e047c7d51fd7ab">ALPHA</a> = 27
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854ab70b34794cb917ff5714cae8ae282d72">DIGIT</a> = 28
+&#160;&#160;<b>R_BRACK</b> = 25
+, <b>BACKSLASH</b> = 26
+, <b>ALPHA</b> = 27
+, <b>DIGIT</b> = 28
 , <br />
-&#160;&#160;<a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854a55662ca51a43477f6152d9e9578f1184">DOT</a> = 29
-, <a class="el" href="../../d0/d20/classREmatchLexer.html#a13407584d2a00fa2fb7848fd15c24854acd67a4b4d049172a4d31502f19d4b7b1">UNRECOGNIZED</a> = 30
+&#160;&#160;<b>DOT</b> = 29
+, <b>UNRECOGNIZED</b> = 30
 <br />
  }</td></tr>
 <tr class="separator:a13407584d2a00fa2fb7848fd15c24854"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1741e311a1e8f67f349cd384ec38d2bb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d20/classREmatchLexer.html#a1741e311a1e8f67f349cd384ec38d2bb">REmatchLexer</a> (antlr4::CharStream *input)</td></tr>
+<tr class="memitem:a1741e311a1e8f67f349cd384ec38d2bb"><td class="memItemLeft" align="right" valign="top"><a id="a1741e311a1e8f67f349cd384ec38d2bb" name="a1741e311a1e8f67f349cd384ec38d2bb"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>REmatchLexer</b> (antlr4::CharStream *input)</td></tr>
 <tr class="separator:a1741e311a1e8f67f349cd384ec38d2bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abda43458ba37c414236bb631f8a6551a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d20/classREmatchLexer.html#abda43458ba37c414236bb631f8a6551a">~REmatchLexer</a> () override</td></tr>
-<tr class="separator:abda43458ba37c414236bb631f8a6551a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae16f8d934cf9af07437df61148bb6a5c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d20/classREmatchLexer.html#ae16f8d934cf9af07437df61148bb6a5c">getGrammarFileName</a> () const override</td></tr>
+<tr class="memitem:ae16f8d934cf9af07437df61148bb6a5c"><td class="memItemLeft" align="right" valign="top"><a id="ae16f8d934cf9af07437df61148bb6a5c" name="ae16f8d934cf9af07437df61148bb6a5c"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getGrammarFileName</b> () const override</td></tr>
 <tr class="separator:ae16f8d934cf9af07437df61148bb6a5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc5f5bc1967088c43fbdc5f0b91eea08"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d20/classREmatchLexer.html#acc5f5bc1967088c43fbdc5f0b91eea08">getRuleNames</a> () const override</td></tr>
+<tr class="memitem:acc5f5bc1967088c43fbdc5f0b91eea08"><td class="memItemLeft" align="right" valign="top"><a id="acc5f5bc1967088c43fbdc5f0b91eea08" name="acc5f5bc1967088c43fbdc5f0b91eea08"></a>
+const std::vector&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getRuleNames</b> () const override</td></tr>
 <tr class="separator:acc5f5bc1967088c43fbdc5f0b91eea08"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a217b972291e055cb61eb3334f49217cd"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d20/classREmatchLexer.html#a217b972291e055cb61eb3334f49217cd">getChannelNames</a> () const override</td></tr>
+<tr class="memitem:a217b972291e055cb61eb3334f49217cd"><td class="memItemLeft" align="right" valign="top"><a id="a217b972291e055cb61eb3334f49217cd" name="a217b972291e055cb61eb3334f49217cd"></a>
+const std::vector&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getChannelNames</b> () const override</td></tr>
 <tr class="separator:a217b972291e055cb61eb3334f49217cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae45aabb4e5746a69a4553aa053c60d5c"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d20/classREmatchLexer.html#ae45aabb4e5746a69a4553aa053c60d5c">getModeNames</a> () const override</td></tr>
+<tr class="memitem:ae45aabb4e5746a69a4553aa053c60d5c"><td class="memItemLeft" align="right" valign="top"><a id="ae45aabb4e5746a69a4553aa053c60d5c" name="ae45aabb4e5746a69a4553aa053c60d5c"></a>
+const std::vector&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getModeNames</b> () const override</td></tr>
 <tr class="separator:ae45aabb4e5746a69a4553aa053c60d5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af64a4f459bb32ed960f6feb0762cc7bd"><td class="memItemLeft" align="right" valign="top">const antlr4::dfa::Vocabulary &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d20/classREmatchLexer.html#af64a4f459bb32ed960f6feb0762cc7bd">getVocabulary</a> () const override</td></tr>
+<tr class="memitem:af64a4f459bb32ed960f6feb0762cc7bd"><td class="memItemLeft" align="right" valign="top"><a id="af64a4f459bb32ed960f6feb0762cc7bd" name="af64a4f459bb32ed960f6feb0762cc7bd"></a>
+const antlr4::dfa::Vocabulary &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getVocabulary</b> () const override</td></tr>
 <tr class="separator:af64a4f459bb32ed960f6feb0762cc7bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4d7ba877d1dc1b4245cbcc7531c46c2"><td class="memItemLeft" align="right" valign="top">antlr4::atn::SerializedATNView&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d20/classREmatchLexer.html#ac4d7ba877d1dc1b4245cbcc7531c46c2">getSerializedATN</a> () const override</td></tr>
+<tr class="memitem:ac4d7ba877d1dc1b4245cbcc7531c46c2"><td class="memItemLeft" align="right" valign="top"><a id="ac4d7ba877d1dc1b4245cbcc7531c46c2" name="ac4d7ba877d1dc1b4245cbcc7531c46c2"></a>
+antlr4::atn::SerializedATNView&#160;</td><td class="memItemRight" valign="bottom"><b>getSerializedATN</b> () const override</td></tr>
 <tr class="separator:ac4d7ba877d1dc1b4245cbcc7531c46c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d362e0c4376e883ecf8adce130b7371"><td class="memItemLeft" align="right" valign="top">const antlr4::atn::ATN &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d20/classREmatchLexer.html#a5d362e0c4376e883ecf8adce130b7371">getATN</a> () const override</td></tr>
+<tr class="memitem:a5d362e0c4376e883ecf8adce130b7371"><td class="memItemLeft" align="right" valign="top"><a id="a5d362e0c4376e883ecf8adce130b7371" name="a5d362e0c4376e883ecf8adce130b7371"></a>
+const antlr4::atn::ATN &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getATN</b> () const override</td></tr>
 <tr class="separator:a5d362e0c4376e883ecf8adce130b7371"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a24964cfb955533a4dd69b56c694a7353"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d20/classREmatchLexer.html#a24964cfb955533a4dd69b56c694a7353">initialize</a> ()</td></tr>
+<tr class="memitem:a24964cfb955533a4dd69b56c694a7353"><td class="memItemLeft" align="right" valign="top"><a id="a24964cfb955533a4dd69b56c694a7353" name="a24964cfb955533a4dd69b56c694a7353"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>initialize</b> ()</td></tr>
 <tr class="separator:a24964cfb955533a4dd69b56c694a7353"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="a13407584d2a00fa2fb7848fd15c24854" name="a13407584d2a00fa2fb7848fd15c24854"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13407584d2a00fa2fb7848fd15c24854">&#9670;&#160;</a></span>anonymous enum</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">anonymous enum</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854a6bd24131394dc026ee50e8b396ddc362" name="a13407584d2a00fa2fb7848fd15c24854a6bd24131394dc026ee50e8b396ddc362"></a>DECIMAL_DIGIT&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854abb59584437af046aa574350a54ad6e73" name="a13407584d2a00fa2fb7848fd15c24854abb59584437af046aa574350a54ad6e73"></a>NOT_DECIMAL_DIGIT&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854a79846dee2539487b5ad8e5758774171f" name="a13407584d2a00fa2fb7848fd15c24854a79846dee2539487b5ad8e5758774171f"></a>WHITESPACE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854ac49a1bc1aca7fb74ebc83b11610803cc" name="a13407584d2a00fa2fb7848fd15c24854ac49a1bc1aca7fb74ebc83b11610803cc"></a>NOT_WHITESPACE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854aa00239a518ab5ad057c46719b89ad5e6" name="a13407584d2a00fa2fb7848fd15c24854aa00239a518ab5ad057c46719b89ad5e6"></a>ALPHANUMERIC&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854a9402fa2f8624d9c3ee20ac18a0d751cb" name="a13407584d2a00fa2fb7848fd15c24854a9402fa2f8624d9c3ee20ac18a0d751cb"></a>NOT_ALPHANUMERIC&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854adf8cd1fbaf4b673f7e3d21af84a52619" name="a13407584d2a00fa2fb7848fd15c24854adf8cd1fbaf4b673f7e3d21af84a52619"></a>TAB&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854afa5b45b50af4baf5e6a27b5021531a2d" name="a13407584d2a00fa2fb7848fd15c24854afa5b45b50af4baf5e6a27b5021531a2d"></a>CARRIAGE_RETURN&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854abebd2f5fb819ce066b024752f1bdbe37" name="a13407584d2a00fa2fb7848fd15c24854abebd2f5fb819ce066b024752f1bdbe37"></a>NEWLINE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854a703a7b7d62de198a5dfea267f19d9e94" name="a13407584d2a00fa2fb7848fd15c24854a703a7b7d62de198a5dfea267f19d9e94"></a>VERTICAL_WHITESPACE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854a02e1d6bb9a2a2a5ca13c0d1cf5d64a2d" name="a13407584d2a00fa2fb7848fd15c24854a02e1d6bb9a2a2a5ca13c0d1cf5d64a2d"></a>FORM_FEED&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854a2a9143e4093e6c225b11e767d9238e48" name="a13407584d2a00fa2fb7848fd15c24854a2a9143e4093e6c225b11e767d9238e48"></a>PIPE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854a17fdd6039bcd53065028f6aff82d119f" name="a13407584d2a00fa2fb7848fd15c24854a17fdd6039bcd53065028f6aff82d119f"></a>EXCLAMAITON&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854ae94e60e741fb38b75e3041965bf24656" name="a13407584d2a00fa2fb7848fd15c24854ae94e60e741fb38b75e3041965bf24656"></a>L_CURLY&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854af053e647c207c4c6a9a8774439c90e51" name="a13407584d2a00fa2fb7848fd15c24854af053e647c207c4c6a9a8774439c90e51"></a>R_CURLY&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854a83fc6bc580b9b011bd927cf97addab4a" name="a13407584d2a00fa2fb7848fd15c24854a83fc6bc580b9b011bd927cf97addab4a"></a>L_PAR&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854a88fe083be6b7eac54c88cab4e4267e50" name="a13407584d2a00fa2fb7848fd15c24854a88fe083be6b7eac54c88cab4e4267e50"></a>R_PAR&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854a06d62f650ccb5d976c43e4989d625c9a" name="a13407584d2a00fa2fb7848fd15c24854a06d62f650ccb5d976c43e4989d625c9a"></a>COMMA&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854a1128d12588e8d972d9383210c943cb4f" name="a13407584d2a00fa2fb7848fd15c24854a1128d12588e8d972d9383210c943cb4f"></a>QUESTION&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854a22fd8bd548b69d5cd5974c5da2b065db" name="a13407584d2a00fa2fb7848fd15c24854a22fd8bd548b69d5cd5974c5da2b065db"></a>PLUS&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854a3ea3f929ec38ee2a613e3f80dc4ceb97" name="a13407584d2a00fa2fb7848fd15c24854a3ea3f929ec38ee2a613e3f80dc4ceb97"></a>STAR&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854a6baa7b1c11f56fe99aa1a6f703593b88" name="a13407584d2a00fa2fb7848fd15c24854a6baa7b1c11f56fe99aa1a6f703593b88"></a>HAT&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854a036ef427ecdf2ce3c5a700af8c043981" name="a13407584d2a00fa2fb7848fd15c24854a036ef427ecdf2ce3c5a700af8c043981"></a>HYPHEN&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854a248a36fdb418b99c25747ff2d0baebb3" name="a13407584d2a00fa2fb7848fd15c24854a248a36fdb418b99c25747ff2d0baebb3"></a>L_BRACK&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854ab6f8bc4271b2775c2f76953fe18530f5" name="a13407584d2a00fa2fb7848fd15c24854ab6f8bc4271b2775c2f76953fe18530f5"></a>R_BRACK&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854a27bdcab9c39e2d7356a608cf382fc02b" name="a13407584d2a00fa2fb7848fd15c24854a27bdcab9c39e2d7356a608cf382fc02b"></a>BACKSLASH&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854a67d9ab01e8da215374e047c7d51fd7ab" name="a13407584d2a00fa2fb7848fd15c24854a67d9ab01e8da215374e047c7d51fd7ab"></a>ALPHA&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854ab70b34794cb917ff5714cae8ae282d72" name="a13407584d2a00fa2fb7848fd15c24854ab70b34794cb917ff5714cae8ae282d72"></a>DIGIT&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854a55662ca51a43477f6152d9e9578f1184" name="a13407584d2a00fa2fb7848fd15c24854a55662ca51a43477f6152d9e9578f1184"></a>DOT&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a13407584d2a00fa2fb7848fd15c24854acd67a4b4d049172a4d31502f19d4b7b1" name="a13407584d2a00fa2fb7848fd15c24854acd67a4b4d049172a4d31502f19d4b7b1"></a>UNRECOGNIZED&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a1741e311a1e8f67f349cd384ec38d2bb" name="a1741e311a1e8f67f349cd384ec38d2bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1741e311a1e8f67f349cd384ec38d2bb">&#9670;&#160;</a></span>REmatchLexer()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">REmatchLexer::REmatchLexer </td>
-          <td>(</td>
-          <td class="paramtype">antlr4::CharStream *&#160;</td>
-          <td class="paramname"><em>input</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="abda43458ba37c414236bb631f8a6551a" name="abda43458ba37c414236bb631f8a6551a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abda43458ba37c414236bb631f8a6551a">&#9670;&#160;</a></span>~REmatchLexer()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">REmatchLexer::~REmatchLexer </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a5d362e0c4376e883ecf8adce130b7371" name="a5d362e0c4376e883ecf8adce130b7371"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5d362e0c4376e883ecf8adce130b7371">&#9670;&#160;</a></span>getATN()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const atn::ATN &amp; REmatchLexer::getATN </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a217b972291e055cb61eb3334f49217cd" name="a217b972291e055cb61eb3334f49217cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a217b972291e055cb61eb3334f49217cd">&#9670;&#160;</a></span>getChannelNames()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; std::string &gt; &amp; REmatchLexer::getChannelNames </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae16f8d934cf9af07437df61148bb6a5c" name="ae16f8d934cf9af07437df61148bb6a5c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae16f8d934cf9af07437df61148bb6a5c">&#9670;&#160;</a></span>getGrammarFileName()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string REmatchLexer::getGrammarFileName </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae45aabb4e5746a69a4553aa053c60d5c" name="ae45aabb4e5746a69a4553aa053c60d5c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae45aabb4e5746a69a4553aa053c60d5c">&#9670;&#160;</a></span>getModeNames()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; std::string &gt; &amp; REmatchLexer::getModeNames </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="acc5f5bc1967088c43fbdc5f0b91eea08" name="acc5f5bc1967088c43fbdc5f0b91eea08"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acc5f5bc1967088c43fbdc5f0b91eea08">&#9670;&#160;</a></span>getRuleNames()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; std::string &gt; &amp; REmatchLexer::getRuleNames </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac4d7ba877d1dc1b4245cbcc7531c46c2" name="ac4d7ba877d1dc1b4245cbcc7531c46c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac4d7ba877d1dc1b4245cbcc7531c46c2">&#9670;&#160;</a></span>getSerializedATN()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">antlr4::atn::SerializedATNView REmatchLexer::getSerializedATN </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af64a4f459bb32ed960f6feb0762cc7bd" name="af64a4f459bb32ed960f6feb0762cc7bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af64a4f459bb32ed960f6feb0762cc7bd">&#9670;&#160;</a></span>getVocabulary()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const dfa::Vocabulary &amp; REmatchLexer::getVocabulary </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a24964cfb955533a4dd69b56c694a7353" name="a24964cfb955533a4dd69b56c694a7353"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a24964cfb955533a4dd69b56c694a7353">&#9670;&#160;</a></span>initialize()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void REmatchLexer::initialize </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/rematch/parsing/grammar/autogenerated/<a class="el" href="../../d7/d44/REmatchLexer_8h_source.html">REmatchLexer.h</a></li>
-<li>src/rematch/parsing/grammar/autogenerated/<a class="el" href="../../d4/df0/REmatchLexer_8cpp.html">REmatchLexer.cpp</a></li>
+<li>src/rematch/parsing/grammar/autogenerated/REmatchLexer.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

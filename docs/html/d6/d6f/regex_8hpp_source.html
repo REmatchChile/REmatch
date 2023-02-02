@@ -77,18 +77,18 @@ $(function() {
   <div class="headertitle"><div class="title">regex.hpp</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="../../d6/d6f/regex_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef LIBRARY_INTERFACE__REGEX_HPP</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef LIBRARY_INTERFACE__REGEX_HPP</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define LIBRARY_INTERFACE__REGEX_HPP</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;optional&gt;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="../../db/d7f/match_8hpp.html">library_interface/match.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="../../db/db5/flags_8hpp.html">library_interface/flags.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="../../d4/dd5/match__iterator_8hpp.html">library_interface/match_iterator.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;library_interface/match.hpp&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;library_interface/flags.hpp&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;library_interface/match_iterator.hpp&quot;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span><a class="code hl_namespace" href="../../d4/d90/namespaceREMatch.html">REMatch</a> {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span>REMatch {</div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">inline</span> <span class="keyword">namespace </span>library_interface {</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="../../dc/dd8/classREMatch_1_1library__interface_1_1Regex.html">   15</a></span><span class="keyword">class </span><a class="code hl_class" href="../../dc/dd8/classREMatch_1_1library__interface_1_1Regex.html">Regex</a> {</div>
@@ -97,10 +97,10 @@ $(function() {
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">public</span>:</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>  <a class="code hl_class" href="../../dc/dd8/classREMatch_1_1library__interface_1_1Regex.html">Regex</a>(std::string_view pattern, <a class="code hl_class" href="../../da/d71/classREMatch_1_1library__interface_1_1Flags.html">Flags</a> flags = <a class="code hl_class" href="../../da/d71/classREMatch_1_1library__interface_1_1Flags.html">Flags</a>());</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>  <a class="code hl_function" href="../../dc/dd8/classREMatch_1_1library__interface_1_1Regex.html#a7f3c96e85533c13bfbf89627dd10b7fb">~Regex</a>();</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>  <a class="code hl_class" href="../../dc/dd8/classREMatch_1_1library__interface_1_1Regex.html">~Regex</a>();</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>  std::optional&lt;Match&gt; <a class="code hl_function" href="../../dc/dd8/classREMatch_1_1library__interface_1_1Regex.html#a568489941821a6a1efb55fae9946eb7d">find</a>(std::string_view text, <a class="code hl_class" href="../../da/d71/classREMatch_1_1library__interface_1_1Flags.html">Flags</a> flags = <a class="code hl_class" href="../../da/d71/classREMatch_1_1library__interface_1_1Flags.html">Flags</a>());</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>  <a class="code hl_class" href="../../d5/d1d/classREMatch_1_1library__interface_1_1MatchIterator.html">MatchIterator</a> <a class="code hl_function" href="../../dc/dd8/classREMatch_1_1library__interface_1_1Regex.html#ad3bae86d5e06e158b0f17e78148c529d">finditer</a>(std::string_view text, <a class="code hl_class" href="../../da/d71/classREMatch_1_1library__interface_1_1Flags.html">Flags</a> flags = <a class="code hl_class" href="../../da/d71/classREMatch_1_1library__interface_1_1Flags.html">Flags</a>());</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>  std::optional&lt;Match&gt; find(std::string_view text, <a class="code hl_class" href="../../da/d71/classREMatch_1_1library__interface_1_1Flags.html">Flags</a> flags = <a class="code hl_class" href="../../da/d71/classREMatch_1_1library__interface_1_1Flags.html">Flags</a>());</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>  <a class="code hl_class" href="../../d5/d1d/classREMatch_1_1library__interface_1_1MatchIterator.html">MatchIterator</a> finditer(std::string_view text, <a class="code hl_class" href="../../da/d71/classREMatch_1_1library__interface_1_1Flags.html">Flags</a> flags = <a class="code hl_class" href="../../da/d71/classREMatch_1_1library__interface_1_1Flags.html">Flags</a>());</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>};</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>} <span class="comment">// end namespace library_interface</span></div>
@@ -110,14 +110,7 @@ $(function() {
 <div class="ttc" id="aclassREMatch_1_1library__interface_1_1Flags_html"><div class="ttname"><a href="../../da/d71/classREMatch_1_1library__interface_1_1Flags.html">REMatch::library_interface::Flags</a></div><div class="ttdef"><b>Definition:</b> flags.hpp:7</div></div>
 <div class="ttc" id="aclassREMatch_1_1library__interface_1_1MatchIterator_html"><div class="ttname"><a href="../../d5/d1d/classREMatch_1_1library__interface_1_1MatchIterator.html">REMatch::library_interface::MatchIterator</a></div><div class="ttdef"><b>Definition:</b> match_iterator.hpp:13</div></div>
 <div class="ttc" id="aclassREMatch_1_1library__interface_1_1Regex_html"><div class="ttname"><a href="../../dc/dd8/classREMatch_1_1library__interface_1_1Regex.html">REMatch::library_interface::Regex</a></div><div class="ttdef"><b>Definition:</b> regex.hpp:15</div></div>
-<div class="ttc" id="aclassREMatch_1_1library__interface_1_1Regex_html_a568489941821a6a1efb55fae9946eb7d"><div class="ttname"><a href="../../dc/dd8/classREMatch_1_1library__interface_1_1Regex.html#a568489941821a6a1efb55fae9946eb7d">REMatch::library_interface::Regex::find</a></div><div class="ttdeci">std::optional&lt; Match &gt; find(std::string_view text, Flags flags=Flags())</div><div class="ttdef"><b>Definition:</b> regex.cpp:17</div></div>
-<div class="ttc" id="aclassREMatch_1_1library__interface_1_1Regex_html_a7f3c96e85533c13bfbf89627dd10b7fb"><div class="ttname"><a href="../../dc/dd8/classREMatch_1_1library__interface_1_1Regex.html#a7f3c96e85533c13bfbf89627dd10b7fb">REMatch::library_interface::Regex::~Regex</a></div><div class="ttdeci">~Regex()</div><div class="ttdef"><b>Definition:</b> regex.cpp:13</div></div>
-<div class="ttc" id="aclassREMatch_1_1library__interface_1_1Regex_html_ad3bae86d5e06e158b0f17e78148c529d"><div class="ttname"><a href="../../dc/dd8/classREMatch_1_1library__interface_1_1Regex.html#ad3bae86d5e06e158b0f17e78148c529d">REMatch::library_interface::Regex::finditer</a></div><div class="ttdeci">MatchIterator finditer(std::string_view text, Flags flags=Flags())</div><div class="ttdef"><b>Definition:</b> regex.cpp:25</div></div>
 <div class="ttc" id="aclassrematch_1_1SearchDFA_html"><div class="ttname"><a href="../../d5/d3e/classrematch_1_1SearchDFA.html">rematch::SearchDFA</a></div><div class="ttdef"><b>Definition:</b> search_dfa.hpp:19</div></div>
-<div class="ttc" id="aflags_8hpp_html"><div class="ttname"><a href="../../db/db5/flags_8hpp.html">flags.hpp</a></div></div>
-<div class="ttc" id="amatch_8hpp_html"><div class="ttname"><a href="../../db/d7f/match_8hpp.html">match.hpp</a></div></div>
-<div class="ttc" id="amatch__iterator_8hpp_html"><div class="ttname"><a href="../../d4/dd5/match__iterator_8hpp.html">match_iterator.hpp</a></div></div>
-<div class="ttc" id="anamespaceREMatch_html"><div class="ttname"><a href="../../d4/d90/namespaceREMatch.html">REMatch</a></div><div class="ttdef"><b>Definition:</b> flags.cpp:5</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

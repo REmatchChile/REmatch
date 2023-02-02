@@ -1,0 +1,71 @@
+\hypertarget{classrematch_1_1parsing_1_1CharClass}{}\doxysection{rematch\+::parsing\+::Char\+Class Class Reference}
+\label{classrematch_1_1parsing_1_1CharClass}\index{rematch::parsing::CharClass@{rematch::parsing::CharClass}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrematch_1_1parsing_1_1CharClass_aca854507751db1870ab47580ff1b5792}\label{classrematch_1_1parsing_1_1CharClass_aca854507751db1870ab47580ff1b5792}} 
+using {\bfseries iterator} = Char\+Range\+Set\+::iterator
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrematch_1_1parsing_1_1CharClass_a31707e31350ed9521c4f58b1c42cef17}\label{classrematch_1_1parsing_1_1CharClass_a31707e31350ed9521c4f58b1c42cef17}} 
+{\bfseries Char\+Class} (char c)
+\item 
+\mbox{\Hypertarget{classrematch_1_1parsing_1_1CharClass_ab3e579934ade4a6e580ca53960ab03b3}\label{classrematch_1_1parsing_1_1CharClass_ab3e579934ade4a6e580ca53960ab03b3}} 
+{\bfseries Char\+Class} (char l, char h)
+\item 
+\mbox{\Hypertarget{classrematch_1_1parsing_1_1CharClass_affc4055e37a1712fb62543a3290275aa}\label{classrematch_1_1parsing_1_1CharClass_affc4055e37a1712fb62543a3290275aa}} 
+iterator {\bfseries begin} ()
+\item 
+\mbox{\Hypertarget{classrematch_1_1parsing_1_1CharClass_a6967f93d9f1f2c1830aa09bc2a1a5b63}\label{classrematch_1_1parsing_1_1CharClass_a6967f93d9f1f2c1830aa09bc2a1a5b63}} 
+iterator {\bfseries end} ()
+\item 
+\mbox{\Hypertarget{classrematch_1_1parsing_1_1CharClass_a71e3aafa68e5571d013778328ea23450}\label{classrematch_1_1parsing_1_1CharClass_a71e3aafa68e5571d013778328ea23450}} 
+void {\bfseries add\+\_\+charclass} (\mbox{\hyperlink{classrematch_1_1parsing_1_1CharClass}{Char\+Class}} $\ast$cc)
+\item 
+\mbox{\Hypertarget{classrematch_1_1parsing_1_1CharClass_ac1a2ecb65e213150c2357a5abd2be7f3}\label{classrematch_1_1parsing_1_1CharClass_ac1a2ecb65e213150c2357a5abd2be7f3}} 
+bool {\bfseries add\+\_\+range} (char l, char h)
+\item 
+\mbox{\Hypertarget{classrematch_1_1parsing_1_1CharClass_a01a1959c41cfa0934848cdbde9e18fc8}\label{classrematch_1_1parsing_1_1CharClass_a01a1959c41cfa0934848cdbde9e18fc8}} 
+bool {\bfseries add\+\_\+single} (char c)
+\item 
+\mbox{\Hypertarget{classrematch_1_1parsing_1_1CharClass_a71302a70567023b074356005531eea17}\label{classrematch_1_1parsing_1_1CharClass_a71302a70567023b074356005531eea17}} 
+void {\bfseries negate} ()
+\item 
+\mbox{\Hypertarget{classrematch_1_1parsing_1_1CharClass_ae8acd7b2b3e5b6a034261ea1290a021b}\label{classrematch_1_1parsing_1_1CharClass_ae8acd7b2b3e5b6a034261ea1290a021b}} 
+\mbox{\hyperlink{classrematch_1_1parsing_1_1CharClass}{Char\+Class}} $\ast$ {\bfseries intersect} (\mbox{\hyperlink{classrematch_1_1parsing_1_1CharClass}{Char\+Class}} $\ast$cc)
+\item 
+\mbox{\Hypertarget{classrematch_1_1parsing_1_1CharClass_a9973935674867836cb3101d1bfa83191}\label{classrematch_1_1parsing_1_1CharClass_a9973935674867836cb3101d1bfa83191}} 
+\mbox{\hyperlink{classrematch_1_1parsing_1_1CharClass}{Char\+Class}} $\ast$ {\bfseries set\+\_\+minus} (\mbox{\hyperlink{classrematch_1_1parsing_1_1CharClass}{Char\+Class}} $\ast$cc)
+\item 
+\mbox{\Hypertarget{classrematch_1_1parsing_1_1CharClass_a07b8b03a387641a10fe1e5105bb6370c}\label{classrematch_1_1parsing_1_1CharClass_a07b8b03a387641a10fe1e5105bb6370c}} 
+int {\bfseries size} () const
+\item 
+\mbox{\Hypertarget{classrematch_1_1parsing_1_1CharClass_a85679c999fdffba001e0ff5743701a48}\label{classrematch_1_1parsing_1_1CharClass_a85679c999fdffba001e0ff5743701a48}} 
+bool {\bfseries empty} () const
+\item 
+\mbox{\Hypertarget{classrematch_1_1parsing_1_1CharClass_a9f1646a0e876a6e05a8e11f6a19c8318}\label{classrematch_1_1parsing_1_1CharClass_a9f1646a0e876a6e05a8e11f6a19c8318}} 
+bool {\bfseries contains} (char c)
+\item 
+\mbox{\Hypertarget{classrematch_1_1parsing_1_1CharClass_a43bf9b791b1d698aedb64ca48a03fc9a}\label{classrematch_1_1parsing_1_1CharClass_a43bf9b791b1d698aedb64ca48a03fc9a}} 
+bool {\bfseries is\+\_\+dot} () const
+\item 
+\mbox{\Hypertarget{classrematch_1_1parsing_1_1CharClass_aeedfe7969ec12042be0ba921d69bceea}\label{classrematch_1_1parsing_1_1CharClass_aeedfe7969ec12042be0ba921d69bceea}} 
+bool {\bfseries operator==} (const \mbox{\hyperlink{classrematch_1_1parsing_1_1CharClass}{Char\+Class}} \&rhs) const
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrematch_1_1parsing_1_1CharClass_a0a508e22df9cefd9e7d607e5bcca2b5f}\label{classrematch_1_1parsing_1_1CharClass_a0a508e22df9cefd9e7d607e5bcca2b5f}} 
+struct {\bfseries std\+::hash$<$ rematch\+::\+Char\+Class $>$}
+\item 
+\mbox{\Hypertarget{classrematch_1_1parsing_1_1CharClass_aa94c7e16148c0b409e1d46fc4824d9f2}\label{classrematch_1_1parsing_1_1CharClass_aa94c7e16148c0b409e1d46fc4824d9f2}} 
+std\+::ostream \& {\bfseries operator$<$$<$} (std\+::ostream \&os, \mbox{\hyperlink{classrematch_1_1parsing_1_1CharClass}{Char\+Class}} const \&b)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/rematch/parsing/charclass.\+hpp\item 
+src/rematch/parsing/charclass.\+cpp\end{DoxyCompactItemize}

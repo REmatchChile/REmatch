@@ -1,4 +1,4 @@
-.TH "rematch::SearchDFA" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.TH "rematch::SearchDFA" 3 "Tue Jan 31 2023" "Version 1" "Rematch" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,8 +6,6 @@ rematch::SearchDFA
 .SH SYNOPSIS
 .br
 .PP
-.PP
-\fC#include <search_dfa\&.hpp>\fP
 .SS "Public Member Functions"
 
 .in +1c
@@ -37,26 +35,10 @@ rematch::SearchDFA
 .RI "std::vector< \fBSearchDFAState\fP * > \fBstates\fP"
 .br
 .in -1c
-.SH "Constructor & Destructor Documentation"
-.PP 
-.SS "rematch::SearchDFA::SearchDFA (\fBLogicalVA\fP const & logical_va)"
-
 .SH "Member Function Documentation"
 .PP 
-.SS "\fBSearchDFAState\fP * rematch::SearchDFA::get_initial_state ()\fC [inline]\fP"
-
 .SS "\fBSearchDFAState\fP * rematch::SearchDFA::next_state (char a)"
 Assumptions: the ids are from 0 upwards (necessary to use the subsetBitset\&.)
-.SS "std::string rematch::SearchDFA::pprint ()"
-
-.SS "void rematch::SearchDFA::reset ()\fC [inline]\fP"
-
-.SS "size_t rematch::SearchDFA::size () const\fC [inline]\fP"
-
-.SH "Member Data Documentation"
-.PP 
-.SS "std::vector<\fBSearchDFAState\fP*> rematch::SearchDFA::states"
-
 
 .SH "Author"
 .PP 

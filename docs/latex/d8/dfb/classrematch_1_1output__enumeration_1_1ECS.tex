@@ -12,23 +12,26 @@ An Enumerable Compact Set stores all combinations of outputs through the interfa
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-size\+\_\+t \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_a3ed1b27b8109ff6b5203942fdb247b86}{get\+\_\+amount\+\_\+of\+\_\+nodes\+\_\+used}} () const
+\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1ECS_a3ed1b27b8109ff6b5203942fdb247b86}\label{classrematch_1_1output__enumeration_1_1ECS_a3ed1b27b8109ff6b5203942fdb247b86}} 
+size\+\_\+t {\bfseries get\+\_\+amount\+\_\+of\+\_\+nodes\+\_\+used} () const
 \item 
-size\+\_\+t \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_a0328989fbabfaa75aba05db92f748502}{amount\+\_\+of\+\_\+nodes\+\_\+allocated}} () const
+\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1ECS_a0328989fbabfaa75aba05db92f748502}\label{classrematch_1_1output__enumeration_1_1ECS_a0328989fbabfaa75aba05db92f748502}} 
+size\+\_\+t {\bfseries amount\+\_\+of\+\_\+nodes\+\_\+allocated} () const
 \item 
-\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_a6592800865d7578dc9a89c1972fb116e}{ECS}} ()=default
-\item 
-\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_ae576dd468e08220bfd45e06b78f6dd0a}{$\sim$\+ECS}} ()=default
-\item 
-\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_a773297023b6e86a1c22c57851c976402}{create\+\_\+bottom\+\_\+node}} ()
+\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1ECS_a773297023b6e86a1c22c57851c976402}\label{classrematch_1_1output__enumeration_1_1ECS_a773297023b6e86a1c22c57851c976402}} 
+\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$ {\bfseries create\+\_\+bottom\+\_\+node} ()
 \begin{DoxyCompactList}\small\item\em The bottom node, also known as the terminal node, has no children and tells us that we reached the end of an output. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_a933f6c95d69109cfc490e6580c03bb12}{create\+\_\+extend\+\_\+node}} (\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$node, std\+::bitset$<$ 64 $>$ variable\+\_\+markers, int document\+\_\+position)
+\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1ECS_a933f6c95d69109cfc490e6580c03bb12}\label{classrematch_1_1output__enumeration_1_1ECS_a933f6c95d69109cfc490e6580c03bb12}} 
+\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$ {\bfseries create\+\_\+extend\+\_\+node} (\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$node, std\+::bitset$<$ 64 $>$ variable\+\_\+markers, int document\+\_\+position)
 \begin{DoxyCompactList}\small\item\em Extend nodes, also known as content nodes store the opened and closed variables and the position in the document that this annotation is referring to. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_afe0f9450cf8625574fc68ceb496c021d}{create\+\_\+union\+\_\+node}} (\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$node\+\_\+1, \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$node\+\_\+2)
+\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1ECS_afe0f9450cf8625574fc68ceb496c021d}\label{classrematch_1_1output__enumeration_1_1ECS_afe0f9450cf8625574fc68ceb496c021d}} 
+\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$ {\bfseries create\+\_\+union\+\_\+node} (\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$node\+\_\+1, \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$node\+\_\+2)
 \begin{DoxyCompactList}\small\item\em Union nodes allow us to enumerate multiple outputs starting from a single node. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_a011208ce2e153bb1f938dc83eac25050}{pin\+\_\+node}} (\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$node)
+\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1ECS_a011208ce2e153bb1f938dc83eac25050}\label{classrematch_1_1output__enumeration_1_1ECS_a011208ce2e153bb1f938dc83eac25050}} 
+\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$ {\bfseries pin\+\_\+node} (\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$node)
 \begin{DoxyCompactList}\small\item\em If the node is going to be used in another scope, it is necessary to pin it so that the memory manager does not recycle its memory location. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_a40c7c91853631b5f242a69ecbf44b02b}{unpin\+\_\+node}} (\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$node)
+\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1ECS_a40c7c91853631b5f242a69ecbf44b02b}\label{classrematch_1_1output__enumeration_1_1ECS_a40c7c91853631b5f242a69ecbf44b02b}} 
+void {\bfseries unpin\+\_\+node} (\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$node)
 \begin{DoxyCompactList}\small\item\em If a node is no longer used, it should be unpinned, this allows the memory manager to recycle the memory allocated to it. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -39,87 +42,7 @@ Furthermore, memory management is optimized through a node manager, so that memo
 
 This structure is specified by the paper\+: REmatch\+: a regex engine for finding all matches (Riveros, Van Sint, Vrgoc 2023). 
 
-\doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1ECS_a6592800865d7578dc9a89c1972fb116e}\label{classrematch_1_1output__enumeration_1_1ECS_a6592800865d7578dc9a89c1972fb116e}} 
-\index{rematch::output\_enumeration::ECS@{rematch::output\_enumeration::ECS}!ECS@{ECS}}
-\index{ECS@{ECS}!rematch::output\_enumeration::ECS@{rematch::output\_enumeration::ECS}}
-\doxysubsubsection{\texorpdfstring{ECS()}{ECS()}}
-{\footnotesize\ttfamily rematch\+::output\+\_\+enumeration\+::\+ECS\+::\+ECS (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
-
-\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1ECS_ae576dd468e08220bfd45e06b78f6dd0a}\label{classrematch_1_1output__enumeration_1_1ECS_ae576dd468e08220bfd45e06b78f6dd0a}} 
-\index{rematch::output\_enumeration::ECS@{rematch::output\_enumeration::ECS}!````~ECS@{$\sim$ECS}}
-\index{````~ECS@{$\sim$ECS}!rematch::output\_enumeration::ECS@{rematch::output\_enumeration::ECS}}
-\doxysubsubsection{\texorpdfstring{$\sim$ECS()}{~ECS()}}
-{\footnotesize\ttfamily rematch\+::output\+\_\+enumeration\+::\+ECS\+::$\sim$\+ECS (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
-
-
-
-\doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1ECS_a0328989fbabfaa75aba05db92f748502}\label{classrematch_1_1output__enumeration_1_1ECS_a0328989fbabfaa75aba05db92f748502}} 
-\index{rematch::output\_enumeration::ECS@{rematch::output\_enumeration::ECS}!amount\_of\_nodes\_allocated@{amount\_of\_nodes\_allocated}}
-\index{amount\_of\_nodes\_allocated@{amount\_of\_nodes\_allocated}!rematch::output\_enumeration::ECS@{rematch::output\_enumeration::ECS}}
-\doxysubsubsection{\texorpdfstring{amount\_of\_nodes\_allocated()}{amount\_of\_nodes\_allocated()}}
-{\footnotesize\ttfamily size\+\_\+t rematch\+::output\+\_\+enumeration\+::\+ECS\+::amount\+\_\+of\+\_\+nodes\+\_\+allocated (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
-
-\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1ECS_a773297023b6e86a1c22c57851c976402}\label{classrematch_1_1output__enumeration_1_1ECS_a773297023b6e86a1c22c57851c976402}} 
-\index{rematch::output\_enumeration::ECS@{rematch::output\_enumeration::ECS}!create\_bottom\_node@{create\_bottom\_node}}
-\index{create\_bottom\_node@{create\_bottom\_node}!rematch::output\_enumeration::ECS@{rematch::output\_enumeration::ECS}}
-\doxysubsubsection{\texorpdfstring{create\_bottom\_node()}{create\_bottom\_node()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$ rematch\+::output\+\_\+enumeration\+::\+ECS\+::create\+\_\+bottom\+\_\+node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-
-
-The bottom node, also known as the terminal node, has no children and tells us that we reached the end of an output. 
-
-\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1ECS_a933f6c95d69109cfc490e6580c03bb12}\label{classrematch_1_1output__enumeration_1_1ECS_a933f6c95d69109cfc490e6580c03bb12}} 
-\index{rematch::output\_enumeration::ECS@{rematch::output\_enumeration::ECS}!create\_extend\_node@{create\_extend\_node}}
-\index{create\_extend\_node@{create\_extend\_node}!rematch::output\_enumeration::ECS@{rematch::output\_enumeration::ECS}}
-\doxysubsubsection{\texorpdfstring{create\_extend\_node()}{create\_extend\_node()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$ rematch\+::output\+\_\+enumeration\+::\+ECS\+::create\+\_\+extend\+\_\+node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$}]{node,  }\item[{std\+::bitset$<$ 64 $>$}]{variable\+\_\+markers,  }\item[{int}]{document\+\_\+position }\end{DoxyParamCaption})}
-
-
-
-Extend nodes, also known as content nodes store the opened and closed variables and the position in the document that this annotation is referring to. 
-
-\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1ECS_afe0f9450cf8625574fc68ceb496c021d}\label{classrematch_1_1output__enumeration_1_1ECS_afe0f9450cf8625574fc68ceb496c021d}} 
-\index{rematch::output\_enumeration::ECS@{rematch::output\_enumeration::ECS}!create\_union\_node@{create\_union\_node}}
-\index{create\_union\_node@{create\_union\_node}!rematch::output\_enumeration::ECS@{rematch::output\_enumeration::ECS}}
-\doxysubsubsection{\texorpdfstring{create\_union\_node()}{create\_union\_node()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$ rematch\+::output\+\_\+enumeration\+::\+ECS\+::create\+\_\+union\+\_\+node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$}]{node\+\_\+1,  }\item[{\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$}]{node\+\_\+2 }\end{DoxyParamCaption})}
-
-
-
-Union nodes allow us to enumerate multiple outputs starting from a single node. 
-
-\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1ECS_a3ed1b27b8109ff6b5203942fdb247b86}\label{classrematch_1_1output__enumeration_1_1ECS_a3ed1b27b8109ff6b5203942fdb247b86}} 
-\index{rematch::output\_enumeration::ECS@{rematch::output\_enumeration::ECS}!get\_amount\_of\_nodes\_used@{get\_amount\_of\_nodes\_used}}
-\index{get\_amount\_of\_nodes\_used@{get\_amount\_of\_nodes\_used}!rematch::output\_enumeration::ECS@{rematch::output\_enumeration::ECS}}
-\doxysubsubsection{\texorpdfstring{get\_amount\_of\_nodes\_used()}{get\_amount\_of\_nodes\_used()}}
-{\footnotesize\ttfamily size\+\_\+t rematch\+::output\+\_\+enumeration\+::\+ECS\+::get\+\_\+amount\+\_\+of\+\_\+nodes\+\_\+used (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
-
-\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1ECS_a011208ce2e153bb1f938dc83eac25050}\label{classrematch_1_1output__enumeration_1_1ECS_a011208ce2e153bb1f938dc83eac25050}} 
-\index{rematch::output\_enumeration::ECS@{rematch::output\_enumeration::ECS}!pin\_node@{pin\_node}}
-\index{pin\_node@{pin\_node}!rematch::output\_enumeration::ECS@{rematch::output\_enumeration::ECS}}
-\doxysubsubsection{\texorpdfstring{pin\_node()}{pin\_node()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$ rematch\+::output\+\_\+enumeration\+::\+ECS\+::pin\+\_\+node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$}]{node }\end{DoxyParamCaption})}
-
-
-
-If the node is going to be used in another scope, it is necessary to pin it so that the memory manager does not recycle its memory location. 
-
-\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1ECS_a40c7c91853631b5f242a69ecbf44b02b}\label{classrematch_1_1output__enumeration_1_1ECS_a40c7c91853631b5f242a69ecbf44b02b}} 
-\index{rematch::output\_enumeration::ECS@{rematch::output\_enumeration::ECS}!unpin\_node@{unpin\_node}}
-\index{unpin\_node@{unpin\_node}!rematch::output\_enumeration::ECS@{rematch::output\_enumeration::ECS}}
-\doxysubsubsection{\texorpdfstring{unpin\_node()}{unpin\_node()}}
-{\footnotesize\ttfamily void rematch\+::output\+\_\+enumeration\+::\+ECS\+::unpin\+\_\+node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}} $\ast$}]{node }\end{DoxyParamCaption})}
-
-
-
-If a node is no longer used, it should be unpinned, this allows the memory manager to recycle the memory allocated to it. 
-
-
-
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-src/rematch/output\+\_\+enumeration/\mbox{\hyperlink{ecs_8hpp}{ecs.\+hpp}}\item 
-src/rematch/output\+\_\+enumeration/\mbox{\hyperlink{ecs_8cpp}{ecs.\+cpp}}\end{DoxyCompactItemize}
+src/rematch/output\+\_\+enumeration/ecs.\+hpp\item 
+src/rematch/output\+\_\+enumeration/ecs.\+cpp\end{DoxyCompactItemize}

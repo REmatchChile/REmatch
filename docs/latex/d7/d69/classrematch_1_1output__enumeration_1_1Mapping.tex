@@ -12,54 +12,38 @@ A \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Mapping}{Mapping}} is 
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Mapping_ab6843a89bd5eef4c3733aba69c2878fd}{Mapping}} (int amount\+\_\+of\+\_\+variables)
+\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1Mapping_ab6843a89bd5eef4c3733aba69c2878fd}\label{classrematch_1_1output__enumeration_1_1Mapping_ab6843a89bd5eef4c3733aba69c2878fd}} 
+{\bfseries Mapping} (int amount\+\_\+of\+\_\+variables)
 \item 
-void \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Mapping_af668c016eda3e6ed41e0f97c6fb6c72a}{add\+\_\+annotations}} (std\+::bitset$<$ 64 $>$ variable\+\_\+markers, size\+\_\+t document\+\_\+position)
+\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1Mapping_af668c016eda3e6ed41e0f97c6fb6c72a}\label{classrematch_1_1output__enumeration_1_1Mapping_af668c016eda3e6ed41e0f97c6fb6c72a}} 
+void {\bfseries add\+\_\+annotations} (std\+::bitset$<$ 64 $>$ variable\+\_\+markers, size\+\_\+t document\+\_\+position)
 \item 
-std\+::vector$<$ \mbox{\hyperlink{namespacerematch_1_1output__enumeration_aa4e928067309968505c98129c79404c1}{Span}} $>$ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Mapping_a9a6f60011ce2d1d03bb9dbafc7f5d3a6}{get\+\_\+spans\+\_\+of\+\_\+variable\+\_\+id}} (int id) const
-\item 
-void \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Mapping_a168f97e4dbfebe57055ae50fbc8cfe6d}{delete\+\_\+previous\+\_\+annotation}} ()
+std\+::vector$<$ Span $>$ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Mapping_a9a6f60011ce2d1d03bb9dbafc7f5d3a6}{get\+\_\+spans\+\_\+of\+\_\+variable\+\_\+id}} (int id) const
+\begin{DoxyCompactList}\small\item\em assumptions\+: inverted\+\_\+annotations are sorted by document\+\_\+position, and are functional. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1Mapping_a168f97e4dbfebe57055ae50fbc8cfe6d}\label{classrematch_1_1output__enumeration_1_1Mapping_a168f97e4dbfebe57055ae50fbc8cfe6d}} 
+void {\bfseries delete\+\_\+previous\+\_\+annotation} ()
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 A \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Mapping}{Mapping}} is also known as an s-\/tuple, asigns a span to all it\textquotesingle{}s variables. 
 
-This is an internal mapping, therefore the spans are assigned to the variable id\textquotesingle{}s, to get the original variable names the Variable\+Catalog class should be used. 
-
-\doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1Mapping_ab6843a89bd5eef4c3733aba69c2878fd}\label{classrematch_1_1output__enumeration_1_1Mapping_ab6843a89bd5eef4c3733aba69c2878fd}} 
-\index{rematch::output\_enumeration::Mapping@{rematch::output\_enumeration::Mapping}!Mapping@{Mapping}}
-\index{Mapping@{Mapping}!rematch::output\_enumeration::Mapping@{rematch::output\_enumeration::Mapping}}
-\doxysubsubsection{\texorpdfstring{Mapping()}{Mapping()}}
-{\footnotesize\ttfamily rematch\+::output\+\_\+enumeration\+::\+Mapping\+::\+Mapping (\begin{DoxyParamCaption}\item[{int}]{amount\+\_\+of\+\_\+variables }\end{DoxyParamCaption})}
-
-
+This is an internal mapping, therefore the spans are assigned to the variable id\textquotesingle{}s, to get the original variable names the \mbox{\hyperlink{classrematch_1_1parsing_1_1VariableCatalog}{Variable\+Catalog}} class should be used. 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1Mapping_af668c016eda3e6ed41e0f97c6fb6c72a}\label{classrematch_1_1output__enumeration_1_1Mapping_af668c016eda3e6ed41e0f97c6fb6c72a}} 
-\index{rematch::output\_enumeration::Mapping@{rematch::output\_enumeration::Mapping}!add\_annotations@{add\_annotations}}
-\index{add\_annotations@{add\_annotations}!rematch::output\_enumeration::Mapping@{rematch::output\_enumeration::Mapping}}
-\doxysubsubsection{\texorpdfstring{add\_annotations()}{add\_annotations()}}
-{\footnotesize\ttfamily void rematch\+::output\+\_\+enumeration\+::\+Mapping\+::add\+\_\+annotations (\begin{DoxyParamCaption}\item[{std\+::bitset$<$ 64 $>$}]{variable\+\_\+markers,  }\item[{size\+\_\+t}]{document\+\_\+position }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1Mapping_a168f97e4dbfebe57055ae50fbc8cfe6d}\label{classrematch_1_1output__enumeration_1_1Mapping_a168f97e4dbfebe57055ae50fbc8cfe6d}} 
-\index{rematch::output\_enumeration::Mapping@{rematch::output\_enumeration::Mapping}!delete\_previous\_annotation@{delete\_previous\_annotation}}
-\index{delete\_previous\_annotation@{delete\_previous\_annotation}!rematch::output\_enumeration::Mapping@{rematch::output\_enumeration::Mapping}}
-\doxysubsubsection{\texorpdfstring{delete\_previous\_annotation()}{delete\_previous\_annotation()}}
-{\footnotesize\ttfamily void rematch\+::output\+\_\+enumeration\+::\+Mapping\+::delete\+\_\+previous\+\_\+annotation (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
 \mbox{\Hypertarget{classrematch_1_1output__enumeration_1_1Mapping_a9a6f60011ce2d1d03bb9dbafc7f5d3a6}\label{classrematch_1_1output__enumeration_1_1Mapping_a9a6f60011ce2d1d03bb9dbafc7f5d3a6}} 
 \index{rematch::output\_enumeration::Mapping@{rematch::output\_enumeration::Mapping}!get\_spans\_of\_variable\_id@{get\_spans\_of\_variable\_id}}
 \index{get\_spans\_of\_variable\_id@{get\_spans\_of\_variable\_id}!rematch::output\_enumeration::Mapping@{rematch::output\_enumeration::Mapping}}
 \doxysubsubsection{\texorpdfstring{get\_spans\_of\_variable\_id()}{get\_spans\_of\_variable\_id()}}
-{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{namespacerematch_1_1output__enumeration_aa4e928067309968505c98129c79404c1}{Span}} $>$ rematch\+::output\+\_\+enumeration\+::\+Mapping\+::get\+\_\+spans\+\_\+of\+\_\+variable\+\_\+id (\begin{DoxyParamCaption}\item[{int}]{id }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily std\+::vector$<$ Span $>$ rematch\+::output\+\_\+enumeration\+::\+Mapping\+::get\+\_\+spans\+\_\+of\+\_\+variable\+\_\+id (\begin{DoxyParamCaption}\item[{int}]{id }\end{DoxyParamCaption}) const}
 
-assumptions\+: inverted\+\_\+annotations are sorted by document\+\_\+position, and are functional.
+
+
+assumptions\+: inverted\+\_\+annotations are sorted by document\+\_\+position, and are functional. 
 
 The current implementation is not optimal, as it traverses the inverted\+\_\+annotations vector twice. Furthermore, if the spans of all the variables are found in a single pass it would be more efficient.
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-src/rematch/output\+\_\+enumeration/\mbox{\hyperlink{mapping_8hpp}{mapping.\+hpp}}\item 
-src/rematch/output\+\_\+enumeration/\mbox{\hyperlink{mapping_8cpp}{mapping.\+cpp}}\end{DoxyCompactItemize}
+src/rematch/output\+\_\+enumeration/mapping.\+hpp\item 
+src/rematch/output\+\_\+enumeration/mapping.\+cpp\end{DoxyCompactItemize}

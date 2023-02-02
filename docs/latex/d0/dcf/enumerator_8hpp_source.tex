@@ -1,30 +1,30 @@
 \hypertarget{enumerator_8hpp_source}{}\doxysection{enumerator.\+hpp}
 \label{enumerator_8hpp_source}\index{src/rematch/output\_enumeration/enumerator.hpp@{src/rematch/output\_enumeration/enumerator.hpp}}
-\mbox{\hyperlink{enumerator_8hpp}{Go to the documentation of this file.}}
+
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ OUTPUT\_ENUMERATOR\_\_ENUMERATION\_HPP}}
 \DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ OUTPUT\_ENUMERATOR\_\_ENUMERATION\_HPP}}
 \DoxyCodeLine{00003\ }
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ecs_8hpp}{output\_enumeration/ecs.hpp}}"{}}}
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{mapping_8hpp}{output\_enumeration/mapping.hpp}}"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}output\_enumeration/ecs.hpp"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}output\_enumeration/mapping.hpp"{}}}
 \DoxyCodeLine{00006\ }
-\DoxyCodeLine{00007\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacerematch}{rematch}}\ \{}
+\DoxyCodeLine{00007\ \textcolor{keyword}{namespace\ }rematch\ \{}
 \DoxyCodeLine{00008\ }
 \DoxyCodeLine{00009\ \textcolor{keyword}{inline}\ \textcolor{keyword}{namespace\ }output\_enumeration\ \{}
 \DoxyCodeLine{00010\ }
 \DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1EndOfIterationException}{EndOfIterationException}}\ :\ \textcolor{keyword}{public}\ std::exception\ \{}
 \DoxyCodeLine{00012\ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00013\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1EndOfIterationException_ab7eb3bca7d3a6208ddd7505d1fba5d8b}{what}}()\ \textcolor{keyword}{const}\ throw\ ()\ \{}
+\DoxyCodeLine{00013\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\ what()\ \textcolor{keyword}{const}\ \textcolor{keywordflow}{throw}\ ()\ \{}
 \DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Next\ was\ called\ on\ an\ empty\ enumerator"{}};}
 \DoxyCodeLine{00015\ \ \ \}}
 \DoxyCodeLine{00016\ \};}
 \DoxyCodeLine{00017\ }
-\DoxyCodeLine{00018\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{namespacerematch_1_1output__enumeration_ab7c0339e327875b37bb81fed9953aa12}{MAXIMUM\_AMOUNT\_OF\_VARIABLES}}\ =\ 31;}
+\DoxyCodeLine{00018\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ MAXIMUM\_AMOUNT\_OF\_VARIABLES\ =\ 31;}
 \DoxyCodeLine{00019\ }
 \DoxyCodeLine{00020\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Enumerator}{Enumerator}}\ \{}
 \DoxyCodeLine{00021\ }
 \DoxyCodeLine{00022\ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00023\ \ \ \textcolor{keywordtype}{int}\ amount\_of\_variables\ =\ \mbox{\hyperlink{namespacerematch_1_1output__enumeration_ab7c0339e327875b37bb81fed9953aa12}{MAXIMUM\_AMOUNT\_OF\_VARIABLES}};}
+\DoxyCodeLine{00023\ \ \ \textcolor{keywordtype}{int}\ amount\_of\_variables\ =\ MAXIMUM\_AMOUNT\_OF\_VARIABLES;}
 \DoxyCodeLine{00024\ \ \ std::vector<ECSNode*>\ stack;}
 \DoxyCodeLine{00025\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Mapping}{Mapping}}\ *current\_mapping;}
 \DoxyCodeLine{00026\ }
@@ -32,14 +32,14 @@
 \DoxyCodeLine{00028\ \ \ std::vector<int>\ amount\_of\_annotations\_added\_before\_union\ =\ \{\};}
 \DoxyCodeLine{00029\ }
 \DoxyCodeLine{00030\ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00031\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Enumerator_aa18ac9e8eab2181351724c791a8bd9b5}{Enumerator}}();}
-\DoxyCodeLine{00032\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Enumerator_aa18ac9e8eab2181351724c791a8bd9b5}{Enumerator}}(\textcolor{keywordtype}{int}\ amount\_of\_variables);}
-\DoxyCodeLine{00033\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Enumerator_aff7fcd4ef3e843888a631b494e3a7359}{\string~Enumerator}}();}
+\DoxyCodeLine{00031\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Enumerator}{Enumerator}}();}
+\DoxyCodeLine{00032\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Enumerator}{Enumerator}}(\textcolor{keywordtype}{int}\ amount\_of\_variables);}
+\DoxyCodeLine{00033\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Enumerator}{\string~Enumerator}}();}
 \DoxyCodeLine{00034\ }
-\DoxyCodeLine{00035\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Enumerator_a076d03a3d4408fcb066eead8ec211702}{add\_node}}(\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}*\ n)\ \{\ stack.push\_back(n);\ \};}
+\DoxyCodeLine{00035\ \ \ \textcolor{keywordtype}{void}\ add\_node(\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}*\ n)\ \{\ stack.push\_back(n);\ \};}
 \DoxyCodeLine{00036\ }
-\DoxyCodeLine{00037\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Enumerator_ad6a94077646805c6e796147de0455415}{has\_next}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ !stack.empty();\ \}}
-\DoxyCodeLine{00038\ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Mapping}{Mapping}}\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Enumerator_aea90ce645ca0f06e4b5a816342e694f7}{next}}();}
+\DoxyCodeLine{00037\ \ \ \textcolor{keywordtype}{bool}\ has\_next()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ !stack.empty();\ \}}
+\DoxyCodeLine{00038\ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1Mapping}{Mapping}}\ *next();}
 \DoxyCodeLine{00039\ }
 \DoxyCodeLine{00040\ \ \textcolor{keyword}{private}:}
 \DoxyCodeLine{00041\ \ \ \textcolor{keywordtype}{void}\ delete\_annotations\_until\_previous\_union();}

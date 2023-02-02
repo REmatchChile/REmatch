@@ -1,4 +1,4 @@
-.TH "REMatch::library_interface::Flags" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.TH "REMatch::library_interface::Flags" 3 "Tue Jan 31 2023" "Version 1" "Rematch" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,8 +6,6 @@ REMatch::library_interface::Flags
 .SH SYNOPSIS
 .br
 .PP
-.PP
-\fC#include <flags\&.hpp>\fP
 .SS "Public Types"
 
 .in +1c
@@ -25,9 +23,6 @@ Dotnewline (default=false) * El símbolo \&.
 .SS "Public Member Functions"
 
 .in +1c
-.ti -1c
-.RI "\fBFlags\fP ()=default"
-.br
 .ti -1c
 .RI "\fBFlags\fP (int num,\&.\&.\&.)"
 .br
@@ -72,37 +67,6 @@ Earlyoutput (default=false) * El algoritmo entrega outputs a medida que los encu
 .IP "\(bu" 2
 SaveAnchors (default=false) * Guarda el group[0] (match completo del regex) * 
 .PP
-
-.PP
-\fBEnumerator\fP
-.in +1c
-.TP
-\fB\fIMultiLine \fP\fP
-.TP
-\fB\fIDotNewLine \fP\fP
-.TP
-\fB\fILineByLine \fP\fP
-.TP
-\fB\fIEarlyOutput \fP\fP
-.TP
-\fB\fISaveAnchors \fP\fP
-.SH "Constructor & Destructor Documentation"
-.PP 
-.SS "REMatch::library_interface::Flags::Flags ()\fC [default]\fP"
-
-.SS "REMatch::library_interface::Flags::Flags (int num,  \&.\&.\&.)"
-
-.SH "Member Data Documentation"
-.PP 
-.SS "bool REMatch::library_interface::Flags::dot_new_line = false"
-
-.SS "bool REMatch::library_interface::Flags::early_output = false"
-
-.SS "bool REMatch::library_interface::Flags::line_by_line = false"
-
-.SS "bool REMatch::library_interface::Flags::multi_line = false"
-
-.SS "bool REMatch::library_interface::Flags::save_anchors = false"
 
 
 .SH "Author"

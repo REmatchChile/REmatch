@@ -2,85 +2,37 @@
 \label{classrematch_1_1SearchNFAFilter}\index{rematch::SearchNFAFilter@{rematch::SearchNFAFilter}}
 
 
-{\ttfamily \#include $<$search\+\_\+nfa\+\_\+filter.\+hpp$>$}
-
-
-
 Collaboration diagram for rematch\+::Search\+NFAFilter\+:
 % FIG 0
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a2e947445366b2dfbec010a5debb2c580}{Search\+NFAFilter}} (\mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} $\ast$\mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a0e0581bae769ec984bc2f7acfd7b1274}{from}}, \mbox{\hyperlink{classrematch_1_1CharClass}{Char\+Class}} \mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a8fef7e00392f94aed30669c247051f56}{charclass}}, \mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} $\ast$\mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a31f68698f27601290eabce7906045664}{next}})
+\mbox{\Hypertarget{classrematch_1_1SearchNFAFilter_a2e947445366b2dfbec010a5debb2c580}\label{classrematch_1_1SearchNFAFilter_a2e947445366b2dfbec010a5debb2c580}} 
+{\bfseries Search\+NFAFilter} (\mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} $\ast$from, \mbox{\hyperlink{classrematch_1_1parsing_1_1CharClass}{Char\+Class}} charclass, \mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} $\ast$next)
 \item 
-void \mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a02b3ba816fea359752adc4f3304ed712}{reset\+\_\+states}} (\mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} $\ast$s)
+\mbox{\Hypertarget{classrematch_1_1SearchNFAFilter_a02b3ba816fea359752adc4f3304ed712}\label{classrematch_1_1SearchNFAFilter_a02b3ba816fea359752adc4f3304ed712}} 
+void {\bfseries reset\+\_\+states} (\mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} $\ast$s)
 \item 
-bool \mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a20f44c0dc0d87f52269af30f795bad65}{operator==}} (const \mbox{\hyperlink{classrematch_1_1SearchNFAFilter}{Search\+NFAFilter}} \&rhs) const
+\mbox{\Hypertarget{classrematch_1_1SearchNFAFilter_a20f44c0dc0d87f52269af30f795bad65}\label{classrematch_1_1SearchNFAFilter_a20f44c0dc0d87f52269af30f795bad65}} 
+bool {\bfseries operator==} (const \mbox{\hyperlink{classrematch_1_1SearchNFAFilter}{Search\+NFAFilter}} \&rhs) const
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} $\ast$ \mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a0e0581bae769ec984bc2f7acfd7b1274}{from}}
-\item 
-\mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} $\ast$ \mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a31f68698f27601290eabce7906045664}{next}}
-\item 
-\mbox{\hyperlink{classrematch_1_1CharClass}{Char\+Class}} \mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a8fef7e00392f94aed30669c247051f56}{charclass}}
-\item 
-bool \mbox{\hyperlink{classrematch_1_1SearchNFAFilter_a64da7a350d3237bd8370ee15527fc1c3}{flag}}
-\end{DoxyCompactItemize}
-
-
-\doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classrematch_1_1SearchNFAFilter_a2e947445366b2dfbec010a5debb2c580}\label{classrematch_1_1SearchNFAFilter_a2e947445366b2dfbec010a5debb2c580}} 
-\index{rematch::SearchNFAFilter@{rematch::SearchNFAFilter}!SearchNFAFilter@{SearchNFAFilter}}
-\index{SearchNFAFilter@{SearchNFAFilter}!rematch::SearchNFAFilter@{rematch::SearchNFAFilter}}
-\doxysubsubsection{\texorpdfstring{SearchNFAFilter()}{SearchNFAFilter()}}
-{\footnotesize\ttfamily rematch\+::\+Search\+NFAFilter\+::\+Search\+NFAFilter (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} $\ast$}]{from,  }\item[{\mbox{\hyperlink{classrematch_1_1CharClass}{Char\+Class}}}]{charclass,  }\item[{\mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} $\ast$}]{next }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
-
-
-
-\doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classrematch_1_1SearchNFAFilter_a20f44c0dc0d87f52269af30f795bad65}\label{classrematch_1_1SearchNFAFilter_a20f44c0dc0d87f52269af30f795bad65}} 
-\index{rematch::SearchNFAFilter@{rematch::SearchNFAFilter}!operator==@{operator==}}
-\index{operator==@{operator==}!rematch::SearchNFAFilter@{rematch::SearchNFAFilter}}
-\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
-{\footnotesize\ttfamily bool rematch\+::\+Search\+NFAFilter\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classrematch_1_1SearchNFAFilter}{Search\+NFAFilter}} \&}]{rhs }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
-
-\mbox{\Hypertarget{classrematch_1_1SearchNFAFilter_a02b3ba816fea359752adc4f3304ed712}\label{classrematch_1_1SearchNFAFilter_a02b3ba816fea359752adc4f3304ed712}} 
-\index{rematch::SearchNFAFilter@{rematch::SearchNFAFilter}!reset\_states@{reset\_states}}
-\index{reset\_states@{reset\_states}!rematch::SearchNFAFilter@{rematch::SearchNFAFilter}}
-\doxysubsubsection{\texorpdfstring{reset\_states()}{reset\_states()}}
-{\footnotesize\ttfamily void rematch\+::\+Search\+NFAFilter\+::reset\+\_\+states (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} $\ast$}]{s }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
-
-
-
-\doxysubsection{Member Data Documentation}
-\mbox{\Hypertarget{classrematch_1_1SearchNFAFilter_a8fef7e00392f94aed30669c247051f56}\label{classrematch_1_1SearchNFAFilter_a8fef7e00392f94aed30669c247051f56}} 
-\index{rematch::SearchNFAFilter@{rematch::SearchNFAFilter}!charclass@{charclass}}
-\index{charclass@{charclass}!rematch::SearchNFAFilter@{rematch::SearchNFAFilter}}
-\doxysubsubsection{\texorpdfstring{charclass}{charclass}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classrematch_1_1CharClass}{Char\+Class}} rematch\+::\+Search\+NFAFilter\+::charclass}
-
-\mbox{\Hypertarget{classrematch_1_1SearchNFAFilter_a64da7a350d3237bd8370ee15527fc1c3}\label{classrematch_1_1SearchNFAFilter_a64da7a350d3237bd8370ee15527fc1c3}} 
-\index{rematch::SearchNFAFilter@{rematch::SearchNFAFilter}!flag@{flag}}
-\index{flag@{flag}!rematch::SearchNFAFilter@{rematch::SearchNFAFilter}}
-\doxysubsubsection{\texorpdfstring{flag}{flag}}
-{\footnotesize\ttfamily bool rematch\+::\+Search\+NFAFilter\+::flag}
-
 \mbox{\Hypertarget{classrematch_1_1SearchNFAFilter_a0e0581bae769ec984bc2f7acfd7b1274}\label{classrematch_1_1SearchNFAFilter_a0e0581bae769ec984bc2f7acfd7b1274}} 
-\index{rematch::SearchNFAFilter@{rematch::SearchNFAFilter}!from@{from}}
-\index{from@{from}!rematch::SearchNFAFilter@{rematch::SearchNFAFilter}}
-\doxysubsubsection{\texorpdfstring{from}{from}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}}$\ast$ rematch\+::\+Search\+NFAFilter\+::from}
-
+\mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} $\ast$ {\bfseries from}
+\item 
 \mbox{\Hypertarget{classrematch_1_1SearchNFAFilter_a31f68698f27601290eabce7906045664}\label{classrematch_1_1SearchNFAFilter_a31f68698f27601290eabce7906045664}} 
-\index{rematch::SearchNFAFilter@{rematch::SearchNFAFilter}!next@{next}}
-\index{next@{next}!rematch::SearchNFAFilter@{rematch::SearchNFAFilter}}
-\doxysubsubsection{\texorpdfstring{next}{next}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}}$\ast$ rematch\+::\+Search\+NFAFilter\+::next}
-
+\mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} $\ast$ {\bfseries next}
+\item 
+\mbox{\Hypertarget{classrematch_1_1SearchNFAFilter_a8fef7e00392f94aed30669c247051f56}\label{classrematch_1_1SearchNFAFilter_a8fef7e00392f94aed30669c247051f56}} 
+\mbox{\hyperlink{classrematch_1_1parsing_1_1CharClass}{Char\+Class}} {\bfseries charclass}
+\item 
+\mbox{\Hypertarget{classrematch_1_1SearchNFAFilter_a64da7a350d3237bd8370ee15527fc1c3}\label{classrematch_1_1SearchNFAFilter_a64da7a350d3237bd8370ee15527fc1c3}} 
+bool {\bfseries flag}
+\end{DoxyCompactItemize}
 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-src/rematch/filtering\+\_\+module/search\+\_\+variable\+\_\+set\+\_\+automaton/nfa/\mbox{\hyperlink{search__nfa__filter_8hpp}{search\+\_\+nfa\+\_\+filter.\+hpp}}\end{DoxyCompactItemize}
+src/rematch/filtering\+\_\+module/search\+\_\+variable\+\_\+set\+\_\+automaton/nfa/search\+\_\+nfa\+\_\+filter.\+hpp\end{DoxyCompactItemize}

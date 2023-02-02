@@ -1,4 +1,4 @@
-.TH "rematch::SegmentIdentificator" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.TH "rematch::SegmentIdentificator" 3 "Tue Jan 31 2023" "Version 1" "Rematch" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,8 +6,6 @@ rematch::SegmentIdentificator
 .SH SYNOPSIS
 .br
 .PP
-.PP
-\fC#include <segment_identificator\&.hpp>\fP
 .SS "Public Member Functions"
 
 .in +1c
@@ -18,18 +16,14 @@ rematch::SegmentIdentificator
 .RI "bool \fBhas_next\fP ()"
 .br
 .ti -1c
-.RI "\fBSpan\fP \fBnext\fP ()"
+.RI "Span \fBnext\fP ()"
 .br
 .in -1c
-.SH "Constructor & Destructor Documentation"
-.PP 
-.SS "rematch::SegmentIdentificator::SegmentIdentificator (\fBSearchDFA\fP & search_dfa, std::string_view document)"
-
 .SH "Member Function Documentation"
 .PP 
 .SS "bool rematch::SegmentIdentificator::has_next ()"
 Tries to compute the next span that has an output if it is computed correctly, \fBnext()\fP will return that span and the method will return true\&. If not, this method will return false and \fBnext()\fP will return an arbitrary span\&.
-.SS "\fBSpan\fP rematch::SegmentIdentificator::next ()"
+.SS "Span rematch::SegmentIdentificator::next ()"
 This method returns the current span in the document that has output(s)\&. It MUST be called after \fBhas_next()\fP\&.
 
 .SH "Author"

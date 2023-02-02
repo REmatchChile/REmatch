@@ -1,4 +1,4 @@
-.TH "REmatchParser" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.TH "REmatchParser" 3 "Tue Jan 31 2023" "Version 1" "Rematch" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,8 +6,6 @@ REmatchParser
 .SH SYNOPSIS
 .br
 .PP
-.PP
-\fC#include <REmatchParser\&.h>\fP
 .PP
 Inherits antlr4::Parser\&.
 .SS "Classes"
@@ -121,9 +119,6 @@ Inherits antlr4::Parser\&.
 .RI "\fBREmatchParser\fP (antlr4::TokenStream *input, const antlr4::atn::ParserATNSimulatorOptions &options)"
 .br
 .ti -1c
-.RI "\fB~REmatchParser\fP () override"
-.br
-.ti -1c
 .RI "std::string \fBgetGrammarFileName\fP () const override"
 .br
 .ti -1c
@@ -233,216 +228,6 @@ Inherits antlr4::Parser\&.
 .RI "static void \fBinitialize\fP ()"
 .br
 .in -1c
-.SH "Member Enumeration Documentation"
-.PP 
-.SS "anonymous enum"
-
-.PP
-\fBEnumerator\fP
-.in +1c
-.TP
-\fB\fIDECIMAL_DIGIT \fP\fP
-.TP
-\fB\fINOT_DECIMAL_DIGIT \fP\fP
-.TP
-\fB\fIWHITESPACE \fP\fP
-.TP
-\fB\fINOT_WHITESPACE \fP\fP
-.TP
-\fB\fIALPHANUMERIC \fP\fP
-.TP
-\fB\fINOT_ALPHANUMERIC \fP\fP
-.TP
-\fB\fITAB \fP\fP
-.TP
-\fB\fICARRIAGE_RETURN \fP\fP
-.TP
-\fB\fINEWLINE \fP\fP
-.TP
-\fB\fIVERTICAL_WHITESPACE \fP\fP
-.TP
-\fB\fIFORM_FEED \fP\fP
-.TP
-\fB\fIPIPE \fP\fP
-.TP
-\fB\fIEXCLAMAITON \fP\fP
-.TP
-\fB\fIL_CURLY \fP\fP
-.TP
-\fB\fIR_CURLY \fP\fP
-.TP
-\fB\fIL_PAR \fP\fP
-.TP
-\fB\fIR_PAR \fP\fP
-.TP
-\fB\fICOMMA \fP\fP
-.TP
-\fB\fIQUESTION \fP\fP
-.TP
-\fB\fIPLUS \fP\fP
-.TP
-\fB\fISTAR \fP\fP
-.TP
-\fB\fIHAT \fP\fP
-.TP
-\fB\fIHYPHEN \fP\fP
-.TP
-\fB\fIL_BRACK \fP\fP
-.TP
-\fB\fIR_BRACK \fP\fP
-.TP
-\fB\fIBACKSLASH \fP\fP
-.TP
-\fB\fIALPHA \fP\fP
-.TP
-\fB\fIDIGIT \fP\fP
-.TP
-\fB\fIDOT \fP\fP
-.TP
-\fB\fIUNRECOGNIZED \fP\fP
-.SS "anonymous enum"
-
-.PP
-\fBEnumerator\fP
-.in +1c
-.TP
-\fB\fIRuleRoot \fP\fP
-.TP
-\fB\fIRuleAlternation \fP\fP
-.TP
-\fB\fIRuleExpr \fP\fP
-.TP
-\fB\fIRuleElement \fP\fP
-.TP
-\fB\fIRuleGroup \fP\fP
-.TP
-\fB\fIRuleParentheses \fP\fP
-.TP
-\fB\fIRuleAssignation \fP\fP
-.TP
-\fB\fIRuleVarname \fP\fP
-.TP
-\fB\fIRuleAtom \fP\fP
-.TP
-\fB\fIRuleCharacterClass \fP\fP
-.TP
-\fB\fIRuleCcAtom \fP\fP
-.TP
-\fB\fIRuleCcRange \fP\fP
-.TP
-\fB\fIRuleCcSingle \fP\fP
-.TP
-\fB\fIRuleCcLiteral \fP\fP
-.TP
-\fB\fIRuleCcEscapes \fP\fP
-.TP
-\fB\fIRuleCcOther \fP\fP
-.TP
-\fB\fIRuleSingleSharedAtom \fP\fP
-.TP
-\fB\fIRuleLiteral \fP\fP
-.TP
-\fB\fIRuleEscapes \fP\fP
-.TP
-\fB\fIRuleSpecial \fP\fP
-.TP
-\fB\fIRuleOther \fP\fP
-.TP
-\fB\fIRuleSharedAtom \fP\fP
-.TP
-\fB\fIRuleQuantifier \fP\fP
-.TP
-\fB\fIRuleQuantity \fP\fP
-.TP
-\fB\fIRuleQuantExact \fP\fP
-.TP
-\fB\fIRuleQuantRange \fP\fP
-.TP
-\fB\fIRuleQuantMin \fP\fP
-.TP
-\fB\fIRuleQuantMax \fP\fP
-.TP
-\fB\fIRuleNumber \fP\fP
-.SH "Constructor & Destructor Documentation"
-.PP 
-.SS "REmatchParser::REmatchParser (antlr4::TokenStream * input)\fC [explicit]\fP"
-
-.SS "REmatchParser::REmatchParser (antlr4::TokenStream * input, const antlr4::atn::ParserATNSimulatorOptions & options)"
-
-.SS "REmatchParser::~REmatchParser ()\fC [override]\fP"
-
-.SH "Member Function Documentation"
-.PP 
-.SS "\fBREmatchParser::AlternationContext\fP * REmatchParser::alternation ()"
-
-.SS "\fBREmatchParser::AssignationContext\fP * REmatchParser::assignation ()"
-
-.SS "\fBREmatchParser::AtomContext\fP * REmatchParser::atom ()"
-
-.SS "\fBREmatchParser::CcAtomContext\fP * REmatchParser::ccAtom ()"
-
-.SS "\fBREmatchParser::CcEscapesContext\fP * REmatchParser::ccEscapes ()"
-
-.SS "\fBREmatchParser::CcLiteralContext\fP * REmatchParser::ccLiteral ()"
-
-.SS "\fBREmatchParser::CcOtherContext\fP * REmatchParser::ccOther ()"
-
-.SS "\fBREmatchParser::CcRangeContext\fP * REmatchParser::ccRange ()"
-
-.SS "\fBREmatchParser::CcSingleContext\fP * REmatchParser::ccSingle ()"
-
-.SS "\fBREmatchParser::CharacterClassContext\fP * REmatchParser::characterClass ()"
-
-.SS "\fBREmatchParser::ElementContext\fP * REmatchParser::element ()"
-
-.SS "\fBREmatchParser::EscapesContext\fP * REmatchParser::escapes ()"
-
-.SS "\fBREmatchParser::ExprContext\fP * REmatchParser::expr ()"
-
-.SS "const atn::ATN & REmatchParser::getATN () const\fC [override]\fP"
-
-.SS "std::string REmatchParser::getGrammarFileName () const\fC [override]\fP"
-
-.SS "const std::vector< std::string > & REmatchParser::getRuleNames () const\fC [override]\fP"
-
-.SS "antlr4::atn::SerializedATNView REmatchParser::getSerializedATN () const\fC [override]\fP"
-
-.SS "const dfa::Vocabulary & REmatchParser::getVocabulary () const\fC [override]\fP"
-
-.SS "\fBREmatchParser::GroupContext\fP * REmatchParser::group ()"
-
-.SS "void REmatchParser::initialize ()\fC [static]\fP"
-
-.SS "\fBREmatchParser::LiteralContext\fP * REmatchParser::literal ()"
-
-.SS "\fBREmatchParser::NumberContext\fP * REmatchParser::number ()"
-
-.SS "\fBREmatchParser::OtherContext\fP * REmatchParser::other ()"
-
-.SS "\fBREmatchParser::ParenthesesContext\fP * REmatchParser::parentheses ()"
-
-.SS "\fBREmatchParser::QuantExactContext\fP * REmatchParser::quantExact ()"
-
-.SS "\fBREmatchParser::QuantifierContext\fP * REmatchParser::quantifier ()"
-
-.SS "\fBREmatchParser::QuantityContext\fP * REmatchParser::quantity ()"
-
-.SS "\fBREmatchParser::QuantMaxContext\fP * REmatchParser::quantMax ()"
-
-.SS "\fBREmatchParser::QuantMinContext\fP * REmatchParser::quantMin ()"
-
-.SS "\fBREmatchParser::QuantRangeContext\fP * REmatchParser::quantRange ()"
-
-.SS "\fBREmatchParser::RootContext\fP * REmatchParser::root ()"
-
-.SS "\fBREmatchParser::SharedAtomContext\fP * REmatchParser::sharedAtom ()"
-
-.SS "\fBREmatchParser::SingleSharedAtomContext\fP * REmatchParser::singleSharedAtom ()"
-
-.SS "\fBREmatchParser::SpecialContext\fP * REmatchParser::special ()"
-
-.SS "\fBREmatchParser::VarnameContext\fP * REmatchParser::varname ()"
-
 
 .SH "Author"
 .PP 

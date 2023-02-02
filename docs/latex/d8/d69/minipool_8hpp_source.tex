@@ -1,6 +1,6 @@
 \hypertarget{minipool_8hpp_source}{}\doxysection{minipool.\+hpp}
 \label{minipool_8hpp_source}\index{src/rematch/output\_enumeration/minipool.hpp@{src/rematch/output\_enumeration/minipool.hpp}}
-\mbox{\hyperlink{minipool_8hpp}{Go to the documentation of this file.}}
+
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ OUTPUT\_ENUMERATION\_MINI\_POOL\_HPP}}
 \DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ OUTPUT\_ENUMERATION\_MINI\_POOL\_HPP}}
@@ -9,9 +9,9 @@
 \DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
 \DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <iostream>}}
 \DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <fstream>}}
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ecs__node_8hpp}{output\_enumeration/ecs\_node.hpp}}"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}output\_enumeration/ecs\_node.hpp"{}}}
 \DoxyCodeLine{00009\ }
-\DoxyCodeLine{00010\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacerematch}{rematch}}\ \{}
+\DoxyCodeLine{00010\ \textcolor{keyword}{namespace\ }rematch\ \{}
 \DoxyCodeLine{00011\ }
 \DoxyCodeLine{00012\ \textcolor{keyword}{inline}\ \textcolor{keyword}{namespace\ }output\_enumeration\ \{}
 \DoxyCodeLine{00013\ \textcolor{comment}{}}
@@ -29,15 +29,15 @@
 \DoxyCodeLine{00025\ \textcolor{keyword}{public}:}
 \DoxyCodeLine{00026\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool}{MiniPool}}(\textcolor{keywordtype}{size\_t}\ cap);}
 \DoxyCodeLine{00027\ }
-\DoxyCodeLine{00028\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool_a888c8071ed10f70a7389ba286add3adc}{capacity}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00029\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool_a6d54c3bec8b70634266a5f7386612e29}{size}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00030\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool_a5486784c2a69a07236c4ee0be2427d08}{is\_full}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00031\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool}{MiniPool}}\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool_a28ba218d777e1cc22a75baac7f51d9a7}{next}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00032\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool_a619ba90bba8652b07c1d5198fac3b7e3}{set\_next}}(\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool}{MiniPool}}\ *mp);}
-\DoxyCodeLine{00033\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool}{MiniPool}}\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool_a9fb8ee1754f4f6e6837b0786ff2f31f5}{prev}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00034\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool_a0e7ba0d91ee5ab0401a7e622ca3862a8}{set\_prev}}(\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool}{MiniPool}}\ *mp);}
+\DoxyCodeLine{00028\ \ \ \textcolor{keywordtype}{size\_t}\ capacity()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00029\ \ \ \textcolor{keywordtype}{size\_t}\ size()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00030\ \ \ \textcolor{keywordtype}{bool}\ is\_full()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00031\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool}{MiniPool}}\ *next()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00032\ \ \ \textcolor{keywordtype}{void}\ set\_next(\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool}{MiniPool}}\ *mp);}
+\DoxyCodeLine{00033\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool}{MiniPool}}\ *prev()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00034\ \ \ \textcolor{keywordtype}{void}\ set\_prev(\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool}{MiniPool}}\ *mp);}
 \DoxyCodeLine{00035\ }
-\DoxyCodeLine{00036\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...\ Args>\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1MiniPool_ad4b85bb4accd8d893df5d11141bb2bf5}{alloc}}(Args...\ args)\ \{}
+\DoxyCodeLine{00036\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}...\ Args>\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECSNode}{ECSNode}}\ *alloc(Args...\ args)\ \{}
 \DoxyCodeLine{00037\ \ \ \ \ node\_container.emplace\_back(std::forward<Args>(args)...);}
 \DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordflow}{return}\ \&node\_container.back();}
 \DoxyCodeLine{00039\ \ \ \}}

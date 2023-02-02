@@ -1,19 +1,22 @@
-# REmatch: An information extraction tool for regular document spanners 
+# REmatch: An information extraction tool for regular document spanners
 
-This implementation is based on the paper `Constant delay algorithms for regular document spanners` by Fernando Florenzano, Cristian Riveros, Martín Ugarte, Stijn Vansummeren and Domagoj Vrgoč.
+This implementation is based on the paper `REmatch: a regex engine
+for finding all matches` by Cristian Riveros, Nicolar Van Sint Jan and
+Domagoj Vrgoč.
 
-### Directory structure
+## Directory structure
 
 The C++ implementation is under `/src` folder.
 
-The `/exp` folder contains different experiments to compare our library with others.
-
 The `/tests` folder contains all the automatic tests for our code.
+
+The `/scripts` folder contains multiple useful scripts for setting up the project.
 
 ### Build instructions
 
-The setup of CMake, Catch2, boost and g++-11 on a clean ubuntu system can be done using the script `setup_cpp_to_execute_rematch.sh`
-Use the script "run_and_execute.sh" to build and run the tests.
+The setup of CMake, Catch2, boost and g++-11 on a clean ubuntu system can be done using the script `setup/ubuntu/setup_cpp_to_execute_rematch.sh`
+
+Other scripts are self explanatory.
 
 If you want to use a debugger such as `gdb`, then you should add `-DCMAKE_BUILD_TYPE=Debug` in the first CMake command.
 
@@ -47,14 +50,13 @@ build/Release/bin/rematch document.txt regex.txt --mode=benchmark
 
 ### Testing
 
-We are using Boost.Test for unit testing.
+We are using Catch2 for unit testing.
 
-To add more tests, add a new folder inside `tests/[test_name_folder]/` that starts with the word _test_ as a
-prefix. Follow the same structure (same file names) of the other folders.
+To add more tests, create files of the form:
+`tests/<module_name>/<class_tested>.cpp` and add these files to the
+TEST_SOURCES of `tests/CMakeLists.txt`
 
 
 ## Automatic documentation
 
-to build the automatic documentation two packages are needed:
-
-graphviz and doxygen.
+to build the automatic documentation two packages are needed: graphviz and doxygen. To build the documentation run `doxygen DoxyFile`

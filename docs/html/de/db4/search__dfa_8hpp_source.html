@@ -77,7 +77,7 @@ $(function() {
   <div class="headertitle"><div class="title">search_dfa.hpp</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="../../de/db4/search__dfa_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef AUTOMATA_DFA_SDFA_HPP</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef AUTOMATA_DFA_SDFA_HPP</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define AUTOMATA_DFA_SDFA_HPP</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;string&gt;</span></div>
@@ -86,20 +86,20 @@ $(function() {
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;bitset&gt;</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="../../d4/d84/logical__va_8hpp.html">parsing/logical_variable_set_automaton/logical_va.hpp</a>&quot;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="../../d4/d3a/search__dfa__state_8hpp.html">filtering_module/search_variable_set_automaton/dfa/search_dfa_state.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;parsing/logical_variable_set_automaton/logical_va.hpp&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;filtering_module/search_variable_set_automaton/dfa/search_dfa_state.hpp&quot;</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="../../d6/ddb/search__nfa_8hpp.html">filtering_module/search_variable_set_automaton/nfa/search_nfa.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;filtering_module/search_variable_set_automaton/nfa/search_nfa.hpp&quot;</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">namespace </span><a class="code hl_namespace" href="../../dd/dba/namespacerematch.html">rematch</a> {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">namespace </span>rematch {</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="../../dd/dba/namespacerematch.html#ad3cca09f64266c03a74e735d1b0c19f9">   17</a></span><span class="keyword">using </span><a class="code hl_typedef" href="../../dd/dba/namespacerematch.html#ad3cca09f64266c03a74e735d1b0c19f9">DFAStatesTableBools</a> = std::unordered_map&lt;std::vector&lt;bool&gt;, <a class="code hl_class" href="../../df/d15/classrematch_1_1SearchDFAState.html">SearchDFAState</a>*&gt;;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">using </span>DFAStatesTableBools = std::unordered_map&lt;std::vector&lt;bool&gt;, SearchDFAState*&gt;;</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="../../d5/d3e/classrematch_1_1SearchDFA.html">   19</a></span><span class="keyword">class </span><a class="code hl_class" href="../../d5/d3e/classrematch_1_1SearchDFA.html">SearchDFA</a> {</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> <span class="keyword">public</span>:</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>  <span class="comment">// Vector of pointers of States for resizing:</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="../../d5/d3e/classrematch_1_1SearchDFA.html#a64a7132ca7c74d73c22114f535899180">   23</a></span>  std::vector&lt;SearchDFAState*&gt; <a class="code hl_variable" href="../../d5/d3e/classrematch_1_1SearchDFA.html#a64a7132ca7c74d73c22114f535899180">states</a>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>  std::vector&lt;SearchDFAState*&gt; states;</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> <span class="keyword">private</span>:</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>  <span class="comment">// The starting state of the dfa</span></div>
@@ -113,22 +113,22 @@ $(function() {
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> <span class="keyword">public</span>:</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  <a class="code hl_class" href="../../d5/d3e/classrematch_1_1SearchDFA.html">SearchDFA</a>(<a class="code hl_class" href="../../d3/d6f/classrematch_1_1LogicalVA.html">LogicalVA</a> <span class="keyword">const</span> &amp;logical_va);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  <a class="code hl_class" href="../../d5/d3e/classrematch_1_1SearchDFA.html">SearchDFA</a>(<a class="code hl_class" href="../../d0/d90/classrematch_1_1parsing_1_1LogicalVA.html">LogicalVA</a> <span class="keyword">const</span> &amp;logical_va);</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  <span class="comment">//  ---  Getters  ---  //</span></div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="../../d5/d3e/classrematch_1_1SearchDFA.html#a96d8e8b4d04718d9108f8c3ac3879803">   41</a></span>  <a class="code hl_class" href="../../df/d15/classrematch_1_1SearchDFAState.html">SearchDFAState</a>* <a class="code hl_function" href="../../d5/d3e/classrematch_1_1SearchDFA.html#a96d8e8b4d04718d9108f8c3ac3879803">get_initial_state</a>() {<span class="keywordflow">return</span> initial_state;}</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  <a class="code hl_class" href="../../df/d15/classrematch_1_1SearchDFAState.html">SearchDFAState</a>* get_initial_state() {<span class="keywordflow">return</span> initial_state;}</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  <span class="comment">// @brief Check if the empty word is inside the automaton&#39;s language</span></div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="../../d5/d3e/classrematch_1_1SearchDFA.html#a8c3248dd99451b12153fa65eabff6a9b">   45</a></span>  std::string <a class="code hl_function" href="../../d5/d3e/classrematch_1_1SearchDFA.html#a8c3248dd99451b12153fa65eabff6a9b">pprint</a>();</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>  std::string pprint();</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="../../d5/d3e/classrematch_1_1SearchDFA.html#a3b59368440581216fdf15aa6e35973f8">   47</a></span>  <span class="keywordtype">size_t</span> <a class="code hl_function" href="../../d5/d3e/classrematch_1_1SearchDFA.html#a3b59368440581216fdf15aa6e35973f8">size</a>()<span class="keyword"> const </span>{<span class="keywordflow">return</span> <a class="code hl_variable" href="../../d5/d3e/classrematch_1_1SearchDFA.html#a64a7132ca7c74d73c22114f535899180">states</a>.size();}</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  <span class="keywordtype">size_t</span> size()<span class="keyword"> const </span>{<span class="keywordflow">return</span> states.size();}</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  <span class="comment">// ---  Determinization  ---  //</span></div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>  <a class="code hl_class" href="../../df/d15/classrematch_1_1SearchDFAState.html">SearchDFAState</a>* <a class="code hl_function" href="../../d5/d3e/classrematch_1_1SearchDFA.html#ae2e6eb71137c5ac626724d82cc6290e6">next_state</a>(<span class="keywordtype">char</span> a);</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="../../d5/d3e/classrematch_1_1SearchDFA.html#a6dafdb2fe306b84b017b1b5ae50d2353">   52</a></span>  <span class="keywordtype">void</span> <a class="code hl_function" href="../../d5/d3e/classrematch_1_1SearchDFA.html#a6dafdb2fe306b84b017b1b5ae50d2353">reset</a>() { current_state = initial_state;}</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>  <span class="keywordtype">void</span> reset() { current_state = initial_state;}</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> <span class="keyword">private</span>:</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
@@ -143,21 +143,11 @@ $(function() {
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>} <span class="comment">// end namespace rematch</span></div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#endif </span><span class="comment">// AUTOMATA_DFA_SDFA_HPP</span></div>
-<div class="ttc" id="aclassrematch_1_1LogicalVA_html"><div class="ttname"><a href="../../d3/d6f/classrematch_1_1LogicalVA.html">rematch::LogicalVA</a></div><div class="ttdef"><b>Definition:</b> logical_va.hpp:18</div></div>
 <div class="ttc" id="aclassrematch_1_1SearchDFAState_html"><div class="ttname"><a href="../../df/d15/classrematch_1_1SearchDFAState.html">rematch::SearchDFAState</a></div><div class="ttdef"><b>Definition:</b> search_dfa_state.hpp:15</div></div>
 <div class="ttc" id="aclassrematch_1_1SearchDFA_html"><div class="ttname"><a href="../../d5/d3e/classrematch_1_1SearchDFA.html">rematch::SearchDFA</a></div><div class="ttdef"><b>Definition:</b> search_dfa.hpp:19</div></div>
-<div class="ttc" id="aclassrematch_1_1SearchDFA_html_a3b59368440581216fdf15aa6e35973f8"><div class="ttname"><a href="../../d5/d3e/classrematch_1_1SearchDFA.html#a3b59368440581216fdf15aa6e35973f8">rematch::SearchDFA::size</a></div><div class="ttdeci">size_t size() const</div><div class="ttdef"><b>Definition:</b> search_dfa.hpp:47</div></div>
-<div class="ttc" id="aclassrematch_1_1SearchDFA_html_a64a7132ca7c74d73c22114f535899180"><div class="ttname"><a href="../../d5/d3e/classrematch_1_1SearchDFA.html#a64a7132ca7c74d73c22114f535899180">rematch::SearchDFA::states</a></div><div class="ttdeci">std::vector&lt; SearchDFAState * &gt; states</div><div class="ttdef"><b>Definition:</b> search_dfa.hpp:23</div></div>
-<div class="ttc" id="aclassrematch_1_1SearchDFA_html_a6dafdb2fe306b84b017b1b5ae50d2353"><div class="ttname"><a href="../../d5/d3e/classrematch_1_1SearchDFA.html#a6dafdb2fe306b84b017b1b5ae50d2353">rematch::SearchDFA::reset</a></div><div class="ttdeci">void reset()</div><div class="ttdef"><b>Definition:</b> search_dfa.hpp:52</div></div>
-<div class="ttc" id="aclassrematch_1_1SearchDFA_html_a8c3248dd99451b12153fa65eabff6a9b"><div class="ttname"><a href="../../d5/d3e/classrematch_1_1SearchDFA.html#a8c3248dd99451b12153fa65eabff6a9b">rematch::SearchDFA::pprint</a></div><div class="ttdeci">std::string pprint()</div></div>
-<div class="ttc" id="aclassrematch_1_1SearchDFA_html_a96d8e8b4d04718d9108f8c3ac3879803"><div class="ttname"><a href="../../d5/d3e/classrematch_1_1SearchDFA.html#a96d8e8b4d04718d9108f8c3ac3879803">rematch::SearchDFA::get_initial_state</a></div><div class="ttdeci">SearchDFAState * get_initial_state()</div><div class="ttdef"><b>Definition:</b> search_dfa.hpp:41</div></div>
 <div class="ttc" id="aclassrematch_1_1SearchDFA_html_ae2e6eb71137c5ac626724d82cc6290e6"><div class="ttname"><a href="../../d5/d3e/classrematch_1_1SearchDFA.html#ae2e6eb71137c5ac626724d82cc6290e6">rematch::SearchDFA::next_state</a></div><div class="ttdeci">SearchDFAState * next_state(char a)</div><div class="ttdef"><b>Definition:</b> search_dfa.cpp:29</div></div>
 <div class="ttc" id="aclassrematch_1_1SearchNFA_html"><div class="ttname"><a href="../../da/d38/classrematch_1_1SearchNFA.html">rematch::SearchNFA</a></div><div class="ttdef"><b>Definition:</b> search_nfa.hpp:12</div></div>
-<div class="ttc" id="alogical__va_8hpp_html"><div class="ttname"><a href="../../d4/d84/logical__va_8hpp.html">logical_va.hpp</a></div></div>
-<div class="ttc" id="anamespacerematch_html"><div class="ttname"><a href="../../dd/dba/namespacerematch.html">rematch</a></div><div class="ttdef"><b>Definition:</b> search_dfa.cpp:8</div></div>
-<div class="ttc" id="anamespacerematch_html_ad3cca09f64266c03a74e735d1b0c19f9"><div class="ttname"><a href="../../dd/dba/namespacerematch.html#ad3cca09f64266c03a74e735d1b0c19f9">rematch::DFAStatesTableBools</a></div><div class="ttdeci">std::unordered_map&lt; std::vector&lt; bool &gt;, SearchDFAState * &gt; DFAStatesTableBools</div><div class="ttdef"><b>Definition:</b> search_dfa.hpp:17</div></div>
-<div class="ttc" id="asearch__dfa__state_8hpp_html"><div class="ttname"><a href="../../d4/d3a/search__dfa__state_8hpp.html">search_dfa_state.hpp</a></div></div>
-<div class="ttc" id="asearch__nfa_8hpp_html"><div class="ttname"><a href="../../d6/ddb/search__nfa_8hpp.html">search_nfa.hpp</a></div></div>
+<div class="ttc" id="aclassrematch_1_1parsing_1_1LogicalVA_html"><div class="ttname"><a href="../../d0/d90/classrematch_1_1parsing_1_1LogicalVA.html">rematch::LogicalVA</a></div><div class="ttdef"><b>Definition:</b> logical_va.hpp:20</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

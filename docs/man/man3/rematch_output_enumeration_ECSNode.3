@@ -1,4 +1,4 @@
-.TH "rematch::output_enumeration::ECSNode" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.TH "rematch::output_enumeration::ECSNode" 3 "Tue Jan 31 2023" "Version 1" "Rematch" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,16 +6,14 @@ rematch::output_enumeration::ECSNode
 .SH SYNOPSIS
 .br
 .PP
-.PP
-\fC#include <ecs_node\&.hpp>\fP
 .SS "Public Member Functions"
 
 .in +1c
 .ti -1c
-.RI "\fBECSNode\fP (\fBECSNodeType\fP node_type, \fBECSNode\fP *\fBleft\fP=nullptr, \fBECSNode\fP *\fBright\fP=nullptr, std::bitset< 64 > \fBvariable_markers\fP=0, int \fBdocument_position\fP=0)"
+.RI "\fBECSNode\fP (ECSNodeType node_type, \fBECSNode\fP *left=nullptr, \fBECSNode\fP *right=nullptr, std::bitset< 64 > variable_markers=0, int document_position=0)"
 .br
 .ti -1c
-.RI "\fBECSNode\fP * \fBreset\fP (\fBECSNodeType\fP node_type, \fBECSNode\fP *\fBleft\fP=nullptr, \fBECSNode\fP *\fBright\fP=nullptr, std::bitset< 64 > \fBvariable_markers\fP=0, int \fBdocument_position\fP=0)"
+.RI "\fBECSNode\fP * \fBreset\fP (ECSNodeType node_type, \fBECSNode\fP *left=nullptr, \fBECSNode\fP *right=nullptr, std::bitset< 64 > variable_markers=0, int document_position=0)"
 .br
 .RI "The reset function reinstantiates the node but recycling the memory position that was used beforehand\&. "
 .ti -1c
@@ -56,7 +54,7 @@ rematch::output_enumeration::ECSNode
 .RI "}; "
 .br
 .ti -1c
-.RI "\fBECSNodeType\fP \fBtype\fP"
+.RI "ECSNodeType \fBtype\fP"
 .br
 .ti -1c
 .RI "int \fBref_count\fP {1}"
@@ -75,50 +73,6 @@ rematch::output_enumeration::ECSNode
 .RI "std::ostream & \fBoperator<<\fP (std::ostream &os, const \fBECSNode\fP &n)"
 .br
 .in -1c
-.SH "Constructor & Destructor Documentation"
-.PP 
-.SS "rematch::output_enumeration::ECSNode::ECSNode (\fBECSNodeType\fP node_type, \fBECSNode\fP * left = \fCnullptr\fP, \fBECSNode\fP * right = \fCnullptr\fP, std::bitset< 64 > variable_markers = \fC0\fP, int document_position = \fC0\fP)"
-
-.SH "Member Function Documentation"
-.PP 
-.SS "bool rematch::output_enumeration::ECSNode::is_bottom () const"
-
-.SS "bool rematch::output_enumeration::ECSNode::is_output () const"
-
-.SS "\fBECSNode\fP * rematch::output_enumeration::ECSNode::left_node () const\fC [inline]\fP"
-
-.SS "\fBECSNode\fP * rematch::output_enumeration::ECSNode::next () const\fC [inline]\fP"
-
-.SS "\fBECSNode\fP * rematch::output_enumeration::ECSNode::reset (\fBECSNodeType\fP node_type, \fBECSNode\fP * left = \fCnullptr\fP, \fBECSNode\fP * right = \fCnullptr\fP, std::bitset< 64 > variable_markers = \fC0\fP, int document_position = \fC0\fP)"
-
-.PP
-The reset function reinstantiates the node but recycling the memory position that was used beforehand\&. 
-.SS "\fBECSNode\fP * rematch::output_enumeration::ECSNode::right_node () const\fC [inline]\fP"
-
-.SH "Friends And Related Function Documentation"
-.PP 
-.SS "friend class \fBNodeManager\fP\fC [friend]\fP"
-
-.SS "std::ostream & operator<< (std::ostream & os, const \fBECSNode\fP & n)\fC [friend]\fP"
-
-.SH "Member Data Documentation"
-.PP 
-.SS "union  { \&.\&.\&. }  rematch::output_enumeration::ECSNode::@1"
-
-.SS "int rematch::output_enumeration::ECSNode::document_position"
-
-.SS "\fBECSNode\fP* rematch::output_enumeration::ECSNode::left = nullptr"
-
-.SS "\fBECSNode\fP* rematch::output_enumeration::ECSNode::next_free_node"
-
-.SS "int rematch::output_enumeration::ECSNode::ref_count {1}"
-
-.SS "\fBECSNode\fP* rematch::output_enumeration::ECSNode::right = nullptr"
-
-.SS "\fBECSNodeType\fP rematch::output_enumeration::ECSNode::type"
-
-.SS "std::bitset<64> rematch::output_enumeration::ECSNode::variable_markers"
-
 
 .SH "Author"
 .PP 

@@ -1,4 +1,4 @@
-.TH "REmatchLexer" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.TH "REmatchLexer" 3 "Tue Jan 31 2023" "Version 1" "Rematch" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,8 +6,6 @@ REmatchLexer
 .SH SYNOPSIS
 .br
 .PP
-.PP
-\fC#include <REmatchLexer\&.h>\fP
 .PP
 Inherits antlr4::Lexer\&.
 .SS "Public Types"
@@ -22,9 +20,6 @@ Inherits antlr4::Lexer\&.
 .in +1c
 .ti -1c
 .RI "\fBREmatchLexer\fP (antlr4::CharStream *input)"
-.br
-.ti -1c
-.RI "\fB~REmatchLexer\fP () override"
 .br
 .ti -1c
 .RI "std::string \fBgetGrammarFileName\fP () const override"
@@ -55,97 +50,6 @@ Inherits antlr4::Lexer\&.
 .RI "static void \fBinitialize\fP ()"
 .br
 .in -1c
-.SH "Member Enumeration Documentation"
-.PP 
-.SS "anonymous enum"
-
-.PP
-\fBEnumerator\fP
-.in +1c
-.TP
-\fB\fIDECIMAL_DIGIT \fP\fP
-.TP
-\fB\fINOT_DECIMAL_DIGIT \fP\fP
-.TP
-\fB\fIWHITESPACE \fP\fP
-.TP
-\fB\fINOT_WHITESPACE \fP\fP
-.TP
-\fB\fIALPHANUMERIC \fP\fP
-.TP
-\fB\fINOT_ALPHANUMERIC \fP\fP
-.TP
-\fB\fITAB \fP\fP
-.TP
-\fB\fICARRIAGE_RETURN \fP\fP
-.TP
-\fB\fINEWLINE \fP\fP
-.TP
-\fB\fIVERTICAL_WHITESPACE \fP\fP
-.TP
-\fB\fIFORM_FEED \fP\fP
-.TP
-\fB\fIPIPE \fP\fP
-.TP
-\fB\fIEXCLAMAITON \fP\fP
-.TP
-\fB\fIL_CURLY \fP\fP
-.TP
-\fB\fIR_CURLY \fP\fP
-.TP
-\fB\fIL_PAR \fP\fP
-.TP
-\fB\fIR_PAR \fP\fP
-.TP
-\fB\fICOMMA \fP\fP
-.TP
-\fB\fIQUESTION \fP\fP
-.TP
-\fB\fIPLUS \fP\fP
-.TP
-\fB\fISTAR \fP\fP
-.TP
-\fB\fIHAT \fP\fP
-.TP
-\fB\fIHYPHEN \fP\fP
-.TP
-\fB\fIL_BRACK \fP\fP
-.TP
-\fB\fIR_BRACK \fP\fP
-.TP
-\fB\fIBACKSLASH \fP\fP
-.TP
-\fB\fIALPHA \fP\fP
-.TP
-\fB\fIDIGIT \fP\fP
-.TP
-\fB\fIDOT \fP\fP
-.TP
-\fB\fIUNRECOGNIZED \fP\fP
-.SH "Constructor & Destructor Documentation"
-.PP 
-.SS "REmatchLexer::REmatchLexer (antlr4::CharStream * input)\fC [explicit]\fP"
-
-.SS "REmatchLexer::~REmatchLexer ()\fC [override]\fP"
-
-.SH "Member Function Documentation"
-.PP 
-.SS "const atn::ATN & REmatchLexer::getATN () const\fC [override]\fP"
-
-.SS "const std::vector< std::string > & REmatchLexer::getChannelNames () const\fC [override]\fP"
-
-.SS "std::string REmatchLexer::getGrammarFileName () const\fC [override]\fP"
-
-.SS "const std::vector< std::string > & REmatchLexer::getModeNames () const\fC [override]\fP"
-
-.SS "const std::vector< std::string > & REmatchLexer::getRuleNames () const\fC [override]\fP"
-
-.SS "antlr4::atn::SerializedATNView REmatchLexer::getSerializedATN () const\fC [override]\fP"
-
-.SS "const dfa::Vocabulary & REmatchLexer::getVocabulary () const\fC [override]\fP"
-
-.SS "void REmatchLexer::initialize ()\fC [static]\fP"
-
 
 .SH "Author"
 .PP 

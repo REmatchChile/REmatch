@@ -1,6 +1,6 @@
 \hypertarget{match_8hpp_source}{}\doxysection{match.\+hpp}
 \label{match_8hpp_source}\index{src/rematch/library\_interface/match.hpp@{src/rematch/library\_interface/match.hpp}}
-\mbox{\hyperlink{match_8hpp}{Go to the documentation of this file.}}
+
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ LIBRARY\_INTERFACE\_\_MATCH\_HPP}}
 \DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ LIBRARY\_INTERFACE\_\_MATCH\_HPP}}
@@ -9,23 +9,23 @@
 \DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <utility>}}
 \DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string\_view>}}
 \DoxyCodeLine{00007\ }
-\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceREMatch}{REMatch}}\ \{}
+\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }REMatch\ \{}
 \DoxyCodeLine{00009\ }
 \DoxyCodeLine{00010\ \textcolor{keyword}{inline}\ \textcolor{keyword}{namespace\ }library\_interface\ \{}
 \DoxyCodeLine{00011\ }
-\DoxyCodeLine{00012\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespaceREMatch_1_1library__interface_ae74aa89b888f7461983edcfb0834eb96}{Span}}\ =\ std::pair<size\_t,\ size\_t>;}
+\DoxyCodeLine{00012\ \ \ \textcolor{keyword}{using\ }Span\ =\ std::pair<size\_t,\ size\_t>;}
 \DoxyCodeLine{00013\ }
 \DoxyCodeLine{00014\ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classREMatch_1_1library__interface_1_1Match}{Match}}\ \{}
 \DoxyCodeLine{00015\ }
 \DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00017\ \ \ \ \ \ \ \mbox{\hyperlink{namespaceREMatch_1_1library__interface_ae74aa89b888f7461983edcfb0834eb96}{Span}}\ span;}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ Span\ span;}
 \DoxyCodeLine{00018\ \ \ \ \ \ \ std::string\_view\ document;}
 \DoxyCodeLine{00019\ }
 \DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00021\ \ \ \ \ \ \ \mbox{\hyperlink{classREMatch_1_1library__interface_1_1Match}{Match}}(\mbox{\hyperlink{namespaceREMatch_1_1library__interface_ae74aa89b888f7461983edcfb0834eb96}{Span}}\ span,\ std::string\_view\ document);}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \mbox{\hyperlink{classREMatch_1_1library__interface_1_1Match}{Match}}(Span\ span,\ std::string\_view\ document);}
 \DoxyCodeLine{00022\ }
-\DoxyCodeLine{00023\ \ \ \ \ \ \ \mbox{\hyperlink{namespaceREMatch_1_1library__interface_ae74aa89b888f7461983edcfb0834eb96}{Span}}\ \mbox{\hyperlink{classREMatch_1_1library__interface_1_1Match_a0eab195cf59ecd6d20270ecf43584dbd}{get\_span}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00024\ \ \ \ \ \ \ std::string\_view\ \mbox{\hyperlink{classREMatch_1_1library__interface_1_1Match_a340249a65c883d60e40361ace497f444}{to\_string}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ Span\ get\_span()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ std::string\_view\ to\_string()\ \textcolor{keyword}{const};}
 \DoxyCodeLine{00025\ \ \ \};}
 \DoxyCodeLine{00026\ \}\ \textcolor{comment}{//\ end\ namespace\ library\_interface}}
 \DoxyCodeLine{00027\ }

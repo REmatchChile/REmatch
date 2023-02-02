@@ -564,9 +564,7 @@ HIDE_UNDOC_MEMBERS     = NO
 
 HIDE_UNDOC_CLASSES     = NO
 
-# If the HIDE_FRIEND_COMPOUNDS tag is set to YES, doxygen will hide all friend
-# declarations. If set to NO, these declarations will be included in the
-# documentation.
+# If the HIDE_FRIEND_COMPOUNDS tag is set to YES, doxygen will hide all friend declarations. If set to NO, these declarations will be included in the documentation.
 # The default value is: NO.
 
 HIDE_FRIEND_COMPOUNDS  = NO

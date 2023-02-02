@@ -79,8 +79,6 @@ $(function() {
   <div class="headertitle"><div class="title">REmatchParser Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p><code>#include &lt;<a class="el" href="../../d8/dea/REmatchParser_8h_source.html">REmatchParser.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for REmatchParser:</div>
 <div class="dyncontent">
@@ -163,989 +161,208 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:ad9115c15adb98f051ec11e01017fabca"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
-&#160;&#160;<a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaa9411f3523f60181e76c57b18f439bbb5">DECIMAL_DIGIT</a> = 1
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaa8461f0515ca21fbb7b2b4d9c6daa1e8a">NOT_DECIMAL_DIGIT</a> = 2
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaa3c79200722076ec9baea1355e43c292e">WHITESPACE</a> = 3
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaa997e04ea762b3aea38b68ba05026ead4">NOT_WHITESPACE</a> = 4
+<tr class="memitem:ad9115c15adb98f051ec11e01017fabca"><td class="memItemLeft" align="right" valign="top"><a id="ad9115c15adb98f051ec11e01017fabca" name="ad9115c15adb98f051ec11e01017fabca"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
+&#160;&#160;<b>DECIMAL_DIGIT</b> = 1
+, <b>NOT_DECIMAL_DIGIT</b> = 2
+, <b>WHITESPACE</b> = 3
+, <b>NOT_WHITESPACE</b> = 4
 , <br />
-&#160;&#160;<a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaa27a84e503aea7107d20d63838d470a66">ALPHANUMERIC</a> = 5
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaa0f5e041e09d3da2e265251c421552dae">NOT_ALPHANUMERIC</a> = 6
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaac136fa53f3293b509e0ce15ad277e2f1">TAB</a> = 7
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaaaacb58605fdf8f36ca3d4822080df814">CARRIAGE_RETURN</a> = 8
+&#160;&#160;<b>ALPHANUMERIC</b> = 5
+, <b>NOT_ALPHANUMERIC</b> = 6
+, <b>TAB</b> = 7
+, <b>CARRIAGE_RETURN</b> = 8
 , <br />
-&#160;&#160;<a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaa8a1cb6cb8bd61cc4592cba81e6706ea3">NEWLINE</a> = 9
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaaf7a812b4804d74d6ee2a2ea39b3b60d7">VERTICAL_WHITESPACE</a> = 10
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaae0fd73e811a3787e4f92aba8bcaefe33">FORM_FEED</a> = 11
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaa1821f6cc439050ceecf2845ecdda1360">PIPE</a> = 12
+&#160;&#160;<b>NEWLINE</b> = 9
+, <b>VERTICAL_WHITESPACE</b> = 10
+, <b>FORM_FEED</b> = 11
+, <b>PIPE</b> = 12
 , <br />
-&#160;&#160;<a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaa820acbdc1d0c31c3d38af58730ca76e4">EXCLAMAITON</a> = 13
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaa12c90e330569a5fcca82ad77f41d157d">L_CURLY</a> = 14
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaa51802adf76eb2d552b425f415c8f3de9">R_CURLY</a> = 15
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaafe9aa8ac4d7349058dc38714a3cf3cfc">L_PAR</a> = 16
+&#160;&#160;<b>EXCLAMAITON</b> = 13
+, <b>L_CURLY</b> = 14
+, <b>R_CURLY</b> = 15
+, <b>L_PAR</b> = 16
 , <br />
-&#160;&#160;<a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaa1f61c83df51b59b129cd88aed46ec540">R_PAR</a> = 17
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaacf30267ad679c85f49e7ae9e67c29bfe">COMMA</a> = 18
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaa9f5899dda1ddb7ef9c05c9f189877336">QUESTION</a> = 19
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaa8c7060bfdb5c56cfa879fe89cc92c860">PLUS</a> = 20
+&#160;&#160;<b>R_PAR</b> = 17
+, <b>COMMA</b> = 18
+, <b>QUESTION</b> = 19
+, <b>PLUS</b> = 20
 , <br />
-&#160;&#160;<a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaae17d27fa45460eceaff3a010c4e9b7aa">STAR</a> = 21
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaafbf74763a7b753c86fc5dbae0cbfbf91">HAT</a> = 22
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaa44af88c354ee917be08111f4437f7c5b">HYPHEN</a> = 23
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaa21e91fd808b875d95e9628a45408f2e7">L_BRACK</a> = 24
+&#160;&#160;<b>STAR</b> = 21
+, <b>HAT</b> = 22
+, <b>HYPHEN</b> = 23
+, <b>L_BRACK</b> = 24
 , <br />
-&#160;&#160;<a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaaa4327d4d7dbf0bbac9112b4e9fc7143f">R_BRACK</a> = 25
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaae591d34d86106bd769dc39f185e1f42e">BACKSLASH</a> = 26
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaaa535b9109ffb4ab8f55107622f8f5cb6">ALPHA</a> = 27
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaa7dd4149b36ffd1123910862654bc1a95">DIGIT</a> = 28
+&#160;&#160;<b>R_BRACK</b> = 25
+, <b>BACKSLASH</b> = 26
+, <b>ALPHA</b> = 27
+, <b>DIGIT</b> = 28
 , <br />
-&#160;&#160;<a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaa724aa726d349dab90bb26efe99f347f9">DOT</a> = 29
-, <a class="el" href="../../dd/df1/classREmatchParser.html#ad9115c15adb98f051ec11e01017fabcaa51a0fdb320985a439f08925c12147e1e">UNRECOGNIZED</a> = 30
+&#160;&#160;<b>DOT</b> = 29
+, <b>UNRECOGNIZED</b> = 30
 <br />
  }</td></tr>
 <tr class="separator:ad9115c15adb98f051ec11e01017fabca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7387b0e2919a106e1389b8739dd4f94c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
-&#160;&#160;<a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94ca7d2f743eef262d37124b8403c68c68cb">RuleRoot</a> = 0
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94ca8750f757bf5555b1ddaed66cae91c094">RuleAlternation</a> = 1
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94caf6aa3bb5da52826c7f314b534c3bdbe0">RuleExpr</a> = 2
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94caabc2f900f9d43d48d8e2e5e757e74253">RuleElement</a> = 3
+<tr class="memitem:a7387b0e2919a106e1389b8739dd4f94c"><td class="memItemLeft" align="right" valign="top"><a id="a7387b0e2919a106e1389b8739dd4f94c" name="a7387b0e2919a106e1389b8739dd4f94c"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
+&#160;&#160;<b>RuleRoot</b> = 0
+, <b>RuleAlternation</b> = 1
+, <b>RuleExpr</b> = 2
+, <b>RuleElement</b> = 3
 , <br />
-&#160;&#160;<a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94ca3060297132f60bc33e144ddbeb2c62db">RuleGroup</a> = 4
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94ca94b500a531e87066afc8c7137adf631d">RuleParentheses</a> = 5
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94caaf53141f6c8d3b29221a25ed4e90dd02">RuleAssignation</a> = 6
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94ca08bf33a75a12430bb13c445bb7762c43">RuleVarname</a> = 7
+&#160;&#160;<b>RuleGroup</b> = 4
+, <b>RuleParentheses</b> = 5
+, <b>RuleAssignation</b> = 6
+, <b>RuleVarname</b> = 7
 , <br />
-&#160;&#160;<a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94cadd9ea93d2f049ed2bab2eb74c549146b">RuleAtom</a> = 8
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94ca0616b79b93ab8f76fd800692a0620459">RuleCharacterClass</a> = 9
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94caa25b9e41acbd9b8e20ccb541a0d83368">RuleCcAtom</a> = 10
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94ca7f39009ee26ccfa31dc90b4331191122">RuleCcRange</a> = 11
+&#160;&#160;<b>RuleAtom</b> = 8
+, <b>RuleCharacterClass</b> = 9
+, <b>RuleCcAtom</b> = 10
+, <b>RuleCcRange</b> = 11
 , <br />
-&#160;&#160;<a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94cafefe8b7220f5fedb6341050911b44392">RuleCcSingle</a> = 12
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94cadb3ed05c2c247c0886e1de28bc5bf6ab">RuleCcLiteral</a> = 13
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94ca462a1e627e73893066bec165bb890918">RuleCcEscapes</a> = 14
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94caf0b9b0436a2b7e41dc86fd88f63b5229">RuleCcOther</a> = 15
+&#160;&#160;<b>RuleCcSingle</b> = 12
+, <b>RuleCcLiteral</b> = 13
+, <b>RuleCcEscapes</b> = 14
+, <b>RuleCcOther</b> = 15
 , <br />
-&#160;&#160;<a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94cab9767dbe5a53c2930cfc2fa659df9dea">RuleSingleSharedAtom</a> = 16
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94caf45981ca5744b62fd91fdc136be1f2e4">RuleLiteral</a> = 17
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94ca685ce25d19e7d22f6acff3d065fe39c5">RuleEscapes</a> = 18
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94ca7b9e1b69b43c74b7baa040b5914b2871">RuleSpecial</a> = 19
+&#160;&#160;<b>RuleSingleSharedAtom</b> = 16
+, <b>RuleLiteral</b> = 17
+, <b>RuleEscapes</b> = 18
+, <b>RuleSpecial</b> = 19
 , <br />
-&#160;&#160;<a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94ca40e4156aee38da8ead19eb4f89da86f0">RuleOther</a> = 20
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94cad12f9c115c60c2ff39bbf11c1f9fb363">RuleSharedAtom</a> = 21
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94ca35b0f95b45a456936562c22842d13202">RuleQuantifier</a> = 22
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94caa1581f7e0eda7239f31f36b935e2584b">RuleQuantity</a> = 23
+&#160;&#160;<b>RuleOther</b> = 20
+, <b>RuleSharedAtom</b> = 21
+, <b>RuleQuantifier</b> = 22
+, <b>RuleQuantity</b> = 23
 , <br />
-&#160;&#160;<a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94caf0ccc1bdd83835ead3d7d6c26a63bac9">RuleQuantExact</a> = 24
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94caff04963a9752a27b14cd0b56d0e206c0">RuleQuantRange</a> = 25
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94caf95bf2d9e21c954e2ad4e1d245a25e50">RuleQuantMin</a> = 26
-, <a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94ca6404705134f7edb6fb8acef693ba8a68">RuleQuantMax</a> = 27
+&#160;&#160;<b>RuleQuantExact</b> = 24
+, <b>RuleQuantRange</b> = 25
+, <b>RuleQuantMin</b> = 26
+, <b>RuleQuantMax</b> = 27
 , <br />
-&#160;&#160;<a class="el" href="../../dd/df1/classREmatchParser.html#a7387b0e2919a106e1389b8739dd4f94ca4ff9b5af39fa55cb1b819426b29d20c2">RuleNumber</a> = 28
+&#160;&#160;<b>RuleNumber</b> = 28
 <br />
  }</td></tr>
 <tr class="separator:a7387b0e2919a106e1389b8739dd4f94c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a258c36ee5b5d6f526d9c182ae4e530e6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a258c36ee5b5d6f526d9c182ae4e530e6">REmatchParser</a> (antlr4::TokenStream *input)</td></tr>
+<tr class="memitem:a258c36ee5b5d6f526d9c182ae4e530e6"><td class="memItemLeft" align="right" valign="top"><a id="a258c36ee5b5d6f526d9c182ae4e530e6" name="a258c36ee5b5d6f526d9c182ae4e530e6"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>REmatchParser</b> (antlr4::TokenStream *input)</td></tr>
 <tr class="separator:a258c36ee5b5d6f526d9c182ae4e530e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a318a1777bd292cc085d7d70d2cf9375c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a318a1777bd292cc085d7d70d2cf9375c">REmatchParser</a> (antlr4::TokenStream *input, const antlr4::atn::ParserATNSimulatorOptions &amp;options)</td></tr>
+<tr class="memitem:a318a1777bd292cc085d7d70d2cf9375c"><td class="memItemLeft" align="right" valign="top"><a id="a318a1777bd292cc085d7d70d2cf9375c" name="a318a1777bd292cc085d7d70d2cf9375c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>REmatchParser</b> (antlr4::TokenStream *input, const antlr4::atn::ParserATNSimulatorOptions &amp;options)</td></tr>
 <tr class="separator:a318a1777bd292cc085d7d70d2cf9375c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02659fa82403791f3cc4b452e3b8e5ec"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a02659fa82403791f3cc4b452e3b8e5ec">~REmatchParser</a> () override</td></tr>
-<tr class="separator:a02659fa82403791f3cc4b452e3b8e5ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81df52740a9398a5564e4256ba3dd2e5"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a81df52740a9398a5564e4256ba3dd2e5">getGrammarFileName</a> () const override</td></tr>
+<tr class="memitem:a81df52740a9398a5564e4256ba3dd2e5"><td class="memItemLeft" align="right" valign="top"><a id="a81df52740a9398a5564e4256ba3dd2e5" name="a81df52740a9398a5564e4256ba3dd2e5"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getGrammarFileName</b> () const override</td></tr>
 <tr class="separator:a81df52740a9398a5564e4256ba3dd2e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5bdf56f9d5fcd49448d5c1baae27a650"><td class="memItemLeft" align="right" valign="top">const antlr4::atn::ATN &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a5bdf56f9d5fcd49448d5c1baae27a650">getATN</a> () const override</td></tr>
+<tr class="memitem:a5bdf56f9d5fcd49448d5c1baae27a650"><td class="memItemLeft" align="right" valign="top"><a id="a5bdf56f9d5fcd49448d5c1baae27a650" name="a5bdf56f9d5fcd49448d5c1baae27a650"></a>
+const antlr4::atn::ATN &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getATN</b> () const override</td></tr>
 <tr class="separator:a5bdf56f9d5fcd49448d5c1baae27a650"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19683f724db97a8b648279e28de29f14"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a19683f724db97a8b648279e28de29f14">getRuleNames</a> () const override</td></tr>
+<tr class="memitem:a19683f724db97a8b648279e28de29f14"><td class="memItemLeft" align="right" valign="top"><a id="a19683f724db97a8b648279e28de29f14" name="a19683f724db97a8b648279e28de29f14"></a>
+const std::vector&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getRuleNames</b> () const override</td></tr>
 <tr class="separator:a19683f724db97a8b648279e28de29f14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b126bf77e08ab5e4c356427fcb504b5"><td class="memItemLeft" align="right" valign="top">const antlr4::dfa::Vocabulary &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a9b126bf77e08ab5e4c356427fcb504b5">getVocabulary</a> () const override</td></tr>
+<tr class="memitem:a9b126bf77e08ab5e4c356427fcb504b5"><td class="memItemLeft" align="right" valign="top"><a id="a9b126bf77e08ab5e4c356427fcb504b5" name="a9b126bf77e08ab5e4c356427fcb504b5"></a>
+const antlr4::dfa::Vocabulary &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getVocabulary</b> () const override</td></tr>
 <tr class="separator:a9b126bf77e08ab5e4c356427fcb504b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaadd553f2925ed5c3d665791731c1a9d"><td class="memItemLeft" align="right" valign="top">antlr4::atn::SerializedATNView&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#aaadd553f2925ed5c3d665791731c1a9d">getSerializedATN</a> () const override</td></tr>
+<tr class="memitem:aaadd553f2925ed5c3d665791731c1a9d"><td class="memItemLeft" align="right" valign="top"><a id="aaadd553f2925ed5c3d665791731c1a9d" name="aaadd553f2925ed5c3d665791731c1a9d"></a>
+antlr4::atn::SerializedATNView&#160;</td><td class="memItemRight" valign="bottom"><b>getSerializedATN</b> () const override</td></tr>
 <tr class="separator:aaadd553f2925ed5c3d665791731c1a9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6159e274584dcd11a8eadb5426959c7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/de9/classREmatchParser_1_1RootContext.html">RootContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#aa6159e274584dcd11a8eadb5426959c7">root</a> ()</td></tr>
+<tr class="memitem:aa6159e274584dcd11a8eadb5426959c7"><td class="memItemLeft" align="right" valign="top"><a id="aa6159e274584dcd11a8eadb5426959c7" name="aa6159e274584dcd11a8eadb5426959c7"></a>
+<a class="el" href="../../d0/de9/classREmatchParser_1_1RootContext.html">RootContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>root</b> ()</td></tr>
 <tr class="separator:aa6159e274584dcd11a8eadb5426959c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade4148bcc7433c6ab40081520b3209d9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../db/d0b/classREmatchParser_1_1AlternationContext.html">AlternationContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#ade4148bcc7433c6ab40081520b3209d9">alternation</a> ()</td></tr>
+<tr class="memitem:ade4148bcc7433c6ab40081520b3209d9"><td class="memItemLeft" align="right" valign="top"><a id="ade4148bcc7433c6ab40081520b3209d9" name="ade4148bcc7433c6ab40081520b3209d9"></a>
+<a class="el" href="../../db/d0b/classREmatchParser_1_1AlternationContext.html">AlternationContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>alternation</b> ()</td></tr>
 <tr class="separator:ade4148bcc7433c6ab40081520b3209d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af982064f96f46d268b07bbf831bffcd2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/dc2/classREmatchParser_1_1ExprContext.html">ExprContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#af982064f96f46d268b07bbf831bffcd2">expr</a> ()</td></tr>
+<tr class="memitem:af982064f96f46d268b07bbf831bffcd2"><td class="memItemLeft" align="right" valign="top"><a id="af982064f96f46d268b07bbf831bffcd2" name="af982064f96f46d268b07bbf831bffcd2"></a>
+<a class="el" href="../../d7/dc2/classREmatchParser_1_1ExprContext.html">ExprContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>expr</b> ()</td></tr>
 <tr class="separator:af982064f96f46d268b07bbf831bffcd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5310d18073c46b5956b54d5d3cb702a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d41/classREmatchParser_1_1ElementContext.html">ElementContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a5310d18073c46b5956b54d5d3cb702a6">element</a> ()</td></tr>
+<tr class="memitem:a5310d18073c46b5956b54d5d3cb702a6"><td class="memItemLeft" align="right" valign="top"><a id="a5310d18073c46b5956b54d5d3cb702a6" name="a5310d18073c46b5956b54d5d3cb702a6"></a>
+<a class="el" href="../../d6/d41/classREmatchParser_1_1ElementContext.html">ElementContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>element</b> ()</td></tr>
 <tr class="separator:a5310d18073c46b5956b54d5d3cb702a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64a5f611beb60945c128dc0fada9950c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d3f/classREmatchParser_1_1GroupContext.html">GroupContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a64a5f611beb60945c128dc0fada9950c">group</a> ()</td></tr>
+<tr class="memitem:a64a5f611beb60945c128dc0fada9950c"><td class="memItemLeft" align="right" valign="top"><a id="a64a5f611beb60945c128dc0fada9950c" name="a64a5f611beb60945c128dc0fada9950c"></a>
+<a class="el" href="../../d6/d3f/classREmatchParser_1_1GroupContext.html">GroupContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>group</b> ()</td></tr>
 <tr class="separator:a64a5f611beb60945c128dc0fada9950c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10d1ca1c7d26c5936d9b8e5921f2e6b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d71/classREmatchParser_1_1ParenthesesContext.html">ParenthesesContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a10d1ca1c7d26c5936d9b8e5921f2e6b8">parentheses</a> ()</td></tr>
+<tr class="memitem:a10d1ca1c7d26c5936d9b8e5921f2e6b8"><td class="memItemLeft" align="right" valign="top"><a id="a10d1ca1c7d26c5936d9b8e5921f2e6b8" name="a10d1ca1c7d26c5936d9b8e5921f2e6b8"></a>
+<a class="el" href="../../dc/d71/classREmatchParser_1_1ParenthesesContext.html">ParenthesesContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>parentheses</b> ()</td></tr>
 <tr class="separator:a10d1ca1c7d26c5936d9b8e5921f2e6b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09f43d93c586ddd6792fe4dcf3954af0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/d87/classREmatchParser_1_1AssignationContext.html">AssignationContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a09f43d93c586ddd6792fe4dcf3954af0">assignation</a> ()</td></tr>
+<tr class="memitem:a09f43d93c586ddd6792fe4dcf3954af0"><td class="memItemLeft" align="right" valign="top"><a id="a09f43d93c586ddd6792fe4dcf3954af0" name="a09f43d93c586ddd6792fe4dcf3954af0"></a>
+<a class="el" href="../../de/d87/classREmatchParser_1_1AssignationContext.html">AssignationContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>assignation</b> ()</td></tr>
 <tr class="separator:a09f43d93c586ddd6792fe4dcf3954af0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab58ee826b9d2647966bebca9e89639f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d91/classREmatchParser_1_1VarnameContext.html">VarnameContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#ab58ee826b9d2647966bebca9e89639f4">varname</a> ()</td></tr>
+<tr class="memitem:ab58ee826b9d2647966bebca9e89639f4"><td class="memItemLeft" align="right" valign="top"><a id="ab58ee826b9d2647966bebca9e89639f4" name="ab58ee826b9d2647966bebca9e89639f4"></a>
+<a class="el" href="../../df/d91/classREmatchParser_1_1VarnameContext.html">VarnameContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>varname</b> ()</td></tr>
 <tr class="separator:ab58ee826b9d2647966bebca9e89639f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89b44856757dd09c59154d4bf64e5ba1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/dba/classREmatchParser_1_1AtomContext.html">AtomContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a89b44856757dd09c59154d4bf64e5ba1">atom</a> ()</td></tr>
+<tr class="memitem:a89b44856757dd09c59154d4bf64e5ba1"><td class="memItemLeft" align="right" valign="top"><a id="a89b44856757dd09c59154d4bf64e5ba1" name="a89b44856757dd09c59154d4bf64e5ba1"></a>
+<a class="el" href="../../d5/dba/classREmatchParser_1_1AtomContext.html">AtomContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>atom</b> ()</td></tr>
 <tr class="separator:a89b44856757dd09c59154d4bf64e5ba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afad91ac4828d118bb5ba6a7deef71811"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d22/classREmatchParser_1_1CharacterClassContext.html">CharacterClassContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#afad91ac4828d118bb5ba6a7deef71811">characterClass</a> ()</td></tr>
+<tr class="memitem:afad91ac4828d118bb5ba6a7deef71811"><td class="memItemLeft" align="right" valign="top"><a id="afad91ac4828d118bb5ba6a7deef71811" name="afad91ac4828d118bb5ba6a7deef71811"></a>
+<a class="el" href="../../d3/d22/classREmatchParser_1_1CharacterClassContext.html">CharacterClassContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>characterClass</b> ()</td></tr>
 <tr class="separator:afad91ac4828d118bb5ba6a7deef71811"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a673c02388bb5ebee7a5bc40d521416d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/dc9/classREmatchParser_1_1CcAtomContext.html">CcAtomContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a673c02388bb5ebee7a5bc40d521416d5">ccAtom</a> ()</td></tr>
+<tr class="memitem:a673c02388bb5ebee7a5bc40d521416d5"><td class="memItemLeft" align="right" valign="top"><a id="a673c02388bb5ebee7a5bc40d521416d5" name="a673c02388bb5ebee7a5bc40d521416d5"></a>
+<a class="el" href="../../de/dc9/classREmatchParser_1_1CcAtomContext.html">CcAtomContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ccAtom</b> ()</td></tr>
 <tr class="separator:a673c02388bb5ebee7a5bc40d521416d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a301d8943865c3cae40ea175c47546c70"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/d6d/classREmatchParser_1_1CcRangeContext.html">CcRangeContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a301d8943865c3cae40ea175c47546c70">ccRange</a> ()</td></tr>
+<tr class="memitem:a301d8943865c3cae40ea175c47546c70"><td class="memItemLeft" align="right" valign="top"><a id="a301d8943865c3cae40ea175c47546c70" name="a301d8943865c3cae40ea175c47546c70"></a>
+<a class="el" href="../../d8/d6d/classREmatchParser_1_1CcRangeContext.html">CcRangeContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ccRange</b> ()</td></tr>
 <tr class="separator:a301d8943865c3cae40ea175c47546c70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a469975ab20b34cbb42a2b68d414d7a20"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/d23/classREmatchParser_1_1CcSingleContext.html">CcSingleContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a469975ab20b34cbb42a2b68d414d7a20">ccSingle</a> ()</td></tr>
+<tr class="memitem:a469975ab20b34cbb42a2b68d414d7a20"><td class="memItemLeft" align="right" valign="top"><a id="a469975ab20b34cbb42a2b68d414d7a20" name="a469975ab20b34cbb42a2b68d414d7a20"></a>
+<a class="el" href="../../d8/d23/classREmatchParser_1_1CcSingleContext.html">CcSingleContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ccSingle</b> ()</td></tr>
 <tr class="separator:a469975ab20b34cbb42a2b68d414d7a20"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadab5420fb4106b7dd0ac79c76c064a8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/df2/classREmatchParser_1_1CcLiteralContext.html">CcLiteralContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#aadab5420fb4106b7dd0ac79c76c064a8">ccLiteral</a> ()</td></tr>
+<tr class="memitem:aadab5420fb4106b7dd0ac79c76c064a8"><td class="memItemLeft" align="right" valign="top"><a id="aadab5420fb4106b7dd0ac79c76c064a8" name="aadab5420fb4106b7dd0ac79c76c064a8"></a>
+<a class="el" href="../../da/df2/classREmatchParser_1_1CcLiteralContext.html">CcLiteralContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ccLiteral</b> ()</td></tr>
 <tr class="separator:aadab5420fb4106b7dd0ac79c76c064a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f987aab7639c0e2e53bf23a4dd8731e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d44/classREmatchParser_1_1CcEscapesContext.html">CcEscapesContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a2f987aab7639c0e2e53bf23a4dd8731e">ccEscapes</a> ()</td></tr>
+<tr class="memitem:a2f987aab7639c0e2e53bf23a4dd8731e"><td class="memItemLeft" align="right" valign="top"><a id="a2f987aab7639c0e2e53bf23a4dd8731e" name="a2f987aab7639c0e2e53bf23a4dd8731e"></a>
+<a class="el" href="../../da/d44/classREmatchParser_1_1CcEscapesContext.html">CcEscapesContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ccEscapes</b> ()</td></tr>
 <tr class="separator:a2f987aab7639c0e2e53bf23a4dd8731e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a481b2c8900df673826445346788f2371"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/d46/classREmatchParser_1_1CcOtherContext.html">CcOtherContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a481b2c8900df673826445346788f2371">ccOther</a> ()</td></tr>
+<tr class="memitem:a481b2c8900df673826445346788f2371"><td class="memItemLeft" align="right" valign="top"><a id="a481b2c8900df673826445346788f2371" name="a481b2c8900df673826445346788f2371"></a>
+<a class="el" href="../../dd/d46/classREmatchParser_1_1CcOtherContext.html">CcOtherContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ccOther</b> ()</td></tr>
 <tr class="separator:a481b2c8900df673826445346788f2371"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee7bd28aaa48989a74d649d01b60e747"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/de5/classREmatchParser_1_1SingleSharedAtomContext.html">SingleSharedAtomContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#aee7bd28aaa48989a74d649d01b60e747">singleSharedAtom</a> ()</td></tr>
+<tr class="memitem:aee7bd28aaa48989a74d649d01b60e747"><td class="memItemLeft" align="right" valign="top"><a id="aee7bd28aaa48989a74d649d01b60e747" name="aee7bd28aaa48989a74d649d01b60e747"></a>
+<a class="el" href="../../d0/de5/classREmatchParser_1_1SingleSharedAtomContext.html">SingleSharedAtomContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>singleSharedAtom</b> ()</td></tr>
 <tr class="separator:aee7bd28aaa48989a74d649d01b60e747"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f9e438167a5b4ec5ac9249c238a0941"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d18/classREmatchParser_1_1LiteralContext.html">LiteralContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a4f9e438167a5b4ec5ac9249c238a0941">literal</a> ()</td></tr>
+<tr class="memitem:a4f9e438167a5b4ec5ac9249c238a0941"><td class="memItemLeft" align="right" valign="top"><a id="a4f9e438167a5b4ec5ac9249c238a0941" name="a4f9e438167a5b4ec5ac9249c238a0941"></a>
+<a class="el" href="../../d3/d18/classREmatchParser_1_1LiteralContext.html">LiteralContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>literal</b> ()</td></tr>
 <tr class="separator:a4f9e438167a5b4ec5ac9249c238a0941"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeafbd4b26bd8e79b42fb828a7284b9ca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d2/d2c/classREmatchParser_1_1EscapesContext.html">EscapesContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#aeafbd4b26bd8e79b42fb828a7284b9ca">escapes</a> ()</td></tr>
+<tr class="memitem:aeafbd4b26bd8e79b42fb828a7284b9ca"><td class="memItemLeft" align="right" valign="top"><a id="aeafbd4b26bd8e79b42fb828a7284b9ca" name="aeafbd4b26bd8e79b42fb828a7284b9ca"></a>
+<a class="el" href="../../d2/d2c/classREmatchParser_1_1EscapesContext.html">EscapesContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>escapes</b> ()</td></tr>
 <tr class="separator:aeafbd4b26bd8e79b42fb828a7284b9ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a142b63211367881ace5bf2ef72597ede"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d1/d58/classREmatchParser_1_1SpecialContext.html">SpecialContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a142b63211367881ace5bf2ef72597ede">special</a> ()</td></tr>
+<tr class="memitem:a142b63211367881ace5bf2ef72597ede"><td class="memItemLeft" align="right" valign="top"><a id="a142b63211367881ace5bf2ef72597ede" name="a142b63211367881ace5bf2ef72597ede"></a>
+<a class="el" href="../../d1/d58/classREmatchParser_1_1SpecialContext.html">SpecialContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>special</b> ()</td></tr>
 <tr class="separator:a142b63211367881ace5bf2ef72597ede"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedb6ea03f59e573f45ae481ea3aba21e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d0f/classREmatchParser_1_1OtherContext.html">OtherContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#aedb6ea03f59e573f45ae481ea3aba21e">other</a> ()</td></tr>
+<tr class="memitem:aedb6ea03f59e573f45ae481ea3aba21e"><td class="memItemLeft" align="right" valign="top"><a id="aedb6ea03f59e573f45ae481ea3aba21e" name="aedb6ea03f59e573f45ae481ea3aba21e"></a>
+<a class="el" href="../../df/d0f/classREmatchParser_1_1OtherContext.html">OtherContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>other</b> ()</td></tr>
 <tr class="separator:aedb6ea03f59e573f45ae481ea3aba21e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f62535e5c624e23a1b09e12ed705fb7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d2e/classREmatchParser_1_1SharedAtomContext.html">SharedAtomContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a3f62535e5c624e23a1b09e12ed705fb7">sharedAtom</a> ()</td></tr>
+<tr class="memitem:a3f62535e5c624e23a1b09e12ed705fb7"><td class="memItemLeft" align="right" valign="top"><a id="a3f62535e5c624e23a1b09e12ed705fb7" name="a3f62535e5c624e23a1b09e12ed705fb7"></a>
+<a class="el" href="../../d6/d2e/classREmatchParser_1_1SharedAtomContext.html">SharedAtomContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>sharedAtom</b> ()</td></tr>
 <tr class="separator:a3f62535e5c624e23a1b09e12ed705fb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87d692c83b69022da650582332c6af26"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/dbf/classREmatchParser_1_1QuantifierContext.html">QuantifierContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a87d692c83b69022da650582332c6af26">quantifier</a> ()</td></tr>
+<tr class="memitem:a87d692c83b69022da650582332c6af26"><td class="memItemLeft" align="right" valign="top"><a id="a87d692c83b69022da650582332c6af26" name="a87d692c83b69022da650582332c6af26"></a>
+<a class="el" href="../../d9/dbf/classREmatchParser_1_1QuantifierContext.html">QuantifierContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>quantifier</b> ()</td></tr>
 <tr class="separator:a87d692c83b69022da650582332c6af26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8fc644f205f9763342e7dfd41419bdd8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d2/d83/classREmatchParser_1_1QuantityContext.html">QuantityContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a8fc644f205f9763342e7dfd41419bdd8">quantity</a> ()</td></tr>
+<tr class="memitem:a8fc644f205f9763342e7dfd41419bdd8"><td class="memItemLeft" align="right" valign="top"><a id="a8fc644f205f9763342e7dfd41419bdd8" name="a8fc644f205f9763342e7dfd41419bdd8"></a>
+<a class="el" href="../../d2/d83/classREmatchParser_1_1QuantityContext.html">QuantityContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>quantity</b> ()</td></tr>
 <tr class="separator:a8fc644f205f9763342e7dfd41419bdd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b1e8b239a304fdc3be06b36da636524"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/d9e/classREmatchParser_1_1QuantExactContext.html">QuantExactContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a9b1e8b239a304fdc3be06b36da636524">quantExact</a> ()</td></tr>
+<tr class="memitem:a9b1e8b239a304fdc3be06b36da636524"><td class="memItemLeft" align="right" valign="top"><a id="a9b1e8b239a304fdc3be06b36da636524" name="a9b1e8b239a304fdc3be06b36da636524"></a>
+<a class="el" href="../../d8/d9e/classREmatchParser_1_1QuantExactContext.html">QuantExactContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>quantExact</b> ()</td></tr>
 <tr class="separator:a9b1e8b239a304fdc3be06b36da636524"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a45b414ecc2471a07e0e74fbd857a1949"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/d09/classREmatchParser_1_1QuantRangeContext.html">QuantRangeContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a45b414ecc2471a07e0e74fbd857a1949">quantRange</a> ()</td></tr>
+<tr class="memitem:a45b414ecc2471a07e0e74fbd857a1949"><td class="memItemLeft" align="right" valign="top"><a id="a45b414ecc2471a07e0e74fbd857a1949" name="a45b414ecc2471a07e0e74fbd857a1949"></a>
+<a class="el" href="../../d7/d09/classREmatchParser_1_1QuantRangeContext.html">QuantRangeContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>quantRange</b> ()</td></tr>
 <tr class="separator:a45b414ecc2471a07e0e74fbd857a1949"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec0941ec0075db71834df6fcc6fce0f0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../db/d52/classREmatchParser_1_1QuantMinContext.html">QuantMinContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#aec0941ec0075db71834df6fcc6fce0f0">quantMin</a> ()</td></tr>
+<tr class="memitem:aec0941ec0075db71834df6fcc6fce0f0"><td class="memItemLeft" align="right" valign="top"><a id="aec0941ec0075db71834df6fcc6fce0f0" name="aec0941ec0075db71834df6fcc6fce0f0"></a>
+<a class="el" href="../../db/d52/classREmatchParser_1_1QuantMinContext.html">QuantMinContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>quantMin</b> ()</td></tr>
 <tr class="separator:aec0941ec0075db71834df6fcc6fce0f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade8c38dfe26ada3ad3f7109aa1c91029"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../db/dec/classREmatchParser_1_1QuantMaxContext.html">QuantMaxContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#ade8c38dfe26ada3ad3f7109aa1c91029">quantMax</a> ()</td></tr>
+<tr class="memitem:ade8c38dfe26ada3ad3f7109aa1c91029"><td class="memItemLeft" align="right" valign="top"><a id="ade8c38dfe26ada3ad3f7109aa1c91029" name="ade8c38dfe26ada3ad3f7109aa1c91029"></a>
+<a class="el" href="../../db/dec/classREmatchParser_1_1QuantMaxContext.html">QuantMaxContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>quantMax</b> ()</td></tr>
 <tr class="separator:ade8c38dfe26ada3ad3f7109aa1c91029"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a108b92b2c84d9c09e310056132b094f6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d85/classREmatchParser_1_1NumberContext.html">NumberContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a108b92b2c84d9c09e310056132b094f6">number</a> ()</td></tr>
+<tr class="memitem:a108b92b2c84d9c09e310056132b094f6"><td class="memItemLeft" align="right" valign="top"><a id="a108b92b2c84d9c09e310056132b094f6" name="a108b92b2c84d9c09e310056132b094f6"></a>
+<a class="el" href="../../da/d85/classREmatchParser_1_1NumberContext.html">NumberContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>number</b> ()</td></tr>
 <tr class="separator:a108b92b2c84d9c09e310056132b094f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a1c2dc5a45a9dd75d38b00fc4840e7ead"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df1/classREmatchParser.html#a1c2dc5a45a9dd75d38b00fc4840e7ead">initialize</a> ()</td></tr>
+<tr class="memitem:a1c2dc5a45a9dd75d38b00fc4840e7ead"><td class="memItemLeft" align="right" valign="top"><a id="a1c2dc5a45a9dd75d38b00fc4840e7ead" name="a1c2dc5a45a9dd75d38b00fc4840e7ead"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>initialize</b> ()</td></tr>
 <tr class="separator:a1c2dc5a45a9dd75d38b00fc4840e7ead"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="ad9115c15adb98f051ec11e01017fabca" name="ad9115c15adb98f051ec11e01017fabca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9115c15adb98f051ec11e01017fabca">&#9670;&#160;</a></span>anonymous enum</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">anonymous enum</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaa9411f3523f60181e76c57b18f439bbb5" name="ad9115c15adb98f051ec11e01017fabcaa9411f3523f60181e76c57b18f439bbb5"></a>DECIMAL_DIGIT&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaa8461f0515ca21fbb7b2b4d9c6daa1e8a" name="ad9115c15adb98f051ec11e01017fabcaa8461f0515ca21fbb7b2b4d9c6daa1e8a"></a>NOT_DECIMAL_DIGIT&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaa3c79200722076ec9baea1355e43c292e" name="ad9115c15adb98f051ec11e01017fabcaa3c79200722076ec9baea1355e43c292e"></a>WHITESPACE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaa997e04ea762b3aea38b68ba05026ead4" name="ad9115c15adb98f051ec11e01017fabcaa997e04ea762b3aea38b68ba05026ead4"></a>NOT_WHITESPACE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaa27a84e503aea7107d20d63838d470a66" name="ad9115c15adb98f051ec11e01017fabcaa27a84e503aea7107d20d63838d470a66"></a>ALPHANUMERIC&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaa0f5e041e09d3da2e265251c421552dae" name="ad9115c15adb98f051ec11e01017fabcaa0f5e041e09d3da2e265251c421552dae"></a>NOT_ALPHANUMERIC&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaac136fa53f3293b509e0ce15ad277e2f1" name="ad9115c15adb98f051ec11e01017fabcaac136fa53f3293b509e0ce15ad277e2f1"></a>TAB&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaaaacb58605fdf8f36ca3d4822080df814" name="ad9115c15adb98f051ec11e01017fabcaaaacb58605fdf8f36ca3d4822080df814"></a>CARRIAGE_RETURN&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaa8a1cb6cb8bd61cc4592cba81e6706ea3" name="ad9115c15adb98f051ec11e01017fabcaa8a1cb6cb8bd61cc4592cba81e6706ea3"></a>NEWLINE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaaf7a812b4804d74d6ee2a2ea39b3b60d7" name="ad9115c15adb98f051ec11e01017fabcaaf7a812b4804d74d6ee2a2ea39b3b60d7"></a>VERTICAL_WHITESPACE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaae0fd73e811a3787e4f92aba8bcaefe33" name="ad9115c15adb98f051ec11e01017fabcaae0fd73e811a3787e4f92aba8bcaefe33"></a>FORM_FEED&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaa1821f6cc439050ceecf2845ecdda1360" name="ad9115c15adb98f051ec11e01017fabcaa1821f6cc439050ceecf2845ecdda1360"></a>PIPE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaa820acbdc1d0c31c3d38af58730ca76e4" name="ad9115c15adb98f051ec11e01017fabcaa820acbdc1d0c31c3d38af58730ca76e4"></a>EXCLAMAITON&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaa12c90e330569a5fcca82ad77f41d157d" name="ad9115c15adb98f051ec11e01017fabcaa12c90e330569a5fcca82ad77f41d157d"></a>L_CURLY&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaa51802adf76eb2d552b425f415c8f3de9" name="ad9115c15adb98f051ec11e01017fabcaa51802adf76eb2d552b425f415c8f3de9"></a>R_CURLY&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaafe9aa8ac4d7349058dc38714a3cf3cfc" name="ad9115c15adb98f051ec11e01017fabcaafe9aa8ac4d7349058dc38714a3cf3cfc"></a>L_PAR&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaa1f61c83df51b59b129cd88aed46ec540" name="ad9115c15adb98f051ec11e01017fabcaa1f61c83df51b59b129cd88aed46ec540"></a>R_PAR&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaacf30267ad679c85f49e7ae9e67c29bfe" name="ad9115c15adb98f051ec11e01017fabcaacf30267ad679c85f49e7ae9e67c29bfe"></a>COMMA&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaa9f5899dda1ddb7ef9c05c9f189877336" name="ad9115c15adb98f051ec11e01017fabcaa9f5899dda1ddb7ef9c05c9f189877336"></a>QUESTION&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaa8c7060bfdb5c56cfa879fe89cc92c860" name="ad9115c15adb98f051ec11e01017fabcaa8c7060bfdb5c56cfa879fe89cc92c860"></a>PLUS&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaae17d27fa45460eceaff3a010c4e9b7aa" name="ad9115c15adb98f051ec11e01017fabcaae17d27fa45460eceaff3a010c4e9b7aa"></a>STAR&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaafbf74763a7b753c86fc5dbae0cbfbf91" name="ad9115c15adb98f051ec11e01017fabcaafbf74763a7b753c86fc5dbae0cbfbf91"></a>HAT&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaa44af88c354ee917be08111f4437f7c5b" name="ad9115c15adb98f051ec11e01017fabcaa44af88c354ee917be08111f4437f7c5b"></a>HYPHEN&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaa21e91fd808b875d95e9628a45408f2e7" name="ad9115c15adb98f051ec11e01017fabcaa21e91fd808b875d95e9628a45408f2e7"></a>L_BRACK&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaaa4327d4d7dbf0bbac9112b4e9fc7143f" name="ad9115c15adb98f051ec11e01017fabcaaa4327d4d7dbf0bbac9112b4e9fc7143f"></a>R_BRACK&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaae591d34d86106bd769dc39f185e1f42e" name="ad9115c15adb98f051ec11e01017fabcaae591d34d86106bd769dc39f185e1f42e"></a>BACKSLASH&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaaa535b9109ffb4ab8f55107622f8f5cb6" name="ad9115c15adb98f051ec11e01017fabcaaa535b9109ffb4ab8f55107622f8f5cb6"></a>ALPHA&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaa7dd4149b36ffd1123910862654bc1a95" name="ad9115c15adb98f051ec11e01017fabcaa7dd4149b36ffd1123910862654bc1a95"></a>DIGIT&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaa724aa726d349dab90bb26efe99f347f9" name="ad9115c15adb98f051ec11e01017fabcaa724aa726d349dab90bb26efe99f347f9"></a>DOT&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad9115c15adb98f051ec11e01017fabcaa51a0fdb320985a439f08925c12147e1e" name="ad9115c15adb98f051ec11e01017fabcaa51a0fdb320985a439f08925c12147e1e"></a>UNRECOGNIZED&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
-<a id="a7387b0e2919a106e1389b8739dd4f94c" name="a7387b0e2919a106e1389b8739dd4f94c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7387b0e2919a106e1389b8739dd4f94c">&#9670;&#160;</a></span>anonymous enum</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">anonymous enum</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94ca7d2f743eef262d37124b8403c68c68cb" name="a7387b0e2919a106e1389b8739dd4f94ca7d2f743eef262d37124b8403c68c68cb"></a>RuleRoot&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94ca8750f757bf5555b1ddaed66cae91c094" name="a7387b0e2919a106e1389b8739dd4f94ca8750f757bf5555b1ddaed66cae91c094"></a>RuleAlternation&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94caf6aa3bb5da52826c7f314b534c3bdbe0" name="a7387b0e2919a106e1389b8739dd4f94caf6aa3bb5da52826c7f314b534c3bdbe0"></a>RuleExpr&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94caabc2f900f9d43d48d8e2e5e757e74253" name="a7387b0e2919a106e1389b8739dd4f94caabc2f900f9d43d48d8e2e5e757e74253"></a>RuleElement&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94ca3060297132f60bc33e144ddbeb2c62db" name="a7387b0e2919a106e1389b8739dd4f94ca3060297132f60bc33e144ddbeb2c62db"></a>RuleGroup&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94ca94b500a531e87066afc8c7137adf631d" name="a7387b0e2919a106e1389b8739dd4f94ca94b500a531e87066afc8c7137adf631d"></a>RuleParentheses&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94caaf53141f6c8d3b29221a25ed4e90dd02" name="a7387b0e2919a106e1389b8739dd4f94caaf53141f6c8d3b29221a25ed4e90dd02"></a>RuleAssignation&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94ca08bf33a75a12430bb13c445bb7762c43" name="a7387b0e2919a106e1389b8739dd4f94ca08bf33a75a12430bb13c445bb7762c43"></a>RuleVarname&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94cadd9ea93d2f049ed2bab2eb74c549146b" name="a7387b0e2919a106e1389b8739dd4f94cadd9ea93d2f049ed2bab2eb74c549146b"></a>RuleAtom&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94ca0616b79b93ab8f76fd800692a0620459" name="a7387b0e2919a106e1389b8739dd4f94ca0616b79b93ab8f76fd800692a0620459"></a>RuleCharacterClass&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94caa25b9e41acbd9b8e20ccb541a0d83368" name="a7387b0e2919a106e1389b8739dd4f94caa25b9e41acbd9b8e20ccb541a0d83368"></a>RuleCcAtom&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94ca7f39009ee26ccfa31dc90b4331191122" name="a7387b0e2919a106e1389b8739dd4f94ca7f39009ee26ccfa31dc90b4331191122"></a>RuleCcRange&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94cafefe8b7220f5fedb6341050911b44392" name="a7387b0e2919a106e1389b8739dd4f94cafefe8b7220f5fedb6341050911b44392"></a>RuleCcSingle&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94cadb3ed05c2c247c0886e1de28bc5bf6ab" name="a7387b0e2919a106e1389b8739dd4f94cadb3ed05c2c247c0886e1de28bc5bf6ab"></a>RuleCcLiteral&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94ca462a1e627e73893066bec165bb890918" name="a7387b0e2919a106e1389b8739dd4f94ca462a1e627e73893066bec165bb890918"></a>RuleCcEscapes&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94caf0b9b0436a2b7e41dc86fd88f63b5229" name="a7387b0e2919a106e1389b8739dd4f94caf0b9b0436a2b7e41dc86fd88f63b5229"></a>RuleCcOther&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94cab9767dbe5a53c2930cfc2fa659df9dea" name="a7387b0e2919a106e1389b8739dd4f94cab9767dbe5a53c2930cfc2fa659df9dea"></a>RuleSingleSharedAtom&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94caf45981ca5744b62fd91fdc136be1f2e4" name="a7387b0e2919a106e1389b8739dd4f94caf45981ca5744b62fd91fdc136be1f2e4"></a>RuleLiteral&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94ca685ce25d19e7d22f6acff3d065fe39c5" name="a7387b0e2919a106e1389b8739dd4f94ca685ce25d19e7d22f6acff3d065fe39c5"></a>RuleEscapes&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94ca7b9e1b69b43c74b7baa040b5914b2871" name="a7387b0e2919a106e1389b8739dd4f94ca7b9e1b69b43c74b7baa040b5914b2871"></a>RuleSpecial&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94ca40e4156aee38da8ead19eb4f89da86f0" name="a7387b0e2919a106e1389b8739dd4f94ca40e4156aee38da8ead19eb4f89da86f0"></a>RuleOther&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94cad12f9c115c60c2ff39bbf11c1f9fb363" name="a7387b0e2919a106e1389b8739dd4f94cad12f9c115c60c2ff39bbf11c1f9fb363"></a>RuleSharedAtom&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94ca35b0f95b45a456936562c22842d13202" name="a7387b0e2919a106e1389b8739dd4f94ca35b0f95b45a456936562c22842d13202"></a>RuleQuantifier&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94caa1581f7e0eda7239f31f36b935e2584b" name="a7387b0e2919a106e1389b8739dd4f94caa1581f7e0eda7239f31f36b935e2584b"></a>RuleQuantity&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94caf0ccc1bdd83835ead3d7d6c26a63bac9" name="a7387b0e2919a106e1389b8739dd4f94caf0ccc1bdd83835ead3d7d6c26a63bac9"></a>RuleQuantExact&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94caff04963a9752a27b14cd0b56d0e206c0" name="a7387b0e2919a106e1389b8739dd4f94caff04963a9752a27b14cd0b56d0e206c0"></a>RuleQuantRange&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94caf95bf2d9e21c954e2ad4e1d245a25e50" name="a7387b0e2919a106e1389b8739dd4f94caf95bf2d9e21c954e2ad4e1d245a25e50"></a>RuleQuantMin&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94ca6404705134f7edb6fb8acef693ba8a68" name="a7387b0e2919a106e1389b8739dd4f94ca6404705134f7edb6fb8acef693ba8a68"></a>RuleQuantMax&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a7387b0e2919a106e1389b8739dd4f94ca4ff9b5af39fa55cb1b819426b29d20c2" name="a7387b0e2919a106e1389b8739dd4f94ca4ff9b5af39fa55cb1b819426b29d20c2"></a>RuleNumber&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a258c36ee5b5d6f526d9c182ae4e530e6" name="a258c36ee5b5d6f526d9c182ae4e530e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a258c36ee5b5d6f526d9c182ae4e530e6">&#9670;&#160;</a></span>REmatchParser() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">REmatchParser::REmatchParser </td>
-          <td>(</td>
-          <td class="paramtype">antlr4::TokenStream *&#160;</td>
-          <td class="paramname"><em>input</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a318a1777bd292cc085d7d70d2cf9375c" name="a318a1777bd292cc085d7d70d2cf9375c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a318a1777bd292cc085d7d70d2cf9375c">&#9670;&#160;</a></span>REmatchParser() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">REmatchParser::REmatchParser </td>
-          <td>(</td>
-          <td class="paramtype">antlr4::TokenStream *&#160;</td>
-          <td class="paramname"><em>input</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const antlr4::atn::ParserATNSimulatorOptions &amp;&#160;</td>
-          <td class="paramname"><em>options</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a02659fa82403791f3cc4b452e3b8e5ec" name="a02659fa82403791f3cc4b452e3b8e5ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a02659fa82403791f3cc4b452e3b8e5ec">&#9670;&#160;</a></span>~REmatchParser()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">REmatchParser::~REmatchParser </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="ade4148bcc7433c6ab40081520b3209d9" name="ade4148bcc7433c6ab40081520b3209d9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade4148bcc7433c6ab40081520b3209d9">&#9670;&#160;</a></span>alternation()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../db/d0b/classREmatchParser_1_1AlternationContext.html">REmatchParser::AlternationContext</a> * REmatchParser::alternation </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a09f43d93c586ddd6792fe4dcf3954af0" name="a09f43d93c586ddd6792fe4dcf3954af0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a09f43d93c586ddd6792fe4dcf3954af0">&#9670;&#160;</a></span>assignation()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../de/d87/classREmatchParser_1_1AssignationContext.html">REmatchParser::AssignationContext</a> * REmatchParser::assignation </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a89b44856757dd09c59154d4bf64e5ba1" name="a89b44856757dd09c59154d4bf64e5ba1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a89b44856757dd09c59154d4bf64e5ba1">&#9670;&#160;</a></span>atom()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d5/dba/classREmatchParser_1_1AtomContext.html">REmatchParser::AtomContext</a> * REmatchParser::atom </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a673c02388bb5ebee7a5bc40d521416d5" name="a673c02388bb5ebee7a5bc40d521416d5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a673c02388bb5ebee7a5bc40d521416d5">&#9670;&#160;</a></span>ccAtom()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../de/dc9/classREmatchParser_1_1CcAtomContext.html">REmatchParser::CcAtomContext</a> * REmatchParser::ccAtom </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2f987aab7639c0e2e53bf23a4dd8731e" name="a2f987aab7639c0e2e53bf23a4dd8731e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f987aab7639c0e2e53bf23a4dd8731e">&#9670;&#160;</a></span>ccEscapes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../da/d44/classREmatchParser_1_1CcEscapesContext.html">REmatchParser::CcEscapesContext</a> * REmatchParser::ccEscapes </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aadab5420fb4106b7dd0ac79c76c064a8" name="aadab5420fb4106b7dd0ac79c76c064a8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadab5420fb4106b7dd0ac79c76c064a8">&#9670;&#160;</a></span>ccLiteral()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../da/df2/classREmatchParser_1_1CcLiteralContext.html">REmatchParser::CcLiteralContext</a> * REmatchParser::ccLiteral </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a481b2c8900df673826445346788f2371" name="a481b2c8900df673826445346788f2371"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a481b2c8900df673826445346788f2371">&#9670;&#160;</a></span>ccOther()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../dd/d46/classREmatchParser_1_1CcOtherContext.html">REmatchParser::CcOtherContext</a> * REmatchParser::ccOther </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a301d8943865c3cae40ea175c47546c70" name="a301d8943865c3cae40ea175c47546c70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a301d8943865c3cae40ea175c47546c70">&#9670;&#160;</a></span>ccRange()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d8/d6d/classREmatchParser_1_1CcRangeContext.html">REmatchParser::CcRangeContext</a> * REmatchParser::ccRange </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a469975ab20b34cbb42a2b68d414d7a20" name="a469975ab20b34cbb42a2b68d414d7a20"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a469975ab20b34cbb42a2b68d414d7a20">&#9670;&#160;</a></span>ccSingle()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d8/d23/classREmatchParser_1_1CcSingleContext.html">REmatchParser::CcSingleContext</a> * REmatchParser::ccSingle </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="afad91ac4828d118bb5ba6a7deef71811" name="afad91ac4828d118bb5ba6a7deef71811"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afad91ac4828d118bb5ba6a7deef71811">&#9670;&#160;</a></span>characterClass()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d3/d22/classREmatchParser_1_1CharacterClassContext.html">REmatchParser::CharacterClassContext</a> * REmatchParser::characterClass </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a5310d18073c46b5956b54d5d3cb702a6" name="a5310d18073c46b5956b54d5d3cb702a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5310d18073c46b5956b54d5d3cb702a6">&#9670;&#160;</a></span>element()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d6/d41/classREmatchParser_1_1ElementContext.html">REmatchParser::ElementContext</a> * REmatchParser::element </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aeafbd4b26bd8e79b42fb828a7284b9ca" name="aeafbd4b26bd8e79b42fb828a7284b9ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeafbd4b26bd8e79b42fb828a7284b9ca">&#9670;&#160;</a></span>escapes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d2/d2c/classREmatchParser_1_1EscapesContext.html">REmatchParser::EscapesContext</a> * REmatchParser::escapes </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af982064f96f46d268b07bbf831bffcd2" name="af982064f96f46d268b07bbf831bffcd2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af982064f96f46d268b07bbf831bffcd2">&#9670;&#160;</a></span>expr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d7/dc2/classREmatchParser_1_1ExprContext.html">REmatchParser::ExprContext</a> * REmatchParser::expr </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a5bdf56f9d5fcd49448d5c1baae27a650" name="a5bdf56f9d5fcd49448d5c1baae27a650"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5bdf56f9d5fcd49448d5c1baae27a650">&#9670;&#160;</a></span>getATN()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const atn::ATN &amp; REmatchParser::getATN </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a81df52740a9398a5564e4256ba3dd2e5" name="a81df52740a9398a5564e4256ba3dd2e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a81df52740a9398a5564e4256ba3dd2e5">&#9670;&#160;</a></span>getGrammarFileName()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string REmatchParser::getGrammarFileName </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a19683f724db97a8b648279e28de29f14" name="a19683f724db97a8b648279e28de29f14"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19683f724db97a8b648279e28de29f14">&#9670;&#160;</a></span>getRuleNames()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; std::string &gt; &amp; REmatchParser::getRuleNames </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aaadd553f2925ed5c3d665791731c1a9d" name="aaadd553f2925ed5c3d665791731c1a9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaadd553f2925ed5c3d665791731c1a9d">&#9670;&#160;</a></span>getSerializedATN()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">antlr4::atn::SerializedATNView REmatchParser::getSerializedATN </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a9b126bf77e08ab5e4c356427fcb504b5" name="a9b126bf77e08ab5e4c356427fcb504b5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b126bf77e08ab5e4c356427fcb504b5">&#9670;&#160;</a></span>getVocabulary()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const dfa::Vocabulary &amp; REmatchParser::getVocabulary </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a64a5f611beb60945c128dc0fada9950c" name="a64a5f611beb60945c128dc0fada9950c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a64a5f611beb60945c128dc0fada9950c">&#9670;&#160;</a></span>group()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d6/d3f/classREmatchParser_1_1GroupContext.html">REmatchParser::GroupContext</a> * REmatchParser::group </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a1c2dc5a45a9dd75d38b00fc4840e7ead" name="a1c2dc5a45a9dd75d38b00fc4840e7ead"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c2dc5a45a9dd75d38b00fc4840e7ead">&#9670;&#160;</a></span>initialize()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void REmatchParser::initialize </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a4f9e438167a5b4ec5ac9249c238a0941" name="a4f9e438167a5b4ec5ac9249c238a0941"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4f9e438167a5b4ec5ac9249c238a0941">&#9670;&#160;</a></span>literal()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d3/d18/classREmatchParser_1_1LiteralContext.html">REmatchParser::LiteralContext</a> * REmatchParser::literal </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a108b92b2c84d9c09e310056132b094f6" name="a108b92b2c84d9c09e310056132b094f6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a108b92b2c84d9c09e310056132b094f6">&#9670;&#160;</a></span>number()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../da/d85/classREmatchParser_1_1NumberContext.html">REmatchParser::NumberContext</a> * REmatchParser::number </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aedb6ea03f59e573f45ae481ea3aba21e" name="aedb6ea03f59e573f45ae481ea3aba21e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aedb6ea03f59e573f45ae481ea3aba21e">&#9670;&#160;</a></span>other()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../df/d0f/classREmatchParser_1_1OtherContext.html">REmatchParser::OtherContext</a> * REmatchParser::other </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a10d1ca1c7d26c5936d9b8e5921f2e6b8" name="a10d1ca1c7d26c5936d9b8e5921f2e6b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a10d1ca1c7d26c5936d9b8e5921f2e6b8">&#9670;&#160;</a></span>parentheses()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../dc/d71/classREmatchParser_1_1ParenthesesContext.html">REmatchParser::ParenthesesContext</a> * REmatchParser::parentheses </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a9b1e8b239a304fdc3be06b36da636524" name="a9b1e8b239a304fdc3be06b36da636524"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b1e8b239a304fdc3be06b36da636524">&#9670;&#160;</a></span>quantExact()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d8/d9e/classREmatchParser_1_1QuantExactContext.html">REmatchParser::QuantExactContext</a> * REmatchParser::quantExact </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a87d692c83b69022da650582332c6af26" name="a87d692c83b69022da650582332c6af26"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a87d692c83b69022da650582332c6af26">&#9670;&#160;</a></span>quantifier()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d9/dbf/classREmatchParser_1_1QuantifierContext.html">REmatchParser::QuantifierContext</a> * REmatchParser::quantifier </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a8fc644f205f9763342e7dfd41419bdd8" name="a8fc644f205f9763342e7dfd41419bdd8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8fc644f205f9763342e7dfd41419bdd8">&#9670;&#160;</a></span>quantity()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d2/d83/classREmatchParser_1_1QuantityContext.html">REmatchParser::QuantityContext</a> * REmatchParser::quantity </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ade8c38dfe26ada3ad3f7109aa1c91029" name="ade8c38dfe26ada3ad3f7109aa1c91029"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade8c38dfe26ada3ad3f7109aa1c91029">&#9670;&#160;</a></span>quantMax()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../db/dec/classREmatchParser_1_1QuantMaxContext.html">REmatchParser::QuantMaxContext</a> * REmatchParser::quantMax </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aec0941ec0075db71834df6fcc6fce0f0" name="aec0941ec0075db71834df6fcc6fce0f0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec0941ec0075db71834df6fcc6fce0f0">&#9670;&#160;</a></span>quantMin()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../db/d52/classREmatchParser_1_1QuantMinContext.html">REmatchParser::QuantMinContext</a> * REmatchParser::quantMin </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a45b414ecc2471a07e0e74fbd857a1949" name="a45b414ecc2471a07e0e74fbd857a1949"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a45b414ecc2471a07e0e74fbd857a1949">&#9670;&#160;</a></span>quantRange()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d7/d09/classREmatchParser_1_1QuantRangeContext.html">REmatchParser::QuantRangeContext</a> * REmatchParser::quantRange </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa6159e274584dcd11a8eadb5426959c7" name="aa6159e274584dcd11a8eadb5426959c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa6159e274584dcd11a8eadb5426959c7">&#9670;&#160;</a></span>root()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d0/de9/classREmatchParser_1_1RootContext.html">REmatchParser::RootContext</a> * REmatchParser::root </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a3f62535e5c624e23a1b09e12ed705fb7" name="a3f62535e5c624e23a1b09e12ed705fb7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f62535e5c624e23a1b09e12ed705fb7">&#9670;&#160;</a></span>sharedAtom()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d6/d2e/classREmatchParser_1_1SharedAtomContext.html">REmatchParser::SharedAtomContext</a> * REmatchParser::sharedAtom </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aee7bd28aaa48989a74d649d01b60e747" name="aee7bd28aaa48989a74d649d01b60e747"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee7bd28aaa48989a74d649d01b60e747">&#9670;&#160;</a></span>singleSharedAtom()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d0/de5/classREmatchParser_1_1SingleSharedAtomContext.html">REmatchParser::SingleSharedAtomContext</a> * REmatchParser::singleSharedAtom </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a142b63211367881ace5bf2ef72597ede" name="a142b63211367881ace5bf2ef72597ede"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a142b63211367881ace5bf2ef72597ede">&#9670;&#160;</a></span>special()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d1/d58/classREmatchParser_1_1SpecialContext.html">REmatchParser::SpecialContext</a> * REmatchParser::special </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ab58ee826b9d2647966bebca9e89639f4" name="ab58ee826b9d2647966bebca9e89639f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab58ee826b9d2647966bebca9e89639f4">&#9670;&#160;</a></span>varname()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../df/d91/classREmatchParser_1_1VarnameContext.html">REmatchParser::VarnameContext</a> * REmatchParser::varname </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/rematch/parsing/grammar/autogenerated/<a class="el" href="../../d8/dea/REmatchParser_8h_source.html">REmatchParser.h</a></li>
-<li>src/rematch/parsing/grammar/autogenerated/<a class="el" href="../../dc/d79/REmatchParser_8cpp.html">REmatchParser.cpp</a></li>
+<li>src/rematch/parsing/grammar/autogenerated/REmatchParser.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

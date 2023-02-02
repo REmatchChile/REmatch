@@ -1,29 +1,31 @@
 \hypertarget{logical__va__capture_8hpp_source}{}\doxysection{logical\+\_\+va\+\_\+capture.\+hpp}
 \label{logical__va__capture_8hpp_source}\index{src/rematch/parsing/logical\_variable\_set\_automaton/logical\_va\_capture.hpp@{src/rematch/parsing/logical\_variable\_set\_automaton/logical\_va\_capture.hpp}}
-\mbox{\hyperlink{logical__va__capture_8hpp}{Go to the documentation of this file.}}
+
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ LOGICAL\_VA\_CAPTURE\_HPP}}
 \DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ LOGICAL\_VA\_CAPTURE\_HPP}}
 \DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <bitset>}}
-\DoxyCodeLine{00004\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacerematch}{rematch}}\ \{}
-\DoxyCodeLine{00005\ \ \ \textcolor{keyword}{class\ }LogicalVAState;}
-\DoxyCodeLine{00006\ }
-\DoxyCodeLine{00007\ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrematch_1_1LogicalVACapture}{LogicalVACapture}}\{}
-\DoxyCodeLine{00008\ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00009\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1LogicalVAState}{LogicalVAState}}*\ \mbox{\hyperlink{classrematch_1_1LogicalVACapture_a5dd5c6aafc0b99220be13c6cf81f5520}{from}};}
-\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1LogicalVAState}{LogicalVAState}}*\ \mbox{\hyperlink{classrematch_1_1LogicalVACapture_aa8b9f2d843484d0a7a07c885b190edf8}{next}};}
-\DoxyCodeLine{00011\ \ \ \ \ std::bitset<64>\ \mbox{\hyperlink{classrematch_1_1LogicalVACapture_a111af7633bf06046e07d638b8443ccfe}{code}};}
-\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1LogicalVACapture_a3ec0cfe603a874a38b57e69369acf663}{flag}};}
-\DoxyCodeLine{00013\ }
-\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1LogicalVACapture}{LogicalVACapture}}(\mbox{\hyperlink{classrematch_1_1LogicalVAState}{LogicalVAState}}*\ \mbox{\hyperlink{classrematch_1_1LogicalVACapture_a5dd5c6aafc0b99220be13c6cf81f5520}{from}},\ std::bitset<64>\ coding,\ \mbox{\hyperlink{classrematch_1_1LogicalVAState}{LogicalVAState}}*\ \mbox{\hyperlink{classrematch_1_1LogicalVACapture_aa8b9f2d843484d0a7a07c885b190edf8}{next}});}
-\DoxyCodeLine{00015\ }
-\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1LogicalVACapture_affee450637a05210053fa05d341b3604}{reset\_states}}(\mbox{\hyperlink{classrematch_1_1LogicalVAState}{LogicalVAState}}*\ insiding,\ \mbox{\hyperlink{classrematch_1_1LogicalVAState}{LogicalVAState}}\ *to)\ \{\mbox{\hyperlink{classrematch_1_1LogicalVACapture_a5dd5c6aafc0b99220be13c6cf81f5520}{from}}\ =\ insiding;\ \mbox{\hyperlink{classrematch_1_1LogicalVACapture_aa8b9f2d843484d0a7a07c885b190edf8}{next}}=to;\}}
-\DoxyCodeLine{00017\ }
-\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1LogicalVACapture_abae532db2450e33f809b9fbb810638d8}{operator==}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classrematch_1_1LogicalVACapture}{LogicalVACapture}}\ \&rhs)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00019\ }
-\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1LogicalVACapture_a6778619ec0da640f78089fa2ac0b96da}{operator<}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classrematch_1_1LogicalVACapture}{LogicalVACapture}}\ \&rhs)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00021\ \ \ \};}
-\DoxyCodeLine{00022\ \}}
-\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00004\ \textcolor{keyword}{namespace\ }rematch\ \{}
+\DoxyCodeLine{00005\ \textcolor{keyword}{inline}\ \textcolor{keyword}{namespace\ }parsing\ \{}
+\DoxyCodeLine{00006\ \ \ \textcolor{keyword}{class\ }LogicalVAState;}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVACapture}{LogicalVACapture}}\{}
+\DoxyCodeLine{00009\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVAState}{LogicalVAState}}*\ from;}
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVAState}{LogicalVAState}}*\ next;}
+\DoxyCodeLine{00012\ \ \ \ \ std::bitset<64>\ code;}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordtype}{bool}\ flag;}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVACapture}{LogicalVACapture}}(\mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVAState}{LogicalVAState}}*\ from,\ std::bitset<64>\ coding,\ \mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVAState}{LogicalVAState}}*\ next);}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{void}\ reset\_states(\mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVAState}{LogicalVAState}}*\ insiding,\ \mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVAState}{LogicalVAState}}\ *to)\ \{from\ =\ insiding;\ next=to;\}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ \mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVACapture}{LogicalVACapture}}\ \&rhs)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVACapture_a659c17cd3a53d6d7033a4eaa233d0227}{operator<}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVACapture}{LogicalVACapture}}\ \&rhs)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00022\ \ \ \};}
+\DoxyCodeLine{00023\ \}}
+\DoxyCodeLine{00024\ \}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#endif}}
 
 \end{DoxyCode}

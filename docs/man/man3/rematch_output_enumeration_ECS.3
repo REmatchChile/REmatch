@@ -1,4 +1,4 @@
-.TH "rematch::output_enumeration::ECS" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.TH "rematch::output_enumeration::ECS" 3 "Tue Jan 31 2023" "Version 1" "Rematch" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -17,12 +17,6 @@ rematch::output_enumeration::ECS \- An Enumerable Compact Set stores all combina
 .br
 .ti -1c
 .RI "size_t \fBamount_of_nodes_allocated\fP () const"
-.br
-.ti -1c
-.RI "\fBECS\fP ()=default"
-.br
-.ti -1c
-.RI "\fB~ECS\fP ()=default"
 .br
 .ti -1c
 .RI "\fBECSNode\fP * \fBcreate_bottom_node\fP ()"
@@ -52,38 +46,6 @@ An Enumerable Compact Set stores all combinations of outputs through the interfa
 Furthermore, memory management is optimized through a node manager, so that memory space is recycled and it is not necessary to allocate memory an extensive amount of times\&.
 .PP
 This structure is specified by the paper: REmatch: a regex engine for finding all matches (Riveros, Van Sint, Vrgoc 2023)\&. 
-.SH "Constructor & Destructor Documentation"
-.PP 
-.SS "rematch::output_enumeration::ECS::ECS ()\fC [default]\fP"
-
-.SS "rematch::output_enumeration::ECS::~ECS ()\fC [default]\fP"
-
-.SH "Member Function Documentation"
-.PP 
-.SS "size_t rematch::output_enumeration::ECS::amount_of_nodes_allocated () const\fC [inline]\fP"
-
-.SS "\fBECSNode\fP * rematch::output_enumeration::ECS::create_bottom_node ()"
-
-.PP
-The bottom node, also known as the terminal node, has no children and tells us that we reached the end of an output\&. 
-.SS "\fBECSNode\fP * rematch::output_enumeration::ECS::create_extend_node (\fBECSNode\fP * node, std::bitset< 64 > variable_markers, int document_position)"
-
-.PP
-Extend nodes, also known as content nodes store the opened and closed variables and the position in the document that this annotation is referring to\&. 
-.SS "\fBECSNode\fP * rematch::output_enumeration::ECS::create_union_node (\fBECSNode\fP * node_1, \fBECSNode\fP * node_2)"
-
-.PP
-Union nodes allow us to enumerate multiple outputs starting from a single node\&. 
-.SS "size_t rematch::output_enumeration::ECS::get_amount_of_nodes_used () const"
-
-.SS "\fBECSNode\fP * rematch::output_enumeration::ECS::pin_node (\fBECSNode\fP * node)"
-
-.PP
-If the node is going to be used in another scope, it is necessary to pin it so that the memory manager does not recycle its memory location\&. 
-.SS "void rematch::output_enumeration::ECS::unpin_node (\fBECSNode\fP * node)"
-
-.PP
-If a node is no longer used, it should be unpinned, this allows the memory manager to recycle the memory allocated to it\&. 
 
 .SH "Author"
 .PP 

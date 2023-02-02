@@ -1,4 +1,4 @@
-.TH "rematch::output_enumeration::Mapping" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.TH "rematch::output_enumeration::Mapping" 3 "Tue Jan 31 2023" "Version 1" "Rematch" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -19,8 +19,9 @@ rematch::output_enumeration::Mapping \- A \fBMapping\fP is also known as an s-tu
 .RI "void \fBadd_annotations\fP (std::bitset< 64 > variable_markers, size_t document_position)"
 .br
 .ti -1c
-.RI "std::vector< \fBSpan\fP > \fBget_spans_of_variable_id\fP (int id) const"
+.RI "std::vector< Span > \fBget_spans_of_variable_id\fP (int id) const"
 .br
+.RI "assumptions: inverted_annotations are sorted by document_position, and are functional\&. "
 .ti -1c
 .RI "void \fBdelete_previous_annotation\fP ()"
 .br
@@ -29,21 +30,13 @@ rematch::output_enumeration::Mapping \- A \fBMapping\fP is also known as an s-tu
 .PP 
 A \fBMapping\fP is also known as an s-tuple, asigns a span to all it's variables\&. 
 
-This is an internal mapping, therefore the spans are assigned to the variable id's, to get the original variable names the VariableCatalog class should be used\&. 
-.SH "Constructor & Destructor Documentation"
-.PP 
-.SS "rematch::output_enumeration::Mapping::Mapping (int amount_of_variables)"
-
+This is an internal mapping, therefore the spans are assigned to the variable id's, to get the original variable names the \fBVariableCatalog\fP class should be used\&. 
 .SH "Member Function Documentation"
 .PP 
-.SS "void rematch::output_enumeration::Mapping::add_annotations (std::bitset< 64 > variable_markers, size_t document_position)"
+.SS "std::vector< Span > rematch::output_enumeration::Mapping::get_spans_of_variable_id (int id) const"
 
-.SS "void rematch::output_enumeration::Mapping::delete_previous_annotation ()"
-
-.SS "std::vector< \fBSpan\fP > rematch::output_enumeration::Mapping::get_spans_of_variable_id (int id) const"
-assumptions: inverted_annotations are sorted by document_position, and are functional\&.
 .PP
-The current implementation is not optimal, as it traverses the inverted_annotations vector twice\&. Furthermore, if the spans of all the variables are found in a single pass it would be more efficient\&.
+assumptions: inverted_annotations are sorted by document_position, and are functional\&. The current implementation is not optimal, as it traverses the inverted_annotations vector twice\&. Furthermore, if the spans of all the variables are found in a single pass it would be more efficient\&.
 
 .SH "Author"
 .PP 

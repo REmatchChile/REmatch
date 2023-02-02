@@ -1,4 +1,4 @@
-.TH "rematch::SearchDFAState" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.TH "rematch::SearchDFAState" 3 "Tue Jan 31 2023" "Version 1" "Rematch" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,8 +6,6 @@ rematch::SearchDFAState
 .SH SYNOPSIS
 .br
 .PP
-.PP
-\fC#include <search_dfa_state\&.hpp>\fP
 .SS "Public Types"
 
 .in +1c
@@ -18,9 +16,6 @@ rematch::SearchDFAState
 .SS "Public Member Functions"
 
 .in +1c
-.ti -1c
-.RI "\fBSearchDFAState\fP ()"
-.br
 .ti -1c
 .RI "\fBSearchDFAState\fP (std::set< \fBSearchNFAState\fP * > &states, bool is_ends)"
 .br
@@ -71,59 +66,6 @@ rematch::SearchDFAState
 .RI "std::vector< \fBSearchDFAState\fP * > \fBtransitions\fP"
 .br
 .in -1c
-.SH "Member Enumeration Documentation"
-.PP 
-.SS "enum \fBrematch::SearchDFAState::Flags\fP"
-
-.PP
-\fBEnumerator\fP
-.in +1c
-.TP
-\fB\fIkDefaultSearchNFAState \fP\fP
-.TP
-\fB\fIkAcceptingSearchNFAState \fP\fP
-.TP
-\fB\fIkInitialSearchNFAState \fP\fP
-.TP
-\fB\fIkEndsNFAState \fP\fP
-.SH "Constructor & Destructor Documentation"
-.PP 
-.SS "rematch::SearchDFAState::SearchDFAState ()"
-
-.SS "rematch::SearchDFAState::SearchDFAState (std::set< \fBSearchNFAState\fP * > & states, bool is_ends)"
-
-.SH "Member Function Documentation"
-.PP 
-.SS "bool rematch::SearchDFAState::accepting () const\fC [inline]\fP"
-
-.SS "void rematch::SearchDFAState::add_capture (char a, std::bitset< 64 > S, \fBSearchDFAState\fP * q)"
-
-.SS "void rematch::SearchDFAState::add_direct (char a, \fBSearchDFAState\fP * q)"
-
-.SS "void rematch::SearchDFAState::add_empty (char a)"
-
-.SS "bool rematch::SearchDFAState::empty_subset () const\fC [inline]\fP"
-
-.SS "bool rematch::SearchDFAState::ends () const\fC [inline]\fP"
-
-.SS "int rematch::SearchDFAState::get_id () const\fC [inline]\fP"
-
-.SS "bool rematch::SearchDFAState::initial () const\fC [inline]\fP"
-
-.SS "std::string rematch::SearchDFAState::label () const\fC [inline]\fP"
-
-.SS "void rematch::SearchDFAState::set_accepting ()"
-
-.SS "void rematch::SearchDFAState::set_ends ()"
-
-.SS "void rematch::SearchDFAState::set_initial ()"
-
-.SS "std::vector< \fBSearchNFAState\fP * > rematch::SearchDFAState::subset () const\fC [inline]\fP"
-
-.SH "Member Data Documentation"
-.PP 
-.SS "std::vector<\fBSearchDFAState\fP*> rematch::SearchDFAState::transitions"
-
 
 .SH "Author"
 .PP 

@@ -1,6 +1,6 @@
 \hypertarget{search__nfa__state_8hpp_source}{}\doxysection{search\+\_\+nfa\+\_\+state.\+hpp}
 \label{search__nfa__state_8hpp_source}\index{src/rematch/filtering\_module/search\_variable\_set\_automaton/nfa/search\_nfa\_state.hpp@{src/rematch/filtering\_module/search\_variable\_set\_automaton/nfa/search\_nfa\_state.hpp}}
-\mbox{\hyperlink{search__nfa__state_8hpp}{Go to the documentation of this file.}}
+
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SRC\_REMATCH\_AUTOMATA\_NFA\_STATE\_HPP}}
 \DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SRC\_REMATCH\_AUTOMATA\_NFA\_STATE\_HPP}}
@@ -9,68 +9,68 @@
 \DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <set>}}
 \DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <bitset>}}
 \DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <memory>}}
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{charclass_8hpp}{parsing/charclass.hpp}}"{}}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{logical__va__state_8hpp}{parsing/logical\_variable\_set\_automaton/logical\_va\_state.hpp}}"{}}}
-\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{search__nfa__filter_8hpp}{filtering\_module/search\_variable\_set\_automaton/nfa/search\_nfa\_filter.hpp}}"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}parsing/charclass.hpp"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}parsing/logical\_variable\_set\_automaton/logical\_va\_state.hpp"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}filtering\_module/search\_variable\_set\_automaton/nfa/search\_nfa\_filter.hpp"{}}}
 \DoxyCodeLine{00011\ }
-\DoxyCodeLine{00012\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacerematch}{rematch}}\ \{}
+\DoxyCodeLine{00012\ \textcolor{keyword}{namespace\ }rematch\ \{}
 \DoxyCodeLine{00013\ }
 \DoxyCodeLine{00014\ \textcolor{keyword}{class\ }SearchNFAState;}
 \DoxyCodeLine{00015\ }
-\DoxyCodeLine{00016\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{namespacerematch_ab349a86abf5cba548a171c89ec9d3544}{SearchNFAStateFlags}}\ \{}
-\DoxyCodeLine{00017\ \ \ \mbox{\hyperlink{namespacerematch_ab349a86abf5cba548a171c89ec9d3544a772c56c366d7a6092a2d316bd4975ead}{kDefaultSearchNFAState}}\ =\ 0,}
-\DoxyCodeLine{00018\ \ \ \mbox{\hyperlink{namespacerematch_ab349a86abf5cba548a171c89ec9d3544a10c318e231264d658e0645243c6848b4}{kFinalSearchNFAState}}\ =\ 1,}
-\DoxyCodeLine{00019\ \ \ \mbox{\hyperlink{namespacerematch_ab349a86abf5cba548a171c89ec9d3544a5a694ca741140b5a48f70e4bc34282de}{kSuperFinalSearchNFAState}}\ =\ 1\ <<\ 1,}
-\DoxyCodeLine{00020\ \ \ \mbox{\hyperlink{namespacerematch_ab349a86abf5cba548a171c89ec9d3544a7f8864a3747c00483b02f8368e56600e}{kInitialSearchNFAState}}\ =\ 1\ <<\ 2,}
+\DoxyCodeLine{00016\ \textcolor{keyword}{enum}\ SearchNFAStateFlags\ \{}
+\DoxyCodeLine{00017\ \ \ kDefaultSearchNFAState\ =\ 0,}
+\DoxyCodeLine{00018\ \ \ kFinalSearchNFAState\ =\ 1,}
+\DoxyCodeLine{00019\ \ \ kSuperFinalSearchNFAState\ =\ 1\ <<\ 1,}
+\DoxyCodeLine{00020\ \ \ kInitialSearchNFAState\ =\ 1\ <<\ 2,}
 \DoxyCodeLine{00021\ \};}
 \DoxyCodeLine{00022\ }
 \DoxyCodeLine{00023\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}\ \{}
 \DoxyCodeLine{00024\ \ \ \textcolor{keyword}{public}:}
 \DoxyCodeLine{00025\ \ \ \ \ \textcolor{comment}{//\ Booleans\ for\ graph\ algorithms}}
-\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1SearchNFAState_abea274dc058ccffe1ade8bfc420dd168}{tempMark}}\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{classrematch_1_1SearchNFAState_ad0d2068d83440fca88e8e2143275f3c5}{colorMark}}\ =\ \textcolor{charliteral}{'w'};}
-\DoxyCodeLine{00028\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{classrematch_1_1SearchNFAState_a7c0e5692373bd44efdd399f918a2c066}{visitedBy}}\ =\ 0;}
-\DoxyCodeLine{00029\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{classrematch_1_1SearchNFAState_a0180de9230ed8ca4c8d40c42e80bdca7}{flags}};}
-\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classrematch_1_1SearchNFAState_af5e6ef26240d3c5677839e69b0eb3881}{id}};}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{bool}\ tempMark\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{char}\ colorMark\ =\ \textcolor{charliteral}{'w'};}
+\DoxyCodeLine{00028\ \ \ \ \ uint32\_t\ visitedBy\ =\ 0;}
+\DoxyCodeLine{00029\ \ \ \ \ uint32\_t\ flags;}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ id;}
 \DoxyCodeLine{00031\ }
-\DoxyCodeLine{00032\ \ \ \ \ std::list<SearchNFAFilter*>\ \mbox{\hyperlink{classrematch_1_1SearchNFAState_af64868f5e6eeb6f686f73aeaf4531aeb}{filters}};\ \ \ \ \textcolor{comment}{//\ Filter\ array}}
-\DoxyCodeLine{00033\ \ \ \ \ std::list<SearchNFAFilter*>\ \mbox{\hyperlink{classrematch_1_1SearchNFAState_adc4897fd1312b7aa68741c3e4f086ce8}{backward\_filters\_}};}
+\DoxyCodeLine{00032\ \ \ \ \ std::list<SearchNFAFilter*>\ filters;\ \ \ \ \textcolor{comment}{//\ Filter\ array}}
+\DoxyCodeLine{00033\ \ \ \ \ std::list<SearchNFAFilter*>\ backward\_filters\_;}
 \DoxyCodeLine{00034\ }
 \DoxyCodeLine{00035\ \ \ \textcolor{keyword}{private}:}
 \DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ ID;\ \textcolor{comment}{//\ Static\ var\ to\ make\ sequential\ id's}}
 \DoxyCodeLine{00037\ }
 \DoxyCodeLine{00038\ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAState_af7573cb1a1c4bf2cb0746186b91b9533}{SearchNFAState}}();}
+\DoxyCodeLine{00039\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}();}
 \DoxyCodeLine{00040\ }
-\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAState_a6aec56b4fd63f98770ff1abeefda16f4}{\string~SearchNFAState}}();}
+\DoxyCodeLine{00041\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAState}{\string~SearchNFAState}}();}
 \DoxyCodeLine{00042\ }
-\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAState_af7573cb1a1c4bf2cb0746186b91b9533}{SearchNFAState}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}\&\ s);}
+\DoxyCodeLine{00043\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}\&\ s);}
 \DoxyCodeLine{00044\ }
-\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAState_a5e607baf0d32027faf40f1601cef4080}{SearchNFAState}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classrematch_1_1LogicalVAState}{LogicalVAState}}*\ state)\ :}
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAState_a0180de9230ed8ca4c8d40c42e80bdca7}{flags}}(state-\/>\mbox{\hyperlink{classrematch_1_1SearchNFAState_a0180de9230ed8ca4c8d40c42e80bdca7}{flags}}),\ \mbox{\hyperlink{classrematch_1_1SearchNFAState_af5e6ef26240d3c5677839e69b0eb3881}{id}}(ID++)}
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVAState}{LogicalVAState}}*\ state)\ :}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ flags(state-\/>flags),\ id(ID++)}
 \DoxyCodeLine{00047\ \ \ \ \ \{}
-\DoxyCodeLine{00048\ \ \ \ \ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAState_a118c682ae954bb5ec3817ae44d738dd6}{set\_initial}}(state-\/>\mbox{\hyperlink{classrematch_1_1LogicalVAState_a65b964733797c6d7f00bf105e0bba4c1}{initial}}());}
-\DoxyCodeLine{00049\ \ \ \ \ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAState_aa909666a5dc2a28ab06cdae1f813f67a}{set\_accepting}}(state-\/>\mbox{\hyperlink{classrematch_1_1LogicalVAState_a7773ae75d1dbe796c9f3d32c0e465a4c}{accepting}}());}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ set\_initial(state-\/>initial());}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ set\_accepting(state-\/>accepting());}
 \DoxyCodeLine{00050\ \ \ \ \ \}}
 \DoxyCodeLine{00051\ }
-\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1SearchNFAState_a9f0d28ba1745a0bb66122202627fb0eb}{init}}();}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{void}\ init();}
 \DoxyCodeLine{00053\ }
-\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}*\ \mbox{\hyperlink{classrematch_1_1SearchNFAState_a1526f45aad2428b216f37aa2115c7535}{nextFilter}}(\mbox{\hyperlink{classrematch_1_1CharClass}{CharClass}}\ charclass);}
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}*\ nextFilter(\mbox{\hyperlink{classrematch_1_1parsing_1_1CharClass}{CharClass}}\ charclass);}
 \DoxyCodeLine{00055\ }
 \DoxyCodeLine{00056\ \ \ \ \ \textcolor{comment}{//void\ add\_capture(std::bitset<64>\ code,\ SearchNFAState*\ next);}}
-\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1SearchNFAState_a812dbdb9c4f310caf229db51e2d9c0c2}{add\_filter}}(\mbox{\hyperlink{classrematch_1_1CharClass}{CharClass}}\ charclass,\ \mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}*\ next);}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{void}\ add\_filter(\mbox{\hyperlink{classrematch_1_1parsing_1_1CharClass}{CharClass}}\ charclass,\ \mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}*\ next);}
 \DoxyCodeLine{00058\ \ \ \ \ \textcolor{comment}{//void\ add\_epsilon(SearchNFAState*\ next);}}
 \DoxyCodeLine{00059\ }
 \DoxyCodeLine{00060\ \ \ \ \ \textcolor{comment}{//\ Getters\ and\ setters}}
-\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1SearchNFAState_a16cbeb0691d9399d6869f0b6eb6ac67c}{initial}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classrematch_1_1SearchNFAState_a0180de9230ed8ca4c8d40c42e80bdca7}{flags}}\ \&\ \mbox{\hyperlink{namespacerematch_ab349a86abf5cba548a171c89ec9d3544a7f8864a3747c00483b02f8368e56600e}{kInitialSearchNFAState}};\ \}}
-\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1SearchNFAState_a118c682ae954bb5ec3817ae44d738dd6}{set\_initial}}(\textcolor{keywordtype}{bool}\ b);}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{bool}\ initial()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ flags\ \&\ kInitialSearchNFAState;\ \}}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_initial(\textcolor{keywordtype}{bool}\ b);}
 \DoxyCodeLine{00063\ }
-\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1SearchNFAState_a7ba592e18e4936f0e3f4021cd5469ff5}{accepting}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classrematch_1_1SearchNFAState_a0180de9230ed8ca4c8d40c42e80bdca7}{flags}}\ \&\ \mbox{\hyperlink{namespacerematch_ab349a86abf5cba548a171c89ec9d3544a10c318e231264d658e0645243c6848b4}{kFinalSearchNFAState}};\ \}}
-\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1SearchNFAState_aa909666a5dc2a28ab06cdae1f813f67a}{set\_accepting}}(\textcolor{keywordtype}{bool}\ b);}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{bool}\ accepting()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ flags\ \&\ kFinalSearchNFAState;\ \}}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ set\_accepting(\textcolor{keywordtype}{bool}\ b);}
 \DoxyCodeLine{00066\ }
-\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1SearchNFAState_a4773d622b1af7e64c39d8e42703f26a3}{super\_final}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classrematch_1_1SearchNFAState_a0180de9230ed8ca4c8d40c42e80bdca7}{flags}}\ \&\ \mbox{\hyperlink{namespacerematch_ab349a86abf5cba548a171c89ec9d3544a5a694ca741140b5a48f70e4bc34282de}{kSuperFinalSearchNFAState}};\ \}}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{bool}\ super\_final()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ flags\ \&\ kSuperFinalSearchNFAState;\ \}}
 \DoxyCodeLine{00068\ }
-\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1SearchNFAState_a2e44998aefd6f29c3e833d9ac9c79b76}{operator==}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}\ \&rhs)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ \mbox{\hyperlink{classrematch_1_1SearchNFAState}{SearchNFAState}}\ \&rhs)\ \textcolor{keyword}{const};}
 \DoxyCodeLine{00070\ \};}
 \DoxyCodeLine{00071\ }
 \DoxyCodeLine{00072\ \}\ \textcolor{comment}{//\ end\ namespace\ rematch}}

@@ -1,6 +1,6 @@
 \hypertarget{ecs_8hpp_source}{}\doxysection{ecs.\+hpp}
 \label{ecs_8hpp_source}\index{src/rematch/output\_enumeration/ecs.hpp@{src/rematch/output\_enumeration/ecs.hpp}}
-\mbox{\hyperlink{ecs_8hpp}{Go to the documentation of this file.}}
+
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ OUTPUT\_ENUMERATION\_\_ECS\_HPP}}
 \DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ OUTPUT\_ENUMERATION\_\_ECS\_HPP}}
@@ -9,10 +9,10 @@
 \DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
 \DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <vector>}}
 \DoxyCodeLine{00007\ }
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{node__manager_8hpp}{output\_enumeration/node\_manager.hpp}}"{}}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ecs__node_8hpp}{output\_enumeration/ecs\_node.hpp}}"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}output\_enumeration/node\_manager.hpp"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}output\_enumeration/ecs\_node.hpp"{}}}
 \DoxyCodeLine{00010\ }
-\DoxyCodeLine{00011\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacerematch}{rematch}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{keyword}{namespace\ }rematch\ \{}
 \DoxyCodeLine{00012\ }
 \DoxyCodeLine{00013\ \textcolor{keyword}{inline}\ \textcolor{keyword}{namespace\ }output\_enumeration\ \{}
 \DoxyCodeLine{00014\ \textcolor{comment}{}}
@@ -30,14 +30,14 @@
 \DoxyCodeLine{00026\ \textcolor{comment}{\ \ \ */}}
 \DoxyCodeLine{00027\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS}{ECS}}\ \{\ \textcolor{comment}{//\ Enumerable\ Compact\ Set}}
 \DoxyCodeLine{00028\ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00029\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_a3ed1b27b8109ff6b5203942fdb247b86}{get\_amount\_of\_nodes\_used}}()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00030\ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_a0328989fbabfaa75aba05db92f748502}{amount\_of\_nodes\_allocated}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ node\_manager.\mbox{\hyperlink{classrematch_1_1output__enumeration_1_1NodeManager_a492a1e2860b03d782eb27f5c396b91af}{amount\_of\_nodes\_allocated}}();\ \}}
+\DoxyCodeLine{00029\ \ \ \textcolor{keywordtype}{size\_t}\ get\_amount\_of\_nodes\_used()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00030\ \ \ \textcolor{keywordtype}{size\_t}\ amount\_of\_nodes\_allocated()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ node\_manager.amount\_of\_nodes\_allocated();\ \}}
 \DoxyCodeLine{00031\ \ \textcolor{keyword}{private}:}
 \DoxyCodeLine{00032\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1NodeManager}{NodeManager}}\ node\_manager;}
 \DoxyCodeLine{00033\ }
 \DoxyCodeLine{00034\ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00035\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_a6592800865d7578dc9a89c1972fb116e}{ECS}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00036\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS_ae576dd468e08220bfd45e06b78f6dd0a}{\string~ECS}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00035\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS}{ECS}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00036\ \ \ \mbox{\hyperlink{classrematch_1_1output__enumeration_1_1ECS}{\string~ECS}}()\ =\ \textcolor{keywordflow}{default};}
 \DoxyCodeLine{00037\ \textcolor{comment}{}}
 \DoxyCodeLine{00038\ \textcolor{comment}{\ \ /**}}
 \DoxyCodeLine{00039\ \textcolor{comment}{\ \ \ *\ The\ bottom\ node,\ also\ known\ as\ the\ terminal\ node,\ has\ no\ children\ and}}

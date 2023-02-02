@@ -6,7 +6,7 @@ digraph "rematch::SearchNFAFilter"
   node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
   Node1 [label="rematch::SearchNFAFilter",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
   Node2 -> Node1 [dir="back",color="darkorchid3",style="dashed",label=" from\nnext" ];
-  Node2 [label="rematch::SearchNFAState",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$d6/d17/classrematch_1_1SearchNFAState.html",tooltip=" "];
+  Node2 [label="rematch::SearchNFAState",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$d6/d17/classrematch_1_1SearchNFAState.html",tooltip=" "];
   Node3 -> Node1 [dir="back",color="darkorchid3",style="dashed",label=" charclass" ];
-  Node3 [label="rematch::CharClass",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$d3/d23/classrematch_1_1CharClass.html",tooltip=" "];
+  Node3 [label="rematch::CharClass",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$d8/da5/classrematch_1_1parsing_1_1CharClass.html",tooltip=" "];
 }

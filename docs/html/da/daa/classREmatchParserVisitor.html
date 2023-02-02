@@ -86,11 +86,11 @@ Inheritance diagram for REmatchParserVisitor:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d1/d4e/classREmatchParserVisitor__inherit__graph.png" border="0" usemap="#aREmatchParserVisitor_inherit__map" alt="Inheritance graph"/></div>
 <map name="aREmatchParserVisitor_inherit__map" id="aREmatchParserVisitor_inherit__map">
-<area shape="rect" title="This class defines an abstract visitor for a parse tree produced by REmatchParser." alt="" coords="77,93,227,119"/>
-<area shape="rect" href="../../de/dbd/classREmatchParserBaseVisitor.html" title="This class provides an empty implementation of REmatchParserVisitor, which can be extended to create ..." alt="" coords="62,167,242,192"/>
-<area shape="rect" title=" " alt="" coords="67,5,237,45"/>
-<area shape="rect" href="../../df/d72/classrematch_1_1visitors_1_1FilterFactoryVisitor.html" title=" " alt="" coords="5,240,136,280"/>
-<area shape="rect" href="../../d9/d68/classrematch_1_1visitors_1_1VariableFactoryVisitor.html" title=" " alt="" coords="160,240,309,280"/>
+<area shape="rect" title="This class defines an abstract visitor for a parse tree produced by REmatchParser." alt="" coords="71,93,222,119"/>
+<area shape="rect" href="../../de/dbd/classREmatchParserBaseVisitor.html" title="This class provides an empty implementation of REmatchParserVisitor, which can be extended to create ..." alt="" coords="57,167,237,192"/>
+<area shape="rect" title=" " alt="" coords="61,5,232,45"/>
+<area shape="rect" href="../../d7/dbe/classrematch_1_1visitors_1_1CharClassVisitor.html" title=" " alt="" coords="5,240,128,280"/>
+<area shape="rect" href="../../d1/dd9/classrematch_1_1visitors_1_1VariableCatalogVisitor.html" title=" " alt="" coords="153,240,303,280"/>
 </map>
 <center><span class="legend">[<a href="../../graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -108,738 +108,94 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad74a85fca9b7c3a05c2c77b0a1c1c44b"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#ad74a85fca9b7c3a05c2c77b0a1c1c44b">visitRoot</a> (<a class="el" href="../../d0/de9/classREmatchParser_1_1RootContext.html">REmatchParser::RootContext</a> *context)=0</td></tr>
 <tr class="memdesc:ad74a85fca9b7c3a05c2c77b0a1c1c44b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Visit parse trees produced by <a class="el" href="../../dd/df1/classREmatchParser.html">REmatchParser</a>.  <br /></td></tr>
 <tr class="separator:ad74a85fca9b7c3a05c2c77b0a1c1c44b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f53b24feead342ace1ff659402da4b7"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#a4f53b24feead342ace1ff659402da4b7">visitAlternation</a> (<a class="el" href="../../db/d0b/classREmatchParser_1_1AlternationContext.html">REmatchParser::AlternationContext</a> *context)=0</td></tr>
+<tr class="memitem:a4f53b24feead342ace1ff659402da4b7"><td class="memItemLeft" align="right" valign="top"><a id="a4f53b24feead342ace1ff659402da4b7" name="a4f53b24feead342ace1ff659402da4b7"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitAlternation</b> (<a class="el" href="../../db/d0b/classREmatchParser_1_1AlternationContext.html">REmatchParser::AlternationContext</a> *context)=0</td></tr>
 <tr class="separator:a4f53b24feead342ace1ff659402da4b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ec2357a858e633115f82b804a790599"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#a0ec2357a858e633115f82b804a790599">visitExpr</a> (<a class="el" href="../../d7/dc2/classREmatchParser_1_1ExprContext.html">REmatchParser::ExprContext</a> *context)=0</td></tr>
+<tr class="memitem:a0ec2357a858e633115f82b804a790599"><td class="memItemLeft" align="right" valign="top"><a id="a0ec2357a858e633115f82b804a790599" name="a0ec2357a858e633115f82b804a790599"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitExpr</b> (<a class="el" href="../../d7/dc2/classREmatchParser_1_1ExprContext.html">REmatchParser::ExprContext</a> *context)=0</td></tr>
 <tr class="separator:a0ec2357a858e633115f82b804a790599"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b4e9811d7e11136434eec655b194aa6"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#a2b4e9811d7e11136434eec655b194aa6">visitElement</a> (<a class="el" href="../../d6/d41/classREmatchParser_1_1ElementContext.html">REmatchParser::ElementContext</a> *context)=0</td></tr>
+<tr class="memitem:a2b4e9811d7e11136434eec655b194aa6"><td class="memItemLeft" align="right" valign="top"><a id="a2b4e9811d7e11136434eec655b194aa6" name="a2b4e9811d7e11136434eec655b194aa6"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitElement</b> (<a class="el" href="../../d6/d41/classREmatchParser_1_1ElementContext.html">REmatchParser::ElementContext</a> *context)=0</td></tr>
 <tr class="separator:a2b4e9811d7e11136434eec655b194aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8172e6f9e74f4df36b553fb5576ebbde"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#a8172e6f9e74f4df36b553fb5576ebbde">visitGroup</a> (<a class="el" href="../../d6/d3f/classREmatchParser_1_1GroupContext.html">REmatchParser::GroupContext</a> *context)=0</td></tr>
+<tr class="memitem:a8172e6f9e74f4df36b553fb5576ebbde"><td class="memItemLeft" align="right" valign="top"><a id="a8172e6f9e74f4df36b553fb5576ebbde" name="a8172e6f9e74f4df36b553fb5576ebbde"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitGroup</b> (<a class="el" href="../../d6/d3f/classREmatchParser_1_1GroupContext.html">REmatchParser::GroupContext</a> *context)=0</td></tr>
 <tr class="separator:a8172e6f9e74f4df36b553fb5576ebbde"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac06ac46923c79fd199462a2a95ddce8e"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#ac06ac46923c79fd199462a2a95ddce8e">visitParentheses</a> (<a class="el" href="../../dc/d71/classREmatchParser_1_1ParenthesesContext.html">REmatchParser::ParenthesesContext</a> *context)=0</td></tr>
+<tr class="memitem:ac06ac46923c79fd199462a2a95ddce8e"><td class="memItemLeft" align="right" valign="top"><a id="ac06ac46923c79fd199462a2a95ddce8e" name="ac06ac46923c79fd199462a2a95ddce8e"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitParentheses</b> (<a class="el" href="../../dc/d71/classREmatchParser_1_1ParenthesesContext.html">REmatchParser::ParenthesesContext</a> *context)=0</td></tr>
 <tr class="separator:ac06ac46923c79fd199462a2a95ddce8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6a5ff0645cb2f0c94e4eb171171c724"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#aa6a5ff0645cb2f0c94e4eb171171c724">visitAssignation</a> (<a class="el" href="../../de/d87/classREmatchParser_1_1AssignationContext.html">REmatchParser::AssignationContext</a> *context)=0</td></tr>
+<tr class="memitem:aa6a5ff0645cb2f0c94e4eb171171c724"><td class="memItemLeft" align="right" valign="top"><a id="aa6a5ff0645cb2f0c94e4eb171171c724" name="aa6a5ff0645cb2f0c94e4eb171171c724"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitAssignation</b> (<a class="el" href="../../de/d87/classREmatchParser_1_1AssignationContext.html">REmatchParser::AssignationContext</a> *context)=0</td></tr>
 <tr class="separator:aa6a5ff0645cb2f0c94e4eb171171c724"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b957cbc578ef4b5c9476c1a7dc178bb"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#a1b957cbc578ef4b5c9476c1a7dc178bb">visitVarname</a> (<a class="el" href="../../df/d91/classREmatchParser_1_1VarnameContext.html">REmatchParser::VarnameContext</a> *context)=0</td></tr>
+<tr class="memitem:a1b957cbc578ef4b5c9476c1a7dc178bb"><td class="memItemLeft" align="right" valign="top"><a id="a1b957cbc578ef4b5c9476c1a7dc178bb" name="a1b957cbc578ef4b5c9476c1a7dc178bb"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitVarname</b> (<a class="el" href="../../df/d91/classREmatchParser_1_1VarnameContext.html">REmatchParser::VarnameContext</a> *context)=0</td></tr>
 <tr class="separator:a1b957cbc578ef4b5c9476c1a7dc178bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5601a9f17e351e6c728c152b405128da"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#a5601a9f17e351e6c728c152b405128da">visitAtom</a> (<a class="el" href="../../d5/dba/classREmatchParser_1_1AtomContext.html">REmatchParser::AtomContext</a> *context)=0</td></tr>
+<tr class="memitem:a5601a9f17e351e6c728c152b405128da"><td class="memItemLeft" align="right" valign="top"><a id="a5601a9f17e351e6c728c152b405128da" name="a5601a9f17e351e6c728c152b405128da"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitAtom</b> (<a class="el" href="../../d5/dba/classREmatchParser_1_1AtomContext.html">REmatchParser::AtomContext</a> *context)=0</td></tr>
 <tr class="separator:a5601a9f17e351e6c728c152b405128da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93f16166d4bbd5789611848328eaebf4"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#a93f16166d4bbd5789611848328eaebf4">visitCharacterClass</a> (<a class="el" href="../../d3/d22/classREmatchParser_1_1CharacterClassContext.html">REmatchParser::CharacterClassContext</a> *context)=0</td></tr>
+<tr class="memitem:a93f16166d4bbd5789611848328eaebf4"><td class="memItemLeft" align="right" valign="top"><a id="a93f16166d4bbd5789611848328eaebf4" name="a93f16166d4bbd5789611848328eaebf4"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitCharacterClass</b> (<a class="el" href="../../d3/d22/classREmatchParser_1_1CharacterClassContext.html">REmatchParser::CharacterClassContext</a> *context)=0</td></tr>
 <tr class="separator:a93f16166d4bbd5789611848328eaebf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8be62a3a732be251f39cc2b51e265f1"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#ac8be62a3a732be251f39cc2b51e265f1">visitCcAtom</a> (<a class="el" href="../../de/dc9/classREmatchParser_1_1CcAtomContext.html">REmatchParser::CcAtomContext</a> *context)=0</td></tr>
+<tr class="memitem:ac8be62a3a732be251f39cc2b51e265f1"><td class="memItemLeft" align="right" valign="top"><a id="ac8be62a3a732be251f39cc2b51e265f1" name="ac8be62a3a732be251f39cc2b51e265f1"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitCcAtom</b> (<a class="el" href="../../de/dc9/classREmatchParser_1_1CcAtomContext.html">REmatchParser::CcAtomContext</a> *context)=0</td></tr>
 <tr class="separator:ac8be62a3a732be251f39cc2b51e265f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad5a01e1e8f55011e78d9aebf5a409e8"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#aad5a01e1e8f55011e78d9aebf5a409e8">visitCcRange</a> (<a class="el" href="../../d8/d6d/classREmatchParser_1_1CcRangeContext.html">REmatchParser::CcRangeContext</a> *context)=0</td></tr>
+<tr class="memitem:aad5a01e1e8f55011e78d9aebf5a409e8"><td class="memItemLeft" align="right" valign="top"><a id="aad5a01e1e8f55011e78d9aebf5a409e8" name="aad5a01e1e8f55011e78d9aebf5a409e8"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitCcRange</b> (<a class="el" href="../../d8/d6d/classREmatchParser_1_1CcRangeContext.html">REmatchParser::CcRangeContext</a> *context)=0</td></tr>
 <tr class="separator:aad5a01e1e8f55011e78d9aebf5a409e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1847bc4863fc4679e82b23e12a7bdea7"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#a1847bc4863fc4679e82b23e12a7bdea7">visitCcSingle</a> (<a class="el" href="../../d8/d23/classREmatchParser_1_1CcSingleContext.html">REmatchParser::CcSingleContext</a> *context)=0</td></tr>
+<tr class="memitem:a1847bc4863fc4679e82b23e12a7bdea7"><td class="memItemLeft" align="right" valign="top"><a id="a1847bc4863fc4679e82b23e12a7bdea7" name="a1847bc4863fc4679e82b23e12a7bdea7"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitCcSingle</b> (<a class="el" href="../../d8/d23/classREmatchParser_1_1CcSingleContext.html">REmatchParser::CcSingleContext</a> *context)=0</td></tr>
 <tr class="separator:a1847bc4863fc4679e82b23e12a7bdea7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab420651f29fd5498ea6ec617a41f16bc"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#ab420651f29fd5498ea6ec617a41f16bc">visitCcLiteral</a> (<a class="el" href="../../da/df2/classREmatchParser_1_1CcLiteralContext.html">REmatchParser::CcLiteralContext</a> *context)=0</td></tr>
+<tr class="memitem:ab420651f29fd5498ea6ec617a41f16bc"><td class="memItemLeft" align="right" valign="top"><a id="ab420651f29fd5498ea6ec617a41f16bc" name="ab420651f29fd5498ea6ec617a41f16bc"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitCcLiteral</b> (<a class="el" href="../../da/df2/classREmatchParser_1_1CcLiteralContext.html">REmatchParser::CcLiteralContext</a> *context)=0</td></tr>
 <tr class="separator:ab420651f29fd5498ea6ec617a41f16bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abaaa0c825689c472073ef23b541714ba"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#abaaa0c825689c472073ef23b541714ba">visitCcEscapes</a> (<a class="el" href="../../da/d44/classREmatchParser_1_1CcEscapesContext.html">REmatchParser::CcEscapesContext</a> *context)=0</td></tr>
+<tr class="memitem:abaaa0c825689c472073ef23b541714ba"><td class="memItemLeft" align="right" valign="top"><a id="abaaa0c825689c472073ef23b541714ba" name="abaaa0c825689c472073ef23b541714ba"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitCcEscapes</b> (<a class="el" href="../../da/d44/classREmatchParser_1_1CcEscapesContext.html">REmatchParser::CcEscapesContext</a> *context)=0</td></tr>
 <tr class="separator:abaaa0c825689c472073ef23b541714ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a733f8111424e48007539f4f40e116117"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#a733f8111424e48007539f4f40e116117">visitCcOther</a> (<a class="el" href="../../dd/d46/classREmatchParser_1_1CcOtherContext.html">REmatchParser::CcOtherContext</a> *context)=0</td></tr>
+<tr class="memitem:a733f8111424e48007539f4f40e116117"><td class="memItemLeft" align="right" valign="top"><a id="a733f8111424e48007539f4f40e116117" name="a733f8111424e48007539f4f40e116117"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitCcOther</b> (<a class="el" href="../../dd/d46/classREmatchParser_1_1CcOtherContext.html">REmatchParser::CcOtherContext</a> *context)=0</td></tr>
 <tr class="separator:a733f8111424e48007539f4f40e116117"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb4116719ca9281968864db2404b5666"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#afb4116719ca9281968864db2404b5666">visitSingleSharedAtom</a> (<a class="el" href="../../d0/de5/classREmatchParser_1_1SingleSharedAtomContext.html">REmatchParser::SingleSharedAtomContext</a> *context)=0</td></tr>
+<tr class="memitem:afb4116719ca9281968864db2404b5666"><td class="memItemLeft" align="right" valign="top"><a id="afb4116719ca9281968864db2404b5666" name="afb4116719ca9281968864db2404b5666"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitSingleSharedAtom</b> (<a class="el" href="../../d0/de5/classREmatchParser_1_1SingleSharedAtomContext.html">REmatchParser::SingleSharedAtomContext</a> *context)=0</td></tr>
 <tr class="separator:afb4116719ca9281968864db2404b5666"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb47b99728552a9aa9a724b61a6acfe8"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#adb47b99728552a9aa9a724b61a6acfe8">visitLiteral</a> (<a class="el" href="../../d3/d18/classREmatchParser_1_1LiteralContext.html">REmatchParser::LiteralContext</a> *context)=0</td></tr>
+<tr class="memitem:adb47b99728552a9aa9a724b61a6acfe8"><td class="memItemLeft" align="right" valign="top"><a id="adb47b99728552a9aa9a724b61a6acfe8" name="adb47b99728552a9aa9a724b61a6acfe8"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitLiteral</b> (<a class="el" href="../../d3/d18/classREmatchParser_1_1LiteralContext.html">REmatchParser::LiteralContext</a> *context)=0</td></tr>
 <tr class="separator:adb47b99728552a9aa9a724b61a6acfe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64a242a11b5881f779a18cb21384495f"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#a64a242a11b5881f779a18cb21384495f">visitEscapes</a> (<a class="el" href="../../d2/d2c/classREmatchParser_1_1EscapesContext.html">REmatchParser::EscapesContext</a> *context)=0</td></tr>
+<tr class="memitem:a64a242a11b5881f779a18cb21384495f"><td class="memItemLeft" align="right" valign="top"><a id="a64a242a11b5881f779a18cb21384495f" name="a64a242a11b5881f779a18cb21384495f"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitEscapes</b> (<a class="el" href="../../d2/d2c/classREmatchParser_1_1EscapesContext.html">REmatchParser::EscapesContext</a> *context)=0</td></tr>
 <tr class="separator:a64a242a11b5881f779a18cb21384495f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b3468f1adc5c6bd5390ee1a18bf3bbd"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#a2b3468f1adc5c6bd5390ee1a18bf3bbd">visitSpecial</a> (<a class="el" href="../../d1/d58/classREmatchParser_1_1SpecialContext.html">REmatchParser::SpecialContext</a> *context)=0</td></tr>
+<tr class="memitem:a2b3468f1adc5c6bd5390ee1a18bf3bbd"><td class="memItemLeft" align="right" valign="top"><a id="a2b3468f1adc5c6bd5390ee1a18bf3bbd" name="a2b3468f1adc5c6bd5390ee1a18bf3bbd"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitSpecial</b> (<a class="el" href="../../d1/d58/classREmatchParser_1_1SpecialContext.html">REmatchParser::SpecialContext</a> *context)=0</td></tr>
 <tr class="separator:a2b3468f1adc5c6bd5390ee1a18bf3bbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5c4e85acdc7b59ab0acdab227f778f7"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#ae5c4e85acdc7b59ab0acdab227f778f7">visitOther</a> (<a class="el" href="../../df/d0f/classREmatchParser_1_1OtherContext.html">REmatchParser::OtherContext</a> *context)=0</td></tr>
+<tr class="memitem:ae5c4e85acdc7b59ab0acdab227f778f7"><td class="memItemLeft" align="right" valign="top"><a id="ae5c4e85acdc7b59ab0acdab227f778f7" name="ae5c4e85acdc7b59ab0acdab227f778f7"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitOther</b> (<a class="el" href="../../df/d0f/classREmatchParser_1_1OtherContext.html">REmatchParser::OtherContext</a> *context)=0</td></tr>
 <tr class="separator:ae5c4e85acdc7b59ab0acdab227f778f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a214c9627be6cef174b6772a9a2af9775"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#a214c9627be6cef174b6772a9a2af9775">visitSharedAtom</a> (<a class="el" href="../../d6/d2e/classREmatchParser_1_1SharedAtomContext.html">REmatchParser::SharedAtomContext</a> *context)=0</td></tr>
+<tr class="memitem:a214c9627be6cef174b6772a9a2af9775"><td class="memItemLeft" align="right" valign="top"><a id="a214c9627be6cef174b6772a9a2af9775" name="a214c9627be6cef174b6772a9a2af9775"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitSharedAtom</b> (<a class="el" href="../../d6/d2e/classREmatchParser_1_1SharedAtomContext.html">REmatchParser::SharedAtomContext</a> *context)=0</td></tr>
 <tr class="separator:a214c9627be6cef174b6772a9a2af9775"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3fa4c698ba03c41327b69e10f76e3fd9"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#a3fa4c698ba03c41327b69e10f76e3fd9">visitQuantifier</a> (<a class="el" href="../../d9/dbf/classREmatchParser_1_1QuantifierContext.html">REmatchParser::QuantifierContext</a> *context)=0</td></tr>
+<tr class="memitem:a3fa4c698ba03c41327b69e10f76e3fd9"><td class="memItemLeft" align="right" valign="top"><a id="a3fa4c698ba03c41327b69e10f76e3fd9" name="a3fa4c698ba03c41327b69e10f76e3fd9"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitQuantifier</b> (<a class="el" href="../../d9/dbf/classREmatchParser_1_1QuantifierContext.html">REmatchParser::QuantifierContext</a> *context)=0</td></tr>
 <tr class="separator:a3fa4c698ba03c41327b69e10f76e3fd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad974e307cab843215e80c33901076e64"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#ad974e307cab843215e80c33901076e64">visitQuantity</a> (<a class="el" href="../../d2/d83/classREmatchParser_1_1QuantityContext.html">REmatchParser::QuantityContext</a> *context)=0</td></tr>
+<tr class="memitem:ad974e307cab843215e80c33901076e64"><td class="memItemLeft" align="right" valign="top"><a id="ad974e307cab843215e80c33901076e64" name="ad974e307cab843215e80c33901076e64"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitQuantity</b> (<a class="el" href="../../d2/d83/classREmatchParser_1_1QuantityContext.html">REmatchParser::QuantityContext</a> *context)=0</td></tr>
 <tr class="separator:ad974e307cab843215e80c33901076e64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae38a9b7883bc97d7f83ff819a79440a9"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#ae38a9b7883bc97d7f83ff819a79440a9">visitQuantExact</a> (<a class="el" href="../../d8/d9e/classREmatchParser_1_1QuantExactContext.html">REmatchParser::QuantExactContext</a> *context)=0</td></tr>
+<tr class="memitem:ae38a9b7883bc97d7f83ff819a79440a9"><td class="memItemLeft" align="right" valign="top"><a id="ae38a9b7883bc97d7f83ff819a79440a9" name="ae38a9b7883bc97d7f83ff819a79440a9"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitQuantExact</b> (<a class="el" href="../../d8/d9e/classREmatchParser_1_1QuantExactContext.html">REmatchParser::QuantExactContext</a> *context)=0</td></tr>
 <tr class="separator:ae38a9b7883bc97d7f83ff819a79440a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c80d8622232269b22d5be48eafdeb55"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#a2c80d8622232269b22d5be48eafdeb55">visitQuantRange</a> (<a class="el" href="../../d7/d09/classREmatchParser_1_1QuantRangeContext.html">REmatchParser::QuantRangeContext</a> *context)=0</td></tr>
+<tr class="memitem:a2c80d8622232269b22d5be48eafdeb55"><td class="memItemLeft" align="right" valign="top"><a id="a2c80d8622232269b22d5be48eafdeb55" name="a2c80d8622232269b22d5be48eafdeb55"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitQuantRange</b> (<a class="el" href="../../d7/d09/classREmatchParser_1_1QuantRangeContext.html">REmatchParser::QuantRangeContext</a> *context)=0</td></tr>
 <tr class="separator:a2c80d8622232269b22d5be48eafdeb55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a771c86195cc35545c9275bbb86643338"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#a771c86195cc35545c9275bbb86643338">visitQuantMin</a> (<a class="el" href="../../db/d52/classREmatchParser_1_1QuantMinContext.html">REmatchParser::QuantMinContext</a> *context)=0</td></tr>
+<tr class="memitem:a771c86195cc35545c9275bbb86643338"><td class="memItemLeft" align="right" valign="top"><a id="a771c86195cc35545c9275bbb86643338" name="a771c86195cc35545c9275bbb86643338"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitQuantMin</b> (<a class="el" href="../../db/d52/classREmatchParser_1_1QuantMinContext.html">REmatchParser::QuantMinContext</a> *context)=0</td></tr>
 <tr class="separator:a771c86195cc35545c9275bbb86643338"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9bb09164cd37f6c382c2e76bc2f301cf"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#a9bb09164cd37f6c382c2e76bc2f301cf">visitQuantMax</a> (<a class="el" href="../../db/dec/classREmatchParser_1_1QuantMaxContext.html">REmatchParser::QuantMaxContext</a> *context)=0</td></tr>
+<tr class="memitem:a9bb09164cd37f6c382c2e76bc2f301cf"><td class="memItemLeft" align="right" valign="top"><a id="a9bb09164cd37f6c382c2e76bc2f301cf" name="a9bb09164cd37f6c382c2e76bc2f301cf"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitQuantMax</b> (<a class="el" href="../../db/dec/classREmatchParser_1_1QuantMaxContext.html">REmatchParser::QuantMaxContext</a> *context)=0</td></tr>
 <tr class="separator:a9bb09164cd37f6c382c2e76bc2f301cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a687025b81688c3214741e0acfff09d6b"><td class="memItemLeft" align="right" valign="top">virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classREmatchParserVisitor.html#a687025b81688c3214741e0acfff09d6b">visitNumber</a> (<a class="el" href="../../da/d85/classREmatchParser_1_1NumberContext.html">REmatchParser::NumberContext</a> *context)=0</td></tr>
+<tr class="memitem:a687025b81688c3214741e0acfff09d6b"><td class="memItemLeft" align="right" valign="top"><a id="a687025b81688c3214741e0acfff09d6b" name="a687025b81688c3214741e0acfff09d6b"></a>
+virtual std::any&#160;</td><td class="memItemRight" valign="bottom"><b>visitNumber</b> (<a class="el" href="../../da/d85/classREmatchParser_1_1NumberContext.html">REmatchParser::NumberContext</a> *context)=0</td></tr>
 <tr class="separator:a687025b81688c3214741e0acfff09d6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This class defines an abstract visitor for a parse tree produced by <a class="el" href="../../dd/df1/classREmatchParser.html">REmatchParser</a>. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4f53b24feead342ace1ff659402da4b7" name="a4f53b24feead342ace1ff659402da4b7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4f53b24feead342ace1ff659402da4b7">&#9670;&#160;</a></span>visitAlternation()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitAlternation </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../db/d0b/classREmatchParser_1_1AlternationContext.html">REmatchParser::AlternationContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#ad8e5803db673850d78167624ddaecf74">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="aa6a5ff0645cb2f0c94e4eb171171c724" name="aa6a5ff0645cb2f0c94e4eb171171c724"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa6a5ff0645cb2f0c94e4eb171171c724">&#9670;&#160;</a></span>visitAssignation()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitAssignation </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../de/d87/classREmatchParser_1_1AssignationContext.html">REmatchParser::AssignationContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#a5397f7aef1cfaaf24d973b2aaf7a8c73">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="a5601a9f17e351e6c728c152b405128da" name="a5601a9f17e351e6c728c152b405128da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5601a9f17e351e6c728c152b405128da">&#9670;&#160;</a></span>visitAtom()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitAtom </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d5/dba/classREmatchParser_1_1AtomContext.html">REmatchParser::AtomContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#a93c9b6ae62f2dde42a994440a9483248">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="ac8be62a3a732be251f39cc2b51e265f1" name="ac8be62a3a732be251f39cc2b51e265f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac8be62a3a732be251f39cc2b51e265f1">&#9670;&#160;</a></span>visitCcAtom()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitCcAtom </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../de/dc9/classREmatchParser_1_1CcAtomContext.html">REmatchParser::CcAtomContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#ae2800326eb061cf7ec002b2573a0dee0">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="abaaa0c825689c472073ef23b541714ba" name="abaaa0c825689c472073ef23b541714ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abaaa0c825689c472073ef23b541714ba">&#9670;&#160;</a></span>visitCcEscapes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitCcEscapes </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../da/d44/classREmatchParser_1_1CcEscapesContext.html">REmatchParser::CcEscapesContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#a5bc6d542e896064534b99bfa87d48b29">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="ab420651f29fd5498ea6ec617a41f16bc" name="ab420651f29fd5498ea6ec617a41f16bc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab420651f29fd5498ea6ec617a41f16bc">&#9670;&#160;</a></span>visitCcLiteral()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitCcLiteral </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../da/df2/classREmatchParser_1_1CcLiteralContext.html">REmatchParser::CcLiteralContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#a77714bb51aab8fa6da545b5a8ee69fa7">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="a733f8111424e48007539f4f40e116117" name="a733f8111424e48007539f4f40e116117"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a733f8111424e48007539f4f40e116117">&#9670;&#160;</a></span>visitCcOther()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitCcOther </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../dd/d46/classREmatchParser_1_1CcOtherContext.html">REmatchParser::CcOtherContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#a9069f35058cbed4cb033b0909d455d40">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="aad5a01e1e8f55011e78d9aebf5a409e8" name="aad5a01e1e8f55011e78d9aebf5a409e8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad5a01e1e8f55011e78d9aebf5a409e8">&#9670;&#160;</a></span>visitCcRange()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitCcRange </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d8/d6d/classREmatchParser_1_1CcRangeContext.html">REmatchParser::CcRangeContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#aa15921efd18238aa80da576c3063e4ab">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="a1847bc4863fc4679e82b23e12a7bdea7" name="a1847bc4863fc4679e82b23e12a7bdea7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1847bc4863fc4679e82b23e12a7bdea7">&#9670;&#160;</a></span>visitCcSingle()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitCcSingle </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d8/d23/classREmatchParser_1_1CcSingleContext.html">REmatchParser::CcSingleContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#ab14346f77bc82c4da1386b342ea11650">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="a93f16166d4bbd5789611848328eaebf4" name="a93f16166d4bbd5789611848328eaebf4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a93f16166d4bbd5789611848328eaebf4">&#9670;&#160;</a></span>visitCharacterClass()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitCharacterClass </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d3/d22/classREmatchParser_1_1CharacterClassContext.html">REmatchParser::CharacterClassContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#acbca1f5c1ab0e680863e8422c007884c">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="a2b4e9811d7e11136434eec655b194aa6" name="a2b4e9811d7e11136434eec655b194aa6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b4e9811d7e11136434eec655b194aa6">&#9670;&#160;</a></span>visitElement()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitElement </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d6/d41/classREmatchParser_1_1ElementContext.html">REmatchParser::ElementContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#a030d32c58ab086b7d031dfd5a6924143">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="a64a242a11b5881f779a18cb21384495f" name="a64a242a11b5881f779a18cb21384495f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a64a242a11b5881f779a18cb21384495f">&#9670;&#160;</a></span>visitEscapes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitEscapes </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d2/d2c/classREmatchParser_1_1EscapesContext.html">REmatchParser::EscapesContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#ac50ca07661fc48a7dc53cd1b65144fd1">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="a0ec2357a858e633115f82b804a790599" name="a0ec2357a858e633115f82b804a790599"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ec2357a858e633115f82b804a790599">&#9670;&#160;</a></span>visitExpr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitExpr </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d7/dc2/classREmatchParser_1_1ExprContext.html">REmatchParser::ExprContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#a0697b6e89136ee435fb2e09877ac333a">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="a8172e6f9e74f4df36b553fb5576ebbde" name="a8172e6f9e74f4df36b553fb5576ebbde"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8172e6f9e74f4df36b553fb5576ebbde">&#9670;&#160;</a></span>visitGroup()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitGroup </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d6/d3f/classREmatchParser_1_1GroupContext.html">REmatchParser::GroupContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#a779dd3a72e88213ab4945e84d8a27b0e">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="adb47b99728552a9aa9a724b61a6acfe8" name="adb47b99728552a9aa9a724b61a6acfe8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb47b99728552a9aa9a724b61a6acfe8">&#9670;&#160;</a></span>visitLiteral()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitLiteral </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d3/d18/classREmatchParser_1_1LiteralContext.html">REmatchParser::LiteralContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#ab3fafa7a90ad28733df787211c624caa">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="a687025b81688c3214741e0acfff09d6b" name="a687025b81688c3214741e0acfff09d6b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a687025b81688c3214741e0acfff09d6b">&#9670;&#160;</a></span>visitNumber()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitNumber </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../da/d85/classREmatchParser_1_1NumberContext.html">REmatchParser::NumberContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#aa218246eacf5ac32375382fc2dd8a348">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="ae5c4e85acdc7b59ab0acdab227f778f7" name="ae5c4e85acdc7b59ab0acdab227f778f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae5c4e85acdc7b59ab0acdab227f778f7">&#9670;&#160;</a></span>visitOther()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitOther </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../df/d0f/classREmatchParser_1_1OtherContext.html">REmatchParser::OtherContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#ae4f57c1fd9f08da2337f190e616e32f6">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="ac06ac46923c79fd199462a2a95ddce8e" name="ac06ac46923c79fd199462a2a95ddce8e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac06ac46923c79fd199462a2a95ddce8e">&#9670;&#160;</a></span>visitParentheses()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitParentheses </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../dc/d71/classREmatchParser_1_1ParenthesesContext.html">REmatchParser::ParenthesesContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#a049738935c2e9445000766a37c8de69c">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="ae38a9b7883bc97d7f83ff819a79440a9" name="ae38a9b7883bc97d7f83ff819a79440a9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae38a9b7883bc97d7f83ff819a79440a9">&#9670;&#160;</a></span>visitQuantExact()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitQuantExact </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d8/d9e/classREmatchParser_1_1QuantExactContext.html">REmatchParser::QuantExactContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#aa1271d563d1991e668c067e3103eb7cb">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="a3fa4c698ba03c41327b69e10f76e3fd9" name="a3fa4c698ba03c41327b69e10f76e3fd9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3fa4c698ba03c41327b69e10f76e3fd9">&#9670;&#160;</a></span>visitQuantifier()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitQuantifier </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d9/dbf/classREmatchParser_1_1QuantifierContext.html">REmatchParser::QuantifierContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#adab601ec1dcf2da6be203fb19f1bb479">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="ad974e307cab843215e80c33901076e64" name="ad974e307cab843215e80c33901076e64"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad974e307cab843215e80c33901076e64">&#9670;&#160;</a></span>visitQuantity()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitQuantity </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d2/d83/classREmatchParser_1_1QuantityContext.html">REmatchParser::QuantityContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#ab7c424a11b1d8dbcbb268552a50af6a9">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="a9bb09164cd37f6c382c2e76bc2f301cf" name="a9bb09164cd37f6c382c2e76bc2f301cf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bb09164cd37f6c382c2e76bc2f301cf">&#9670;&#160;</a></span>visitQuantMax()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitQuantMax </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../db/dec/classREmatchParser_1_1QuantMaxContext.html">REmatchParser::QuantMaxContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#a94d40430a6d3d4c27941f2192a58ccc8">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="a771c86195cc35545c9275bbb86643338" name="a771c86195cc35545c9275bbb86643338"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a771c86195cc35545c9275bbb86643338">&#9670;&#160;</a></span>visitQuantMin()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitQuantMin </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../db/d52/classREmatchParser_1_1QuantMinContext.html">REmatchParser::QuantMinContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#a244f2eb1cc374af5e591fc7caee6df1a">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="a2c80d8622232269b22d5be48eafdeb55" name="a2c80d8622232269b22d5be48eafdeb55"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2c80d8622232269b22d5be48eafdeb55">&#9670;&#160;</a></span>visitQuantRange()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitQuantRange </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d7/d09/classREmatchParser_1_1QuantRangeContext.html">REmatchParser::QuantRangeContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#ab8415897ccea7cbadbbebc49be98d3b7">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
 <a id="ad74a85fca9b7c3a05c2c77b0a1c1c44b" name="ad74a85fca9b7c3a05c2c77b0a1c1c44b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad74a85fca9b7c3a05c2c77b0a1c1c44b">&#9670;&#160;</a></span>visitRoot()</h2>
 
@@ -866,119 +222,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Visit parse trees produced by <a class="el" href="../../dd/df1/classREmatchParser.html">REmatchParser</a>. </p>
 
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#a9c97c6c8fa7e7cd9a3dbe684ac5c11b2">REmatchParserBaseVisitor</a>, and <a class="el" href="../../d9/d68/classrematch_1_1visitors_1_1VariableFactoryVisitor.html#ac7c535bf6b77e49c7996e33335fd09aa">rematch::visitors::VariableFactoryVisitor</a>.</p>
-
-</div>
-</div>
-<a id="a214c9627be6cef174b6772a9a2af9775" name="a214c9627be6cef174b6772a9a2af9775"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a214c9627be6cef174b6772a9a2af9775">&#9670;&#160;</a></span>visitSharedAtom()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitSharedAtom </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d6/d2e/classREmatchParser_1_1SharedAtomContext.html">REmatchParser::SharedAtomContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#a70e24fdd7fe7b515a6ff0054d18fc26b">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="afb4116719ca9281968864db2404b5666" name="afb4116719ca9281968864db2404b5666"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afb4116719ca9281968864db2404b5666">&#9670;&#160;</a></span>visitSingleSharedAtom()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitSingleSharedAtom </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d0/de5/classREmatchParser_1_1SingleSharedAtomContext.html">REmatchParser::SingleSharedAtomContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#ad8bfd31fdc9434acbd1fb40f1a176443">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="a2b3468f1adc5c6bd5390ee1a18bf3bbd" name="a2b3468f1adc5c6bd5390ee1a18bf3bbd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b3468f1adc5c6bd5390ee1a18bf3bbd">&#9670;&#160;</a></span>visitSpecial()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitSpecial </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d1/d58/classREmatchParser_1_1SpecialContext.html">REmatchParser::SpecialContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#a17ba1fbc14457da9a6a27f0f19d8e54e">REmatchParserBaseVisitor</a>.</p>
-
-</div>
-</div>
-<a id="a1b957cbc578ef4b5c9476c1a7dc178bb" name="a1b957cbc578ef4b5c9476c1a7dc178bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1b957cbc578ef4b5c9476c1a7dc178bb">&#9670;&#160;</a></span>visitVarname()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::any REmatchParserVisitor::visitVarname </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../df/d91/classREmatchParser_1_1VarnameContext.html">REmatchParser::VarnameContext</a> *&#160;</td>
-          <td class="paramname"><em>context</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#a1c6ff8285391b249ee3bc9802fde5dee">REmatchParserBaseVisitor</a>.</p>
+<p>Implemented in <a class="el" href="../../de/dbd/classREmatchParserBaseVisitor.html#a9c97c6c8fa7e7cd9a3dbe684ac5c11b2">REmatchParserBaseVisitor</a>, and <a class="el" href="../../d1/dd9/classrematch_1_1visitors_1_1VariableCatalogVisitor.html#aa90e7dfd117947b83fbcaef9f2dc0329">rematch::visitors::VariableCatalogVisitor</a>.</p>
 
 </div>
 </div>

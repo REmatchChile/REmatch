@@ -8,9 +8,9 @@ digraph "REmatchParserBaseVisitor"
   Node2 -> Node1 [dir="back",color="steelblue1",style="solid"];
   Node2 [label="REmatchParserVisitor",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$da/daa/classREmatchParserVisitor.html",tooltip="This class defines an abstract visitor for a parse tree produced by REmatchParser."];
   Node3 -> Node2 [dir="back",color="steelblue1",style="solid"];
-  Node3 [label="antlr4::tree::AbstractParse\lTreeVisitor",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",tooltip=" "];
+  Node3 [label="antlr4::tree::AbstractParse\lTreeVisitor",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node4 [dir="back",color="steelblue1",style="solid"];
-  Node4 [label="rematch::visitors::\lFilterFactoryVisitor",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$df/d72/classrematch_1_1visitors_1_1FilterFactoryVisitor.html",tooltip=" "];
+  Node4 [label="rematch::visitors::\lCharClassVisitor",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$d7/dbe/classrematch_1_1visitors_1_1CharClassVisitor.html",tooltip=" "];
   Node1 -> Node5 [dir="back",color="steelblue1",style="solid"];
-  Node5 [label="rematch::visitors::\lVariableFactoryVisitor",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$d9/d68/classrematch_1_1visitors_1_1VariableFactoryVisitor.html",tooltip=" "];
+  Node5 [label="rematch::visitors::\lVariableCatalogVisitor",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$d1/dd9/classrematch_1_1visitors_1_1VariableCatalogVisitor.html",tooltip=" "];
 }

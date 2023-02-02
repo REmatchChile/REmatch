@@ -1,4 +1,4 @@
-.TH "rematch::SearchNFA" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.TH "rematch::SearchNFA" 3 "Tue Jan 31 2023" "Version 1" "Rematch" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,14 +6,9 @@ rematch::SearchNFA
 .SH SYNOPSIS
 .br
 .PP
-.PP
-\fC#include <search_nfa\&.hpp>\fP
 .SS "Public Member Functions"
 
 .in +1c
-.ti -1c
-.RI "\fBSearchNFA\fP ()=delete"
-.br
 .ti -1c
 .RI "\fBSearchNFA\fP (\fBLogicalVA\fP const &A)"
 .br
@@ -33,24 +28,6 @@ rematch::SearchNFA
 .RI "size_t \fBsize\fP () const"
 .br
 .in -1c
-.SH "Constructor & Destructor Documentation"
-.PP 
-.SS "rematch::SearchNFA::SearchNFA ()\fC [delete]\fP"
-
-.SS "rematch::SearchNFA::SearchNFA (\fBLogicalVA\fP const & A)"
-
-.SH "Member Function Documentation"
-.PP 
-.SS "\fBSearchNFAState\fP * rematch::SearchNFA::accepting_state () const"
-
-.SS "std::vector< \fBSearchNFAState\fP * > const  & rematch::SearchNFA::get_states () const"
-
-.SS "\fBSearchNFAState\fP * rematch::SearchNFA::initial_state () const"
-
-.SS "void rematch::SearchNFA::relabel_states ()"
-
-.SS "size_t rematch::SearchNFA::size () const\fC [inline]\fP"
-
 
 .SH "Author"
 .PP 

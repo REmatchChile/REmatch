@@ -1,4 +1,4 @@
-.TH "rematch::SearchNFAState" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.TH "rematch::SearchNFAState" 3 "Tue Jan 31 2023" "Version 1" "Rematch" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -6,17 +6,9 @@ rematch::SearchNFAState
 .SH SYNOPSIS
 .br
 .PP
-.PP
-\fC#include <search_nfa_state\&.hpp>\fP
 .SS "Public Member Functions"
 
 .in +1c
-.ti -1c
-.RI "\fBSearchNFAState\fP ()"
-.br
-.ti -1c
-.RI "\fB~SearchNFAState\fP ()"
-.br
 .ti -1c
 .RI "\fBSearchNFAState\fP (const \fBSearchNFAState\fP &s)"
 .br
@@ -76,52 +68,6 @@ rematch::SearchNFAState
 .RI "std::list< \fBSearchNFAFilter\fP * > \fBbackward_filters_\fP"
 .br
 .in -1c
-.SH "Constructor & Destructor Documentation"
-.PP 
-.SS "rematch::SearchNFAState::SearchNFAState ()"
-
-.SS "rematch::SearchNFAState::~SearchNFAState ()"
-
-.SS "rematch::SearchNFAState::SearchNFAState (const \fBSearchNFAState\fP & s)"
-
-.SS "rematch::SearchNFAState::SearchNFAState (const \fBLogicalVAState\fP * state)\fC [inline]\fP"
-
-.SH "Member Function Documentation"
-.PP 
-.SS "bool rematch::SearchNFAState::accepting () const\fC [inline]\fP"
-
-.SS "void rematch::SearchNFAState::add_filter (\fBCharClass\fP charclass, \fBSearchNFAState\fP * next)"
-
-.SS "void rematch::SearchNFAState::init ()"
-
-.SS "bool rematch::SearchNFAState::initial () const\fC [inline]\fP"
-
-.SS "\fBSearchNFAState\fP * rematch::SearchNFAState::nextFilter (\fBCharClass\fP charclass)"
-
-.SS "bool rematch::SearchNFAState::operator== (const \fBSearchNFAState\fP & rhs) const"
-
-.SS "void rematch::SearchNFAState::set_accepting (bool b)"
-
-.SS "void rematch::SearchNFAState::set_initial (bool b)"
-
-.SS "bool rematch::SearchNFAState::super_final () const\fC [inline]\fP"
-
-.SH "Member Data Documentation"
-.PP 
-.SS "std::list<\fBSearchNFAFilter\fP*> rematch::SearchNFAState::backward_filters_"
-
-.SS "char rematch::SearchNFAState::colorMark = 'w'"
-
-.SS "std::list<\fBSearchNFAFilter\fP*> rematch::SearchNFAState::filters"
-
-.SS "uint32_t rematch::SearchNFAState::flags"
-
-.SS "unsigned int rematch::SearchNFAState::id"
-
-.SS "bool rematch::SearchNFAState::tempMark = false"
-
-.SS "uint32_t rematch::SearchNFAState::visitedBy = 0"
-
 
 .SH "Author"
 .PP 

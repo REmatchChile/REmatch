@@ -1,4 +1,4 @@
-.TH "REmatchParserBaseVisitor" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.TH "REmatchParserBaseVisitor" 3 "Tue Jan 31 2023" "Version 1" "Rematch" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -12,7 +12,7 @@ REmatchParserBaseVisitor \- This class provides an empty implementation of \fBRE
 .PP
 Inherits \fBREmatchParserVisitor\fP\&.
 .PP
-Inherited by \fBrematch::visitors::FilterFactoryVisitor\fP, and \fBrematch::visitors::VariableFactoryVisitor\fP\&.
+Inherited by \fBrematch::visitors::CharClassVisitor\fP, and \fBrematch::visitors::VariableCatalogVisitor\fP\&.
 .SS "Public Member Functions"
 
 .in +1c
@@ -303,7 +303,7 @@ Visit parse trees produced by \fBREmatchParser\fP\&.
 .PP
 Implements \fBREmatchParserVisitor\fP\&.
 .PP
-Reimplemented in \fBrematch::visitors::VariableFactoryVisitor\fP\&.
+Reimplemented in \fBrematch::visitors::VariableCatalogVisitor\fP\&.
 .SS "virtual std::any REmatchParserBaseVisitor::visitSharedAtom (\fBREmatchParser::SharedAtomContext\fP * ctx)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
 
 .PP

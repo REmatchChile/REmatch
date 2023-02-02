@@ -1,13 +1,7 @@
 var searchData=
 [
-  ['kacceptingsearchnfastate_0',['kAcceptingSearchNFAState',['../df/d15/classrematch_1_1SearchDFAState.html#a9d69b1d959284e52d1b7d4a77a51dc25ac7d4c72224343539ff45a7c3eebc7567',1,'rematch::SearchDFAState']]],
-  ['kbottom_1',['kBottom',['../d1/db7/namespacerematch_1_1output__enumeration.html#accd100cc6854074c5ab133a6a32afd77a78cd851b433d8d6864110dd678e43586',1,'rematch::output_enumeration']]],
-  ['kdefaultsearchnfastate_2',['kDefaultSearchNFAState',['../df/d15/classrematch_1_1SearchDFAState.html#a9d69b1d959284e52d1b7d4a77a51dc25a41b314207e73857d350fea45150f9417',1,'rematch::SearchDFAState::kDefaultSearchNFAState()'],['../dd/dba/namespacerematch.html#ab349a86abf5cba548a171c89ec9d3544a772c56c366d7a6092a2d316bd4975ead',1,'rematch::kDefaultSearchNFAState()']]],
-  ['kendsnfastate_3',['kEndsNFAState',['../df/d15/classrematch_1_1SearchDFAState.html#a9d69b1d959284e52d1b7d4a77a51dc25a5adcf6aa93f8b84f9cd2e6bcfe6b4d3f',1,'rematch::SearchDFAState']]],
-  ['kfinalsearchnfastate_4',['kFinalSearchNFAState',['../dd/dba/namespacerematch.html#ab349a86abf5cba548a171c89ec9d3544a10c318e231264d658e0645243c6848b4',1,'rematch']]],
-  ['kinitialsearchnfastate_5',['kInitialSearchNFAState',['../df/d15/classrematch_1_1SearchDFAState.html#a9d69b1d959284e52d1b7d4a77a51dc25a5d253568d233bb1c79a275ec03afca02',1,'rematch::SearchDFAState::kInitialSearchNFAState()'],['../dd/dba/namespacerematch.html#ab349a86abf5cba548a171c89ec9d3544a7f8864a3747c00483b02f8368e56600e',1,'rematch::kInitialSearchNFAState()']]],
-  ['klabel_6',['kLabel',['../d1/db7/namespacerematch_1_1output__enumeration.html#accd100cc6854074c5ab133a6a32afd77a6608e709edce0bfd1bb1eb49eb5f8bea',1,'rematch::output_enumeration']]],
-  ['kleene_7',['kleene',['../d3/d6f/classrematch_1_1LogicalVA.html#a1633bd502cc433da06cef41d7e63da58',1,'rematch::LogicalVA']]],
-  ['ksuperfinalsearchnfastate_8',['kSuperFinalSearchNFAState',['../dd/dba/namespacerematch.html#ab349a86abf5cba548a171c89ec9d3544a5a694ca741140b5a48f70e4bc34282de',1,'rematch']]],
-  ['kunion_9',['kUnion',['../d1/db7/namespacerematch_1_1output__enumeration.html#accd100cc6854074c5ab133a6a32afd77a519268cd3a9af56838648120b3e53b36',1,'rematch::output_enumeration']]]
+  ['mapping_0',['Mapping',['../d7/d69/classrematch_1_1output__enumeration_1_1Mapping.html',1,'rematch::Mapping'],['../d7/d69/classrematch_1_1output__enumeration_1_1Mapping.html',1,'rematch::output_enumeration::Mapping']]],
+  ['match_1',['Match',['../de/d5f/classREMatch_1_1library__interface_1_1Match.html',1,'REMatch::library_interface::Match'],['../de/d5f/classREMatch_1_1library__interface_1_1Match.html',1,'REMatch::Match']]],
+  ['matchiterator_2',['MatchIterator',['../d5/d1d/classREMatch_1_1library__interface_1_1MatchIterator.html',1,'REMatch::library_interface::MatchIterator'],['../d5/d1d/classREMatch_1_1library__interface_1_1MatchIterator.html',1,'REMatch::MatchIterator']]],
+  ['minipool_3',['MiniPool',['../da/dca/classrematch_1_1output__enumeration_1_1MiniPool.html',1,'rematch::MiniPool'],['../da/dca/classrematch_1_1output__enumeration_1_1MiniPool.html',1,'rematch::output_enumeration::MiniPool']]]
 ];

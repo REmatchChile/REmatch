@@ -1,35 +1,37 @@
 \hypertarget{logical__va__filter_8hpp_source}{}\doxysection{logical\+\_\+va\+\_\+filter.\+hpp}
 \label{logical__va__filter_8hpp_source}\index{src/rematch/parsing/logical\_variable\_set\_automaton/logical\_va\_filter.hpp@{src/rematch/parsing/logical\_variable\_set\_automaton/logical\_va\_filter.hpp}}
-\mbox{\hyperlink{logical__va__filter_8hpp}{Go to the documentation of this file.}}
+
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ LOGICAL\_VA\_FILTER}}
 \DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ LOGICAL\_VA\_FILTER}}
 \DoxyCodeLine{00003\ }
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{charclass_8hpp}{parsing/charclass.hpp}}"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}parsing/charclass.hpp"{}}}
 \DoxyCodeLine{00005\ }
-\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacerematch}{rematch}}\ \{}
-\DoxyCodeLine{00007\ }
-\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }LogicalVAState;}
-\DoxyCodeLine{00009\ }
-\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrematch_1_1LogicalVAFilter}{LogicalVAFilter}}\ \{}
-\DoxyCodeLine{00011\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00012\ \ \ \mbox{\hyperlink{classrematch_1_1LogicalVAState}{LogicalVAState}}*\ \mbox{\hyperlink{classrematch_1_1LogicalVAFilter_ad3cf44c2a68ca5746395bb54fced2446}{from}};}
-\DoxyCodeLine{00013\ \ \ \mbox{\hyperlink{classrematch_1_1LogicalVAState}{LogicalVAState}}*\ \mbox{\hyperlink{classrematch_1_1LogicalVAFilter_a4bb80568febd28f2c66ebcbe56fd28b2}{next}};}
-\DoxyCodeLine{00014\ \ \ \mbox{\hyperlink{classrematch_1_1CharClass}{CharClass}}\ \mbox{\hyperlink{classrematch_1_1LogicalVAFilter_a5ade2b3c551ec7f901f02d90249c35ae}{charclass}};}
-\DoxyCodeLine{00015\ }
-\DoxyCodeLine{00016\ \ \ \mbox{\hyperlink{classrematch_1_1LogicalVAFilter_a6851c37735bf3f83bc27eb53bd1b0428}{LogicalVAFilter}}(}
-\DoxyCodeLine{00017\ \ \ \ \ \ \ \mbox{\hyperlink{classrematch_1_1LogicalVAState}{LogicalVAState}}*\ \mbox{\hyperlink{classrematch_1_1LogicalVAFilter_ad3cf44c2a68ca5746395bb54fced2446}{from}},\ \mbox{\hyperlink{classrematch_1_1CharClass}{CharClass}}\ \mbox{\hyperlink{classrematch_1_1LogicalVAFilter_a5ade2b3c551ec7f901f02d90249c35ae}{charclass}},\ \mbox{\hyperlink{classrematch_1_1LogicalVAState}{LogicalVAState}}*\ \mbox{\hyperlink{classrematch_1_1LogicalVAFilter_a4bb80568febd28f2c66ebcbe56fd28b2}{next}}):}
-\DoxyCodeLine{00018\ \ \ \ \ \ \ \mbox{\hyperlink{classrematch_1_1LogicalVAFilter_ad3cf44c2a68ca5746395bb54fced2446}{from}}(\mbox{\hyperlink{classrematch_1_1LogicalVAFilter_ad3cf44c2a68ca5746395bb54fced2446}{from}}),\ \mbox{\hyperlink{classrematch_1_1LogicalVAFilter_a4bb80568febd28f2c66ebcbe56fd28b2}{next}}(\mbox{\hyperlink{classrematch_1_1LogicalVAFilter_a4bb80568febd28f2c66ebcbe56fd28b2}{next}}),\ \mbox{\hyperlink{classrematch_1_1LogicalVAFilter_a5ade2b3c551ec7f901f02d90249c35ae}{charclass}}(\mbox{\hyperlink{classrematch_1_1LogicalVAFilter_a5ade2b3c551ec7f901f02d90249c35ae}{charclass}})\ \{\}}
-\DoxyCodeLine{00019\ }
-\DoxyCodeLine{00020\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classrematch_1_1LogicalVAFilter_a8cda8bfbe6e7c0a011bb7dabc964c7ce}{reset\_states}}(\mbox{\hyperlink{classrematch_1_1LogicalVAState}{LogicalVAState}}\ *s)\ \{\mbox{\hyperlink{classrematch_1_1LogicalVAFilter_a4bb80568febd28f2c66ebcbe56fd28b2}{next}}\ =\ s;\}}
-\DoxyCodeLine{00021\ }
-\DoxyCodeLine{00022\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classrematch_1_1LogicalVAFilter_a1a9f36a3477deb657b4535c7d7a390f5}{operator==}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classrematch_1_1LogicalVAFilter}{LogicalVAFilter}}\ \&rhs)\textcolor{keyword}{\ const\ }\{}
-\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{classrematch_1_1LogicalVAFilter_ad3cf44c2a68ca5746395bb54fced2446}{from}}\ ==\ rhs.\mbox{\hyperlink{classrematch_1_1LogicalVAFilter_ad3cf44c2a68ca5746395bb54fced2446}{from}})\ \&\&\ (\mbox{\hyperlink{classrematch_1_1LogicalVAFilter_a4bb80568febd28f2c66ebcbe56fd28b2}{next}}\ ==\ rhs.\mbox{\hyperlink{classrematch_1_1LogicalVAFilter_a4bb80568febd28f2c66ebcbe56fd28b2}{next}})\ \&\&\ (\mbox{\hyperlink{classrematch_1_1LogicalVAFilter_a5ade2b3c551ec7f901f02d90249c35ae}{charclass}}\ ==\ rhs.\mbox{\hyperlink{classrematch_1_1LogicalVAFilter_a5ade2b3c551ec7f901f02d90249c35ae}{charclass}});}
-\DoxyCodeLine{00024\ \ \ \}}
-\DoxyCodeLine{00025\ }
-\DoxyCodeLine{00026\ \};}
-\DoxyCodeLine{00027\ }
-\DoxyCodeLine{00028\ \}}
-\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }rematch\ \{}
+\DoxyCodeLine{00007\ \textcolor{keyword}{inline}\ \textcolor{keyword}{namespace\ }parsing\ \{}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{class\ }LogicalVAState;}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVAFilter}{LogicalVAFilter}}\ \{}
+\DoxyCodeLine{00012\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00013\ \ \ \mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVAState}{LogicalVAState}}*\ from;}
+\DoxyCodeLine{00014\ \ \ \mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVAState}{LogicalVAState}}*\ next;}
+\DoxyCodeLine{00015\ \ \ \mbox{\hyperlink{classrematch_1_1parsing_1_1CharClass}{CharClass}}\ charclass;}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVAFilter}{LogicalVAFilter}}(}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVAState}{LogicalVAState}}*\ from,\ \mbox{\hyperlink{classrematch_1_1parsing_1_1CharClass}{CharClass}}\ charclass,\ \mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVAState}{LogicalVAState}}*\ next):}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ from(from),\ next(next),\ charclass(charclass)\ \{\}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \textcolor{keywordtype}{void}\ reset\_states(\mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVAState}{LogicalVAState}}\ *s)\ \{next\ =\ s;\}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ \mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVAFilter}{LogicalVAFilter}}\ \&rhs)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordflow}{return}\ (from\ ==\ rhs.from)\ \&\&\ (next\ ==\ rhs.next)\ \&\&\ (charclass\ ==\ rhs.charclass);}
+\DoxyCodeLine{00025\ \ \ \}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \}}
+\DoxyCodeLine{00030\ \}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#endif}}
 
 \end{DoxyCode}

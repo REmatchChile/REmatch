@@ -8,5 +8,5 @@ digraph "REmatchParserBaseVisitor"
   Node2 -> Node1 [dir="back",color="steelblue1",style="solid"];
   Node2 [label="REmatchParserVisitor",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$da/daa/classREmatchParserVisitor.html",tooltip="This class defines an abstract visitor for a parse tree produced by REmatchParser."];
   Node3 -> Node2 [dir="back",color="steelblue1",style="solid"];
-  Node3 [label="antlr4::tree::AbstractParse\lTreeVisitor",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",tooltip=" "];
+  Node3 [label="antlr4::tree::AbstractParse\lTreeVisitor",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
 }

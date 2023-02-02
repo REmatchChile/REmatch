@@ -2,10 +2,6 @@
 \label{classREmatchParser}\index{REmatchParser@{REmatchParser}}
 
 
-{\ttfamily \#include $<$REmatch\+Parser.\+h$>$}
-
-
-
 Inheritance diagram for REmatch\+Parser\+:
 % FIG 0
 
@@ -76,655 +72,207 @@ class \mbox{\hyperlink{classREmatchParser_1_1VarnameContext}{Varname\+Context}}
 \doxysubsection*{Public Types}
 \begin{DoxyCompactItemize}
 \item 
+\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabca}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabca}} 
 enum \{ \newline
-\mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa9411f3523f60181e76c57b18f439bbb5}{DECIMAL\+\_\+\+DIGIT}} = 1
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa8461f0515ca21fbb7b2b4d9c6daa1e8a}{NOT\+\_\+\+DECIMAL\+\_\+\+DIGIT}} = 2
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa3c79200722076ec9baea1355e43c292e}{WHITESPACE}} = 3
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa997e04ea762b3aea38b68ba05026ead4}{NOT\+\_\+\+WHITESPACE}} = 4
+{\bfseries DECIMAL\+\_\+\+DIGIT} = 1
+, {\bfseries NOT\+\_\+\+DECIMAL\+\_\+\+DIGIT} = 2
+, {\bfseries WHITESPACE} = 3
+, {\bfseries NOT\+\_\+\+WHITESPACE} = 4
 , \newline
-\mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa27a84e503aea7107d20d63838d470a66}{ALPHANUMERIC}} = 5
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa0f5e041e09d3da2e265251c421552dae}{NOT\+\_\+\+ALPHANUMERIC}} = 6
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaac136fa53f3293b509e0ce15ad277e2f1}{TAB}} = 7
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaaaacb58605fdf8f36ca3d4822080df814}{CARRIAGE\+\_\+\+RETURN}} = 8
+{\bfseries ALPHANUMERIC} = 5
+, {\bfseries NOT\+\_\+\+ALPHANUMERIC} = 6
+, {\bfseries TAB} = 7
+, {\bfseries CARRIAGE\+\_\+\+RETURN} = 8
 , \newline
-\mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa8a1cb6cb8bd61cc4592cba81e6706ea3}{NEWLINE}} = 9
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaaf7a812b4804d74d6ee2a2ea39b3b60d7}{VERTICAL\+\_\+\+WHITESPACE}} = 10
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaae0fd73e811a3787e4f92aba8bcaefe33}{FORM\+\_\+\+FEED}} = 11
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa1821f6cc439050ceecf2845ecdda1360}{PIPE}} = 12
+{\bfseries NEWLINE} = 9
+, {\bfseries VERTICAL\+\_\+\+WHITESPACE} = 10
+, {\bfseries FORM\+\_\+\+FEED} = 11
+, {\bfseries PIPE} = 12
 , \newline
-\mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa820acbdc1d0c31c3d38af58730ca76e4}{EXCLAMAITON}} = 13
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa12c90e330569a5fcca82ad77f41d157d}{L\+\_\+\+CURLY}} = 14
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa51802adf76eb2d552b425f415c8f3de9}{R\+\_\+\+CURLY}} = 15
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaafe9aa8ac4d7349058dc38714a3cf3cfc}{L\+\_\+\+PAR}} = 16
+{\bfseries EXCLAMAITON} = 13
+, {\bfseries L\+\_\+\+CURLY} = 14
+, {\bfseries R\+\_\+\+CURLY} = 15
+, {\bfseries L\+\_\+\+PAR} = 16
 , \newline
-\mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa1f61c83df51b59b129cd88aed46ec540}{R\+\_\+\+PAR}} = 17
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaacf30267ad679c85f49e7ae9e67c29bfe}{COMMA}} = 18
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa9f5899dda1ddb7ef9c05c9f189877336}{QUESTION}} = 19
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa8c7060bfdb5c56cfa879fe89cc92c860}{PLUS}} = 20
+{\bfseries R\+\_\+\+PAR} = 17
+, {\bfseries COMMA} = 18
+, {\bfseries QUESTION} = 19
+, {\bfseries PLUS} = 20
 , \newline
-\mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaae17d27fa45460eceaff3a010c4e9b7aa}{STAR}} = 21
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaafbf74763a7b753c86fc5dbae0cbfbf91}{HAT}} = 22
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa44af88c354ee917be08111f4437f7c5b}{HYPHEN}} = 23
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa21e91fd808b875d95e9628a45408f2e7}{L\+\_\+\+BRACK}} = 24
+{\bfseries STAR} = 21
+, {\bfseries HAT} = 22
+, {\bfseries HYPHEN} = 23
+, {\bfseries L\+\_\+\+BRACK} = 24
 , \newline
-\mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaaa4327d4d7dbf0bbac9112b4e9fc7143f}{R\+\_\+\+BRACK}} = 25
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaae591d34d86106bd769dc39f185e1f42e}{BACKSLASH}} = 26
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaaa535b9109ffb4ab8f55107622f8f5cb6}{ALPHA}} = 27
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa7dd4149b36ffd1123910862654bc1a95}{DIGIT}} = 28
+{\bfseries R\+\_\+\+BRACK} = 25
+, {\bfseries BACKSLASH} = 26
+, {\bfseries ALPHA} = 27
+, {\bfseries DIGIT} = 28
 , \newline
-\mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa724aa726d349dab90bb26efe99f347f9}{DOT}} = 29
-, \mbox{\hyperlink{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa51a0fdb320985a439f08925c12147e1e}{UNRECOGNIZED}} = 30
+{\bfseries DOT} = 29
+, {\bfseries UNRECOGNIZED} = 30
  \}
 \item 
+\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94c}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94c}} 
 enum \{ \newline
-\mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca7d2f743eef262d37124b8403c68c68cb}{Rule\+Root}} = 0
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca8750f757bf5555b1ddaed66cae91c094}{Rule\+Alternation}} = 1
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caf6aa3bb5da52826c7f314b534c3bdbe0}{Rule\+Expr}} = 2
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caabc2f900f9d43d48d8e2e5e757e74253}{Rule\+Element}} = 3
+{\bfseries Rule\+Root} = 0
+, {\bfseries Rule\+Alternation} = 1
+, {\bfseries Rule\+Expr} = 2
+, {\bfseries Rule\+Element} = 3
 , \newline
-\mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca3060297132f60bc33e144ddbeb2c62db}{Rule\+Group}} = 4
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca94b500a531e87066afc8c7137adf631d}{Rule\+Parentheses}} = 5
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caaf53141f6c8d3b29221a25ed4e90dd02}{Rule\+Assignation}} = 6
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca08bf33a75a12430bb13c445bb7762c43}{Rule\+Varname}} = 7
+{\bfseries Rule\+Group} = 4
+, {\bfseries Rule\+Parentheses} = 5
+, {\bfseries Rule\+Assignation} = 6
+, {\bfseries Rule\+Varname} = 7
 , \newline
-\mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94cadd9ea93d2f049ed2bab2eb74c549146b}{Rule\+Atom}} = 8
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca0616b79b93ab8f76fd800692a0620459}{Rule\+Character\+Class}} = 9
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caa25b9e41acbd9b8e20ccb541a0d83368}{Rule\+Cc\+Atom}} = 10
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca7f39009ee26ccfa31dc90b4331191122}{Rule\+Cc\+Range}} = 11
+{\bfseries Rule\+Atom} = 8
+, {\bfseries Rule\+Character\+Class} = 9
+, {\bfseries Rule\+Cc\+Atom} = 10
+, {\bfseries Rule\+Cc\+Range} = 11
 , \newline
-\mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94cafefe8b7220f5fedb6341050911b44392}{Rule\+Cc\+Single}} = 12
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94cadb3ed05c2c247c0886e1de28bc5bf6ab}{Rule\+Cc\+Literal}} = 13
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca462a1e627e73893066bec165bb890918}{Rule\+Cc\+Escapes}} = 14
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caf0b9b0436a2b7e41dc86fd88f63b5229}{Rule\+Cc\+Other}} = 15
+{\bfseries Rule\+Cc\+Single} = 12
+, {\bfseries Rule\+Cc\+Literal} = 13
+, {\bfseries Rule\+Cc\+Escapes} = 14
+, {\bfseries Rule\+Cc\+Other} = 15
 , \newline
-\mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94cab9767dbe5a53c2930cfc2fa659df9dea}{Rule\+Single\+Shared\+Atom}} = 16
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caf45981ca5744b62fd91fdc136be1f2e4}{Rule\+Literal}} = 17
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca685ce25d19e7d22f6acff3d065fe39c5}{Rule\+Escapes}} = 18
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca7b9e1b69b43c74b7baa040b5914b2871}{Rule\+Special}} = 19
+{\bfseries Rule\+Single\+Shared\+Atom} = 16
+, {\bfseries Rule\+Literal} = 17
+, {\bfseries Rule\+Escapes} = 18
+, {\bfseries Rule\+Special} = 19
 , \newline
-\mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca40e4156aee38da8ead19eb4f89da86f0}{Rule\+Other}} = 20
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94cad12f9c115c60c2ff39bbf11c1f9fb363}{Rule\+Shared\+Atom}} = 21
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca35b0f95b45a456936562c22842d13202}{Rule\+Quantifier}} = 22
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caa1581f7e0eda7239f31f36b935e2584b}{Rule\+Quantity}} = 23
+{\bfseries Rule\+Other} = 20
+, {\bfseries Rule\+Shared\+Atom} = 21
+, {\bfseries Rule\+Quantifier} = 22
+, {\bfseries Rule\+Quantity} = 23
 , \newline
-\mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caf0ccc1bdd83835ead3d7d6c26a63bac9}{Rule\+Quant\+Exact}} = 24
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caff04963a9752a27b14cd0b56d0e206c0}{Rule\+Quant\+Range}} = 25
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caf95bf2d9e21c954e2ad4e1d245a25e50}{Rule\+Quant\+Min}} = 26
-, \mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca6404705134f7edb6fb8acef693ba8a68}{Rule\+Quant\+Max}} = 27
+{\bfseries Rule\+Quant\+Exact} = 24
+, {\bfseries Rule\+Quant\+Range} = 25
+, {\bfseries Rule\+Quant\+Min} = 26
+, {\bfseries Rule\+Quant\+Max} = 27
 , \newline
-\mbox{\hyperlink{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca4ff9b5af39fa55cb1b819426b29d20c2}{Rule\+Number}} = 28
+{\bfseries Rule\+Number} = 28
  \}
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classREmatchParser_a258c36ee5b5d6f526d9c182ae4e530e6}{REmatch\+Parser}} (antlr4\+::\+Token\+Stream $\ast$input)
+\mbox{\Hypertarget{classREmatchParser_a258c36ee5b5d6f526d9c182ae4e530e6}\label{classREmatchParser_a258c36ee5b5d6f526d9c182ae4e530e6}} 
+{\bfseries REmatch\+Parser} (antlr4\+::\+Token\+Stream $\ast$input)
 \item 
-\mbox{\hyperlink{classREmatchParser_a318a1777bd292cc085d7d70d2cf9375c}{REmatch\+Parser}} (antlr4\+::\+Token\+Stream $\ast$input, const antlr4\+::atn\+::\+Parser\+ATNSimulator\+Options \&options)
+\mbox{\Hypertarget{classREmatchParser_a318a1777bd292cc085d7d70d2cf9375c}\label{classREmatchParser_a318a1777bd292cc085d7d70d2cf9375c}} 
+{\bfseries REmatch\+Parser} (antlr4\+::\+Token\+Stream $\ast$input, const antlr4\+::atn\+::\+Parser\+ATNSimulator\+Options \&options)
 \item 
-\mbox{\hyperlink{classREmatchParser_a02659fa82403791f3cc4b452e3b8e5ec}{$\sim$\+REmatch\+Parser}} () override
+\mbox{\Hypertarget{classREmatchParser_a81df52740a9398a5564e4256ba3dd2e5}\label{classREmatchParser_a81df52740a9398a5564e4256ba3dd2e5}} 
+std\+::string {\bfseries get\+Grammar\+File\+Name} () const override
 \item 
-std\+::string \mbox{\hyperlink{classREmatchParser_a81df52740a9398a5564e4256ba3dd2e5}{get\+Grammar\+File\+Name}} () const override
+\mbox{\Hypertarget{classREmatchParser_a5bdf56f9d5fcd49448d5c1baae27a650}\label{classREmatchParser_a5bdf56f9d5fcd49448d5c1baae27a650}} 
+const antlr4\+::atn\+::\+ATN \& {\bfseries get\+ATN} () const override
 \item 
-const antlr4\+::atn\+::\+ATN \& \mbox{\hyperlink{classREmatchParser_a5bdf56f9d5fcd49448d5c1baae27a650}{get\+ATN}} () const override
+\mbox{\Hypertarget{classREmatchParser_a19683f724db97a8b648279e28de29f14}\label{classREmatchParser_a19683f724db97a8b648279e28de29f14}} 
+const std\+::vector$<$ std\+::string $>$ \& {\bfseries get\+Rule\+Names} () const override
 \item 
-const std\+::vector$<$ std\+::string $>$ \& \mbox{\hyperlink{classREmatchParser_a19683f724db97a8b648279e28de29f14}{get\+Rule\+Names}} () const override
+\mbox{\Hypertarget{classREmatchParser_a9b126bf77e08ab5e4c356427fcb504b5}\label{classREmatchParser_a9b126bf77e08ab5e4c356427fcb504b5}} 
+const antlr4\+::dfa\+::\+Vocabulary \& {\bfseries get\+Vocabulary} () const override
 \item 
-const antlr4\+::dfa\+::\+Vocabulary \& \mbox{\hyperlink{classREmatchParser_a9b126bf77e08ab5e4c356427fcb504b5}{get\+Vocabulary}} () const override
+\mbox{\Hypertarget{classREmatchParser_aaadd553f2925ed5c3d665791731c1a9d}\label{classREmatchParser_aaadd553f2925ed5c3d665791731c1a9d}} 
+antlr4\+::atn\+::\+Serialized\+ATNView {\bfseries get\+Serialized\+ATN} () const override
 \item 
-antlr4\+::atn\+::\+Serialized\+ATNView \mbox{\hyperlink{classREmatchParser_aaadd553f2925ed5c3d665791731c1a9d}{get\+Serialized\+ATN}} () const override
+\mbox{\Hypertarget{classREmatchParser_aa6159e274584dcd11a8eadb5426959c7}\label{classREmatchParser_aa6159e274584dcd11a8eadb5426959c7}} 
+\mbox{\hyperlink{classREmatchParser_1_1RootContext}{Root\+Context}} $\ast$ {\bfseries root} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1RootContext}{Root\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_aa6159e274584dcd11a8eadb5426959c7}{root}} ()
+\mbox{\Hypertarget{classREmatchParser_ade4148bcc7433c6ab40081520b3209d9}\label{classREmatchParser_ade4148bcc7433c6ab40081520b3209d9}} 
+\mbox{\hyperlink{classREmatchParser_1_1AlternationContext}{Alternation\+Context}} $\ast$ {\bfseries alternation} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1AlternationContext}{Alternation\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_ade4148bcc7433c6ab40081520b3209d9}{alternation}} ()
+\mbox{\Hypertarget{classREmatchParser_af982064f96f46d268b07bbf831bffcd2}\label{classREmatchParser_af982064f96f46d268b07bbf831bffcd2}} 
+\mbox{\hyperlink{classREmatchParser_1_1ExprContext}{Expr\+Context}} $\ast$ {\bfseries expr} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1ExprContext}{Expr\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_af982064f96f46d268b07bbf831bffcd2}{expr}} ()
+\mbox{\Hypertarget{classREmatchParser_a5310d18073c46b5956b54d5d3cb702a6}\label{classREmatchParser_a5310d18073c46b5956b54d5d3cb702a6}} 
+\mbox{\hyperlink{classREmatchParser_1_1ElementContext}{Element\+Context}} $\ast$ {\bfseries element} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1ElementContext}{Element\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_a5310d18073c46b5956b54d5d3cb702a6}{element}} ()
+\mbox{\Hypertarget{classREmatchParser_a64a5f611beb60945c128dc0fada9950c}\label{classREmatchParser_a64a5f611beb60945c128dc0fada9950c}} 
+\mbox{\hyperlink{classREmatchParser_1_1GroupContext}{Group\+Context}} $\ast$ {\bfseries group} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1GroupContext}{Group\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_a64a5f611beb60945c128dc0fada9950c}{group}} ()
+\mbox{\Hypertarget{classREmatchParser_a10d1ca1c7d26c5936d9b8e5921f2e6b8}\label{classREmatchParser_a10d1ca1c7d26c5936d9b8e5921f2e6b8}} 
+\mbox{\hyperlink{classREmatchParser_1_1ParenthesesContext}{Parentheses\+Context}} $\ast$ {\bfseries parentheses} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1ParenthesesContext}{Parentheses\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_a10d1ca1c7d26c5936d9b8e5921f2e6b8}{parentheses}} ()
+\mbox{\Hypertarget{classREmatchParser_a09f43d93c586ddd6792fe4dcf3954af0}\label{classREmatchParser_a09f43d93c586ddd6792fe4dcf3954af0}} 
+\mbox{\hyperlink{classREmatchParser_1_1AssignationContext}{Assignation\+Context}} $\ast$ {\bfseries assignation} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1AssignationContext}{Assignation\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_a09f43d93c586ddd6792fe4dcf3954af0}{assignation}} ()
+\mbox{\Hypertarget{classREmatchParser_ab58ee826b9d2647966bebca9e89639f4}\label{classREmatchParser_ab58ee826b9d2647966bebca9e89639f4}} 
+\mbox{\hyperlink{classREmatchParser_1_1VarnameContext}{Varname\+Context}} $\ast$ {\bfseries varname} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1VarnameContext}{Varname\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_ab58ee826b9d2647966bebca9e89639f4}{varname}} ()
+\mbox{\Hypertarget{classREmatchParser_a89b44856757dd09c59154d4bf64e5ba1}\label{classREmatchParser_a89b44856757dd09c59154d4bf64e5ba1}} 
+\mbox{\hyperlink{classREmatchParser_1_1AtomContext}{Atom\+Context}} $\ast$ {\bfseries atom} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1AtomContext}{Atom\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_a89b44856757dd09c59154d4bf64e5ba1}{atom}} ()
+\mbox{\Hypertarget{classREmatchParser_afad91ac4828d118bb5ba6a7deef71811}\label{classREmatchParser_afad91ac4828d118bb5ba6a7deef71811}} 
+\mbox{\hyperlink{classREmatchParser_1_1CharacterClassContext}{Character\+Class\+Context}} $\ast$ {\bfseries character\+Class} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1CharacterClassContext}{Character\+Class\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_afad91ac4828d118bb5ba6a7deef71811}{character\+Class}} ()
+\mbox{\Hypertarget{classREmatchParser_a673c02388bb5ebee7a5bc40d521416d5}\label{classREmatchParser_a673c02388bb5ebee7a5bc40d521416d5}} 
+\mbox{\hyperlink{classREmatchParser_1_1CcAtomContext}{Cc\+Atom\+Context}} $\ast$ {\bfseries cc\+Atom} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1CcAtomContext}{Cc\+Atom\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_a673c02388bb5ebee7a5bc40d521416d5}{cc\+Atom}} ()
+\mbox{\Hypertarget{classREmatchParser_a301d8943865c3cae40ea175c47546c70}\label{classREmatchParser_a301d8943865c3cae40ea175c47546c70}} 
+\mbox{\hyperlink{classREmatchParser_1_1CcRangeContext}{Cc\+Range\+Context}} $\ast$ {\bfseries cc\+Range} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1CcRangeContext}{Cc\+Range\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_a301d8943865c3cae40ea175c47546c70}{cc\+Range}} ()
+\mbox{\Hypertarget{classREmatchParser_a469975ab20b34cbb42a2b68d414d7a20}\label{classREmatchParser_a469975ab20b34cbb42a2b68d414d7a20}} 
+\mbox{\hyperlink{classREmatchParser_1_1CcSingleContext}{Cc\+Single\+Context}} $\ast$ {\bfseries cc\+Single} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1CcSingleContext}{Cc\+Single\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_a469975ab20b34cbb42a2b68d414d7a20}{cc\+Single}} ()
+\mbox{\Hypertarget{classREmatchParser_aadab5420fb4106b7dd0ac79c76c064a8}\label{classREmatchParser_aadab5420fb4106b7dd0ac79c76c064a8}} 
+\mbox{\hyperlink{classREmatchParser_1_1CcLiteralContext}{Cc\+Literal\+Context}} $\ast$ {\bfseries cc\+Literal} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1CcLiteralContext}{Cc\+Literal\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_aadab5420fb4106b7dd0ac79c76c064a8}{cc\+Literal}} ()
+\mbox{\Hypertarget{classREmatchParser_a2f987aab7639c0e2e53bf23a4dd8731e}\label{classREmatchParser_a2f987aab7639c0e2e53bf23a4dd8731e}} 
+\mbox{\hyperlink{classREmatchParser_1_1CcEscapesContext}{Cc\+Escapes\+Context}} $\ast$ {\bfseries cc\+Escapes} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1CcEscapesContext}{Cc\+Escapes\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_a2f987aab7639c0e2e53bf23a4dd8731e}{cc\+Escapes}} ()
+\mbox{\Hypertarget{classREmatchParser_a481b2c8900df673826445346788f2371}\label{classREmatchParser_a481b2c8900df673826445346788f2371}} 
+\mbox{\hyperlink{classREmatchParser_1_1CcOtherContext}{Cc\+Other\+Context}} $\ast$ {\bfseries cc\+Other} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1CcOtherContext}{Cc\+Other\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_a481b2c8900df673826445346788f2371}{cc\+Other}} ()
+\mbox{\Hypertarget{classREmatchParser_aee7bd28aaa48989a74d649d01b60e747}\label{classREmatchParser_aee7bd28aaa48989a74d649d01b60e747}} 
+\mbox{\hyperlink{classREmatchParser_1_1SingleSharedAtomContext}{Single\+Shared\+Atom\+Context}} $\ast$ {\bfseries single\+Shared\+Atom} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1SingleSharedAtomContext}{Single\+Shared\+Atom\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_aee7bd28aaa48989a74d649d01b60e747}{single\+Shared\+Atom}} ()
+\mbox{\Hypertarget{classREmatchParser_a4f9e438167a5b4ec5ac9249c238a0941}\label{classREmatchParser_a4f9e438167a5b4ec5ac9249c238a0941}} 
+\mbox{\hyperlink{classREmatchParser_1_1LiteralContext}{Literal\+Context}} $\ast$ {\bfseries literal} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1LiteralContext}{Literal\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_a4f9e438167a5b4ec5ac9249c238a0941}{literal}} ()
+\mbox{\Hypertarget{classREmatchParser_aeafbd4b26bd8e79b42fb828a7284b9ca}\label{classREmatchParser_aeafbd4b26bd8e79b42fb828a7284b9ca}} 
+\mbox{\hyperlink{classREmatchParser_1_1EscapesContext}{Escapes\+Context}} $\ast$ {\bfseries escapes} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1EscapesContext}{Escapes\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_aeafbd4b26bd8e79b42fb828a7284b9ca}{escapes}} ()
+\mbox{\Hypertarget{classREmatchParser_a142b63211367881ace5bf2ef72597ede}\label{classREmatchParser_a142b63211367881ace5bf2ef72597ede}} 
+\mbox{\hyperlink{classREmatchParser_1_1SpecialContext}{Special\+Context}} $\ast$ {\bfseries special} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1SpecialContext}{Special\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_a142b63211367881ace5bf2ef72597ede}{special}} ()
+\mbox{\Hypertarget{classREmatchParser_aedb6ea03f59e573f45ae481ea3aba21e}\label{classREmatchParser_aedb6ea03f59e573f45ae481ea3aba21e}} 
+\mbox{\hyperlink{classREmatchParser_1_1OtherContext}{Other\+Context}} $\ast$ {\bfseries other} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1OtherContext}{Other\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_aedb6ea03f59e573f45ae481ea3aba21e}{other}} ()
+\mbox{\Hypertarget{classREmatchParser_a3f62535e5c624e23a1b09e12ed705fb7}\label{classREmatchParser_a3f62535e5c624e23a1b09e12ed705fb7}} 
+\mbox{\hyperlink{classREmatchParser_1_1SharedAtomContext}{Shared\+Atom\+Context}} $\ast$ {\bfseries shared\+Atom} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1SharedAtomContext}{Shared\+Atom\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_a3f62535e5c624e23a1b09e12ed705fb7}{shared\+Atom}} ()
+\mbox{\Hypertarget{classREmatchParser_a87d692c83b69022da650582332c6af26}\label{classREmatchParser_a87d692c83b69022da650582332c6af26}} 
+\mbox{\hyperlink{classREmatchParser_1_1QuantifierContext}{Quantifier\+Context}} $\ast$ {\bfseries quantifier} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1QuantifierContext}{Quantifier\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_a87d692c83b69022da650582332c6af26}{quantifier}} ()
+\mbox{\Hypertarget{classREmatchParser_a8fc644f205f9763342e7dfd41419bdd8}\label{classREmatchParser_a8fc644f205f9763342e7dfd41419bdd8}} 
+\mbox{\hyperlink{classREmatchParser_1_1QuantityContext}{Quantity\+Context}} $\ast$ {\bfseries quantity} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1QuantityContext}{Quantity\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_a8fc644f205f9763342e7dfd41419bdd8}{quantity}} ()
+\mbox{\Hypertarget{classREmatchParser_a9b1e8b239a304fdc3be06b36da636524}\label{classREmatchParser_a9b1e8b239a304fdc3be06b36da636524}} 
+\mbox{\hyperlink{classREmatchParser_1_1QuantExactContext}{Quant\+Exact\+Context}} $\ast$ {\bfseries quant\+Exact} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1QuantExactContext}{Quant\+Exact\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_a9b1e8b239a304fdc3be06b36da636524}{quant\+Exact}} ()
+\mbox{\Hypertarget{classREmatchParser_a45b414ecc2471a07e0e74fbd857a1949}\label{classREmatchParser_a45b414ecc2471a07e0e74fbd857a1949}} 
+\mbox{\hyperlink{classREmatchParser_1_1QuantRangeContext}{Quant\+Range\+Context}} $\ast$ {\bfseries quant\+Range} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1QuantRangeContext}{Quant\+Range\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_a45b414ecc2471a07e0e74fbd857a1949}{quant\+Range}} ()
+\mbox{\Hypertarget{classREmatchParser_aec0941ec0075db71834df6fcc6fce0f0}\label{classREmatchParser_aec0941ec0075db71834df6fcc6fce0f0}} 
+\mbox{\hyperlink{classREmatchParser_1_1QuantMinContext}{Quant\+Min\+Context}} $\ast$ {\bfseries quant\+Min} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1QuantMinContext}{Quant\+Min\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_aec0941ec0075db71834df6fcc6fce0f0}{quant\+Min}} ()
+\mbox{\Hypertarget{classREmatchParser_ade8c38dfe26ada3ad3f7109aa1c91029}\label{classREmatchParser_ade8c38dfe26ada3ad3f7109aa1c91029}} 
+\mbox{\hyperlink{classREmatchParser_1_1QuantMaxContext}{Quant\+Max\+Context}} $\ast$ {\bfseries quant\+Max} ()
 \item 
-\mbox{\hyperlink{classREmatchParser_1_1QuantMaxContext}{Quant\+Max\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_ade8c38dfe26ada3ad3f7109aa1c91029}{quant\+Max}} ()
-\item 
-\mbox{\hyperlink{classREmatchParser_1_1NumberContext}{Number\+Context}} $\ast$ \mbox{\hyperlink{classREmatchParser_a108b92b2c84d9c09e310056132b094f6}{number}} ()
+\mbox{\Hypertarget{classREmatchParser_a108b92b2c84d9c09e310056132b094f6}\label{classREmatchParser_a108b92b2c84d9c09e310056132b094f6}} 
+\mbox{\hyperlink{classREmatchParser_1_1NumberContext}{Number\+Context}} $\ast$ {\bfseries number} ()
 \end{DoxyCompactItemize}
 \doxysubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-static void \mbox{\hyperlink{classREmatchParser_a1c2dc5a45a9dd75d38b00fc4840e7ead}{initialize}} ()
-\end{DoxyCompactItemize}
-
-
-\doxysubsection{Member Enumeration Documentation}
-\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabca}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabca}} 
-\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
-{\footnotesize\ttfamily anonymous enum}
-
-\begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{DECIMAL\_DIGIT@{DECIMAL\_DIGIT}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!DECIMAL\_DIGIT@{DECIMAL\_DIGIT}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa9411f3523f60181e76c57b18f439bbb5}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa9411f3523f60181e76c57b18f439bbb5}} 
-DECIMAL\+\_\+\+DIGIT&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{NOT\_DECIMAL\_DIGIT@{NOT\_DECIMAL\_DIGIT}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!NOT\_DECIMAL\_DIGIT@{NOT\_DECIMAL\_DIGIT}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa8461f0515ca21fbb7b2b4d9c6daa1e8a}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa8461f0515ca21fbb7b2b4d9c6daa1e8a}} 
-NOT\+\_\+\+DECIMAL\+\_\+\+DIGIT&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{WHITESPACE@{WHITESPACE}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!WHITESPACE@{WHITESPACE}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa3c79200722076ec9baea1355e43c292e}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa3c79200722076ec9baea1355e43c292e}} 
-WHITESPACE&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{NOT\_WHITESPACE@{NOT\_WHITESPACE}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!NOT\_WHITESPACE@{NOT\_WHITESPACE}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa997e04ea762b3aea38b68ba05026ead4}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa997e04ea762b3aea38b68ba05026ead4}} 
-NOT\+\_\+\+WHITESPACE&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{ALPHANUMERIC@{ALPHANUMERIC}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!ALPHANUMERIC@{ALPHANUMERIC}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa27a84e503aea7107d20d63838d470a66}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa27a84e503aea7107d20d63838d470a66}} 
-ALPHANUMERIC&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{NOT\_ALPHANUMERIC@{NOT\_ALPHANUMERIC}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!NOT\_ALPHANUMERIC@{NOT\_ALPHANUMERIC}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa0f5e041e09d3da2e265251c421552dae}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa0f5e041e09d3da2e265251c421552dae}} 
-NOT\+\_\+\+ALPHANUMERIC&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{TAB@{TAB}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!TAB@{TAB}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaac136fa53f3293b509e0ce15ad277e2f1}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaac136fa53f3293b509e0ce15ad277e2f1}} 
-TAB&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{CARRIAGE\_RETURN@{CARRIAGE\_RETURN}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!CARRIAGE\_RETURN@{CARRIAGE\_RETURN}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaaaacb58605fdf8f36ca3d4822080df814}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaaaacb58605fdf8f36ca3d4822080df814}} 
-CARRIAGE\+\_\+\+RETURN&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{NEWLINE@{NEWLINE}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!NEWLINE@{NEWLINE}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa8a1cb6cb8bd61cc4592cba81e6706ea3}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa8a1cb6cb8bd61cc4592cba81e6706ea3}} 
-NEWLINE&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{VERTICAL\_WHITESPACE@{VERTICAL\_WHITESPACE}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!VERTICAL\_WHITESPACE@{VERTICAL\_WHITESPACE}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaaf7a812b4804d74d6ee2a2ea39b3b60d7}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaaf7a812b4804d74d6ee2a2ea39b3b60d7}} 
-VERTICAL\+\_\+\+WHITESPACE&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{FORM\_FEED@{FORM\_FEED}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!FORM\_FEED@{FORM\_FEED}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaae0fd73e811a3787e4f92aba8bcaefe33}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaae0fd73e811a3787e4f92aba8bcaefe33}} 
-FORM\+\_\+\+FEED&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{PIPE@{PIPE}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!PIPE@{PIPE}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa1821f6cc439050ceecf2845ecdda1360}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa1821f6cc439050ceecf2845ecdda1360}} 
-PIPE&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{EXCLAMAITON@{EXCLAMAITON}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!EXCLAMAITON@{EXCLAMAITON}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa820acbdc1d0c31c3d38af58730ca76e4}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa820acbdc1d0c31c3d38af58730ca76e4}} 
-EXCLAMAITON&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{L\_CURLY@{L\_CURLY}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!L\_CURLY@{L\_CURLY}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa12c90e330569a5fcca82ad77f41d157d}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa12c90e330569a5fcca82ad77f41d157d}} 
-L\+\_\+\+CURLY&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{R\_CURLY@{R\_CURLY}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!R\_CURLY@{R\_CURLY}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa51802adf76eb2d552b425f415c8f3de9}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa51802adf76eb2d552b425f415c8f3de9}} 
-R\+\_\+\+CURLY&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{L\_PAR@{L\_PAR}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!L\_PAR@{L\_PAR}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaafe9aa8ac4d7349058dc38714a3cf3cfc}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaafe9aa8ac4d7349058dc38714a3cf3cfc}} 
-L\+\_\+\+PAR&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{R\_PAR@{R\_PAR}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!R\_PAR@{R\_PAR}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa1f61c83df51b59b129cd88aed46ec540}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa1f61c83df51b59b129cd88aed46ec540}} 
-R\+\_\+\+PAR&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{COMMA@{COMMA}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!COMMA@{COMMA}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaacf30267ad679c85f49e7ae9e67c29bfe}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaacf30267ad679c85f49e7ae9e67c29bfe}} 
-COMMA&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{QUESTION@{QUESTION}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!QUESTION@{QUESTION}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa9f5899dda1ddb7ef9c05c9f189877336}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa9f5899dda1ddb7ef9c05c9f189877336}} 
-QUESTION&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{PLUS@{PLUS}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!PLUS@{PLUS}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa8c7060bfdb5c56cfa879fe89cc92c860}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa8c7060bfdb5c56cfa879fe89cc92c860}} 
-PLUS&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{STAR@{STAR}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!STAR@{STAR}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaae17d27fa45460eceaff3a010c4e9b7aa}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaae17d27fa45460eceaff3a010c4e9b7aa}} 
-STAR&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{HAT@{HAT}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!HAT@{HAT}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaafbf74763a7b753c86fc5dbae0cbfbf91}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaafbf74763a7b753c86fc5dbae0cbfbf91}} 
-HAT&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{HYPHEN@{HYPHEN}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!HYPHEN@{HYPHEN}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa44af88c354ee917be08111f4437f7c5b}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa44af88c354ee917be08111f4437f7c5b}} 
-HYPHEN&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{L\_BRACK@{L\_BRACK}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!L\_BRACK@{L\_BRACK}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa21e91fd808b875d95e9628a45408f2e7}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa21e91fd808b875d95e9628a45408f2e7}} 
-L\+\_\+\+BRACK&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{R\_BRACK@{R\_BRACK}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!R\_BRACK@{R\_BRACK}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaaa4327d4d7dbf0bbac9112b4e9fc7143f}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaaa4327d4d7dbf0bbac9112b4e9fc7143f}} 
-R\+\_\+\+BRACK&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{BACKSLASH@{BACKSLASH}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!BACKSLASH@{BACKSLASH}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaae591d34d86106bd769dc39f185e1f42e}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaae591d34d86106bd769dc39f185e1f42e}} 
-BACKSLASH&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{ALPHA@{ALPHA}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!ALPHA@{ALPHA}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaaa535b9109ffb4ab8f55107622f8f5cb6}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaaa535b9109ffb4ab8f55107622f8f5cb6}} 
-ALPHA&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{DIGIT@{DIGIT}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!DIGIT@{DIGIT}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa7dd4149b36ffd1123910862654bc1a95}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa7dd4149b36ffd1123910862654bc1a95}} 
-DIGIT&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{DOT@{DOT}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!DOT@{DOT}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa724aa726d349dab90bb26efe99f347f9}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa724aa726d349dab90bb26efe99f347f9}} 
-DOT&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{UNRECOGNIZED@{UNRECOGNIZED}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!UNRECOGNIZED@{UNRECOGNIZED}}}\mbox{\Hypertarget{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa51a0fdb320985a439f08925c12147e1e}\label{classREmatchParser_ad9115c15adb98f051ec11e01017fabcaa51a0fdb320985a439f08925c12147e1e}} 
-UNRECOGNIZED&\\
-\hline
-
-\end{DoxyEnumFields}
-\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94c}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94c}} 
-\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
-{\footnotesize\ttfamily anonymous enum}
-
-\begin{DoxyEnumFields}{Enumerator}
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleRoot@{RuleRoot}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleRoot@{RuleRoot}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca7d2f743eef262d37124b8403c68c68cb}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca7d2f743eef262d37124b8403c68c68cb}} 
-Rule\+Root&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleAlternation@{RuleAlternation}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleAlternation@{RuleAlternation}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca8750f757bf5555b1ddaed66cae91c094}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca8750f757bf5555b1ddaed66cae91c094}} 
-Rule\+Alternation&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleExpr@{RuleExpr}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleExpr@{RuleExpr}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caf6aa3bb5da52826c7f314b534c3bdbe0}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caf6aa3bb5da52826c7f314b534c3bdbe0}} 
-Rule\+Expr&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleElement@{RuleElement}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleElement@{RuleElement}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caabc2f900f9d43d48d8e2e5e757e74253}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caabc2f900f9d43d48d8e2e5e757e74253}} 
-Rule\+Element&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleGroup@{RuleGroup}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleGroup@{RuleGroup}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca3060297132f60bc33e144ddbeb2c62db}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca3060297132f60bc33e144ddbeb2c62db}} 
-Rule\+Group&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleParentheses@{RuleParentheses}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleParentheses@{RuleParentheses}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca94b500a531e87066afc8c7137adf631d}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca94b500a531e87066afc8c7137adf631d}} 
-Rule\+Parentheses&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleAssignation@{RuleAssignation}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleAssignation@{RuleAssignation}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caaf53141f6c8d3b29221a25ed4e90dd02}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caaf53141f6c8d3b29221a25ed4e90dd02}} 
-Rule\+Assignation&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleVarname@{RuleVarname}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleVarname@{RuleVarname}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca08bf33a75a12430bb13c445bb7762c43}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca08bf33a75a12430bb13c445bb7762c43}} 
-Rule\+Varname&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleAtom@{RuleAtom}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleAtom@{RuleAtom}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94cadd9ea93d2f049ed2bab2eb74c549146b}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94cadd9ea93d2f049ed2bab2eb74c549146b}} 
-Rule\+Atom&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleCharacterClass@{RuleCharacterClass}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleCharacterClass@{RuleCharacterClass}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca0616b79b93ab8f76fd800692a0620459}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca0616b79b93ab8f76fd800692a0620459}} 
-Rule\+Character\+Class&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleCcAtom@{RuleCcAtom}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleCcAtom@{RuleCcAtom}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caa25b9e41acbd9b8e20ccb541a0d83368}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caa25b9e41acbd9b8e20ccb541a0d83368}} 
-Rule\+Cc\+Atom&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleCcRange@{RuleCcRange}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleCcRange@{RuleCcRange}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca7f39009ee26ccfa31dc90b4331191122}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca7f39009ee26ccfa31dc90b4331191122}} 
-Rule\+Cc\+Range&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleCcSingle@{RuleCcSingle}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleCcSingle@{RuleCcSingle}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94cafefe8b7220f5fedb6341050911b44392}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94cafefe8b7220f5fedb6341050911b44392}} 
-Rule\+Cc\+Single&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleCcLiteral@{RuleCcLiteral}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleCcLiteral@{RuleCcLiteral}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94cadb3ed05c2c247c0886e1de28bc5bf6ab}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94cadb3ed05c2c247c0886e1de28bc5bf6ab}} 
-Rule\+Cc\+Literal&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleCcEscapes@{RuleCcEscapes}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleCcEscapes@{RuleCcEscapes}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca462a1e627e73893066bec165bb890918}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca462a1e627e73893066bec165bb890918}} 
-Rule\+Cc\+Escapes&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleCcOther@{RuleCcOther}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleCcOther@{RuleCcOther}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caf0b9b0436a2b7e41dc86fd88f63b5229}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caf0b9b0436a2b7e41dc86fd88f63b5229}} 
-Rule\+Cc\+Other&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleSingleSharedAtom@{RuleSingleSharedAtom}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleSingleSharedAtom@{RuleSingleSharedAtom}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94cab9767dbe5a53c2930cfc2fa659df9dea}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94cab9767dbe5a53c2930cfc2fa659df9dea}} 
-Rule\+Single\+Shared\+Atom&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleLiteral@{RuleLiteral}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleLiteral@{RuleLiteral}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caf45981ca5744b62fd91fdc136be1f2e4}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caf45981ca5744b62fd91fdc136be1f2e4}} 
-Rule\+Literal&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleEscapes@{RuleEscapes}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleEscapes@{RuleEscapes}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca685ce25d19e7d22f6acff3d065fe39c5}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca685ce25d19e7d22f6acff3d065fe39c5}} 
-Rule\+Escapes&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleSpecial@{RuleSpecial}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleSpecial@{RuleSpecial}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca7b9e1b69b43c74b7baa040b5914b2871}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca7b9e1b69b43c74b7baa040b5914b2871}} 
-Rule\+Special&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleOther@{RuleOther}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleOther@{RuleOther}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca40e4156aee38da8ead19eb4f89da86f0}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca40e4156aee38da8ead19eb4f89da86f0}} 
-Rule\+Other&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleSharedAtom@{RuleSharedAtom}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleSharedAtom@{RuleSharedAtom}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94cad12f9c115c60c2ff39bbf11c1f9fb363}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94cad12f9c115c60c2ff39bbf11c1f9fb363}} 
-Rule\+Shared\+Atom&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleQuantifier@{RuleQuantifier}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleQuantifier@{RuleQuantifier}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca35b0f95b45a456936562c22842d13202}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca35b0f95b45a456936562c22842d13202}} 
-Rule\+Quantifier&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleQuantity@{RuleQuantity}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleQuantity@{RuleQuantity}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caa1581f7e0eda7239f31f36b935e2584b}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caa1581f7e0eda7239f31f36b935e2584b}} 
-Rule\+Quantity&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleQuantExact@{RuleQuantExact}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleQuantExact@{RuleQuantExact}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caf0ccc1bdd83835ead3d7d6c26a63bac9}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caf0ccc1bdd83835ead3d7d6c26a63bac9}} 
-Rule\+Quant\+Exact&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleQuantRange@{RuleQuantRange}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleQuantRange@{RuleQuantRange}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caff04963a9752a27b14cd0b56d0e206c0}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caff04963a9752a27b14cd0b56d0e206c0}} 
-Rule\+Quant\+Range&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleQuantMin@{RuleQuantMin}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleQuantMin@{RuleQuantMin}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caf95bf2d9e21c954e2ad4e1d245a25e50}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94caf95bf2d9e21c954e2ad4e1d245a25e50}} 
-Rule\+Quant\+Min&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleQuantMax@{RuleQuantMax}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleQuantMax@{RuleQuantMax}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca6404705134f7edb6fb8acef693ba8a68}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca6404705134f7edb6fb8acef693ba8a68}} 
-Rule\+Quant\+Max&\\
-\hline
-
-\raisebox{\heightof{T}}[0pt][0pt]{\index{RuleNumber@{RuleNumber}!REmatchParser@{REmatchParser}}\index{REmatchParser@{REmatchParser}!RuleNumber@{RuleNumber}}}\mbox{\Hypertarget{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca4ff9b5af39fa55cb1b819426b29d20c2}\label{classREmatchParser_a7387b0e2919a106e1389b8739dd4f94ca4ff9b5af39fa55cb1b819426b29d20c2}} 
-Rule\+Number&\\
-\hline
-
-\end{DoxyEnumFields}
-
-
-\doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classREmatchParser_a258c36ee5b5d6f526d9c182ae4e530e6}\label{classREmatchParser_a258c36ee5b5d6f526d9c182ae4e530e6}} 
-\index{REmatchParser@{REmatchParser}!REmatchParser@{REmatchParser}}
-\index{REmatchParser@{REmatchParser}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{REmatchParser()}{REmatchParser()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily REmatch\+Parser\+::\+REmatch\+Parser (\begin{DoxyParamCaption}\item[{antlr4\+::\+Token\+Stream $\ast$}]{input }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
-
-\mbox{\Hypertarget{classREmatchParser_a318a1777bd292cc085d7d70d2cf9375c}\label{classREmatchParser_a318a1777bd292cc085d7d70d2cf9375c}} 
-\index{REmatchParser@{REmatchParser}!REmatchParser@{REmatchParser}}
-\index{REmatchParser@{REmatchParser}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{REmatchParser()}{REmatchParser()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily REmatch\+Parser\+::\+REmatch\+Parser (\begin{DoxyParamCaption}\item[{antlr4\+::\+Token\+Stream $\ast$}]{input,  }\item[{const antlr4\+::atn\+::\+Parser\+ATNSimulator\+Options \&}]{options }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_a02659fa82403791f3cc4b452e3b8e5ec}\label{classREmatchParser_a02659fa82403791f3cc4b452e3b8e5ec}} 
-\index{REmatchParser@{REmatchParser}!````~REmatchParser@{$\sim$REmatchParser}}
-\index{````~REmatchParser@{$\sim$REmatchParser}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{$\sim$REmatchParser()}{~REmatchParser()}}
-{\footnotesize\ttfamily REmatch\+Parser\+::$\sim$\+REmatch\+Parser (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
-
-
-
-\doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classREmatchParser_ade4148bcc7433c6ab40081520b3209d9}\label{classREmatchParser_ade4148bcc7433c6ab40081520b3209d9}} 
-\index{REmatchParser@{REmatchParser}!alternation@{alternation}}
-\index{alternation@{alternation}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{alternation()}{alternation()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1AlternationContext}{REmatch\+Parser\+::\+Alternation\+Context}} $\ast$ REmatch\+Parser\+::alternation (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_a09f43d93c586ddd6792fe4dcf3954af0}\label{classREmatchParser_a09f43d93c586ddd6792fe4dcf3954af0}} 
-\index{REmatchParser@{REmatchParser}!assignation@{assignation}}
-\index{assignation@{assignation}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{assignation()}{assignation()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1AssignationContext}{REmatch\+Parser\+::\+Assignation\+Context}} $\ast$ REmatch\+Parser\+::assignation (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_a89b44856757dd09c59154d4bf64e5ba1}\label{classREmatchParser_a89b44856757dd09c59154d4bf64e5ba1}} 
-\index{REmatchParser@{REmatchParser}!atom@{atom}}
-\index{atom@{atom}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{atom()}{atom()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1AtomContext}{REmatch\+Parser\+::\+Atom\+Context}} $\ast$ REmatch\+Parser\+::atom (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_a673c02388bb5ebee7a5bc40d521416d5}\label{classREmatchParser_a673c02388bb5ebee7a5bc40d521416d5}} 
-\index{REmatchParser@{REmatchParser}!ccAtom@{ccAtom}}
-\index{ccAtom@{ccAtom}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{ccAtom()}{ccAtom()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1CcAtomContext}{REmatch\+Parser\+::\+Cc\+Atom\+Context}} $\ast$ REmatch\+Parser\+::cc\+Atom (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_a2f987aab7639c0e2e53bf23a4dd8731e}\label{classREmatchParser_a2f987aab7639c0e2e53bf23a4dd8731e}} 
-\index{REmatchParser@{REmatchParser}!ccEscapes@{ccEscapes}}
-\index{ccEscapes@{ccEscapes}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{ccEscapes()}{ccEscapes()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1CcEscapesContext}{REmatch\+Parser\+::\+Cc\+Escapes\+Context}} $\ast$ REmatch\+Parser\+::cc\+Escapes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_aadab5420fb4106b7dd0ac79c76c064a8}\label{classREmatchParser_aadab5420fb4106b7dd0ac79c76c064a8}} 
-\index{REmatchParser@{REmatchParser}!ccLiteral@{ccLiteral}}
-\index{ccLiteral@{ccLiteral}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{ccLiteral()}{ccLiteral()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1CcLiteralContext}{REmatch\+Parser\+::\+Cc\+Literal\+Context}} $\ast$ REmatch\+Parser\+::cc\+Literal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_a481b2c8900df673826445346788f2371}\label{classREmatchParser_a481b2c8900df673826445346788f2371}} 
-\index{REmatchParser@{REmatchParser}!ccOther@{ccOther}}
-\index{ccOther@{ccOther}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{ccOther()}{ccOther()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1CcOtherContext}{REmatch\+Parser\+::\+Cc\+Other\+Context}} $\ast$ REmatch\+Parser\+::cc\+Other (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_a301d8943865c3cae40ea175c47546c70}\label{classREmatchParser_a301d8943865c3cae40ea175c47546c70}} 
-\index{REmatchParser@{REmatchParser}!ccRange@{ccRange}}
-\index{ccRange@{ccRange}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{ccRange()}{ccRange()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1CcRangeContext}{REmatch\+Parser\+::\+Cc\+Range\+Context}} $\ast$ REmatch\+Parser\+::cc\+Range (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_a469975ab20b34cbb42a2b68d414d7a20}\label{classREmatchParser_a469975ab20b34cbb42a2b68d414d7a20}} 
-\index{REmatchParser@{REmatchParser}!ccSingle@{ccSingle}}
-\index{ccSingle@{ccSingle}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{ccSingle()}{ccSingle()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1CcSingleContext}{REmatch\+Parser\+::\+Cc\+Single\+Context}} $\ast$ REmatch\+Parser\+::cc\+Single (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_afad91ac4828d118bb5ba6a7deef71811}\label{classREmatchParser_afad91ac4828d118bb5ba6a7deef71811}} 
-\index{REmatchParser@{REmatchParser}!characterClass@{characterClass}}
-\index{characterClass@{characterClass}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{characterClass()}{characterClass()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1CharacterClassContext}{REmatch\+Parser\+::\+Character\+Class\+Context}} $\ast$ REmatch\+Parser\+::character\+Class (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_a5310d18073c46b5956b54d5d3cb702a6}\label{classREmatchParser_a5310d18073c46b5956b54d5d3cb702a6}} 
-\index{REmatchParser@{REmatchParser}!element@{element}}
-\index{element@{element}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{element()}{element()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1ElementContext}{REmatch\+Parser\+::\+Element\+Context}} $\ast$ REmatch\+Parser\+::element (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_aeafbd4b26bd8e79b42fb828a7284b9ca}\label{classREmatchParser_aeafbd4b26bd8e79b42fb828a7284b9ca}} 
-\index{REmatchParser@{REmatchParser}!escapes@{escapes}}
-\index{escapes@{escapes}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{escapes()}{escapes()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1EscapesContext}{REmatch\+Parser\+::\+Escapes\+Context}} $\ast$ REmatch\+Parser\+::escapes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_af982064f96f46d268b07bbf831bffcd2}\label{classREmatchParser_af982064f96f46d268b07bbf831bffcd2}} 
-\index{REmatchParser@{REmatchParser}!expr@{expr}}
-\index{expr@{expr}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{expr()}{expr()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1ExprContext}{REmatch\+Parser\+::\+Expr\+Context}} $\ast$ REmatch\+Parser\+::expr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_a5bdf56f9d5fcd49448d5c1baae27a650}\label{classREmatchParser_a5bdf56f9d5fcd49448d5c1baae27a650}} 
-\index{REmatchParser@{REmatchParser}!getATN@{getATN}}
-\index{getATN@{getATN}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{getATN()}{getATN()}}
-{\footnotesize\ttfamily const atn\+::\+ATN \& REmatch\+Parser\+::get\+ATN (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}}
-
-\mbox{\Hypertarget{classREmatchParser_a81df52740a9398a5564e4256ba3dd2e5}\label{classREmatchParser_a81df52740a9398a5564e4256ba3dd2e5}} 
-\index{REmatchParser@{REmatchParser}!getGrammarFileName@{getGrammarFileName}}
-\index{getGrammarFileName@{getGrammarFileName}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{getGrammarFileName()}{getGrammarFileName()}}
-{\footnotesize\ttfamily std\+::string REmatch\+Parser\+::get\+Grammar\+File\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}}
-
-\mbox{\Hypertarget{classREmatchParser_a19683f724db97a8b648279e28de29f14}\label{classREmatchParser_a19683f724db97a8b648279e28de29f14}} 
-\index{REmatchParser@{REmatchParser}!getRuleNames@{getRuleNames}}
-\index{getRuleNames@{getRuleNames}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{getRuleNames()}{getRuleNames()}}
-{\footnotesize\ttfamily const std\+::vector$<$ std\+::string $>$ \& REmatch\+Parser\+::get\+Rule\+Names (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}}
-
-\mbox{\Hypertarget{classREmatchParser_aaadd553f2925ed5c3d665791731c1a9d}\label{classREmatchParser_aaadd553f2925ed5c3d665791731c1a9d}} 
-\index{REmatchParser@{REmatchParser}!getSerializedATN@{getSerializedATN}}
-\index{getSerializedATN@{getSerializedATN}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{getSerializedATN()}{getSerializedATN()}}
-{\footnotesize\ttfamily antlr4\+::atn\+::\+Serialized\+ATNView REmatch\+Parser\+::get\+Serialized\+ATN (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}}
-
-\mbox{\Hypertarget{classREmatchParser_a9b126bf77e08ab5e4c356427fcb504b5}\label{classREmatchParser_a9b126bf77e08ab5e4c356427fcb504b5}} 
-\index{REmatchParser@{REmatchParser}!getVocabulary@{getVocabulary}}
-\index{getVocabulary@{getVocabulary}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{getVocabulary()}{getVocabulary()}}
-{\footnotesize\ttfamily const dfa\+::\+Vocabulary \& REmatch\+Parser\+::get\+Vocabulary (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}}
-
-\mbox{\Hypertarget{classREmatchParser_a64a5f611beb60945c128dc0fada9950c}\label{classREmatchParser_a64a5f611beb60945c128dc0fada9950c}} 
-\index{REmatchParser@{REmatchParser}!group@{group}}
-\index{group@{group}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{group()}{group()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1GroupContext}{REmatch\+Parser\+::\+Group\+Context}} $\ast$ REmatch\+Parser\+::group (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
 \mbox{\Hypertarget{classREmatchParser_a1c2dc5a45a9dd75d38b00fc4840e7ead}\label{classREmatchParser_a1c2dc5a45a9dd75d38b00fc4840e7ead}} 
-\index{REmatchParser@{REmatchParser}!initialize@{initialize}}
-\index{initialize@{initialize}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
-{\footnotesize\ttfamily void REmatch\+Parser\+::initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-\mbox{\Hypertarget{classREmatchParser_a4f9e438167a5b4ec5ac9249c238a0941}\label{classREmatchParser_a4f9e438167a5b4ec5ac9249c238a0941}} 
-\index{REmatchParser@{REmatchParser}!literal@{literal}}
-\index{literal@{literal}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{literal()}{literal()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1LiteralContext}{REmatch\+Parser\+::\+Literal\+Context}} $\ast$ REmatch\+Parser\+::literal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_a108b92b2c84d9c09e310056132b094f6}\label{classREmatchParser_a108b92b2c84d9c09e310056132b094f6}} 
-\index{REmatchParser@{REmatchParser}!number@{number}}
-\index{number@{number}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{number()}{number()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1NumberContext}{REmatch\+Parser\+::\+Number\+Context}} $\ast$ REmatch\+Parser\+::number (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_aedb6ea03f59e573f45ae481ea3aba21e}\label{classREmatchParser_aedb6ea03f59e573f45ae481ea3aba21e}} 
-\index{REmatchParser@{REmatchParser}!other@{other}}
-\index{other@{other}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{other()}{other()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1OtherContext}{REmatch\+Parser\+::\+Other\+Context}} $\ast$ REmatch\+Parser\+::other (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_a10d1ca1c7d26c5936d9b8e5921f2e6b8}\label{classREmatchParser_a10d1ca1c7d26c5936d9b8e5921f2e6b8}} 
-\index{REmatchParser@{REmatchParser}!parentheses@{parentheses}}
-\index{parentheses@{parentheses}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{parentheses()}{parentheses()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1ParenthesesContext}{REmatch\+Parser\+::\+Parentheses\+Context}} $\ast$ REmatch\+Parser\+::parentheses (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_a9b1e8b239a304fdc3be06b36da636524}\label{classREmatchParser_a9b1e8b239a304fdc3be06b36da636524}} 
-\index{REmatchParser@{REmatchParser}!quantExact@{quantExact}}
-\index{quantExact@{quantExact}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{quantExact()}{quantExact()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1QuantExactContext}{REmatch\+Parser\+::\+Quant\+Exact\+Context}} $\ast$ REmatch\+Parser\+::quant\+Exact (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_a87d692c83b69022da650582332c6af26}\label{classREmatchParser_a87d692c83b69022da650582332c6af26}} 
-\index{REmatchParser@{REmatchParser}!quantifier@{quantifier}}
-\index{quantifier@{quantifier}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{quantifier()}{quantifier()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1QuantifierContext}{REmatch\+Parser\+::\+Quantifier\+Context}} $\ast$ REmatch\+Parser\+::quantifier (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_a8fc644f205f9763342e7dfd41419bdd8}\label{classREmatchParser_a8fc644f205f9763342e7dfd41419bdd8}} 
-\index{REmatchParser@{REmatchParser}!quantity@{quantity}}
-\index{quantity@{quantity}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{quantity()}{quantity()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1QuantityContext}{REmatch\+Parser\+::\+Quantity\+Context}} $\ast$ REmatch\+Parser\+::quantity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_ade8c38dfe26ada3ad3f7109aa1c91029}\label{classREmatchParser_ade8c38dfe26ada3ad3f7109aa1c91029}} 
-\index{REmatchParser@{REmatchParser}!quantMax@{quantMax}}
-\index{quantMax@{quantMax}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{quantMax()}{quantMax()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1QuantMaxContext}{REmatch\+Parser\+::\+Quant\+Max\+Context}} $\ast$ REmatch\+Parser\+::quant\+Max (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_aec0941ec0075db71834df6fcc6fce0f0}\label{classREmatchParser_aec0941ec0075db71834df6fcc6fce0f0}} 
-\index{REmatchParser@{REmatchParser}!quantMin@{quantMin}}
-\index{quantMin@{quantMin}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{quantMin()}{quantMin()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1QuantMinContext}{REmatch\+Parser\+::\+Quant\+Min\+Context}} $\ast$ REmatch\+Parser\+::quant\+Min (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_a45b414ecc2471a07e0e74fbd857a1949}\label{classREmatchParser_a45b414ecc2471a07e0e74fbd857a1949}} 
-\index{REmatchParser@{REmatchParser}!quantRange@{quantRange}}
-\index{quantRange@{quantRange}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{quantRange()}{quantRange()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1QuantRangeContext}{REmatch\+Parser\+::\+Quant\+Range\+Context}} $\ast$ REmatch\+Parser\+::quant\+Range (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_aa6159e274584dcd11a8eadb5426959c7}\label{classREmatchParser_aa6159e274584dcd11a8eadb5426959c7}} 
-\index{REmatchParser@{REmatchParser}!root@{root}}
-\index{root@{root}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{root()}{root()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1RootContext}{REmatch\+Parser\+::\+Root\+Context}} $\ast$ REmatch\+Parser\+::root (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_a3f62535e5c624e23a1b09e12ed705fb7}\label{classREmatchParser_a3f62535e5c624e23a1b09e12ed705fb7}} 
-\index{REmatchParser@{REmatchParser}!sharedAtom@{sharedAtom}}
-\index{sharedAtom@{sharedAtom}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{sharedAtom()}{sharedAtom()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1SharedAtomContext}{REmatch\+Parser\+::\+Shared\+Atom\+Context}} $\ast$ REmatch\+Parser\+::shared\+Atom (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_aee7bd28aaa48989a74d649d01b60e747}\label{classREmatchParser_aee7bd28aaa48989a74d649d01b60e747}} 
-\index{REmatchParser@{REmatchParser}!singleSharedAtom@{singleSharedAtom}}
-\index{singleSharedAtom@{singleSharedAtom}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{singleSharedAtom()}{singleSharedAtom()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1SingleSharedAtomContext}{REmatch\+Parser\+::\+Single\+Shared\+Atom\+Context}} $\ast$ REmatch\+Parser\+::single\+Shared\+Atom (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_a142b63211367881ace5bf2ef72597ede}\label{classREmatchParser_a142b63211367881ace5bf2ef72597ede}} 
-\index{REmatchParser@{REmatchParser}!special@{special}}
-\index{special@{special}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{special()}{special()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1SpecialContext}{REmatch\+Parser\+::\+Special\+Context}} $\ast$ REmatch\+Parser\+::special (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classREmatchParser_ab58ee826b9d2647966bebca9e89639f4}\label{classREmatchParser_ab58ee826b9d2647966bebca9e89639f4}} 
-\index{REmatchParser@{REmatchParser}!varname@{varname}}
-\index{varname@{varname}!REmatchParser@{REmatchParser}}
-\doxysubsubsection{\texorpdfstring{varname()}{varname()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classREmatchParser_1_1VarnameContext}{REmatch\+Parser\+::\+Varname\+Context}} $\ast$ REmatch\+Parser\+::varname (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
+static void {\bfseries initialize} ()
+\end{DoxyCompactItemize}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-src/rematch/parsing/grammar/autogenerated/\mbox{\hyperlink{REmatchParser_8h}{REmatch\+Parser.\+h}}\item 
-src/rematch/parsing/grammar/autogenerated/\mbox{\hyperlink{REmatchParser_8cpp}{REmatch\+Parser.\+cpp}}\end{DoxyCompactItemize}
+src/rematch/parsing/grammar/autogenerated/REmatch\+Parser.\+h\item 
+src/rematch/parsing/grammar/autogenerated/REmatch\+Parser.\+cpp\end{DoxyCompactItemize}

@@ -1,187 +1,68 @@
 \hypertarget{classrematch_1_1SearchNFAState}{}\doxysection{rematch\+::Search\+NFAState Class Reference}
 \label{classrematch_1_1SearchNFAState}\index{rematch::SearchNFAState@{rematch::SearchNFAState}}
-
-
-{\ttfamily \#include $<$search\+\_\+nfa\+\_\+state.\+hpp$>$}
-
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classrematch_1_1SearchNFAState_af7573cb1a1c4bf2cb0746186b91b9533}{Search\+NFAState}} ()
+\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a6c663a8a3017715d181fb30709e14d09}\label{classrematch_1_1SearchNFAState_a6c663a8a3017715d181fb30709e14d09}} 
+{\bfseries Search\+NFAState} (const \mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} \&s)
 \item 
-\mbox{\hyperlink{classrematch_1_1SearchNFAState_a6aec56b4fd63f98770ff1abeefda16f4}{$\sim$\+Search\+NFAState}} ()
+\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a5e607baf0d32027faf40f1601cef4080}\label{classrematch_1_1SearchNFAState_a5e607baf0d32027faf40f1601cef4080}} 
+{\bfseries Search\+NFAState} (const \mbox{\hyperlink{classrematch_1_1parsing_1_1LogicalVAState}{Logical\+VAState}} $\ast$state)
 \item 
-\mbox{\hyperlink{classrematch_1_1SearchNFAState_a6c663a8a3017715d181fb30709e14d09}{Search\+NFAState}} (const \mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} \&s)
+\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a9f0d28ba1745a0bb66122202627fb0eb}\label{classrematch_1_1SearchNFAState_a9f0d28ba1745a0bb66122202627fb0eb}} 
+void {\bfseries init} ()
 \item 
-\mbox{\hyperlink{classrematch_1_1SearchNFAState_a5e607baf0d32027faf40f1601cef4080}{Search\+NFAState}} (const \mbox{\hyperlink{classrematch_1_1LogicalVAState}{Logical\+VAState}} $\ast$state)
+\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a1526f45aad2428b216f37aa2115c7535}\label{classrematch_1_1SearchNFAState_a1526f45aad2428b216f37aa2115c7535}} 
+\mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} $\ast$ {\bfseries next\+Filter} (\mbox{\hyperlink{classrematch_1_1parsing_1_1CharClass}{Char\+Class}} charclass)
 \item 
-void \mbox{\hyperlink{classrematch_1_1SearchNFAState_a9f0d28ba1745a0bb66122202627fb0eb}{init}} ()
+\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a812dbdb9c4f310caf229db51e2d9c0c2}\label{classrematch_1_1SearchNFAState_a812dbdb9c4f310caf229db51e2d9c0c2}} 
+void {\bfseries add\+\_\+filter} (\mbox{\hyperlink{classrematch_1_1parsing_1_1CharClass}{Char\+Class}} charclass, \mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} $\ast$next)
 \item 
-\mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} $\ast$ \mbox{\hyperlink{classrematch_1_1SearchNFAState_a1526f45aad2428b216f37aa2115c7535}{next\+Filter}} (\mbox{\hyperlink{classrematch_1_1CharClass}{Char\+Class}} charclass)
+\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a16cbeb0691d9399d6869f0b6eb6ac67c}\label{classrematch_1_1SearchNFAState_a16cbeb0691d9399d6869f0b6eb6ac67c}} 
+bool {\bfseries initial} () const
 \item 
-void \mbox{\hyperlink{classrematch_1_1SearchNFAState_a812dbdb9c4f310caf229db51e2d9c0c2}{add\+\_\+filter}} (\mbox{\hyperlink{classrematch_1_1CharClass}{Char\+Class}} charclass, \mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} $\ast$next)
+\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a118c682ae954bb5ec3817ae44d738dd6}\label{classrematch_1_1SearchNFAState_a118c682ae954bb5ec3817ae44d738dd6}} 
+void {\bfseries set\+\_\+initial} (bool b)
 \item 
-bool \mbox{\hyperlink{classrematch_1_1SearchNFAState_a16cbeb0691d9399d6869f0b6eb6ac67c}{initial}} () const
+\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a7ba592e18e4936f0e3f4021cd5469ff5}\label{classrematch_1_1SearchNFAState_a7ba592e18e4936f0e3f4021cd5469ff5}} 
+bool {\bfseries accepting} () const
 \item 
-void \mbox{\hyperlink{classrematch_1_1SearchNFAState_a118c682ae954bb5ec3817ae44d738dd6}{set\+\_\+initial}} (bool b)
+\mbox{\Hypertarget{classrematch_1_1SearchNFAState_aa909666a5dc2a28ab06cdae1f813f67a}\label{classrematch_1_1SearchNFAState_aa909666a5dc2a28ab06cdae1f813f67a}} 
+void {\bfseries set\+\_\+accepting} (bool b)
 \item 
-bool \mbox{\hyperlink{classrematch_1_1SearchNFAState_a7ba592e18e4936f0e3f4021cd5469ff5}{accepting}} () const
+\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a4773d622b1af7e64c39d8e42703f26a3}\label{classrematch_1_1SearchNFAState_a4773d622b1af7e64c39d8e42703f26a3}} 
+bool {\bfseries super\+\_\+final} () const
 \item 
-void \mbox{\hyperlink{classrematch_1_1SearchNFAState_aa909666a5dc2a28ab06cdae1f813f67a}{set\+\_\+accepting}} (bool b)
-\item 
-bool \mbox{\hyperlink{classrematch_1_1SearchNFAState_a4773d622b1af7e64c39d8e42703f26a3}{super\+\_\+final}} () const
-\item 
-bool \mbox{\hyperlink{classrematch_1_1SearchNFAState_a2e44998aefd6f29c3e833d9ac9c79b76}{operator==}} (const \mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} \&rhs) const
+\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a2e44998aefd6f29c3e833d9ac9c79b76}\label{classrematch_1_1SearchNFAState_a2e44998aefd6f29c3e833d9ac9c79b76}} 
+bool {\bfseries operator==} (const \mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} \&rhs) const
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-bool \mbox{\hyperlink{classrematch_1_1SearchNFAState_abea274dc058ccffe1ade8bfc420dd168}{temp\+Mark}} = false
-\item 
-char \mbox{\hyperlink{classrematch_1_1SearchNFAState_ad0d2068d83440fca88e8e2143275f3c5}{color\+Mark}} = \textquotesingle{}w\textquotesingle{}
-\item 
-uint32\+\_\+t \mbox{\hyperlink{classrematch_1_1SearchNFAState_a7c0e5692373bd44efdd399f918a2c066}{visited\+By}} = 0
-\item 
-uint32\+\_\+t \mbox{\hyperlink{classrematch_1_1SearchNFAState_a0180de9230ed8ca4c8d40c42e80bdca7}{flags}}
-\item 
-unsigned int \mbox{\hyperlink{classrematch_1_1SearchNFAState_af5e6ef26240d3c5677839e69b0eb3881}{id}}
-\item 
-std\+::list$<$ \mbox{\hyperlink{classrematch_1_1SearchNFAFilter}{Search\+NFAFilter}} $\ast$ $>$ \mbox{\hyperlink{classrematch_1_1SearchNFAState_af64868f5e6eeb6f686f73aeaf4531aeb}{filters}}
-\item 
-std\+::list$<$ \mbox{\hyperlink{classrematch_1_1SearchNFAFilter}{Search\+NFAFilter}} $\ast$ $>$ \mbox{\hyperlink{classrematch_1_1SearchNFAState_adc4897fd1312b7aa68741c3e4f086ce8}{backward\+\_\+filters\+\_\+}}
-\end{DoxyCompactItemize}
-
-
-\doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classrematch_1_1SearchNFAState_af7573cb1a1c4bf2cb0746186b91b9533}\label{classrematch_1_1SearchNFAState_af7573cb1a1c4bf2cb0746186b91b9533}} 
-\index{rematch::SearchNFAState@{rematch::SearchNFAState}!SearchNFAState@{SearchNFAState}}
-\index{SearchNFAState@{SearchNFAState}!rematch::SearchNFAState@{rematch::SearchNFAState}}
-\doxysubsubsection{\texorpdfstring{SearchNFAState()}{SearchNFAState()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
-{\footnotesize\ttfamily rematch\+::\+Search\+NFAState\+::\+Search\+NFAState (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a6aec56b4fd63f98770ff1abeefda16f4}\label{classrematch_1_1SearchNFAState_a6aec56b4fd63f98770ff1abeefda16f4}} 
-\index{rematch::SearchNFAState@{rematch::SearchNFAState}!````~SearchNFAState@{$\sim$SearchNFAState}}
-\index{````~SearchNFAState@{$\sim$SearchNFAState}!rematch::SearchNFAState@{rematch::SearchNFAState}}
-\doxysubsubsection{\texorpdfstring{$\sim$SearchNFAState()}{~SearchNFAState()}}
-{\footnotesize\ttfamily rematch\+::\+Search\+NFAState\+::$\sim$\+Search\+NFAState (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a6c663a8a3017715d181fb30709e14d09}\label{classrematch_1_1SearchNFAState_a6c663a8a3017715d181fb30709e14d09}} 
-\index{rematch::SearchNFAState@{rematch::SearchNFAState}!SearchNFAState@{SearchNFAState}}
-\index{SearchNFAState@{SearchNFAState}!rematch::SearchNFAState@{rematch::SearchNFAState}}
-\doxysubsubsection{\texorpdfstring{SearchNFAState()}{SearchNFAState()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
-{\footnotesize\ttfamily rematch\+::\+Search\+NFAState\+::\+Search\+NFAState (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} \&}]{s }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a5e607baf0d32027faf40f1601cef4080}\label{classrematch_1_1SearchNFAState_a5e607baf0d32027faf40f1601cef4080}} 
-\index{rematch::SearchNFAState@{rematch::SearchNFAState}!SearchNFAState@{SearchNFAState}}
-\index{SearchNFAState@{SearchNFAState}!rematch::SearchNFAState@{rematch::SearchNFAState}}
-\doxysubsubsection{\texorpdfstring{SearchNFAState()}{SearchNFAState()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
-{\footnotesize\ttfamily rematch\+::\+Search\+NFAState\+::\+Search\+NFAState (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classrematch_1_1LogicalVAState}{Logical\+VAState}} $\ast$}]{state }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
-
-
-
-\doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a7ba592e18e4936f0e3f4021cd5469ff5}\label{classrematch_1_1SearchNFAState_a7ba592e18e4936f0e3f4021cd5469ff5}} 
-\index{rematch::SearchNFAState@{rematch::SearchNFAState}!accepting@{accepting}}
-\index{accepting@{accepting}!rematch::SearchNFAState@{rematch::SearchNFAState}}
-\doxysubsubsection{\texorpdfstring{accepting()}{accepting()}}
-{\footnotesize\ttfamily bool rematch\+::\+Search\+NFAState\+::accepting (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
-
-\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a812dbdb9c4f310caf229db51e2d9c0c2}\label{classrematch_1_1SearchNFAState_a812dbdb9c4f310caf229db51e2d9c0c2}} 
-\index{rematch::SearchNFAState@{rematch::SearchNFAState}!add\_filter@{add\_filter}}
-\index{add\_filter@{add\_filter}!rematch::SearchNFAState@{rematch::SearchNFAState}}
-\doxysubsubsection{\texorpdfstring{add\_filter()}{add\_filter()}}
-{\footnotesize\ttfamily void rematch\+::\+Search\+NFAState\+::add\+\_\+filter (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrematch_1_1CharClass}{Char\+Class}}}]{charclass,  }\item[{\mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} $\ast$}]{next }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a9f0d28ba1745a0bb66122202627fb0eb}\label{classrematch_1_1SearchNFAState_a9f0d28ba1745a0bb66122202627fb0eb}} 
-\index{rematch::SearchNFAState@{rematch::SearchNFAState}!init@{init}}
-\index{init@{init}!rematch::SearchNFAState@{rematch::SearchNFAState}}
-\doxysubsubsection{\texorpdfstring{init()}{init()}}
-{\footnotesize\ttfamily void rematch\+::\+Search\+NFAState\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a16cbeb0691d9399d6869f0b6eb6ac67c}\label{classrematch_1_1SearchNFAState_a16cbeb0691d9399d6869f0b6eb6ac67c}} 
-\index{rematch::SearchNFAState@{rematch::SearchNFAState}!initial@{initial}}
-\index{initial@{initial}!rematch::SearchNFAState@{rematch::SearchNFAState}}
-\doxysubsubsection{\texorpdfstring{initial()}{initial()}}
-{\footnotesize\ttfamily bool rematch\+::\+Search\+NFAState\+::initial (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
-
-\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a1526f45aad2428b216f37aa2115c7535}\label{classrematch_1_1SearchNFAState_a1526f45aad2428b216f37aa2115c7535}} 
-\index{rematch::SearchNFAState@{rematch::SearchNFAState}!nextFilter@{nextFilter}}
-\index{nextFilter@{nextFilter}!rematch::SearchNFAState@{rematch::SearchNFAState}}
-\doxysubsubsection{\texorpdfstring{nextFilter()}{nextFilter()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} $\ast$ rematch\+::\+Search\+NFAState\+::next\+Filter (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classrematch_1_1CharClass}{Char\+Class}}}]{charclass }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a2e44998aefd6f29c3e833d9ac9c79b76}\label{classrematch_1_1SearchNFAState_a2e44998aefd6f29c3e833d9ac9c79b76}} 
-\index{rematch::SearchNFAState@{rematch::SearchNFAState}!operator==@{operator==}}
-\index{operator==@{operator==}!rematch::SearchNFAState@{rematch::SearchNFAState}}
-\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
-{\footnotesize\ttfamily bool rematch\+::\+Search\+NFAState\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classrematch_1_1SearchNFAState}{Search\+NFAState}} \&}]{rhs }\end{DoxyParamCaption}) const}
-
-\mbox{\Hypertarget{classrematch_1_1SearchNFAState_aa909666a5dc2a28ab06cdae1f813f67a}\label{classrematch_1_1SearchNFAState_aa909666a5dc2a28ab06cdae1f813f67a}} 
-\index{rematch::SearchNFAState@{rematch::SearchNFAState}!set\_accepting@{set\_accepting}}
-\index{set\_accepting@{set\_accepting}!rematch::SearchNFAState@{rematch::SearchNFAState}}
-\doxysubsubsection{\texorpdfstring{set\_accepting()}{set\_accepting()}}
-{\footnotesize\ttfamily void rematch\+::\+Search\+NFAState\+::set\+\_\+accepting (\begin{DoxyParamCaption}\item[{bool}]{b }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a118c682ae954bb5ec3817ae44d738dd6}\label{classrematch_1_1SearchNFAState_a118c682ae954bb5ec3817ae44d738dd6}} 
-\index{rematch::SearchNFAState@{rematch::SearchNFAState}!set\_initial@{set\_initial}}
-\index{set\_initial@{set\_initial}!rematch::SearchNFAState@{rematch::SearchNFAState}}
-\doxysubsubsection{\texorpdfstring{set\_initial()}{set\_initial()}}
-{\footnotesize\ttfamily void rematch\+::\+Search\+NFAState\+::set\+\_\+initial (\begin{DoxyParamCaption}\item[{bool}]{b }\end{DoxyParamCaption})}
-
-\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a4773d622b1af7e64c39d8e42703f26a3}\label{classrematch_1_1SearchNFAState_a4773d622b1af7e64c39d8e42703f26a3}} 
-\index{rematch::SearchNFAState@{rematch::SearchNFAState}!super\_final@{super\_final}}
-\index{super\_final@{super\_final}!rematch::SearchNFAState@{rematch::SearchNFAState}}
-\doxysubsubsection{\texorpdfstring{super\_final()}{super\_final()}}
-{\footnotesize\ttfamily bool rematch\+::\+Search\+NFAState\+::super\+\_\+final (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
-
-
-
-\doxysubsection{Member Data Documentation}
-\mbox{\Hypertarget{classrematch_1_1SearchNFAState_adc4897fd1312b7aa68741c3e4f086ce8}\label{classrematch_1_1SearchNFAState_adc4897fd1312b7aa68741c3e4f086ce8}} 
-\index{rematch::SearchNFAState@{rematch::SearchNFAState}!backward\_filters\_@{backward\_filters\_}}
-\index{backward\_filters\_@{backward\_filters\_}!rematch::SearchNFAState@{rematch::SearchNFAState}}
-\doxysubsubsection{\texorpdfstring{backward\_filters\_}{backward\_filters\_}}
-{\footnotesize\ttfamily std\+::list$<$\mbox{\hyperlink{classrematch_1_1SearchNFAFilter}{Search\+NFAFilter}}$\ast$$>$ rematch\+::\+Search\+NFAState\+::backward\+\_\+filters\+\_\+}
-
-\mbox{\Hypertarget{classrematch_1_1SearchNFAState_ad0d2068d83440fca88e8e2143275f3c5}\label{classrematch_1_1SearchNFAState_ad0d2068d83440fca88e8e2143275f3c5}} 
-\index{rematch::SearchNFAState@{rematch::SearchNFAState}!colorMark@{colorMark}}
-\index{colorMark@{colorMark}!rematch::SearchNFAState@{rematch::SearchNFAState}}
-\doxysubsubsection{\texorpdfstring{colorMark}{colorMark}}
-{\footnotesize\ttfamily char rematch\+::\+Search\+NFAState\+::color\+Mark = \textquotesingle{}w\textquotesingle{}}
-
-\mbox{\Hypertarget{classrematch_1_1SearchNFAState_af64868f5e6eeb6f686f73aeaf4531aeb}\label{classrematch_1_1SearchNFAState_af64868f5e6eeb6f686f73aeaf4531aeb}} 
-\index{rematch::SearchNFAState@{rematch::SearchNFAState}!filters@{filters}}
-\index{filters@{filters}!rematch::SearchNFAState@{rematch::SearchNFAState}}
-\doxysubsubsection{\texorpdfstring{filters}{filters}}
-{\footnotesize\ttfamily std\+::list$<$\mbox{\hyperlink{classrematch_1_1SearchNFAFilter}{Search\+NFAFilter}}$\ast$$>$ rematch\+::\+Search\+NFAState\+::filters}
-
-\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a0180de9230ed8ca4c8d40c42e80bdca7}\label{classrematch_1_1SearchNFAState_a0180de9230ed8ca4c8d40c42e80bdca7}} 
-\index{rematch::SearchNFAState@{rematch::SearchNFAState}!flags@{flags}}
-\index{flags@{flags}!rematch::SearchNFAState@{rematch::SearchNFAState}}
-\doxysubsubsection{\texorpdfstring{flags}{flags}}
-{\footnotesize\ttfamily uint32\+\_\+t rematch\+::\+Search\+NFAState\+::flags}
-
-\mbox{\Hypertarget{classrematch_1_1SearchNFAState_af5e6ef26240d3c5677839e69b0eb3881}\label{classrematch_1_1SearchNFAState_af5e6ef26240d3c5677839e69b0eb3881}} 
-\index{rematch::SearchNFAState@{rematch::SearchNFAState}!id@{id}}
-\index{id@{id}!rematch::SearchNFAState@{rematch::SearchNFAState}}
-\doxysubsubsection{\texorpdfstring{id}{id}}
-{\footnotesize\ttfamily unsigned int rematch\+::\+Search\+NFAState\+::id}
-
 \mbox{\Hypertarget{classrematch_1_1SearchNFAState_abea274dc058ccffe1ade8bfc420dd168}\label{classrematch_1_1SearchNFAState_abea274dc058ccffe1ade8bfc420dd168}} 
-\index{rematch::SearchNFAState@{rematch::SearchNFAState}!tempMark@{tempMark}}
-\index{tempMark@{tempMark}!rematch::SearchNFAState@{rematch::SearchNFAState}}
-\doxysubsubsection{\texorpdfstring{tempMark}{tempMark}}
-{\footnotesize\ttfamily bool rematch\+::\+Search\+NFAState\+::temp\+Mark = false}
-
+bool {\bfseries temp\+Mark} = false
+\item 
+\mbox{\Hypertarget{classrematch_1_1SearchNFAState_ad0d2068d83440fca88e8e2143275f3c5}\label{classrematch_1_1SearchNFAState_ad0d2068d83440fca88e8e2143275f3c5}} 
+char {\bfseries color\+Mark} = \textquotesingle{}w\textquotesingle{}
+\item 
 \mbox{\Hypertarget{classrematch_1_1SearchNFAState_a7c0e5692373bd44efdd399f918a2c066}\label{classrematch_1_1SearchNFAState_a7c0e5692373bd44efdd399f918a2c066}} 
-\index{rematch::SearchNFAState@{rematch::SearchNFAState}!visitedBy@{visitedBy}}
-\index{visitedBy@{visitedBy}!rematch::SearchNFAState@{rematch::SearchNFAState}}
-\doxysubsubsection{\texorpdfstring{visitedBy}{visitedBy}}
-{\footnotesize\ttfamily uint32\+\_\+t rematch\+::\+Search\+NFAState\+::visited\+By = 0}
-
+uint32\+\_\+t {\bfseries visited\+By} = 0
+\item 
+\mbox{\Hypertarget{classrematch_1_1SearchNFAState_a0180de9230ed8ca4c8d40c42e80bdca7}\label{classrematch_1_1SearchNFAState_a0180de9230ed8ca4c8d40c42e80bdca7}} 
+uint32\+\_\+t {\bfseries flags}
+\item 
+\mbox{\Hypertarget{classrematch_1_1SearchNFAState_af5e6ef26240d3c5677839e69b0eb3881}\label{classrematch_1_1SearchNFAState_af5e6ef26240d3c5677839e69b0eb3881}} 
+unsigned int {\bfseries id}
+\item 
+\mbox{\Hypertarget{classrematch_1_1SearchNFAState_af64868f5e6eeb6f686f73aeaf4531aeb}\label{classrematch_1_1SearchNFAState_af64868f5e6eeb6f686f73aeaf4531aeb}} 
+std\+::list$<$ \mbox{\hyperlink{classrematch_1_1SearchNFAFilter}{Search\+NFAFilter}} $\ast$ $>$ {\bfseries filters}
+\item 
+\mbox{\Hypertarget{classrematch_1_1SearchNFAState_adc4897fd1312b7aa68741c3e4f086ce8}\label{classrematch_1_1SearchNFAState_adc4897fd1312b7aa68741c3e4f086ce8}} 
+std\+::list$<$ \mbox{\hyperlink{classrematch_1_1SearchNFAFilter}{Search\+NFAFilter}} $\ast$ $>$ {\bfseries backward\+\_\+filters\+\_\+}
+\end{DoxyCompactItemize}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-src/rematch/filtering\+\_\+module/search\+\_\+variable\+\_\+set\+\_\+automaton/nfa/\mbox{\hyperlink{search__nfa__state_8hpp}{search\+\_\+nfa\+\_\+state.\+hpp}}\item 
-src/rematch/filtering\+\_\+module/search\+\_\+variable\+\_\+set\+\_\+automaton/nfa/\mbox{\hyperlink{search__nfa__state_8cpp}{search\+\_\+nfa\+\_\+state.\+cpp}}\end{DoxyCompactItemize}
+src/rematch/filtering\+\_\+module/search\+\_\+variable\+\_\+set\+\_\+automaton/nfa/search\+\_\+nfa\+\_\+state.\+hpp\item 
+src/rematch/filtering\+\_\+module/search\+\_\+variable\+\_\+set\+\_\+automaton/nfa/search\+\_\+nfa\+\_\+state.\+cpp\end{DoxyCompactItemize}

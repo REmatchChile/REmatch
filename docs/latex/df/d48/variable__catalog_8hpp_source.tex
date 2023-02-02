@@ -1,0 +1,88 @@
+\hypertarget{variable__catalog_8hpp_source}{}\doxysection{variable\+\_\+catalog.\+hpp}
+\label{variable__catalog_8hpp_source}\index{src/rematch/parsing/variable\_catalog.hpp@{src/rematch/parsing/variable\_catalog.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ VARIABLE\_FACTORIES\_HPP}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ VARIABLE\_FACTORIES\_HPP}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <unordered\_set>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <ostream>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <bitset>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{namespace\ }rematch\ \{}
+\DoxyCodeLine{00017\ \textcolor{keyword}{inline}\ \textcolor{keyword}{namespace\ }parsing\ \{}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ MAX\_VARS\ =\ 15;}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ Manager\ of\ the\ parsed\ RGX\ formula\ variables\ where\ each\ variable\ name}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//\ has\ a\ corresponding\ code.}}
+\DoxyCodeLine{00023\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrematch_1_1parsing_1_1VariableCatalog}{VariableCatalog}}\ \{}
+\DoxyCodeLine{00024\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00025\ \ \ \textcolor{comment}{//\ Simple\ constructor}}
+\DoxyCodeLine{00026\ \ \ \mbox{\hyperlink{classrematch_1_1parsing_1_1VariableCatalog}{VariableCatalog}}();}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \textcolor{keywordtype}{size\_t}\ size()\ \{\textcolor{keywordflow}{return}\ data\_.size();\}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ std::string\ get\_var(uint\ position);}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ std::vector<std::string>\ variables()\ \{\textcolor{keywordflow}{return}\ data\_;\}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \textcolor{keywordtype}{int}\ position(std::string\ var)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \textcolor{comment}{//\ Add\ a\ variable\ to\ the\ struct}}
+\DoxyCodeLine{00037\ \ \ \textcolor{keywordtype}{void}\ add(std::string\ var);}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \textcolor{comment}{//\ Given\ a\ variable\ name\ outputs\ the\ corresponding\ opening\ bitset}}
+\DoxyCodeLine{00040\ \ \ std::bitset<64>\ open\_code(std::string\ var);}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \textcolor{comment}{//\ Given\ a\ variable\ name\ outputs\ the\ corresponding\ closing\ bitset}}
+\DoxyCodeLine{00043\ \ \ std::bitset<64>\ close\_code(std::string\ var);}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \textcolor{comment}{//\ Given\ a\ bitset\ outputs\ the\ corresponding\ opening\ and\ closing\ variables}}
+\DoxyCodeLine{00046\ \ \ \textcolor{comment}{//\ as\ a\ std::string}}
+\DoxyCodeLine{00047\ \ \ std::string\ print\_varset(std::bitset<64>\ code);}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \textcolor{comment}{//\ Prints\ the\ hash\ table}}
+\DoxyCodeLine{00050\ \ \ std::string\ pprint();}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \textcolor{comment}{//\ Merges\ the\ variables\ present\ in\ another\ VariableCatalog\ inplace}}
+\DoxyCodeLine{00053\ \ \ \textcolor{keywordtype}{void}\ merge(\mbox{\hyperlink{classrematch_1_1parsing_1_1VariableCatalog}{VariableCatalog}}\ \&rhs);}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \textcolor{comment}{//\ Checks\ if\ a\ variable\ name\ is\ present}}
+\DoxyCodeLine{00056\ \ \ \textcolor{keywordtype}{bool}\ contains(std::string\ var);}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \textcolor{keywordtype}{bool}\ empty();}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \textcolor{comment}{//\ Equality\ operator\ overload}}
+\DoxyCodeLine{00061\ \ \ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ \mbox{\hyperlink{classrematch_1_1parsing_1_1VariableCatalog}{VariableCatalog}}\ \&vf)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \textcolor{keywordtype}{int}\&\ get\_offset(\textcolor{keywordtype}{int}\ index)\ \{\textcolor{keywordflow}{return}\ offsetMap[index];\}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00066\ \ \ \textcolor{comment}{//\ Ordered\ vector\ that\ stores\ the\ variables.}}
+\DoxyCodeLine{00067\ \ \ std::vector<std::string>\ data\_;}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \textcolor{comment}{//\ Offset\ capturing\ optimization.\ Maps\ each\ opening\ and\ closing}}
+\DoxyCodeLine{00070\ \ \ \textcolor{comment}{//\ capture\ variable\ to\ its\ computed\ offset.\ Then\ it's\ a\ vector\ of\ size}}
+\DoxyCodeLine{00071\ \ \ \textcolor{comment}{//\ numVars*2.\ The\ vector\ is\ such\ that:}}
+\DoxyCodeLine{00072\ \ \ \textcolor{comment}{//\ \ \ \ -\/\ offsetMap[2*c]\ \ \ \ \ \ \ \ \ is\ the\ opening\ (x<)\ offset.}}
+\DoxyCodeLine{00073\ \ \ \textcolor{comment}{//\ \ \ \ -\/\ offsetMap[2*c\ +\ 1]\ \ \ \ \ is\ the\ closing\ (x>)\ offset.}}
+\DoxyCodeLine{00074\ \ \ std::vector<int>\ offsetMap;}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \textcolor{keywordtype}{bool}\ computedOffsets;\ \textcolor{comment}{//\ True\ iff\ offsetMap\ was\ computed.}}
+\DoxyCodeLine{00077\ \};}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \}}
+\DoxyCodeLine{00080\ \}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

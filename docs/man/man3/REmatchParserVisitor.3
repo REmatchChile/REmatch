@@ -1,4 +1,4 @@
-.TH "REmatchParserVisitor" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.TH "REmatchParserVisitor" 3 "Tue Jan 31 2023" "Version 1" "Rematch" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -110,124 +110,12 @@ Inherited by \fBREmatchParserBaseVisitor\fP\&.
 This class defines an abstract visitor for a parse tree produced by \fBREmatchParser\fP\&. 
 .SH "Member Function Documentation"
 .PP 
-.SS "virtual std::any REmatchParserVisitor::visitAlternation (\fBREmatchParser::AlternationContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitAssignation (\fBREmatchParser::AssignationContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitAtom (\fBREmatchParser::AtomContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitCcAtom (\fBREmatchParser::CcAtomContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitCcEscapes (\fBREmatchParser::CcEscapesContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitCcLiteral (\fBREmatchParser::CcLiteralContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitCcOther (\fBREmatchParser::CcOtherContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitCcRange (\fBREmatchParser::CcRangeContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitCcSingle (\fBREmatchParser::CcSingleContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitCharacterClass (\fBREmatchParser::CharacterClassContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitElement (\fBREmatchParser::ElementContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitEscapes (\fBREmatchParser::EscapesContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitExpr (\fBREmatchParser::ExprContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitGroup (\fBREmatchParser::GroupContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitLiteral (\fBREmatchParser::LiteralContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitNumber (\fBREmatchParser::NumberContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitOther (\fBREmatchParser::OtherContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitParentheses (\fBREmatchParser::ParenthesesContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitQuantExact (\fBREmatchParser::QuantExactContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitQuantifier (\fBREmatchParser::QuantifierContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitQuantity (\fBREmatchParser::QuantityContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitQuantMax (\fBREmatchParser::QuantMaxContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitQuantMin (\fBREmatchParser::QuantMinContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitQuantRange (\fBREmatchParser::QuantRangeContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
 .SS "virtual std::any REmatchParserVisitor::visitRoot (\fBREmatchParser::RootContext\fP * context)\fC [pure virtual]\fP"
 
 .PP
 Visit parse trees produced by \fBREmatchParser\fP\&. 
 .PP
-Implemented in \fBREmatchParserBaseVisitor\fP, and \fBrematch::visitors::VariableFactoryVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitSharedAtom (\fBREmatchParser::SharedAtomContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitSingleSharedAtom (\fBREmatchParser::SingleSharedAtomContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitSpecial (\fBREmatchParser::SpecialContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
-.SS "virtual std::any REmatchParserVisitor::visitVarname (\fBREmatchParser::VarnameContext\fP * context)\fC [pure virtual]\fP"
-
-.PP
-Implemented in \fBREmatchParserBaseVisitor\fP\&.
+Implemented in \fBREmatchParserBaseVisitor\fP, and \fBrematch::visitors::VariableCatalogVisitor\fP\&.
 
 .SH "Author"
 .PP 
