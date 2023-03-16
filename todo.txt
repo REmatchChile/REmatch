@@ -1,0 +1,51 @@
+1. integrate the segment identification part.
+
+change variable factory to variable catalog
+
+- Change filter factory to Charclass factory
+
+- tratar de eliminar los shared pointer y los unique pointers.
+
+Logical_va:
+
+TODO: Change representation of states to a list of the form:
+            (initial, type of transition, final) [epic]
+
+TODO: When going back on the DFS of the ECS, instead of popping back to the last
+      union, there should be a management of an index where the last union was
+      done, therefore overwriting instead of deleting.
+
+TODO: Add testing to charclass ***
+
+
+TODO: Tal vez crear un template de char_class para que se use el mismo
+      en char_class_visitor.hpp y en char_class del estado del LVA.
+
+TODO: Sobre ExtendedVA:
+        Diferencia entre ExtendedVA y logical_va:
+        ExtendedVA no permite epsilon transitions
+
+(Maybe) desacoplar las transformaciones de los automatas.
+
+Idea for methods in automatta:
+###################################################
+# template <typedef T>                            #
+# <T> Transformer::remove_epsilon<T>(logical_va); #
+###################################################
+
+TODO (Kyle): write comments in rematch.hpp.
+
+TODO (Kyle): Test connection of ECS and segment_evaluator
+
+
+TODO: Conectar con el algoritmo:
+        1. incorporar ExtendedVA. (Tal vez nico)
+            auto extended_va = ExtendedVA(LogicalVA);
+        2. Hacer la determinizacion del ExtendedVA
+        3. Algoritmo
+            - Nico: Yo me echaria la distincion entre los tipos de transiciones.
+                    - Son tags que se ponian en las transiciones.
+
+POST version alpha:
+    - Conectar CharClass del ANTLR visitor con el charclass de las transiciones.
+    - Package manager con CMAKE (vcpackage)
