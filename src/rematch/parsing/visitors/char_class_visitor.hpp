@@ -426,11 +426,27 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
 
   std::any visitElement(REmatchParser::ElementContext *ctx) override {
     // Build the automaton for the group
-    visit(ctx->group());
-    // Apply the quantifier
-    auto quantifier = ctx->quantifier();
-    if (quantifier) {
-      visit(quantifier);
+    if (ctx->group()) {
+      visit(ctx->group());
+      // Apply the quantifier
+      auto quantifier = ctx->quantifier();
+      if (quantifier) {
+        visit(quantifier);
+      }
+    }
+
+    else if (ctx->anchoring()) {
+      visit(ctx->anchoring());
+    }
+
+    return 0;
+  }
+
+  std::any visitAnchoring(REmatchParser::AnchoringContext *ctx) override {
+    if (ctx->anchorStart()) {
+      lva_ptr->set_start_anchor(true);
+    } else if (ctx->anchorEnd()) {
+      lva_ptr->set_end_anchor(true);
     }
 
     return 0;

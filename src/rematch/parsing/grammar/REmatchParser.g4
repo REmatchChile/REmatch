@@ -10,7 +10,7 @@ alternation: expr ('|' expr)*;
 
 expr: element+;
 
-element: group quantifier?;
+element: anchoring | group quantifier?;
 
 group: parentheses | assignation | atom;
 
@@ -46,6 +46,8 @@ escapes:
     | '|'
     | '.'
     | '\\'
+    | '^'
+    | '$'
   );
 special:
   DOT
@@ -67,6 +69,8 @@ other:
     | '?'
     | '|'
     | '\\'
+    | '^'
+    | '$'
   );
 
 sharedAtom:
@@ -85,3 +89,8 @@ quantMin: number ',';
 quantMax: ',' number;
 
 number: DIGIT+;
+
+anchoring: anchorStart | anchorEnd;
+
+anchorStart: '^';
+anchorEnd: '$';

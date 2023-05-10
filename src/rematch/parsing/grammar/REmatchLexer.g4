@@ -34,5 +34,6 @@ BACKSLASH: '\\';
 ALPHA: [A-Za-z];
 DIGIT: [0-9];
 DOT: '.';
+DOLLAR: '$';
 
 UNRECOGNIZED: .;

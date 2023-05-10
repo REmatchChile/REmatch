@@ -83,4 +83,18 @@ TEST_CASE("the regex '.α' has 13 states  (after minimization)") {
   REQUIRE(va.initial_state()->filters.size() == 4);
 }
 
+TEST_CASE("the regex '^a' has start anchor") {
+  Parser parser = Parser("^a");
+  rematch::LogicalVA va = parser.get_logical_va();
+  REQUIRE(va.has_start_anchor());
+  REQUIRE(!va.has_end_anchor());
+}
+
+TEST_CASE("the regex 'a$' has end anchor") {
+  Parser parser = Parser("a$");
+  rematch::LogicalVA va = parser.get_logical_va();
+  REQUIRE(!va.has_end_anchor());
+  REQUIRE(!va.has_start_anchor());
+}
+
 }  // namespace rematch::testing

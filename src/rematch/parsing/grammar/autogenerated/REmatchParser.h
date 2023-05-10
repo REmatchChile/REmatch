@@ -1,5 +1,5 @@
 
-// Generated from REmatchParser.g4 by ANTLR 4.11.1
+// Generated from REmatchParser.g4 by ANTLR 4.12.0
 
 #pragma once
 
@@ -17,7 +17,7 @@ public:
     NEWLINE = 9, VERTICAL_WHITESPACE = 10, FORM_FEED = 11, PIPE = 12, EXCLAMAITON = 13, 
     L_CURLY = 14, R_CURLY = 15, L_PAR = 16, R_PAR = 17, COMMA = 18, QUESTION = 19, 
     PLUS = 20, STAR = 21, HAT = 22, HYPHEN = 23, L_BRACK = 24, R_BRACK = 25, 
-    BACKSLASH = 26, ALPHA = 27, DIGIT = 28, DOT = 29, UNRECOGNIZED = 30
+    BACKSLASH = 26, ALPHA = 27, DIGIT = 28, DOT = 29, DOLLAR = 30, UNRECOGNIZED = 31
   };
 
   enum {
@@ -27,7 +27,8 @@ public:
     RuleCcLiteral = 13, RuleCcEscapes = 14, RuleCcOther = 15, RuleSingleSharedAtom = 16, 
     RuleLiteral = 17, RuleEscapes = 18, RuleSpecial = 19, RuleOther = 20, 
     RuleSharedAtom = 21, RuleQuantifier = 22, RuleQuantity = 23, RuleQuantExact = 24, 
-    RuleQuantRange = 25, RuleQuantMin = 26, RuleQuantMax = 27, RuleNumber = 28
+    RuleQuantRange = 25, RuleQuantMin = 26, RuleQuantMax = 27, RuleNumber = 28, 
+    RuleAnchoring = 29, RuleAnchorStart = 30, RuleAnchorEnd = 31
   };
 
   explicit REmatchParser(antlr4::TokenStream *input);
@@ -75,7 +76,10 @@ public:
   class QuantRangeContext;
   class QuantMinContext;
   class QuantMaxContext;
-  class NumberContext; 
+  class NumberContext;
+  class AnchoringContext;
+  class AnchorStartContext;
+  class AnchorEndContext; 
 
   class  RootContext : public antlr4::ParserRuleContext {
   public:
@@ -125,6 +129,7 @@ public:
   public:
     ElementContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
+    AnchoringContext *anchoring();
     GroupContext *group();
     QuantifierContext *quantifier();
 
@@ -365,6 +370,8 @@ public:
     antlr4::tree::TerminalNode *QUESTION();
     antlr4::tree::TerminalNode *PIPE();
     antlr4::tree::TerminalNode *DOT();
+    antlr4::tree::TerminalNode *HAT();
+    antlr4::tree::TerminalNode *DOLLAR();
 
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
@@ -406,6 +413,8 @@ public:
     antlr4::tree::TerminalNode *QUESTION();
     antlr4::tree::TerminalNode *PIPE();
     antlr4::tree::TerminalNode *BACKSLASH();
+    antlr4::tree::TerminalNode *HAT();
+    antlr4::tree::TerminalNode *DOLLAR();
 
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
@@ -535,6 +544,46 @@ public:
   };
 
   NumberContext* number();
+
+  class  AnchoringContext : public antlr4::ParserRuleContext {
+  public:
+    AnchoringContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    AnchorStartContext *anchorStart();
+    AnchorEndContext *anchorEnd();
+
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AnchoringContext* anchoring();
+
+  class  AnchorStartContext : public antlr4::ParserRuleContext {
+  public:
+    AnchorStartContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *HAT();
+
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AnchorStartContext* anchorStart();
+
+  class  AnchorEndContext : public antlr4::ParserRuleContext {
+  public:
+    AnchorEndContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *DOLLAR();
+
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AnchorEndContext* anchorEnd();
 
 
   // By default the static state used to implement the parser is lazily initialized during the first
