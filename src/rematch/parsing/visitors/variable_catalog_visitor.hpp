@@ -28,7 +28,7 @@ public:
   }
 private:
   std::any visitAlternation(REmatchParser::AlternationContext *ctx) override {
-    VARIABLE_CATALOG_VISITOR__INFO("visitAlternation");
+    VARIABLE_CATALOG_VISITOR__INFO("visitAlternation" << std::endl;);
     std::any vfact = visit(ctx->expr().front());
     VariableCatalog &vfact_cast = std::any_cast<VariableCatalog &>(vfact);
 
@@ -45,7 +45,7 @@ private:
   }
 
   std::any visitExpr(REmatchParser::ExprContext *ctx) override {
-    VARIABLE_CATALOG_VISITOR__INFO("visitExpr");
+    VARIABLE_CATALOG_VISITOR__INFO("visitExpr" << std::endl;);
     std::any vfact = visit(ctx->element().front());
     VariableCatalog &vfact_cast = std::any_cast<VariableCatalog &>(vfact);
 
@@ -62,12 +62,12 @@ private:
   }
 
   std::any visitElement(REmatchParser::ElementContext *ctx) override {
-    VARIABLE_CATALOG_VISITOR__INFO("visitElement");
+    VARIABLE_CATALOG_VISITOR__INFO("visitElement" << std::endl;);
     return visit(ctx->group());
   }
 
   std::any visitGroup(REmatchParser::GroupContext *ctx) override {
-    VARIABLE_CATALOG_VISITOR__INFO("visitGroup");
+    VARIABLE_CATALOG_VISITOR__INFO("visitGroup" << std::endl;);
     std::any vfact;
 
     if (ctx->parentheses()) {
@@ -82,12 +82,12 @@ private:
   }
 
   std::any visitParentheses(REmatchParser::ParenthesesContext *ctx) override {
-    VARIABLE_CATALOG_VISITOR__INFO("visitParentheses");
+    VARIABLE_CATALOG_VISITOR__INFO("visitParentheses" << std::endl;);
     return visit(ctx->alternation());
   }
 
   std::any visitAssignation(REmatchParser::AssignationContext *ctx) override {
-    VARIABLE_CATALOG_VISITOR__INFO("visitAssignation");
+    VARIABLE_CATALOG_VISITOR__INFO("visitAssignation" << std::endl;);
     std::any vfact = visit(ctx->alternation());
     VariableCatalog &vfact_cast = std::any_cast<VariableCatalog &>(vfact);
 
@@ -101,7 +101,7 @@ private:
   }
 
   std::any visitAtom(REmatchParser::AtomContext*) override {
-    VARIABLE_CATALOG_VISITOR__INFO("visitAtom");
+    VARIABLE_CATALOG_VISITOR__INFO("visitAtom" << std::endl;);
     return std::make_any<VariableCatalog>();
   }
 };
