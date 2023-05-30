@@ -86,15 +86,49 @@ TEST_CASE("the regex '.α' has 13 states  (after minimization)") {
 TEST_CASE("the regex '^a' has start anchor") {
   Parser parser = Parser("^a");
   rematch::LogicalVA va = parser.get_logical_va();
-  REQUIRE(va.has_start_anchor());
-  REQUIRE(!va.has_end_anchor());
+
+  INFO(va.states.size());
+  INFO(va.initial_state()->anchors.size());
+  REQUIRE(va.initial_state()->anchors.size() == 1);
+  REQUIRE(va.initial_state()->anchors.front()->is_start() == true);
 }
 
 TEST_CASE("the regex 'a$' has end anchor") {
   Parser parser = Parser("a$");
   rematch::LogicalVA va = parser.get_logical_va();
-  REQUIRE(!va.has_end_anchor());
-  REQUIRE(!va.has_start_anchor());
+
+  INFO(va.states.size());
+  INFO(va.initial_state()->anchors.size());
+  REQUIRE(va.initial_state()->anchors.size() == 0);
+  REQUIRE(va.accepting_state()->backward_anchors_.size() == 1);
+  REQUIRE(va.accepting_state()->backward_anchors_.front()->is_start() == false);
+}
+
+TEST_CASE("the anchor in the regex '(^|a)' is parsed correctly") {
+  Parser parser = Parser("(^|a)");
+  rematch::LogicalVA va = parser.get_logical_va();
+
+  INFO(va.states.size());
+
+  LogicalVAState* initial_state = va.initial_state();
+  REQUIRE(initial_state->epsilons.size() == 2);
+
+  LogicalVAState* second_state = initial_state->epsilons.front()->next;
+  REQUIRE(second_state->anchors.size() == 1);
+  REQUIRE(second_state->anchors.front()->is_start());
+}
+
+TEST_CASE("the anchor in the regex !x{^a} is parsed correctly") {
+  Parser parser = Parser("!x{^a}");
+  rematch::LogicalVA va = parser.get_logical_va();
+  
+  INFO(va.states.size());
+
+  LogicalVAState* initial_state = va.initial_state();
+
+  LogicalVAState* second_state = initial_state->captures.front()->next;
+  REQUIRE(second_state->anchors.size() == 1);
+  REQUIRE(second_state->anchors.front()->is_start());
 }
 
 }  // namespace rematch::testing

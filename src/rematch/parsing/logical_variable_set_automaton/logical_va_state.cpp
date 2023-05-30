@@ -66,6 +66,15 @@ void LogicalVAState::add_epsilon(LogicalVAState* next) {
   next->backward_epsilons_.push_back(epsilon);
 }
 
+void LogicalVAState::add_anchor(bool is_start, LogicalVAState* next) {
+  auto *anchor = new LogicalVAAnchor(this, next);
+
+  anchor->set_start(is_start);
+
+  anchors.push_back(anchor);
+  next->backward_anchors_.push_back(anchor);
+}
+
 unsigned int LogicalVAState::ID = 0;
 
 }

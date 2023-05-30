@@ -40,9 +40,6 @@ class LogicalVA {
 
   bool has_epsilon_ = false;
 
-  bool start = false;
-  bool end = false;
-
 public:
   LogicalVAState* initial_state() const { return init_state_; }
   LogicalVAState* accepting_state() const { return accepting_state_; }
@@ -88,14 +85,9 @@ public:
 
   bool has_epsilon() const { return has_epsilon_; }
 
+  void add_anchor(bool is_start);
+
   friend std::ostream& operator<<(std::ostream& os, LogicalVA const &A);
-
-  void set_start_anchor(bool has_anchor) { start = has_anchor; };
-  bool has_start_anchor() { return start; };
-
-  void set_end_anchor(bool has_anchor) { end = has_anchor; };
-  bool has_end_anchor() { return end; };
-
 private:
   void copy_states(
       const std::vector<LogicalVAState*> &old_states,

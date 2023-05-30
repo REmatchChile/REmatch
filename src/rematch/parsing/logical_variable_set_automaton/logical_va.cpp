@@ -73,6 +73,8 @@ void LogicalVA::copy_transitions(
           cap->code, old_state_to_new_state_mapping[cap->next]);
     for(auto& eps: q_old->epsilons)
       q_new->add_epsilon(old_state_to_new_state_mapping[eps->next]);
+    for(auto& anch: q_old->anchors)
+      q_new->add_anchor(anch->is_start(), old_state_to_new_state_mapping[anch->next]);
   }
 }
 
@@ -592,6 +594,10 @@ LogicalVAState* LogicalVA::new_state() {
   states.push_back(nstate);
 
   return nstate;
+}
+
+void LogicalVA::add_anchor(bool is_start) {
+  init_state_->add_anchor(is_start, accepting_state_);
 }
 
 }

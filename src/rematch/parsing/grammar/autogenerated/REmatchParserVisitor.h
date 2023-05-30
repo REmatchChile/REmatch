@@ -77,7 +77,7 @@ public:
 
     virtual std::any visitNumber(REmatchParser::NumberContext *context) = 0;
 
-    virtual std::any visitAnchoring(REmatchParser::AnchoringContext *context) = 0;
+    virtual std::any visitAnchor(REmatchParser::AnchorContext *context) = 0;
 
     virtual std::any visitAnchorStart(REmatchParser::AnchorStartContext *context) = 0;
 

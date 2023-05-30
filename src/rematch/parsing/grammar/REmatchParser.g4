@@ -10,7 +10,7 @@ alternation: expr ('|' expr)*;
 
 expr: element+;
 
-element: anchoring | group quantifier?;
+element: group quantifier?;
 
 group: parentheses | assignation | atom;
 
@@ -19,7 +19,7 @@ parentheses: '(' alternation ')';
 assignation: '!' varname '{' alternation '}';
 varname: ALPHA (ALPHA | DIGIT)*;
 
-atom: characterClass | singleSharedAtom | literal;
+atom: characterClass | singleSharedAtom | literal | anchor;
 
 characterClass: '[' '^'? ccAtom+ ']';
 ccAtom: ccRange | sharedAtom | ccSingle;
@@ -90,7 +90,7 @@ quantMax: ',' number;
 
 number: DIGIT+;
 
-anchoring: anchorStart | anchorEnd;
+anchor: anchorStart | anchorEnd;
 
 anchorStart: '^';
 anchorEnd: '$';

@@ -28,7 +28,7 @@ public:
     RuleLiteral = 17, RuleEscapes = 18, RuleSpecial = 19, RuleOther = 20, 
     RuleSharedAtom = 21, RuleQuantifier = 22, RuleQuantity = 23, RuleQuantExact = 24, 
     RuleQuantRange = 25, RuleQuantMin = 26, RuleQuantMax = 27, RuleNumber = 28, 
-    RuleAnchoring = 29, RuleAnchorStart = 30, RuleAnchorEnd = 31
+    RuleAnchor = 29, RuleAnchorStart = 30, RuleAnchorEnd = 31
   };
 
   explicit REmatchParser(antlr4::TokenStream *input);
@@ -77,7 +77,7 @@ public:
   class QuantMinContext;
   class QuantMaxContext;
   class NumberContext;
-  class AnchoringContext;
+  class AnchorContext;
   class AnchorStartContext;
   class AnchorEndContext; 
 
@@ -129,7 +129,6 @@ public:
   public:
     ElementContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    AnchoringContext *anchoring();
     GroupContext *group();
     QuantifierContext *quantifier();
 
@@ -210,6 +209,7 @@ public:
     CharacterClassContext *characterClass();
     SingleSharedAtomContext *singleSharedAtom();
     LiteralContext *literal();
+    AnchorContext *anchor();
 
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
@@ -545,9 +545,9 @@ public:
 
   NumberContext* number();
 
-  class  AnchoringContext : public antlr4::ParserRuleContext {
+  class  AnchorContext : public antlr4::ParserRuleContext {
   public:
-    AnchoringContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    AnchorContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     AnchorStartContext *anchorStart();
     AnchorEndContext *anchorEnd();
@@ -557,7 +557,7 @@ public:
    
   };
 
-  AnchoringContext* anchoring();
+  AnchorContext* anchor();
 
   class  AnchorStartContext : public antlr4::ParserRuleContext {
   public:

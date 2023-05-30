@@ -131,7 +131,7 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual std::any visitAnchoring(REmatchParser::AnchoringContext *ctx) override {
+  virtual std::any visitAnchor(REmatchParser::AnchorContext *ctx) override {
     return visitChildren(ctx);
   }
 
