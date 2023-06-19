@@ -600,5 +600,93 @@ void LogicalVA::add_anchor(bool is_start) {
   init_state_->add_anchor(is_start, accepting_state_);
 }
 
+void LogicalVA::remove_useless_anchors() {
+  for(auto &p: states)
+    p->visited_and_useful_marks = 0;
+
+  const int visited = 1;
+  const int hasUsefulAnchor = 1 << 1;
+
+  std::vector<LogicalVAState*> stack;
+  LogicalVAState *current_state;
+
+  stack.push_back(init_state_);
+
+  // Mark the states that have useful start anchors
+  while (!stack.empty()) {
+    current_state = stack.back();
+    stack.pop_back();
+    current_state->visited_and_useful_marks |= visited;
+
+    for (auto &epsilon: current_state->epsilons) {
+      if (!(epsilon->next->visited_and_useful_marks & visited))
+        stack.push_back(epsilon->next);
+    }
+
+    for (auto &capture: current_state->captures) {
+      if (!(capture->next->visited_and_useful_marks & visited))
+        stack.push_back(capture->next);
+    }
+
+    for (auto &anchor: current_state->anchors) {
+      if (anchor->is_start())
+      {
+        current_state->visited_and_useful_marks |= hasUsefulAnchor;
+      }
+      if (anchor->is_start() && !(anchor->next->visited_and_useful_marks & visited))
+        stack.push_back(anchor->next);
+    }
+  }
+
+  for (auto &p: states)
+    p->visited_and_useful_marks &= ~visited;
+
+  stack.clear();
+  stack.push_back(accepting_state_);
+
+  // Mark the states that have useful end anchors
+  while (!stack.empty()) {
+    current_state = stack.back();
+    stack.pop_back();
+    current_state->visited_and_useful_marks |= visited;
+
+    for (auto &epsilon: current_state->backward_epsilons_) {
+      if (!(epsilon->from->visited_and_useful_marks & visited))
+        stack.push_back(epsilon->from);
+    }
+
+    for (auto &capture: current_state->backward_captures_) {
+      if (!(capture->from->visited_and_useful_marks & visited))
+        stack.push_back(capture->from);
+    }
+
+    for (auto &anchor: current_state->backward_anchors_) {
+      if (!anchor->is_start())
+      {
+        current_state->visited_and_useful_marks |= hasUsefulAnchor;
+      }        
+
+      if (!anchor->is_start() && !(anchor->from->visited_and_useful_marks & visited))
+        stack.push_back(anchor->from);
+    }
+  }
+
+  auto start_anchor_is_not_useful = [](LogicalVAAnchor* anchor) {
+    bool useful_start_anchor = anchor->is_start() && (anchor->from->visited_and_useful_marks & hasUsefulAnchor);
+    return !useful_start_anchor;
+  };
+
+  auto end_anchor_is_not_useful = [](LogicalVAAnchor* anchor) {
+    bool useful_anchor = !anchor->is_start() && (anchor->next->visited_and_useful_marks & hasUsefulAnchor);
+    return !useful_anchor;
+  };
+
+  // Remove transitions
+  for (auto &state: states) {
+    state->anchors.erase(std::remove_if(state->anchors.begin(), state->anchors.end(), start_anchor_is_not_useful), state->anchors.end());
+    state->backward_anchors_.erase(std::remove_if(state->backward_anchors_.begin(), state->backward_anchors_.end(), end_anchor_is_not_useful), state->backward_anchors_.end());
+  }
+}
+
 }
 }

@@ -87,6 +87,8 @@ public:
 
   void add_anchor(bool is_start);
 
+  void remove_useless_anchors();
+
   friend std::ostream& operator<<(std::ostream& os, LogicalVA const &A);
 private:
   void copy_states(

@@ -74,4 +74,52 @@ TEST_CASE("Relabeling the trimmed '!x{a}' after removing captures \
   REQUIRE(second_state->id == 1);
 }
 
+TEST_CASE("useless anchors in 'a^' are removed correctly") {
+  Parser parser = Parser("a^");
+  LogicalVA va = parser.get_logical_va();
+  INFO(va.states.size());
+
+  va.remove_useless_anchors();
+
+  LogicalVAState* accepting_state = va.accepting_state();
+  LogicalVAState* initial_state = va.initial_state();
+  REQUIRE(accepting_state->backward_anchors_.size() == 0);
+  REQUIRE(initial_state->filters.size() == 1);
+}
+
+TEST_CASE("useless anchors in '(a|$)a' are removed correctly") {
+  Parser parser = Parser("(a|$)a");
+  LogicalVA va = parser.get_logical_va();
+  INFO(va.states.size());
+  
+  va.remove_useless_anchors();
+
+  LogicalVAState* initial_state = va.initial_state();
+  LogicalVAState* accepting_state = va.accepting_state();
+
+  auto epsilons_it = initial_state->epsilons.begin();
+  LogicalVAState* second_state = (*epsilons_it)->next;
+  LogicalVAState* third_state = (*epsilons_it++)->next;
+
+  REQUIRE(second_state->filters.size() == 1);
+  REQUIRE(third_state->anchors.size() == 0);
+
+  REQUIRE(accepting_state->backward_filters_.size() == 1);
+}
+
+TEST_CASE("useless anchors in '!x{$a}' are removed correctly") {
+  Parser parser = Parser("!x{$a}");
+  LogicalVA va = parser.get_logical_va();
+  INFO(va.states.size());
+
+  va.remove_useless_anchors();
+
+  LogicalVAState* second_state = va.initial_state()->captures.front()->next;
+  REQUIRE(second_state->anchors.size() == 0);
+
+  LogicalVAState* accepting_state = va.accepting_state();
+  LogicalVAState* second_to_last_state = accepting_state->backward_captures_.front()->from;
+  REQUIRE(second_to_last_state->backward_filters_.size() == 1);
+}
+
 }  // namespace rematch::testing
