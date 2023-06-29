@@ -14,6 +14,8 @@ public:
   LogicalVAState* from;
   LogicalVAState* next;
 
+  bool useful = false;
+
   LogicalVAAnchor(
       LogicalVAState* from, LogicalVAState* next):
       from(from), next(next) {}

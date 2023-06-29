@@ -89,6 +89,11 @@ public:
 
   void remove_useless_anchors();
 
+  bool has_useful_anchors();
+
+  void set_accepting_state(LogicalVAState* state);
+  void set_initial_state(LogicalVAState* state);
+
   friend std::ostream& operator<<(std::ostream& os, LogicalVA const &A);
 private:
   void copy_states(

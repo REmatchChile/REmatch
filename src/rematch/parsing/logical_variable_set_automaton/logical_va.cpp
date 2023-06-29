@@ -144,11 +144,25 @@ void LogicalVA::trim() {
         queue.push_back(f->next);
       }
     }
+    
+    for(auto &e: p->epsilons) {
+      if(!(e->next->visited_and_useful_marks & kReachable)) {
+        e->next->visited_and_useful_marks |= kReachable;
+        queue.push_back(e->next);
+      }
+    }
 
     for(auto &c: p->captures) {
       if(!(c->next->visited_and_useful_marks & kReachable)) {
         c->next->visited_and_useful_marks |= kReachable;
         queue.push_back(c->next);
+      }
+    }
+
+    for(auto &a: p->anchors) {
+      if(!(a->next->visited_and_useful_marks & kReachable)) {
+        a->next->visited_and_useful_marks |= kReachable;
+        queue.push_back(a->next);
       }
     }
   }
@@ -167,12 +181,28 @@ void LogicalVA::trim() {
         queue.push_back(f->from);
       }
     }
+    for(auto &e: p->backward_epsilons_) {
+      if(!(e->from->visited_and_useful_marks & kUseful)) {
+        if(e->from->visited_and_useful_marks & kReachable)
+          trimmed_states.push_back(e->from);
+        e->from->visited_and_useful_marks |= kUseful;
+        queue.push_back(e->from);
+      }
+    }
     for(auto &c: p->backward_captures_) {
       if(!(c->from->visited_and_useful_marks & kUseful)) {
         if(c->from->visited_and_useful_marks & kReachable)
           trimmed_states.push_back(c->from);
         c->from->visited_and_useful_marks |= kUseful;
         queue.push_back(c->from);
+      }
+    }
+    for(auto &a: p->backward_anchors_) {
+      if(!(a->from->visited_and_useful_marks & kUseful)) {
+        if(a->from->visited_and_useful_marks & kReachable)
+          trimmed_states.push_back(a->from);
+        a->from->visited_and_useful_marks |= kUseful;
+        queue.push_back(a->from);
       }
     }
   }
@@ -203,6 +233,15 @@ void LogicalVA::trim() {
         [](LogicalVAEpsilon* epsilon) {
         if (epsilon->next->visited_and_useful_marks != (kReachable | kUseful)) {
           delete epsilon;
+          return true;
+        }
+        return false;
+      });
+
+    state->anchors.remove_if(
+        [](LogicalVAAnchor* anchor) {
+        if (anchor->next->visited_and_useful_marks != (kReachable | kUseful)) {
+          delete anchor;
           return true;
         }
         return false;
@@ -424,6 +463,9 @@ void LogicalVA::remove_epsilon() {
 			for(auto &filter: cstate->filters)
 				root_state->add_filter(filter->charclass, filter->next);
 
+			for(auto &anchor: cstate->anchors)
+        root_state->add_anchor(anchor->is_start(), anchor->next);
+
 			for(auto &epsilon: cstate->epsilons) {
 				if(epsilon->next->visited_and_useful_marks != root_state->id) {
           cstate->visited_and_useful_marks = root_state->id;
@@ -454,6 +496,9 @@ void LogicalVA::remove_epsilon() {
 
     for(auto &filter: cstate->backward_filters_)
       filter->from->add_filter(filter->charclass, accepting_state_);
+
+    for(auto &anchor: cstate->backward_anchors_)
+      anchor->from->add_anchor(anchor->is_start(), accepting_state_);
 
     for(auto &epsilon: cstate->backward_epsilons_) {
       if(epsilon->from->visited_and_useful_marks != accepting_state_->id) {
@@ -508,10 +553,37 @@ void LogicalVA::relabel_states() {
       }
     }
 
+    for(auto &anchor: current->anchors) {
+      if(!anchor->next->tempMark) {
+        stack.push_back(anchor->next);
+        anchor->next->tempMark = true;
+      }
+    }
   }
 }
 
-std::ostream& operator<<(std::ostream& os, LogicalVA const &A) {
+bool LogicalVA::has_useful_anchors() {
+  for (auto &state: states) {
+    if (state->anchors.size() > 0)
+      return true;
+  }
+
+  return false;
+}
+
+void LogicalVA::set_accepting_state(LogicalVAState* state) {
+  accepting_state_->set_accepting(false);
+  state->set_accepting(true);
+  accepting_state_ = state;
+}
+
+void LogicalVA::set_initial_state(LogicalVAState* state) {
+  init_state_->set_initial(false);
+  state->set_initial(true);
+  init_state_ = state;
+}
+
+std::ostream& operator<<(std::ostream& os, LogicalVA const& A) {
   /* Gives a codification for the LogicalVA that can be used to visualize it
      at https://puc-iic2223.github.io . Basically it uses Breath-First Search
      to get every labeled transition in the LogicalVA with the unique ids for
@@ -630,9 +702,8 @@ void LogicalVA::remove_useless_anchors() {
 
     for (auto &anchor: current_state->anchors) {
       if (anchor->is_start())
-      {
-        current_state->visited_and_useful_marks |= hasUsefulAnchor;
-      }
+        anchor->useful = true;
+
       if (anchor->is_start() && !(anchor->next->visited_and_useful_marks & visited))
         stack.push_back(anchor->next);
     }
@@ -662,9 +733,7 @@ void LogicalVA::remove_useless_anchors() {
 
     for (auto &anchor: current_state->backward_anchors_) {
       if (!anchor->is_start())
-      {
-        current_state->visited_and_useful_marks |= hasUsefulAnchor;
-      }        
+        anchor->useful = true;
 
       if (!anchor->is_start() && !(anchor->from->visited_and_useful_marks & visited))
         stack.push_back(anchor->from);
@@ -672,13 +741,11 @@ void LogicalVA::remove_useless_anchors() {
   }
 
   auto start_anchor_is_not_useful = [](LogicalVAAnchor* anchor) {
-    bool useful_start_anchor = anchor->is_start() && (anchor->from->visited_and_useful_marks & hasUsefulAnchor);
-    return !useful_start_anchor;
+    return !anchor->useful;
   };
 
   auto end_anchor_is_not_useful = [](LogicalVAAnchor* anchor) {
-    bool useful_anchor = !anchor->is_start() && (anchor->next->visited_and_useful_marks & hasUsefulAnchor);
-    return !useful_anchor;
+    return !anchor->useful;
   };
 
   // Remove transitions

@@ -122,4 +122,79 @@ TEST_CASE("useless anchors in '!x{$a}' are removed correctly") {
   REQUIRE(second_to_last_state->backward_filters_.size() == 1);
 }
 
+TEST_CASE("remove anchors in 'a^' after removing epsilons is correct") {
+  Parser parser = Parser("(a|$)a");
+  LogicalVA va = parser.get_logical_va();
+  INFO(va.states.size());
+
+  va.remove_epsilon();
+  va.remove_useless_anchors();
+
+  for (auto &state: va.states)
+    REQUIRE(state->epsilons.size() == 0);
+}
+
+TEST_CASE("remove anchors in '(a|$)a' after removing epsilons is correct") {
+  Parser parser = Parser("(a|$)a");
+  LogicalVA va = parser.get_logical_va();
+  INFO(va.states.size());
+
+  va.remove_epsilon();
+  va.remove_useless_anchors();
+
+  for (auto &state: va.states)
+    REQUIRE(state->epsilons.size() == 0);
+}
+
+TEST_CASE("trimming 'a^' after removing anchors is correct") {
+  Parser parser = Parser("a^");
+  LogicalVA va = parser.get_logical_va();
+  INFO(va.states.size());
+
+  va.remove_epsilon();
+  va.remove_useless_anchors();
+  va.trim();
+
+  // the accepting state is the only one that remains
+  REQUIRE(va.states.size() == 1);
+}
+
+TEST_CASE("trimming '(a|$)a' after removing anchors is correct") {
+  Parser parser = Parser("(a|$)a");
+  LogicalVA va = parser.get_logical_va();
+  INFO(va.states.size());
+
+  va.remove_epsilon();
+  va.remove_useless_anchors();
+  va.trim();
+
+  REQUIRE(va.states.size() == 3);
+}
+
+TEST_CASE("resulting lva '(a$)*' has useful anchor transitions") {
+  Parser parser = Parser("(a$)*");
+  LogicalVA va = parser.get_logical_va();
+  INFO(va.states.size());
+
+  va.remove_epsilon();
+  va.remove_useless_anchors();
+  va.trim();
+
+  INFO(va.states.size());
+
+  REQUIRE(va.has_useful_anchors());
+}
+
+TEST_CASE("resulting lva 'a($|^)' has useful anchor transitions") {
+  Parser parser = Parser("a($|^)");
+  LogicalVA va = parser.get_logical_va();
+  INFO(va.states.size());
+
+  va.remove_epsilon();
+  va.remove_useless_anchors();
+  va.trim();
+
+  REQUIRE(va.has_useful_anchors());
+}
+
 }  // namespace rematch::testing
