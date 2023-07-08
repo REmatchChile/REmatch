@@ -45,7 +45,7 @@ LogicalVA::LogicalVA(const LogicalVA &A)
 
   init_state_ = old_state_to_new_state_mapping[A.init_state_];
   accepting_state_ = old_state_to_new_state_mapping[A.accepting_state_];
-  has_epsilon_ = A.has_epsilon_;
+  accepts_epsilon_ = A.accepts_epsilon_;
 }
 
 void LogicalVA::copy_states(
@@ -288,7 +288,7 @@ void LogicalVA::cat(LogicalVA &a2) {
   // Set a2 final states as new final states
   accepting_state_ = a2.accepting_state_;
 
-  has_epsilon_ = a2.has_epsilon_ && has_epsilon_;
+  accepts_epsilon_ = a2.accepts_epsilon_ && accepts_epsilon_;
 }
 
 void LogicalVA::alter(LogicalVA &a2) {
@@ -320,7 +320,7 @@ void LogicalVA::alter(LogicalVA &a2) {
   // Add a2 states to states list
   states.insert(states.end(), a2.states.begin(), a2.states.end());
 
-  has_epsilon_ = a2.has_epsilon_ || has_epsilon_;
+  accepts_epsilon_ = a2.accepts_epsilon_ || accepts_epsilon_;
 }
 
 void LogicalVA::kleene() {
@@ -335,7 +335,7 @@ void LogicalVA::strict_kleene() {
 
 void LogicalVA::optional() {
   /* Extends the LogicalVA for optional closure (0 or 1 time) */
-  has_epsilon_ = true;
+  accepts_epsilon_ = true;
   LogicalVAState* new_initial_state = new_state();
   LogicalVAState* new_final_state = new_state();
 
