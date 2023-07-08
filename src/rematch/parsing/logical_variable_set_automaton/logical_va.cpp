@@ -128,7 +128,7 @@ void LogicalVA::trim() {
   const int kReachable  = 1 << 0;  // 0000 0000 0000 0001
   const int kUseful     = 1 << 1;  // 0000 0000 0000 0010
 
-  std::vector<LogicalVAState*> trimmed_states;  // New states vector
+  std::vector<LogicalVAState*> remaining_states;  // New states vector
   std::deque<LogicalVAState*> queue;
 
   // Start the search forward from the initial state.
@@ -176,7 +176,7 @@ void LogicalVA::trim() {
     for(auto &f: p->backward_filters_) {
       if(!(f->from->visited_and_useful_marks & kUseful)) {
         if(f->from->visited_and_useful_marks & kReachable)
-          trimmed_states.push_back(f->from);
+          remaining_states.push_back(f->from);
         f->from->visited_and_useful_marks |= kUseful;
         queue.push_back(f->from);
       }
@@ -184,7 +184,7 @@ void LogicalVA::trim() {
     for(auto &e: p->backward_epsilons_) {
       if(!(e->from->visited_and_useful_marks & kUseful)) {
         if(e->from->visited_and_useful_marks & kReachable)
-          trimmed_states.push_back(e->from);
+          remaining_states.push_back(e->from);
         e->from->visited_and_useful_marks |= kUseful;
         queue.push_back(e->from);
       }
@@ -192,7 +192,7 @@ void LogicalVA::trim() {
     for(auto &c: p->backward_captures_) {
       if(!(c->from->visited_and_useful_marks & kUseful)) {
         if(c->from->visited_and_useful_marks & kReachable)
-          trimmed_states.push_back(c->from);
+          remaining_states.push_back(c->from);
         c->from->visited_and_useful_marks |= kUseful;
         queue.push_back(c->from);
       }
@@ -200,14 +200,12 @@ void LogicalVA::trim() {
     for(auto &a: p->backward_anchors_) {
       if(!(a->from->visited_and_useful_marks & kUseful)) {
         if(a->from->visited_and_useful_marks & kReachable)
-          trimmed_states.push_back(a->from);
+          remaining_states.push_back(a->from);
         a->from->visited_and_useful_marks |= kUseful;
         queue.push_back(a->from);
       }
     }
   }
-
-  trimmed_states.push_back(accepting_state_);
 
   // delete useless transitions
   for(auto state: states) {
@@ -248,6 +246,15 @@ void LogicalVA::trim() {
       });
   }
 
+  // Add flags to initial state and accepting state so they are not removed
+  if (!(init_state_->visited_and_useful_marks & kUseful)) {
+    init_state_->visited_and_useful_marks |= kUseful;
+    remaining_states.push_back(init_state_);
+  }
+
+  accepting_state_->visited_and_useful_marks |= kReachable;
+  remaining_states.push_back(accepting_state_);
+
   // Delete useless states
   for(auto *p: states) {
     if(p->visited_and_useful_marks != (kReachable | kUseful))
@@ -256,7 +263,7 @@ void LogicalVA::trim() {
     }
   }
 
-  states.swap(trimmed_states);
+  states.swap(remaining_states);
 }
 
 void LogicalVA::cat(LogicalVA &a2) {
@@ -271,6 +278,8 @@ void LogicalVA::cat(LogicalVA &a2) {
   // Add a2 states to states list
   states.insert(states.end(), a2.states.begin(), a2.states.end());
 
+  // These lines are not redundant, handle the case when one lva accepts epsilon
+  // and the other does not.
   if( has_epsilon() )
     init_state_->add_epsilon(a2.init_state_);
   if( a2.has_epsilon() )
@@ -321,40 +330,22 @@ void LogicalVA::kleene() {
 
 void LogicalVA::strict_kleene() {
   /* Extends the LogicalVA for strict kleene closure (1 or more times) */
-
-
-  LogicalVAState* nstate = new_state();
-
-  for(auto& filter:  accepting_state_->backward_filters_)  {
-    if(filter->from == init_state_)
-      nstate->add_filter(filter->charclass, nstate);
-    filter->from->add_filter(filter->charclass, nstate);
-  }
-
-  for(auto& capture:  accepting_state_->backward_captures_)  {
-    if(capture->from == init_state_)
-      nstate->add_capture(capture->code, nstate);
-    capture->from->add_capture(capture->code, nstate);
-  }
-
-  for(auto& epsilon:  accepting_state_->backward_epsilons_)  {
-    epsilon->from->add_epsilon(nstate);
-  }
-
-  for(auto& filter:  init_state_->filters)
-    nstate->add_filter(filter->charclass, filter->next);
-
-  for(auto& capture:  init_state_->captures)
-    nstate->add_capture(capture->code, capture->next);
-
-  for(auto& epsilon:  init_state_->epsilons)
-    nstate->add_epsilon(epsilon->next);
-
+  accepting_state_->add_epsilon(init_state_);
 }
 
-void LogicalVA :: optional() {
+void LogicalVA::optional() {
   /* Extends the LogicalVA for optional closure (0 or 1 time) */
   has_epsilon_ = true;
+  LogicalVAState* new_initial_state = new_state();
+  LogicalVAState* new_final_state = new_state();
+
+  new_initial_state->add_epsilon(init_state_);
+  new_initial_state->add_epsilon(new_final_state);
+
+  accepting_state_->add_epsilon(new_final_state);
+
+  set_initial_state(new_initial_state);
+  set_accepting_state(new_final_state);
 }
 
 void LogicalVA::assign(std::bitset<64> open_code, std::bitset<64> close_code) {
@@ -571,6 +562,48 @@ bool LogicalVA::has_useful_anchors() {
   return false;
 }
 
+bool LogicalVA::is_accepting_state_reachable() {
+  for (auto &state: states)
+    state->visited_and_useful_marks = 0;
+
+  bool reachable = false;
+
+  std::vector<LogicalVAState*> stack;
+  stack.push_back(init_state_);
+
+  while (!stack.empty()) {
+    LogicalVAState* current = stack.back(); stack.pop_back();
+    current->visited_and_useful_marks = 1;
+
+    if (current->accepting()) {
+      reachable = true;
+      break;
+    }
+
+    for (auto &filter: current->filters) {
+      if (!filter->next->visited_and_useful_marks)
+        stack.push_back(filter->next);
+    }
+
+    for (auto &epsilon: current->epsilons) {
+      if (!epsilon->next->visited_and_useful_marks)
+        stack.push_back(epsilon->next);
+    }
+
+    for (auto &capture: current->captures) {
+      if (!capture->next->visited_and_useful_marks)
+        stack.push_back(capture->next);
+    } 
+
+    for (auto &anchor: current->anchors) {
+      if (!anchor->next->visited_and_useful_marks)
+        stack.push_back(anchor->next);
+    }
+  }
+
+  return reachable;
+}
+
 void LogicalVA::set_accepting_state(LogicalVAState* state) {
   accepting_state_->set_accepting(false);
   state->set_accepting(true);
@@ -673,11 +706,14 @@ void LogicalVA::add_anchor(bool is_start) {
 }
 
 void LogicalVA::remove_useless_anchors() {
-  for(auto &p: states)
-    p->visited_and_useful_marks = 0;
+  for (auto &state: states)
+  {
+    state->visited_and_useful_marks = 0;
+    for (auto &anchor: state->anchors)
+      anchor->useful = false;
+  }
 
   const int visited = 1;
-  const int hasUsefulAnchor = 1 << 1;
 
   std::vector<LogicalVAState*> stack;
   LogicalVAState *current_state;
@@ -749,9 +785,24 @@ void LogicalVA::remove_useless_anchors() {
   };
 
   // Remove transitions
-  for (auto &state: states) {
-    state->anchors.erase(std::remove_if(state->anchors.begin(), state->anchors.end(), start_anchor_is_not_useful), state->anchors.end());
-    state->backward_anchors_.erase(std::remove_if(state->backward_anchors_.begin(), state->backward_anchors_.end(), end_anchor_is_not_useful), state->backward_anchors_.end());
+  for (auto& state : states) {
+    state->anchors.erase(
+      std::remove_if(
+        state->anchors.begin(),
+        state->anchors.end(),
+        start_anchor_is_not_useful
+      ),
+      state->anchors.end()
+    );
+
+    state->backward_anchors_.erase(
+      std::remove_if(
+        state->backward_anchors_.begin(),
+        state->backward_anchors_.end(),
+        end_anchor_is_not_useful
+      ),
+      state->backward_anchors_.end()
+    );
   }
 }
 

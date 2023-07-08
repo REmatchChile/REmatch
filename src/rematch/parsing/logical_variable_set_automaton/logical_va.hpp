@@ -91,6 +91,8 @@ public:
 
   bool has_useful_anchors();
 
+  bool is_accepting_state_reachable();
+
   void set_accepting_state(LogicalVAState* state);
   void set_initial_state(LogicalVAState* state);
 

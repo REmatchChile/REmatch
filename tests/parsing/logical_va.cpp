@@ -155,8 +155,8 @@ TEST_CASE("trimming 'a^' after removing anchors is correct") {
   va.remove_useless_anchors();
   va.trim();
 
-  // the accepting state is the only one that remains
-  REQUIRE(va.states.size() == 1);
+  // the initial state and the accepting state remain
+  REQUIRE(va.states.size() == 2);
 }
 
 TEST_CASE("trimming '(a|$)a' after removing anchors is correct") {
@@ -197,4 +197,36 @@ TEST_CASE("resulting lva 'a($|^)' has useful anchor transitions") {
   REQUIRE(va.has_useful_anchors());
 }
 
+TEST_CASE("accepting state is not reachable in '$a'") {
+  Parser parser = Parser("$a");
+  LogicalVA va = parser.get_logical_va();
+
+  va.remove_epsilon();
+  va.remove_useless_anchors();
+  va.trim();
+
+  REQUIRE(!va.is_accepting_state_reachable());
+}
+
+TEST_CASE("accepting state is not reachable in '[a-z]^'") {
+  Parser parser = Parser("[a-z]^");
+  LogicalVA va = parser.get_logical_va();
+
+  va.remove_epsilon();
+  va.remove_useless_anchors();
+  va.trim();
+
+  REQUIRE(!va.is_accepting_state_reachable());
+}
+
+TEST_CASE("accepting state is reachable in 'b(a^)*'") {
+  Parser parser = Parser("b(a^)*");
+  LogicalVA va = parser.get_logical_va();
+
+  va.remove_epsilon();
+  va.remove_useless_anchors();
+  va.trim();
+
+  REQUIRE(va.is_accepting_state_reachable());
+}
 }  // namespace rematch::testing
