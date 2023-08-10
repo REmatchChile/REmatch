@@ -17,7 +17,7 @@ class ExtendedVAState {
  public:
   unsigned int id;
 
-  bool temp_mark;
+  bool visited;
 
   std::vector<ExtendedVAFilter*> filters;
   std::vector<ExtendedVAFilter*> backward_filters;
@@ -35,6 +35,7 @@ class ExtendedVAState {
   void add_read_capture(parsing::CharClass charclass, std::bitset<64> code,
                         ExtendedVAState* next);
   void create_read_captures_forward();
+  void delete_transitions();
 
   void set_accepting(bool is_accepting);
   void set_initial(bool is_initial);

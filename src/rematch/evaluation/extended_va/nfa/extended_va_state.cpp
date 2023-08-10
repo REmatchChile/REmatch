@@ -64,6 +64,44 @@ void ExtendedVAState::create_read_captures_forward() {
   }
 }
 
+void ExtendedVAState::delete_transitions() {
+  for (auto &capture: backward_captures) {
+    for (auto it=capture->from->captures.begin(); it != capture->from->captures.end();) {
+      if (capture->from == (*it)->from && capture->next == (*it)->next)
+        it = capture->from->captures.erase(it);
+      else
+        ++it;
+    }
+  }
+
+  for (auto &capture: captures) {
+    for (auto it=capture->next->backward_captures.begin(); it != capture->next->backward_captures.end();) {
+        if (capture->from == (*it)->from && capture->next == (*it)->next)
+          it = capture->next->backward_captures.erase(it);
+        else
+          ++it;
+    }
+  }
+
+  for (auto &filter: backward_filters) {
+    for (auto it=filter->next->filters.begin(); it != filter->next->filters.end();) {
+        if (filter->from == (*it)->from && filter->next == (*it)->next)
+          it = filter->next->filters.erase(it);
+        else
+          ++it;
+    }
+  }
+  
+  for (auto &filter: filters) {
+    for (auto it=filter->next->backward_filters.begin(); it != filter->next->backward_filters.end();) {
+        if (filter->from == (*it)->from && filter->next == (*it)->next)
+          it = filter->next->backward_filters.erase(it);
+        else
+          ++it;
+    }
+  }
+}
+
 unsigned int ExtendedVAState::ID = 0;
 
 }
