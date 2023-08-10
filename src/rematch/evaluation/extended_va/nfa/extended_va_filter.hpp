@@ -1,10 +1,11 @@
-#ifndef EXTENDED_VA_FILTER
-#define EXTENDED_VA_FILTER
+#ifndef EXTENDED_VA_FILTER_HPP
+#define EXTENDED_VA_FILTER_HPP
 
-#include "../parsing/charclass.hpp"
-#include "extended_va_state.hpp"
+#include "parsing/charclass.hpp"
 
 namespace rematch {
+
+class ExtendedVAState;
 
 class ExtendedVAFilter {
 public:

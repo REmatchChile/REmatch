@@ -4,20 +4,18 @@
 
 namespace rematch {
 
-  class ExtendedVAState;
+class ExtendedVAState;
 
-  class ExtendedVACapture{
-  public:
-    ExtendedVAState* from;
-    ExtendedVAState* next;
-    std::bitset<64> code;
+class ExtendedVACapture {
+ public:
+  ExtendedVAState* from;
+  std::bitset<64> code;
+  ExtendedVAState* next;
 
-    ExtendedVACapture(ExtendedVAState* from, std::bitset<64> coding, ExtendedVAState* next);
-
-    bool operator==(const ExtendedVAState &rhs) const;
-
-    bool operator<(const ExtendedVAState &rhs) const;
-  };
-}
+  ExtendedVACapture(ExtendedVAState* from, std::bitset<64> code,
+                    ExtendedVAState* next)
+      : from(from), code(code), next(next) {}
+};
+}  // namespace rematch
 
 #endif
