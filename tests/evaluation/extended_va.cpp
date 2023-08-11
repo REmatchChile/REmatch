@@ -84,6 +84,39 @@ TEST_CASE("extended va from '!x{(a!y{a}|!y{a}a)}' is constructed correctly") {
   REQUIRE(eva_lower_close_x->charclass == CharClass(-1));
 }
 
+TEST_CASE("extended va from '!x{a+}a' is constructed correctly") {
+  Parser parser = Parser("!x{a+}a");
+  LogicalVA logical_va = parser.get_logical_va();
+  ExtendedVA extended_va = ExtendedVA(logical_va);
+
+  logical_va.remove_epsilon();
+  logical_va.trim();
+
+  LogicalVACapture* lva_open_x = logical_va.initial_state()->captures.front();
+  LogicalVAFilter* lva_filter_a = lva_open_x->next->filters.front();
+  CharClass a_charclass = lva_filter_a->charclass;
+
+  ExtendedVAReadCapture* eva_lower_open_x = extended_va.initial_state()->read_captures.front();
+  ExtendedVAReadCapture* eva_upper_open_x = extended_va.initial_state()->read_captures[1];
+  ExtendedVAReadCapture* eva_read_a = eva_upper_open_x->next->read_captures[1];
+  ExtendedVAReadCapture* eva_close_x = eva_read_a->next->read_captures.front();
+  ExtendedVAState* eva_loop_state = eva_upper_open_x->next;
+
+  REQUIRE(extended_va.states.size() == 4);
+  REQUIRE(extended_va_has_only_read_captures_transitions(&extended_va));
+
+  REQUIRE(eva_upper_open_x->captures_set == lva_open_x->code);
+  REQUIRE(eva_lower_open_x->captures_set == lva_open_x->code);
+  REQUIRE(eva_read_a->captures_set == 0);
+  REQUIRE(eva_close_x->captures_set == get_close_code(lva_open_x->code));
+  REQUIRE(state_has_self_loop(eva_upper_open_x->next));
+
+  REQUIRE(eva_upper_open_x->charclass == a_charclass);
+  REQUIRE(eva_lower_open_x->charclass == a_charclass);
+  REQUIRE(eva_read_a->charclass == a_charclass);
+  REQUIRE(eva_close_x->charclass == a_charclass);
+  REQUIRE(eva_loop_state->read_captures[0]->charclass == a_charclass);
+}
 
 TEST_CASE("initial state has a self loop") {
   Parser parser = Parser("!x{a}");
@@ -123,12 +156,5 @@ bool state_has_self_loop(ExtendedVAState* state) {
   }
   return false;
 }
-
-TEST_CASE("dot") {
-  Parser parser = Parser(".");
-  LogicalVA logical_va = parser.get_logical_va();
-  std::cout << logical_va << std::endl;
-}
-
 
 }  // namespace rematch::testing

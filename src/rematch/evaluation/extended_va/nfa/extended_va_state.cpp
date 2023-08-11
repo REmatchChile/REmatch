@@ -42,7 +42,9 @@ void ExtendedVAState::add_read_capture(CharClass charclass,
                                         std::bitset<64> captures_set,
                                         ExtendedVAState* next) {
   for (auto const& read_capture : read_captures) {
-    if (read_capture->charclass == charclass && read_capture->captures_set == captures_set)
+    if (read_capture->charclass == charclass &&
+        read_capture->captures_set == captures_set &&
+        read_capture->next == next)
       return;
   }
 

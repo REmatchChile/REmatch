@@ -27,8 +27,7 @@ void ExtendedVA::copy_data_from_logical_va(LogicalVA &logical_va) {
 void ExtendedVA::copy_states_from_logical_va
 (LogicalVA &logical_va, std::map<unsigned int, ExtendedVAState*> &lva_id_to_eva_state) {
   for (auto &state : logical_va.states) {
-    ExtendedVAState* new_state = new ExtendedVAState();
-    states.push_back(new_state);
+    ExtendedVAState* new_state = create_new_state();
 
     lva_id_to_eva_state[state->id] = new_state;
   }
@@ -81,8 +80,8 @@ void ExtendedVA::capture_closure() {
     }
   }
 
-  clean_useless_capture_states();
-  clean_useless_capture_transitions();
+  remove_useless_capture_states();
+  remove_useless_capture_transitions();
 }
 
 std::queue<ExtendedVAState*> ExtendedVA::inv_topological_sort() {
@@ -116,7 +115,7 @@ void ExtendedVA::inv_topological_sort_util(ExtendedVAState *state, std::queue<Ex
   queue->push(state);
 }
 
-void ExtendedVA::clean_useless_capture_states() {
+void ExtendedVA::remove_useless_capture_states() {
 	bool capture_state_is_useless;
 
 	for (auto state = states.begin(); state != states.end();) {
@@ -139,7 +138,7 @@ bool check_if_capture_state_is_useless(ExtendedVAState* state) {
     !state->is_initial();
 }
 
-void ExtendedVA::clean_useless_capture_transitions() {
+void ExtendedVA::remove_useless_capture_transitions() {
   for (auto &state : states) {
     if (state->backward_filters.empty() && !state->backward_captures.empty())
       state->captures.clear();
@@ -158,16 +157,12 @@ void ExtendedVA::clean_useless_capture_transitions() {
 }
 
 void ExtendedVA::add_read_captures_transitions() {
-  std::vector<ExtendedVAState*> useless_states;
-
-  // add read captures transitions and store useless states
+  // add read captures transitions
   for (auto& state : states) {
     for (auto& capture : state->captures) {
 
-      for (auto& next_filter : capture->next->filters) {
+      for (auto& next_filter : capture->next->filters)
         state->add_read_capture(next_filter->charclass, capture->code, next_filter->next);
-        useless_states.push_back(capture->next);
-      }
 
       if (capture->next->is_accepting()) {
         auto eof = CharClass(-1);
@@ -176,7 +171,7 @@ void ExtendedVA::add_read_captures_transitions() {
     }
   }
 
-  delete_states(useless_states);
+  remove_capture_transitions();
 
   // replace filter transitions with read captures transitions
   for (auto& state : states) {
@@ -186,42 +181,95 @@ void ExtendedVA::add_read_captures_transitions() {
     }
   }
 
-  remove_filters_and_captures();
+  remove_filter_transitions();
+
+  trim();
 }
 
-void ExtendedVA::delete_states(std::vector<ExtendedVAState*> &states_to_delete) {
-  for (auto& state : states_to_delete)
-    state->delete_transitions();
-
-  states.erase(
-    std::remove_if(
-      states.begin(),
-      states.end(),
-      [&](ExtendedVAState* state) {
-        return std::find(
-          states_to_delete.begin(), states_to_delete.end(), state
-        ) != states_to_delete.end();
-      }
-    ),
-    states.end()
-  );
-}
-
-void ExtendedVA::remove_filters_and_captures() {
+void ExtendedVA::remove_capture_transitions() {
   for (auto& state : states) {
-    for (auto filter : state->filters)
-      delete filter;
-
     for (auto capture : state->captures)
       delete capture;
   }
 
   for (auto&state : states) {
-    state->filters.clear();
-    state->backward_filters.clear();
     state->captures.clear();
     state->backward_captures.clear();
   }
+}
+
+void ExtendedVA::remove_filter_transitions() {
+  for (auto& state : states) {
+    for (auto filter : state->filters)
+      delete filter;
+  }
+
+  for (auto&state : states) {
+    state->filters.clear();
+    state->backward_filters.clear();
+  }
+}
+
+void ExtendedVA::trim() {
+  std::map<ExtendedVAState*, bool> is_useful;
+  std::map<ExtendedVAState*, bool> is_reachable;
+
+  for (auto &state : states) {
+    is_reachable[state] = false;
+    is_useful[state] = false;
+  }
+
+  std::vector<ExtendedVAState*> remaining_states;
+  std::deque<ExtendedVAState*> queue;
+
+  // Start the search forward from the initial state.
+  queue.push_back(initial_state_);
+  is_reachable[initial_state_] = true;
+
+  while (!queue.empty()) {
+    ExtendedVAState* current_state = queue.front();
+    queue.pop_front();
+
+    for (auto &read_capture : current_state->read_captures) {
+      ExtendedVAState* next_state = read_capture->next;
+
+      if (!(is_reachable[next_state])) {
+        is_reachable[next_state] = true;
+        queue.push_back(next_state);
+      }
+    }
+  }
+
+  // Now start the search backwards from the final state.
+  queue.push_back(accepting_state_);
+  is_useful[accepting_state_] = true;
+
+  while (!queue.empty()) {
+    ExtendedVAState* current_state = queue.front();
+    queue.pop_front();
+
+    for (auto &read_capture : current_state->backward_read_captures) {
+      ExtendedVAState* previous_state = read_capture->from;
+
+      if (!(is_useful[previous_state])) {
+        if (is_reachable[previous_state])
+          remaining_states.push_back(previous_state);
+
+        is_useful[previous_state] = true;
+        queue.push_back(previous_state);
+      }
+    }
+  }
+
+  remaining_states.push_back(accepting_state_);
+
+  // Delete useless states
+  for (auto& state : states) {
+    if (!(is_useful[state] && is_reachable[state]))
+      delete state;
+  }
+
+  states.swap(remaining_states);
 }
 
 void ExtendedVA::add_loop_to_initial_state() {
@@ -240,6 +288,78 @@ void ExtendedVA::set_initial_state(ExtendedVAState* state) {
   initial_state_->set_initial(false);
   state->set_initial(true);
   initial_state_ = state;
+}
+
+ExtendedVAState* ExtendedVA::create_new_state() {
+  ExtendedVAState* new_state = new ExtendedVAState();
+  states.push_back(new_state);
+
+  return new_state;
+}
+
+std::string remove_leading_zeros(std::bitset<64> code) {
+  std::string code_as_string = code.to_string();
+  code_as_string.erase(0, code_as_string.find_first_not_of('0'));
+  return code_as_string == "" ? "0" : code_as_string;
+}
+
+std::ostream& operator<<(std::ostream& os, ExtendedVA const &extended_va) {
+  int current_id, next_id;
+  std::bitset<64> capture_set;
+
+  std::unordered_set<unsigned int> visited;
+
+  std::deque<ExtendedVAState*> queue;
+
+  visited.insert(extended_va.initial_state()->id);
+  queue.push_back(extended_va.initial_state());
+
+  while(!queue.empty()) {
+    ExtendedVAState* current_state = queue.front();
+    queue.pop_front();
+    current_id = current_state->id;
+
+    for (auto &capture: current_state->captures) {
+      capture_set = capture->code;
+      next_id = capture->next->id;
+
+      os << "t " << current_id << " " << capture_set << " " << next_id << '\n';
+
+      if (visited.find(next_id) == visited.end()) {
+        visited.insert(next_id);
+        queue.push_back(capture->next);
+      }
+    }
+
+    for (auto &filter: current_state->filters) {
+      next_id = filter->next->id;
+
+      os << "t " << current_id << " " << filter->charclass << " " << next_id << '\n';
+
+      if (visited.find(next_id) == visited.end()) {
+        visited.insert(next_id);
+        queue.push_back(filter->next);
+      }
+    }
+
+    for (auto &read_capture: current_state->read_captures) {
+      next_id = read_capture->next->id;
+
+      os << "t " << current_id << " " << read_capture->charclass << "|"
+         << remove_leading_zeros(read_capture->captures_set) << " " << next_id
+         << '\n';
+
+      if (visited.find(next_id) == visited.end()) {
+        visited.insert(next_id);
+        queue.push_back(read_capture->next);
+      }
+    }
+  }
+
+  os << "f " << extended_va.accepting_state()->id << '\n';
+  os << "i " << extended_va.initial_state()->id;
+
+  return os;
 }
 
 }

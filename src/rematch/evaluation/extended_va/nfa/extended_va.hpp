@@ -38,14 +38,20 @@ private:
   std::queue<ExtendedVAState*> inv_topological_sort();
   void inv_topological_sort_util(ExtendedVAState* state, std::queue<ExtendedVAState*> *Q);
 
-  void clean_useless_capture_states();
-  void clean_useless_capture_transitions();
+  void remove_useless_capture_states();
+  void remove_useless_capture_transitions();
 
   void add_read_captures_transitions();
-  void delete_states(std::vector<ExtendedVAState*> &states);
-  void remove_filters_and_captures();
+  void remove_filter_transitions();
+  void remove_capture_transitions();
+
+  void trim();
 
   void add_loop_to_initial_state();
+
+  ExtendedVAState* create_new_state();
+
+  friend std::ostream& operator<<(std::ostream& os, ExtendedVA const &extended_va);
 };
 
 }
