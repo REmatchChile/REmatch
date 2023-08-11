@@ -6,8 +6,12 @@
 
 namespace rematch::testing {
 
+int extra_states_in_self_loop = 6;
+int extra_transitions_from_initial_state = 4;
+
 bool extended_va_has_only_read_captures_transitions(ExtendedVA* const& extended_va);
 bool state_has_self_loop(ExtendedVAState* state);
+bool state_has_self_loop_of_length(ExtendedVAState* state, int length);
 std::bitset<64> get_close_code(std::bitset<64> code);
 
 TEST_CASE("extended va from '!x{a}' is constructed correctly") {
@@ -16,7 +20,7 @@ TEST_CASE("extended va from '!x{a}' is constructed correctly") {
 
   ExtendedVA extended_va = ExtendedVA(logical_va);
 
-  REQUIRE(extended_va.states.size() == 3);
+  REQUIRE(extended_va.states.size() == 3 + extra_states_in_self_loop);
   REQUIRE(extended_va_has_only_read_captures_transitions(&extended_va));
 }
 
@@ -35,7 +39,7 @@ TEST_CASE("extended va from '!x{!y{a}}' is constructed correctly") {
   ExtendedVAReadCapture* read_capture_left = initial_state->read_captures.front();
   ExtendedVAReadCapture* read_capture_right = read_capture_left->next->read_captures.front();
 
-  REQUIRE(extended_va.states.size() == 3);
+  REQUIRE(extended_va.states.size() == 3 + extra_states_in_self_loop);
   REQUIRE(extended_va_has_only_read_captures_transitions(&extended_va));
 
   REQUIRE(read_capture_left->charclass == logical_va_filter->charclass);
@@ -66,7 +70,7 @@ TEST_CASE("extended va from '!x{(a!y{a}|!y{a}a)}' is constructed correctly") {
   ExtendedVAReadCapture* eva_lower_close_y = eva_lower_open_xy->next->read_captures.front();
   ExtendedVAReadCapture* eva_lower_close_x = eva_lower_close_y->next->read_captures.front();
 
-  REQUIRE(extended_va.states.size() == 6);
+  REQUIRE(extended_va.states.size() == 6 + extra_states_in_self_loop);
   REQUIRE(extended_va_has_only_read_captures_transitions(&extended_va));
 
   REQUIRE(eva_upper_open_x->captures_set == lva_open_x->code);
@@ -102,14 +106,13 @@ TEST_CASE("extended va from '!x{a+}a' is constructed correctly") {
   ExtendedVAReadCapture* eva_close_x = eva_read_a->next->read_captures.front();
   ExtendedVAState* eva_loop_state = eva_upper_open_x->next;
 
-  REQUIRE(extended_va.states.size() == 4);
+  REQUIRE(extended_va.states.size() == 4 + extra_states_in_self_loop);
   REQUIRE(extended_va_has_only_read_captures_transitions(&extended_va));
 
   REQUIRE(eva_upper_open_x->captures_set == lva_open_x->code);
   REQUIRE(eva_lower_open_x->captures_set == lva_open_x->code);
   REQUIRE(eva_read_a->captures_set == 0);
   REQUIRE(eva_close_x->captures_set == get_close_code(lva_open_x->code));
-  REQUIRE(state_has_self_loop(eva_upper_open_x->next));
 
   REQUIRE(eva_upper_open_x->charclass == a_charclass);
   REQUIRE(eva_lower_open_x->charclass == a_charclass);
@@ -119,20 +122,58 @@ TEST_CASE("extended va from '!x{a+}a' is constructed correctly") {
 }
 
 TEST_CASE("initial state has a self loop") {
-  Parser parser = Parser("!x{a}");
+  Parser parser = Parser("a");
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va = ExtendedVA(logical_va);
 
   ExtendedVAState* initial_state = extended_va.initial_state();
 
+  REQUIRE(initial_state->read_captures.size() == 5);
   REQUIRE(state_has_self_loop(initial_state));
+}
 
-  ExtendedVAReadCapture* loop_read_capture = initial_state->read_captures.back();
+TEST_CASE("duplicate extended va is correct for 'aaa'") {
+  Parser parser = Parser("aaa");
+  LogicalVA logical_va = parser.get_logical_va();
+  ExtendedVA extended_va = ExtendedVA(logical_va);
 
-  std::bitset<64> empty_set;
-  CharClass asterisk_class = CharClass((char) 0, (char) 255);
-  REQUIRE(loop_read_capture->captures_set == empty_set);
-  REQUIRE(loop_read_capture->charclass == asterisk_class);
+  extended_va.duplicate();
+
+  REQUIRE(extended_va.states.size() == 2 * (4 + extra_states_in_self_loop) - 1);
+}
+
+TEST_CASE("duplicate extended va is correct for 'a+'") {
+  Parser parser = Parser("a+");
+  LogicalVA logical_va = parser.get_logical_va();
+  ExtendedVA extended_va = ExtendedVA(logical_va);
+
+  extended_va.duplicate();
+  CharClass charclass_a = logical_va.initial_state()->filters.front()->charclass;
+
+  ExtendedVAState* initial_state = extended_va.initial_state();
+
+  std::map<int, int> number_of_transitions_count;
+  std::map<int, int> number_of_backward_transitions_count;
+
+  for (auto& state : extended_va.states) {
+    int number_of_transitions = state->read_captures.size();
+    int number_of_backward_transitions = state->backward_read_captures.size();
+    number_of_transitions_count[number_of_transitions]++;
+    number_of_backward_transitions_count[number_of_backward_transitions]++;
+  }
+
+  REQUIRE(extended_va.states.size() == 5 + 2 * extra_states_in_self_loop);
+  REQUIRE(initial_state->read_captures.size() == 2 + extra_transitions_from_initial_state);
+
+  // the initial states have 2 + 4 outgoing transitions
+  REQUIRE(number_of_transitions_count[2 + extra_transitions_from_initial_state] == 2);
+  // the accepting state has no outgoing transitions
+  REQUIRE(number_of_transitions_count[0] == 1);
+  REQUIRE(number_of_transitions_count[2] == 2);
+  
+  // the initial states and the accepting state have 4 incoming transitions
+  REQUIRE(number_of_backward_transitions_count[extra_transitions_from_initial_state] == 3);
+  REQUIRE(number_of_backward_transitions_count[2] == 2);
 }
 
 bool extended_va_has_only_read_captures_transitions(ExtendedVA* const& extended_va) {
@@ -150,10 +191,42 @@ std::bitset<64> get_close_code(std::bitset<64> code) {
 }
 
 bool state_has_self_loop(ExtendedVAState* state) {
-  for (ExtendedVAReadCapture* read_capture : state->read_captures) {
-    if (read_capture->next == state)
-      return true;
+  return state_has_self_loop_of_length(state, 1) &&
+         state_has_self_loop_of_length(state, 2) &&
+         state_has_self_loop_of_length(state, 3) &&
+         state_has_self_loop_of_length(state, 4);
+}
+
+bool state_has_self_loop_of_length(ExtendedVAState* starting_state, int length) {
+  std::map<ExtendedVAState*, bool> visited;
+
+  std::stack<ExtendedVAState*> states_stack;
+  std::stack<int> length_stack;
+
+  states_stack.push(starting_state);
+  length_stack.push(1);
+
+  while (!states_stack.empty()) {
+    ExtendedVAState* current_state = states_stack.top(); states_stack.pop();
+    visited[current_state] = true;
+    int current_length = length_stack.top(); length_stack.pop();
+
+    for (auto& read_capture : current_state->read_captures) {
+      if (current_length > length)
+        break;
+
+      ExtendedVAState* next_state = read_capture->next;
+
+      if (next_state == starting_state && current_length == length)
+        return true;
+
+      if (!visited[next_state]) {
+        states_stack.push(next_state);
+        length_stack.push(current_length + 1);
+      }
+    }
   }
+
   return false;
 }
 

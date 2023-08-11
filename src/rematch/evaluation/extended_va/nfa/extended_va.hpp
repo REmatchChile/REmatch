@@ -25,6 +25,7 @@ public:
   ExtendedVAState* accepting_state() const { return accepting_state_; }
   void set_accepting_state(ExtendedVAState *s);
 
+  void duplicate();
 private:
   ExtendedVAState* initial_state_;
   ExtendedVAState* accepting_state_;

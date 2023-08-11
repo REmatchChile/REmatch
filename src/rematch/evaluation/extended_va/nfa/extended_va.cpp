@@ -210,6 +210,60 @@ void ExtendedVA::remove_filter_transitions() {
   }
 }
 
+void ExtendedVA::duplicate() {
+  std::map<ExtendedVAState*, size_t> state_to_index;
+
+  std::vector<ExtendedVAState*> states0, states1;
+
+  size_t initial_state_idx;
+  size_t accepting_state_idx;
+
+  for (size_t i = 0; i < states.size(); i++) {
+    if (states[i]->is_initial())
+      initial_state_idx = i;
+    if (states[i]->is_accepting())
+      accepting_state_idx = i;
+
+    states0.push_back(new ExtendedVAState());
+    states1.push_back(new ExtendedVAState());
+
+    state_to_index[states[i]] = i;
+  }
+
+  ExtendedVAState *current_old, *next_old;
+  ExtendedVAState *current_new0, *next_new0, *current_new1, *next_new1;
+
+  for (size_t i = 0; i < states.size(); i++) {
+    current_old = states[i];
+    current_new0 = states0[i];
+    current_new1 = states1[i];
+    
+    for (auto& read_capture : current_old->read_captures) {
+      next_old = read_capture->next;
+      size_t next_old_idx = state_to_index[next_old];
+
+      next_new0 = states0[next_old_idx];
+      next_new1 = states1[next_old_idx];
+
+      current_new1->add_read_capture(read_capture->charclass, read_capture->captures_set, next_new0);
+
+      // if reached state is accepting, then only connect to 0
+      if (next_old->is_accepting())
+        current_new0->add_read_capture(read_capture->charclass, read_capture->captures_set, next_new0);
+      else
+        current_new0->add_read_capture(read_capture->charclass, read_capture->captures_set, next_new1);
+    }
+  }
+
+  states0.insert(states0.end(), states1.begin(), states1.end());
+
+  set_initial_state(states0[initial_state_idx]);
+  set_accepting_state(states0[accepting_state_idx]);
+
+  states.swap(states0);
+  trim();
+}
+
 void ExtendedVA::trim() {
   std::map<ExtendedVAState*, bool> is_useful;
   std::map<ExtendedVAState*, bool> is_reachable;
@@ -274,8 +328,33 @@ void ExtendedVA::trim() {
 
 void ExtendedVA::add_loop_to_initial_state() {
   std::bitset<64> empty_set;
-  CharClass asterisk_class = CharClass((char) 0, (char) 254);
-  initial_state_->add_read_capture(asterisk_class, empty_set, initial_state_);
+  ExtendedVAState* new_state0;
+  ExtendedVAState* new_state1;
+  ExtendedVAState* new_state2;
+
+  // 1 byte
+  initial_state_->add_read_capture(CharClass({'\x00', '\x7F'}), empty_set, initial_state_);
+
+  // 2 bytes
+  new_state0 = create_new_state();
+  initial_state_->add_read_capture(CharClass({'\xC2', '\xDF'}), empty_set, new_state0);
+  new_state0->add_read_capture(CharClass({'\x80', '\xBF'}), empty_set, initial_state_);
+
+  // 3 bytes
+  new_state0 = create_new_state();
+  new_state1 = create_new_state();
+  initial_state_->add_read_capture(CharClass({'\xE0', '\xEF'}), empty_set, new_state0);
+  new_state0->add_read_capture(CharClass({'\x80', '\xBF'}), empty_set, new_state1);
+  new_state1->add_read_capture(CharClass({'\x80', '\xBF'}), empty_set, initial_state_);
+
+  // 4 bytes
+  new_state0 = create_new_state();
+  new_state1 = create_new_state();
+  new_state2 = create_new_state();
+  initial_state_->add_read_capture(CharClass({'\xF0', '\xF7'}), empty_set, new_state0);
+  new_state0->add_read_capture(CharClass({'\x80', '\xBF'}), empty_set, new_state1);
+  new_state1->add_read_capture(CharClass({'\x80', '\xBF'}), empty_set, new_state2);
+  new_state2->add_read_capture(CharClass({'\x80', '\xBF'}), empty_set, initial_state_);
 }
 
 void ExtendedVA::set_accepting_state(ExtendedVAState* state) {
