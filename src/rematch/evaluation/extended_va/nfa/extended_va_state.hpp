@@ -11,13 +11,13 @@ namespace rematch {
 class ExtendedVAState {
  private:
   static unsigned int ID;
-  bool is_initial_;
-  bool is_accepting_;
+  bool is_initial_ = false;
+  bool is_accepting_ = false;
 
  public:
   unsigned int id;
 
-  bool visited;
+  bool visited = false;
 
   std::vector<ExtendedVAFilter*> filters;
   std::vector<ExtendedVAFilter*> backward_filters;

@@ -140,6 +140,21 @@ TEST_CASE("duplicate extended va is correct for 'aaa'") {
   extended_va.duplicate();
 
   REQUIRE(extended_va.states.size() == 2 * (4 + extra_states_in_self_loop) - 1);
+
+  ExtendedVAState* initial_state = extended_va.initial_state();
+  ExtendedVAReadCapture* first_read_capture = initial_state->read_captures.front();
+  ExtendedVAReadCapture* second_read_capture = first_read_capture->next->read_captures.front();
+  ExtendedVAReadCapture* third_read_capture = second_read_capture->next->read_captures.front();
+
+  ExtendedVAState* initial_state_duplicate = initial_state->read_captures[1]->next;
+  ExtendedVAReadCapture* first_read_capture_duplicate = initial_state_duplicate->read_captures.front();
+  ExtendedVAReadCapture* second_read_capture_duplicate = first_read_capture_duplicate->next->read_captures.front();
+  ExtendedVAReadCapture* third_read_capture_duplicate = second_read_capture_duplicate->next->read_captures.front();
+
+  REQUIRE(initial_state->read_captures.size() == 1 + extra_transitions_from_initial_state);
+  REQUIRE(initial_state_duplicate->read_captures.size() == 1 + extra_transitions_from_initial_state);
+
+  REQUIRE(third_read_capture->next == third_read_capture_duplicate->next);
 }
 
 TEST_CASE("duplicate extended va is correct for 'a+'") {
