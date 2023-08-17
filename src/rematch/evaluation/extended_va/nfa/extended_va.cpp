@@ -15,7 +15,6 @@ ExtendedVA::ExtendedVA(LogicalVA const &logical_va) {
   capture_closure();
 
   add_read_captures_transitions();
-  add_loop_to_initial_state();
 }
 
 void ExtendedVA::copy_data_from_logical_va(LogicalVA &logical_va) {
@@ -59,6 +58,12 @@ void ExtendedVA::copy_transitions_from_logical_va
       eva_state->add_capture(capture->code, next_eva_state);
     }
   }
+}
+
+void ExtendedVA::clean_for_determinization() {
+  add_loop_to_initial_state();
+  duplicate();
+  relabel_states();
 }
 
 void ExtendedVA::capture_closure() {
@@ -328,6 +333,12 @@ void ExtendedVA::trim() {
 
 void ExtendedVA::add_loop_to_initial_state() {
   std::bitset<64> empty_set;
+  initial_state_->add_read_capture(CharClass({'\x00', '\xF7'}), empty_set, initial_state_);
+}
+
+#if 0
+void ExtendedVA::add_loop_to_initial_state() {
+  std::bitset<64> empty_set;
   ExtendedVAState* new_state0;
   ExtendedVAState* new_state1;
   ExtendedVAState* new_state2;
@@ -355,6 +366,45 @@ void ExtendedVA::add_loop_to_initial_state() {
   new_state0->add_read_capture(CharClass({'\x80', '\xBF'}), empty_set, new_state1);
   new_state1->add_read_capture(CharClass({'\x80', '\xBF'}), empty_set, new_state2);
   new_state2->add_read_capture(CharClass({'\x80', '\xBF'}), empty_set, initial_state_);
+}
+#endif
+
+void ExtendedVA::relabel_states() {
+
+  std::deque<ExtendedVAState*> queue;
+  std::map<ExtendedVAState*, bool> visited;
+
+  int current_id = 0;
+
+  queue.push_back(initial_state_);
+  visited[initial_state_] = true;
+
+  while (!queue.empty()) {
+    ExtendedVAState* current_state = queue.back(); queue.pop_back();
+
+    current_state->id = current_id++;
+
+    for (auto &read_capture : current_state->read_captures) {
+      if (!visited[read_capture->next]) {
+        queue.push_back(read_capture->next);
+        visited[read_capture->next] = true;
+      }
+    }
+
+    for (auto &filter : current_state->filters) {
+      if (!visited[filter->next]) {
+        queue.push_back(filter->next);
+        visited[filter->next] = true;
+      }
+    }
+
+    for (auto &capture: current_state->captures) {
+      if (!visited[capture->next]) {
+        queue.push_back(capture->next);
+        visited[capture->next] = true;
+      }
+    }
+  }
 }
 
 void ExtendedVA::set_accepting_state(ExtendedVAState* state) {
