@@ -25,6 +25,7 @@ public:
   ExtendedVAState* accepting_state() const { return accepting_state_; }
   void set_accepting_state(ExtendedVAState *s);
 
+  void clean_for_determinization();
   void duplicate();
   void add_loop_to_initial_state();
   void relabel_states();
@@ -39,8 +40,6 @@ private:
   void copy_data_from_logical_va(LogicalVA &logical_va);
   void copy_transitions_from_logical_va(LogicalVA &logical_va, std::map<unsigned int, ExtendedVAState*> &id_map);
   void copy_states_from_logical_va(LogicalVA &logical_va, std::map<unsigned int, ExtendedVAState*> &id_map);
-
-  void clean_for_determinization();
 
   std::queue<ExtendedVAState*> inv_topological_sort();
   void inv_topological_sort_util(ExtendedVAState* state, std::queue<ExtendedVAState*> *Q);
