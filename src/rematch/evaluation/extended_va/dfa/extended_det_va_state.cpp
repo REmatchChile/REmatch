@@ -17,8 +17,16 @@ void ExtendedDetVAState::set_initial(bool initial) {
   is_initial_ = initial;
 }
 
-void ExtendedDetVAState::add_to_subset(ExtendedVAState* state) {
-  states_subset_.push_back(state);
+bool ExtendedDetVAState::is_initial() {
+  return is_initial_;
+}
+
+bool ExtendedDetVAState::is_final() {
+  for (auto& state : states_subset_) {
+    if (state->is_accepting())
+      return true;
+  }
+  return false;
 }
 
 bool ExtendedDetVAState::contains_cached_transition(char letter) {
@@ -27,10 +35,6 @@ bool ExtendedDetVAState::contains_cached_transition(char letter) {
 
 std::vector<CaptureSubsetPair*> ExtendedDetVAState::get_transition(char letter) {
   return cached_transitions[letter];
-}
-
-bool ExtendedDetVAState::is_initial() {
-  return is_initial_;
 }
 
 unsigned int ExtendedDetVAState::ID = 0;

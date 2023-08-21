@@ -19,6 +19,9 @@ class ExtendedDetVA {
 
   void create_initial_state();
 
+  std::unordered_map<std::bitset<64>, std::set<ExtendedVAState*>>
+  get_map_with_next_subsets(ExtendedDetVAState* &current_state, char letter);
+
   void add_transitions_with_empty_captures(
       std::unordered_map<std::bitset<64>, std::set<ExtendedVAState*>>&
           captures_subset_map,
@@ -28,6 +31,8 @@ class ExtendedDetVA {
       std::unordered_map<std::bitset<64>, std::set<ExtendedVAState*>>&
           captures_subset_map,
       std::vector<CaptureSubsetPair*>& capture_subset_pairs);
+
+  ExtendedDetVAState* create_state(std::set<ExtendedVAState*> &states_set);
 
  public:
   ExtendedDetVA(ExtendedVA& extended_va);
@@ -44,11 +49,6 @@ class ExtendedDetVA {
 
   ExtendedDetVAState* get_state_from_subset(
       std::set<ExtendedVAState*> &states_set);
-
-  std::unordered_map<std::bitset<64>, std::set<ExtendedVAState*>>
-  get_map_with_next_subsets(ExtendedDetVAState* &current_state, char letter);
-
-  ExtendedDetVAState* create_state(std::set<ExtendedVAState*> &states_set);
 };
 
 }  // namespace rematch

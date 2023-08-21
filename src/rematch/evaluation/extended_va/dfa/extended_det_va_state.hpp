@@ -28,6 +28,8 @@ class ExtendedDetVAState {
 
   bool is_initial();
   void set_initial(bool initial);
+  bool is_final();
+
   int get_subset_size() {return states_subset_.size(); }
 
   std::vector<ExtendedVAState*> get_states_subset() const { return states_subset_; }

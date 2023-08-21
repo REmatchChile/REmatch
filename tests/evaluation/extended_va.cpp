@@ -184,12 +184,8 @@ TEST_CASE("duplicate extended va is correct for '!x{a*b}'") {
   logical_va.trim();
   
   ExtendedVA extended_va = ExtendedVA(logical_va);
-  
-  std::cout << extended_va << std::endl;
 
   extended_va.duplicate();
-
-  std::cout << extended_va << std::endl;
 
   REQUIRE(extended_va.size() == 5 * 2 - 2);
 
