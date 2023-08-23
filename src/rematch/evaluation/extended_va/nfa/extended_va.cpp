@@ -170,8 +170,8 @@ void ExtendedVA::add_read_captures_transitions() {
         state->add_read_capture(next_filter->charclass, capture->code, next_filter->next);
 
       if (capture->next->is_accepting()) {
-        auto eof = CharClass(-1);
-        state->add_read_capture(eof, capture->code, capture->next);
+        auto asterisk_class = CharClass({'\x80', '\x7F'});
+        state->add_read_capture(asterisk_class, capture->code, capture->next);
       }
     }
   }

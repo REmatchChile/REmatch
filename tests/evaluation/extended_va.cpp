@@ -11,6 +11,8 @@ bool state_has_self_loop(ExtendedVAState* state);
 std::bitset<64> get_close_code(std::bitset<64> code);
 int get_max_id(ExtendedVA* const& extended_va);
 int get_min_id(ExtendedVA* const& extended_va);
+bool charclass_contains_every_character(CharClass charclass);
+CharClass asterisk_class = CharClass({'\x80', '\x7F'});
 
 TEST_CASE("extended va from '!x{a}' is constructed correctly") {
   Parser parser = Parser("!x{a}");
@@ -43,7 +45,7 @@ TEST_CASE("extended va from '!x{!y{a}}' is constructed correctly") {
   REQUIRE(read_capture_left->charclass == logical_va_filter->charclass);
   REQUIRE(read_capture_left->captures_set == (outer_open_capture->code | inner_open_capture->code));
 
-  REQUIRE(read_capture_right->charclass == CharClass(-1));
+  REQUIRE(read_capture_right->charclass == asterisk_class);
   REQUIRE(read_capture_right->captures_set == (inner_close_capture->code | outer_close_capture->code));
 }
 
@@ -80,10 +82,10 @@ TEST_CASE("extended va from '!x{(a!y{a}|!y{a}a)}' is constructed correctly") {
 
   REQUIRE(eva_upper_open_x->charclass == lva_filter_a->charclass);
   REQUIRE(eva_upper_open_y->charclass == lva_filter_a->charclass);
-  REQUIRE(eva_upper_close_xy->charclass == CharClass(-1));
+  REQUIRE(eva_upper_close_xy->charclass == asterisk_class);
   REQUIRE(eva_lower_open_xy->charclass == lva_filter_a->charclass);
   REQUIRE(eva_lower_close_y->charclass == lva_filter_a->charclass);
-  REQUIRE(eva_lower_close_x->charclass == CharClass(-1));
+  REQUIRE(eva_lower_close_x->charclass == asterisk_class);
 }
 
 TEST_CASE("extended va from '!x{a+}a' is constructed correctly") {
@@ -218,6 +220,18 @@ TEST_CASE("duplicate extended va is correct for '!x{a*b}'") {
   REQUIRE(close_x_read_eof_dup->next == extended_va.accepting_state());
 }
 
+TEST_CASE("the capture reaching the final state reads any character") {
+  Parser parser = Parser("!x{a}");
+  LogicalVA logical_va = parser.get_logical_va();
+  ExtendedVA extended_va = ExtendedVA(logical_va);
+
+  ExtendedVAState* initial_state = extended_va.initial_state();
+  ExtendedVAReadCapture* open_x_capture = initial_state->read_captures[0];
+  ExtendedVAReadCapture* close_x_capture = open_x_capture->next->read_captures[0];
+
+  REQUIRE(charclass_contains_every_character(close_x_capture->charclass));
+}
+
 TEST_CASE("relabel states is correct") {
   Parser parser = Parser("a+");
   LogicalVA logical_va = parser.get_logical_va();
@@ -271,6 +285,15 @@ int get_min_id(ExtendedVA* const& extended_va) {
   }
 
   return min_id;
+}
+
+bool charclass_contains_every_character(CharClass charclass) {
+  for (int i = 0; i < 0xFF; i++) {
+    if (!charclass.contains((char) i))
+      return false;
+  }
+
+  return true;
 }
 
 }  // namespace rematch::testing
