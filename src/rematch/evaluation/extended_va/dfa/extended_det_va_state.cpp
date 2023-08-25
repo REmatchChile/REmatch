@@ -8,9 +8,15 @@ ExtendedDetVAState::ExtendedDetVAState() {
 }
 
 ExtendedDetVAState::ExtendedDetVAState(
-    std::set<ExtendedVAState*> &states_subset)
+    StatesPtrSet &states_subset)
     : states_subset_(states_subset.begin(), states_subset.end()) {
   id = ID++;
+
+  for (auto& state: states_subset_) {
+    if (state->is_accepting()) {
+      is_accepting_ = true;
+    }
+  }
 }
 
 void ExtendedDetVAState::set_initial(bool initial) {
@@ -21,19 +27,23 @@ bool ExtendedDetVAState::is_initial() {
   return is_initial_;
 }
 
-bool ExtendedDetVAState::is_final() {
-  for (auto& state : states_subset_) {
-    if (state->is_accepting())
-      return true;
-  }
-  return false;
+bool ExtendedDetVAState::is_accepting() {
+  return is_accepting_;
 }
 
-bool ExtendedDetVAState::contains_cached_transition(char letter) {
-  return cached_transitions.count(letter);
+void ExtendedDetVAState::set_node(ECSNode* node) {
+  output_node = node;
 }
 
-std::vector<CaptureSubsetPair*> ExtendedDetVAState::get_transition(char letter) {
+ECSNode* ExtendedDetVAState::get_node() {
+  return output_node;
+}
+
+void ExtendedDetVAState::set_phase(int phase) {
+  this->phase = phase;
+}
+
+std::optional<std::vector<CaptureSubsetPair*>> ExtendedDetVAState::get_transition(char letter) {
   return cached_transitions[letter];
 }
 

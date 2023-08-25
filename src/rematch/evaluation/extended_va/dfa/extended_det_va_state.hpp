@@ -3,6 +3,8 @@
 
 #include <set>
 #include "evaluation/extended_va/nfa/extended_va.hpp"
+#include "output_enumeration/ecs.hpp"
+#include "aliases.hpp"
 
 namespace rematch {
 
@@ -12,23 +14,27 @@ class ExtendedDetVAState {
  private:
   static unsigned int ID;
   bool is_initial_ = false;
+  bool is_accepting_;
 
   std::vector<ExtendedVAState*> states_subset_;
 
  public:
   uint id;
-  std::map<char, std::vector<CaptureSubsetPair*>> cached_transitions;
+  std::vector<std::optional<std::vector<CaptureSubsetPair*>>> cached_transitions{255, std::nullopt};
+  ECSNode* output_node;
+  int phase = -1;
 
   ExtendedDetVAState();
-  ExtendedDetVAState(std::set<ExtendedVAState*> &states_subset);
+  ExtendedDetVAState(StatesPtrSet &states_subset);
 
-  void add_to_subset(ExtendedVAState* state);
-  bool contains_cached_transition(char letter);
-  std::vector<CaptureSubsetPair*> get_transition(char letter);
+  std::optional<std::vector<CaptureSubsetPair*>> get_transition(char letter);
 
   bool is_initial();
   void set_initial(bool initial);
-  bool is_final();
+  bool is_accepting();
+  void set_node(ECSNode* node);
+  ECSNode* get_node();
+  void set_phase(int phase);
 
   int get_subset_size() {return states_subset_.size(); }
 

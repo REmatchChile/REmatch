@@ -131,7 +131,7 @@ TEST_CASE("the deterministic state is final if a state in the subset is final") 
 
   ExtendedDetVAState* second_state = capture_subset_list[0]->subset;
 
-  REQUIRE(second_state->is_final());
+  REQUIRE(second_state->is_accepting());
 }
 
 ExtendedDetVA get_extended_det_va_from_regex(std::string_view input) {

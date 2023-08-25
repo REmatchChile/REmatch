@@ -1,11 +1,9 @@
 #ifndef EXTENDED_DET_VA_HPP
 #define EXTENDED_DET_VA_HPP
 
-#include "capture_subset_pair.hpp"
 #include "evaluation/extended_va/nfa/extended_va.hpp"
 #include "extended_det_va_state.hpp"
-
-using StatesBitset = std::vector<bool>;
+#include "capture_subset_pair.hpp"
 
 namespace rematch {
 
@@ -19,20 +17,13 @@ class ExtendedDetVA {
 
   void create_initial_state();
 
-  std::unordered_map<std::bitset<64>, std::set<ExtendedVAState*>>
-  get_map_with_next_subsets(ExtendedDetVAState* &current_state, char letter);
+  std::unordered_map<std::bitset<64>, StatesPtrSet> get_map_with_next_subsets(
+      ExtendedDetVAState*& current_state, char letter);
 
-  void add_transitions_with_empty_captures(
-      std::unordered_map<std::bitset<64>, std::set<ExtendedVAState*>>&
-          captures_subset_map,
-      std::vector<CaptureSubsetPair*>& capture_subset_pairs);
+  std::vector<CaptureSubsetPair*> add_transitions_to_vector(
+      std::unordered_map<std::bitset<64>, StatesPtrSet>& captures_subset_map);
 
-  void add_transitions_with_captures(
-      std::unordered_map<std::bitset<64>, std::set<ExtendedVAState*>>&
-          captures_subset_map,
-      std::vector<CaptureSubsetPair*>& capture_subset_pairs);
-
-  ExtendedDetVAState* create_state(std::set<ExtendedVAState*> &states_set);
+  ExtendedDetVAState* create_state(StatesPtrSet &states_set);
 
  public:
   ExtendedDetVA(ExtendedVA& extended_va);
@@ -45,10 +36,10 @@ class ExtendedDetVA {
   ExtendedDetVAState* get_initial_state() { return initial_state_; }
 
   StatesBitset get_bitset_from_states_set(
-      std::set<ExtendedVAState*>& states_subset);
+      StatesPtrSet& states_subset);
 
   ExtendedDetVAState* get_state_from_subset(
-      std::set<ExtendedVAState*> &states_set);
+      StatesPtrSet &states_set);
 };
 
 }  // namespace rematch
