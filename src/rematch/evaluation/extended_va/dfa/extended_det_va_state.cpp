@@ -35,6 +35,10 @@ void ExtendedDetVAState::set_node(ECSNode* node) {
   output_node = node;
 }
 
+void ExtendedDetVAState::unset_node() {
+  output_node = nullptr;
+}
+
 ECSNode* ExtendedDetVAState::get_node() {
   return output_node;
 }
@@ -44,7 +48,7 @@ void ExtendedDetVAState::set_phase(int phase) {
 }
 
 std::optional<std::vector<CaptureSubsetPair*>> ExtendedDetVAState::get_transition(char letter) {
-  return cached_transitions[letter];
+  return cached_transitions[(uint8_t)letter];
 }
 
 unsigned int ExtendedDetVAState::ID = 0;

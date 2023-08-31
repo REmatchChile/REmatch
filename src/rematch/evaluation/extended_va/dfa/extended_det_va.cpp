@@ -34,7 +34,7 @@ std::vector<CaptureSubsetPair*> ExtendedDetVA::get_next_states(
 
   capture_subset_pairs = add_transitions_to_vector(captures_subset_map);
 
-  current_state->cached_transitions[letter] = capture_subset_pairs;
+  current_state->cached_transitions[(uint8_t)letter] = capture_subset_pairs;
 
   return capture_subset_pairs.value();
 }

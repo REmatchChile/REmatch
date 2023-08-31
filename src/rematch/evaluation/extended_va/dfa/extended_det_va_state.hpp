@@ -14,14 +14,14 @@ class ExtendedDetVAState {
  private:
   static unsigned int ID;
   bool is_initial_ = false;
-  bool is_accepting_;
+  bool is_accepting_ = false;
 
   std::vector<ExtendedVAState*> states_subset_;
 
  public:
   uint id;
-  std::vector<std::optional<std::vector<CaptureSubsetPair*>>> cached_transitions{255, std::nullopt};
-  ECSNode* output_node;
+  std::vector<std::optional<std::vector<CaptureSubsetPair*>>> cached_transitions{256, std::nullopt};
+  ECSNode* output_node = nullptr;
   int phase = -1;
 
   ExtendedDetVAState();
@@ -33,6 +33,7 @@ class ExtendedDetVAState {
   void set_initial(bool initial);
   bool is_accepting();
   void set_node(ECSNode* node);
+  void unset_node();
   ECSNode* get_node();
   void set_phase(int phase);
 
