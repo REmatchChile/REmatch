@@ -25,8 +25,11 @@ void AlgorithmClass::initialize_algorithm() {
 }
 
 const Mapping* AlgorithmClass::get_next_mapping() {
-  if (enumerator_->has_next())
+  if (enumerator_->has_next()) {
     return enumerator_->next();
+  } else {
+    enumerator_->reset();
+  }
 
   evaluate();
   enumerate();
@@ -106,8 +109,9 @@ void AlgorithmClass::update_output_nodes(ExtendedDetVAState*& next_state,
 
     if (next_state->is_accepting()) {
       reached_final_states_.push_back(next_state);
+    } else {
+      next_states_.push_back(next_state);
     }
-    next_states_.push_back(next_state);
 
   } else {
     ECSNode* current_next_node = next_state->get_node();
@@ -117,10 +121,28 @@ void AlgorithmClass::update_output_nodes(ExtendedDetVAState*& next_state,
 }
 
 void AlgorithmClass::enumerate() {
-  for (auto& state: reached_final_states_)
-    enumerator_->add_node(state->get_node());
+  ECSNode* root_node = create_root_node_to_enumerate();
 
+  if (root_node != nullptr)
+    enumerator_->add_node(root_node);
+}
+
+ECSNode* AlgorithmClass::create_root_node_to_enumerate() {
+  ECSNode* root_node = nullptr;
+
+  for (auto& state : reached_final_states_) {
+    if (root_node == nullptr){
+      root_node = state->get_node();
+      ECS_interface_->pin_node(root_node);
+    }
+    else {
+      ECSNode* temp_node = root_node;
+      root_node = ECS_interface_->create_union_node(root_node, state->get_node());
+      ECS_interface_->unpin_node(temp_node);
+    }
+  }
   reached_final_states_.clear();
+  return root_node;
 }
 
 void AlgorithmClass::swap_state_lists() {

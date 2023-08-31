@@ -33,6 +33,8 @@ class AlgorithmClass {
                    std::vector<CaptureSubsetPair*> capture_subset_pairs);
   void update_output_nodes(ExtendedDetVAState*& next_state,
                            ECSNode*& next_node);
+
+  ECSNode* create_root_node_to_enumerate();
   void swap_state_lists();
   void link_node_to_state(ExtendedDetVAState* state, ECSNode* node);
 };

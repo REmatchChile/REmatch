@@ -21,7 +21,7 @@ class Enumerator {
 
  private:
   int amount_of_variables = MAXIMUM_AMOUNT_OF_VARIABLES;
-  std::vector<ECSNode*> stack;
+  std::vector<ECSNode*> stack = {};
   Mapping *current_mapping;
 
   bool was_output_previously = false;
@@ -30,8 +30,10 @@ class Enumerator {
  public:
   Enumerator();
   Enumerator(int amount_of_variables);
+  Enumerator(const Enumerator&) = delete;
   ~Enumerator();
 
+  void reset();
   void add_node(ECSNode* n) { stack.push_back(n); };
 
   bool has_next() const { return !stack.empty(); }
