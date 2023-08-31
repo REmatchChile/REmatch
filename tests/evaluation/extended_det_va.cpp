@@ -105,7 +105,7 @@ TEST_CASE("next state is computed correctly when the current subset has more tha
   REQUIRE(capture_subset_list[0]->subset->get_subset_size() == 2);
 }
 
-TEST_CASE("next state is returned inmediately when it has already been computed before") {
+TEST_CASE("next state is returned immediately when it has already been computed before") {
   ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("!y{a}");
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
@@ -132,6 +132,18 @@ TEST_CASE("the deterministic state is final if a state in the subset is final") 
   ExtendedDetVAState* second_state = capture_subset_list[0]->subset;
 
   REQUIRE(second_state->is_accepting());
+}
+
+TEST_CASE("non ascii characters are handled correctly") {
+  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("a");
+
+  ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
+
+  std::vector<CaptureSubsetPair*> capture_subset_list;
+  char EOF_char = -1;
+  capture_subset_list = extended_det_va.get_next_states(initial_state, EOF_char);
+
+  REQUIRE(capture_subset_list.size() == 0);
 }
 
 ExtendedDetVA get_extended_det_va_from_regex(std::string_view input) {

@@ -20,6 +20,7 @@ set(TEST_SOURCES
         filtering_module/search_dfa.cpp
         evaluation/extended_va.cpp
         evaluation/extended_det_va.cpp
+        evaluation/algorithm_class.cpp
         )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
