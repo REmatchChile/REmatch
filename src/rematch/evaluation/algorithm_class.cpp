@@ -24,6 +24,10 @@ void AlgorithmClass::initialize_algorithm() {
   current_states_.push_back(initial_state);
 }
 
+void AlgorithmClass::set_ecs(ECS& ecs) {
+  ECS_interface_ = &ecs;
+}
+
 const Mapping* AlgorithmClass::get_next_mapping() {
   if (enumerator_->has_next()) {
     return enumerator_->next();
@@ -121,28 +125,32 @@ void AlgorithmClass::update_output_nodes(ExtendedDetVAState*& next_state,
 }
 
 void AlgorithmClass::enumerate() {
-  ECSNode* root_node = create_root_node_to_enumerate();
+  create_root_node_to_enumerate();
 
-  if (root_node != nullptr)
-    enumerator_->add_node(root_node);
+  if (ECS_root_node_ != nullptr)
+    enumerator_->add_node(ECS_root_node_);
 }
 
 ECSNode* AlgorithmClass::create_root_node_to_enumerate() {
-  ECSNode* root_node = nullptr;
+  if (ECS_root_node_ != nullptr) {
+    ECS_interface_->unpin_node(ECS_root_node_);
+    ECS_root_node_ = nullptr;
+  }
 
   for (auto& state : reached_final_states_) {
-    if (root_node == nullptr){
-      root_node = state->get_node();
-      ECS_interface_->pin_node(root_node);
+    if (ECS_root_node_ == nullptr){
+      ECS_root_node_ = state->get_node();
+      ECS_interface_->pin_node(ECS_root_node_);
     }
     else {
-      ECSNode* temp_node = root_node;
-      root_node = ECS_interface_->create_union_node(root_node, state->get_node());
+      ECSNode* temp_node = ECS_root_node_;
+      ECS_root_node_ = ECS_interface_->create_union_node(ECS_root_node_, state->get_node());
+      ECS_interface_->pin_node(ECS_root_node_);
       ECS_interface_->unpin_node(temp_node);
     }
   }
   reached_final_states_.clear();
-  return root_node;
+  return ECS_root_node_;
 }
 
 void AlgorithmClass::swap_state_lists() {
@@ -157,6 +165,15 @@ void AlgorithmClass::link_node_to_state(ExtendedDetVAState* state, ECSNode* node
 
   ECS_interface_->pin_node(node);
   state->set_node(node);
+}
+
+void AlgorithmClass::clear_state_node_links() {
+  for (auto& state: extended_det_va_.states) {
+    if (state->get_node() != nullptr) {
+      ECS_interface_->unpin_node(state->get_node());
+      state->unset_node();
+    }
+  }
 }
 
 }

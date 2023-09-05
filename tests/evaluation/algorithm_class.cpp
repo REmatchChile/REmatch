@@ -7,6 +7,8 @@
 namespace rematch::testing {
 
 ExtendedDetVA get_extended_det_va_from_regex(std::string_view input);
+ECSNode* create_linked_list_node_of_depth(ECS* ecs, int depth);
+std::string create_document_with_repeated_character(char character, int size);
 int get_number_of_valid_mappings(AlgorithmClass& algorithm);
 char EOF_char = (char) -1;
 
@@ -163,6 +165,26 @@ TEST_CASE("the algorithm returns the correct number of mappings") {
   REQUIRE(get_number_of_valid_mappings(algorithm) == 1);
 }
 
+TEST_CASE("nodes used by the algorithm are recycled when creating a linked list") {
+  int size = 683;
+  std::string document = create_document_with_repeated_character('a', size);
+
+  std::string regex = "!x{a+}";
+  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex(regex);
+
+  ECS ecs = ECS();
+  AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
+  algorithm.set_ecs(ecs);
+
+  get_number_of_valid_mappings(algorithm);
+  CHECK(ecs.get_amount_of_nodes_used() == MEMORY_POOL_STARTING_SIZE);
+
+  algorithm.clear_state_node_links();
+
+  create_linked_list_node_of_depth(&ecs, MEMORY_POOL_STARTING_SIZE);
+  REQUIRE(ecs.amount_of_nodes_allocated() == MEMORY_POOL_STARTING_SIZE);
+}
+
 int get_number_of_valid_mappings(AlgorithmClass& algorithm) {
 
   const Mapping* mapping = algorithm.get_next_mapping();
@@ -174,6 +196,12 @@ int get_number_of_valid_mappings(AlgorithmClass& algorithm) {
   }
 
   return mapping_count;
+}
+
+std::string create_document_with_repeated_character(char character, int size) {
+  std::string document = std::string(size, character);
+  document += EOF_char;
+  return document;
 }
 
 }  // namespace rematch::testing

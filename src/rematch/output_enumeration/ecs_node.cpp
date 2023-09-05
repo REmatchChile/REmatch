@@ -60,7 +60,7 @@ void ECSNode::assign_attributes(
 
 void ECSNode::reset_attributes() {
   variable_markers = 0;
-  ref_count = 1;
+  ref_count = 0;
   left = nullptr;
   right = nullptr;
 }

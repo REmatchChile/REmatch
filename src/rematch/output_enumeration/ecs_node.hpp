@@ -29,7 +29,7 @@ class ECSNode {
      * manager.
      */
     union {
-      int ref_count{1};
+      int ref_count{0};
       ECSNode *next_free_node;
     };
 

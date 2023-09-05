@@ -12,7 +12,9 @@ class AlgorithmClass {
   AlgorithmClass(ExtendedDetVA &extended_det_va, std::string_view document);
 
   void initialize_algorithm();
+  void set_ecs(ECS& ecs);
   const Mapping* get_next_mapping();
+  void clear_state_node_links();
 
  private:
   uint64_t pos_i_ = 0;
@@ -21,6 +23,7 @@ class AlgorithmClass {
   ExtendedDetVA extended_det_va_;
   ECS* ECS_interface_;
   Enumerator* enumerator_;
+  ECSNode* ECS_root_node_ = nullptr;
 
   std::vector<ExtendedDetVAState*> current_states_ = {};
   std::vector<ExtendedDetVAState*> next_states_ = {};
