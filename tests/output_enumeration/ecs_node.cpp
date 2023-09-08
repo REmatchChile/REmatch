@@ -4,6 +4,7 @@
 
 namespace rematch::testing {
 
+ECSNode* dummynode = new ECSNode(ECSNodeType::kBottom);
 
 TEST_CASE("is_bottom returns true with bottom nodes") {
   ECSNode *node = new ECSNode(ECSNodeType::kBottom);
@@ -13,7 +14,7 @@ TEST_CASE("is_bottom returns true with bottom nodes") {
 TEST_CASE("is_bottom does not return true with non bottom nodes") {
   for (ECSNodeType type : {ECSNodeType::kUnion,
                            ECSNodeType::kLabel}) {
-    ECSNode *node = new ECSNode(type);
+    ECSNode *node = new ECSNode(type, dummynode, dummynode);
     REQUIRE(!node->is_bottom());
   }
 }
@@ -28,7 +29,7 @@ void ensure_nodes_variable_markers_has_the_correct_value(
 
 TEST_CASE("label stores variable_markers correctly after removing the labels") {
   int value = GENERATE(0, 3, 7, 12, 500, 1000);
-  ECSNode *node = new ECSNode(ECSNodeType::kLabel, nullptr, nullptr, value, 0);
+  ECSNode *node = new ECSNode(ECSNodeType::kLabel, dummynode, dummynode, value, 0);
   ensure_nodes_variable_markers_has_the_correct_value(node, value);
 }
 
@@ -37,9 +38,9 @@ TEST_CASE("Union stores left and right nodes correctly") {
   int right_value = GENERATE(6, 9);
 
   ECSNode *left_node = new ECSNode(
-      ECSNodeType::kLabel, nullptr, nullptr, left_value);
+      ECSNodeType::kLabel, dummynode, dummynode, left_value);
   ECSNode *right_node = new ECSNode(
-      ECSNodeType::kLabel, nullptr, nullptr, right_value);
+      ECSNodeType::kLabel, dummynode, dummynode, right_value);
 
   ECSNode *union_node = new ECSNode(
       ECSNodeType::kUnion, left_node, right_node);

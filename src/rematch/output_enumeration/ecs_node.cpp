@@ -78,14 +78,12 @@ void ECSNode::create_kUnion_node(ECSNode *left, ECSNode *right) {
 
 void ECSNode::add_left_node(ECSNode *node) {
   this->left = node;
-  if (node != nullptr)
-    node->increase_ref_count();
+  node->increase_ref_count();
 }
 
 void ECSNode::add_right_node(ECSNode *node) {
   this->right = node;
-  if (node != nullptr)
-    node->increase_ref_count();
+  node->increase_ref_count();
 }
 
 void ECSNode::label_node_as_kUnion() {

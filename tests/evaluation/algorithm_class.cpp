@@ -8,8 +8,10 @@ namespace rematch::testing {
 
 ExtendedDetVA get_extended_det_va_from_regex(std::string_view input);
 ECSNode* create_linked_list_node_of_depth(ECS* ecs, int depth);
+void run_algorithm_test(std::string regex, std::string document,
+                        std::vector<std::vector<Span>> expected_mappings);
 std::string create_document_with_repeated_character(char character, int size);
-int get_number_of_valid_mappings(AlgorithmClass& algorithm);
+std::string get_spans_info(Span actual, Span expected);
 char EOF_char = (char) -1;
 
 TEST_CASE("the algorithm returns a null pointer if there are no mappings") {
@@ -37,132 +39,86 @@ TEST_CASE("the algorithm returns an empty mapping if there are no captures") {
   REQUIRE(mapping == nullptr);
 }
 
-TEST_CASE("correct number of mappings for '!x{a}' over 'a'") {
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("!x{a}");
-  std::string document = "a";
-  document += EOF_char;
+TEST_CASE("the algorithm returns correct mappings for '!x{a}' over 'aaa'") {
+  std::vector<std::vector<Span>> expected_mappings = {{{0, 1}}, {{1, 2}}, {{2, 3}}};
 
-  AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
-
-  const Mapping* mapping;
-  mapping = algorithm.get_next_mapping();
-  REQUIRE(mapping != nullptr);
-
-  mapping = algorithm.get_next_mapping();
-  REQUIRE(mapping == nullptr);
+  run_algorithm_test("!x{a}", "aaa", expected_mappings);
 }
 
-TEST_CASE("the algorithm returns the correct number of mappings for '!x{a}' over 'aaa' ") {
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("!x{a}");
-  std::string document = "aaa";
-  document += EOF_char;
-
-  AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
-  REQUIRE(get_number_of_valid_mappings(algorithm) == 3);
-}
-
-TEST_CASE("the algorithm returns the correct number of mappings when using quantifiers") {
+TEST_CASE("the algorithm returns correct mappings when using quantifiers") {
+  std::vector<std::vector<Span>> expected_mappings;
 
   SECTION("quantifier +") {
-    ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("!x{a+}");
-    std::string document = "aa";
-    document += EOF_char;
-
-    AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
-
-    REQUIRE(get_number_of_valid_mappings(algorithm) == 3);
+    expected_mappings = {{{0, 1}}, {{1, 2}}, {{0, 2}}};
+    run_algorithm_test("!x{a+}", "aa", expected_mappings);
   }
 
   SECTION("quantifier ?") {
-    ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("!x{a[ab]?b}");
-    std::string document = "aabaaabba";
-    document += EOF_char;
-
-    AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
-
-    REQUIRE(get_number_of_valid_mappings(algorithm) == 5);
+    expected_mappings = {{{1, 3}}, {{0, 3}}, {{5, 7}}, {{4, 7}}, {{5, 8}}};
+    run_algorithm_test("!x{a[ab]?b}", "aabaaabba", expected_mappings);
   }
 
   SECTION("quantifier *") {
-    ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("!x{t(hat)*}");
-    std::string document = "thathathat";
-    document += EOF_char;
-
-    AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
-
-    REQUIRE(get_number_of_valid_mappings(algorithm) == 10);
+    expected_mappings = {{{0, 1}}, {{3, 4}},  {{0, 4}},  {{6, 7}},  {{3, 7}},
+                         {{0, 7}}, {{9, 10}}, {{6, 10}}, {{3, 10}}, {{0, 10}}};
+    run_algorithm_test("!x{t(hat)*}", "thathathat", expected_mappings);
   }
 }
 
-TEST_CASE("the algorithm returns the correct number of mappings when using nested variables") {
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("!x{(!y{a}b|!y{a})}");
-  std::string document = "aa";
-  document += EOF_char;
-
-  AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
-
-  REQUIRE(get_number_of_valid_mappings(algorithm) == 2);
+TEST_CASE("the algorithm returns correct mappings when using nested variables") {
+  std::vector<std::vector<Span>> expected_mappings = {
+    {{0, 1}, {0, 1}},
+    {{1, 2}, {1, 2}},
+  };
+  run_algorithm_test("!x{(!y{a}b|!y{a})}", "aa", expected_mappings);
 }
 
-TEST_CASE("the algorithm returns the correct number of mappings for '!x{!y{a}.+}'") {
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("!x{!y{a}.+}");
+TEST_CASE("the algorithm returns correct mappings for '!x{!y{a}.+}'") {
 
   SECTION("over 'aaa'") {
-    std::string document = "aaa";
-    document += EOF_char;
-    AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
-
-    REQUIRE(get_number_of_valid_mappings(algorithm) == 3);
+    const std::vector<std::vector<Span>> expected_mappings = {
+        {{0, 2}, {0, 1}},
+        {{1, 3}, {1, 2}},
+        {{0, 3}, {0, 1}}
+    };
+    run_algorithm_test("!x{!y{a}.+}", "aaa", expected_mappings);
   }
 
   SECTION("over 'ab ab'") {
-    std::string document = "ab ab";
-    document += EOF_char;
-    AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
-
-    REQUIRE(get_number_of_valid_mappings(algorithm) == 5);
+    std::vector<std::vector<Span>> expected_mappings = {
+        {{0, 2}, {0, 1}},
+        {{0, 3}, {0, 1}},
+        {{0, 4}, {0, 1}},
+        {{3, 5}, {3, 4}},
+        {{0, 5}, {0, 1}}
+    };
+    run_algorithm_test("!x{!y{a}.+}", "ab ab", expected_mappings);
   }
 }
 
-TEST_CASE("the algorithm returns the correct number of mappings when using char classes") {
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("!z{[Oo]ptim}");
-
+TEST_CASE("the algorithm returns correct mappings when using char classes") {
+  std::vector<std::vector<Span>> expected_mappings = {
+      {{3, 8}}, {{11, 16}}, {{22, 27}}
+  };
   std::string document = "...Optimal optimistic optimizations...";
-  document += EOF_char;
-  AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
-
-  REQUIRE(get_number_of_valid_mappings(algorithm) == 3);
+  run_algorithm_test("!z{[Oo]ptim}", document, expected_mappings);
 }
 
-TEST_CASE("the algorithm returns the correct number of mappings when using negation") {
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("!w{[^\\s]+}");
-
-  SECTION("over 'stay safe'") {
-    std::string document = "stay safe";
-    document += EOF_char;
-    AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
-
-    REQUIRE(get_number_of_valid_mappings(algorithm) == 20);
-  }
-
-  SECTION("over 'at home'") {
-    std::string document = "at home";
-    document += EOF_char;
-
-    AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
-
-    REQUIRE(get_number_of_valid_mappings(algorithm) == 13);
-  }
+TEST_CASE("the algorithm returns correct mappings when using negation") {
+  std::vector<std::vector<Span>> expected_mappings = {
+      {{0, 1}}, {{1, 2}}, {{0, 2}}, {{2, 3}}, {{1, 3}}, {{0, 3}}, {{3, 4}},
+      {{2, 4}}, {{1, 4}}, {{0, 4}}, {{5, 6}}, {{6, 7}}, {{5, 7}}, {{7, 8}},
+      {{6, 8}}, {{5, 8}}, {{8, 9}}, {{7, 9}}, {{6, 9}}, {{5, 9}}
+  };
+  run_algorithm_test("!w{[^\\s]+}", "stay safe", expected_mappings);
 }
 
-TEST_CASE("the algorithm returns the correct number of mappings") {
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("section\\*?\\{!x{.+}\\}");
+TEST_CASE("the algorithm returns correct mappings") {
+  std::string regex = "section\\*?\\{!x{.+}\\}";
   std::string document = "...\\subsection*{Introduction}...";
-  document += EOF_char;
+  std::vector<std::vector<Span>> expected_mappings = {{{16, 28}}};
 
-  AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
-
-  REQUIRE(get_number_of_valid_mappings(algorithm) == 1);
+  run_algorithm_test("section\\*?\\{!x{.+}\\}", document, expected_mappings);
 }
 
 TEST_CASE("nodes used by the algorithm are recycled when creating a linked list") {
@@ -176,26 +132,43 @@ TEST_CASE("nodes used by the algorithm are recycled when creating a linked list"
   AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
   algorithm.set_ecs(ecs);
 
-  get_number_of_valid_mappings(algorithm);
-  CHECK(ecs.get_amount_of_nodes_used() == MEMORY_POOL_STARTING_SIZE);
+  const Mapping* mapping = algorithm.get_next_mapping();
+  while (mapping != nullptr)
+    mapping = algorithm.get_next_mapping();
 
-  algorithm.clear_state_node_links();
+  CHECK(ecs.get_amount_of_nodes_used() == MEMORY_POOL_STARTING_SIZE);
 
   create_linked_list_node_of_depth(&ecs, MEMORY_POOL_STARTING_SIZE);
   REQUIRE(ecs.amount_of_nodes_allocated() == MEMORY_POOL_STARTING_SIZE);
 }
 
-int get_number_of_valid_mappings(AlgorithmClass& algorithm) {
+void run_algorithm_test(std::string regex, std::string document,
+                        std::vector<std::vector<Span>> expected_mappings) {
+  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex(regex);
+  document += EOF_char;
 
-  const Mapping* mapping = algorithm.get_next_mapping();
-  int mapping_count = 0;
+  AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
 
-  while (mapping != nullptr) {
-    mapping_count++;
-    mapping = algorithm.get_next_mapping();
+  for (auto expected_mapping : expected_mappings) {
+    const Mapping* mapping = algorithm.get_next_mapping();
+    REQUIRE(mapping != nullptr);
+
+    int number_of_variables = expected_mapping.size();
+
+    for (int variable_id = 0; variable_id < number_of_variables; variable_id++) {
+      std::vector<Span> spans = mapping->get_spans_of_variable_id(variable_id);
+
+      INFO(get_spans_info(spans.back(), expected_mapping[variable_id]));
+      REQUIRE(spans.back() == expected_mapping[variable_id]);
+    }
   }
+  REQUIRE(algorithm.get_next_mapping() == nullptr);
+}
 
-  return mapping_count;
+std::string get_spans_info(Span actual, Span expected) {
+  std::stringstream info;
+  info << actual << " = " << expected;
+  return info.str();
 }
 
 std::string create_document_with_repeated_character(char character, int size) {

@@ -170,6 +170,7 @@ void ExtendedVA::add_read_captures_transitions() {
         state->add_read_capture(next_filter->charclass, capture->code, next_filter->next);
 
       if (capture->next->is_accepting()) {
+        // todo: Check if bounds are correct
         auto asterisk_class = CharClass({'\x80', '\x7F'});
         state->add_read_capture(asterisk_class, capture->code, capture->next);
       }

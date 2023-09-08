@@ -14,7 +14,6 @@ class AlgorithmClass {
   void initialize_algorithm();
   void set_ecs(ECS& ecs);
   const Mapping* get_next_mapping();
-  void clear_state_node_links();
 
  private:
   uint64_t pos_i_ = 0;
@@ -39,7 +38,6 @@ class AlgorithmClass {
 
   ECSNode* create_root_node_to_enumerate();
   void swap_state_lists();
-  void link_node_to_state(ExtendedDetVAState* state, ECSNode* node);
 };
 
 }

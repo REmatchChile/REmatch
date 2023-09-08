@@ -9,6 +9,8 @@ inline namespace output_enumeration {
 
 using Span = std::pair<int64_t, int64_t>;
 
+std::ostream& operator<<(std::ostream& os, const Span& span);
+
 /**
  * A Mapping is also known as an s-tuple, asigns a span to all it's
  * variables. This is an internal mapping, therefore the spans are
