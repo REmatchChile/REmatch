@@ -9,15 +9,16 @@ namespace rematch {
 
 class AlgorithmClass {
  public:
-  AlgorithmClass(ExtendedDetVA &extended_det_va, std::string_view document);
+  AlgorithmClass(ExtendedDetVA &extended_det_va, std::string document);
 
   void initialize_algorithm();
   void set_ecs(ECS& ecs);
+  void set_document(std::string document);
   const Mapping* get_next_mapping();
 
  private:
   uint64_t pos_i_ = 0;
-  std::string_view document_;
+  std::string document_;
 
   ExtendedDetVA extended_det_va_;
   ECS* ECS_interface_;

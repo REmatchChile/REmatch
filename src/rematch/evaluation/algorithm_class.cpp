@@ -3,7 +3,7 @@
 namespace rematch {
 
 AlgorithmClass::AlgorithmClass(ExtendedDetVA &extended_det_va,
-                               std::string_view document)
+                               std::string document)
     : extended_det_va_(extended_det_va) {
   document_ = document;
   ECS_interface_ = new ECS();
@@ -17,8 +17,8 @@ void AlgorithmClass::initialize_algorithm() {
   next_states_.clear();
   reached_final_states_.clear();
 
+  extended_det_va_.set_state_initial_phases();
   ExtendedDetVAState* initial_state = extended_det_va_.get_initial_state();
-  initial_state->set_phase(-1);
   ECSNode* bottom_node = ECS_interface_->create_bottom_node();
 
   initial_state->set_node(bottom_node);
@@ -29,6 +29,10 @@ void AlgorithmClass::initialize_algorithm() {
 
 void AlgorithmClass::set_ecs(ECS& ecs) {
   ECS_interface_ = &ecs;
+}
+
+void AlgorithmClass::set_document(std::string document) {
+  document_ = document;
 }
 
 const Mapping* AlgorithmClass::get_next_mapping() {

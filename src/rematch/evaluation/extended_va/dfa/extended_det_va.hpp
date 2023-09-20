@@ -40,6 +40,8 @@ class ExtendedDetVA {
 
   ExtendedDetVAState* get_state_from_subset(
       StatesPtrSet &states_set);
+
+  void set_state_initial_phases();
 };
 
 }  // namespace rematch

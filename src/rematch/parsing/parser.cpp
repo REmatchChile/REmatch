@@ -43,5 +43,9 @@ LogicalVA Parser::get_logical_va() {
   return *logical_va;
 }
 
+std::shared_ptr<VariableCatalog> Parser::get_variable_catalog() {
+  return vfact_ptr;
+}
+
 }
 }

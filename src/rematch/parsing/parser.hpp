@@ -23,6 +23,7 @@ class Parser {
   public:
     Parser(const std::string_view input);
     LogicalVA get_logical_va();
+    std::shared_ptr<VariableCatalog> get_variable_catalog();
 
   private:
     void create_logical_va(std::string_view input);

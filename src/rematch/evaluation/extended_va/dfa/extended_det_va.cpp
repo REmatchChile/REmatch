@@ -110,4 +110,10 @@ StatesBitset ExtendedDetVA::get_bitset_from_states_set(
   return states_bitset;
 }
 
+void ExtendedDetVA::set_state_initial_phases() {
+  for (auto& state : states) {
+    state->set_phase(-1);
+  }
+}
+
 }  // namespace rematch
