@@ -20,7 +20,11 @@ set(TEST_SOURCES
         filtering_module/search_dfa.cpp
         evaluation/extended_va.cpp
         evaluation/extended_det_va.cpp
+        evaluation/dummy_mapping.hpp
+        evaluation/mapping_helpers.hpp
         evaluation/algorithm_class.cpp
+        evaluation/algorithm_utf8.cpp
+        mediator/mediator.cpp
         )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})

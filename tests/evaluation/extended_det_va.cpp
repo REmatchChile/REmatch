@@ -143,7 +143,7 @@ TEST_CASE("non ascii characters are handled correctly") {
   char EOF_char = -1;
   capture_subset_list = extended_det_va.get_next_states(initial_state, EOF_char);
 
-  REQUIRE(capture_subset_list.size() == 0);
+  REQUIRE(capture_subset_list.size() == 1);
 }
 
 ExtendedDetVA get_extended_det_va_from_regex(std::string_view input) {

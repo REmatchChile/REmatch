@@ -118,6 +118,8 @@ void VariableCatalog :: merge(VariableCatalog &rhs) {
 			data_.insert(it, var);
 			offsetMap.push_back(0);
 			offsetMap.push_back(0);
+		} else if (*it != var) {
+			data_.insert(it, var);
 		}
 	}
 

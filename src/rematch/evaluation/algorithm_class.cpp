@@ -8,6 +8,12 @@ AlgorithmClass::AlgorithmClass(ExtendedDetVA &extended_det_va,
   document_ = document;
   ECS_interface_ = new ECS();
   enumerator_ = new Enumerator();
+
+  ExtendedDetVAState* initial_state = extended_det_va_.get_initial_state();
+  ECSNode* bottom_node = ECS_interface_->create_bottom_node();
+  initial_state->set_node(bottom_node);
+  ECS_interface_->pin_node(bottom_node);
+
   initialize_algorithm();
 }
 
@@ -19,11 +25,6 @@ void AlgorithmClass::initialize_algorithm() {
 
   extended_det_va_.set_state_initial_phases();
   ExtendedDetVAState* initial_state = extended_det_va_.get_initial_state();
-  ECSNode* bottom_node = ECS_interface_->create_bottom_node();
-
-  initial_state->set_node(bottom_node);
-  ECS_interface_->pin_node(bottom_node);
-
   current_states_.push_back(initial_state);
 }
 

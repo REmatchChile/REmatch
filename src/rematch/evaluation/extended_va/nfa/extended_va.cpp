@@ -334,7 +334,7 @@ void ExtendedVA::trim() {
 
 void ExtendedVA::add_loop_to_initial_state() {
   std::bitset<64> empty_set;
-  initial_state_->add_read_capture(CharClass({'\x00', '\x7F'}), empty_set, initial_state_);
+  initial_state_->add_read_capture(CharClass({'\x80', '\x7F'}), empty_set, initial_state_);
 }
 
 #if 0
