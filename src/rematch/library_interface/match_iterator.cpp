@@ -11,11 +11,11 @@ MatchIterator::MatchIterator(
   document(document) {}
 
 bool MatchIterator::has_next() {
-  return segment_identificator.has_next();
+  return segment_identificator.next() != nullptr;
 }
 
 Match MatchIterator::next() {
-  return {segment_identificator.next(), document};
+  return {*segment_identificator.next(), document};
 }
 
 } // end namespace library_interface

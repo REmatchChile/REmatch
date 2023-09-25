@@ -11,7 +11,7 @@ SegmentIdentificator::SegmentIdentificator(
       search_dfa.reset();
     }
 
-bool SegmentIdentificator::has_next() {
+bool SegmentIdentificator::next_is_computed_successfully() {
   i_min = i_src;
   i_max = i_src;
 
@@ -44,8 +44,14 @@ bool SegmentIdentificator::has_next() {
   return false;
 }
 
-Span SegmentIdentificator::next() {
-  return {i_min, i_max};
+Span* SegmentIdentificator::next() {
+  if (!next_is_computed_successfully()) {
+    return nullptr;
+  }
+
+  static Span span;
+  span = {i_min, i_max};
+  return &span;
 }
 
 }

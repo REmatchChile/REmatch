@@ -77,7 +77,7 @@ void ExtendedVA::capture_closure() {
 
     std::bitset<64> new_code;
 
-    for (auto &capture1 : current_state->captures) {
+    for (auto capture1 : current_state->captures) {
       for (auto &capture2 : capture1->next->captures) {
         new_code = (capture1->code | capture2->code);
         current_state->add_capture(new_code, capture2->next);
