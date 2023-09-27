@@ -3,7 +3,7 @@
 namespace rematch {
 
 AlgorithmClass::AlgorithmClass(ExtendedDetVA &extended_det_va,
-                               std::string document)
+                               std::string_view document)
     : extended_det_va_(extended_det_va) {
   document_ = document;
   ECS_interface_ = new ECS();

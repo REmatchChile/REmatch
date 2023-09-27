@@ -3,19 +3,21 @@
 namespace REMatch {
 inline namespace library_interface {
 MatchIterator::MatchIterator(
-  rematch::SearchDFA &search_dfa, std::string_view &document
-) :
-  segment_identificator(
-      rematch::SegmentIdentificator(search_dfa, document)
-  ),
-  document(document) {}
+    rematch::Mediator& mediator,
+    std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog,
+    std::string_view& document)
+    : mediator_(mediator),
+      variable_catalog_(variable_catalog),
+      document_(document) {}
 
-bool MatchIterator::has_next() {
-  return segment_identificator.next() != nullptr;
-}
+std::unique_ptr<Match> MatchIterator::next() {
+  rematch::mediator::Mapping* mapping = mediator_.next();
 
-Match MatchIterator::next() {
-  return {*segment_identificator.next(), document};
+  if (mapping != nullptr) {
+    return std::make_unique<Match>(*mapping, variable_catalog_, document_);
+  }
+
+  return nullptr;
 }
 
 } // end namespace library_interface

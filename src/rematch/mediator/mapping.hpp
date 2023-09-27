@@ -1,3 +1,6 @@
+#ifndef MAPPING_HPP
+#define MAPPING_HPP
+
 #include <iostream>
 #include <string>
 #include <map>
@@ -23,3 +26,5 @@ class Mapping {
 };
 }
 }
+
+#endif

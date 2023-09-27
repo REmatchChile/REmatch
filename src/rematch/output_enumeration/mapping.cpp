@@ -86,10 +86,5 @@ int Mapping::find_next_document_position_where_the_specified_marker_is_true(
   return -1;
 }
 
-std::ostream& operator<<(std::ostream& os, Span const& span) {
-    os << "[" << span.first << ", " << span.second << "]";
-    return os;
-}
-
 }
 }

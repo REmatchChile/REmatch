@@ -1,12 +1,17 @@
+#ifndef MEDIATOR_HPP
+#define MEDIATOR_HPP
+
 #include "mapping.hpp"
 #include "filtering_module/segment_identificator.hpp"
 #include "evaluation/algorithm_class.hpp"
+#include "mediation_subjects.hpp"
 
 namespace rematch {
 class Mediator {
  public:
   Mediator(SearchDFA& search_dfa, ExtendedDetVA extended_det_va,
-          std::shared_ptr<VariableCatalog> variable_catalog, std::string& document);
+          std::shared_ptr<VariableCatalog> variable_catalog, std::string_view document);
+  Mediator(MediationSubjects& mediation_subjects, std::string_view document);
 
   mediator::Mapping* next();
 
@@ -23,3 +28,5 @@ class Mediator {
   bool next_is_computed_successfully();
 };
 }
+
+#endif

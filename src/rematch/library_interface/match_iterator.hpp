@@ -3,27 +3,29 @@
 
 #include <string_view>
 
-#include "library_interface/match.hpp"
 #include "filtering_module/search_variable_set_automaton/dfa/search_dfa.hpp"
 #include "filtering_module/segment_identificator.hpp"
+#include "library_interface/match.hpp"
+#include "mediator/mediator.hpp"
 
 namespace REMatch {
 
 inline namespace library_interface {
-  class MatchIterator {
+class MatchIterator {
 
-  private:
-    rematch::SegmentIdentificator segment_identificator;
-    std::string_view &document;
+ private:
+  rematch::Mediator mediator_;
+  std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog_;
+  std::string_view& document_;
 
-  public:
-    MatchIterator(rematch::SearchDFA &search_dfa, std::string_view &document);
-    bool has_next();
-    Match next();
-  };
+ public:
+  MatchIterator(rematch::Mediator& mediator,
+                std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog,
+                std::string_view& document);
+  std::unique_ptr<Match> next();
+};
 
-
-} // end namespace library_interface
-} // end namespace rematch
+}  // end namespace library_interface
+}  // namespace REMatch
 
 #endif

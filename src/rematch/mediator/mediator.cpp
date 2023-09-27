@@ -3,7 +3,7 @@
 namespace rematch {
 
 Mediator::Mediator(SearchDFA& search_dfa, ExtendedDetVA extended_det_va,
-          std::shared_ptr<VariableCatalog> variable_catalog, std::string& document) :
+          std::shared_ptr<VariableCatalog> variable_catalog, std::string_view document) :
            segment_identificator_(search_dfa, document),
            algorithm_(extended_det_va, document),
            variable_catalog_(variable_catalog),
@@ -16,6 +16,11 @@ Mediator::Mediator(SearchDFA& search_dfa, ExtendedDetVA extended_det_va,
     update_algorithm(*segment_span);
   }
 }
+
+Mediator::Mediator(MediationSubjects& mediation_subjects, std::string_view document) :
+      Mediator(mediation_subjects.search_dfa,
+               mediation_subjects.extended_det_va,
+               mediation_subjects.variable_catalog, document) {}
 
 mediator::Mapping* Mediator::next() {
   if (!next_is_computed_successfully()) {

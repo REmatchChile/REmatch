@@ -1,30 +1,30 @@
 #ifndef LIBRARY_INTERFACE__REGEX_HPP
 #define LIBRARY_INTERFACE__REGEX_HPP
 
-#include <vector>
-#include <string>
 #include <optional>
+#include <string>
+#include <vector>
 
-#include "library_interface/match.hpp"
 #include "library_interface/flags.hpp"
+#include "library_interface/match.hpp"
 #include "library_interface/match_iterator.hpp"
+#include "mediator/mediation_subjects.hpp"
 
 namespace REMatch {
 inline namespace library_interface {
 
 class Regex {
-private:
-  rematch::SearchDFA *search_dfa;
+ private:
+  rematch::MediationSubjects mediation_subjects_;
 
-public:
+ public:
   Regex(std::string_view pattern, Flags flags = Flags());
-  ~Regex();
 
-  std::optional<Match> find(std::string_view text, Flags flags = Flags());
+  std::unique_ptr<Match> find(std::string_view text, Flags flags = Flags());
   MatchIterator finditer(std::string_view text, Flags flags = Flags());
 };
 
-} // end namespace library_interface
-} // end namespace rematch
+}  // end namespace library_interface
+}  // namespace REMatch
 
 #endif

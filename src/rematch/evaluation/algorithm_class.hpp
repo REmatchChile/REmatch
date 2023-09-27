@@ -9,7 +9,7 @@ namespace rematch {
 
 class AlgorithmClass {
  public:
-  AlgorithmClass(ExtendedDetVA &extended_det_va, std::string document);
+  AlgorithmClass(ExtendedDetVA &extended_det_va, std::string_view document);
 
   void initialize_algorithm();
   void set_ecs(ECS& ecs);
