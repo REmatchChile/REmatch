@@ -539,6 +539,18 @@ std::ostream& operator<<(std::ostream& os, LogicalVA const &A) {
     queue.pop_front();
     cid = current->id;
 
+    for (auto &filter: current->filters) {
+      nid = filter->next->id;
+
+      os << "t " << cid << " " << filter->charclass << " " << nid << '\n';
+
+      // If not visited enqueue and add to visited
+      if (visited.find(nid) == visited.end()) {
+        visited.insert(nid);
+        queue.push_back(filter->next);
+      }
+    }
+
     // For every epsilon transition
     for (auto &epsilon: current->epsilons) {
       nid = epsilon->next->id;

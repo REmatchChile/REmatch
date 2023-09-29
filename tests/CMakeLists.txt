@@ -25,6 +25,10 @@ set(TEST_SOURCES
         evaluation/algorithm_class.cpp
         evaluation/algorithm_utf8.cpp
         mediator/mediator.cpp
+        library_interface/match.cpp
+        library_interface/match_iterator.cpp
+        library_interface/regex.cpp
+        library_interface/rematch.cpp
         )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})

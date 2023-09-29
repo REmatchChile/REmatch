@@ -18,6 +18,13 @@ struct DummyMapping {
     spans_map[variable_name] = span;
   }
 
+  Span span(std::string variable_name) {
+    if (spans_map.count(variable_name))
+      return spans_map[variable_name];
+
+   throw std::out_of_range("The variable is not valid.");
+  }
+
   bool operator==(const DummyMapping& other) const {
     return spans_map == other.spans_map;
   }

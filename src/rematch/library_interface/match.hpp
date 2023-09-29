@@ -37,6 +37,7 @@ class Match {
   std::string group(std::string variable_name);
   std::string group(int variable_id);
   std::map<std::string, Span> groupdict();
+  std::vector<std::string> variables();
   bool empty();
 };
 }  // end namespace library_interface

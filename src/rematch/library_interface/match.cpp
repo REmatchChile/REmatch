@@ -50,6 +50,13 @@ std::map<std::string, Span> Match::groupdict() {
   return mapping_.get_spans_map();
 }
 
+std::vector<std::string> Match::variables() {
+  if (empty())
+    return {};
+
+  return variable_catalog_->variables();
+}
+
 bool Match::empty() {
   return mapping_.get_spans_map().size() == 0;
 }
