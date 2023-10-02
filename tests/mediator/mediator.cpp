@@ -162,6 +162,43 @@ TEST_CASE("the mediator returns the correct mappings when using char classes") {
   run_mediator_test(regex, document, expected_mappings);
 }
 
+TEST_CASE("the mediator returns the correct mappings when using short hand char classes") {
+  std::string document = "b1 0a2 ab";
+  std::string regex = "!x{\\d\\s\\w\\D}";
+  std::vector<mediator::Mapping> expected_mappings = {
+    mediator::Mapping({{"x", {1, 5}}}),
+    mediator::Mapping({{"x", {5, 9}}})
+  };
+
+  run_mediator_test(regex, document, expected_mappings);
+}
+
+TEST_CASE("the mediator returns the correct mappings when using short hand char classes \
+           and kleene closure ") {
+  std::string document = " a12 100 1 ";
+  std::string regex = "!x{\\d{2}}\\s!y{\\d+}\\s";
+  std::vector<mediator::Mapping> expected_mappings = {
+    mediator::Mapping({{"x", {2, 4}}, {"y", {5, 8}}}),
+    mediator::Mapping({{"x", {6, 8}}, {"y", {9, 10}}}),
+  };
+
+  run_mediator_test(regex, document, expected_mappings);
+}
+
+TEST_CASE("the mediator returns the correct mappings when using different short hand char \
+           classes and kleene closure") {
+  std::string document = " a12 100 a ";
+  std::string regex = "!x{\\w*\\d{2}}\\s!y{\\w+\\W}";
+  std::vector<mediator::Mapping> expected_mappings = {
+    mediator::Mapping({{"x", {2, 4}}, {"y", {5, 9}}}),
+    mediator::Mapping({{"x", {1, 4}}, {"y", {5, 9}}}),
+    mediator::Mapping({{"x", {6, 8}}, {"y", {9, 11}}}),
+    mediator::Mapping({{"x", {5, 8}}, {"y", {9, 11}}})
+  };
+
+  run_mediator_test(regex, document, expected_mappings);
+}
+
 void run_mediator_test(std::string regex, std::string document,
                        std::vector<mediator::Mapping> expected_mappings) {
   Parser parser = Parser(regex);
