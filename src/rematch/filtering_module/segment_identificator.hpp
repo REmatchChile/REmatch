@@ -38,6 +38,7 @@ class SegmentIdentificator {
    * behavior.
    */
   Span* next();
+  void set_document(std::string document);
 
  private:
   /**

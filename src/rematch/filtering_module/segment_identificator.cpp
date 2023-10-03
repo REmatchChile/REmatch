@@ -54,5 +54,13 @@ Span* SegmentIdentificator::next() {
   return &span;
 }
 
+void SegmentIdentificator::set_document(std::string document) {
+  this->document = document;
+  i_min = 0;
+  i_max = 0;
+  i_src = 0;
+  search_dfa.reset();
+}
+
 }
 }

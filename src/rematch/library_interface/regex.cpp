@@ -32,7 +32,7 @@ std::unique_ptr<Match> Regex::find(std::string_view text, Flags flags) {
 MatchIterator Regex::finditer(std::string_view text, Flags flags) {
   std::string text_data(text);
   text_data += (char)-1;
-  auto mediator = rematch::Mediator(mediation_subjects_, text_data);
+  auto mediator = rematch::Mediator(mediation_subjects_, text_data, flags);
   return {mediator, mediation_subjects_.variable_catalog, text};
 }
 

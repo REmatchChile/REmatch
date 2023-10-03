@@ -10,20 +10,11 @@ inline namespace library_interface {
   va_start(arguments, num);
   for ( int x = 0; x < num; x++ )
     switch (va_arg(arguments, FlagTypes) ) {
-      case MultiLine:
-        multi_line = true;
-        break;
-      case DotNewLine:
-        dot_new_line = true;
-        break;
       case LineByLine:
-        line_by_line = true;
+        line_by_line = false;
         break;
       case EarlyOutput:
-        early_output = true;
-        break;
-      case SaveAnchors:
-        save_anchors = true;
+        early_output = false;
         break;
       default:
         throw(std::invalid_argument(
