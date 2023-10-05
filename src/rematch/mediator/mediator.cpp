@@ -4,23 +4,20 @@ namespace rematch {
 
 Mediator::Mediator(SearchDFA& search_dfa, ExtendedDetVA extended_det_va,
           std::shared_ptr<VariableCatalog> variable_catalog, std::string_view document, Flags flags) :
-           segment_identificator_(search_dfa, document),
            algorithm_(extended_det_va, document),
            variable_catalog_(variable_catalog),
-           line_by_line_helper_(std::make_shared<mediator::LineByLineHelper>(document)),
            document_(document),
            flags_(flags) {
 
-  number_of_variables_ = variable_catalog_->size();
-
   if (flags.line_by_line) {
-    Span* line_span = line_by_line_helper_->next();
-    if (line_span != nullptr) {
-      update_segment_identificator(*line_span);
-    }
+    segment_manager_ = std::make_unique<LineByLineManager>(search_dfa, document);
+  } else {
+    segment_manager_ = std::make_unique<SegmentIdentificatorManager>(search_dfa, document);
   }
 
-  Span* segment_span = segment_identificator_.next();
+  number_of_variables_ = variable_catalog_->size();
+
+  std::unique_ptr<Span> segment_span = segment_manager_->next();
   if (segment_span != nullptr) {
     update_algorithm(*segment_span);
   }
@@ -58,7 +55,7 @@ bool Mediator::next_is_computed_successfully() {
       return true;
     }
 
-    Span* segment_span = get_next_segment();
+    std::unique_ptr<Span> segment_span = segment_manager_->next();
     if (segment_span != nullptr) {
       update_algorithm(*segment_span);
     } else {
@@ -69,43 +66,13 @@ bool Mediator::next_is_computed_successfully() {
   return false;
 }
 
-Span* Mediator::get_next_segment() {
-  if (flags_.line_by_line)
-    return get_next_line_segment();
-  return segment_identificator_.next();
-}
-
-Span* Mediator::get_next_line_segment() {
-  while (true) {
-    Span* segment_span = segment_identificator_.next();
-    if (segment_span != nullptr) {
-      return segment_span;
-    }
-
-    Span* line_segment = line_by_line_helper_->next();
-    if (line_segment != nullptr) {
-      update_segment_identificator(*line_segment);
-    } else {
-      break;
-    }
-  }
-  return nullptr;
-}
-
-void Mediator::update_algorithm(Span segment_span) {
-  shift_ = segment_span.first + shift_line_;
+void Mediator::update_algorithm(Span& segment_span) {
+  shift_ = segment_span.first;
 
   std::string segment = document_.substr(shift_, segment_span.second - segment_span.first + 1);
 
   algorithm_.set_document(segment);
   algorithm_.initialize_algorithm();
-}
-
-void Mediator::update_segment_identificator(Span line_span) {
-  shift_line_ = line_span.first;
-  std::string segment = document_.substr(line_span.first, line_span.second - line_span.first);
-
-  segment_identificator_.set_document(segment);
 }
 
 }

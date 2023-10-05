@@ -29,6 +29,7 @@ set(TEST_SOURCES
         library_interface/match_iterator.cpp
         library_interface/regex.cpp
         library_interface/rematch.cpp
+        library_interface/flags.cpp
         )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})

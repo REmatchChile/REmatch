@@ -33,7 +33,7 @@ MatchIterator Regex::finditer(std::string_view text, Flags flags) {
   std::string text_data(text);
   text_data += (char)-1;
   auto mediator = rematch::Mediator(mediation_subjects_, text_data, flags);
-  return {mediator, mediation_subjects_.variable_catalog, text};
+  return {std::move(mediator), mediation_subjects_.variable_catalog, text};
 }
 
 } // end namespace library_interface

@@ -37,7 +37,7 @@ class SegmentIdentificator {
    * next_is_computed_successfully() MUST be called before, if not, next() has undefined
    * behavior.
    */
-  Span* next();
+  std::unique_ptr<Span> next();
   void set_document(std::string document);
 
  private:

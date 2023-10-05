@@ -3,10 +3,10 @@
 namespace REMatch {
 inline namespace library_interface {
 MatchIterator::MatchIterator(
-    rematch::Mediator& mediator,
+    rematch::Mediator&& mediator,
     std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog,
     std::string_view& document)
-    : mediator_(mediator),
+    : mediator_(std::move(mediator)),
       variable_catalog_(variable_catalog),
       document_(document) {}
 

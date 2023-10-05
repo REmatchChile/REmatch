@@ -11,10 +11,10 @@ inline namespace library_interface {
   for ( int x = 0; x < num; x++ )
     switch (va_arg(arguments, FlagTypes) ) {
       case LineByLine:
-        line_by_line = false;
+        line_by_line = true;
         break;
       case EarlyOutput:
-        early_output = false;
+        early_output = true;
         break;
       default:
         throw(std::invalid_argument(

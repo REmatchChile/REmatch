@@ -46,7 +46,7 @@ void run_match_iterator_test(std::string regex, std::string document, std::vecto
   auto search_dfa = SearchDFA(logical_va);
 
   auto mediator = Mediator(search_dfa, extended_det_va, variable_catalog, document);
-  auto match_iterator = MatchIterator(mediator, variable_catalog, document_view);
+  auto match_iterator = MatchIterator(std::move(mediator), variable_catalog, document_view);
 
   std::ostringstream info_os;
   info_os << "Actual mappings:" << std::endl;

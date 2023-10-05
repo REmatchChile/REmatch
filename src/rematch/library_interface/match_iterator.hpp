@@ -19,9 +19,9 @@ class MatchIterator {
   std::string_view& document_;
 
  public:
-  MatchIterator(rematch::Mediator& mediator,
-                std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog,
-                std::string_view& document);
+  MatchIterator(rematch::Mediator&& mediator,
+      std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog,
+      std::string_view& document);
   std::unique_ptr<Match> next();
 };
 

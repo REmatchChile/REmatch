@@ -44,14 +44,11 @@ bool SegmentIdentificator::next_is_computed_successfully() {
   return false;
 }
 
-Span* SegmentIdentificator::next() {
+std::unique_ptr<Span> SegmentIdentificator::next() {
   if (!next_is_computed_successfully()) {
     return nullptr;
   }
-
-  static Span span;
-  span = {i_min, i_max};
-  return &span;
+  return std::make_unique<Span>(i_min, i_max);
 }
 
 void SegmentIdentificator::set_document(std::string document) {

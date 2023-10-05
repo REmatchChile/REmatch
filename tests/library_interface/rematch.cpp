@@ -8,7 +8,7 @@
 namespace rematch::testing {
 using namespace REMatch;
 
-void run_client_test(MatchIterator match_iterator, std::vector<DummyMapping> expected_matches);
+void run_client_test(MatchIterator& match_iterator, std::vector<DummyMapping> expected_matches);
 std::string get_mapping_info(DummyMapping mapping);
 
 TEST_CASE("find method simple test") {
@@ -184,7 +184,7 @@ TEST_CASE("client interface with negation") {
   run_client_test(match_iterator, expected_matches);
 }
 
-void run_client_test(MatchIterator match_iterator, std::vector<DummyMapping> expected_matches) {
+void run_client_test(MatchIterator& match_iterator, std::vector<DummyMapping> expected_matches) {
   std::unique_ptr<Match> match = match_iterator.next();
 
   std::ostringstream info_os;

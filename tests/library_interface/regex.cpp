@@ -11,7 +11,7 @@ extern char EOF_char;
 TEST_CASE("find method returns the first match correctly") {
   std::string_view pattern = "!x{ab}";
   auto regex = Regex(pattern);
-  std::shared_ptr<Match> match = regex.find("abab");
+  std::unique_ptr<Match> match = regex.find("abab");
 
   REQUIRE(match->span("x") == (Span){0, 2});
 }
@@ -24,7 +24,7 @@ TEST_CASE("finditer method returns the iterator correctly") {
   auto regex = Regex(pattern);
   MatchIterator match_iterator = regex.finditer(document_view);
 
-  std::shared_ptr<Match> match = match_iterator.next();
+  std::unique_ptr<Match> match = match_iterator.next();
   REQUIRE(match != nullptr);
   REQUIRE(match->span("x") == (Span){0, 2});
 

@@ -12,7 +12,7 @@ TEST_CASE("The regex 'a' will return the span 0,5 on the document 'aaaaa'") {
   auto search_dfa = SearchDFA(logical_va);
   std::string_view document = "aaaaa";
   auto segment_identificator = SegmentIdentificator(search_dfa, document);
-  Span* output_span = segment_identificator.next();
+  std::unique_ptr<Span> output_span = segment_identificator.next();
   REQUIRE(output_span != nullptr);
   REQUIRE(output_span->first == 0);
   REQUIRE(output_span->second == 5);
@@ -26,7 +26,7 @@ TEST_CASE("The regex 'a' will return the spans: 0,1 2,3 4,5 \
   auto search_dfa = SearchDFA(logical_va);
   std::string_view document = "ababa";
   auto segment_identificator = SegmentIdentificator(search_dfa, document);
-  Span* output_span = segment_identificator.next();
+  std::unique_ptr<Span> output_span = segment_identificator.next();
   REQUIRE(output_span != nullptr);
   REQUIRE(output_span->first == 0);
   REQUIRE(output_span->second == 1);
@@ -48,7 +48,7 @@ TEST_CASE("The regex 'αβ' will return the span 6,10 \
   std::string_view document = "δεζαβab";
   auto search_dfa = SearchDFA(logical_va);
   auto segment_identificator = SegmentIdentificator(search_dfa, document);
-  Span* output_span = segment_identificator.next();
+  std::unique_ptr<Span> output_span = segment_identificator.next();
   REQUIRE(output_span != nullptr);
   INFO("first: " << output_span->first << " second: " << output_span->second);
   REQUIRE(output_span->first == 6);
@@ -63,7 +63,7 @@ TEST_CASE("The regex '[αβ]' will return the spans: 6,10 \
   std::string_view document = "δεζαβab";
   auto search_dfa = SearchDFA(logical_va);
   auto segment_identificator = SegmentIdentificator(search_dfa, document);
-  Span* output_span = segment_identificator.next();
+  std::unique_ptr<Span> output_span = segment_identificator.next();
   REQUIRE(output_span != nullptr);
   INFO("first: " << output_span->first << " second: " << output_span->second);
   REQUIRE(output_span->first == 6);
@@ -78,7 +78,7 @@ TEST_CASE("The regex '[α-ε]' will return the spans: <0,5> <6,10> \
   std::string_view document = "δεζαβab";
   auto search_dfa = SearchDFA(logical_va);
   auto segment_identificator = SegmentIdentificator(search_dfa, document);
-  Span* output_span = segment_identificator.next();
+  std::unique_ptr<Span> output_span = segment_identificator.next();
   REQUIRE(output_span != nullptr);
   INFO("first: " << output_span->first << " second: " << output_span->second);
   REQUIRE(output_span->first == 0);
@@ -112,7 +112,7 @@ TEST_CASE("The regex .α returns 0,8 on the document: δεζαβab") {
   std::string_view document = "δεζαβab";
   auto search_dfa = SearchDFA(logical_va);
   auto segment_identificator = SegmentIdentificator(search_dfa, document);
-  Span* output_span = segment_identificator.next();
+  std::unique_ptr<Span>  output_span = segment_identificator.next();
   REQUIRE(output_span != nullptr);
   REQUIRE(output_span->first == 0);
   REQUIRE(output_span->second == 8);
