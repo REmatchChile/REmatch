@@ -27,7 +27,7 @@ TEST_CASE("the mediator throws an exception when the variable is not in the rege
   Mediator mediator = Mediator(search_dfa, extended_det_va, variable_catalog, document);
 
   mediator::Mapping* mapping = mediator.next();
-  REQUIRE_THROWS(mapping->get_span_of_variable("y"));
+  REQUIRE_THROWS_AS(mapping->get_span_of_variable("y"), VariableNotFoundException);
 }
 
 TEST_CASE("the mediator returns null pointer when there are no mappings") {

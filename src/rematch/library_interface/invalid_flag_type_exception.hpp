@@ -1,3 +1,6 @@
+#ifndef INVALID_FLAG_TYPE_EXCEPTION_HPP
+#define INVALID_FLAG_TYPE_EXCEPTION_HPP
+
 #include <stdexcept>
 
 namespace REMatch {
@@ -9,3 +12,5 @@ public:
 };
 
 }
+
+#endif

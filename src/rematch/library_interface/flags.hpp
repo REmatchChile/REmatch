@@ -1,6 +1,12 @@
 #ifndef LIBRARY_INTERFACE__FLAGS_HPP
 #define LIBRARY_INTERFACE__FLAGS_HPP
 
+#include <cstdarg>
+#include <utility>
+#include <stdexcept>
+
+#include "invalid_flag_type_exception.hpp"
+
 namespace REMatch {
 inline namespace library_interface {
 

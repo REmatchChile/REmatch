@@ -81,7 +81,7 @@ private:
 
     std::string var = ctx->varname()->getText();
     if (vfact_cast.contains(var)) {
-      throw REMatch::SameNestedVariableException();
+      throw REMatch::SameNestedVariableException(var);
     }
     vfact_cast.add(var);
 

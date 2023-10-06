@@ -15,6 +15,7 @@ set(TEST_SOURCES
         output_enumeration/enumerator.cpp
         parsing/parser.cpp
         parsing/logical_va.cpp
+        parsing/exceptions.cpp
         filtering_module/segment_identification.cpp
         filtering_module/search_nfa.cpp
         filtering_module/search_dfa.cpp
