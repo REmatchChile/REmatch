@@ -3,6 +3,7 @@
 
 #include "evaluation/algorithm_class.hpp"
 #include "evaluation/extended_va/dfa/extended_det_va.hpp"
+#include "mediator/variable_not_found_exception.hpp"
 
 namespace rematch::testing {
 
@@ -22,7 +23,7 @@ struct DummyMapping {
     if (spans_map.count(variable_name))
       return spans_map[variable_name];
 
-   throw std::out_of_range("The variable is not valid.");
+   throw REMatch::VariableNotFoundException(variable_name);
   }
 
   bool operator==(const DummyMapping& other) const {

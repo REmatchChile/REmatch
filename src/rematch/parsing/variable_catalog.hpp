@@ -1,17 +1,20 @@
 #ifndef VARIABLE_FACTORIES_HPP
 #define VARIABLE_FACTORIES_HPP
 
+#include <algorithm>
+#include <bitset>
 #include <iostream>
+#include <map>
+#include <ostream>
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
-#include <vector>
-#include <map>
-#include <ostream>
-#include <bitset>
-#include <map>
 #include <utility>
+#include <vector>
 
+#include "exceptions/bad_regex_exception.hpp"
+#include "exceptions/variable_not_found_in_catalog_exception.hpp"
+#include "exceptions/variable_limit_exceeded_exception.hpp"
 
 namespace rematch {
 inline namespace parsing {

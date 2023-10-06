@@ -1,15 +1,17 @@
-#include "library_interface/flags.hpp"
 #include <cstdarg>
 #include <stdexcept>
+
+#include "flags.hpp"
+#include "invalid_flag_type_exception.hpp"
 
 namespace REMatch {
 inline namespace library_interface {
 
-  Flags::Flags(int num, ...) {
+Flags::Flags(int num, ...) {
   std::va_list arguments;
   va_start(arguments, num);
-  for ( int x = 0; x < num; x++ )
-    switch (va_arg(arguments, FlagTypes) ) {
+  for (int x = 0; x < num; x++)
+    switch (va_arg(arguments, FlagTypes)) {
       case LineByLine:
         line_by_line = true;
         break;
@@ -17,10 +19,10 @@ inline namespace library_interface {
         early_output = true;
         break;
       default:
-        throw(std::invalid_argument(
-              "Flags initialized with an invalid flag type."));
+        throw InvalidFlagTypeException("Flags initialized with an invalid flag type.");
     }
-  va_end (arguments);
-  }
+  va_end(arguments);
 }
-}
+
+}  // namespace library_interface
+}  // namespace REMatch

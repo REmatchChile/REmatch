@@ -12,7 +12,7 @@ Span Mapping::get_span_of_variable(std::string variable_name) {
     return spans_map_[variable_name];
   }
 
-  throw std::out_of_range("The variable is not valid.");
+  throw REMatch::VariableNotFoundException(variable_name);
 }
 
 void Mapping::add_span(std::string variable_name, Span span) {
