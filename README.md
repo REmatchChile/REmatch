@@ -92,7 +92,7 @@ int main() {
 }
 ```
 
-### Finding a vector with all matches for the pattern
+### Finding a vector with all matches for the pattern aba
 
 ```cpp
 #include <iostream>
