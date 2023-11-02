@@ -1,8 +1,6 @@
-# REmatch: An information extraction tool for regular document spanners
+# REmatch C++
 
-This implementation is based on the paper `REmatch: a regex engine
-for finding all matches` by Cristian Riveros, Nicolar Van Sint Jan and
-Domagoj Vrgoč.
+Here you can find the main implementation of REmatch library in C++. This version has been refactorized, tested, and developed for being ready for production. 
 
 ## Directory structure
 
@@ -24,7 +22,7 @@ Dependencies:
 The setup of CMake, Catch2, boost and g++-11 on a clean ubuntu system can be done using the following script:
 
 ```bash
-./setup/ubuntu/setup_cpp_to_execute_rematch.sh
+./scripts/setup/ubuntu/setup_cpp_to_execute_rematch.sh
 ```
 
 ### Building
@@ -49,16 +47,16 @@ To use REmatch, you have two options. You can create a `Regex` object through th
 
 ```cpp
 // Compile a regular expression using the compile method and find a match
-REMatch::Regex regex = REMatch::compile("!x{a}");
-std::unique_ptr<REMatch::Match> regex_match = regex.find("aaa");
+REMatch::Regex regex = REMatch::compile("!x{aba}");
+std::unique_ptr<REMatch::Match> regex_match = regex.find("aabaa");
 
 // Equivalent to calling find directly
-std::unique_ptr<REMatch::Match> direct_match = REMatch::find("!x{a}", "aaa");
+std::unique_ptr<REMatch::Match> direct_match = REMatch::find("!x{aba}", "aabaa");
 ```
 
 The `Regex` provides the methods `find` and `finditer` that evaluate a document and return the matches found. The `find` method returns a pointer to the first encountered match, while `finditer` returns an iterator that allows you to access all matches. To retrieve all the matches at once, you can use the `findall` method. You can use the `start` and `end` methods to obtain the indices of the matched spans or `span` to get a string representation.
 
-### Retrieving all spans corresponding to a pattern
+### Retrieving an iterator for the pattern aba
 
 ```cpp
 #include <iostream>
@@ -66,8 +64,8 @@ The `Regex` provides the methods `find` and `finditer` that evaluate a document 
 #include "library_interface/rematch.hpp"
 
 int main() {
-  std::string document = "aaa";
-  REMatch::Regex regex = REMatch::compile("!x{a}");
+  std::string document = "abaababa";
+  REMatch::Regex regex = REMatch::compile("!x{aba}");
   REMatch::MatchIterator iterator = regex.finditer(document);
   std::unique_ptr<REMatch::Match> match = iterator.next();
   while (match != nullptr) {
@@ -78,7 +76,7 @@ int main() {
 }
 ```
 
-### Finding the first match
+### Finding the first match for the pattern aba
 
 ```cpp
 #include <iostream>
@@ -86,15 +84,15 @@ int main() {
 #include "library_interface/rematch.hpp"
 
 int main() {
-  std::string document = "aaa";
-  REMatch::Regex regex = REMatch::compile("!x{a}");
+  std::string document = "abaababa";
+  REMatch::Regex regex = REMatch::compile("!x{aba}");
   std::unique_ptr<REMatch::Match> match = regex.find(document);
   std::cout << "Span: " << match->span("x") << std::endl;
   return 0;
 }
 ```
 
-### Finding all matches
+### Finding a vector with all matches for the pattern
 
 ```cpp
 #include <iostream>
@@ -102,8 +100,8 @@ int main() {
 #include "library_interface/rematch.hpp"
 
 int main() {
-  std::string document = "aaa";
-  std::string regex = "!x{a}";
+  std::string document = "aba";
+  std::string regex = "!x{aba}";
   std::vector<REMatch::Match> matches = REMatch::library_interface::findall(regex, document);
   for (REMatch::Match& match: matches) {
     std::cout << "Span: [" << match.start("x") << ", " << match.end("x") << ">" << std::endl;
@@ -120,4 +118,8 @@ To add more tests, create files of the form: `tests/<module_name>/<class_tested>
 
 ## Automatic documentation
 
-to build the automatic documentation two packages are needed: graphviz and doxygen. To build the documentation run `doxygen DoxyFile`.
+To build the automatic documentation two packages are needed: graphviz and doxygen. To build the documentation run `doxygen DoxyFile`.
+
+## Reference
+
+This implementation is based on the paper [REmatch: a novel regex engine for finding all matches](https://www.vldb.org/pvldb/vol16/p2792-vrgoc.pdf) by Cristian Riveros, Nicolar Van Sint Jan, and Domagoj Vrgoč.
