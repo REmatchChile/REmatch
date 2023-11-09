@@ -14,12 +14,12 @@ Here you can find the main implementation of REmatch library in C++. This versio
 
 Dependencies:
 
-* G++ version 11
+* Clang version 11 or newer
 * CMake version 3.23.2 or newer
 * Boost version 1.58 or newer
 * Catch2 (required for tests only)
 
-The setup of CMake, Catch2, boost and g++-11 on a clean ubuntu system can be done using the following script:
+The setup of CMake, Catch2, Boost and Clang on a clean ubuntu system can be done using the following script:
 
 ```bash
 ./scripts/setup/ubuntu/setup_cpp_to_execute_rematch.sh
