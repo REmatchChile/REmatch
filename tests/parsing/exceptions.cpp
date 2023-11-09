@@ -1,9 +1,12 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 #undef private
+#include "library_interface/rematch.hpp"
+#include "parsing/exceptions/invalid_escape_exception.hpp"
+#include "parsing/exceptions/invalid_range_exception.hpp"
+#include "parsing/exceptions/same_nested_variable_exception.hpp"
 #include "parsing/parser.hpp"
 #include "parsing/variable_catalog.hpp"
-#include "parsing/exceptions/same_nested_variable_exception.hpp"
 
 namespace rematch::testing {
 
@@ -30,9 +33,21 @@ TEST_CASE("using more variables than the maximum raises an exception") {
 TEST_CASE("accessing nonexistent variable raises an exception") {
   std::string regex = "!x{a}";
   auto parser = Parser(regex);
-  std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
+  std::shared_ptr<VariableCatalog> variable_catalog =
+      parser.get_variable_catalog();
 
-  REQUIRE_THROWS_AS(variable_catalog->position("y"), REMatch::VariableNotFoundInCatalogException);
+  REQUIRE_THROWS_AS(variable_catalog->position("y"),
+                    REMatch::VariableNotFoundInCatalogException);
 }
 
+TEST_CASE("invalid range in character class raises an exception") {
+  std::string regex = "!x{[z-a]}";
+  REQUIRE_THROWS_AS(Parser(regex), REMatch::InvalidRangeException);
 }
+
+TEST_CASE("invalid escape characters raise an exception") {
+  std::string regex = "!x{\\e}";
+  REQUIRE_THROWS_AS(Parser(regex), REMatch::InvalidEscapeException);
+}
+
+}  // namespace rematch::testing
