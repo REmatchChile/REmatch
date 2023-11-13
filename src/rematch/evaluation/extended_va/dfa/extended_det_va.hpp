@@ -2,10 +2,13 @@
 #define EXTENDED_DET_VA_HPP
 
 #include "evaluation/extended_va/nfa/extended_va.hpp"
+#include "evaluation/complex_query_exception.hpp"
 #include "extended_det_va_state.hpp"
 #include "capture_subset_pair.hpp"
 
 namespace rematch {
+
+const size_t MAXIMUM_AMOUNT_OF_STATES = 1000;
 
 class ExtendedDetVA {
  private:

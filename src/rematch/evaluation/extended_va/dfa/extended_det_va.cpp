@@ -1,4 +1,3 @@
-
 #include "extended_det_va.hpp"
 
 namespace rematch {
@@ -91,6 +90,9 @@ ExtendedDetVAState* ExtendedDetVA::get_state_from_subset(StatesPtrSet &states_se
 }
 
 ExtendedDetVAState* ExtendedDetVA::create_state(StatesPtrSet &states_set) {
+  if (states.size() > MAXIMUM_AMOUNT_OF_STATES) {
+    throw REMatch::ComplexQueryException();
+  }
   ExtendedDetVAState* new_state = new ExtendedDetVAState(states_set);
   StatesBitset states_bitset = get_bitset_from_states_set(states_set);
   bitset_to_state_map[states_bitset] = new_state;
