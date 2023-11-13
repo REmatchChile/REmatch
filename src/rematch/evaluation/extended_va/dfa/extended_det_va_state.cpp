@@ -5,6 +5,8 @@ namespace rematch {
 
 ExtendedDetVAState::ExtendedDetVAState() {
   id = ID++;
+  auto& memory_tracker = MemoryTracker::get_instance();
+  memory_tracker.track<ExtendedDetVAState>();
 }
 
 ExtendedDetVAState::ExtendedDetVAState(
@@ -17,6 +19,14 @@ ExtendedDetVAState::ExtendedDetVAState(
       is_accepting_ = true;
     }
   }
+
+  auto& memory_tracker = MemoryTracker::get_instance();
+  memory_tracker.track<ExtendedDetVAState>();
+}
+
+ExtendedDetVAState::~ExtendedDetVAState() {
+  auto& memory_tracker = MemoryTracker::get_instance();
+  memory_tracker.untrack<ExtendedDetVAState>();
 }
 
 void ExtendedDetVAState::set_initial(bool initial) {

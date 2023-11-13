@@ -1,6 +1,3 @@
-#include <iostream>
-#include <memory>
-
 #include "output_enumeration/ecs_node.hpp"
 
 namespace rematch {
@@ -10,6 +7,12 @@ ECSNode::ECSNode(ECSNodeType node_type, ECSNode *left,
                  ECSNode *right, std::bitset<64> variable_markers,
                  int document_position) {
   assign_attributes(node_type, left, right, variable_markers, document_position);
+
+  MemoryTracker::get_instance().track<ECSNode>();
+}
+
+ECSNode::~ECSNode() {
+  MemoryTracker::get_instance().untrack<ECSNode>();
 }
 
 ECSNode *ECSNode::reset(ECSNodeType node_type, ECSNode *left, ECSNode *right,

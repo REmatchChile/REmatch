@@ -3,6 +3,8 @@
 #include "evaluation/extended_va/dfa/extended_det_va.hpp"
 #include "evaluation/extended_va/nfa/extended_va.hpp"
 #include "mediator/mediator.hpp"
+#include "memory_tracker/memory_tracker.hpp"
+#include "regex.hpp"
 
 namespace REMatch {
 inline namespace library_interface {
@@ -12,7 +14,16 @@ rematch::MediationSubjects get_mediation_subjects(std::string_view pattern, Flag
 Regex::Regex(std::string_view pattern, Flags flags)
     : mediation_subjects_(get_mediation_subjects(pattern, flags)) {}
 
-rematch::MediationSubjects get_mediation_subjects(std::string_view pattern, Flags flags) {
+void Regex::set_memory_limit(size_t bytes) {
+  MemoryTracker::get_instance().set_memory_limit(bytes);
+}
+
+size_t Regex::get_memory_limit() {
+  return MemoryTracker::get_instance().get_memory_limit();
+}
+
+rematch::MediationSubjects get_mediation_subjects(std::string_view pattern,
+                                                  Flags flags) {
   rematch::Parser parser = rematch::Parser(pattern);
   rematch::LogicalVA logical_va = parser.get_logical_va();
   std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog = parser.get_variable_catalog();
