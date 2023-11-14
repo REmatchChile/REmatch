@@ -29,10 +29,68 @@ TEST_CASE("memory usage is updated when untracking a state") {
           sizeof(ExtendedDetVAState));
 }
 
+TEST_CASE("memory usage is updated when tracking a vector") {
+  auto& memory_tracker = MemoryTracker::get_instance();
+
+  size_t memory_usage_before = memory_tracker.get_memory_usage();
+
+  std::vector<int> int_vector = {1, 2, 3};
+
+  memory_tracker.track(int_vector);
+  size_t memory_usage_after = memory_tracker.get_memory_usage();
+
+  REQUIRE(memory_usage_after - memory_usage_before ==
+          sizeof(int) * 3);
+}
+
+TEST_CASE("memory usage is updated when untracking a vector") {
+  auto& memory_tracker = MemoryTracker::get_instance();
+
+  std::vector<int> int_vector = {1, 2, 3};
+  memory_tracker.track(int_vector);
+
+  size_t memory_usage_before = memory_tracker.get_memory_usage();
+
+  memory_tracker.untrack(int_vector);
+  size_t memory_usage_after = memory_tracker.get_memory_usage();
+
+  REQUIRE(memory_usage_before - memory_usage_after ==
+          sizeof(int) * 3);
+}
+
+TEST_CASE("memory usage is updated when tracking a map") {
+  auto& memory_tracker = MemoryTracker::get_instance();
+
+  size_t memory_usage_before = memory_tracker.get_memory_usage();
+
+  std::unordered_map<char, int> char_int_map = {{1, 1}, {2, 2}, {3, 3}};
+
+  memory_tracker.track(char_int_map);
+  size_t memory_usage_after = memory_tracker.get_memory_usage();
+
+  REQUIRE(memory_usage_after - memory_usage_before ==
+          (sizeof(char) + sizeof(int)) * 3);
+}
+
+TEST_CASE("memory usage is updated when untracking a map") {
+  auto& memory_tracker = MemoryTracker::get_instance();
+
+  std::unordered_map<char, int> char_int_map = {{1, 1}, {2, 2}, {3, 3}};
+  memory_tracker.track(char_int_map);
+
+  size_t memory_usage_before = memory_tracker.get_memory_usage();
+
+  memory_tracker.untrack(char_int_map);
+  size_t memory_usage_after = memory_tracker.get_memory_usage();
+
+  REQUIRE(memory_usage_before - memory_usage_after ==
+          (sizeof(char) + sizeof(int)) * 3);
+}
+
 TEST_CASE("memory usage is reset correctly") {
   auto& memory_tracker = MemoryTracker::get_instance();
 
-  memory_tracker.track<int>();
+  memory_tracker.track((int) 3);
   CHECK(memory_tracker.get_memory_usage() != 0);
 
   memory_tracker.reset_memory_usage();
@@ -56,7 +114,7 @@ TEST_CASE(
   memory_tracker.reset_memory_usage();
   memory_tracker.set_memory_limit(sizeof(uint8_t));
 
-  REQUIRE_THROWS_AS(memory_tracker.track<uint64_t>(),
+  REQUIRE_THROWS_AS(memory_tracker.track((uint64_t) 3),
                     MemoryLimitExceededException);
   memory_tracker.reset_memory_limit();
 }

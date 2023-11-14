@@ -33,7 +33,7 @@ std::vector<CaptureSubsetPair*> ExtendedDetVA::get_next_states(
 
   capture_subset_pairs = add_transitions_to_vector(captures_subset_map);
 
-  current_state->cached_transitions[(uint8_t)letter] = capture_subset_pairs;
+  current_state->cache_transition(letter, capture_subset_pairs);
 
   return capture_subset_pairs.value();
 }
@@ -96,7 +96,12 @@ ExtendedDetVAState* ExtendedDetVA::create_state(StatesPtrSet &states_set) {
   ExtendedDetVAState* new_state = new ExtendedDetVAState(states_set);
   StatesBitset states_bitset = get_bitset_from_states_set(states_set);
   bitset_to_state_map[states_bitset] = new_state;
+
   states.push_back(new_state);
+
+  auto& memory_tracker = MemoryTracker::get_instance();
+  memory_tracker.track(states_bitset);
+  memory_tracker.track(new_state);
   return new_state;
 }
 

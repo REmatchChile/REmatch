@@ -30,6 +30,9 @@ class ExtendedDetVAState {
   ~ExtendedDetVAState();
 
   std::optional<std::vector<CaptureSubsetPair*>> get_transition(char letter);
+  void cache_transition(
+      char letter,
+      std::optional<std::vector<CaptureSubsetPair*>> capture_subset_pairs);
 
   bool is_initial();
   void set_initial(bool initial);

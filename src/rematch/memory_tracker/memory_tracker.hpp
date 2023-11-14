@@ -2,6 +2,8 @@
 #define MEMORY_TRACKER_HPP
 
 #include <cstddef>
+#include <vector>
+#include <unordered_map>
 #include "memory_limit_exceeded_exception.hpp"
 
 static size_t DEFAULT_MEMORY_LIMIT = 1e8;
@@ -43,16 +45,42 @@ class MemoryTracker {
   }
 
   template <typename T>
-  void track() {
-    memory_in_use_ += sizeof(T);
-    if (memory_in_use_ > memory_limit_) {
-      throw REMatch::MemoryLimitExceededException();
-    }
+  void track(const std::vector<T>& vector) {
+    memory_in_use_ += sizeof(T) * vector.size();
+    throw_exception_if_memory_limit_is_exceeded();
+  }
+
+  template <typename K, typename V>
+  void track(const std::unordered_map<K, V>& map) {
+    memory_in_use_ += (sizeof(K) + sizeof(V)) * map.size();
+    throw_exception_if_memory_limit_is_exceeded();
   }
 
   template <typename T>
-  void untrack() {
+  void track(const T& object) {
+    memory_in_use_ += sizeof(T);
+    throw_exception_if_memory_limit_is_exceeded();
+  }
+
+  template <typename K, typename V>
+  void untrack(const std::unordered_map<K, V>& map) {
+    memory_in_use_ -= (sizeof(K) + sizeof(V)) * map.size();
+  }
+
+  template <typename T>
+  void untrack(const std::vector<T>& vector) {
+    memory_in_use_ -= sizeof(T) * vector.size();
+  }
+
+  template <typename T>
+  void untrack(const T& object) {
     memory_in_use_ -= sizeof(T);
+  }
+
+  void throw_exception_if_memory_limit_is_exceeded() {
+    if (memory_in_use_ > memory_limit_) {
+      throw REMatch::MemoryLimitExceededException();
+    }
   }
 };
 

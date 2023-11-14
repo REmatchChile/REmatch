@@ -6,7 +6,7 @@ namespace rematch {
 ExtendedDetVAState::ExtendedDetVAState() {
   id = ID++;
   auto& memory_tracker = MemoryTracker::get_instance();
-  memory_tracker.track<ExtendedDetVAState>();
+  memory_tracker.track(*this);
 }
 
 ExtendedDetVAState::ExtendedDetVAState(
@@ -21,12 +21,17 @@ ExtendedDetVAState::ExtendedDetVAState(
   }
 
   auto& memory_tracker = MemoryTracker::get_instance();
-  memory_tracker.track<ExtendedDetVAState>();
+  memory_tracker.track(*this);
 }
 
 ExtendedDetVAState::~ExtendedDetVAState() {
   auto& memory_tracker = MemoryTracker::get_instance();
-  memory_tracker.untrack<ExtendedDetVAState>();
+  memory_tracker.untrack(*this);
+  for (auto& optional_transition : cached_transitions) {
+    if (optional_transition) {
+      memory_tracker.untrack(optional_transition.value());
+    }
+  }
 }
 
 void ExtendedDetVAState::set_initial(bool initial) {
@@ -55,6 +60,13 @@ ECSNode* ExtendedDetVAState::get_node() {
 
 void ExtendedDetVAState::set_phase(int phase) {
   this->phase = phase;
+}
+
+void ExtendedDetVAState::cache_transition(
+    char letter,
+    std::optional<std::vector<CaptureSubsetPair*>> capture_subset_pairs) {
+  cached_transitions[(uint8_t)letter] = capture_subset_pairs;
+  MemoryTracker::get_instance().track(capture_subset_pairs.value());
 }
 
 std::optional<std::vector<CaptureSubsetPair*>> ExtendedDetVAState::get_transition(char letter) {
