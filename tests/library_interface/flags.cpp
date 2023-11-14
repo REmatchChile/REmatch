@@ -4,7 +4,7 @@
 #include "library_interface/rematch.hpp"
 #include "../evaluation/dummy_mapping.hpp"
 #include "../evaluation/mapping_helpers.hpp"
-#include "library_interface/invalid_flag_type_exception.hpp"
+#include "exceptions/invalid_flag_type_exception.hpp"
 #include "regex"
 
 namespace rematch::testing {

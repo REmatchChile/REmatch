@@ -2,9 +2,9 @@
 #include <catch2/generators/catch_generators.hpp>
 #undef private
 #include "library_interface/rematch.hpp"
-#include "parsing/exceptions/invalid_escape_exception.hpp"
-#include "parsing/exceptions/invalid_range_exception.hpp"
-#include "parsing/exceptions/same_nested_variable_exception.hpp"
+#include "exceptions/invalid_escape_exception.hpp"
+#include "exceptions/invalid_range_exception.hpp"
+#include "exceptions/same_nested_variable_exception.hpp"
 #include "parsing/parser.hpp"
 #include "parsing/variable_catalog.hpp"
 

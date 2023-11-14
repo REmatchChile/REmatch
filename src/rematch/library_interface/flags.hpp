@@ -5,7 +5,7 @@
 #include <utility>
 #include <stdexcept>
 
-#include "invalid_flag_type_exception.hpp"
+#include "exceptions/invalid_flag_type_exception.hpp"
 
 namespace REMatch {
 inline namespace library_interface {
