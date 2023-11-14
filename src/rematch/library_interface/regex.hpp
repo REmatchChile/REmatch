@@ -19,8 +19,6 @@ class Regex {
 
  public:
   Regex(std::string_view pattern, Flags flags = Flags());
-  static void set_memory_limit(size_t bytes);
-  static size_t get_memory_limit();
 
   std::unique_ptr<Match> find(std::string_view text, Flags flags = Flags());
   MatchIterator finditer(std::string_view text, Flags flags = Flags());

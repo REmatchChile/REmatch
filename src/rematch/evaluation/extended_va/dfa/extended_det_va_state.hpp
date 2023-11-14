@@ -5,7 +5,6 @@
 #include "evaluation/extended_va/nfa/extended_va.hpp"
 #include "output_enumeration/ecs.hpp"
 #include "aliases.hpp"
-#include "memory_tracker/memory_tracker.hpp"
 
 namespace rematch {
 
@@ -27,7 +26,6 @@ class ExtendedDetVAState {
 
   ExtendedDetVAState();
   ExtendedDetVAState(StatesPtrSet &states_subset);
-  ~ExtendedDetVAState();
 
   std::optional<std::vector<CaptureSubsetPair*>> get_transition(char letter);
   void cache_transition(

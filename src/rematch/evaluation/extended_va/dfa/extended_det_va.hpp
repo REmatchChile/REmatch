@@ -1,8 +1,6 @@
 #ifndef EXTENDED_DET_VA_HPP
 #define EXTENDED_DET_VA_HPP
 
-#include <utility>
-
 #include "evaluation/extended_va/nfa/extended_va.hpp"
 #include "evaluation/complex_query_exception.hpp"
 #include "extended_det_va_state.hpp"

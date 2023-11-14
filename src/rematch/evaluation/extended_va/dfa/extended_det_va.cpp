@@ -98,10 +98,6 @@ ExtendedDetVAState* ExtendedDetVA::create_state(StatesPtrSet &states_set) {
   bitset_to_state_map[states_bitset] = new_state;
 
   states.push_back(new_state);
-
-  auto& memory_tracker = MemoryTracker::get_instance();
-  memory_tracker.track(states_bitset);
-  memory_tracker.track(new_state);
   return new_state;
 }
 

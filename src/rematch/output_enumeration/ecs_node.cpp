@@ -7,12 +7,6 @@ ECSNode::ECSNode(ECSNodeType node_type, ECSNode *left,
                  ECSNode *right, std::bitset<64> variable_markers,
                  int document_position) {
   assign_attributes(node_type, left, right, variable_markers, document_position);
-
-  MemoryTracker::get_instance().track(*this);
-}
-
-ECSNode::~ECSNode() {
-  MemoryTracker::get_instance().untrack(*this);
 }
 
 ECSNode *ECSNode::reset(ECSNodeType node_type, ECSNode *left, ECSNode *right,

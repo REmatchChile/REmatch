@@ -31,7 +31,6 @@ set(TEST_SOURCES
         library_interface/regex.cpp
         library_interface/rematch.cpp
         library_interface/flags.cpp
-        memory_tracker/memory_tracker.cpp
         )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
