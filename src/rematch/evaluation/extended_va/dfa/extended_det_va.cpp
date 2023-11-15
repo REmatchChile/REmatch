@@ -90,14 +90,12 @@ ExtendedDetVAState* ExtendedDetVA::get_state_from_subset(StatesPtrSet &states_se
 }
 
 ExtendedDetVAState* ExtendedDetVA::create_state(StatesPtrSet &states_set) {
-  if (states.size() > MAXIMUM_AMOUNT_OF_STATES) {
-    throw REMatch::ComplexQueryException();
-  }
   ExtendedDetVAState* new_state = new ExtendedDetVAState(states_set);
   StatesBitset states_bitset = get_bitset_from_states_set(states_set);
   bitset_to_state_map[states_bitset] = new_state;
 
   states.push_back(new_state);
+  throw_exception_if_max_states_exceeded();
   return new_state;
 }
 
@@ -118,5 +116,12 @@ void ExtendedDetVA::set_state_initial_phases() {
     state->set_phase(-1);
   }
 }
+
+void ExtendedDetVA::throw_exception_if_max_states_exceeded() {
+  if (states.size() > MAXIMUM_AMOUNT_OF_STATES) {
+    throw REMatch::ComplexQueryException();
+  }
+}
+
 
 }  // namespace rematch

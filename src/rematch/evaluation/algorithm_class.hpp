@@ -4,12 +4,15 @@
 #include "extended_va/dfa/extended_det_va.hpp"
 #include "output_enumeration/ecs.hpp"
 #include "output_enumeration/enumerator.hpp"
+#include "library_interface/flags.hpp"
 
 namespace rematch {
+using namespace REMatch;
 
 class AlgorithmClass {
  public:
-  AlgorithmClass(ExtendedDetVA &extended_det_va, std::string_view document);
+  AlgorithmClass(ExtendedDetVA& extended_det_va, std::string_view document,
+                 Flags flags = Flags());
 
   void initialize_algorithm();
   void set_ecs(ECS& ecs);

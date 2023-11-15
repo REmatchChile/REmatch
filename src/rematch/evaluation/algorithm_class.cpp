@@ -3,10 +3,10 @@
 namespace rematch {
 
 AlgorithmClass::AlgorithmClass(ExtendedDetVA &extended_det_va,
-                               std::string_view document)
+                               std::string_view document, Flags flags)
     : extended_det_va_(extended_det_va) {
   document_ = document;
-  ECS_interface_ = new ECS();
+  ECS_interface_ = new ECS(flags);
   enumerator_ = new Enumerator();
 
   ExtendedDetVAState* initial_state = extended_det_va_.get_initial_state();

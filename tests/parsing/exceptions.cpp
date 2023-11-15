@@ -50,4 +50,21 @@ TEST_CASE("invalid escape characters raise an exception") {
   REQUIRE_THROWS_AS(Parser(regex), REMatch::InvalidEscapeException);
 }
 
+TEST_CASE("other parsing errors raise a syntax exception") {
+  std::vector<std::string> invalid_regexes = {
+    "!{a}",
+    "!123{a}",
+    "a{i}",
+    "!x+{a}",
+    "[a-]",
+    "!x{ab)}",
+  };
+
+  for (auto& regex : invalid_regexes) {
+    SECTION("invalid regex: " + regex) {
+      REQUIRE_THROWS_AS(Parser(regex), REMatch::RegexSyntaxException);
+    }
+  }
+}
+
 }  // namespace rematch::testing

@@ -4,18 +4,12 @@
 #include "library_interface/rematch.hpp"
 #include "../evaluation/dummy_mapping.hpp"
 #include "../evaluation/mapping_helpers.hpp"
-#include "exceptions/invalid_flag_type_exception.hpp"
 #include "regex"
 
 namespace rematch::testing {
 
 std::string get_mapping_info(DummyMapping mapping);
 void run_client_test(MatchIterator& match_iterator, std::vector<DummyMapping> expected_matches);
-
-TEST_CASE("passing the wrong number of arguments when creating a Flags object raises "
-          "an exception") {
-  REQUIRE_THROWS_AS(Flags(2, Flags::EarlyOutput), InvalidFlagTypeException);
-}
 
 TEST_CASE("flag LineByLine works correctly") {
   std::string pattern = "!x{([A-Z][a-z]+\\n)+}";
@@ -28,7 +22,7 @@ TEST_CASE("flag LineByLine works correctly") {
   };
 
   REMatch::Regex regex = REMatch::compile(pattern);
-  Flags flags = Flags(1, Flags::LineByLine);
+  Flags flags = {.line_by_line = true};
   REMatch::MatchIterator match_iterator = regex.finditer(document, flags);
 
   run_client_test(match_iterator, expected_matches);
