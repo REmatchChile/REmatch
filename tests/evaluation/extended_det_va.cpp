@@ -72,7 +72,7 @@ TEST_CASE("next state is computed correctly when there are two transitions with 
            capture and reading") {
 
   // the initial state of the extended VA has two 'a/[x' transitions
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("!x{a+}");
+  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("!x{a+|a}");
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 

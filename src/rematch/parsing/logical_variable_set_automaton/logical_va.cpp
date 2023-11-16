@@ -319,7 +319,10 @@ void LogicalVA::kleene() {
 
 void LogicalVA::strict_kleene() {
   /* Extends the LogicalVA for strict kleene closure (1 or more times) */
+  LogicalVAState* new_accepting_state = new_state();
   accepting_state_->add_epsilon(init_state_);
+  accepting_state_->add_epsilon(new_accepting_state);
+  set_accepting_state(new_accepting_state);
 }
 
 void LogicalVA::optional() {
@@ -672,17 +675,6 @@ std::ostream& operator<<(std::ostream& os, LogicalVA const& A) {
       if (visited.find(nid) == visited.end()) {
         visited.insert(nid);
         queue.push_back(capture->next);
-      }
-    }
-
-    // For every filter transition
-    for (auto &filter: current->filters) {
-      nid = filter->next->id;
-
-      // If not visited enqueue and add to visited
-      if (visited.find(nid) == visited.end()) {
-        visited.insert(nid);
-        queue.push_back(filter->next);
       }
     }
   }

@@ -165,20 +165,17 @@ TEST_CASE("regex with \\d is parsed correctly") {
   logical_va.remove_epsilon();
   logical_va.trim();
 
-  REQUIRE(logical_va.states.size() == 4);
+  REQUIRE(logical_va.states.size() == 3);
   LogicalVAState* initial_state = logical_va.initial_state();
-  REQUIRE(initial_state->filters.size() == 2);
-
-  LogicalVAState* loop_state = initial_state->filters.back()->next;
-  REQUIRE(loop_state->filters.size() == 2);
-  REQUIRE(loop_state->filters.front()->next == loop_state);
-  REQUIRE(charclass_contains_range(*loop_state->filters.back(), '0', '9'));
+  REQUIRE(initial_state->filters.size() == 1);
 
   LogicalVAState* second_state = initial_state->filters.front()->next;
-  REQUIRE(second_state->filters.size() == 1);
+  REQUIRE(second_state->filters.size() == 2);
+  REQUIRE(second_state->filters.back()->next == second_state);
+  REQUIRE(charclass_contains_range(*second_state->filters.back(), '0', '9'));
   REQUIRE(charclass_contains_range(*second_state->filters.front(), '0', '9'));
 
-  LogicalVAState* third_state = second_state->filters.back()->next;
+  LogicalVAState* third_state = second_state->filters.front()->next;
   REQUIRE(third_state->accepting());
 }
 
@@ -188,30 +185,23 @@ TEST_CASE("regex with \\s is parsed correctly") {
   logical_va.remove_epsilon();
   logical_va.trim();
 
-  REQUIRE(logical_va.states.size() == 4);
+  REQUIRE(logical_va.states.size() == 3);
   LogicalVAState* initial_state = logical_va.initial_state();
-  REQUIRE(initial_state->filters.size() == 3);
-  auto initial_state_filters = initial_state->filters.begin(); 
-  REQUIRE(charclass_contains_range(**initial_state_filters, 9, 13));
-  REQUIRE(charclass_contains_character(**initial_state_filters, 32));
+  REQUIRE(initial_state->filters.size() == 2);
+  REQUIRE(charclass_contains_range(*initial_state->filters.front(), '1', '3'));
+  REQUIRE(charclass_contains_range(*initial_state->filters.back(), 9, 13));
+  REQUIRE(charclass_contains_character(*initial_state->filters.back(), 32));
 
-  LogicalVAState* second_state = (*initial_state_filters)->next;
-  REQUIRE(second_state->filters.size() == 1);
-  REQUIRE(charclass_contains_range(*second_state->filters.front(), '1', '3'));
-
-  initial_state_filters++;
-  LogicalVAState* loop_state = (*initial_state_filters)->next;
+  LogicalVAState* loop_state = initial_state->filters.back()->next;
   REQUIRE(loop_state->filters.size() == 2);
-  REQUIRE(loop_state->filters.front()->next == loop_state);
-  REQUIRE(charclass_contains_range(*loop_state->filters.front(), 9, 13));
-  REQUIRE(charclass_contains_character(*loop_state->filters.front(), 32));
+  REQUIRE(loop_state->filters.back()->next == loop_state);
   REQUIRE(charclass_contains_range(*loop_state->filters.back(), 9, 13));
   REQUIRE(charclass_contains_character(*loop_state->filters.back(), 32));
+  REQUIRE(charclass_contains_range(*loop_state->filters.front(), '1', '3'));
 
-  initial_state_filters++;
-  REQUIRE(charclass_contains_range(**initial_state_filters, '1', '3'));
-  LogicalVAState* third_state = (*initial_state_filters)->next;
-  REQUIRE(third_state->accepting());
+  LogicalVAState* final_state = loop_state->filters.front()->next;
+  REQUIRE(final_state == initial_state->filters.front()->next);
+  REQUIRE(final_state->accepting());
 }
 
 TEST_CASE("regex with \\w is parsed correctly") {
