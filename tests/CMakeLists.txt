@@ -18,6 +18,27 @@ set(TEST_SOURCES
         filtering_module/segment_identification.cpp
         filtering_module/search_nfa.cpp
         filtering_module/search_dfa.cpp
+        evaluation/extended_va.cpp
+        evaluation/extended_det_va.cpp
+        evaluation/dummy_mapping.hpp
+        evaluation/mapping_helpers.hpp
+        evaluation/algorithm_class.cpp
+        evaluation/algorithm_utf8.cpp
+        mediator/mediator.cpp
+        library_interface/match.cpp
+        library_interface/match_iterator.cpp
+        library_interface/regex.cpp
+        library_interface/rematch.cpp
+        library_interface/flags.cpp
+        exceptions/complex_query_exception.cpp
+        exceptions/empty_word_capture_exception.cpp
+        exceptions/invalid_escape_exception.cpp
+        exceptions/invalid_range_exception.cpp
+        exceptions/memory_limit_exceeded_exception.cpp
+        exceptions/regex_syntax_exception.cpp
+        exceptions/same_nested_variable_exception.cpp
+        exceptions/variable_not_found_exception.cpp
+        exceptions/variable_not_found_in_catalog_exception.cpp
         )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})

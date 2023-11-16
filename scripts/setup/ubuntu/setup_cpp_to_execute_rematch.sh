@@ -25,8 +25,6 @@ rm -rf Catch2
 
 sudo apt-get install -y libboost-all-dev
 
-# update compiler to support c++20
+# Update compiler to support c++20
 
-sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-sudo apt install -y gcc-11 g++-11
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 20 --slave /usr/bin/g++ g++ /usr/bin/g++-11
+sudo apt install clang

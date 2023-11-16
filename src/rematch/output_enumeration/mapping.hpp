@@ -1,13 +1,12 @@
 #ifndef OUTPUT_ENUMERATOR__MAPPING_HPP
 #define OUTPUT_ENUMERATOR__MAPPING_HPP
 
+#include "span.hpp"
 #include "output_enumeration/ecs.hpp"
 
 namespace rematch {
 
 inline namespace output_enumeration {
-
-using Span = std::pair<int64_t, int64_t>;
 
 /**
  * A Mapping is also known as an s-tuple, asigns a span to all it's

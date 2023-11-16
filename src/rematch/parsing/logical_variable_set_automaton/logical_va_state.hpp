@@ -6,7 +6,6 @@
 #include <bitset>
 #include <memory>
 
-#include "parsing/bad_regex_exception.hpp"
 #include "parsing/charclass.hpp"
 #include "parsing/logical_variable_set_automaton/logical_va_capture.hpp"
 #include "parsing/logical_variable_set_automaton/logical_va_filter.hpp"

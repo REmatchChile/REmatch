@@ -5,13 +5,13 @@
 
 int main(int argc, char *argv[]) {
   std::string_view document = "This is a document";
-  REMatch::Regex word_regex = REMatch::compile("[a-zA-Z]*", REMatch::Flags());
+  REMatch::Regex word_regex = REMatch::compile("!x{doc|document}", REMatch::Flags());
   REMatch::MatchIterator iterator = word_regex.finditer(document);
-  while (iterator.has_next()) {
-    REMatch::Match match = iterator.next();
-    std::cout << "Span: <" << match.get_span().first << ',' <<
-                              match.get_span().second << '>' <<
-        std::endl;
+  auto match = iterator.next();
+  while (match != nullptr) {
+    std::cout << "Span: <" << match->start("x") << ',' << match->end("x") << '>'
+              << std::endl;
+    match = iterator.next();
   }
   return 0;
 }

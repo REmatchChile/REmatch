@@ -10,6 +10,10 @@ file(GLOB_RECURSE glob_srcs
   ${CMAKE_CURRENT_SOURCE_DIR}/filtering_module/*.[ch]pp
   ${CMAKE_CURRENT_SOURCE_DIR}/filtering_module/search_variable_set_automaton/dfa/*.[ch]pp
   ${CMAKE_CURRENT_SOURCE_DIR}/filtering_module/search_variable_set_automaton/nfa/*.[ch]pp
+  ${CMAKE_CURRENT_SOURCE_DIR}/evaluation/*.[ch]pp
+  ${CMAKE_CURRENT_SOURCE_DIR}/evaluation/extended_va/dfa/*.[ch]pp
+  ${CMAKE_CURRENT_SOURCE_DIR}/evaluation/extended_va/nfa/*.[ch]pp
+  ${CMAKE_CURRENT_SOURCE_DIR}/mediator/*.[ch]pp
 )
 
 set(sources ${fix_srcs} ${glob_srcs})

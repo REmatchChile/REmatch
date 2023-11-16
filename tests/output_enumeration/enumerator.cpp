@@ -74,12 +74,9 @@ ECSNode *extend_current_node_with_annotation(
       variable_markers,
       last_document_position--
   );
-  ecs->unpin_node(current_node);
   ECSNode *new_union_node = ecs->create_union_node(
       new_left_node, new_right_node
   );
-  ecs->unpin_node(new_left_node);
-  ecs->unpin_node(new_right_node);
   return new_union_node;
 }
 
@@ -193,9 +190,6 @@ ECSNode* create_binary_tree_of_union_nodes_with_one_variable_and_empty_captures(
       current_layer[i] = ecs->create_union_node(
           last_layer[i*2], last_layer[i*2 + 1]);
     }
-    for (int i = 0; i < 1 << (layer_number + 1); i ++) {
-      ecs->unpin_node(last_layer[i]);
-    }
     delete[] last_layer;
     last_layer = current_layer;
   }
@@ -231,6 +225,30 @@ TEST_CASE("Complete Binary tree with single variable output nodes as leafs \
   delete ecs;
 }
 
+TEST_CASE("Enumerator returns correct mapping after calling reset") {
+  ECS ecs = ECS();
+  int depth = 5;
+  ECSNode* union_node = ecs.create_union_node(
+    create_linked_list_node_of_depth(&ecs, depth),
+    create_linked_list_node_of_depth(&ecs, depth)
+  );
+  Enumerator enumerator = Enumerator();
+  enumerator.add_node(union_node);
+  while (enumerator.has_next()) {
+    enumerator.next();
+  }
+
+  enumerator.reset();
+  enumerator.add_node(union_node);
+
+  int amount_of_mappings = 0;
+  while (enumerator.has_next()) {
+    enumerator.next();
+    amount_of_mappings++;
+  }
+
+  REQUIRE(amount_of_mappings == 2);
+}
 
 
 }  // namespace rematch::testing

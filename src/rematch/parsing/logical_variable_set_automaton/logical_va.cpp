@@ -1,14 +1,3 @@
-#include <algorithm>
-#include <cassert>
-#include <deque>
-#include <map>
-#include <string>
-#include <sstream>
-#include <stack>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
-
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
 
 namespace rematch {
@@ -351,8 +340,8 @@ void LogicalVA::optional() {
 void LogicalVA::assign(std::bitset<64> open_code, std::bitset<64> close_code) {
   /* Extends the LogicalVA so it can assign its pattern to a variable */
 
-  if(has_epsilon()) {
-    throw BadRegexException("Empty word capturing is not allowed (thrown from LogicalVA).");
+  if (has_epsilon()) {
+    throw REMatch::EmptyWordCaptureException("Empty word capturing is not allowed.");
   }
 
   // Create new states
@@ -645,6 +634,18 @@ std::ostream& operator<<(std::ostream& os, LogicalVA const& A) {
     current = queue.front();
     queue.pop_front();
     cid = current->id;
+
+    for (auto &filter: current->filters) {
+      nid = filter->next->id;
+
+      os << "t " << cid << " " << filter->charclass << " " << nid << '\n';
+
+      // If not visited enqueue and add to visited
+      if (visited.find(nid) == visited.end()) {
+        visited.insert(nid);
+        queue.push_back(filter->next);
+      }
+    }
 
     // For every epsilon transition
     for (auto &epsilon: current->epsilons) {

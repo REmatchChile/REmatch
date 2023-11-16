@@ -1,6 +1,3 @@
-#include <iostream>
-#include <memory>
-
 #include "output_enumeration/ecs_node.hpp"
 
 namespace rematch {
@@ -60,7 +57,7 @@ void ECSNode::assign_attributes(
 
 void ECSNode::reset_attributes() {
   variable_markers = 0;
-  ref_count = 1;
+  ref_count = 0;
   left = nullptr;
   right = nullptr;
 }
@@ -78,14 +75,12 @@ void ECSNode::create_kUnion_node(ECSNode *left, ECSNode *right) {
 
 void ECSNode::add_left_node(ECSNode *node) {
   this->left = node;
-  if (node != nullptr)
-    node->increase_ref_count();
+  node->increase_ref_count();
 }
 
 void ECSNode::add_right_node(ECSNode *node) {
   this->right = node;
-  if (node != nullptr)
-    node->increase_ref_count();
+  node->increase_ref_count();
 }
 
 void ECSNode::label_node_as_kUnion() {

@@ -1,11 +1,15 @@
-#include "output_enumeration/node_manager.hpp"
+#include "node_manager.hpp"
 
 namespace rematch {
 inline namespace output_enumeration {
 
-NodeManager::NodeManager(size_t starting_size)
+NodeManager::NodeManager(size_t starting_size, Flags flags)
     : minipool_head_(new MiniPool(starting_size)),
-      recyclable_node_head(nullptr) {}
+      recyclable_node_head(nullptr),
+      max_number_of_mempool_duplications(flags.max_mempool_duplications) {}
+
+NodeManager::NodeManager(Flags flags)
+    : NodeManager(MEMORY_POOL_STARTING_SIZE, flags) {}
 
 NodeManager::~NodeManager() {
   for (MiniPool *mp = minipool_head_; mp != nullptr;) {
@@ -53,11 +57,19 @@ get_node_to_recycle_or_increase_mempool_size_if_necessary() {
 }
 
 void NodeManager::increase_mempool_size() {
-    MiniPool *new_minipool = new MiniPool(minipool_head_->size() * 2);
-    minipool_head_->set_next(new_minipool);
-    new_minipool->set_prev(minipool_head_);
+  throw_exception_if_mempool_duplications_exceeded();
+  MiniPool *new_minipool = new MiniPool(minipool_head_->size() * 2);
+  minipool_head_->set_next(new_minipool);
+  new_minipool->set_prev(minipool_head_);
 
-    minipool_head_ = new_minipool;
+  minipool_head_ = new_minipool;
+}
+
+void NodeManager::throw_exception_if_mempool_duplications_exceeded() {
+  number_of_mempool_duplications++;
+  if (number_of_mempool_duplications > max_number_of_mempool_duplications) {
+    throw REMatch::MemoryLimitExceededException();
+  }
 }
 
 ECSNode *NodeManager::get_node_to_recycle() {

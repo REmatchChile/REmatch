@@ -21,15 +21,22 @@ Enumerator::~Enumerator() {
   delete current_mapping;
 }
 
+void Enumerator::reset() {
+  stack.clear();
+  amount_of_annotations_added_before_union.clear();
+  amount_of_annotations_added_before_union.push_back(0);
+  was_output_previously = false;
+}
+
 const Mapping *Enumerator::next(){
+  if (was_output_previously) {
+    delete_annotations_until_previous_union();
+    was_output_previously = false;
+  }
+
   while (!stack.empty()) {
     ECSNode *current_node = stack.back();
     stack.pop_back();
-
-    if (was_output_previously) {
-      delete_annotations_until_previous_union();
-      was_output_previously = false;
-    }
 
     if (current_node->is_bottom()) {
       was_output_previously = true;

@@ -34,25 +34,23 @@ class SegmentIdentificator {
   );
 
   /**
+   * next_is_computed_successfully() MUST be called before, if not, next() has undefined
+   * behavior.
+   */
+  std::unique_ptr<Span> next();
+  void set_document(std::string document);
+
+ private:
+  /**
    * Tries to compute the next span that has an output
    * if it is computed correctly, next() will return that span
    * and the method will return true. If not, this method will
-   * return false and next() will return an arbitrary span.
+   * return false and next() will return nullptr.
    */
-  bool has_next();
-
-  /**
-   * has_next() MUST be called before, if not, next() has undefined
-   * behavior.
-   */
-  Span next();
-
- private:
-
-  inline void reading(char a, int64_t i);
+  bool next_is_computed_successfully();
 
   SearchDFA &search_dfa;
-  std::string_view document;
+  std::string document;
 
   uint64_t i_src = 0;
   uint64_t i_min = 0;

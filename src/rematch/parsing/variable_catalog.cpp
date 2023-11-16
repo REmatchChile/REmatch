@@ -1,13 +1,4 @@
-#include <iostream>
-#include <unordered_map>
-#include <vector>
-#include <ostream>
-#include <bitset>
-#include <unordered_set>
-#include <algorithm>
-
 #include "parsing/variable_catalog.hpp"
-#include "parsing/bad_regex_exception.hpp"
 
 namespace rematch {
 inline namespace parsing {
@@ -23,10 +14,9 @@ int VariableCatalog::position(std::string var) const {
 
 	if(it != data_.end() && var >= *it) {
 		return it - data_.begin();
-	} else {
-		// TODO: Throw exception
-		return -1;
 	}
+
+	throw REMatch::VariableNotFoundInCatalogException(var);
 }
 
 void VariableCatalog::add(std::string var) {
@@ -109,18 +99,20 @@ std::string VariableCatalog::pprint() {
 	return ss.str();
 }
 
-void VariableCatalog :: merge(VariableCatalog &rhs) {
-	for(auto &var: rhs.data_) {
-		auto it = std::lower_bound(data_.begin(), data_.end(), var);
-		if(size() >= MAX_VARS) {}
-		// TODO: Throw an exception;
-		if (it == data_.end()) {
-			data_.insert(it, var);
-			offsetMap.push_back(0);
-			offsetMap.push_back(0);
-		}
-	}
-
+void VariableCatalog ::merge(VariableCatalog& rhs) {
+  for (auto& var : rhs.data_) {
+    auto it = std::lower_bound(data_.begin(), data_.end(), var);
+    if (size() >= MAX_VARS) {
+      throw REMatch::VariableLimitExceededException();
+    }
+    if (it == data_.end()) {
+      data_.insert(it, var);
+      offsetMap.push_back(0);
+      offsetMap.push_back(0);
+    } else if (*it != var) {
+      data_.insert(it, var);
+    }
+  }
 }
 
 bool VariableCatalog::contains(std::string var) {

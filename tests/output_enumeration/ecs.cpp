@@ -56,7 +56,9 @@ namespace rematch::testing {
 
   void fill_one_mempool_with_free_bottom_nodes(ECS *ecs) {
     for (int i = 0; i < (int) MEMORY_POOL_STARTING_SIZE; i++) {
-      ecs->unpin_node(create_bottom_node(ecs));
+      ECSNode* bottom_node = create_bottom_node(ecs);
+      ecs->pin_node(bottom_node);
+      ecs->unpin_node(bottom_node);
     }
   }
 
@@ -72,7 +74,6 @@ namespace rematch::testing {
     ECSNode* current_node = create_bottom_node(ecs);
     for (int i = 0; i < (int) MEMORY_POOL_STARTING_SIZE - 1; i++) {
       ECSNode* next_node = ecs->create_extend_node(current_node, i, i);
-      ecs->unpin_node(current_node);
       current_node = next_node;
     }
     return current_node;
@@ -83,6 +84,7 @@ namespace rematch::testing {
   TEST_CASE("When all nodes are returned, no extra nodes are used: label node") {
     static ECS *ecs = new ECS();
     ECSNode* linked_list = create_mempool_sized_linked_list_of_label_nodes(ecs);
+    ecs->pin_node(linked_list);
     ecs->unpin_node(linked_list);
     create_mempool_sized_linked_list_of_label_nodes(ecs);
     REQUIRE(ecs->get_amount_of_nodes_used() == MEMORY_POOL_STARTING_SIZE);
@@ -108,6 +110,7 @@ namespace rematch::testing {
              i < (int) MEMORY_POOL_STARTING_SIZE;
              i++) {
       nodes[i] = ecs->create_bottom_node();
+      ecs->pin_node(nodes[i]);
     }
     int amount_of_nodes_of_previous_layer = amount_of_bottom_nodes;
     int starting_point_of_previous_layer = starting_point_of_bottom_nodes;
@@ -128,6 +131,7 @@ namespace rematch::testing {
           right_child_index = MEMORY_POOL_STARTING_SIZE - 1;
         }
         nodes[i] = ecs->create_union_node(nodes[left_child_index], nodes[right_child_index]);
+        ecs->pin_node(nodes[i]);
       }
       amount_of_nodes_of_previous_layer = amount_of_nodes_of_current_layer;
       starting_point_of_previous_layer = starting_point_of_current_layer;
@@ -139,8 +143,10 @@ namespace rematch::testing {
   }
 
   TEST_CASE("When all nodes are returned, no extra nodes are used: union node") {
-    static ECS *ecs = new ECS();
+    Flags flags = {.max_mempool_duplications = 1};
+    static ECS *ecs = new ECS(flags);
     ECSNode* binary_tree = create_mempool_sized_linked_list_of_label_nodes(ecs);
+    ecs->pin_node(binary_tree);
     ecs->unpin_node(binary_tree);
     REQUIRE(ecs->get_amount_of_nodes_used() == MEMORY_POOL_STARTING_SIZE);
     create_mempool_sized_linked_list_of_label_nodes(ecs);

@@ -81,6 +81,7 @@ int Mapping::find_next_document_position_where_the_specified_marker_is_true(
     if (inverted_annotations[current_position].variable_markers[marker_id]) {
       return inverted_annotations[current_position++].document_position;
     }
+    current_position++;
   }
   return -1;
 }

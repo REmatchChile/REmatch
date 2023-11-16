@@ -13,12 +13,14 @@ std::vector<ECSNode*> create_numbered_label_nodes_that_are_connected(
   ) {
   ECSNode *bottom_node = node_manager->alloc(ECSNodeType::kBottom);
   bottom_node->document_position = starting_label;
+  node_manager->increase_ref_count(bottom_node);
   std::vector<ECSNode*> nodes;
   nodes.push_back(bottom_node);
   ECSNode *last_node = bottom_node;
   for (int i = 1; i < amount_of_nodes_to_alloc; i++) {
     ECSNode *new_node = node_manager->alloc(
         ECSNodeType::kLabel, last_node, nullptr, 0, i + starting_label);
+    node_manager->increase_ref_count(new_node);
     nodes.push_back(new_node);
     REQUIRE(new_node->next() != nullptr);
     node_manager->decrease_ref_count(last_node);
@@ -75,7 +77,8 @@ size_t amount_of_nodes_that_n_minipool_should_allocate(int n) {
 }
 
 TEST_CASE("The duplication of memory is working correctly") {
-  auto *node_manager = new NodeManager();
+  Flags flags = {.max_mempool_duplications = 4};
+  auto *node_manager = new NodeManager(flags);
 
   REQUIRE(node_manager->amount_of_nodes_allocated() 
                       == 

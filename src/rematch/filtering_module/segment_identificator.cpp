@@ -7,11 +7,11 @@ inline namespace filtering_module {
 SegmentIdentificator::SegmentIdentificator(
     SearchDFA &search_dfa, std::string_view document
   ) : search_dfa(search_dfa),
-      document(document) {
+      document(std::string(document)) {
       search_dfa.reset();
     }
 
-bool SegmentIdentificator::has_next() {
+bool SegmentIdentificator::next_is_computed_successfully() {
   i_min = i_src;
   i_max = i_src;
 
@@ -23,7 +23,7 @@ bool SegmentIdentificator::has_next() {
 
     if (current_state->accepting()) {
       i_max = i_src + 1;
-  }
+    }
     else if (current_state->ends()) {
       if (i_min < i_max) {
         return true;
@@ -44,8 +44,19 @@ bool SegmentIdentificator::has_next() {
   return false;
 }
 
-Span SegmentIdentificator::next() {
-  return {i_min, i_max};
+std::unique_ptr<Span> SegmentIdentificator::next() {
+  if (!next_is_computed_successfully()) {
+    return nullptr;
+  }
+  return std::make_unique<Span>(i_min, i_max);
+}
+
+void SegmentIdentificator::set_document(std::string document) {
+  this->document = document;
+  i_min = 0;
+  i_max = 0;
+  i_src = 0;
+  search_dfa.reset();
 }
 
 }
