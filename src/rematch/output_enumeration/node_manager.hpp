@@ -2,7 +2,7 @@
 #define OUTPUT_ENUMERATION__GARBAGE_COLLECTOR_HPP
 
 #include "output_enumeration/minipool.hpp"
-#include "exceptions/complex_query_exception.hpp"
+#include "exceptions/memory_limit_exceeded_exception.hpp"
 #include "library_interface/flags.hpp"
 
 namespace rematch {

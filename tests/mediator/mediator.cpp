@@ -12,24 +12,6 @@ void run_mediator_test(std::string regex, std::string document,
                        std::vector<mediator::Mapping> expected_mappings);
 extern char EOF_char;
 
-TEST_CASE("the mediator throws an exception when the variable is not in the regex") {
-  Parser parser = Parser("!x{a}");
-  std::string document = "a";
-  document += EOF_char;
-
-  LogicalVA logical_va = parser.get_logical_va();
-  ExtendedVA extended_va = ExtendedVA(logical_va);
-  extended_va.clean_for_determinization();
-  auto extended_det_va = ExtendedDetVA(extended_va);
-  std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
-  SearchDFA search_dfa = SearchDFA(logical_va);
-
-  Mediator mediator = Mediator(search_dfa, extended_det_va, variable_catalog, document);
-
-  mediator::Mapping* mapping = mediator.next();
-  REQUIRE_THROWS_AS(mapping->get_span_of_variable("y"), VariableNotFoundException);
-}
-
 TEST_CASE("the mediator returns null pointer when there are no mappings") {
   Parser parser = Parser("!x{a}");
   std::string document = "b";

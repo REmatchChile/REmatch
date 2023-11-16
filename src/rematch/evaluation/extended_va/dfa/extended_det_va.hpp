@@ -8,8 +8,6 @@
 
 namespace rematch {
 
-const size_t MAXIMUM_AMOUNT_OF_STATES = 1000;
-
 class ExtendedDetVA {
  private:
 
@@ -17,6 +15,7 @@ class ExtendedDetVA {
   ExtendedVA extended_va_;
   std::unordered_map<StatesBitset, ExtendedDetVAState*>
       bitset_to_state_map;
+  size_t max_amount_of_states_;
 
   void create_initial_state();
 
@@ -29,7 +28,7 @@ class ExtendedDetVA {
   ExtendedDetVAState* create_state(StatesPtrSet &states_set);
 
  public:
-  ExtendedDetVA(ExtendedVA& extended_va);
+  ExtendedDetVA(ExtendedVA& extended_va, Flags flags = Flags());
 
   std::vector<ExtendedDetVAState*> states;
 

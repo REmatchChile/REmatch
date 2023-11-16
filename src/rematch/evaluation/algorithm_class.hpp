@@ -23,7 +23,7 @@ class AlgorithmClass {
   uint64_t pos_i_ = 0;
   std::string document_;
 
-  ExtendedDetVA extended_det_va_;
+  ExtendedDetVA& extended_det_va_;
   ECS* ECS_interface_;
   Enumerator* enumerator_;
   ECSNode* ECS_root_node_ = nullptr;

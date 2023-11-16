@@ -1,4 +1,3 @@
-#include "output_enumeration/node_manager.hpp"
 #include "node_manager.hpp"
 
 namespace rematch {
@@ -69,7 +68,7 @@ void NodeManager::increase_mempool_size() {
 void NodeManager::throw_exception_if_mempool_duplications_exceeded() {
   number_of_mempool_duplications++;
   if (number_of_mempool_duplications > max_number_of_mempool_duplications) {
-    throw REMatch::ComplexQueryException();
+    throw REMatch::MemoryLimitExceededException();
   }
 }
 

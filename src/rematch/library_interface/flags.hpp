@@ -12,6 +12,7 @@ struct Flags {
   bool line_by_line = false;
   bool early_output = false;
   size_t max_mempool_duplications = 0;
+  size_t max_deterministic_states = 1000;
 };
 
 }

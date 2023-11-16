@@ -21,7 +21,7 @@ rematch::MediationSubjects get_mediation_subjects(std::string_view pattern,
   rematch::ExtendedVA extended_va = rematch::ExtendedVA(logical_va);
   extended_va.clean_for_determinization();
   auto search_dfa = rematch::SearchDFA(logical_va);
-  auto extended_det_va = rematch::ExtendedDetVA(extended_va);
+  auto extended_det_va = rematch::ExtendedDetVA(extended_va, flags);
 
   return {search_dfa, extended_det_va, variable_catalog};
 }

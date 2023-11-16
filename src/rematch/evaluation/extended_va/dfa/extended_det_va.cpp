@@ -2,8 +2,8 @@
 
 namespace rematch {
 
-ExtendedDetVA::ExtendedDetVA(ExtendedVA &extended_va)
-    : extended_va_(extended_va) {
+ExtendedDetVA::ExtendedDetVA(ExtendedVA &extended_va, Flags flags)
+    : extended_va_(extended_va), max_amount_of_states_(flags.max_deterministic_states) {
   create_initial_state();
 }
 
@@ -118,7 +118,7 @@ void ExtendedDetVA::set_state_initial_phases() {
 }
 
 void ExtendedDetVA::throw_exception_if_max_states_exceeded() {
-  if (states.size() > MAXIMUM_AMOUNT_OF_STATES) {
+  if (states.size() > max_amount_of_states_) {
     throw REMatch::ComplexQueryException();
   }
 }

@@ -2,7 +2,7 @@
 
 namespace rematch {
 
-Mediator::Mediator(SearchDFA& search_dfa, ExtendedDetVA extended_det_va,
+Mediator::Mediator(SearchDFA& search_dfa, ExtendedDetVA& extended_det_va,
           std::shared_ptr<VariableCatalog> variable_catalog, std::string_view document, Flags flags) :
            algorithm_(extended_det_va, document),
            variable_catalog_(variable_catalog),
