@@ -58,11 +58,6 @@ class LogicalVAState {
 
     LogicalVAState(const LogicalVAState& s);
 
-    void init();
-
-    LogicalVAState* nextFilter(CharClass charclass);
-    LogicalVAState* nextCapture(std::bitset<64> code);
-
     void add_capture(std::bitset<64> code, LogicalVAState* next);
     void add_filter(CharClass charclass, LogicalVAState* next);
     void add_epsilon(LogicalVAState* next);

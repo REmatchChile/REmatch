@@ -53,9 +53,14 @@ void ExtendedVA::copy_transitions_from_logical_va
       eva_state->add_filter(filter->charclass, next_eva_state);
     }
 
-    for (auto&capture : state->captures) {
+    for (auto& capture : state->captures) {
       next_eva_state = lva_id_to_eva_state[capture->next->id];
       eva_state->add_capture(capture->code, next_eva_state);
+    }
+
+    for (auto& anchor : state->anchors) {
+      next_eva_state = lva_id_to_eva_state[anchor->next->id];
+      eva_state->add_anchor(anchor->is_start(), next_eva_state);
     }
   }
 }
