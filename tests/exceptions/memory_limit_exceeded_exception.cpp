@@ -8,10 +8,16 @@ namespace rematch::testing {
 
 ECSNode* create_linked_list_node_of_depth(ECS* ecs, int depth);
 
-TEST_CASE("a mempool duplication raises a memory exception by default") {
+TEST_CASE(
+    "if the number of mempool duplications exceeds the limit, an exception is "
+    "raised") {
   auto ecs = new ECS();
-  create_linked_list_node_of_depth(ecs, MEMORY_POOL_STARTING_SIZE - 1);
+  auto flags = Flags();
+
+  int maximum_size = (pow(2, flags.max_mempool_duplications + 1) - 1) *
+                     MEMORY_POOL_STARTING_SIZE;
+
+  create_linked_list_node_of_depth(ecs, maximum_size - 1);
   REQUIRE_THROWS_AS(ecs->create_bottom_node(), REMatch::MemoryLimitExceededException);
 }
-
 }

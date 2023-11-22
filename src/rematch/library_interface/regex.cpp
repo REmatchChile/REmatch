@@ -4,6 +4,7 @@
 #include "evaluation/extended_va/nfa/extended_va.hpp"
 #include "mediator/mediator.hpp"
 #include "regex.hpp"
+#include "exceptions/dfa_state_limit_checker.hpp"
 
 namespace REMatch {
 inline namespace library_interface {
@@ -20,8 +21,10 @@ rematch::MediationSubjects get_mediation_subjects(std::string_view pattern,
   std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog = parser.get_variable_catalog();
   rematch::ExtendedVA extended_va = rematch::ExtendedVA(logical_va);
   extended_va.clean_for_determinization();
-  auto search_dfa = rematch::SearchDFA(logical_va);
-  auto extended_det_va = rematch::ExtendedDetVA(extended_va, flags);
+
+  auto dfa_states_checker = rematch::DFAStateLimitChecker(flags);
+  auto search_dfa = rematch::SearchDFA(logical_va, dfa_states_checker);
+  auto extended_det_va = rematch::ExtendedDetVA(extended_va, dfa_states_checker);
 
   return {search_dfa, extended_det_va, variable_catalog};
 }

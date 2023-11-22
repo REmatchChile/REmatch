@@ -5,6 +5,7 @@
 #include "exceptions/complex_query_exception.hpp"
 #include "extended_det_va_state.hpp"
 #include "capture_subset_pair.hpp"
+#include "exceptions/dfa_state_limit_checker.hpp"
 
 namespace rematch {
 
@@ -28,7 +29,8 @@ class ExtendedDetVA {
   ExtendedDetVAState* create_state(StatesPtrSet &states_set);
 
  public:
-  ExtendedDetVA(ExtendedVA& extended_va, Flags flags = Flags());
+  DFAStateLimitChecker dfa_states_checker_;
+  ExtendedDetVA(ExtendedVA& extended_va, DFAStateLimitChecker dfa_states_checker = DFAStateLimitChecker());
 
   std::vector<ExtendedDetVAState*> states;
 

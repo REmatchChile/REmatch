@@ -7,10 +7,38 @@ namespace rematch::testing {
 
 extern char EOF_char;
 
-TEST_CASE("a exception is thrown when the query is too complex") {
-  std::string regex = "!x{" + std::string(500, 'a') + "}";
+TEST_CASE("an exception is thrown from ExtendedDetVA when the query is too complex") {
+  std::string regex = std::string(100, 'a');
   auto parser = Parser(regex);
-  auto document = std::string(1000, 'a');
+  auto document = std::string(100, 'a');
+  document += EOF_char;
+
+  LogicalVA logical_va = parser.get_logical_va();
+  auto extended_va = ExtendedVA(logical_va);
+  extended_va.clean_for_determinization();
+  std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
+  auto search_dfa = SearchDFA(logical_va);
+
+  // pass the max value to the extended det va
+  auto dfa_state_checker = DFAStateLimitChecker({.max_deterministic_states = 100});
+  auto extended_det_va = ExtendedDetVA(extended_va, dfa_state_checker);
+
+  auto evaluate_mediator = [&]() {
+    auto mediator =
+        Mediator(search_dfa, extended_det_va, variable_catalog, document);
+    mediator::Mapping* mapping = mediator.next();
+    while (mapping != nullptr) {
+      mapping = mediator.next();
+    }
+  };
+
+  REQUIRE_THROWS_AS(evaluate_mediator(), ComplexQueryException);
+}
+
+TEST_CASE("an exception is thrown from SearchDFA when the query is too complex") {
+  std::string regex = std::string(100, 'a');
+  auto parser = Parser(regex);
+  auto document = std::string(100, 'a');
   document += EOF_char;
 
   LogicalVA logical_va = parser.get_logical_va();
@@ -18,11 +46,14 @@ TEST_CASE("a exception is thrown when the query is too complex") {
   extended_va.clean_for_determinization();
   auto extended_det_va = ExtendedDetVA(extended_va);
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
-  auto search_dfa = SearchDFA(logical_va);
 
-  auto mediator = Mediator(search_dfa, extended_det_va, variable_catalog, document);
+  // pass the max value to the searchdfa
+  auto dfa_state_checker = DFAStateLimitChecker({.max_deterministic_states = 100});
+  auto search_dfa = SearchDFA(logical_va, dfa_state_checker);
 
   auto evaluate_mediator = [&]() {
+    auto mediator =
+        Mediator(search_dfa, extended_det_va, variable_catalog, document);
     mediator::Mapping* mapping = mediator.next();
     while (mapping != nullptr) {
       mapping = mediator.next();

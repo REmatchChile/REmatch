@@ -9,7 +9,7 @@ namespace rematch {
 inline namespace output_enumeration {
 using namespace REMatch;
 
-const size_t MEMORY_POOL_STARTING_SIZE = 2048;
+const size_t MEMORY_POOL_STARTING_SIZE = 128;
 
 /**
  * The Node Manager class stores the pointers to all allocated

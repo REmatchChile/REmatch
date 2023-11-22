@@ -148,7 +148,8 @@ TEST_CASE("the algorithm returns correct mappings") {
 }
 
 TEST_CASE("nodes used by the algorithm are recycled when creating a linked list") {
-  int size = 683;
+  // for each character, the algorithm adds 3 nodes to the ecs
+  int size = (MEMORY_POOL_STARTING_SIZE + 1) / 3;
   std::string document = create_document_with_repeated_string("a", size);
 
   std::string regex = "!x{a+}";
