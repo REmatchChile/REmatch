@@ -140,8 +140,7 @@ TEST_CASE("non ascii characters are handled correctly") {
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
   std::vector<CaptureSubsetPair*> capture_subset_list;
-  char EOF_char = -1;
-  capture_subset_list = extended_det_va.get_next_states(initial_state, EOF_char);
+  capture_subset_list = extended_det_va.get_next_states(initial_state, END_CHAR);
 
   REQUIRE(capture_subset_list.size() == 1);
 }

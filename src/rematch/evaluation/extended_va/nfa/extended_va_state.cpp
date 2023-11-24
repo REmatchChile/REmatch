@@ -38,14 +38,6 @@ void ExtendedVAState::add_filter(CharClass charclass, ExtendedVAState* next) {
   next->backward_filters.push_back(filter);
 }
 
-void ExtendedVAState::add_anchor(bool is_start, ExtendedVAState* next) {
-  auto* anchor = new ExtendedVAAnchor(this, next);
-  anchor->set_start(is_start);
-
-  anchors.push_back(anchor);
-  next->backward_anchors.push_back(anchor);
-}
-
 void ExtendedVAState::add_read_capture(CharClass charclass,
                                         std::bitset<64> captures_set,
                                         ExtendedVAState* next) {

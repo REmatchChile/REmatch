@@ -2,9 +2,9 @@
 
 namespace rematch {
 
-LineByLineManager::LineByLineManager(SearchDFA& search_dfa,
+LineByLineManager::LineByLineManager(std::unique_ptr<SearchDFA> search_dfa,
                                      std::string_view document)
-    : segment_identificator_(search_dfa, document),
+    : segment_identificator_(std::move(search_dfa), document),
       line_identificator_(document),
       document_(document) {
   std::unique_ptr<Span> line_span = line_identificator_.next();

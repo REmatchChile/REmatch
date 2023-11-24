@@ -5,6 +5,7 @@ namespace rematch {
 ExtendedVA::ExtendedVA(LogicalVA const &logical_va) {
   LogicalVA logical_va_prim(logical_va);
   logical_va_prim.remove_epsilon();
+  logical_va_prim.remove_useless_anchors();
   logical_va_prim.trim();
 
   assert(ExtendedVAAssert::initial_state_has_only_outgoing_transitions(&logical_va_prim));
@@ -60,7 +61,8 @@ void ExtendedVA::copy_transitions_from_logical_va
 
     for (auto& anchor : state->anchors) {
       next_eva_state = lva_id_to_eva_state[anchor->next->id];
-      eva_state->add_anchor(anchor->is_start(), next_eva_state);
+      CharClass anchor_char = anchor->is_start() ? CharClass(START_CHAR) : CharClass(END_CHAR) ;
+      eva_state->add_filter(anchor_char, next_eva_state);
     }
   }
 }

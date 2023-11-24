@@ -9,6 +9,8 @@
 #include "library_interface/match.hpp"
 #include "library_interface/match_iterator.hpp"
 #include "mediator/mediation_subjects.hpp"
+#include "mediator/segment_manager/segment_manager_creator.hpp"
+#include "evaluation/start_end_chars.hpp"
 
 namespace REMatch {
 inline namespace library_interface {
@@ -16,6 +18,7 @@ inline namespace library_interface {
 class Regex {
  private:
   rematch::MediationSubjects mediation_subjects_;
+  rematch::SegmentManagerCreator segment_manager_creator_;
 
  public:
   Regex(std::string_view pattern, Flags flags = Flags());

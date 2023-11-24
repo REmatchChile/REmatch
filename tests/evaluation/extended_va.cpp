@@ -3,6 +3,7 @@
 #undef private
 #include "evaluation/extended_va/nfa/extended_va.hpp"
 #include "parsing/parser.hpp"
+#include "evaluation/start_end_chars.hpp"
 
 namespace rematch::testing {
 
@@ -122,6 +123,33 @@ TEST_CASE("extended va from '!x{a+}a' is constructed correctly") {
 
   ExtendedVAState* final_state = loop_state->read_captures.front()->next;
   REQUIRE(final_state->is_accepting());
+}
+
+TEST_CASE("extended va with start anchor is constructed correctly") {
+  Parser parser = Parser("^a");
+  LogicalVA logical_va = parser.get_logical_va();
+  ExtendedVA extended_va = ExtendedVA(logical_va);
+
+  REQUIRE(extended_va.states.size() == 3);
+  ExtendedVAState* initial_state = extended_va.initial_state();
+
+  REQUIRE(initial_state->read_captures.size() == 1);
+  REQUIRE(initial_state->read_captures[0]->charclass == CharClass(START_CHAR));
+  REQUIRE(initial_state->read_captures[0]->captures_set == 0);
+}
+
+TEST_CASE("extended va with end anchor is constructed correctly") {
+  Parser parser = Parser("a$");
+  LogicalVA logical_va = parser.get_logical_va();
+  ExtendedVA extended_va = ExtendedVA(logical_va);
+
+  REQUIRE(extended_va.states.size() == 3);
+  ExtendedVAState* accepting_state = extended_va.accepting_state();
+
+  REQUIRE(accepting_state->backward_read_captures.size() == 1);
+  ExtendedVAReadCapture* end_anchor_transition = accepting_state->backward_read_captures[0];
+  REQUIRE(end_anchor_transition->charclass == CharClass(END_CHAR));
+  REQUIRE(end_anchor_transition->captures_set == 0);
 }
 
 TEST_CASE("initial state has a self loop") {

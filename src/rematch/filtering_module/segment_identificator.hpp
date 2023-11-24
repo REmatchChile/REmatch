@@ -29,7 +29,7 @@ class SegmentIdentificator {
 
  public:
   SegmentIdentificator(
-      SearchDFA &search_dfa,
+      std::unique_ptr<SearchDFA> search_dfa,
       std::string_view document
   );
 
@@ -49,7 +49,7 @@ class SegmentIdentificator {
    */
   bool next_is_computed_successfully();
 
-  SearchDFA &search_dfa;
+  std::unique_ptr<SearchDFA> search_dfa;
   std::string document;
 
   uint64_t i_src = 0;

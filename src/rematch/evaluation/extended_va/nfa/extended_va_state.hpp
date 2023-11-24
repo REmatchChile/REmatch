@@ -4,8 +4,8 @@
 #include "extended_va_capture.hpp"
 #include "extended_va_filter.hpp"
 #include "extended_va_read_capture.hpp"
-#include "extended_va_anchor.hpp"
 #include "parsing/charclass.hpp"
+#include "evaluation/start_end_chars.hpp"
 
 namespace rematch {
 
@@ -26,9 +26,6 @@ class ExtendedVAState {
   std::vector<ExtendedVACapture*> captures;
   std::vector<ExtendedVACapture*> backward_captures;
 
-  std::vector<ExtendedVAAnchor*> anchors;
-  std::vector<ExtendedVAAnchor*> backward_anchors;
-
   std::vector<ExtendedVAReadCapture*> read_captures;
   std::vector<ExtendedVAReadCapture*> backward_read_captures;
 
@@ -36,7 +33,6 @@ class ExtendedVAState {
 
   void add_capture(std::bitset<64> code, ExtendedVAState* next);
   void add_filter(parsing::CharClass charclass, ExtendedVAState* next);
-  void add_anchor(bool is_start, ExtendedVAState* next);
   void add_read_capture(parsing::CharClass charclass, std::bitset<64> code,
                         ExtendedVAState* next);
   void create_read_captures_forward();
