@@ -107,21 +107,6 @@ TEST_CASE("useless anchors in '(a|$)a' are removed correctly") {
   REQUIRE(accepting_state->backward_filters_.size() == 1);
 }
 
-TEST_CASE("useless anchors in '!x{$a}' are removed correctly") {
-  Parser parser = Parser("!x{$a}");
-  LogicalVA va = parser.get_logical_va();
-  INFO(va.states.size());
-
-  va.remove_useless_anchors();
-
-  LogicalVAState* second_state = va.initial_state()->captures.front()->next;
-  REQUIRE(second_state->anchors.size() == 0);
-
-  LogicalVAState* accepting_state = va.accepting_state();
-  LogicalVAState* second_to_last_state = accepting_state->backward_captures_.front()->from;
-  REQUIRE(second_to_last_state->backward_filters_.size() == 1);
-}
-
 TEST_CASE("remove anchors in 'a^' after removing epsilons is correct") {
   Parser parser = Parser("(a|$)a");
   LogicalVA va = parser.get_logical_va();

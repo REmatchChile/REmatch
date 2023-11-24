@@ -2,6 +2,7 @@
 
 #include "antlr4-runtime.h"
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
+#include "exceptions/anchor_inside_capture_exception.hpp"
 #include "exceptions/unhandled_expression_exception.hpp"
 #include "exceptions/invalid_character_exception.hpp"
 #include "exceptions/invalid_range_exception.hpp"
@@ -53,6 +54,7 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
   UnicodeRangeSet ranges;
   std::string regex;
   uint32_t current_codepoint;
+  int open_variables_count = 0;
 
   bool add_range(uint32_t lo, uint32_t hi) {
     if (hi < lo) return false;
@@ -505,6 +507,7 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
   std::any visitAssignation(REmatchParser::AssignationContext *ctx) override {
     CHAR_CLASS_VISITOR__INFO("visitAssignation" << std::endl);
     // Build the automaton for the alternation
+    open_variables_count++;
     visit(ctx->alternation());
     // Assign the codes from the variable
     std::string var = ctx->varname()->getText();
@@ -512,6 +515,7 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
     std::bitset<64> cl_code = vfact_ptr->close_code(var);
     lva_ptr->assign(op_code, cl_code);
 
+    open_variables_count--;
     return 0;
   }
 
@@ -748,6 +752,11 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
 
   std::any visitAnchor(REmatchParser::AnchorContext *ctx) override {
     CHAR_CLASS_VISITOR__INFO("visitAnchor" << std::endl);
+    if (open_variables_count > 0) {
+      auto interval = ctx->getSourceInterval();
+      throw REMatch::AnchorInsideCaptureException(regex, interval.a);
+    }
+
     if (!lva_ptr) {
       lva_ptr = std::make_unique<LogicalVA>();
     }

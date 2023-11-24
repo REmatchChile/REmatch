@@ -123,19 +123,6 @@ TEST_CASE("the anchor in the regex '(^|a)' is parsed correctly") {
   REQUIRE(second_state->anchors.front()->is_start());
 }
 
-TEST_CASE("the anchor in the regex !x{^a} is parsed correctly") {
-  Parser parser = Parser("!x{^a}");
-  rematch::LogicalVA va = parser.get_logical_va();
-  
-  INFO(va.states.size());
-
-  LogicalVAState* initial_state = va.initial_state();
-
-  LogicalVAState* second_state = initial_state->captures.front()->next;
-  REQUIRE(second_state->anchors.size() == 1);
-  REQUIRE(second_state->anchors.front()->is_start());
-}
-
 TEST_CASE("regex with char classes is parsed correctly") {
   Parser parser = Parser("[abc][a]");
   rematch::LogicalVA logical_va = parser.get_logical_va();
