@@ -25,11 +25,13 @@ set(TEST_SOURCES
         evaluation/algorithm_class.cpp
         evaluation/algorithm_utf8.cpp
         mediator/mediator.cpp
+        mediator/segment_manager_creator.cpp
         library_interface/match.cpp
         library_interface/match_iterator.cpp
         library_interface/regex.cpp
         library_interface/rematch.cpp
         library_interface/flags.cpp
+        exceptions/anchor_inside_capture_exception.cpp
         exceptions/complex_query_exception.cpp
         exceptions/empty_word_capture_exception.cpp
         exceptions/invalid_escape_exception.cpp

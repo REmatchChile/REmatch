@@ -35,11 +35,11 @@ TEST_CASE("an exception is thrown from ExtendedDetVA when the query is too compl
   REQUIRE_THROWS_AS(evaluate_mediator(), ComplexQueryException);
 }
 
-TEST_CASE("an exception is thrown from SearchDFA when the query is too complex") {
-  std::string regex = std::string(100, 'a');
+TEST_CASE("a exception is thrown when the query is too complex") {
+  std::string regex = "!x{" + std::string(500, 'a') + "}";
   auto parser = Parser(regex);
-  auto document = std::string(100, 'a');
-  document += EOF_char;
+  auto document = std::string(1000, 'a');
+  document += END_CHAR;
 
   LogicalVA logical_va = parser.get_logical_va();
   auto extended_va = ExtendedVA(logical_va);
@@ -50,6 +50,9 @@ TEST_CASE("an exception is thrown from SearchDFA when the query is too complex")
   // pass the max value to the searchdfa
   auto dfa_state_checker = DFAStateLimitChecker({.max_deterministic_states = 100});
   auto search_dfa = SearchDFA(logical_va, dfa_state_checker);
+  auto segment_manager_creator = SegmentManagerCreator(logical_va);
+
+  Mediator mediator = Mediator(extended_det_va, variable_catalog, segment_manager_creator, document);
 
   auto evaluate_mediator = [&]() {
     auto mediator =

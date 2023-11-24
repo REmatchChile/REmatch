@@ -6,7 +6,7 @@
 namespace rematch {
 
 struct MediationSubjects {
-  SearchDFA search_dfa;
+  LogicalVA logical_va;
   ExtendedDetVA extended_det_va;
   std::shared_ptr<VariableCatalog> variable_catalog;
 };

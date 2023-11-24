@@ -5,6 +5,7 @@
 #include "extended_va_filter.hpp"
 #include "extended_va_read_capture.hpp"
 #include "parsing/charclass.hpp"
+#include "evaluation/start_end_chars.hpp"
 
 namespace rematch {
 

@@ -13,12 +13,11 @@ void run_algorithm_test(std::string regex, std::string document,
                         std::vector<DummyMapping> expected_mappings);
 std::string get_mapping_info(DummyMapping mapping);
 std::string create_document_with_repeated_string(std::string_view string, int times);
-char EOF_char = (char) -1;
 
 TEST_CASE("the algorithm returns a null pointer if there are no mappings") {
   ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("!x{a}");
   std::string document = "b";
-  document += EOF_char;
+  document += END_CHAR;
 
   AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
 
@@ -29,7 +28,7 @@ TEST_CASE("the algorithm returns a null pointer if there are no mappings") {
 TEST_CASE("the algorithm returns an empty mapping if there are no captures") {
   ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("a");
   std::string document = "a";
-  document += EOF_char;
+  document += END_CHAR;
 
   AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
 
@@ -225,7 +224,7 @@ TEST_CASE("nodes used by the algorithm are recycled when, after constructing the
 
 void run_algorithm_test(std::string regex, std::string document,
                         std::vector<DummyMapping> expected_mappings) {
-  document += EOF_char;
+  document += END_CHAR;
   Parser parser = Parser(regex);
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va = ExtendedVA(logical_va);
@@ -275,7 +274,7 @@ std::string create_document_with_repeated_string(std::string_view string, int ti
   for (int i = 0; i < times; i++)
       os << string;
 
-  return os.str() + EOF_char;
+  return os.str() + END_CHAR;
 }
 
 }  // namespace rematch::testing

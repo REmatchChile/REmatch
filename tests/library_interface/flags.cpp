@@ -8,7 +8,6 @@
 
 namespace rematch::testing {
 
-std::string get_mapping_info(DummyMapping mapping);
 void run_client_test(MatchIterator& match_iterator,
                      std::vector<DummyMapping> expected_matches);
 void create_linked_list_node_of_depth(ECS* ecs, int depth);
@@ -20,9 +19,9 @@ TEST_CASE("flag line_by_line works correctly") {
       DummyMapping({{"x", {0, 5}}}), DummyMapping({{"x", {5, 10}}}),
       DummyMapping({{"x", {10, 15}}}), DummyMapping({{"x", {15, 20}}})};
 
-  REMatch::Regex regex = REMatch::compile(pattern);
   Flags flags = {.line_by_line = true};
-  REMatch::MatchIterator match_iterator = regex.finditer(document, flags);
+  REMatch::Regex regex = REMatch::compile(pattern, flags);
+  REMatch::MatchIterator match_iterator = regex.finditer(document);
 
   run_client_test(match_iterator, expected_matches);
 }

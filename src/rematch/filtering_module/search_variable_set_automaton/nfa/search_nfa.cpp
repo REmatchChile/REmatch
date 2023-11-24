@@ -15,6 +15,8 @@ SearchNFA::SearchNFA(LogicalVA const &A) {
 
   A_prim.remove_epsilon();
 
+  A_prim.remove_useless_anchors();
+
   A_prim.trim();
 
   A_prim.relabel_states();

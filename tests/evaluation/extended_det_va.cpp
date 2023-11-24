@@ -72,7 +72,7 @@ TEST_CASE("next state is computed correctly when there are two transitions with 
            capture and reading") {
 
   // the initial state of the extended VA has two 'a/[x' transitions
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("!x{a+}");
+  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("!x{a+|a}");
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
@@ -140,8 +140,7 @@ TEST_CASE("non ascii characters are handled correctly") {
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
   std::vector<CaptureSubsetPair*> capture_subset_list;
-  char EOF_char = -1;
-  capture_subset_list = extended_det_va.get_next_states(initial_state, EOF_char);
+  capture_subset_list = extended_det_va.get_next_states(initial_state, END_CHAR);
 
   REQUIRE(capture_subset_list.size() == 1);
 }

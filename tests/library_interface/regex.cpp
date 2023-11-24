@@ -6,7 +6,6 @@
 
 namespace rematch::testing {
 using namespace REMatch::library_interface;
-extern char EOF_char;
 
 TEST_CASE("find method returns the first match correctly") {
   std::string_view pattern = "!x{ab}";
@@ -19,7 +18,7 @@ TEST_CASE("find method returns the first match correctly") {
 TEST_CASE("finditer method returns the iterator correctly") {
   std::string_view pattern = "!x{ab}";
   std::string document = "abab";
-  document += EOF_char;
+  document += END_CHAR;
   std::string_view document_view = document.c_str();
   auto regex = Regex(pattern);
   MatchIterator match_iterator = regex.finditer(document_view);

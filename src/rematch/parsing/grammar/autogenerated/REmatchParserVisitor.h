@@ -1,5 +1,5 @@
 
-// Generated from REmatchParser.g4 by ANTLR 4.11.1
+// Generated from REmatchParser.g4 by ANTLR 4.12.0
 
 #pragma once
 
@@ -76,6 +76,12 @@ public:
     virtual std::any visitQuantMax(REmatchParser::QuantMaxContext *context) = 0;
 
     virtual std::any visitNumber(REmatchParser::NumberContext *context) = 0;
+
+    virtual std::any visitAnchor(REmatchParser::AnchorContext *context) = 0;
+
+    virtual std::any visitAnchorStart(REmatchParser::AnchorStartContext *context) = 0;
+
+    virtual std::any visitAnchorEnd(REmatchParser::AnchorEndContext *context) = 0;
 
 
 };
