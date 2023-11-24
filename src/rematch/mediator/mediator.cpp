@@ -2,18 +2,15 @@
 
 namespace rematch {
 
-Mediator::Mediator(SearchDFA& search_dfa, ExtendedDetVA extended_det_va,
-          std::shared_ptr<VariableCatalog> variable_catalog, std::string_view document, Flags flags) :
+Mediator::Mediator(ExtendedDetVA& extended_det_va,
+          std::shared_ptr<VariableCatalog> variable_catalog, SegmentManagerCreator& segment_manager_creator,
+          std::string_view document) :
            algorithm_(extended_det_va, document),
            variable_catalog_(variable_catalog),
-           document_(document),
-           flags_(flags) {
+           document_(document) {
 
-  if (flags.line_by_line) {
-    segment_manager_ = std::make_unique<LineByLineManager>(search_dfa, document);
-  } else {
-    segment_manager_ = std::make_unique<SegmentIdentificatorManager>(search_dfa, document);
-  }
+  segment_manager_creator.set_document(document_);
+  segment_manager_ = segment_manager_creator.get_segment_manager();
 
   number_of_variables_ = variable_catalog_->size();
 
@@ -23,10 +20,12 @@ Mediator::Mediator(SearchDFA& search_dfa, ExtendedDetVA extended_det_va,
   }
 }
 
-Mediator::Mediator(MediationSubjects& mediation_subjects, std::string_view document, Flags flags) :
-      Mediator(mediation_subjects.search_dfa,
-               mediation_subjects.extended_det_va,
-               mediation_subjects.variable_catalog, document, flags) {}
+Mediator::Mediator(MediationSubjects& mediation_subjects, SegmentManagerCreator& segment_manager_creator,
+ std::string_view document) :
+      Mediator(mediation_subjects.extended_det_va,
+               mediation_subjects.variable_catalog,
+               segment_manager_creator,
+               document) {}
 
 mediator::Mapping* Mediator::next() {
   if (!next_is_computed_successfully()) {
@@ -43,7 +42,7 @@ mediator::Mapping* Mediator::next() {
     result_mapping.add_span(variable_name, spans.back());
   }
 
-  result_mapping.shift_spans(shift_);
+  result_mapping.shift_spans(shift_ - 1);
   return &result_mapping;
 }
 

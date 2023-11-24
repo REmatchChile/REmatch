@@ -5,8 +5,8 @@
 namespace rematch {
 inline namespace filtering_module {
 SegmentIdentificator::SegmentIdentificator(
-    SearchDFA &search_dfa, std::string_view document
-  ) : search_dfa(search_dfa),
+    std::unique_ptr<SearchDFA> search_dfa, std::string_view document
+  ) : search_dfa(std::move(search_dfa)),
       document(std::string(document)) {
       search_dfa.reset();
     }
@@ -19,7 +19,7 @@ bool SegmentIdentificator::next_is_computed_successfully() {
 
     char a = (char) document[i_src];
 
-    SearchDFAState* current_state = search_dfa.next_state(a);
+    SearchDFAState* current_state = search_dfa->next_state(a);
 
     if (current_state->accepting()) {
       i_max = i_src + 1;
@@ -56,7 +56,7 @@ void SegmentIdentificator::set_document(std::string document) {
   i_min = 0;
   i_max = 0;
   i_src = 0;
-  search_dfa.reset();
+  search_dfa->reset();
 }
 
 }

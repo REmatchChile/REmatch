@@ -1,6 +1,3 @@
-#include <iostream>
-#include <memory>
-
 #include "output_enumeration/ecs_node.hpp"
 
 namespace rematch {

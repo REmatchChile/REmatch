@@ -12,7 +12,6 @@
 #include <utility>
 #include <vector>
 
-#include "exceptions/bad_regex_exception.hpp"
 #include "exceptions/variable_not_found_in_catalog_exception.hpp"
 #include "exceptions/variable_limit_exceeded_exception.hpp"
 

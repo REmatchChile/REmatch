@@ -4,6 +4,7 @@
 #include "library_interface/rematch.hpp"
 #include "../evaluation/dummy_mapping.hpp"
 #include "../evaluation/mapping_helpers.hpp"
+#include "evaluation/start_end_chars.hpp"
 
 namespace rematch::testing {
 using namespace REMatch;
@@ -179,6 +180,46 @@ TEST_CASE("client interface with negation") {
   std::vector<DummyMapping> expected_matches = {
     DummyMapping({{"open", {2, 8}}, {"close", {15, 22}}}),
     DummyMapping({{"open", {28, 31}}, {"close", {34, 38}}})
+  };
+
+  run_client_test(match_iterator, expected_matches);
+}
+
+TEST_CASE("client interface with start anchor") {
+  std::string document = "aa";
+
+  REMatch::Regex regex = REMatch::compile("^!x{a}");
+  MatchIterator match_iterator = regex.finditer(document);
+
+  std::vector<DummyMapping> expected_matches = {
+    DummyMapping({{"x", {0, 1}}}),
+  };
+
+  run_client_test(match_iterator, expected_matches);
+}
+
+TEST_CASE("client interface with end anchor") {
+  std::string document = "document sent";
+
+  REMatch::Regex regex = REMatch::compile("!x{ent}$");
+  MatchIterator match_iterator = regex.finditer(document);
+
+  std::vector<DummyMapping> expected_matches = {
+    DummyMapping({{"x", {10, 13}}}),
+  };
+
+  run_client_test(match_iterator, expected_matches);
+}
+
+TEST_CASE("client interface complex query") {
+  std::string document = "document sent";
+
+  REMatch::Regex regex = REMatch::compile("!x{\\w}($| )");
+  MatchIterator match_iterator = regex.finditer(document);
+
+  std::vector<DummyMapping> expected_matches = {
+    DummyMapping({{"x", {7, 8}}}),
+    DummyMapping({{"x", {12, 13}}}),
   };
 
   run_client_test(match_iterator, expected_matches);

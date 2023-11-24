@@ -2,6 +2,7 @@
 #define EXTENDED_DET_VA_HPP
 
 #include "evaluation/extended_va/nfa/extended_va.hpp"
+#include "exceptions/complex_query_exception.hpp"
 #include "extended_det_va_state.hpp"
 #include "capture_subset_pair.hpp"
 
@@ -14,6 +15,7 @@ class ExtendedDetVA {
   ExtendedVA extended_va_;
   std::unordered_map<StatesBitset, ExtendedDetVAState*>
       bitset_to_state_map;
+  size_t max_amount_of_states_;
 
   void create_initial_state();
 
@@ -26,7 +28,7 @@ class ExtendedDetVA {
   ExtendedDetVAState* create_state(StatesPtrSet &states_set);
 
  public:
-  ExtendedDetVA(ExtendedVA& extended_va);
+  ExtendedDetVA(ExtendedVA& extended_va, Flags flags = Flags());
 
   std::vector<ExtendedDetVAState*> states;
 
@@ -42,6 +44,7 @@ class ExtendedDetVA {
       StatesPtrSet &states_set);
 
   void set_state_initial_phases();
+  void throw_exception_if_max_states_exceeded();
 };
 
 }  // namespace rematch

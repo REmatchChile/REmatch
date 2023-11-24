@@ -1,10 +1,9 @@
-
 #include "extended_det_va.hpp"
 
 namespace rematch {
 
-ExtendedDetVA::ExtendedDetVA(ExtendedVA &extended_va)
-    : extended_va_(extended_va) {
+ExtendedDetVA::ExtendedDetVA(ExtendedVA &extended_va, Flags flags)
+    : extended_va_(extended_va), max_amount_of_states_(flags.max_deterministic_states) {
   create_initial_state();
 }
 
@@ -34,7 +33,7 @@ std::vector<CaptureSubsetPair*> ExtendedDetVA::get_next_states(
 
   capture_subset_pairs = add_transitions_to_vector(captures_subset_map);
 
-  current_state->cached_transitions[(uint8_t)letter] = capture_subset_pairs;
+  current_state->cache_transition(letter, capture_subset_pairs);
 
   return capture_subset_pairs.value();
 }
@@ -94,7 +93,9 @@ ExtendedDetVAState* ExtendedDetVA::create_state(StatesPtrSet &states_set) {
   ExtendedDetVAState* new_state = new ExtendedDetVAState(states_set);
   StatesBitset states_bitset = get_bitset_from_states_set(states_set);
   bitset_to_state_map[states_bitset] = new_state;
+
   states.push_back(new_state);
+  throw_exception_if_max_states_exceeded();
   return new_state;
 }
 
@@ -115,5 +116,12 @@ void ExtendedDetVA::set_state_initial_phases() {
     state->set_phase(-1);
   }
 }
+
+void ExtendedDetVA::throw_exception_if_max_states_exceeded() {
+  if (states.size() > max_amount_of_states_) {
+    throw REMatch::ComplexQueryException();
+  }
+}
+
 
 }  // namespace rematch

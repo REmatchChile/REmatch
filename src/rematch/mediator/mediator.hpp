@@ -9,15 +9,20 @@
 #include "segment_manager/segment_manager.hpp"
 #include "segment_manager/segment_identificator_manager.hpp"
 #include "segment_manager/line_by_line_manager.hpp"
+#include "segment_manager/segment_manager_creator.hpp"
 
 namespace rematch {
 using namespace REMatch;
 
 class Mediator {
  public:
-  Mediator(SearchDFA& search_dfa, ExtendedDetVA extended_det_va,
-          std::shared_ptr<VariableCatalog> variable_catalog, std::string_view document, Flags flags = Flags());
-  Mediator(MediationSubjects& mediation_subjects, std::string_view document, Flags flags = Flags());
+  Mediator(ExtendedDetVA& extended_det_va,
+           std::shared_ptr<VariableCatalog> variable_catalog,
+           SegmentManagerCreator& segment_manager_creator,
+           std::string_view document);
+  Mediator(MediationSubjects& mediation_subjects,
+           SegmentManagerCreator& segment_manager_creator,
+           std::string_view document);
 
   mediator::Mapping* next();
 

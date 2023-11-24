@@ -19,7 +19,7 @@ parentheses: '(' alternation ')';
 assignation: '!' varname '{' alternation '}';
 varname: ALPHA (ALPHA | DIGIT)*;
 
-atom: characterClass | singleSharedAtom | literal;
+atom: characterClass | singleSharedAtom | literal | anchor;
 
 characterClass: '[' '^'? ccAtom+ ']';
 ccAtom: ccRange | sharedAtom | ccSingle;
@@ -46,6 +46,8 @@ escapes:
     | '|'
     | '.'
     | '\\'
+    | '^'
+    | '$'
   );
 special:
   DOT
@@ -67,6 +69,8 @@ other:
     | '?'
     | '|'
     | '\\'
+    | '^'
+    | '$'
   );
 
 sharedAtom:
@@ -85,3 +89,8 @@ quantMin: number ',';
 quantMax: ',' number;
 
 number: DIGIT+;
+
+anchor: anchorStart | anchorEnd;
+
+anchorStart: '^';
+anchorEnd: '$';

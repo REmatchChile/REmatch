@@ -2,16 +2,20 @@
 #include <memory>
 
 #include "output_enumeration/ecs.hpp"
+#include "ecs.hpp"
 
 namespace rematch {
 inline namespace output_enumeration {
+
+ECS::ECS(Flags flags) : node_manager(flags) {}
 
 size_t ECS::get_amount_of_nodes_used() const {
   return node_manager.get_amount_of_nodes_used();
 }
 
-ECSNode *ECS::create_bottom_node() {
-  return node_manager.alloc(ECSNodeType::kBottom);}
+ECSNode* ECS::create_bottom_node() {
+  return node_manager.alloc(ECSNodeType::kBottom);
+}
 
 ECSNode *ECS::create_extend_node(ECSNode *node,
                      std::bitset<64> variable_markers, int document_position) {

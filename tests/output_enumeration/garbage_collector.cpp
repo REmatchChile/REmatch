@@ -77,7 +77,8 @@ size_t amount_of_nodes_that_n_minipool_should_allocate(int n) {
 }
 
 TEST_CASE("The duplication of memory is working correctly") {
-  auto *node_manager = new NodeManager();
+  Flags flags = {.max_mempool_duplications = 4};
+  auto *node_manager = new NodeManager(flags);
 
   REQUIRE(node_manager->amount_of_nodes_allocated() 
                       == 

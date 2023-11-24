@@ -8,7 +8,6 @@
 
 namespace rematch::testing {
 using namespace REMatch::library_interface;
-extern char EOF_char;
 
 void run_match_iterator_test(std::string regex, std::string document, std::vector<rematch::mediator::Mapping> expected_matches);
 
@@ -35,7 +34,7 @@ TEST_CASE("match iterator returns the correct matches when there is more than on
 
 void run_match_iterator_test(std::string regex, std::string document, std::vector<rematch::mediator::Mapping> expected_matches) {
   Parser parser = Parser(regex);
-  document += EOF_char;
+  document = START_CHAR + document + END_CHAR;
   std::string_view document_view = document.c_str();
 
   LogicalVA logical_va = parser.get_logical_va();
@@ -43,9 +42,9 @@ void run_match_iterator_test(std::string regex, std::string document, std::vecto
   extended_va.clean_for_determinization();
   auto extended_det_va = ExtendedDetVA(extended_va);
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
-  auto search_dfa = SearchDFA(logical_va);
+  auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
-  auto mediator = Mediator(search_dfa, extended_det_va, variable_catalog, document);
+  Mediator mediator = Mediator(extended_det_va, variable_catalog, segment_manager_creator, document);
   auto match_iterator = MatchIterator(std::move(mediator), variable_catalog, document_view);
 
   std::ostringstream info_os;

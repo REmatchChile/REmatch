@@ -9,7 +9,7 @@ namespace rematch {
 
 class SegmentIdentificatorManager : public SegmentManager {
  public:
-  SegmentIdentificatorManager(SearchDFA& search_dfa, std::string_view document);
+  SegmentIdentificatorManager(std::unique_ptr<SearchDFA> search_dfa, std::string_view document);
 
   std::unique_ptr<Span> next() override;
 

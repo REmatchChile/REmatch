@@ -16,7 +16,7 @@
 #include <vector>
 
 #include "parsing/logical_variable_set_automaton/logical_va_state.hpp"
-#include "parsing/exceptions/empty_word_capture_exception.hpp"
+#include "exceptions/empty_word_capture_exception.hpp"
 
 // TODO: Rearrange all variables.
 // TODO: Change representation of states to a list of the form:
@@ -47,7 +47,7 @@ class LogicalVA {
   LogicalVAState* init_state_;
   LogicalVAState* accepting_state_;
 
-  bool has_epsilon_ = false;
+  bool accepts_epsilon_ = false;
 
 public:
   LogicalVAState* initial_state() const { return init_state_; }
@@ -92,7 +92,18 @@ public:
   /// Make is so that the node id's start in 0 and are increasing.
   void relabel_states();
 
-  bool has_epsilon() const { return has_epsilon_; }
+  bool has_epsilon() const { return accepts_epsilon_; }
+
+  void add_anchor(bool is_start);
+
+  void remove_useless_anchors();
+
+  bool has_useful_anchors();
+
+  bool is_accepting_state_reachable();
+
+  void set_accepting_state(LogicalVAState* state);
+  void set_initial_state(LogicalVAState* state);
 
   friend std::ostream& operator<<(std::ostream& os, LogicalVA const &A);
 private:

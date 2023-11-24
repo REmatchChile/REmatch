@@ -47,6 +47,12 @@ void ExtendedDetVAState::set_phase(int phase) {
   this->phase = phase;
 }
 
+void ExtendedDetVAState::cache_transition(
+    char letter,
+    std::optional<std::vector<CaptureSubsetPair*>> capture_subset_pairs) {
+  cached_transitions[(uint8_t)letter] = capture_subset_pairs;
+}
+
 std::optional<std::vector<CaptureSubsetPair*>> ExtendedDetVAState::get_transition(char letter) {
   return cached_transitions[(uint8_t)letter];
 }
