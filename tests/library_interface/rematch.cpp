@@ -211,7 +211,7 @@ TEST_CASE("client interface with end anchor") {
   run_client_test(match_iterator, expected_matches);
 }
 
-TEST_CASE("client interface complex query") {
+TEST_CASE("client interface with anchors and alternation") {
   std::string document = "document sent";
 
   REMatch::Regex regex = REMatch::compile("!x{\\w}($| )");
@@ -220,6 +220,42 @@ TEST_CASE("client interface complex query") {
   std::vector<DummyMapping> expected_matches = {
     DummyMapping({{"x", {7, 8}}}),
     DummyMapping({{"x", {12, 13}}}),
+  };
+
+  run_client_test(match_iterator, expected_matches);
+}
+
+TEST_CASE("client interface with anchors that result in an empty automata") {
+  std::string document = "a";
+
+  REMatch::Regex regex = REMatch::compile("$a");
+  MatchIterator match_iterator = regex.finditer(document);
+
+  std::vector<DummyMapping> expected_matches = {};
+
+  run_client_test(match_iterator, expected_matches);
+}
+
+TEST_CASE("client interface with start and end anchors") {
+  std::string document = "welcome";
+
+  REMatch::Regex regex = REMatch::compile("^!x{welcome}$");
+  MatchIterator match_iterator = regex.finditer(document);
+
+  std::vector<DummyMapping> expected_matches = {
+    DummyMapping({{"x", {0, 7}}}),
+  };
+
+  run_client_test(match_iterator, expected_matches);
+}
+
+TEST_CASE("client interface with escape characters") {
+  std::string document = "^!?\\a+*";
+  REMatch::Regex regex = REMatch::compile("^\\^!\\?\\\\!x{a\\+}\\*$");
+  MatchIterator match_iterator = regex.finditer(document);
+
+  std::vector<DummyMapping> expected_matches = {
+    DummyMapping({{"x", {4, 6}}}),
   };
 
   run_client_test(match_iterator, expected_matches);
