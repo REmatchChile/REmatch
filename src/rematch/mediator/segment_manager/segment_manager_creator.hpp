@@ -20,8 +20,9 @@ class SegmentManagerCreator {
   SegmentManagerCreator(LogicalVA& logical_va, Flags flags = Flags())
       : lva_has_useful_anchors_(logical_va.has_useful_anchors()), flags(flags) {
 
+    auto dfa_states_checker = DFAStateLimitChecker(flags);
     if (!lva_has_useful_anchors_)
-      search_dfa_ = std::make_unique<SearchDFA>(logical_va);
+      search_dfa_ = std::make_unique<SearchDFA>(logical_va, dfa_states_checker);
   }
 
   void set_document(std::string document) {

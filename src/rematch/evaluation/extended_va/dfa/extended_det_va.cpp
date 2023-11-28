@@ -2,8 +2,10 @@
 
 namespace rematch {
 
-ExtendedDetVA::ExtendedDetVA(ExtendedVA &extended_va, Flags flags)
-    : extended_va_(extended_va), max_amount_of_states_(flags.max_deterministic_states) {
+ExtendedDetVA::ExtendedDetVA(ExtendedVA& extended_va,
+                             DFAStateLimitChecker dfa_states_checker)
+    : extended_va_(extended_va),
+      dfa_states_checker_(dfa_states_checker) {
   create_initial_state();
 }
 
@@ -14,6 +16,7 @@ void ExtendedDetVA::create_initial_state() {
   initial_state_ = new ExtendedDetVAState(initial_subset);
   initial_state_->set_initial(true);
   states.push_back(initial_state_);
+  dfa_states_checker_.count_state();
 
   StatesBitset initial_state_bitset = get_bitset_from_states_set(initial_subset);
   bitset_to_state_map[initial_state_bitset] = initial_state_;
@@ -95,7 +98,7 @@ ExtendedDetVAState* ExtendedDetVA::create_state(StatesPtrSet &states_set) {
   bitset_to_state_map[states_bitset] = new_state;
 
   states.push_back(new_state);
-  throw_exception_if_max_states_exceeded();
+  dfa_states_checker_.count_state();
   return new_state;
 }
 
@@ -116,12 +119,5 @@ void ExtendedDetVA::set_state_initial_phases() {
     state->set_phase(-1);
   }
 }
-
-void ExtendedDetVA::throw_exception_if_max_states_exceeded() {
-  if (states.size() > max_amount_of_states_) {
-    throw REMatch::ComplexQueryException();
-  }
-}
-
 
 }  // namespace rematch

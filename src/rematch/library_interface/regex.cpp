@@ -1,4 +1,5 @@
 #include "regex.hpp"
+#include "exceptions/dfa_state_limit_checker.hpp"
 
 namespace REMatch {
 inline namespace library_interface {
@@ -11,7 +12,9 @@ Regex::Regex(std::string_view pattern, Flags flags)
             parser.get_variable_catalog();
         rematch::ExtendedVA extended_va = rematch::ExtendedVA(logical_va);
         extended_va.clean_for_determinization();
-        auto extended_det_va = rematch::ExtendedDetVA(extended_va, flags);
+
+        auto dfa_states_checker = rematch::DFAStateLimitChecker(flags);
+        auto extended_det_va = rematch::ExtendedDetVA(extended_va, dfa_states_checker);
 
         return rematch::MediationSubjects{logical_va, extended_det_va,
                                           variable_catalog};
