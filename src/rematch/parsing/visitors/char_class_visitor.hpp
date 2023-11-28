@@ -757,9 +757,7 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
       throw REMatch::AnchorInsideCaptureException(regex, interval.a);
     }
 
-    if (!lva_ptr) {
-      lva_ptr = std::make_unique<LogicalVA>();
-    }
+    lva_ptr = std::make_unique<LogicalVA>();
 
     if (ctx->anchorStart()) {
       lva_ptr->add_anchor(true);
