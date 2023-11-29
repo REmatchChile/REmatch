@@ -10,6 +10,7 @@ class DefaultSegmentManager : public SegmentManager {
  public:
   DefaultSegmentManager(std::string_view document);
 
+  // Returns the span representing the entire document
   std::unique_ptr<Span> next() override;
 
  private:
