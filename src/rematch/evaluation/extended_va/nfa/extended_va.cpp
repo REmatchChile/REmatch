@@ -328,12 +328,24 @@ void ExtendedVA::trim() {
     }
   }
 
+  // add the initial and accepting state so they are not removed, in case
+  // the accepting state is unreachable due to anchors
+  if (!is_useful[initial_state_]) {
+    is_useful[initial_state_] = true;
+    remaining_states.push_back(initial_state_);
+  }
+
+  if (!is_reachable[accepting_state_]) {
+    is_reachable[accepting_state_] = true;
+  }
   remaining_states.push_back(accepting_state_);
 
   // Delete useless states
   for (auto& state : states) {
-    if (!(is_useful[state] && is_reachable[state]))
+    if (!(is_useful[state] && is_reachable[state])) {
+      state->delete_transitions();
       delete state;
+    }
   }
 
   states.swap(remaining_states);

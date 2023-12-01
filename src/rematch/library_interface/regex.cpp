@@ -30,6 +30,8 @@ std::unique_ptr<Match> Regex::find(std::string_view text, Flags flags) {
 
 MatchIterator Regex::finditer(std::string_view text, Flags flags) {
   std::string text_data(text);
+
+  // add the start and end chars that match anchors
   text_data = rematch::START_CHAR + text_data + rematch::END_CHAR;
   auto mediator = rematch::Mediator(mediation_subjects_, segment_manager_creator_, text_data);
   return {std::move(mediator), mediation_subjects_.variable_catalog, text};

@@ -78,28 +78,48 @@ void ExtendedVAState::delete_transitions() {
 
   for (auto &capture: captures) {
     for (auto it=capture->next->backward_captures.begin(); it != capture->next->backward_captures.end();) {
-        if (capture->from == (*it)->from && capture->next == (*it)->next)
-          it = capture->next->backward_captures.erase(it);
-        else
-          ++it;
+      if (capture->from == (*it)->from && capture->next == (*it)->next)
+        it = capture->next->backward_captures.erase(it);
+      else
+        ++it;
     }
   }
 
   for (auto &filter: backward_filters) {
-    for (auto it=filter->next->filters.begin(); it != filter->next->filters.end();) {
-        if (filter->from == (*it)->from && filter->next == (*it)->next)
-          it = filter->next->filters.erase(it);
-        else
-          ++it;
+    for (auto it=filter->from->filters.begin(); it != filter->from->filters.end();) {
+      if (filter->from == (*it)->from && filter->next == (*it)->next)
+        it = filter->from->filters.erase(it);
+      else
+        ++it;
     }
   }
   
   for (auto &filter: filters) {
     for (auto it=filter->next->backward_filters.begin(); it != filter->next->backward_filters.end();) {
-        if (filter->from == (*it)->from && filter->next == (*it)->next)
-          it = filter->next->backward_filters.erase(it);
-        else
-          ++it;
+      if (filter->from == (*it)->from && filter->next == (*it)->next)
+        it = filter->next->backward_filters.erase(it);
+      else
+        ++it;
+    }
+  }
+
+  for (auto& read_capture : backward_read_captures) {
+    ExtendedVAState* previous_state = read_capture->from;
+    for (auto it = previous_state->read_captures.begin(); it != previous_state->read_captures.end();) {
+      if (previous_state == (*it)->from && read_capture->next == (*it)->next)
+        it = previous_state->read_captures.erase(it);
+      else
+        ++it;
+    }
+  }
+
+  for (auto& read_capture : read_captures) {
+    ExtendedVAState* next_state = read_capture->next;
+    for (auto it = next_state->backward_read_captures.begin(); it != next_state->backward_read_captures.end();) {
+      if (read_capture->from == (*it)->from && next_state == (*it)->next)
+        it = read_capture->next->backward_read_captures.erase(it);
+      else
+        ++it;
     }
   }
 }

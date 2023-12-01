@@ -42,6 +42,7 @@ mediator::Mapping* Mediator::next() {
     result_mapping.add_span(variable_name, spans.back());
   }
 
+  // -1 because of the START_CHAR that was added to the document
   result_mapping.shift_spans(shift_ - 1);
   return &result_mapping;
 }
