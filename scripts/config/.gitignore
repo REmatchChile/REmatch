@@ -1,3 +1,4 @@
 !exp-run.example.json
 !exp-diff.example.json
 !benchmark-config.json
+!compare_outputs-config.json

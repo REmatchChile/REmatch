@@ -4,14 +4,28 @@
 #include <string_view>
 #include "library_interface/rematch.hpp"
 
+std::string get_string_from_file(std::string filename) {
+  std::ifstream file_stream(filename, std::ios::in | std::ios::binary);
+  if (file_stream.is_open()) {
+    std::string contents;
+    file_stream.seekg(0, file_stream.end);
+    contents.resize(file_stream.tellg());
+    file_stream.seekg(0, file_stream.beg);
+    file_stream.read(&contents[0], contents.size());
+    file_stream.close();
+    return contents;
+  }
+  throw std::runtime_error("Error loading file");
+}
+
 int main(int argc, char* argv[]) {
   if (argc < 2) {
     std::cerr << "Usage: " << argv[0] << " <regexfile> <documentfile>\n";
     return 1;
   }
 
-  std::string document = argv[1];
-  std::string regex = argv[2];
+  std::string document = get_string_from_file(argv[1]);
+  std::string regex = get_string_from_file(argv[2]);
 
   REMatch::Regex word_regex = REMatch::compile(regex, {.max_deterministic_states=100000});
   REMatch::MatchIterator iterator = word_regex.finditer(document);

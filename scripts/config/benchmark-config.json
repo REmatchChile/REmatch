@@ -70,11 +70,6 @@
         "command": "rematch_count",
         "args": "{document} {regex}",
         "rgx_type": "rematch"
-      },
-      "REmatch-paper": {
-        "command": "rematch_early-output --searching",
-        "args": "-d {document} -r {regex}",
-        "rgx_type": "rematch"
       }
     }
   }

@@ -6,7 +6,7 @@ from datetime import datetime
 
 HERE = os.path.dirname(os.path.realpath(__file__))
 
-with open(os.path.join(HERE, "config/benchmark-config.json")) as jsonFile:
+with open(os.path.join(HERE, "config/compare_outputs-config.json")) as jsonFile:
     BENCHMARKS = json.load(jsonFile)
 
 with open(os.path.join(HERE, "config/exp-diff.json")) as jsonFile:
@@ -157,7 +157,7 @@ def run_experiments(benchmark: str):
                     equal = check_if_outputs_are_equal(document_path, regex_path, results_dir, f"{dataset}-{experiment}")
                     output_file.write(f"{dataset}-{experiment},\"{get_regex(regex_path)}\",{equal}\n")
                 except TimeoutError:
-                    output_file.write(f"{get_regex(regex_path)},timeout\n")
+                    output_file.write(f"{dataset}-{experiment},\"{get_regex(regex_path)}\",timeout\n")
 
         output_file.close()
 

@@ -3,7 +3,6 @@
 #include <string>
 #include <string_view>
 #include "library_interface/rematch.hpp"
-#include <chrono>
 
 std::string get_string_from_file(std::string filename) {
   std::ifstream file_stream(filename, std::ios::in | std::ios::binary);
