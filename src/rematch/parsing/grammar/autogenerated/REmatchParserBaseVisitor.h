@@ -1,5 +1,5 @@
 
-// Generated from REmatchParser.g4 by ANTLR 4.12.0
+// Generated from REmatchParser.g4 by ANTLR 4.13.1
 
 #pragma once
 
@@ -76,6 +76,10 @@ public:
   }
 
   virtual std::any visitCcOther(REmatchParser::CcOtherContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitCcSpecial(REmatchParser::CcSpecialContext *ctx) override {
     return visitChildren(ctx);
   }
 

@@ -1,5 +1,5 @@
 
-// Generated from REmatchParser.g4 by ANTLR 4.12.0
+// Generated from REmatchParser.g4 by ANTLR 4.13.1
 
 
 #include "REmatchParserVisitor.h"
@@ -37,15 +37,24 @@ struct REmatchParserStaticData final {
 };
 
 ::antlr4::internal::OnceFlag rematchparserParserOnceFlag;
+#if ANTLR4_USE_THREAD_LOCAL_CACHE
+static thread_local
+#endif
 REmatchParserStaticData *rematchparserParserStaticData = nullptr;
 
 void rematchparserParserInitialize() {
+#if ANTLR4_USE_THREAD_LOCAL_CACHE
+  if (rematchparserParserStaticData != nullptr) {
+    return;
+  }
+#else
   assert(rematchparserParserStaticData == nullptr);
+#endif
   auto staticData = std::make_unique<REmatchParserStaticData>(
     std::vector<std::string>{
       "root", "alternation", "expr", "element", "group", "parentheses", 
       "assignation", "varname", "atom", "characterClass", "ccAtom", "ccRange", 
-      "ccSingle", "ccLiteral", "ccEscapes", "ccOther", "singleSharedAtom", 
+      "ccSingle", "ccLiteral", "ccEscapes", "ccOther", "ccSpecial", "singleSharedAtom", 
       "literal", "escapes", "special", "other", "sharedAtom", "quantifier", 
       "quantity", "quantExact", "quantRange", "quantMin", "quantMax", "number", 
       "anchor", "anchorStart", "anchorEnd"
@@ -66,68 +75,70 @@ void rematchparserParserInitialize() {
     }
   );
   static const int32_t serializedATNSegment[] = {
-  	4,1,31,200,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
+  	4,1,31,205,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
   	7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,
   	14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,7,20,2,21,7,
   	21,2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,2,26,7,26,2,27,7,27,2,28,7,
-  	28,2,29,7,29,2,30,7,30,2,31,7,31,1,0,1,0,1,0,1,1,1,1,1,1,5,1,71,8,1,10,
-  	1,12,1,74,9,1,1,2,4,2,77,8,2,11,2,12,2,78,1,3,1,3,3,3,83,8,3,1,4,1,4,
-  	1,4,3,4,88,8,4,1,5,1,5,1,5,1,5,1,6,1,6,1,6,1,6,1,6,1,6,1,7,1,7,5,7,102,
-  	8,7,10,7,12,7,105,9,7,1,8,1,8,1,8,1,8,3,8,111,8,8,1,9,1,9,3,9,115,8,9,
-  	1,9,4,9,118,8,9,11,9,12,9,119,1,9,1,9,1,10,1,10,1,10,3,10,127,8,10,1,
-  	11,1,11,1,11,1,11,1,12,1,12,1,13,1,13,3,13,137,8,13,1,14,1,14,1,14,1,
-  	15,1,15,1,16,1,16,1,17,1,17,1,17,3,17,149,8,17,1,18,1,18,1,18,1,19,1,
-  	19,1,20,1,20,1,21,1,21,1,22,1,22,1,22,1,22,1,22,1,22,1,22,3,22,167,8,
-  	22,1,23,1,23,1,23,1,23,3,23,173,8,23,1,24,1,24,1,25,1,25,1,25,1,25,1,
-  	26,1,26,1,26,1,27,1,27,1,27,1,28,4,28,188,8,28,11,28,12,28,189,1,29,1,
-  	29,3,29,194,8,29,1,30,1,30,1,31,1,31,1,31,0,0,32,0,2,4,6,8,10,12,14,16,
-  	18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,
-  	0,6,1,0,27,28,2,0,22,23,25,26,5,0,12,12,14,17,19,22,24,26,29,30,2,0,7,
-  	11,29,29,5,0,12,12,14,17,19,22,24,26,30,30,1,0,1,6,191,0,64,1,0,0,0,2,
-  	67,1,0,0,0,4,76,1,0,0,0,6,80,1,0,0,0,8,87,1,0,0,0,10,89,1,0,0,0,12,93,
-  	1,0,0,0,14,99,1,0,0,0,16,110,1,0,0,0,18,112,1,0,0,0,20,126,1,0,0,0,22,
-  	128,1,0,0,0,24,132,1,0,0,0,26,136,1,0,0,0,28,138,1,0,0,0,30,141,1,0,0,
-  	0,32,143,1,0,0,0,34,148,1,0,0,0,36,150,1,0,0,0,38,153,1,0,0,0,40,155,
-  	1,0,0,0,42,157,1,0,0,0,44,166,1,0,0,0,46,172,1,0,0,0,48,174,1,0,0,0,50,
-  	176,1,0,0,0,52,180,1,0,0,0,54,183,1,0,0,0,56,187,1,0,0,0,58,193,1,0,0,
-  	0,60,195,1,0,0,0,62,197,1,0,0,0,64,65,3,2,1,0,65,66,5,0,0,1,66,1,1,0,
-  	0,0,67,72,3,4,2,0,68,69,5,12,0,0,69,71,3,4,2,0,70,68,1,0,0,0,71,74,1,
-  	0,0,0,72,70,1,0,0,0,72,73,1,0,0,0,73,3,1,0,0,0,74,72,1,0,0,0,75,77,3,
-  	6,3,0,76,75,1,0,0,0,77,78,1,0,0,0,78,76,1,0,0,0,78,79,1,0,0,0,79,5,1,
-  	0,0,0,80,82,3,8,4,0,81,83,3,44,22,0,82,81,1,0,0,0,82,83,1,0,0,0,83,7,
-  	1,0,0,0,84,88,3,10,5,0,85,88,3,12,6,0,86,88,3,16,8,0,87,84,1,0,0,0,87,
-  	85,1,0,0,0,87,86,1,0,0,0,88,9,1,0,0,0,89,90,5,16,0,0,90,91,3,2,1,0,91,
-  	92,5,17,0,0,92,11,1,0,0,0,93,94,5,13,0,0,94,95,3,14,7,0,95,96,5,14,0,
-  	0,96,97,3,2,1,0,97,98,5,15,0,0,98,13,1,0,0,0,99,103,5,27,0,0,100,102,
-  	7,0,0,0,101,100,1,0,0,0,102,105,1,0,0,0,103,101,1,0,0,0,103,104,1,0,0,
-  	0,104,15,1,0,0,0,105,103,1,0,0,0,106,111,3,18,9,0,107,111,3,32,16,0,108,
-  	111,3,34,17,0,109,111,3,58,29,0,110,106,1,0,0,0,110,107,1,0,0,0,110,108,
-  	1,0,0,0,110,109,1,0,0,0,111,17,1,0,0,0,112,114,5,24,0,0,113,115,5,22,
-  	0,0,114,113,1,0,0,0,114,115,1,0,0,0,115,117,1,0,0,0,116,118,3,20,10,0,
-  	117,116,1,0,0,0,118,119,1,0,0,0,119,117,1,0,0,0,119,120,1,0,0,0,120,121,
-  	1,0,0,0,121,122,5,25,0,0,122,19,1,0,0,0,123,127,3,22,11,0,124,127,3,42,
-  	21,0,125,127,3,24,12,0,126,123,1,0,0,0,126,124,1,0,0,0,126,125,1,0,0,
-  	0,127,21,1,0,0,0,128,129,3,26,13,0,129,130,5,23,0,0,130,131,3,26,13,0,
-  	131,23,1,0,0,0,132,133,3,26,13,0,133,25,1,0,0,0,134,137,3,28,14,0,135,
-  	137,3,30,15,0,136,134,1,0,0,0,136,135,1,0,0,0,137,27,1,0,0,0,138,139,
-  	5,26,0,0,139,140,7,1,0,0,140,29,1,0,0,0,141,142,8,1,0,0,142,31,1,0,0,
-  	0,143,144,3,42,21,0,144,33,1,0,0,0,145,149,3,36,18,0,146,149,3,38,19,
-  	0,147,149,3,40,20,0,148,145,1,0,0,0,148,146,1,0,0,0,148,147,1,0,0,0,149,
-  	35,1,0,0,0,150,151,5,26,0,0,151,152,7,2,0,0,152,37,1,0,0,0,153,154,7,
-  	3,0,0,154,39,1,0,0,0,155,156,8,4,0,0,156,41,1,0,0,0,157,158,7,5,0,0,158,
-  	43,1,0,0,0,159,167,5,19,0,0,160,167,5,20,0,0,161,167,5,21,0,0,162,163,
-  	5,14,0,0,163,164,3,46,23,0,164,165,5,15,0,0,165,167,1,0,0,0,166,159,1,
-  	0,0,0,166,160,1,0,0,0,166,161,1,0,0,0,166,162,1,0,0,0,167,45,1,0,0,0,
-  	168,173,3,48,24,0,169,173,3,50,25,0,170,173,3,52,26,0,171,173,3,54,27,
-  	0,172,168,1,0,0,0,172,169,1,0,0,0,172,170,1,0,0,0,172,171,1,0,0,0,173,
-  	47,1,0,0,0,174,175,3,56,28,0,175,49,1,0,0,0,176,177,3,56,28,0,177,178,
-  	5,18,0,0,178,179,3,56,28,0,179,51,1,0,0,0,180,181,3,56,28,0,181,182,5,
-  	18,0,0,182,53,1,0,0,0,183,184,5,18,0,0,184,185,3,56,28,0,185,55,1,0,0,
-  	0,186,188,5,28,0,0,187,186,1,0,0,0,188,189,1,0,0,0,189,187,1,0,0,0,189,
-  	190,1,0,0,0,190,57,1,0,0,0,191,194,3,60,30,0,192,194,3,62,31,0,193,191,
-  	1,0,0,0,193,192,1,0,0,0,194,59,1,0,0,0,195,196,5,22,0,0,196,61,1,0,0,
-  	0,197,198,5,30,0,0,198,63,1,0,0,0,15,72,78,82,87,103,110,114,119,126,
-  	136,148,166,172,189,193
+  	28,2,29,7,29,2,30,7,30,2,31,7,31,2,32,7,32,1,0,1,0,1,0,1,1,1,1,1,1,5,
+  	1,73,8,1,10,1,12,1,76,9,1,1,2,4,2,79,8,2,11,2,12,2,80,1,3,1,3,3,3,85,
+  	8,3,1,4,1,4,1,4,3,4,90,8,4,1,5,1,5,1,5,1,5,1,6,1,6,1,6,1,6,1,6,1,6,1,
+  	7,1,7,5,7,104,8,7,10,7,12,7,107,9,7,1,8,1,8,1,8,1,8,3,8,113,8,8,1,9,1,
+  	9,3,9,117,8,9,1,9,4,9,120,8,9,11,9,12,9,121,1,9,1,9,1,10,1,10,1,10,3,
+  	10,129,8,10,1,11,1,11,1,11,1,11,1,12,1,12,1,13,1,13,1,13,3,13,140,8,13,
+  	1,14,1,14,1,14,1,15,1,15,1,16,1,16,1,17,1,17,1,18,1,18,1,18,3,18,154,
+  	8,18,1,19,1,19,1,19,1,20,1,20,1,21,1,21,1,22,1,22,1,23,1,23,1,23,1,23,
+  	1,23,1,23,1,23,3,23,172,8,23,1,24,1,24,1,24,1,24,3,24,178,8,24,1,25,1,
+  	25,1,26,1,26,1,26,1,26,1,27,1,27,1,27,1,28,1,28,1,28,1,29,4,29,193,8,
+  	29,11,29,12,29,194,1,30,1,30,3,30,199,8,30,1,31,1,31,1,32,1,32,1,32,0,
+  	0,33,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,
+  	46,48,50,52,54,56,58,60,62,64,0,7,1,0,27,28,2,0,22,23,25,26,1,0,7,11,
+  	5,0,12,12,14,17,19,22,24,26,29,30,2,0,7,11,29,29,5,0,12,12,14,17,19,22,
+  	24,26,30,30,1,0,1,6,196,0,66,1,0,0,0,2,69,1,0,0,0,4,78,1,0,0,0,6,82,1,
+  	0,0,0,8,89,1,0,0,0,10,91,1,0,0,0,12,95,1,0,0,0,14,101,1,0,0,0,16,112,
+  	1,0,0,0,18,114,1,0,0,0,20,128,1,0,0,0,22,130,1,0,0,0,24,134,1,0,0,0,26,
+  	139,1,0,0,0,28,141,1,0,0,0,30,144,1,0,0,0,32,146,1,0,0,0,34,148,1,0,0,
+  	0,36,153,1,0,0,0,38,155,1,0,0,0,40,158,1,0,0,0,42,160,1,0,0,0,44,162,
+  	1,0,0,0,46,171,1,0,0,0,48,177,1,0,0,0,50,179,1,0,0,0,52,181,1,0,0,0,54,
+  	185,1,0,0,0,56,188,1,0,0,0,58,192,1,0,0,0,60,198,1,0,0,0,62,200,1,0,0,
+  	0,64,202,1,0,0,0,66,67,3,2,1,0,67,68,5,0,0,1,68,1,1,0,0,0,69,74,3,4,2,
+  	0,70,71,5,12,0,0,71,73,3,4,2,0,72,70,1,0,0,0,73,76,1,0,0,0,74,72,1,0,
+  	0,0,74,75,1,0,0,0,75,3,1,0,0,0,76,74,1,0,0,0,77,79,3,6,3,0,78,77,1,0,
+  	0,0,79,80,1,0,0,0,80,78,1,0,0,0,80,81,1,0,0,0,81,5,1,0,0,0,82,84,3,8,
+  	4,0,83,85,3,46,23,0,84,83,1,0,0,0,84,85,1,0,0,0,85,7,1,0,0,0,86,90,3,
+  	10,5,0,87,90,3,12,6,0,88,90,3,16,8,0,89,86,1,0,0,0,89,87,1,0,0,0,89,88,
+  	1,0,0,0,90,9,1,0,0,0,91,92,5,16,0,0,92,93,3,2,1,0,93,94,5,17,0,0,94,11,
+  	1,0,0,0,95,96,5,13,0,0,96,97,3,14,7,0,97,98,5,14,0,0,98,99,3,2,1,0,99,
+  	100,5,15,0,0,100,13,1,0,0,0,101,105,5,27,0,0,102,104,7,0,0,0,103,102,
+  	1,0,0,0,104,107,1,0,0,0,105,103,1,0,0,0,105,106,1,0,0,0,106,15,1,0,0,
+  	0,107,105,1,0,0,0,108,113,3,18,9,0,109,113,3,34,17,0,110,113,3,36,18,
+  	0,111,113,3,60,30,0,112,108,1,0,0,0,112,109,1,0,0,0,112,110,1,0,0,0,112,
+  	111,1,0,0,0,113,17,1,0,0,0,114,116,5,24,0,0,115,117,5,22,0,0,116,115,
+  	1,0,0,0,116,117,1,0,0,0,117,119,1,0,0,0,118,120,3,20,10,0,119,118,1,0,
+  	0,0,120,121,1,0,0,0,121,119,1,0,0,0,121,122,1,0,0,0,122,123,1,0,0,0,123,
+  	124,5,25,0,0,124,19,1,0,0,0,125,129,3,22,11,0,126,129,3,44,22,0,127,129,
+  	3,24,12,0,128,125,1,0,0,0,128,126,1,0,0,0,128,127,1,0,0,0,129,21,1,0,
+  	0,0,130,131,3,26,13,0,131,132,5,23,0,0,132,133,3,26,13,0,133,23,1,0,0,
+  	0,134,135,3,26,13,0,135,25,1,0,0,0,136,140,3,28,14,0,137,140,3,32,16,
+  	0,138,140,3,30,15,0,139,136,1,0,0,0,139,137,1,0,0,0,139,138,1,0,0,0,140,
+  	27,1,0,0,0,141,142,5,26,0,0,142,143,7,1,0,0,143,29,1,0,0,0,144,145,8,
+  	1,0,0,145,31,1,0,0,0,146,147,7,2,0,0,147,33,1,0,0,0,148,149,3,44,22,0,
+  	149,35,1,0,0,0,150,154,3,38,19,0,151,154,3,40,20,0,152,154,3,42,21,0,
+  	153,150,1,0,0,0,153,151,1,0,0,0,153,152,1,0,0,0,154,37,1,0,0,0,155,156,
+  	5,26,0,0,156,157,7,3,0,0,157,39,1,0,0,0,158,159,7,4,0,0,159,41,1,0,0,
+  	0,160,161,8,5,0,0,161,43,1,0,0,0,162,163,7,6,0,0,163,45,1,0,0,0,164,172,
+  	5,19,0,0,165,172,5,20,0,0,166,172,5,21,0,0,167,168,5,14,0,0,168,169,3,
+  	48,24,0,169,170,5,15,0,0,170,172,1,0,0,0,171,164,1,0,0,0,171,165,1,0,
+  	0,0,171,166,1,0,0,0,171,167,1,0,0,0,172,47,1,0,0,0,173,178,3,50,25,0,
+  	174,178,3,52,26,0,175,178,3,54,27,0,176,178,3,56,28,0,177,173,1,0,0,0,
+  	177,174,1,0,0,0,177,175,1,0,0,0,177,176,1,0,0,0,178,49,1,0,0,0,179,180,
+  	3,58,29,0,180,51,1,0,0,0,181,182,3,58,29,0,182,183,5,18,0,0,183,184,3,
+  	58,29,0,184,53,1,0,0,0,185,186,3,58,29,0,186,187,5,18,0,0,187,55,1,0,
+  	0,0,188,189,5,18,0,0,189,190,3,58,29,0,190,57,1,0,0,0,191,193,5,28,0,
+  	0,192,191,1,0,0,0,193,194,1,0,0,0,194,192,1,0,0,0,194,195,1,0,0,0,195,
+  	59,1,0,0,0,196,199,3,62,31,0,197,199,3,64,32,0,198,196,1,0,0,0,198,197,
+  	1,0,0,0,199,61,1,0,0,0,200,201,5,22,0,0,201,63,1,0,0,0,202,203,5,30,0,
+  	0,203,65,1,0,0,0,15,74,80,84,89,105,112,116,121,128,139,153,171,177,194,
+  	198
   };
   staticData->serializedATN = antlr4::atn::SerializedATNView(serializedATNSegment, sizeof(serializedATNSegment) / sizeof(serializedATNSegment[0]));
 
@@ -216,9 +227,9 @@ REmatchParser::RootContext* REmatchParser::root() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(64);
+    setState(66);
     alternation();
-    setState(65);
+    setState(67);
     match(REmatchParser::EOF);
    
   }
@@ -280,17 +291,17 @@ REmatchParser::AlternationContext* REmatchParser::alternation() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(67);
+    setState(69);
     expr();
-    setState(72);
+    setState(74);
     _errHandler->sync(this);
     _la = _input->LA(1);
     while (_la == REmatchParser::PIPE) {
-      setState(68);
+      setState(70);
       match(REmatchParser::PIPE);
-      setState(69);
+      setState(71);
       expr();
-      setState(74);
+      setState(76);
       _errHandler->sync(this);
       _la = _input->LA(1);
     }
@@ -346,13 +357,13 @@ REmatchParser::ExprContext* REmatchParser::expr() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(76); 
+    setState(78); 
     _errHandler->sync(this);
     _la = _input->LA(1);
     do {
-      setState(75);
+      setState(77);
       element();
-      setState(78); 
+      setState(80); 
       _errHandler->sync(this);
       _la = _input->LA(1);
     } while ((((_la & ~ 0x3fULL) == 0) &&
@@ -409,15 +420,15 @@ REmatchParser::ElementContext* REmatchParser::element() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(80);
-    group();
     setState(82);
+    group();
+    setState(84);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if ((((_la & ~ 0x3fULL) == 0) &&
       ((1ULL << _la) & 3686400) != 0)) {
-      setState(81);
+      setState(83);
       quantifier();
     }
    
@@ -474,26 +485,26 @@ REmatchParser::GroupContext* REmatchParser::group() {
     exitRule();
   });
   try {
-    setState(87);
+    setState(89);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 3, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(84);
+      setState(86);
       parentheses();
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(85);
+      setState(87);
       assignation();
       break;
     }
 
     case 3: {
       enterOuterAlt(_localctx, 3);
-      setState(86);
+      setState(88);
       atom();
       break;
     }
@@ -556,11 +567,11 @@ REmatchParser::ParenthesesContext* REmatchParser::parentheses() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(89);
-    match(REmatchParser::L_PAR);
-    setState(90);
-    alternation();
     setState(91);
+    match(REmatchParser::L_PAR);
+    setState(92);
+    alternation();
+    setState(93);
     match(REmatchParser::R_PAR);
    
   }
@@ -625,15 +636,15 @@ REmatchParser::AssignationContext* REmatchParser::assignation() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(93);
-    match(REmatchParser::EXCLAMAITON);
-    setState(94);
-    varname();
     setState(95);
-    match(REmatchParser::L_CURLY);
+    match(REmatchParser::EXCLAMAITON);
     setState(96);
-    alternation();
+    varname();
     setState(97);
+    match(REmatchParser::L_CURLY);
+    setState(98);
+    alternation();
+    setState(99);
     match(REmatchParser::R_CURLY);
    
   }
@@ -695,15 +706,15 @@ REmatchParser::VarnameContext* REmatchParser::varname() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(99);
+    setState(101);
     match(REmatchParser::ALPHA);
-    setState(103);
+    setState(105);
     _errHandler->sync(this);
     _la = _input->LA(1);
     while (_la == REmatchParser::ALPHA
 
     || _la == REmatchParser::DIGIT) {
-      setState(100);
+      setState(102);
       _la = _input->LA(1);
       if (!(_la == REmatchParser::ALPHA
 
@@ -714,7 +725,7 @@ REmatchParser::VarnameContext* REmatchParser::varname() {
         _errHandler->reportMatch(this);
         consume();
       }
-      setState(105);
+      setState(107);
       _errHandler->sync(this);
       _la = _input->LA(1);
     }
@@ -776,33 +787,33 @@ REmatchParser::AtomContext* REmatchParser::atom() {
     exitRule();
   });
   try {
-    setState(110);
+    setState(112);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 5, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(106);
+      setState(108);
       characterClass();
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(107);
+      setState(109);
       singleSharedAtom();
       break;
     }
 
     case 3: {
       enterOuterAlt(_localctx, 3);
-      setState(108);
+      setState(110);
       literal();
       break;
     }
 
     case 4: {
       enterOuterAlt(_localctx, 4);
-      setState(109);
+      setState(111);
       anchor();
       break;
     }
@@ -874,28 +885,28 @@ REmatchParser::CharacterClassContext* REmatchParser::characterClass() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(112);
-    match(REmatchParser::L_BRACK);
     setState(114);
+    match(REmatchParser::L_BRACK);
+    setState(116);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if (_la == REmatchParser::HAT) {
-      setState(113);
+      setState(115);
       match(REmatchParser::HAT);
     }
-    setState(117); 
+    setState(119); 
     _errHandler->sync(this);
     _la = _input->LA(1);
     do {
-      setState(116);
+      setState(118);
       ccAtom();
-      setState(119); 
+      setState(121); 
       _errHandler->sync(this);
       _la = _input->LA(1);
     } while ((((_la & ~ 0x3fULL) == 0) &&
       ((1ULL << _la) & 4248829950) != 0));
-    setState(121);
+    setState(123);
     match(REmatchParser::R_BRACK);
    
   }
@@ -951,26 +962,26 @@ REmatchParser::CcAtomContext* REmatchParser::ccAtom() {
     exitRule();
   });
   try {
-    setState(126);
+    setState(128);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 8, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(123);
+      setState(125);
       ccRange();
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(124);
+      setState(126);
       sharedAtom();
       break;
     }
 
     case 3: {
       enterOuterAlt(_localctx, 3);
-      setState(125);
+      setState(127);
       ccSingle();
       break;
     }
@@ -1033,11 +1044,11 @@ REmatchParser::CcRangeContext* REmatchParser::ccRange() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(128);
-    ccLiteral();
-    setState(129);
-    match(REmatchParser::HYPHEN);
     setState(130);
+    ccLiteral();
+    setState(131);
+    match(REmatchParser::HYPHEN);
+    setState(132);
     ccLiteral();
    
   }
@@ -1086,7 +1097,7 @@ REmatchParser::CcSingleContext* REmatchParser::ccSingle() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(132);
+    setState(134);
     ccLiteral();
    
   }
@@ -1107,6 +1118,10 @@ REmatchParser::CcLiteralContext::CcLiteralContext(ParserRuleContext *parent, siz
 
 REmatchParser::CcEscapesContext* REmatchParser::CcLiteralContext::ccEscapes() {
   return getRuleContext<REmatchParser::CcEscapesContext>(0);
+}
+
+REmatchParser::CcSpecialContext* REmatchParser::CcLiteralContext::ccSpecial() {
+  return getRuleContext<REmatchParser::CcSpecialContext>(0);
 }
 
 REmatchParser::CcOtherContext* REmatchParser::CcLiteralContext::ccOther() {
@@ -1138,51 +1153,32 @@ REmatchParser::CcLiteralContext* REmatchParser::ccLiteral() {
     exitRule();
   });
   try {
-    setState(136);
+    setState(139);
     _errHandler->sync(this);
-    switch (_input->LA(1)) {
-      case REmatchParser::BACKSLASH: {
-        enterOuterAlt(_localctx, 1);
-        setState(134);
-        ccEscapes();
-        break;
-      }
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 9, _ctx)) {
+    case 1: {
+      enterOuterAlt(_localctx, 1);
+      setState(136);
+      ccEscapes();
+      break;
+    }
 
-      case REmatchParser::DECIMAL_DIGIT:
-      case REmatchParser::NOT_DECIMAL_DIGIT:
-      case REmatchParser::WHITESPACE:
-      case REmatchParser::NOT_WHITESPACE:
-      case REmatchParser::ALPHANUMERIC:
-      case REmatchParser::NOT_ALPHANUMERIC:
-      case REmatchParser::TAB:
-      case REmatchParser::CARRIAGE_RETURN:
-      case REmatchParser::NEWLINE:
-      case REmatchParser::VERTICAL_WHITESPACE:
-      case REmatchParser::FORM_FEED:
-      case REmatchParser::PIPE:
-      case REmatchParser::EXCLAMAITON:
-      case REmatchParser::L_CURLY:
-      case REmatchParser::R_CURLY:
-      case REmatchParser::L_PAR:
-      case REmatchParser::R_PAR:
-      case REmatchParser::COMMA:
-      case REmatchParser::QUESTION:
-      case REmatchParser::PLUS:
-      case REmatchParser::STAR:
-      case REmatchParser::L_BRACK:
-      case REmatchParser::ALPHA:
-      case REmatchParser::DIGIT:
-      case REmatchParser::DOT:
-      case REmatchParser::DOLLAR:
-      case REmatchParser::UNRECOGNIZED: {
-        enterOuterAlt(_localctx, 2);
-        setState(135);
-        ccOther();
-        break;
-      }
+    case 2: {
+      enterOuterAlt(_localctx, 2);
+      setState(137);
+      ccSpecial();
+      break;
+    }
+
+    case 3: {
+      enterOuterAlt(_localctx, 3);
+      setState(138);
+      ccOther();
+      break;
+    }
 
     default:
-      throw NoViableAltException(this);
+      break;
     }
    
   }
@@ -1248,9 +1244,9 @@ REmatchParser::CcEscapesContext* REmatchParser::ccEscapes() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(138);
+    setState(141);
     match(REmatchParser::BACKSLASH);
-    setState(139);
+    setState(142);
     _la = _input->LA(1);
     if (!((((_la & ~ 0x3fULL) == 0) &&
       ((1ULL << _la) & 113246208) != 0))) {
@@ -1320,10 +1316,84 @@ REmatchParser::CcOtherContext* REmatchParser::ccOther() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(141);
+    setState(144);
     _la = _input->LA(1);
     if (_la == 0 || _la == Token::EOF || ((((_la & ~ 0x3fULL) == 0) &&
       ((1ULL << _la) & 113246208) != 0))) {
+    _errHandler->recoverInline(this);
+    }
+    else {
+      _errHandler->reportMatch(this);
+      consume();
+    }
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
+//----------------- CcSpecialContext ------------------------------------------------------------------
+
+REmatchParser::CcSpecialContext::CcSpecialContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+tree::TerminalNode* REmatchParser::CcSpecialContext::TAB() {
+  return getToken(REmatchParser::TAB, 0);
+}
+
+tree::TerminalNode* REmatchParser::CcSpecialContext::CARRIAGE_RETURN() {
+  return getToken(REmatchParser::CARRIAGE_RETURN, 0);
+}
+
+tree::TerminalNode* REmatchParser::CcSpecialContext::NEWLINE() {
+  return getToken(REmatchParser::NEWLINE, 0);
+}
+
+tree::TerminalNode* REmatchParser::CcSpecialContext::VERTICAL_WHITESPACE() {
+  return getToken(REmatchParser::VERTICAL_WHITESPACE, 0);
+}
+
+tree::TerminalNode* REmatchParser::CcSpecialContext::FORM_FEED() {
+  return getToken(REmatchParser::FORM_FEED, 0);
+}
+
+
+size_t REmatchParser::CcSpecialContext::getRuleIndex() const {
+  return REmatchParser::RuleCcSpecial;
+}
+
+
+std::any REmatchParser::CcSpecialContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<REmatchParserVisitor*>(visitor))
+    return parserVisitor->visitCcSpecial(this);
+  else
+    return visitor->visitChildren(this);
+}
+
+REmatchParser::CcSpecialContext* REmatchParser::ccSpecial() {
+  CcSpecialContext *_localctx = _tracker.createInstance<CcSpecialContext>(_ctx, getState());
+  enterRule(_localctx, 32, REmatchParser::RuleCcSpecial);
+  size_t _la = 0;
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    enterOuterAlt(_localctx, 1);
+    setState(146);
+    _la = _input->LA(1);
+    if (!((((_la & ~ 0x3fULL) == 0) &&
+      ((1ULL << _la) & 3968) != 0))) {
     _errHandler->recoverInline(this);
     }
     else {
@@ -1366,7 +1436,7 @@ std::any REmatchParser::SingleSharedAtomContext::accept(tree::ParseTreeVisitor *
 
 REmatchParser::SingleSharedAtomContext* REmatchParser::singleSharedAtom() {
   SingleSharedAtomContext *_localctx = _tracker.createInstance<SingleSharedAtomContext>(_ctx, getState());
-  enterRule(_localctx, 32, REmatchParser::RuleSingleSharedAtom);
+  enterRule(_localctx, 34, REmatchParser::RuleSingleSharedAtom);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1377,7 +1447,7 @@ REmatchParser::SingleSharedAtomContext* REmatchParser::singleSharedAtom() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(143);
+    setState(148);
     sharedAtom();
    
   }
@@ -1423,7 +1493,7 @@ std::any REmatchParser::LiteralContext::accept(tree::ParseTreeVisitor *visitor) 
 
 REmatchParser::LiteralContext* REmatchParser::literal() {
   LiteralContext *_localctx = _tracker.createInstance<LiteralContext>(_ctx, getState());
-  enterRule(_localctx, 34, REmatchParser::RuleLiteral);
+  enterRule(_localctx, 36, REmatchParser::RuleLiteral);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1433,26 +1503,26 @@ REmatchParser::LiteralContext* REmatchParser::literal() {
     exitRule();
   });
   try {
-    setState(148);
+    setState(153);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 10, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(145);
+      setState(150);
       escapes();
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(146);
+      setState(151);
       special();
       break;
     }
 
     case 3: {
       enterOuterAlt(_localctx, 3);
-      setState(147);
+      setState(152);
       other();
       break;
     }
@@ -1552,7 +1622,7 @@ std::any REmatchParser::EscapesContext::accept(tree::ParseTreeVisitor *visitor) 
 
 REmatchParser::EscapesContext* REmatchParser::escapes() {
   EscapesContext *_localctx = _tracker.createInstance<EscapesContext>(_ctx, getState());
-  enterRule(_localctx, 36, REmatchParser::RuleEscapes);
+  enterRule(_localctx, 38, REmatchParser::RuleEscapes);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1564,9 +1634,9 @@ REmatchParser::EscapesContext* REmatchParser::escapes() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(150);
+    setState(155);
     match(REmatchParser::BACKSLASH);
-    setState(151);
+    setState(156);
     _la = _input->LA(1);
     if (!((((_la & ~ 0x3fULL) == 0) &&
       ((1ULL << _la) & 1736167424) != 0))) {
@@ -1632,7 +1702,7 @@ std::any REmatchParser::SpecialContext::accept(tree::ParseTreeVisitor *visitor) 
 
 REmatchParser::SpecialContext* REmatchParser::special() {
   SpecialContext *_localctx = _tracker.createInstance<SpecialContext>(_ctx, getState());
-  enterRule(_localctx, 38, REmatchParser::RuleSpecial);
+  enterRule(_localctx, 40, REmatchParser::RuleSpecial);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1644,7 +1714,7 @@ REmatchParser::SpecialContext* REmatchParser::special() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(153);
+    setState(158);
     _la = _input->LA(1);
     if (!((((_la & ~ 0x3fULL) == 0) &&
       ((1ULL << _la) & 536874880) != 0))) {
@@ -1738,7 +1808,7 @@ std::any REmatchParser::OtherContext::accept(tree::ParseTreeVisitor *visitor) {
 
 REmatchParser::OtherContext* REmatchParser::other() {
   OtherContext *_localctx = _tracker.createInstance<OtherContext>(_ctx, getState());
-  enterRule(_localctx, 40, REmatchParser::RuleOther);
+  enterRule(_localctx, 42, REmatchParser::RuleOther);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1750,7 +1820,7 @@ REmatchParser::OtherContext* REmatchParser::other() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(155);
+    setState(160);
     _la = _input->LA(1);
     if (_la == 0 || _la == Token::EOF || ((((_la & ~ 0x3fULL) == 0) &&
       ((1ULL << _la) & 1199296512) != 0))) {
@@ -1816,7 +1886,7 @@ std::any REmatchParser::SharedAtomContext::accept(tree::ParseTreeVisitor *visito
 
 REmatchParser::SharedAtomContext* REmatchParser::sharedAtom() {
   SharedAtomContext *_localctx = _tracker.createInstance<SharedAtomContext>(_ctx, getState());
-  enterRule(_localctx, 42, REmatchParser::RuleSharedAtom);
+  enterRule(_localctx, 44, REmatchParser::RuleSharedAtom);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1828,7 +1898,7 @@ REmatchParser::SharedAtomContext* REmatchParser::sharedAtom() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(157);
+    setState(162);
     _la = _input->LA(1);
     if (!((((_la & ~ 0x3fULL) == 0) &&
       ((1ULL << _la) & 126) != 0))) {
@@ -1894,7 +1964,7 @@ std::any REmatchParser::QuantifierContext::accept(tree::ParseTreeVisitor *visito
 
 REmatchParser::QuantifierContext* REmatchParser::quantifier() {
   QuantifierContext *_localctx = _tracker.createInstance<QuantifierContext>(_ctx, getState());
-  enterRule(_localctx, 44, REmatchParser::RuleQuantifier);
+  enterRule(_localctx, 46, REmatchParser::RuleQuantifier);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1904,37 +1974,37 @@ REmatchParser::QuantifierContext* REmatchParser::quantifier() {
     exitRule();
   });
   try {
-    setState(166);
+    setState(171);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case REmatchParser::QUESTION: {
         enterOuterAlt(_localctx, 1);
-        setState(159);
+        setState(164);
         match(REmatchParser::QUESTION);
         break;
       }
 
       case REmatchParser::PLUS: {
         enterOuterAlt(_localctx, 2);
-        setState(160);
+        setState(165);
         match(REmatchParser::PLUS);
         break;
       }
 
       case REmatchParser::STAR: {
         enterOuterAlt(_localctx, 3);
-        setState(161);
+        setState(166);
         match(REmatchParser::STAR);
         break;
       }
 
       case REmatchParser::L_CURLY: {
         enterOuterAlt(_localctx, 4);
-        setState(162);
+        setState(167);
         match(REmatchParser::L_CURLY);
-        setState(163);
+        setState(168);
         quantity();
-        setState(164);
+        setState(169);
         match(REmatchParser::R_CURLY);
         break;
       }
@@ -1990,7 +2060,7 @@ std::any REmatchParser::QuantityContext::accept(tree::ParseTreeVisitor *visitor)
 
 REmatchParser::QuantityContext* REmatchParser::quantity() {
   QuantityContext *_localctx = _tracker.createInstance<QuantityContext>(_ctx, getState());
-  enterRule(_localctx, 46, REmatchParser::RuleQuantity);
+  enterRule(_localctx, 48, REmatchParser::RuleQuantity);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2000,33 +2070,33 @@ REmatchParser::QuantityContext* REmatchParser::quantity() {
     exitRule();
   });
   try {
-    setState(172);
+    setState(177);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 12, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(168);
+      setState(173);
       quantExact();
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(169);
+      setState(174);
       quantRange();
       break;
     }
 
     case 3: {
       enterOuterAlt(_localctx, 3);
-      setState(170);
+      setState(175);
       quantMin();
       break;
     }
 
     case 4: {
       enterOuterAlt(_localctx, 4);
-      setState(171);
+      setState(176);
       quantMax();
       break;
     }
@@ -2070,7 +2140,7 @@ std::any REmatchParser::QuantExactContext::accept(tree::ParseTreeVisitor *visito
 
 REmatchParser::QuantExactContext* REmatchParser::quantExact() {
   QuantExactContext *_localctx = _tracker.createInstance<QuantExactContext>(_ctx, getState());
-  enterRule(_localctx, 48, REmatchParser::RuleQuantExact);
+  enterRule(_localctx, 50, REmatchParser::RuleQuantExact);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2081,7 +2151,7 @@ REmatchParser::QuantExactContext* REmatchParser::quantExact() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(174);
+    setState(179);
     number();
    
   }
@@ -2127,7 +2197,7 @@ std::any REmatchParser::QuantRangeContext::accept(tree::ParseTreeVisitor *visito
 
 REmatchParser::QuantRangeContext* REmatchParser::quantRange() {
   QuantRangeContext *_localctx = _tracker.createInstance<QuantRangeContext>(_ctx, getState());
-  enterRule(_localctx, 50, REmatchParser::RuleQuantRange);
+  enterRule(_localctx, 52, REmatchParser::RuleQuantRange);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2138,11 +2208,11 @@ REmatchParser::QuantRangeContext* REmatchParser::quantRange() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(176);
+    setState(181);
     number();
-    setState(177);
+    setState(182);
     match(REmatchParser::COMMA);
-    setState(178);
+    setState(183);
     number();
    
   }
@@ -2184,7 +2254,7 @@ std::any REmatchParser::QuantMinContext::accept(tree::ParseTreeVisitor *visitor)
 
 REmatchParser::QuantMinContext* REmatchParser::quantMin() {
   QuantMinContext *_localctx = _tracker.createInstance<QuantMinContext>(_ctx, getState());
-  enterRule(_localctx, 52, REmatchParser::RuleQuantMin);
+  enterRule(_localctx, 54, REmatchParser::RuleQuantMin);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2195,9 +2265,9 @@ REmatchParser::QuantMinContext* REmatchParser::quantMin() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(180);
+    setState(185);
     number();
-    setState(181);
+    setState(186);
     match(REmatchParser::COMMA);
    
   }
@@ -2239,7 +2309,7 @@ std::any REmatchParser::QuantMaxContext::accept(tree::ParseTreeVisitor *visitor)
 
 REmatchParser::QuantMaxContext* REmatchParser::quantMax() {
   QuantMaxContext *_localctx = _tracker.createInstance<QuantMaxContext>(_ctx, getState());
-  enterRule(_localctx, 54, REmatchParser::RuleQuantMax);
+  enterRule(_localctx, 56, REmatchParser::RuleQuantMax);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2250,9 +2320,9 @@ REmatchParser::QuantMaxContext* REmatchParser::quantMax() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(183);
+    setState(188);
     match(REmatchParser::COMMA);
-    setState(184);
+    setState(189);
     number();
    
   }
@@ -2294,7 +2364,7 @@ std::any REmatchParser::NumberContext::accept(tree::ParseTreeVisitor *visitor) {
 
 REmatchParser::NumberContext* REmatchParser::number() {
   NumberContext *_localctx = _tracker.createInstance<NumberContext>(_ctx, getState());
-  enterRule(_localctx, 56, REmatchParser::RuleNumber);
+  enterRule(_localctx, 58, REmatchParser::RuleNumber);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -2306,13 +2376,13 @@ REmatchParser::NumberContext* REmatchParser::number() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(187); 
+    setState(192); 
     _errHandler->sync(this);
     _la = _input->LA(1);
     do {
-      setState(186);
+      setState(191);
       match(REmatchParser::DIGIT);
-      setState(189); 
+      setState(194); 
       _errHandler->sync(this);
       _la = _input->LA(1);
     } while (_la == REmatchParser::DIGIT);
@@ -2356,7 +2426,7 @@ std::any REmatchParser::AnchorContext::accept(tree::ParseTreeVisitor *visitor) {
 
 REmatchParser::AnchorContext* REmatchParser::anchor() {
   AnchorContext *_localctx = _tracker.createInstance<AnchorContext>(_ctx, getState());
-  enterRule(_localctx, 58, REmatchParser::RuleAnchor);
+  enterRule(_localctx, 60, REmatchParser::RuleAnchor);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2366,19 +2436,19 @@ REmatchParser::AnchorContext* REmatchParser::anchor() {
     exitRule();
   });
   try {
-    setState(193);
+    setState(198);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case REmatchParser::HAT: {
         enterOuterAlt(_localctx, 1);
-        setState(191);
+        setState(196);
         anchorStart();
         break;
       }
 
       case REmatchParser::DOLLAR: {
         enterOuterAlt(_localctx, 2);
-        setState(192);
+        setState(197);
         anchorEnd();
         break;
       }
@@ -2422,7 +2492,7 @@ std::any REmatchParser::AnchorStartContext::accept(tree::ParseTreeVisitor *visit
 
 REmatchParser::AnchorStartContext* REmatchParser::anchorStart() {
   AnchorStartContext *_localctx = _tracker.createInstance<AnchorStartContext>(_ctx, getState());
-  enterRule(_localctx, 60, REmatchParser::RuleAnchorStart);
+  enterRule(_localctx, 62, REmatchParser::RuleAnchorStart);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2433,7 +2503,7 @@ REmatchParser::AnchorStartContext* REmatchParser::anchorStart() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(195);
+    setState(200);
     match(REmatchParser::HAT);
    
   }
@@ -2471,7 +2541,7 @@ std::any REmatchParser::AnchorEndContext::accept(tree::ParseTreeVisitor *visitor
 
 REmatchParser::AnchorEndContext* REmatchParser::anchorEnd() {
   AnchorEndContext *_localctx = _tracker.createInstance<AnchorEndContext>(_ctx, getState());
-  enterRule(_localctx, 62, REmatchParser::RuleAnchorEnd);
+  enterRule(_localctx, 64, REmatchParser::RuleAnchorEnd);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2482,7 +2552,7 @@ REmatchParser::AnchorEndContext* REmatchParser::anchorEnd() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(197);
+    setState(202);
     match(REmatchParser::DOLLAR);
    
   }
@@ -2496,5 +2566,9 @@ REmatchParser::AnchorEndContext* REmatchParser::anchorEnd() {
 }
 
 void REmatchParser::initialize() {
+#if ANTLR4_USE_THREAD_LOCAL_CACHE
+  rematchparserParserInitialize();
+#else
   ::antlr4::internal::call_once(rematchparserParserOnceFlag, rematchparserParserInitialize);
+#endif
 }

@@ -1,5 +1,5 @@
 
-// Generated from REmatchParser.g4 by ANTLR 4.12.0
+// Generated from REmatchParser.g4 by ANTLR 4.13.1
 
 #pragma once
 
@@ -50,6 +50,8 @@ public:
     virtual std::any visitCcEscapes(REmatchParser::CcEscapesContext *context) = 0;
 
     virtual std::any visitCcOther(REmatchParser::CcOtherContext *context) = 0;
+
+    virtual std::any visitCcSpecial(REmatchParser::CcSpecialContext *context) = 0;
 
     virtual std::any visitSingleSharedAtom(REmatchParser::SingleSharedAtomContext *context) = 0;
 

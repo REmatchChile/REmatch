@@ -25,9 +25,16 @@ characterClass: '[' '^'? ccAtom+ ']';
 ccAtom: ccRange | sharedAtom | ccSingle;
 ccRange: ccLiteral '-' ccLiteral;
 ccSingle: ccLiteral;
-ccLiteral: ccEscapes | ccOther;
+ccLiteral: ccEscapes | ccSpecial | ccOther;
 ccEscapes: '\\' ('^' | '-' | ']' | '\\');
 ccOther: ~('^' | '-' | ']' | '\\');
+
+ccSpecial:
+  TAB
+  | CARRIAGE_RETURN
+  | NEWLINE
+  | VERTICAL_WHITESPACE
+  | FORM_FEED;
 
 singleSharedAtom: sharedAtom;
 
