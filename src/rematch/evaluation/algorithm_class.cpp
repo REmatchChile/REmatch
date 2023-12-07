@@ -69,7 +69,7 @@ void AlgorithmClass::evaluate_single_character() {
 
   for (auto& current_state : current_states_) {
 
-    std::vector<CaptureSubsetPair*> capture_subset_pairs =
+    std::vector<CaptureSubsetPair> capture_subset_pairs =
         extended_det_va_.get_next_states(current_state, letter);
 
     if (!capture_subset_pairs.empty()) {
@@ -83,13 +83,13 @@ void AlgorithmClass::evaluate_single_character() {
 
 void AlgorithmClass::update_sets(
     ExtendedDetVAState*& current_state,
-    std::vector<CaptureSubsetPair*> capture_subset_pairs) {
+    std::vector<CaptureSubsetPair> capture_subset_pairs) {
 
   auto it = capture_subset_pairs.begin();
 
   // handle the empty capture
-  if (capture_subset_pairs[0]->capture.none()) {
-    ExtendedDetVAState* next_state = capture_subset_pairs[0]->subset;
+  if (capture_subset_pairs[0].capture.none()) {
+    ExtendedDetVAState* next_state = capture_subset_pairs[0].subset;
 
     ECSNode* next_node = current_state->get_node();
     update_output_nodes(next_state, next_node);
@@ -100,8 +100,8 @@ void AlgorithmClass::update_sets(
   // handle not empty captures, skip first pair if already updated
   for (; it != capture_subset_pairs.end(); it++) {
     auto pair = *it;
-    ExtendedDetVAState* next_state = pair->subset;
-    std::bitset<64> capture = pair->capture;
+    ExtendedDetVAState* next_state = pair.subset;
+    std::bitset<64> capture = pair.capture;
 
     ECSNode* next_node = ECS_interface_->create_extend_node(
         current_state->get_node(), capture, pos_i_);

@@ -36,7 +36,7 @@ class AlgorithmClass {
   void evaluate_single_character();
   void enumerate();
   void update_sets(ExtendedDetVAState*& current_state,
-                   std::vector<CaptureSubsetPair*> capture_subset_pairs);
+                   std::vector<CaptureSubsetPair> capture_subset_pairs);
   void update_output_nodes(ExtendedDetVAState*& next_state,
                            ECSNode*& next_node);
 

@@ -1,3 +1,5 @@
+#ifndef CAPTURE_SUBSET_PAIR_HPP
+#define CAPTURE_SUBSET_PAIR_HPP
 
 #include <bitset>
 
@@ -10,3 +12,5 @@ struct CaptureSubsetPair {
   ExtendedDetVAState* subset;
 };
 }  // namespace rematch
+
+#endif
