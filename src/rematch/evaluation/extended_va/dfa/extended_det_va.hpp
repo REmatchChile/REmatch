@@ -47,6 +47,8 @@ class ExtendedDetVA {
       StatesPtrSet &states_set);
 
   void set_state_initial_phases();
+
+  size_t get_extended_va_size();
 };
 
 }  // namespace rematch

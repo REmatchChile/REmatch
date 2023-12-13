@@ -7,6 +7,8 @@
 #include "filtering_module/segment_identificator.hpp"
 #include "library_interface/match.hpp"
 #include "mediator/mediator.hpp"
+#include "statistics.hpp"
+#include "stats_collector.hpp"
 
 namespace REMatch {
 
@@ -23,6 +25,8 @@ class MatchIterator {
       std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog,
       std::string_view& document);
   std::unique_ptr<Match> next();
+
+  Statistics stats = {};
 };
 
 }  // end namespace library_interface

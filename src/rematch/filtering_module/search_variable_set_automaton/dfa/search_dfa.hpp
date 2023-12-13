@@ -51,6 +51,8 @@ class SearchDFA {
   SearchDFAState* next_state(char a);
   void reset() { current_state = initial_state;}
 
+  size_t get_search_nfa_size();
+
  private:
 
   SearchDFAState* create_initial_dfa_state();

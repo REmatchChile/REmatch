@@ -10,6 +10,8 @@ class SegmentManager {
  public:
   virtual std::unique_ptr<Span> next() = 0;
   virtual ~SegmentManager() = default;
+  virtual size_t get_search_dfa_size() = 0;
+  virtual size_t get_search_nfa_size() = 0;
 };
 
 }

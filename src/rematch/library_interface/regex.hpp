@@ -11,12 +11,14 @@
 #include "mediator/mediation_subjects.hpp"
 #include "mediator/segment_manager/segment_manager_creator.hpp"
 #include "evaluation/start_end_chars.hpp"
+#include "statistics.hpp"
 
 namespace REMatch {
 inline namespace library_interface {
 
 class Regex {
  private:
+  Flags flags_;
   rematch::MediationSubjects mediation_subjects_;
   rematch::SegmentManagerCreator segment_manager_creator_;
 

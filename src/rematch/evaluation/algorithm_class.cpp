@@ -171,4 +171,24 @@ void AlgorithmClass::swap_state_lists() {
   next_states_.clear();
 }
 
+size_t AlgorithmClass::get_extended_det_va_size() {
+  return extended_det_va_.states.size();
+}
+
+size_t AlgorithmClass::get_extended_va_size() {
+  return extended_det_va_.get_extended_va_size();
+}
+
+size_t AlgorithmClass::get_amount_of_nodes_allocated() {
+  return ECS_interface_->amount_of_nodes_allocated();
+}
+
+size_t AlgorithmClass::get_amount_of_nodes_reused() {
+  return ECS_interface_->get_amount_of_nodes_reused();
+}
+
+size_t AlgorithmClass::get_amount_of_nodes_used() {
+  return ECS_interface_->get_amount_of_nodes_used();
+}
+
 }

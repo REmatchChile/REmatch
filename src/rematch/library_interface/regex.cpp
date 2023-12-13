@@ -5,7 +5,7 @@ namespace REMatch {
 inline namespace library_interface {
 
 Regex::Regex(std::string_view pattern, Flags flags)
-    : mediation_subjects_([&]() {
+    : flags_(flags), mediation_subjects_([&]() {
         rematch::Parser parser = rematch::Parser(pattern);
         rematch::LogicalVA logical_va = parser.get_logical_va();
         std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog =
@@ -28,13 +28,18 @@ std::unique_ptr<Match> Regex::find(std::string_view text, Flags flags) {
   return iterator.next();
 }
 
-MatchIterator Regex::finditer(std::string_view text, Flags flags) {
-  std::string text_data(text);
+MatchIterator Regex::finditer(std::string_view document_view, Flags flags) {
+  std::string document;
 
   // add the start and end chars that match anchors
-  text_data = rematch::START_CHAR + text_data + rematch::END_CHAR;
-  auto mediator = rematch::Mediator(mediation_subjects_, segment_manager_creator_, text_data);
-  return {std::move(mediator), mediation_subjects_.variable_catalog, text};
+  document.reserve(document_view.size() + 2);
+  document.push_back(rematch::START_CHAR);
+  document.append(document_view);
+  document.push_back(rematch::END_CHAR);
+
+  auto mediator = rematch::Mediator(mediation_subjects_, segment_manager_creator_, document, flags_);
+  MatchIterator iterator = {std::move(mediator), mediation_subjects_.variable_catalog, document_view};
+  return iterator;
 }
 
 } // end namespace library_interface

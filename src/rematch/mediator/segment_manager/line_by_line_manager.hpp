@@ -14,6 +14,8 @@ class LineByLineManager : public SegmentManager {
   LineByLineManager(std::unique_ptr<SearchDFA> search_dfa, std::string_view document);
 
   std::unique_ptr<Span> next() override;
+  size_t get_search_dfa_size() override;
+  size_t get_search_nfa_size() override;
 
  private:
   void update_line_in_segment_identificator(Span& line_span);

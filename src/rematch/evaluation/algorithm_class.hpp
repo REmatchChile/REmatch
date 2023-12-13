@@ -18,6 +18,11 @@ class AlgorithmClass {
   void set_ecs(ECS& ecs);
   void set_document(std::string document);
   const Mapping* get_next_mapping();
+  size_t get_extended_det_va_size();
+  size_t get_extended_va_size();
+  size_t get_amount_of_nodes_allocated();
+  size_t get_amount_of_nodes_reused();
+  size_t get_amount_of_nodes_used();
 
  private:
   uint64_t pos_i_ = 0;

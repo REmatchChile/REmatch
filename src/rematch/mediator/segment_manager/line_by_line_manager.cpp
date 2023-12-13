@@ -39,4 +39,12 @@ void LineByLineManager::update_line_in_segment_identificator(Span& line_span) {
   segment_identificator_.set_document(line);
 }
 
+size_t LineByLineManager::get_search_dfa_size() {
+  return segment_identificator_.get_search_dfa_size();
+}
+
+size_t LineByLineManager::get_search_nfa_size() {
+  return segment_identificator_.get_search_nfa_size();
+}
+
 };  // namespace rematch

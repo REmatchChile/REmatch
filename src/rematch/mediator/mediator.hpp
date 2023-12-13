@@ -19,10 +19,10 @@ class Mediator {
   Mediator(ExtendedDetVA& extended_det_va,
            std::shared_ptr<VariableCatalog> variable_catalog,
            SegmentManagerCreator& segment_manager_creator,
-           std::string_view document);
+           std::string_view document, Flags flags = Flags());
   Mediator(MediationSubjects& mediation_subjects,
            SegmentManagerCreator& segment_manager_creator,
-           std::string_view document);
+           std::string_view document, Flags flags = Flags());
 
   mediator::Mapping* next();
 
@@ -38,6 +38,8 @@ class Mediator {
 
   void update_algorithm(Span& segment_span);
   bool next_is_computed_successfully();
+
+  friend class StatsCollector;
 };
 }
 

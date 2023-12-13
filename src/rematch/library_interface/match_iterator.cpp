@@ -17,6 +17,9 @@ std::unique_ptr<Match> MatchIterator::next() {
     return std::make_unique<Match>(*mapping, variable_catalog_, document_);
   }
 
+  rematch::StatsCollector stats_collector;
+  stats = stats_collector.collect(&mediator_);
+
   return nullptr;
 }
 

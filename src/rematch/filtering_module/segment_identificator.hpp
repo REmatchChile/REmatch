@@ -39,6 +39,8 @@ class SegmentIdentificator {
    */
   std::unique_ptr<Span> next();
   void set_document(std::string document);
+  size_t get_search_dfa_size();
+  size_t get_search_nfa_size();
 
  private:
   /**

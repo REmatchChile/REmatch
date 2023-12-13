@@ -125,4 +125,8 @@ void ExtendedDetVA::set_state_initial_phases() {
   }
 }
 
+size_t ExtendedDetVA::get_extended_va_size() {
+  return extended_va_.size();
+}
+
 }  // namespace rematch

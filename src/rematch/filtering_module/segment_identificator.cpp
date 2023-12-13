@@ -59,5 +59,13 @@ void SegmentIdentificator::set_document(std::string document) {
   search_dfa->reset();
 }
 
+size_t SegmentIdentificator::get_search_dfa_size() {
+  return search_dfa->states.size();
+}
+
+size_t SegmentIdentificator::get_search_nfa_size() {
+  return search_dfa->get_search_nfa_size();
+}
+
 }
 }
