@@ -14,7 +14,7 @@ import subprocess
 
 import re
 
-AutomataStats = namedtuple("AutomataStats", "dsize esize msize nsegs ambig")
+AutomataStats = namedtuple("AutomataStats", "extended_va_size extended_det_va_size search_nfa_size search_dfa_size nodes_allocated nodes_used nodes_reused")
 DocStats = namedtuple("DocStats", "filesize nchars nlines")
 
 HERE = os.path.dirname(os.path.realpath(__file__))
@@ -111,11 +111,9 @@ def docstats(doc_path: str):
 
 def automata_stats(doc_path: str, rgx_path: str):
     command = [
-        os.path.join(BINARIES_DIR, "rematch_early-output"),
-        "--searching",
-        "--mode=benchmark",
-        f"--document={doc_path}",
-        f"--regex-file={rgx_path}",
+        os.path.join(BINARIES_DIR, "rematch_stats"),
+        doc_path,
+        rgx_path
     ]
     try:
         process = subprocess.run(
@@ -128,53 +126,21 @@ def automata_stats(doc_path: str, rgx_path: str):
     except Exception as err:
         print(f"Error while processing command: {command}")
         print(err)
-        return AutomataStats("err", "err", "err", "err", "err")
+        return AutomataStats("err", "err", "err", "err", "err", "err", "err")
 
-    dsize = int(
-        re.search(r"DetSize\s+([\d,]+)", process.stdout).group(1).replace(",", "")
-    )
-    esize = int(
-        re.search(r"eVASize\s+([\d,]+)", process.stdout).group(1).replace(",", "")
-    )
-    msize = int(
-        re.search(r"MDFASize\s+([\d,]+)", process.stdout).group(1).replace(",", "")
-    )
-    nsegs = int(
-        re.search(r"Number of segments\s+([\d,]+)", process.stdout)
-        .group(1)
-        .replace(",", "")
-    )
-    ambig = int(re.search(r"Ambiguous\?\s+(\d)", process.stdout).group(1))
+    patterns = [
+        r'ExtendedVA: (\d+)',
+        r'ExtendedDetVA: (\d+)',
+        r'SearchNFA: (\d+)',
+        r'SearchDFA: (\d+)',
+        r'Nodes allocated: (\d+)',
+        r'Nodes used: (\d+)',
+        r'Nodes reused: (\d+)',
+    ]
 
-    return AutomataStats(dsize, esize, msize, nsegs, ambig)
+    stats = [int(re.search(pattern, process.stdout).group(1)) for pattern in patterns]
 
-
-def run_outputs(binary, doc_path, rgx_path):
-    data = BINARIES[binary]
-    args = data["args"].format(document=doc_path, regex=rgx_path)
-
-    bin_path = os.path.join(BINARIES_DIR, data["command"])
-
-    subcommand = "{0} {1}".format(bin_path, args)
-
-    try:
-        process = subprocess.Popen(
-            subcommand.split(" "),
-            text=True,
-            shell=False,
-            start_new_session=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
-        n_outputs, output = process.communicate(timeout=TIMEOUT_S)
-        n_outputs = int(re.search(r"Number of mappings\s+(\d+)", n_outputs).group(1))
-    except subprocess.TimeoutExpired:
-        print(f"Timeout with command: {subcommand}")
-        os.killpg(os.getpgid(process.pid), signal.SIGTERM)
-        return "timeout", "timeout", "timeout"
-    except Exception:
-        print(f"Error while processing command: {subcommand}")
-        return "err", "err", "err"
+    return AutomataStats(*stats)
 
 
 def run_bench(binary_data, document_path, regex_path, n_runs, versions_binary=False):
@@ -223,31 +189,14 @@ def run_bench(binary_data, document_path, regex_path, n_runs, versions_binary=Fa
     # Extract the maximum resident set size value
     memory = int(match.group(1))
 
-    if versions_binary:
-        n_outputs = int(
-            re.search(r"Number of mappings\s+([0-9,]+)", stdout)
-            .group(1)
-            .replace(",", "")
-        )
-        fot = float(
-            re.search(r"First output time\s+((?:[0-9,]*[.])?[0-9,]+)", stdout)
-            .group(1)
-            .replace(",", "")
-        )
-        elapsed_time = float(
-            re.search(r"Total time\s+((?:[0-9,]*[.])?[0-9,]+)", stdout)
-            .group(1)
-            .replace(",", "")
-        )
-    else:
-        n_outputs = int(stdout)
-        fot = 0.0
+    n_outputs = int(stdout)
+    fot = 0.0
 
     tot_time += elapsed_time
 
     # mem = format_memory(mem)
     print(f"\t\t\t\tNumber of outputs: {n_outputs}")
-    # print(f"\t\t\t\tMemory used: {memory}")
+    print(f"\t\t\t\tMemory used: {memory}")
     print(f"\t\t\t\tFirst output time: {fot}ms")
 
     for _ in range(n_runs - 1):
@@ -346,6 +295,16 @@ def run_experiments(benchmark: str):
                 row["nlines"] = dstats.nlines
 
                 print("\t\tDocstats calculated")
+
+                astats = automata_stats(document_path, rem_rgx_path)
+
+                row["size(eVA)"] = astats.extended_va_size
+                row["size(d-eVA)"] = astats.extended_det_va_size
+                row["size(SearchDFA)"] = astats.search_dfa_size
+                row["size(SearchNFA)"] = astats.search_nfa_size
+                row["nodes_allocated"] = astats.nodes_allocated
+                row["nodes_used"] = astats.nodes_used
+                row["nodes_reused"] = astats.nodes_reused
 
                 for bin, bin_data in chosen_binaries.items():
                     print("\n\t\t\tTesting lib:", bin)

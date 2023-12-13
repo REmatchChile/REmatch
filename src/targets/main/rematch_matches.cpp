@@ -27,7 +27,10 @@ int main(int argc, char* argv[]) {
   std::string document = get_string_from_file(argv[1]);
   std::string regex = get_string_from_file(argv[2]);
 
-  REMatch::Regex word_regex = REMatch::compile(regex, {.max_deterministic_states=100000});
+  REMatch::Flags flags{.max_mempool_duplications = 12,
+                       .max_deterministic_states = 100000};
+
+  REMatch::Regex word_regex = REMatch::compile(regex, flags);
   REMatch::MatchIterator iterator = word_regex.finditer(document);
   auto match = iterator.next();
   size_t matches_count = 0;

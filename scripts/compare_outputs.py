@@ -45,7 +45,7 @@ def print_output_to_file(command, filename):
                 stdout=subprocess.PIPE,
                 timeout=30,
             )
-            outputs = sorted(process.stdout)
+            outputs = sorted(process.stdout.splitlines(True))
             file.writelines(outputs)
 
         except subprocess.TimeoutExpired:
@@ -78,6 +78,9 @@ def find_missing_outputs(file1, file2):
         else:
             idx1 += 1
             idx2 += 1
+
+    missing_in_file1.extend(outputs2[idx2:])
+    missing_in_file2.extend(outputs1[idx1:])
 
     return missing_in_file1, missing_in_file2
 
@@ -149,14 +152,17 @@ def run_experiments(benchmark: str):
 
         for dataset in sorted(os.listdir(sample_dir)):
             print()
+            dataset_results_dir = os.path.join(results_dir, dataset)
+            os.makedirs(dataset_results_dir)
 
             for experiment in sorted(os.listdir(os.path.join(sample_dir, dataset))):
                 regex_path = os.path.join(sample_dir, dataset, experiment, "rematch.rgx")
                 print(f"Regex: {dataset}/{experiment}")
                 try:
-                    equal = check_if_outputs_are_equal(document_path, regex_path, results_dir, f"{dataset}-{experiment}")
+                    equal = check_if_outputs_are_equal(document_path, regex_path, dataset_results_dir, f"{dataset}-{experiment}")
                     output_file.write(f"{dataset}-{experiment},\"{get_regex(regex_path)}\",{equal}\n")
                 except TimeoutError:
+                    print("Timeout")
                     output_file.write(f"{dataset}-{experiment},\"{get_regex(regex_path)}\",timeout\n")
 
         output_file.close()
