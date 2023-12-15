@@ -10,6 +10,7 @@
 #include "segment_manager/segment_identificator_manager.hpp"
 #include "segment_manager/line_by_line_manager.hpp"
 #include "segment_manager/segment_manager_creator.hpp"
+#include "tracy/Tracy.hpp"
 
 namespace rematch {
 using namespace REMatch;

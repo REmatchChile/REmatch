@@ -37,6 +37,8 @@ void AlgorithmClass::set_document(std::string document) {
 }
 
 const Mapping* AlgorithmClass::get_next_mapping() {
+  ZoneScopedC(0x808000);
+
   if (enumerator_->has_next()) {
     return enumerator_->next();
   } else {

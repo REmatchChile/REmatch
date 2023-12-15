@@ -29,6 +29,8 @@ std::unique_ptr<Match> Regex::find(std::string_view text, Flags flags) {
 }
 
 MatchIterator Regex::finditer(std::string_view document_view, Flags flags) {
+  ZoneScoped;
+
   std::string document;
 
   // add the start and end chars that match anchors

@@ -45,6 +45,8 @@ bool SegmentIdentificator::next_is_computed_successfully() {
 }
 
 std::unique_ptr<Span> SegmentIdentificator::next() {
+  ZoneScopedNC("SegmentIdentificator::next", 0x800080);
+
   if (!next_is_computed_successfully()) {
     return nullptr;
   }

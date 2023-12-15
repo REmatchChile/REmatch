@@ -93,7 +93,6 @@ ExtendedDetVAState* ExtendedDetVA::get_state_from_subset(StatesPtrSet &states_se
 }
 
 ExtendedDetVAState* ExtendedDetVA::create_state(StatesPtrSet &states_set) {
-  ExtendedDetVAState* new_state = new ExtendedDetVAState(states_set);
   StatesBitset states_bitset = get_bitset_from_states_set(states_set);
   return create_state(states_set, states_bitset);
 }

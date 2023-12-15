@@ -5,6 +5,7 @@
 #include "line_by_line_manager.hpp"
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
 #include "segment_identificator_manager.hpp"
+#include "tracy/Tracy.hpp"
 
 namespace rematch {
 
@@ -19,6 +20,7 @@ class SegmentManagerCreator {
   SegmentManagerCreator() {}
   SegmentManagerCreator(LogicalVA& logical_va, Flags flags = Flags())
       : lva_has_useful_anchors_(logical_va.has_useful_anchors()), flags(flags) {
+    ZoneScoped;
 
     auto dfa_states_checker = DFAStateLimitChecker(flags);
     if (!lva_has_useful_anchors_)
@@ -30,6 +32,7 @@ class SegmentManagerCreator {
   }
 
   std::unique_ptr<SegmentManager> get_segment_manager() {
+    ZoneScoped;
     if (!lva_has_useful_anchors_ && flags.line_by_line) {
       return std::make_unique<LineByLineManager>(std::move(search_dfa_), document_);
     } else if (!lva_has_useful_anchors_) {

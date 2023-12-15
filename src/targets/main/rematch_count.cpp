@@ -19,6 +19,7 @@ std::string get_string_from_file(std::string filename) {
 }
 
 int main(int argc, char* argv[]) {
+  ZoneScoped;
   if (argc < 2) {
     std::cerr << "Usage: " << argv[0] << " <regexfile> <documentfile>\n";
     return 1;

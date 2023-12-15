@@ -3,6 +3,8 @@
 namespace rematch {
 
 ExtendedVA::ExtendedVA(LogicalVA const &logical_va) {
+  ZoneScoped;
+
   LogicalVA logical_va_prim(logical_va);
   logical_va_prim.remove_epsilon();
   logical_va_prim.remove_useless_anchors();
@@ -68,6 +70,8 @@ void ExtendedVA::copy_transitions_from_logical_va
 }
 
 void ExtendedVA::clean_for_determinization() {
+  ZoneScoped;
+
   add_loop_to_initial_state();
   duplicate();
   relabel_states();

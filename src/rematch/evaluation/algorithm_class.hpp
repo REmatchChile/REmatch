@@ -5,6 +5,7 @@
 #include "output_enumeration/ecs.hpp"
 #include "output_enumeration/enumerator.hpp"
 #include "library_interface/flags.hpp"
+#include "tracy/Tracy.hpp"
 
 namespace rematch {
 using namespace REMatch;

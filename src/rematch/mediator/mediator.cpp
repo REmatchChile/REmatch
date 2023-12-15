@@ -9,6 +9,8 @@ Mediator::Mediator(ExtendedDetVA& extended_det_va,
            variable_catalog_(variable_catalog),
            document_(document) {
 
+  ZoneScoped;
+
   segment_manager_creator.set_document(document_);
   segment_manager_ = segment_manager_creator.get_segment_manager();
 
@@ -28,6 +30,8 @@ Mediator::Mediator(MediationSubjects& mediation_subjects,
                document, flags) {}
 
 mediator::Mapping* Mediator::next() {
+  ZoneScopedNC("Mediator::next", 0x008000);
+
   if (!next_is_computed_successfully()) {
     return nullptr;
   }
