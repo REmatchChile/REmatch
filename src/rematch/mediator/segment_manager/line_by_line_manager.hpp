@@ -23,7 +23,6 @@ class LineByLineManager : public SegmentManager {
   SegmentIdentificator segment_identificator_;
   LineIdentificator line_identificator_;
   std::string document_;
-  int shift_ = 0;
 };
 
 }  // namespace rematch

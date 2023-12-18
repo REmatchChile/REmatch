@@ -17,7 +17,7 @@ class AlgorithmClass {
 
   void initialize_algorithm();
   void set_ecs(ECS& ecs);
-  void set_document(std::string document);
+  void set_document_indexes(Span& span);
   const Mapping* get_next_mapping();
   size_t get_extended_det_va_size();
   size_t get_extended_va_size();
@@ -27,6 +27,9 @@ class AlgorithmClass {
 
  private:
   uint64_t pos_i_ = 0;
+  uint64_t doc_start_i_ = 0;
+  uint64_t doc_end_i_ = 0;
+
   std::string document_;
 
   ExtendedDetVA& extended_det_va_;

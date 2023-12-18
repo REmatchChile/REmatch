@@ -2,10 +2,11 @@
 
 namespace rematch {
 
-AlgorithmClass::AlgorithmClass(ExtendedDetVA &extended_det_va,
+AlgorithmClass::AlgorithmClass(ExtendedDetVA& extended_det_va,
                                std::string_view document, Flags flags)
-    : extended_det_va_(extended_det_va) {
-  document_ = document;
+    : extended_det_va_(extended_det_va),
+      document_(document),
+      doc_end_i_(document.size()) {
   ECS_interface_ = new ECS(flags);
   enumerator_ = new Enumerator();
 
@@ -18,7 +19,7 @@ AlgorithmClass::AlgorithmClass(ExtendedDetVA &extended_det_va,
 }
 
 void AlgorithmClass::initialize_algorithm() {
-  pos_i_ = 0;
+  pos_i_ = doc_start_i_;
   current_states_.clear();
   next_states_.clear();
   reached_final_states_.clear();
@@ -32,8 +33,9 @@ void AlgorithmClass::set_ecs(ECS& ecs) {
   ECS_interface_ = &ecs;
 }
 
-void AlgorithmClass::set_document(std::string document) {
-  document_ = document;
+void AlgorithmClass::set_document_indexes(Span& span) {
+  doc_start_i_ = span.first;
+  doc_end_i_ = span.second;
 }
 
 const Mapping* AlgorithmClass::get_next_mapping() {
@@ -56,7 +58,7 @@ const Mapping* AlgorithmClass::get_next_mapping() {
 
 void AlgorithmClass::evaluate() {
 
-  while (pos_i_ < document_.size()) {
+  while (pos_i_ < doc_end_i_) {
     evaluate_single_character();
     swap_state_lists();
     pos_i_++;

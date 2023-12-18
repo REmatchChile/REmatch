@@ -33,7 +33,6 @@ class Mediator {
   std::shared_ptr<VariableCatalog> variable_catalog_;
   std::string document_;
   int number_of_variables_;
-  int shift_ = 0;
   const Mapping* mapping_;
   Flags flags_;
 

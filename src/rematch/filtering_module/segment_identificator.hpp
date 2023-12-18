@@ -39,7 +39,7 @@ class SegmentIdentificator {
    * behavior.
    */
   std::unique_ptr<Span> next();
-  void set_document(std::string document);
+  void set_document_indexes(Span& span);
   size_t get_search_dfa_size();
   size_t get_search_nfa_size();
 
@@ -54,6 +54,9 @@ class SegmentIdentificator {
 
   std::unique_ptr<SearchDFA> search_dfa;
   std::string document;
+
+  uint64_t doc_start_i_ = 0;
+  uint64_t doc_end_i_ = 0;
 
   uint64_t i_src = 0;
   uint64_t i_min = 0;

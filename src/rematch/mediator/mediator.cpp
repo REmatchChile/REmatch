@@ -47,7 +47,7 @@ mediator::Mapping* Mediator::next() {
   }
 
   // -1 because of the START_CHAR that was added to the document
-  result_mapping.shift_spans(shift_ - 1);
+  result_mapping.shift_spans(-1);
   return &result_mapping;
 }
 
@@ -71,11 +71,9 @@ bool Mediator::next_is_computed_successfully() {
 }
 
 void Mediator::update_algorithm(Span& segment_span) {
-  shift_ = segment_span.first;
-
-  std::string segment = document_.substr(shift_, segment_span.second - segment_span.first + 1);
-
-  algorithm_.set_document(segment);
+  // add 1 to the max index to include the EOF character
+  segment_span.second++;
+  algorithm_.set_document_indexes(segment_span);
   algorithm_.initialize_algorithm();
 }
 
