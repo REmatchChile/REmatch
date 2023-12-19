@@ -19,6 +19,8 @@ Mediator::Mediator(ExtendedDetVA& extended_det_va,
   std::unique_ptr<Span> segment_span = segment_manager_->next();
   if (segment_span != nullptr) {
     update_algorithm(*segment_span);
+  } else {
+    algorithm_.set_null_segment();
   }
 }
 
