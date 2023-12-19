@@ -38,6 +38,10 @@ void AlgorithmClass::set_document_indexes(Span& span) {
   doc_end_i_ = span.second;
 }
 
+void AlgorithmClass::set_null_segment() {
+  doc_end_i_ = doc_start_i_;
+}
+
 const Mapping* AlgorithmClass::get_next_mapping() {
   ZoneScopedC(0x808000);
 

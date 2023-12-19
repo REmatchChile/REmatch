@@ -18,6 +18,7 @@ class AlgorithmClass {
   void initialize_algorithm();
   void set_ecs(ECS& ecs);
   void set_document_indexes(Span& span);
+  void set_null_segment();
   const Mapping* get_next_mapping();
   size_t get_extended_det_va_size();
   size_t get_extended_va_size();

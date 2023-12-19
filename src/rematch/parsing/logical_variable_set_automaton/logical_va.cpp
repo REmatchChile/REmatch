@@ -677,6 +677,12 @@ std::ostream& operator<<(std::ostream& os, LogicalVA const& A) {
         queue.push_back(capture->next);
       }
     }
+
+    for (auto &anchor: current->anchors) {
+      nid = anchor->next->id;
+      char symbol = anchor->is_start() ? '^' : '$';
+      os << "t " << cid << " " << symbol << " " << nid << '\n';
+    }
   }
 
   os << "f " << A.accepting_state_->id << '\n';

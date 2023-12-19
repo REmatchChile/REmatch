@@ -17,7 +17,7 @@ class DefaultSegmentManager : public SegmentManager {
 
  private:
   std::string document_;
-  bool already_read_;
+  bool already_read_ = false;
 };
 
 }
