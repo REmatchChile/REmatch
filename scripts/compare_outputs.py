@@ -43,7 +43,7 @@ def print_output_to_file(command, filename):
                 shell=False,
                 start_new_session=True,
                 stdout=subprocess.PIPE,
-                timeout=30,
+                timeout=run_configuration["timeoutInSeconds"],
             )
             outputs = sorted(process.stdout.splitlines(True))
             file.writelines(outputs)
