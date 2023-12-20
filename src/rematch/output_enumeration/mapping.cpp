@@ -11,6 +11,24 @@ void Mapping::add_annotations(std::bitset<64> variable_markers,
   inverted_annotations.push_back(Annotation{variable_markers, document_position});
 }
 
+Span Mapping::get_last_mapping_of_variable_id(int variable_id) const {
+  ZoneScoped;
+
+  std::vector<Span> spans;
+  std::vector<Span> final_span;
+
+  int next_possible_opening_position = inverted_annotations.size() - 1,
+      next_possible_closure_position = inverted_annotations.size() - 1;
+
+  Span span;
+  span.first = find_last_document_position_where_the_specified_marker_is_true(
+      variable_id * 2, next_possible_opening_position);
+  span.second = find_last_document_position_where_the_specified_marker_is_true(
+          variable_id * 2 + 1, next_possible_closure_position);
+
+  return span;
+}
+
 std::vector<Span> Mapping::get_spans_of_variable_id(int variable_id) const {
    /**
     * The current implementation is not optimal, as it traverses the
@@ -86,5 +104,15 @@ int Mapping::find_next_document_position_where_the_specified_marker_is_true(
   return -1;
 }
 
+int Mapping::find_last_document_position_where_the_specified_marker_is_true(
+    int marker_id, int& current_position) const {
+  while (current_position >= 0) {
+    if (inverted_annotations[current_position].variable_markers[marker_id]) {
+      return inverted_annotations[current_position--].document_position;
+    }
+    current_position--;
+  }
+  return -1;
+}
 }
 }

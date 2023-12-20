@@ -42,10 +42,10 @@ mediator::Mapping* Mediator::next() {
   result_mapping.reset();
 
   for (int variable_id = 0; variable_id < number_of_variables_; variable_id++) {
-    std::vector<Span> spans = mapping_->get_spans_of_variable_id(variable_id);
+    Span span = mapping_->get_last_mapping_of_variable_id(variable_id);
 
     std::string variable_name = variable_catalog_->get_var(variable_id);
-    result_mapping.add_span(variable_name, spans.back());
+    result_mapping.add_span(variable_name, span);
   }
 
   // -1 because of the START_CHAR that was added to the document

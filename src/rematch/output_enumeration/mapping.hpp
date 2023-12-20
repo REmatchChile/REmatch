@@ -3,6 +3,7 @@
 
 #include "span.hpp"
 #include "output_enumeration/ecs.hpp"
+#include "tracy/Tracy.hpp"
 
 namespace rematch {
 
@@ -35,6 +36,7 @@ class Mapping {
    * and are functional.
    */
   std::vector<Span> get_spans_of_variable_id(int id) const;
+  Span get_last_mapping_of_variable_id(int id) const;
 
   void delete_previous_annotation();
 
@@ -47,6 +49,8 @@ class Mapping {
   int find_next_document_position_where_the_specified_marker_is_true(
     int marker_id, int &current_position) const;
 
+  int find_last_document_position_where_the_specified_marker_is_true(
+      int marker_id, int& current_position) const;
 };
 }
 }
