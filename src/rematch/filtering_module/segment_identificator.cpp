@@ -7,7 +7,7 @@ inline namespace filtering_module {
 SegmentIdentificator::SegmentIdentificator(
     std::unique_ptr<SearchDFA> search_dfa, std::string_view document
   ) : search_dfa(std::move(search_dfa)),
-      document(std::string(document)), doc_end_i_(document.size()) {
+      document(document), doc_end_i_(document.size()) {
       search_dfa.reset();
     }
 

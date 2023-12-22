@@ -23,7 +23,7 @@ TEST_CASE("an exception is thrown from SearchDFA when the query is too complex")
 
   // no need to evaluate the mediator, it searches for a segment in the constructor
   REQUIRE_THROWS_AS(Mediator(extended_det_va, variable_catalog,
-                             segment_manager_creator, document),
+                             segment_manager_creator, std::move(document)),
                     ComplexQueryException);
 }
 
@@ -46,7 +46,7 @@ TEST_CASE("a exception is thrown from ExtendedDetVA when the query is too comple
 
   auto evaluate_mediator = [&]() {
     auto mediator = Mediator(extended_det_va, variable_catalog,
-                             segment_manager_creator, document);
+                             segment_manager_creator, std::move(document));
     mediator::Mapping* mapping = mediator.next();
     while (mapping != nullptr) {
       mapping = mediator.next();

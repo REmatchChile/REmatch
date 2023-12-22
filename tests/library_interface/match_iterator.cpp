@@ -44,7 +44,7 @@ void run_match_iterator_test(std::string regex, std::string document, std::vecto
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
-  Mediator mediator = Mediator(extended_det_va, variable_catalog, segment_manager_creator, document);
+  Mediator mediator = Mediator(extended_det_va, variable_catalog, segment_manager_creator, std::move(document));
   auto match_iterator = MatchIterator(std::move(mediator), variable_catalog, document_view);
 
   std::ostringstream info_os;

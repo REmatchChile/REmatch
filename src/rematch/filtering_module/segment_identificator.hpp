@@ -53,7 +53,7 @@ class SegmentIdentificator {
   bool next_is_computed_successfully();
 
   std::unique_ptr<SearchDFA> search_dfa;
-  std::string document;
+  std::string_view document;
 
   uint64_t doc_start_i_ = 0;
   uint64_t doc_end_i_ = 0;

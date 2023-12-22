@@ -31,7 +31,7 @@ class AlgorithmClass {
   uint64_t doc_start_i_ = 0;
   uint64_t doc_end_i_ = 0;
 
-  std::string document_;
+  std::string_view document_;
 
   ExtendedDetVA& extended_det_va_;
   ECS* ECS_interface_;

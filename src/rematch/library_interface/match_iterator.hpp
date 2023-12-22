@@ -9,6 +9,10 @@
 #include "mediator/mediator.hpp"
 #include "statistics.hpp"
 #include "stats_collector.hpp"
+#include "mediator/mediation_subjects.hpp"
+#include "mediator/segment_manager/segment_manager_creator.hpp"
+#include "match_iterator.hpp"
+#include "document_utils.hpp"
 
 namespace REMatch {
 
@@ -24,6 +28,11 @@ class MatchIterator {
   MatchIterator(rematch::Mediator&& mediator,
       std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog,
       std::string_view& document);
+  MatchIterator(
+      rematch::MediationSubjects& mediation_subjects,
+      rematch::SegmentManagerCreator& segment_manager_creator,
+      std::string_view& document, Flags flags = Flags());
+
   std::unique_ptr<Match> next();
 
   Statistics stats = {};

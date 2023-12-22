@@ -30,7 +30,7 @@ std::vector<Match> findall(std::string_view pattern, std::string_view document,
 MatchIterator finditer(std::string_view pattern, std::string_view document,
                     Flags flags) {
   Regex regex = compile(pattern, flags);
-  return regex.finditer(pattern, flags);
+  return regex.finditer(document, flags);
 }
 
 std::unique_ptr<Match> search(std::string_view pattern, std::string_view document, Flags flags) {

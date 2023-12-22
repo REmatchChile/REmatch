@@ -3,8 +3,8 @@
 
 namespace rematch {
 
-extern const char START_CHAR;
-extern const char END_CHAR;
+const char START_CHAR = 0xFE;
+const char END_CHAR = 0xFF;
 
 }  // namespace rematch
 

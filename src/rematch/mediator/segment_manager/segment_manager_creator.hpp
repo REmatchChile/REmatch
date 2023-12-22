@@ -13,7 +13,7 @@ class SegmentManagerCreator {
  private:
   bool lva_has_useful_anchors_ = false;
   std::unique_ptr<SearchDFA> search_dfa_ = nullptr;
-  std::string document_;
+  std::string_view document_;
   Flags flags;
 
  public:
@@ -27,7 +27,7 @@ class SegmentManagerCreator {
       search_dfa_ = std::make_unique<SearchDFA>(logical_va, dfa_states_checker);
   }
 
-  void set_document(std::string document) {
+  void set_document(std::string_view document) {
     document_ = document;
   }
 

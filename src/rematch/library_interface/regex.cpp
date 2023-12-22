@@ -31,17 +31,7 @@ std::unique_ptr<Match> Regex::find(std::string_view text, Flags flags) {
 MatchIterator Regex::finditer(std::string_view document_view, Flags flags) {
   ZoneScoped;
 
-  std::string document;
-
-  // add the start and end chars that match anchors
-  document.reserve(document_view.size() + 2);
-  document.push_back(rematch::START_CHAR);
-  document.append(document_view);
-  document.push_back(rematch::END_CHAR);
-
-  auto mediator = rematch::Mediator(mediation_subjects_, segment_manager_creator_, document, flags_);
-  MatchIterator iterator = {std::move(mediator), mediation_subjects_.variable_catalog, document_view};
-  return iterator;
+  return {mediation_subjects_, segment_manager_creator_, document_view, flags_};
 }
 
 } // end namespace library_interface

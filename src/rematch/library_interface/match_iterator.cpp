@@ -10,6 +10,15 @@ MatchIterator::MatchIterator(
       variable_catalog_(variable_catalog),
       document_(document) {}
 
+MatchIterator::MatchIterator(
+    rematch::MediationSubjects& mediation_subjects,
+    rematch::SegmentManagerCreator& segment_manager_creator,
+    std::string_view& document_view, Flags flags)
+    : mediator_(mediation_subjects, segment_manager_creator,
+                rematch::add_start_and_end_chars(document_view), flags),
+      variable_catalog_(mediation_subjects.variable_catalog),
+      document_(document_view) {}
+
 std::unique_ptr<Match> MatchIterator::next() {
   rematch::mediator::Mapping* mapping = mediator_.next();
 

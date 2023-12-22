@@ -4,9 +4,9 @@ namespace rematch {
 
 AlgorithmClass::AlgorithmClass(ExtendedDetVA& extended_det_va,
                                std::string_view document, Flags flags)
-    : extended_det_va_(extended_det_va),
+    : doc_end_i_(document.size()),
       document_(document),
-      doc_end_i_(document.size()) {
+      extended_det_va_(extended_det_va) {
   ECS_interface_ = new ECS(flags);
   enumerator_ = new Enumerator();
 
