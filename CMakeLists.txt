@@ -16,7 +16,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Enable testing
-set(REMATCH_BUILD_TESTING OFF)
+set(REMATCH_BUILD_TESTING ON)
 # Enable benchmarks
 set(REMATCH_BUILD_BENCHMARKS ON)
 
@@ -31,7 +31,7 @@ include(FetchContent)
 # Profiler
 message("Fetching Tracy")
 
-set(ENABLE_PROFILING ON CACHE BOOL "Enable Profiling" FORCE)
+set(ENABLE_PROFILING OFF CACHE BOOL "Enable Profiling" FORCE)
 
 Set(FETCHCONTENT_QUIET FALSE)
 
@@ -52,15 +52,16 @@ else()
 endif()
 
 FetchContent_MakeAvailable (tracy)
+target_compile_options(TracyClient PRIVATE -w)
 
 #
 add_compile_definitions(
-        BENCHMARK_MODE
-        # NOPT_MEMORY
-        # NOPT_ASCIIARRAY
-        # NOPT_OFFSET
-        # NOPT_EARLYOUTPUT
-#         NOPT_SEGMENT_RATIO
+  BENCHMARK_MODE
+  # NOPT_MEMORY
+  # NOPT_ASCIIARRAY
+  # NOPT_OFFSET
+  # NOPT_EARLYOUTPUT
+  # NOPT_SEGMENT_RATIO
 )
 
 # Rematch libs starts as empty list
@@ -89,6 +90,6 @@ message("REmatch libs: ${REMATCH_LIBS}")
 add_subdirectory(src/targets)
 
 if (REMATCH_BUILD_TESTING)
-    include(CTest)
-    add_subdirectory(tests)
+  include(CTest)
+  add_subdirectory(tests)
 endif (REMATCH_BUILD_TESTING)

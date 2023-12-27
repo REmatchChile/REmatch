@@ -16,7 +16,6 @@ class ExtendedDetVA {
   ExtendedVA extended_va_;
   std::unordered_map<StatesBitset, ExtendedDetVAState*>
       bitset_to_state_map;
-  size_t max_amount_of_states_;
 
   void create_initial_state();
 

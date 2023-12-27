@@ -15,8 +15,8 @@ class LineIdentificator {
 
  private:
   std::string document_;
-  int64_t current_start_ = 0;
-  int64_t current_end_ = 0;
+  size_t current_start_ = 0;
+  size_t current_end_ = 0;
 };
 
 }  // namespace rematch

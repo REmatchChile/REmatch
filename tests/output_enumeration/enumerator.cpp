@@ -142,7 +142,7 @@ ECSNode *create_complex_ecs_structure_1(ECS *ecs, int amount_of_variables) {
 TEST_CASE("Complex ECS structure returns correct amount of mappings") {
   ECS *ecs = new ECS();
   int amount_of_variables = GENERATE(1, 3, 5, 7);
-  Enumerator enumerator = Enumerator(amount_of_variables);
+  Enumerator enumerator = Enumerator();
   enumerator.add_node(create_complex_ecs_structure_1(ecs, amount_of_variables));
 
   int amount_of_mappings = 0;
@@ -204,7 +204,7 @@ TEST_CASE("Complete Binary tree with single variable output nodes as leafs \
     create_binary_tree_of_union_nodes_with_one_variable_and_empty_captures(
         ecs, depth
  );
-  Enumerator enumerator = Enumerator(1);
+  Enumerator enumerator = Enumerator();
   enumerator.add_node(root);
 
   std::vector<int> spans = std::vector<int>();

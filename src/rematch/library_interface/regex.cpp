@@ -23,12 +23,12 @@ Regex::Regex(std::string_view pattern, Flags flags)
       rematch::SegmentManagerCreator(mediation_subjects_.logical_va, flags);
 }
 
-std::unique_ptr<Match> Regex::find(std::string_view text, Flags flags) {
-  MatchIterator iterator = finditer(text, flags);
+std::unique_ptr<Match> Regex::find(std::string_view text) {
+  MatchIterator iterator = finditer(text);
   return iterator.next();
 }
 
-MatchIterator Regex::finditer(std::string_view document_view, Flags flags) {
+MatchIterator Regex::finditer(std::string_view document_view) {
   ZoneScoped;
 
   return {mediation_subjects_, segment_manager_creator_, document_view, flags_};

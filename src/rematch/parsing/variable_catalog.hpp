@@ -74,8 +74,6 @@ class VariableCatalog {
 	// 		- offsetMap[2*c]         is the opening (x<) offset.
 	//    - offsetMap[2*c + 1] 		 is the closing (x>) offset.
 	std::vector<int> offsetMap;
-
-	bool computedOffsets; // True iff offsetMap was computed.
 };
 
 }

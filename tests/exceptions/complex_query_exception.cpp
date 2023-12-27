@@ -16,7 +16,7 @@ TEST_CASE("an exception is thrown from SearchDFA when the query is too complex")
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
 
-  Flags flags = {.max_deterministic_states = 100};
+  Flags flags{false, false, 8, 100};
   auto segment_manager_creator = SegmentManagerCreator(logical_va, flags);
 
   auto extended_det_va = ExtendedDetVA(extended_va);
@@ -39,7 +39,7 @@ TEST_CASE("a exception is thrown from ExtendedDetVA when the query is too comple
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
 
-  Flags flags = {.max_deterministic_states = 100};
+  Flags flags{false, false, 8, 100};
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
   auto extended_det_va = ExtendedDetVA(extended_va, flags);

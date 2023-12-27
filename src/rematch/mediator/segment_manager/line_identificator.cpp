@@ -10,7 +10,7 @@ std::unique_ptr<Span> LineIdentificator::next() {
     return nullptr;
   }
 
-  int64_t new_end_pos = document_.find('\n', current_end_);
+  size_t new_end_pos = document_.find('\n', current_end_);
 
   auto result_span = std::make_unique<Span>();
 

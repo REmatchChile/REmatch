@@ -25,8 +25,8 @@ class Regex {
  public:
   Regex(std::string_view pattern, Flags flags = Flags());
 
-  std::unique_ptr<Match> find(std::string_view text, Flags flags = Flags());
-  MatchIterator finditer(std::string_view text, Flags flags = Flags());
+  std::unique_ptr<Match> find(std::string_view text);
+  MatchIterator finditer(std::string_view text);
 };
 
 }  // end namespace library_interface

@@ -64,7 +64,7 @@ bool Match::empty() {
 std::ostream& operator<<(std::ostream& os, Match& match) {
   int amount_of_variables = match.variable_catalog_->size();
 
-  for (int i = 0; i < match.variable_catalog_->size() - 1; i++) {
+  for (unsigned int i = 0; i < match.variable_catalog_->size() - 1; i++) {
     std::string variable_name = match.variable_catalog_->get_var(i);
     Span span = match.span(variable_name);
     os << variable_name << " = |" << span.first << "," << span.second << ">\t";
