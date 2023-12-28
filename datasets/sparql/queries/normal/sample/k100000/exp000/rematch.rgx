@@ -1,0 +1,1 @@
+!x{\n[^\n]* FILTER [^\n]*\n[^\n]* SELECT [^\n]*\n}

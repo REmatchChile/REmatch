@@ -1,0 +1,1 @@
+\n([^\n]* PREFIX [^\n]* PREFIX [^\n]* SELECT [^\n]*\n[^\n]* SELECT [^\n]* WHERE [^\n]* OPTIONAL [^\n]*)\n

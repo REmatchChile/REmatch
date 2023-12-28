@@ -1,0 +1,1 @@
+!x{\n[^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n[^\n]* PREFIX [^\n]* SELECT [^\n]* FILTER [^\n]*\n}

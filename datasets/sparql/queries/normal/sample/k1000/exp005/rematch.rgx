@@ -1,0 +1,1 @@
+!x{\n[^\n]* SELECT [^\n]* LIMIT [^\n]*\n[^\n]* GROUP BY [^\n]*\n}

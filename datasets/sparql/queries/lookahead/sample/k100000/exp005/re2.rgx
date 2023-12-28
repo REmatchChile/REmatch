@@ -1,0 +1,1 @@
+\n([^\n]* DISTINCT [^\n]* OPTIONAL [^\n]*\n[^\n]* PREFIX [^\n]* FILTER [^\n]*)\n

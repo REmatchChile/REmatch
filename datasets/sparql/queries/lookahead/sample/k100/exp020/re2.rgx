@@ -1,0 +1,1 @@
+\n([^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n[^\n]* SELECT [^\n]* WHERE [^\n]* LIMIT [^\n]*)\n
