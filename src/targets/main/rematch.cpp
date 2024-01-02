@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-int main(int argc, char *argv[]) {
+int main() {
   std::string_view document = "This is a document";
   REMatch::Regex word_regex = REMatch::compile("!x{doc|document}", REMatch::Flags());
   REMatch::MatchIterator iterator = word_regex.finditer(document);

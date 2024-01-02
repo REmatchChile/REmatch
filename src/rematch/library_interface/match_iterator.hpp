@@ -22,16 +22,20 @@ class MatchIterator {
  private:
   rematch::Mediator mediator_;
   std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog_;
-  std::string_view& document_;
+  std::string_view document_;
 
  public:
   MatchIterator(rematch::Mediator&& mediator,
       std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog,
-      std::string_view& document);
+      std::string_view document);
   MatchIterator(
       rematch::MediationSubjects& mediation_subjects,
       rematch::SegmentManagerCreator& segment_manager_creator,
-      std::string_view& document, Flags flags = Flags());
+      std::string_view document, Flags flags = Flags());
+  MatchIterator(
+      rematch::MediationSubjects& mediation_subjects,
+      rematch::SegmentManagerCreator& segment_manager_creator,
+      std::string&& document, Flags flags = Flags());
 
   std::unique_ptr<Match> next();
 

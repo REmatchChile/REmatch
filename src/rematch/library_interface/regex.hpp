@@ -12,6 +12,7 @@
 #include "mediator/segment_manager/segment_manager_creator.hpp"
 #include "evaluation/start_end_chars.hpp"
 #include "statistics.hpp"
+#include "document_utils.hpp"
 
 namespace REMatch {
 inline namespace library_interface {
@@ -27,6 +28,7 @@ class Regex {
 
   std::unique_ptr<Match> find(std::string_view text);
   MatchIterator finditer(std::string_view text);
+  MatchIterator finditer(std::ifstream& file);
 };
 
 }  // end namespace library_interface
