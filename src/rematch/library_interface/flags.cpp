@@ -1,4 +1,5 @@
 #include "flags.hpp"
+#include <stdexcept>
 
 namespace REMatch {
 inline namespace library_interface {
@@ -15,7 +16,8 @@ Flags::Flags(int num, ...) {
         early_output = true;
         break;
       default:
-        throw InvalidFlagTypeException("Flags initialized with an invalid flag type.");
+        // TODO: Throw the expected exception
+        throw std::invalid_argument("Flags initialized with an invalid flag type.");
     }
   va_end(arguments);
 }

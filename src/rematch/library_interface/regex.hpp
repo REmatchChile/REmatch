@@ -22,6 +22,7 @@ class Regex {
 
   std::unique_ptr<Match> find(std::string_view text, Flags flags = Flags());
   MatchIterator finditer(std::string_view text, Flags flags = Flags());
+  MatchIterator finditer(const std::string& text, Flags flags = Flags());
 };
 
 }  // end namespace library_interface

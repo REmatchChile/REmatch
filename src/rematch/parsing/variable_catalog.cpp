@@ -5,7 +5,7 @@ inline namespace parsing {
 
 VariableCatalog::VariableCatalog() {}
 
-std::string VariableCatalog::get_var(uint position) {
+std::string VariableCatalog::get_var(uint32_t position) {
 	return data_[position];
 }
 

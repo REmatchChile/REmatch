@@ -36,5 +36,9 @@ MatchIterator Regex::finditer(std::string_view text, Flags flags) {
   return {std::move(mediator), mediation_subjects_.variable_catalog, text};
 }
 
+MatchIterator Regex::finditer(const std::string& text, Flags flags) {
+  return finditer(std::string_view(text), flags);
+}
+
 } // end namespace library_interface
 } // end namespace rematch

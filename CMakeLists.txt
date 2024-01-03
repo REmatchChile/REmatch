@@ -16,24 +16,15 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Enable testing
-set(REMATCH_BUILD_TESTING ON)
+set(REMATCH_BUILD_TESTING OFF)
 # Enable benchmarks
-set(REMATCH_BUILD_BENCHMARKS ON)
+set(REMATCH_BUILD_BENCHMARKS OFF)
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -pthread -O0 -g3")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Wextra -pthread -O3 -g0 -pedantic")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -O0 -g3")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Wextra -O3 -g0 -pedantic")
 
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
 set(LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
-
-add_compile_definitions(
-        BENCHMARK_MODE
-        # NOPT_MEMORY
-        # NOPT_ASCIIARRAY
-        # NOPT_OFFSET
-        # NOPT_EARLYOUTPUT
-#         NOPT_SEGMENT_RATIO
-)
 
 # Rematch libs starts as empty list
 set(REMATCH_LIBS "")
@@ -44,14 +35,12 @@ include_directories(src/thirdparty/antlr4/runtime/src)
 
 
 # Maybe remove boost
-find_package(Boost 1.58)
-include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
+# find_package(Boost 1.58)
+# include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 # No need to add Boost's libraries, we're using only boost's headers
 # list(APPEND project_LIBS ${Boost_LIBRARIES})
 
 add_subdirectory(src/thirdparty)
-
-# list(APPEND REMATCH_LIBS spdlog)
 
 add_subdirectory(src/rematch)
 
@@ -63,4 +52,3 @@ if (REMATCH_BUILD_TESTING)
     include(CTest)
     add_subdirectory(tests)
 endif (REMATCH_BUILD_TESTING)
-

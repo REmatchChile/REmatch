@@ -5,15 +5,13 @@
 #include <utility>
 #include <stdexcept>
 
-#include "invalid_flag_type_exception.hpp"
-
 namespace REMatch {
 inline namespace library_interface {
 
 class Flags {
   /***************************************************************
     * Linebyline  (default=false)                                 *
-    * El documento se carga línea por línea.                    *
+    * El documento se carga línea por línea.                      *
     *                                                             *
     * Earlyoutput (default=false)                                 *
     * El algoritmo entrega outputs a medida que los encuentra, de *

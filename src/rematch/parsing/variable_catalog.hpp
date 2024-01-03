@@ -30,7 +30,7 @@ class VariableCatalog {
 
 	size_t size() {return data_.size();}
 
-	std::string get_var(uint position);
+	std::string get_var(uint32_t position);
 
 	std::vector<std::string> variables() {return data_;}
 

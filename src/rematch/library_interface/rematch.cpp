@@ -7,6 +7,10 @@ Regex compile(std::string_view pattern, Flags flags) {
   return Regex(pattern, flags);
 }
 
+Regex compile(const std::string& pattern, Flags flags) {
+  return compile(std::string_view(pattern), flags);
+}
+
 std::unique_ptr<Match> find(std::string_view pattern, std::string_view document, Flags flags) {
   Regex regex = compile(pattern, flags);
   return regex.find(document);
