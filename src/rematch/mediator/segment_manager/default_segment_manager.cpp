@@ -12,4 +12,12 @@ std::unique_ptr<Span> DefaultSegmentManager::next() {
   return std::make_unique<Span>(0, document_.size());
 }
 
+size_t DefaultSegmentManager::get_search_dfa_size() {
+  return 0;
+}
+
+size_t DefaultSegmentManager::get_search_nfa_size() {
+  return 0;
+}
+
 }  // namespace rematch

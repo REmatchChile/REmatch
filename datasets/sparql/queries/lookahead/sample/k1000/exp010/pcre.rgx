@@ -1,0 +1,1 @@
+(?=(\n[^\n]* PREFIX [^\n]* SELECT [^\n]* FILTER [^\n]*\n[^\n]* WHERE [^\n]* LIMIT [^\n]*))\n

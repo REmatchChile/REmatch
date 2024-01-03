@@ -1,0 +1,1 @@
+\n([^\n]* DISTINCT [^\n]* GROUP BY [^\n]*\n[^\n]* SELECT [^\n]* FILTER [^\n]*)\n

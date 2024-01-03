@@ -47,8 +47,7 @@ public:
 
   void add_to_list_of_free_memory(ECSNode *node);
   size_t get_amount_of_nodes_used() const { return amount_of_nodes_used; }
-
-
+  size_t get_amount_of_nodes_reused() const;
 
 private:
   ECSNode *get_node_to_recycle_or_increase_mempool_size_if_necessary();

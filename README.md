@@ -120,6 +120,19 @@ To add more tests, create files of the form: `tests/<module_name>/<class_tested>
 
 To build the automatic documentation two packages are needed: graphviz and doxygen. To build the documentation run `doxygen DoxyFile`.
 
+## Profiler
+
+We are using the Tracy profiler to measure the time spent in specific code segments. To profile the code using the graphical user interface, follow these steps:
+
+* Set the `ENABLE_TRACY` flag to ON in the CMakeLists.txt file.
+* Set the `REMATCH_BUILD_TESTING` flag to OFF.
+* Compile the code with the updated CMakeLists.
+* Navigate to `build/Debug/_deps/tracy-src/profiler/build/unix` and run `make` to generate the "Tracy-release" executable.
+* Execute the "Tracy-release" executable.
+* Run REmatch to initiate the profiling.
+
+You should be able to view the results in the graphical interface.
+
 ## Reference
 
 This implementation is based on the paper [REmatch: a novel regex engine for finding all matches](https://www.vldb.org/pvldb/vol16/p2792-vrgoc.pdf) by Cristian Riveros, Nicolar Van Sint Jan, and Domagoj Vrgoč.

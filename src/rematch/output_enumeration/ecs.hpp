@@ -30,6 +30,7 @@ class ECS { // Enumerable Compact Set
  public:
   size_t get_amount_of_nodes_used() const;
   size_t amount_of_nodes_allocated() const { return node_manager.amount_of_nodes_allocated(); }
+  size_t get_amount_of_nodes_reused() const;
  private:
   NodeManager node_manager;
 

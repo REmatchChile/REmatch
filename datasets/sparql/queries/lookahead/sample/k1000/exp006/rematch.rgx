@@ -1,0 +1,1 @@
+\n!x{[^\n]* WHERE [^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n[^\n]* PREFIX [^\n]* PREFIX [^\n]* FILTER [^\n]*}\n

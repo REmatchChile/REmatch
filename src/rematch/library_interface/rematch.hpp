@@ -14,6 +14,7 @@ namespace REMatch {
 inline namespace library_interface {
 
 Regex compile(std::string_view pattern, Flags flags = Flags());
+Regex compile(std::ifstream& pattern, Flags flags = Flags());
 
 std::unique_ptr<Match> find(std::string_view pattern, std::string_view document, Flags flags = Flags());
 std::vector<Match> findall(std::string_view pattern, std::string_view document,

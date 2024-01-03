@@ -1,5 +1,5 @@
 
-// Generated from REmatchLexer.g4 by ANTLR 4.12.0
+// Generated from REmatchLexer.g4 by ANTLR 4.13.1
 
 
 #include "REmatchLexer.h"
@@ -42,10 +42,19 @@ struct REmatchLexerStaticData final {
 };
 
 ::antlr4::internal::OnceFlag rematchlexerLexerOnceFlag;
+#if ANTLR4_USE_THREAD_LOCAL_CACHE
+static thread_local
+#endif
 REmatchLexerStaticData *rematchlexerLexerStaticData = nullptr;
 
 void rematchlexerLexerInitialize() {
+#if ANTLR4_USE_THREAD_LOCAL_CACHE
+  if (rematchlexerLexerStaticData != nullptr) {
+    return;
+  }
+#else
   assert(rematchlexerLexerStaticData == nullptr);
+#endif
   auto staticData = std::make_unique<REmatchLexerStaticData>(
     std::vector<std::string>{
       "DECIMAL_DIGIT", "NOT_DECIMAL_DIGIT", "WHITESPACE", "NOT_WHITESPACE", 
@@ -175,5 +184,9 @@ const atn::ATN& REmatchLexer::getATN() const {
 
 
 void REmatchLexer::initialize() {
+#if ANTLR4_USE_THREAD_LOCAL_CACHE
+  rematchlexerLexerInitialize();
+#else
   ::antlr4::internal::call_once(rematchlexerLexerOnceFlag, rematchlexerLexerInitialize);
+#endif
 }

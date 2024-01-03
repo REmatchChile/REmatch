@@ -264,7 +264,7 @@ TEST_CASE("relabel states is correct") {
 
   extended_va.relabel_states();
 
-  int max_id = get_max_id(extended_va);
+  size_t max_id = get_max_id(extended_va);
   REQUIRE(get_min_id(extended_va) == 0);
   REQUIRE(extended_va.size() == max_id + 1);
 }

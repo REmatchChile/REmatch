@@ -12,11 +12,11 @@ void check_if_escapes_are_valid(std::string regex, std::vector<std::string> rule
 class ParserErrorListener : public BaseErrorListener {
  public:
   void syntaxError(Recognizer* recognizer,
-                   Token* offending_symbol,
-                   size_t line,
+                   Token* /* offending_symbol */,
+                   size_t /* line */,
                    size_t char_position_in_line,
-                   const std::string& msg,
-                   std::exception_ptr e) override {
+                   const std::string& /* msg */,
+                   std::exception_ptr /* e */) override {
 
     Parser* parser = dynamic_cast<Parser*>(recognizer);
 

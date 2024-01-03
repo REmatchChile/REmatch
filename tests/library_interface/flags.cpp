@@ -19,7 +19,7 @@ TEST_CASE("flag line_by_line works correctly") {
       DummyMapping({{"x", {0, 5}}}), DummyMapping({{"x", {5, 10}}}),
       DummyMapping({{"x", {10, 15}}}), DummyMapping({{"x", {15, 20}}})};
 
-  Flags flags = {.line_by_line = true};
+  Flags flags{true, false, 8, 1000};
   REMatch::Regex regex = REMatch::compile(pattern, flags);
   REMatch::MatchIterator match_iterator = regex.finditer(document);
 
@@ -28,7 +28,8 @@ TEST_CASE("flag line_by_line works correctly") {
 
 TEST_CASE(
     "flag max_mempool_duplications allows creating more nodes correctly") {
-  auto ecs = new ECS({.max_mempool_duplications = 1});
+  Flags flags{false, false, 1, 1000};
+  auto ecs = new ECS(flags);
   create_linked_list_node_of_depth(ecs, MEMORY_POOL_STARTING_SIZE - 1);
   REQUIRE_NOTHROW(
       create_linked_list_node_of_depth(ecs, MEMORY_POOL_STARTING_SIZE - 1));

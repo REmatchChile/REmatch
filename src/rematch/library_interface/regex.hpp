@@ -11,20 +11,24 @@
 #include "mediator/mediation_subjects.hpp"
 #include "mediator/segment_manager/segment_manager_creator.hpp"
 #include "evaluation/start_end_chars.hpp"
+#include "statistics.hpp"
+#include "document_utils.hpp"
 
 namespace REMatch {
 inline namespace library_interface {
 
 class Regex {
  private:
+  Flags flags_;
   rematch::MediationSubjects mediation_subjects_;
   rematch::SegmentManagerCreator segment_manager_creator_;
 
  public:
   Regex(std::string_view pattern, Flags flags = Flags());
 
-  std::unique_ptr<Match> find(std::string_view text, Flags flags = Flags());
-  MatchIterator finditer(std::string_view text, Flags flags = Flags());
+  std::unique_ptr<Match> find(std::string_view text);
+  MatchIterator finditer(std::string_view text);
+  MatchIterator finditer(std::ifstream& file);
 };
 
 }  // end namespace library_interface

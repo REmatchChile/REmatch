@@ -12,10 +12,12 @@ class DefaultSegmentManager : public SegmentManager {
 
   // Returns the span representing the entire document
   std::unique_ptr<Span> next() override;
+  size_t get_search_dfa_size() override;
+  size_t get_search_nfa_size() override;
 
  private:
   std::string document_;
-  bool already_read_;
+  bool already_read_ = false;
 };
 
 }

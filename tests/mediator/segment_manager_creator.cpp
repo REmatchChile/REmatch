@@ -27,7 +27,7 @@ TEST_CASE(
   auto parser = Parser("!x{a+}");
   LogicalVA logical_va = parser.get_logical_va();
 
-  Flags flags = {.line_by_line = true};
+  Flags flags = {true, false, 8, 1000};
   auto segment_manager_creator = SegmentManagerCreator(logical_va, flags);
   auto segment_manager = segment_manager_creator.get_segment_manager();
   REQUIRE(dynamic_cast<const LineByLineManager*>(segment_manager.get()) != nullptr);
@@ -39,7 +39,7 @@ TEST_CASE(
   auto parser = Parser("^!x{a+}");
   LogicalVA logical_va = parser.get_logical_va();
 
-  Flags flags = {.line_by_line = true};
+  Flags flags = {true, false, 8, 1000};
   auto segment_manager_creator = SegmentManagerCreator(logical_va, flags);
   auto segment_manager = segment_manager_creator.get_segment_manager();
   REQUIRE(dynamic_cast<const DefaultSegmentManager*>(segment_manager.get()) != nullptr);

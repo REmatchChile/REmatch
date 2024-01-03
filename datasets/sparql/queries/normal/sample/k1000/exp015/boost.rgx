@@ -1,0 +1,1 @@
+(\n[^\n]* GROUP BY [^\n]*\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* GROUP BY [^\n]*\n)

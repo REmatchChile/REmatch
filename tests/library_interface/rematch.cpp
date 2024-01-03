@@ -18,7 +18,7 @@ TEST_CASE("find method simple test") {
   std::unique_ptr<Match> match = regex.find(document);
 
   REQUIRE(match != nullptr);
-  REQUIRE(match->span("x") == (Span){10, 13});
+  REQUIRE(match->span("x") == Span(10, 13));
 }
 
 TEST_CASE("finditer method simple test") {
@@ -28,11 +28,11 @@ TEST_CASE("finditer method simple test") {
 
   std::unique_ptr<Match> match = match_iterator.next();
   REQUIRE(match != nullptr);
-  REQUIRE(match->span("x") == (Span){10, 13});
+  REQUIRE(match->span("x") == Span(10, 13));
   
   match = match_iterator.next();
   REQUIRE(match != nullptr);
-  REQUIRE(match->span("x") == (Span){10, 18});
+  REQUIRE(match->span("x") == Span(10, 18));
 
   match = match_iterator.next();
   REQUIRE(match == nullptr);
@@ -64,11 +64,11 @@ TEST_CASE("client interface with alternation") {
 
   std::unique_ptr<Match> match = match_iterator.next();
   REQUIRE(match != nullptr);
-  REQUIRE(match->span("x") == (Span){10, 13});
+  REQUIRE(match->span("x") == Span(10, 13));
   
   match = match_iterator.next();
   REQUIRE(match != nullptr);
-  REQUIRE(match->span("x") == (Span){10, 18});
+  REQUIRE(match->span("x") == Span(10, 18));
 
   match = match_iterator.next();
   REQUIRE(match == nullptr);
@@ -256,6 +256,49 @@ TEST_CASE("client interface with escape characters") {
 
   std::vector<DummyMapping> expected_matches = {
     DummyMapping({{"x", {4, 6}}}),
+  };
+
+  run_client_test(match_iterator, expected_matches);
+}
+
+TEST_CASE("client interface with \\n in character set") {
+  std::string document = "a\nb\nc";
+  REMatch::Regex regex = REMatch::compile("!x{[^\\n]}.*!y{[\\n]}");
+  MatchIterator match_iterator = regex.finditer(document);
+
+  std::vector<DummyMapping> expected_matches = {
+    DummyMapping({{"x", {0, 1}}, {"y", {1, 2}}}),
+    DummyMapping({{"x", {0, 1}}, {"y", {3, 4}}}),
+    DummyMapping({{"x", {2, 3}}, {"y", {3, 4}}}),
+  };
+
+  run_client_test(match_iterator, expected_matches);
+}
+
+TEST_CASE("client interface with special characters inside a negated set") {
+  std::string document = "a\fb\vc";
+  REMatch::Regex regex = REMatch::compile("!x{[^\\f]}.*!y{[^\\v]}");
+  MatchIterator match_iterator = regex.finditer(document);
+
+  std::vector<DummyMapping> expected_matches = {
+    DummyMapping({{"x", {0, 1}}, {"y", {1, 2}}}),
+    DummyMapping({{"x", {0, 1}}, {"y", {2, 3}}}),
+    DummyMapping({{"x", {0, 1}}, {"y", {4, 5}}}),
+    DummyMapping({{"x", {2, 3}}, {"y", {4, 5}}}),
+    DummyMapping({{"x", {3, 4}}, {"y", {4, 5}}}),
+  };
+
+  run_client_test(match_iterator, expected_matches);
+}
+
+TEST_CASE("client interface with special characters inside a character set") {
+  std::string document = "\ta\va\ra\na";
+  REMatch::Regex regex = REMatch::compile("!x{[\\t].*\\v.*[\\r\\n]}");
+  MatchIterator match_iterator = regex.finditer(document);
+
+  std::vector<DummyMapping> expected_matches = {
+    DummyMapping({{"x", {0, 5}}}),
+    DummyMapping({{"x", {0, 7}}}),
   };
 
   run_client_test(match_iterator, expected_matches);

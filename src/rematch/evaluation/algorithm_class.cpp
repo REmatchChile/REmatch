@@ -2,10 +2,11 @@
 
 namespace rematch {
 
-AlgorithmClass::AlgorithmClass(ExtendedDetVA &extended_det_va,
+AlgorithmClass::AlgorithmClass(ExtendedDetVA& extended_det_va,
                                std::string_view document, Flags flags)
-    : extended_det_va_(extended_det_va) {
-  document_ = document;
+    : doc_end_i_(document.size()),
+      document_(document),
+      extended_det_va_(extended_det_va) {
   ECS_interface_ = new ECS(flags);
   enumerator_ = new Enumerator();
 
@@ -18,7 +19,7 @@ AlgorithmClass::AlgorithmClass(ExtendedDetVA &extended_det_va,
 }
 
 void AlgorithmClass::initialize_algorithm() {
-  pos_i_ = 0;
+  pos_i_ = doc_start_i_;
   current_states_.clear();
   next_states_.clear();
   reached_final_states_.clear();
@@ -32,11 +33,18 @@ void AlgorithmClass::set_ecs(ECS& ecs) {
   ECS_interface_ = &ecs;
 }
 
-void AlgorithmClass::set_document(std::string document) {
-  document_ = document;
+void AlgorithmClass::set_document_indexes(Span& span) {
+  doc_start_i_ = span.first;
+  doc_end_i_ = span.second;
+}
+
+void AlgorithmClass::set_null_segment() {
+  doc_end_i_ = doc_start_i_;
 }
 
 const Mapping* AlgorithmClass::get_next_mapping() {
+  ZoneScopedC(0x808000);
+
   if (enumerator_->has_next()) {
     return enumerator_->next();
   } else {
@@ -54,7 +62,7 @@ const Mapping* AlgorithmClass::get_next_mapping() {
 
 void AlgorithmClass::evaluate() {
 
-  while (pos_i_ < document_.size()) {
+  while (pos_i_ < doc_end_i_) {
     evaluate_single_character();
     swap_state_lists();
     pos_i_++;
@@ -69,7 +77,7 @@ void AlgorithmClass::evaluate_single_character() {
 
   for (auto& current_state : current_states_) {
 
-    std::vector<CaptureSubsetPair*> capture_subset_pairs =
+    std::vector<CaptureSubsetPair> capture_subset_pairs =
         extended_det_va_.get_next_states(current_state, letter);
 
     if (!capture_subset_pairs.empty()) {
@@ -83,13 +91,13 @@ void AlgorithmClass::evaluate_single_character() {
 
 void AlgorithmClass::update_sets(
     ExtendedDetVAState*& current_state,
-    std::vector<CaptureSubsetPair*> capture_subset_pairs) {
+    std::vector<CaptureSubsetPair> capture_subset_pairs) {
 
   auto it = capture_subset_pairs.begin();
 
   // handle the empty capture
-  if (capture_subset_pairs[0]->capture.none()) {
-    ExtendedDetVAState* next_state = capture_subset_pairs[0]->subset;
+  if (capture_subset_pairs[0].capture.none()) {
+    ExtendedDetVAState* next_state = capture_subset_pairs[0].subset;
 
     ECSNode* next_node = current_state->get_node();
     update_output_nodes(next_state, next_node);
@@ -100,8 +108,8 @@ void AlgorithmClass::update_sets(
   // handle not empty captures, skip first pair if already updated
   for (; it != capture_subset_pairs.end(); it++) {
     auto pair = *it;
-    ExtendedDetVAState* next_state = pair->subset;
-    std::bitset<64> capture = pair->capture;
+    ExtendedDetVAState* next_state = pair.subset;
+    std::bitset<64> capture = pair.capture;
 
     ECSNode* next_node = ECS_interface_->create_extend_node(
         current_state->get_node(), capture, pos_i_);
@@ -169,6 +177,26 @@ ECSNode* AlgorithmClass::create_root_node_to_enumerate() {
 void AlgorithmClass::swap_state_lists() {
   current_states_.swap(next_states_);
   next_states_.clear();
+}
+
+size_t AlgorithmClass::get_extended_det_va_size() {
+  return extended_det_va_.states.size();
+}
+
+size_t AlgorithmClass::get_extended_va_size() {
+  return extended_det_va_.get_extended_va_size();
+}
+
+size_t AlgorithmClass::get_amount_of_nodes_allocated() {
+  return ECS_interface_->amount_of_nodes_allocated();
+}
+
+size_t AlgorithmClass::get_amount_of_nodes_reused() {
+  return ECS_interface_->get_amount_of_nodes_reused();
+}
+
+size_t AlgorithmClass::get_amount_of_nodes_used() {
+  return ECS_interface_->get_amount_of_nodes_used();
 }
 
 }

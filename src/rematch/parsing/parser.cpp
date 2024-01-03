@@ -15,6 +15,8 @@ Parser::Parser(const std::string_view input) {
 }
 
 void Parser::create_logical_va(const std::string_view input) {
+  ZoneScoped;
+
   // * Parse Tree
   antlr4::ANTLRInputStream stream(input);
   REmatchLexer lexer(&stream);

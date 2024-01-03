@@ -1,0 +1,1 @@
+\n!x{[^\n]* ORDER BY [^\n]*\n[^\n]* DISTINCT [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*}\n

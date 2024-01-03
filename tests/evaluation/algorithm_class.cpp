@@ -200,7 +200,7 @@ TEST_CASE("nodes used by the algorithm are recycled when, after constructing the
   // create nodes leaving 5 free nodes in the pool
   // the ecs should allocate no more than 5 nodes
   ECS ecs = ECS();
-  for (int i = 0; i < MEMORY_POOL_STARTING_SIZE - 5; i++)
+  for (size_t i = 0; i < MEMORY_POOL_STARTING_SIZE - 5; i++)
     ecs.create_bottom_node();
 
   // the document needs 6 nodes: bottom, open x at 0, at 1, at 2, union of open x

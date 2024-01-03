@@ -7,6 +7,11 @@ Regex compile(std::string_view pattern, Flags flags) {
   return Regex(pattern, flags);
 }
 
+Regex compile(std::ifstream& pattern_file, Flags flags) {
+  std::string pattern = rematch::read_file(pattern_file);
+  return Regex(pattern, flags);
+}
+
 std::unique_ptr<Match> find(std::string_view pattern, std::string_view document, Flags flags) {
   Regex regex = compile(pattern, flags);
   return regex.find(document);
@@ -15,7 +20,7 @@ std::unique_ptr<Match> find(std::string_view pattern, std::string_view document,
 std::vector<Match> findall(std::string_view pattern, std::string_view document,
                         Flags flags) {
   Regex regex = compile(pattern, flags);
-  MatchIterator iterator = regex.finditer(document, flags);
+  MatchIterator iterator = regex.finditer(document);
 
   std::vector<Match> match_vector;
   std::unique_ptr<Match> output_match = iterator.next();
@@ -30,7 +35,7 @@ std::vector<Match> findall(std::string_view pattern, std::string_view document,
 MatchIterator finditer(std::string_view pattern, std::string_view document,
                     Flags flags) {
   Regex regex = compile(pattern, flags);
-  return regex.finditer(pattern, flags);
+  return regex.finditer(document);
 }
 
 std::unique_ptr<Match> search(std::string_view pattern, std::string_view document, Flags flags) {

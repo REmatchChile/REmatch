@@ -16,14 +16,14 @@ TEST_CASE("an exception is thrown from SearchDFA when the query is too complex")
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
 
-  Flags flags = {.max_deterministic_states = 100};
+  Flags flags{false, false, 8, 100};
   auto segment_manager_creator = SegmentManagerCreator(logical_va, flags);
 
   auto extended_det_va = ExtendedDetVA(extended_va);
 
   // no need to evaluate the mediator, it searches for a segment in the constructor
   REQUIRE_THROWS_AS(Mediator(extended_det_va, variable_catalog,
-                             segment_manager_creator, document),
+                             segment_manager_creator, std::move(document)),
                     ComplexQueryException);
 }
 
@@ -39,14 +39,14 @@ TEST_CASE("a exception is thrown from ExtendedDetVA when the query is too comple
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
 
-  Flags flags = {.max_deterministic_states = 100};
+  Flags flags{false, false, 8, 100};
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
   auto extended_det_va = ExtendedDetVA(extended_va, flags);
 
   auto evaluate_mediator = [&]() {
     auto mediator = Mediator(extended_det_va, variable_catalog,
-                             segment_manager_creator, document);
+                             segment_manager_creator, std::move(document));
     mediator::Mapping* mapping = mediator.next();
     while (mapping != nullptr) {
       mapping = mediator.next();

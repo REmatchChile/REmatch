@@ -1,5 +1,5 @@
 
-// Generated from REmatchParser.g4 by ANTLR 4.12.0
+// Generated from REmatchParser.g4 by ANTLR 4.13.1
 
 #pragma once
 
@@ -24,11 +24,11 @@ public:
     RuleRoot = 0, RuleAlternation = 1, RuleExpr = 2, RuleElement = 3, RuleGroup = 4, 
     RuleParentheses = 5, RuleAssignation = 6, RuleVarname = 7, RuleAtom = 8, 
     RuleCharacterClass = 9, RuleCcAtom = 10, RuleCcRange = 11, RuleCcSingle = 12, 
-    RuleCcLiteral = 13, RuleCcEscapes = 14, RuleCcOther = 15, RuleSingleSharedAtom = 16, 
-    RuleLiteral = 17, RuleEscapes = 18, RuleSpecial = 19, RuleOther = 20, 
-    RuleSharedAtom = 21, RuleQuantifier = 22, RuleQuantity = 23, RuleQuantExact = 24, 
-    RuleQuantRange = 25, RuleQuantMin = 26, RuleQuantMax = 27, RuleNumber = 28, 
-    RuleAnchor = 29, RuleAnchorStart = 30, RuleAnchorEnd = 31
+    RuleCcLiteral = 13, RuleCcEscapes = 14, RuleCcOther = 15, RuleCcSpecial = 16, 
+    RuleSingleSharedAtom = 17, RuleLiteral = 18, RuleEscapes = 19, RuleSpecial = 20, 
+    RuleOther = 21, RuleSharedAtom = 22, RuleQuantifier = 23, RuleQuantity = 24, 
+    RuleQuantExact = 25, RuleQuantRange = 26, RuleQuantMin = 27, RuleQuantMax = 28, 
+    RuleNumber = 29, RuleAnchor = 30, RuleAnchorStart = 31, RuleAnchorEnd = 32
   };
 
   explicit REmatchParser(antlr4::TokenStream *input);
@@ -64,6 +64,7 @@ public:
   class CcLiteralContext;
   class CcEscapesContext;
   class CcOtherContext;
+  class CcSpecialContext;
   class SingleSharedAtomContext;
   class LiteralContext;
   class EscapesContext;
@@ -283,6 +284,7 @@ public:
     CcLiteralContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     CcEscapesContext *ccEscapes();
+    CcSpecialContext *ccSpecial();
     CcOtherContext *ccOther();
 
 
@@ -324,6 +326,23 @@ public:
   };
 
   CcOtherContext* ccOther();
+
+  class  CcSpecialContext : public antlr4::ParserRuleContext {
+  public:
+    CcSpecialContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *TAB();
+    antlr4::tree::TerminalNode *CARRIAGE_RETURN();
+    antlr4::tree::TerminalNode *NEWLINE();
+    antlr4::tree::TerminalNode *VERTICAL_WHITESPACE();
+    antlr4::tree::TerminalNode *FORM_FEED();
+
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  CcSpecialContext* ccSpecial();
 
   class  SingleSharedAtomContext : public antlr4::ParserRuleContext {
   public:

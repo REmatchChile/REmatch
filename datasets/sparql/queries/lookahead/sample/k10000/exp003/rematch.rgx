@@ -1,0 +1,1 @@
+\n!x{[^\n]* PREFIX [^\n]* SELECT [^\n]* GROUP BY [^\n]*\n[^\n]* WHERE [^\n]* OPTIONAL [^\n]*}\n

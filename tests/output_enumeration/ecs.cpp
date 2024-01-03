@@ -143,7 +143,7 @@ namespace rematch::testing {
   }
 
   TEST_CASE("When all nodes are returned, no extra nodes are used: union node") {
-    Flags flags = {.max_mempool_duplications = 1};
+    Flags flags = {false, false, 1, 1000};
     static ECS *ecs = new ECS(flags);
     ECSNode* binary_tree = create_mempool_sized_linked_list_of_label_nodes(ecs);
     ecs->pin_node(binary_tree);

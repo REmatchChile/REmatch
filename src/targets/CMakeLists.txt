@@ -5,6 +5,9 @@ set(sources
 
 set(BUILD_TARGETS
   rematch
+  rematch_matches
+  rematch_count
+  rematch_stats
 )
 
 set(BENCHMARK_TARGETS

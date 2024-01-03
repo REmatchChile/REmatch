@@ -39,6 +39,8 @@ class Match {
   std::map<std::string, Span> groupdict();
   std::vector<std::string> variables();
   bool empty();
+
+  friend std::ostream& operator<<(std::ostream& os, Match& match);
 };
 }  // end namespace library_interface
 

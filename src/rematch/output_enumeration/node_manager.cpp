@@ -38,6 +38,10 @@ void NodeManager::add_to_list_of_free_memory(ECSNode *node) {
     recyclable_node_head = node;
 }
 
+size_t NodeManager::get_amount_of_nodes_reused() const {
+  return amount_of_recycled_nodes;
+}
+
 size_t NodeManager::amount_of_nodes_allocated() const {
   size_t amount = 0;
   for(MiniPool *mpool = minipool_head_; mpool != nullptr; mpool = mpool->prev())

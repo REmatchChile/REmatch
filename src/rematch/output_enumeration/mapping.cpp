@@ -3,12 +3,61 @@
 namespace rematch {
 inline namespace output_enumeration {
 
-Mapping::Mapping(int amount_of_variables) :
+inline bool is_close_code(int bitset_index);
+
+Mapping::Mapping() :
     inverted_annotations() {}
 
 void Mapping::add_annotations(std::bitset<64> variable_markers,
                      size_t document_position) {
   inverted_annotations.push_back(Annotation{variable_markers, document_position});
+}
+
+void Mapping::delete_all_annotations() {
+  inverted_annotations.clear();
+}
+
+std::map<int, std::vector<Span>> Mapping::construct_mapping() const {
+  std::map<int, std::vector<Span>> spans_map;
+
+  for (auto& annotation : inverted_annotations) {
+    process_annotation(annotation, spans_map);
+  }
+
+  return spans_map;
+}
+
+void Mapping::process_annotation(const Annotation& annotation,
+                                 std::map<int, std::vector<Span>>& spans_map) const {
+
+  for (int bitset_index = 0;
+       bitset_index < annotation.variable_markers.size() - 2; bitset_index++) {
+
+    if (annotation.variable_markers[bitset_index]) {
+      int variable_id = bitset_index / 2;
+
+      if (is_close_code(bitset_index)) {
+        add_span(spans_map, variable_id, annotation.document_position);
+      } else {
+        update_last_span(spans_map, variable_id,
+                             annotation.document_position);
+      }
+    }
+  }
+}
+
+bool is_close_code(int bitset_index) {
+  return bitset_index % 2 == 1;
+}
+
+void Mapping::add_span(std::map<int, std::vector<Span>>& spans_map,
+                            int variable_id, int document_position) const {
+  spans_map[variable_id].push_back({0, document_position});
+}
+
+void Mapping::update_last_span(std::map<int, std::vector<Span>>& spans_map,
+                                   int variable_id, int document_position) const {
+  spans_map[variable_id].back().first = document_position;
 }
 
 std::vector<Span> Mapping::get_spans_of_variable_id(int variable_id) const {
@@ -86,5 +135,5 @@ int Mapping::find_next_document_position_where_the_specified_marker_is_true(
   return -1;
 }
 
-}
+}  // namespace output_enumeration
 }

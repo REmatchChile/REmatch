@@ -4,6 +4,7 @@
 #include <vector>
 #include <set>
 #include <iostream>
+#include "search_dfa.hpp"
 
 namespace rematch {
 inline namespace filtering_module {
@@ -83,6 +84,10 @@ void SearchDFA::visit_states(
       }
     }
   }
+}
+
+size_t SearchDFA::get_search_nfa_size() {
+  return sVA_.size();
 }
 
 }

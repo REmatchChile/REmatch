@@ -749,6 +749,26 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
     return 0;
   }
 
+  std::any visitCcSpecial(REmatchParser::CcSpecialContext *ctx) override {
+    CHAR_CLASS_VISITOR__INFO("visitCcSpecial" << std::endl);
+    if (ctx->TAB()) {
+      current_codepoint = '\t';
+    } else if (ctx->CARRIAGE_RETURN()) {
+      current_codepoint = '\r';
+    } else if (ctx->NEWLINE()) {
+      current_codepoint = '\n';
+    } else if (ctx->VERTICAL_WHITESPACE()) {
+      current_codepoint = '\v';
+    } else if (ctx->FORM_FEED()) {
+      current_codepoint = '\f';
+    } else {
+      auto interval = ctx->getSourceInterval();
+      throw REMatch::UnhandledExpressionException(
+          "Unhandled Special Literal: " + ctx->getText(), regex, interval.a);
+    }
+
+    return 0;
+  }
 
   std::any visitAnchor(REmatchParser::AnchorContext *ctx) override {
     CHAR_CLASS_VISITOR__INFO("visitAnchor" << std::endl);

@@ -1,11 +1,10 @@
 #include "regex.hpp"
-#include "exceptions/dfa_state_limit_checker.hpp"
 
 namespace REMatch {
 inline namespace library_interface {
 
 Regex::Regex(std::string_view pattern, Flags flags)
-    : mediation_subjects_([&]() {
+    : flags_(flags), mediation_subjects_([&]() {
         rematch::Parser parser = rematch::Parser(pattern);
         rematch::LogicalVA logical_va = parser.get_logical_va();
         std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog =
@@ -23,18 +22,21 @@ Regex::Regex(std::string_view pattern, Flags flags)
       rematch::SegmentManagerCreator(mediation_subjects_.logical_va, flags);
 }
 
-std::unique_ptr<Match> Regex::find(std::string_view text, Flags flags) {
-  MatchIterator iterator = finditer(text, flags);
+std::unique_ptr<Match> Regex::find(std::string_view text) {
+  MatchIterator iterator = finditer(text);
   return iterator.next();
 }
 
-MatchIterator Regex::finditer(std::string_view text, Flags flags) {
-  std::string text_data(text);
+MatchIterator Regex::finditer(std::string_view document_view) {
+  std::string document = rematch::add_start_and_end_chars(document_view);
 
-  // add the start and end chars that match anchors
-  text_data = rematch::START_CHAR + text_data + rematch::END_CHAR;
-  auto mediator = rematch::Mediator(mediation_subjects_, segment_manager_creator_, text_data);
-  return {std::move(mediator), mediation_subjects_.variable_catalog, text};
+  return {mediation_subjects_, segment_manager_creator_, std::move(document), flags_};
+}
+
+MatchIterator Regex::finditer(std::ifstream& file_document) {
+  std::string document = rematch::read_file_and_add_start_and_end_chars(file_document);
+
+  return {mediation_subjects_, segment_manager_creator_, std::move(document), flags_};
 }
 
 } // end namespace library_interface

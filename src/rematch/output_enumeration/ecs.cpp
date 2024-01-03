@@ -13,6 +13,10 @@ size_t ECS::get_amount_of_nodes_used() const {
   return node_manager.get_amount_of_nodes_used();
 }
 
+size_t ECS::get_amount_of_nodes_reused() const {
+  return node_manager.get_amount_of_nodes_reused();
+}
+
 ECSNode* ECS::create_bottom_node() {
   return node_manager.alloc(ECSNodeType::kBottom);
 }
