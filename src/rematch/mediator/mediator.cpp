@@ -42,8 +42,10 @@ mediator::Mapping* Mediator::next() {
   static mediator::Mapping result_mapping;
   result_mapping.reset();
 
+  std::map<int, std::vector<Span>> spans_map = mapping_->construct_mapping();
+
   for (int variable_id = 0; variable_id < number_of_variables_; variable_id++) {
-    Span span = mapping_->get_last_mapping_of_variable_id(variable_id);
+    Span span = spans_map[variable_id].back();
 
     std::string variable_name = variable_catalog_->get_var(variable_id);
     result_mapping.add_span(variable_name, span);

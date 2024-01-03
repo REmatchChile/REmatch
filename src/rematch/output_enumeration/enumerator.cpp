@@ -21,6 +21,7 @@ void Enumerator::reset() {
   amount_of_annotations_added_before_union.clear();
   amount_of_annotations_added_before_union.push_back(0);
   was_output_previously = false;
+  current_mapping->delete_all_annotations();
 }
 
 const Mapping *Enumerator::next(){

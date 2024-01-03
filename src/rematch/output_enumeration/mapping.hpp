@@ -1,8 +1,9 @@
 #ifndef OUTPUT_ENUMERATOR__MAPPING_HPP
 #define OUTPUT_ENUMERATOR__MAPPING_HPP
 
-#include "span.hpp"
+#include <map>
 #include "output_enumeration/ecs.hpp"
+#include "span.hpp"
 #include "tracy/Tracy.hpp"
 
 namespace rematch {
@@ -36,20 +37,24 @@ class Mapping {
    * and are functional.
    */
   std::vector<Span> get_spans_of_variable_id(int id) const;
-  Span get_last_mapping_of_variable_id(int id) const;
+  std::map<int, std::vector<Span>> construct_mapping() const;
 
   void delete_previous_annotation();
+  void delete_all_annotations();
 
  private:
-  Span get_next_span(int variable_id,
-                     int &next_possible_opening_position,
-                     int &next_possible_closure_position) const;
-  int get_next_variable_oppening(int variable_id, int &current_position) const;
-  int get_next_variable_closure(int variable_id, int &current_position) const;
-  int find_next_document_position_where_the_specified_marker_is_true(
-    int marker_id, int &current_position) const;
+  void process_annotation(const Annotation& annotation,
+                          std::map<int, std::vector<Span>>& spans_map) const;
+  void add_span(std::map<int, std::vector<Span>>& spans_map,
+                     int variable_id, int document_position) const;
+  void update_last_span(std::map<int, std::vector<Span>>& spans_map,
+                            int variable_id, int document_position) const;
 
-  int find_last_document_position_where_the_specified_marker_is_true(
+  Span get_next_span(int variable_id, int& next_possible_opening_position,
+                     int& next_possible_closure_position) const;
+  int get_next_variable_oppening(int variable_id, int& current_position) const;
+  int get_next_variable_closure(int variable_id, int& current_position) const;
+  int find_next_document_position_where_the_specified_marker_is_true(
       int marker_id, int& current_position) const;
 };
 }

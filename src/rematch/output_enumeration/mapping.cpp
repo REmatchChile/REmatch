@@ -3,6 +3,8 @@
 namespace rematch {
 inline namespace output_enumeration {
 
+inline bool is_close_code(int bitset_index);
+
 Mapping::Mapping() :
     inverted_annotations() {}
 
@@ -11,22 +13,51 @@ void Mapping::add_annotations(std::bitset<64> variable_markers,
   inverted_annotations.push_back(Annotation{variable_markers, document_position});
 }
 
-Span Mapping::get_last_mapping_of_variable_id(int variable_id) const {
-  ZoneScoped;
+void Mapping::delete_all_annotations() {
+  inverted_annotations.clear();
+}
 
-  std::vector<Span> spans;
-  std::vector<Span> final_span;
+std::map<int, std::vector<Span>> Mapping::construct_mapping() const {
+  std::map<int, std::vector<Span>> spans_map;
 
-  int next_possible_opening_position = inverted_annotations.size() - 1,
-      next_possible_closure_position = inverted_annotations.size() - 1;
+  for (auto& annotation : inverted_annotations) {
+    process_annotation(annotation, spans_map);
+  }
 
-  Span span;
-  span.first = find_last_document_position_where_the_specified_marker_is_true(
-      variable_id * 2, next_possible_opening_position);
-  span.second = find_last_document_position_where_the_specified_marker_is_true(
-          variable_id * 2 + 1, next_possible_closure_position);
+  return spans_map;
+}
 
-  return span;
+void Mapping::process_annotation(const Annotation& annotation,
+                                 std::map<int, std::vector<Span>>& spans_map) const {
+
+  for (int bitset_index = 0;
+       bitset_index < annotation.variable_markers.size() - 2; bitset_index++) {
+
+    if (annotation.variable_markers[bitset_index]) {
+      int variable_id = bitset_index / 2;
+
+      if (is_close_code(bitset_index)) {
+        add_span(spans_map, variable_id, annotation.document_position);
+      } else {
+        update_last_span(spans_map, variable_id,
+                             annotation.document_position);
+      }
+    }
+  }
+}
+
+bool is_close_code(int bitset_index) {
+  return bitset_index % 2 == 1;
+}
+
+void Mapping::add_span(std::map<int, std::vector<Span>>& spans_map,
+                            int variable_id, int document_position) const {
+  spans_map[variable_id].push_back({0, document_position});
+}
+
+void Mapping::update_last_span(std::map<int, std::vector<Span>>& spans_map,
+                                   int variable_id, int document_position) const {
+  spans_map[variable_id].back().first = document_position;
 }
 
 std::vector<Span> Mapping::get_spans_of_variable_id(int variable_id) const {
@@ -104,15 +135,5 @@ int Mapping::find_next_document_position_where_the_specified_marker_is_true(
   return -1;
 }
 
-int Mapping::find_last_document_position_where_the_specified_marker_is_true(
-    int marker_id, int& current_position) const {
-  while (current_position >= 0) {
-    if (inverted_annotations[current_position].variable_markers[marker_id]) {
-      return inverted_annotations[current_position--].document_position;
-    }
-    current_position--;
-  }
-  return -1;
-}
-}
+}  // namespace output_enumeration
 }
