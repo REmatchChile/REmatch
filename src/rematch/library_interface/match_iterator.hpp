@@ -25,8 +25,7 @@ class MatchIterator {
 
  public:
   MatchIterator(rematch::Mediator&& mediator,
-      std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog,
-      std::string_view document);
+      std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog);
   MatchIterator(
       rematch::MediationSubjects& mediation_subjects,
       rematch::SegmentManagerCreator& segment_manager_creator,
@@ -37,6 +36,7 @@ class MatchIterator {
       std::string&& document, Flags flags = Flags());
 
   std::unique_ptr<Match> next();
+  std::vector<std::string> variables();
 
   Statistics stats = {};
 };

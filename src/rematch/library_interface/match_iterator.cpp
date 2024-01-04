@@ -4,8 +4,7 @@ namespace REMatch {
 inline namespace library_interface {
 MatchIterator::MatchIterator(
     rematch::Mediator&& mediator,
-    std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog,
-    std::string_view document)
+    std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog)
     : mediator_(std::move(mediator)), variable_catalog_(variable_catalog) {}
 
 MatchIterator::MatchIterator(
@@ -35,6 +34,10 @@ std::unique_ptr<Match> MatchIterator::next() {
   stats = stats_collector.collect(&mediator_);
 
   return nullptr;
+}
+
+std::vector<std::string> MatchIterator::variables() {
+  return variable_catalog_->variables();
 }
 
 }  // end namespace library_interface

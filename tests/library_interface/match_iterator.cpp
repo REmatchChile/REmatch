@@ -5,11 +5,23 @@
 #include "library_interface/match_iterator.hpp"
 #include "../evaluation/dummy_mapping.hpp"
 #include "../evaluation/mapping_helpers.hpp"
+#include "library_interface/rematch.hpp"
 
 namespace rematch::testing {
 using namespace REMatch::library_interface;
 
 void run_match_iterator_test(std::string regex, std::string document, std::vector<rematch::mediator::Mapping> expected_matches);
+
+TEST_CASE("match iterator returns the correct variables") {
+  std::string pattern = "!c{!b{!d{x}}!a{y}}";
+  std::string document = "This is a document";
+  REMatch::Regex regex = REMatch::compile(pattern);
+
+  MatchIterator iterator = regex.finditer(document);
+  std::vector<std::string> variables = iterator.variables();
+
+  REQUIRE(variables == std::vector<std::string>{"a", "b", "c", "d"});
+}
 
 TEST_CASE("match iterator returns the correct matches for a simple query") {
   std::string regex = "!x{a}";
@@ -35,7 +47,6 @@ TEST_CASE("match iterator returns the correct matches when there is more than on
 void run_match_iterator_test(std::string regex, std::string document, std::vector<rematch::mediator::Mapping> expected_matches) {
   Parser parser = Parser(regex);
   document = START_CHAR + document + END_CHAR;
-  std::string_view document_view = document.c_str();
 
   LogicalVA logical_va = parser.get_logical_va();
   auto extended_va = ExtendedVA(logical_va);
@@ -45,7 +56,7 @@ void run_match_iterator_test(std::string regex, std::string document, std::vecto
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
   Mediator mediator = Mediator(extended_det_va, variable_catalog, segment_manager_creator, std::move(document));
-  auto match_iterator = MatchIterator(std::move(mediator), variable_catalog, document_view);
+  auto match_iterator = MatchIterator(std::move(mediator), variable_catalog);
 
   std::ostringstream info_os;
   info_os << "Actual mappings:" << std::endl;
