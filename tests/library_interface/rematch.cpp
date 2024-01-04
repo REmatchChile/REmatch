@@ -14,7 +14,8 @@ std::string get_mapping_info(DummyMapping mapping);
 
 TEST_CASE("find method simple test") {
   std::string document = "This is a document";
-  Regex regex = REMatch::compile("!x{doc|document}");
+  std::string pattern = "!x{doc|document}";
+  Regex regex = REMatch::compile(pattern);
   std::unique_ptr<Match> match = regex.find(document);
 
   REQUIRE(match != nullptr);
@@ -23,7 +24,8 @@ TEST_CASE("find method simple test") {
 
 TEST_CASE("finditer method simple test") {
   std::string document = "This is a document";
-  REMatch::Regex regex = REMatch::compile("!x{doc|document}");
+  std::string pattern = "!x{doc|document}";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::unique_ptr<Match> match = match_iterator.next();
@@ -40,7 +42,8 @@ TEST_CASE("finditer method simple test") {
 
 TEST_CASE("client interface with no matches") {
   std::string document = "This is a document";
-  REMatch::Regex regex = REMatch::compile("!y{docx}");
+  std::string pattern = "!y{docx}";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::unique_ptr<Match> match = match_iterator.next();
@@ -49,7 +52,8 @@ TEST_CASE("client interface with no matches") {
 
 TEST_CASE("client interface returns empty match if there are no variables in regex") {
   std::string document = "This is a document";
-  REMatch::Regex regex = REMatch::compile("a document");
+  std::string pattern = "a document";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::unique_ptr<Match> match = match_iterator.next();
@@ -59,7 +63,8 @@ TEST_CASE("client interface returns empty match if there are no variables in reg
 
 TEST_CASE("client interface with alternation") {
   std::string document = "This is a document";
-  REMatch::Regex regex = REMatch::compile("!x{doc|document}");
+  std::string pattern = "!x{doc|document}";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::unique_ptr<Match> match = match_iterator.next();
@@ -76,7 +81,8 @@ TEST_CASE("client interface with alternation") {
 
 TEST_CASE("client interface with + quantifier") {
   std::string document = "1100101100011101;";
-  REMatch::Regex regex = REMatch::compile("!x{110(0|1)+};");
+  std::string pattern = "!x{110(0|1)+};";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
@@ -90,7 +96,8 @@ TEST_CASE("client interface with + quantifier") {
 
 TEST_CASE("client interface with * quantifier") {
   std::string document = "abab";
-  REMatch::Regex regex = REMatch::compile("!x{a*!y{b+}a*}");
+  std::string pattern = "!x{a*!y{b+}a*}";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
@@ -107,7 +114,8 @@ TEST_CASE("client interface with * quantifier") {
 
 TEST_CASE("client interface with ? quantifier") {
   std::string document = "aabaaabba";
-  REMatch::Regex regex = REMatch::compile("!x{a[ab]?b}");
+  std::string pattern = "!x{a[ab]?b}";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
@@ -120,7 +128,8 @@ TEST_CASE("client interface with ? quantifier") {
 
 TEST_CASE("client interface with specified range of repetitions") {
   std::string document = " google.org or google.fr ";
-  REMatch::Regex regex = REMatch::compile(" !site{!name{\\w+}\\.\\w{2,3}} ");
+  std::string pattern = " !site{!name{\\w+}\\.\\w{2,3}} ";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
@@ -133,7 +142,8 @@ TEST_CASE("client interface with specified range of repetitions") {
 
 TEST_CASE("client interface with char classes") {
   std::string document = "Regular Expression.";
-  REMatch::Regex regex = REMatch::compile("!x{[A-Z][a-z]+}[ .]");
+  std::string pattern = "!x{[A-Z][a-z]+}[ .]";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
@@ -146,7 +156,8 @@ TEST_CASE("client interface with char classes") {
 
 TEST_CASE("client interface with short hand character classes (\\w)") {
   std::string document = "!variable1{a+}!variable2{b+}";
-  REMatch::Regex regex = REMatch::compile("!!var{\\w+}\\{");
+  std::string pattern = "!!var{\\w+}\\{";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
@@ -159,7 +170,8 @@ TEST_CASE("client interface with short hand character classes (\\w)") {
 
 TEST_CASE("client interface with short hand character classes (\\s)") {
   std::string document = "aa  bb  cc";
-  REMatch::Regex regex = REMatch::compile("!whitespace{\\S+\\s}");
+  std::string pattern = "!whitespace{\\S+\\s}";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
@@ -174,7 +186,8 @@ TEST_CASE("client interface with short hand character classes (\\s)") {
 
 TEST_CASE("client interface with negation") {
   std::string document = "a <span>certain</span> html <b>tag</b>";
-  REMatch::Regex regex = REMatch::compile("!open{<[^/<>]*>}[^<]*!close{</[^<>]*>}");
+  std::string pattern = "!open{<[^/<>]*>}[^<]*!close{</[^<>]*>}";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
@@ -188,7 +201,8 @@ TEST_CASE("client interface with negation") {
 TEST_CASE("client interface with start anchor") {
   std::string document = "aa";
 
-  REMatch::Regex regex = REMatch::compile("^!x{a}");
+  std::string pattern = "^!x{a}";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
@@ -201,7 +215,8 @@ TEST_CASE("client interface with start anchor") {
 TEST_CASE("client interface with end anchor") {
   std::string document = "document sent";
 
-  REMatch::Regex regex = REMatch::compile("!x{ent}$");
+  std::string pattern = "!x{ent}$";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
@@ -214,7 +229,8 @@ TEST_CASE("client interface with end anchor") {
 TEST_CASE("client interface with anchors and alternation") {
   std::string document = "document sent";
 
-  REMatch::Regex regex = REMatch::compile("!x{\\w}($| )");
+  std::string pattern = "!x{\\w}($| )";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
@@ -228,7 +244,8 @@ TEST_CASE("client interface with anchors and alternation") {
 TEST_CASE("client interface with anchors that result in an empty automata") {
   std::string document = "a";
 
-  REMatch::Regex regex = REMatch::compile("$a");
+  std::string pattern = "$a";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {};
@@ -239,7 +256,8 @@ TEST_CASE("client interface with anchors that result in an empty automata") {
 TEST_CASE("client interface with start and end anchors") {
   std::string document = "welcome";
 
-  REMatch::Regex regex = REMatch::compile("^!x{welcome}$");
+  std::string pattern = "^!x{welcome}$";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
@@ -251,7 +269,8 @@ TEST_CASE("client interface with start and end anchors") {
 
 TEST_CASE("client interface with escape characters") {
   std::string document = "^!?\\a+*";
-  REMatch::Regex regex = REMatch::compile("^\\^!\\?\\\\!x{a\\+}\\*$");
+  std::string pattern = "^\\^!\\?\\\\!x{a\\+}\\*$";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
@@ -263,7 +282,8 @@ TEST_CASE("client interface with escape characters") {
 
 TEST_CASE("client interface with \\n in character set") {
   std::string document = "a\nb\nc";
-  REMatch::Regex regex = REMatch::compile("!x{[^\\n]}.*!y{[\\n]}");
+  std::string pattern = "!x{[^\\n]}.*!y{[\\n]}";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
@@ -277,7 +297,8 @@ TEST_CASE("client interface with \\n in character set") {
 
 TEST_CASE("client interface with special characters inside a negated set") {
   std::string document = "a\fb\vc";
-  REMatch::Regex regex = REMatch::compile("!x{[^\\f]}.*!y{[^\\v]}");
+  std::string pattern = "!x{[^\\f]}.*!y{[^\\v]}";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
@@ -293,7 +314,8 @@ TEST_CASE("client interface with special characters inside a negated set") {
 
 TEST_CASE("client interface with special characters inside a character set") {
   std::string document = "\ta\va\ra\na";
-  REMatch::Regex regex = REMatch::compile("!x{[\\t].*\\v.*[\\r\\n]}");
+  std::string pattern = "!x{[\\t].*\\v.*[\\r\\n]}";
+  REMatch::Regex regex = REMatch::compile(pattern);
   MatchIterator match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {

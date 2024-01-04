@@ -13,18 +13,18 @@
 namespace REMatch {
 inline namespace library_interface {
 
-Regex compile(std::string_view pattern, Flags flags = Flags());
+Regex compile(std::string& pattern, Flags flags = Flags());
 Regex compile(std::ifstream& pattern, Flags flags = Flags());
 
-std::unique_ptr<Match> find(std::string_view pattern, std::string_view document, Flags flags = Flags());
-std::vector<Match> findall(std::string_view pattern, std::string_view document,
+std::unique_ptr<Match> find(std::string& pattern, std::string& document, Flags flags = Flags());
+std::vector<Match> findall(std::string& pattern, std::string& document,
                         Flags flags = Flags());
-MatchIterator finditer(std::string_view pattern, std::string_view document,
+MatchIterator finditer(std::string& pattern, std::string& document,
                     Flags flags = Flags());
 
-std::unique_ptr<Match> search(std::string_view pattern, std::string_view document, Flags flags = Flags());
-std::unique_ptr<Match> match(std::string_view pattern, std::string_view document, Flags flags = Flags());
-std::unique_ptr<Match> fullmatch(std::string_view pattern, std::string_view document, Flags flags = Flags());
+std::unique_ptr<Match> search(std::string& pattern, std::string& document, Flags flags = Flags());
+std::unique_ptr<Match> match(std::string& pattern, std::string& document, Flags flags = Flags());
+std::unique_ptr<Match> fullmatch(std::string& pattern, std::string& document, Flags flags = Flags());
 
 }
 }

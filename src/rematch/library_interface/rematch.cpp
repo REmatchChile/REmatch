@@ -3,7 +3,7 @@
 namespace REMatch {
 inline namespace library_interface {
 
-Regex compile(std::string_view pattern, Flags flags) {
+Regex compile(std::string& pattern, Flags flags) {
   return Regex(pattern, flags);
 }
 
@@ -12,12 +12,12 @@ Regex compile(std::ifstream& pattern_file, Flags flags) {
   return Regex(pattern, flags);
 }
 
-std::unique_ptr<Match> find(std::string_view pattern, std::string_view document, Flags flags) {
+std::unique_ptr<Match> find(std::string& pattern, std::string& document, Flags flags) {
   Regex regex = compile(pattern, flags);
   return regex.find(document);
 }
 
-std::vector<Match> findall(std::string_view pattern, std::string_view document,
+std::vector<Match> findall(std::string& pattern, std::string& document,
                         Flags flags) {
   Regex regex = compile(pattern, flags);
   MatchIterator iterator = regex.finditer(document);
@@ -32,23 +32,23 @@ std::vector<Match> findall(std::string_view pattern, std::string_view document,
   return match_vector;
 }
 
-MatchIterator finditer(std::string_view pattern, std::string_view document,
+MatchIterator finditer(std::string& pattern, std::string& document,
                     Flags flags) {
   Regex regex = compile(pattern, flags);
   return regex.finditer(document);
 }
 
-std::unique_ptr<Match> search(std::string_view pattern, std::string_view document, Flags flags) {
+std::unique_ptr<Match> search(std::string& pattern, std::string& document, Flags flags) {
   Regex regex = compile(pattern, flags);
   return regex.find(document);
 }
 
-std::unique_ptr<Match> match(std::string_view pattern, std::string_view document, Flags flags) {
+std::unique_ptr<Match> match(std::string& pattern, std::string& document, Flags flags) {
   Regex regex = compile(pattern, flags);
   return regex.find(document);
 }
 
-std::unique_ptr<Match> fullmatch(std::string_view pattern, std::string_view document, Flags flags) {
+std::unique_ptr<Match> fullmatch(std::string& pattern, std::string& document, Flags flags) {
   Regex regex = compile(pattern, flags);
   return regex.find(document);
 }
