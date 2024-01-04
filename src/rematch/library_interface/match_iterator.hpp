@@ -22,7 +22,6 @@ class MatchIterator {
  private:
   rematch::Mediator mediator_;
   std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog_;
-  std::string_view document_;
 
  public:
   MatchIterator(rematch::Mediator&& mediator,

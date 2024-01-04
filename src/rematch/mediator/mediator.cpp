@@ -82,4 +82,8 @@ void Mediator::update_algorithm(Span& segment_span) {
   algorithm_.initialize_algorithm();
 }
 
+std::string Mediator::get_substring_of_document(Span& span) {
+  return document_.substr(span.first, span.second - span.first);
+}
+
 }

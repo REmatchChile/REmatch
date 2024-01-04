@@ -7,17 +7,17 @@
 namespace rematch::testing {
 using namespace REMatch::library_interface;
 
+ExtendedDetVA get_extended_det_va_from_regex(std::string_view input);
 std::string get_group_dict_info(std::map<std::string, Span> group_dict);
+Match construct_match(std::string&& document, std::string regex,
+                           rematch::mediator::Mapping mapping);
 
 TEST_CASE("match object returns the correct span indexes") {
   std::string document = "aaa";
   std::string regex = "!x{a}";
 
-  auto parser = Parser(regex);
-  std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
   auto mapping = rematch::mediator::Mapping({{"x", {1, 2}}});
-
-  auto match = Match(mapping, variable_catalog, document);
+  Match match = construct_match(std::move(document), regex, mapping);
 
   SECTION("when passing the variable id") {
     REQUIRE(match.start(0) == 1);
@@ -34,11 +34,8 @@ TEST_CASE("match object returns the correct span object") {
   std::string document = "aba";
   std::string regex = "!x{b}";
 
-  auto parser = Parser(regex);
-  std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
   auto mapping = rematch::mediator::Mapping({{"x", {1, 2}}});
-
-  auto match = Match(mapping, variable_catalog, document);
+  Match match = construct_match(std::move(document), regex, mapping);
 
   SECTION("when passing the variable id") {
     REQUIRE(match.span(0).first == 1);
@@ -53,13 +50,19 @@ TEST_CASE("match object returns the correct span object") {
 
 TEST_CASE("match object returns the correct groups") {
   std::string document = "aaaabbbb";
+  document = START_CHAR + document + END_CHAR;
   std::string regex = "!x{a+}!y{b+}";
 
   auto parser = Parser(regex);
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
-  auto mapping = rematch::mediator::Mapping({{"x", {0, 4}}, {"y", {4, 8}}});
+  LogicalVA logical_va = parser.get_logical_va();
+  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex(regex);
+  auto segment_manager_creator = SegmentManagerCreator(logical_va);
+  auto mediator = Mediator(extended_det_va, variable_catalog,
+                           segment_manager_creator, std::move(document));
 
-  auto match = Match(mapping, variable_catalog, document);
+  auto mapping = rematch::mediator::Mapping({{"x", {0, 4}}, {"y", {4, 8}}});
+  Match match = Match(mapping, variable_catalog, mediator);
 
   SECTION("when passing the variable id") {
     REQUIRE(match.group(0) == "aaaa");
@@ -74,15 +77,12 @@ TEST_CASE("match object returns the correct groups") {
 
 TEST_CASE("match object returns the correct group dictionary") {
   std::string document = "aaaabbbb";
+  document = START_CHAR + document + END_CHAR;
   std::string regex = "!x{a+}!y{b+}";
-
-  auto parser = Parser(regex);
-  std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
 
   std::map<std::string, Span> mapping_dict = {{"x", {0, 4}}, {"y", {4, 8}}};
   auto mapping = rematch::mediator::Mapping({{"x", {0, 4}}, {"y", {4, 8}}});
-
-  auto match = Match(mapping, variable_catalog, document);
+  Match match = construct_match(std::move(document), regex, mapping);
 
   std::map<std::string, Span> group_dict = match.groupdict();
   INFO(get_group_dict_info(group_dict));
@@ -101,11 +101,8 @@ TEST_CASE("match object returns the variables in the mapping") {
   std::string document = "abc";
   std::string regex = "!x{!z{a}b}!y{c}";
 
-  auto parser = Parser(regex);
-  std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
   auto mapping = rematch::mediator::Mapping({{"x", {0, 2}}, {"y", {2, 3}}, {"z", {0, 1}}});
-
-  auto match = Match(mapping, variable_catalog, document);
+  Match match = construct_match(std::move(document), regex, mapping);
   REQUIRE(match.variables() == std::vector<std::string>{"x", "y", "z"});
 }
 
@@ -113,11 +110,8 @@ TEST_CASE("match object returns an empty vector when there are no variables") {
   std::string document = "aa";
   std::string regex = "a";
 
-  auto parser = Parser(regex);
-  std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
   auto mapping = rematch::mediator::Mapping();
-
-  auto match = Match(mapping, variable_catalog, document);
+  Match match = construct_match(std::move(document), regex, mapping);
   REQUIRE(match.variables() == std::vector<std::string>{});
 }
 
@@ -125,12 +119,21 @@ TEST_CASE("match object returns empty when the mapping is empty") {
   std::string document = "aa";
   std::string regex = "a";
 
+  auto mapping = rematch::mediator::Mapping();
+  Match match = construct_match(std::move(document), regex, mapping);
+  REQUIRE(match.empty());
+}
+
+Match construct_match(std::string&& document, std::string regex,
+                           rematch::mediator::Mapping mapping) {
   auto parser = Parser(regex);
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
-  auto mapping = rematch::mediator::Mapping();
-
-  auto match = Match(mapping, variable_catalog, document);
-  REQUIRE(match.empty());
+  LogicalVA logical_va = parser.get_logical_va();
+  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex(regex);
+  auto segment_manager_creator = SegmentManagerCreator(logical_va);
+  auto mediator = Mediator(extended_det_va, variable_catalog,
+                           segment_manager_creator, std::move(document));
+  return Match(mapping, variable_catalog, mediator);
 }
 
 }  // namespace rematch::testing

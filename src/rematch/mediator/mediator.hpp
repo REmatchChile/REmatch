@@ -26,6 +26,7 @@ class Mediator {
            std::string&& document, Flags flags = Flags());
 
   mediator::Mapping* next();
+  std::string get_substring_of_document(Span& span);
 
  private:
   std::string document_;

@@ -7,8 +7,10 @@ inline namespace library_interface {
 Match::Match(
     rematch::mediator::Mapping mapping,
     std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog,
-    std::string_view document)
-    : mapping_(mapping), variable_catalog_(variable_catalog), document_(document) {}
+    rematch::Mediator& mediator)
+    : mapping_(mapping),
+      variable_catalog_(variable_catalog),
+      mediator_(mediator) {}
 
 int Match::start(std::string variable_name) {
   Span span = this->span(variable_name);
@@ -38,8 +40,10 @@ Span Match::span(int variable_id) {
 
 std::string Match::group(std::string variable_name) {
   Span span = this->span(variable_name);
-  std::string_view group = document_.substr(span.first, span.second - span.first);
-  return std::string(group);
+  // shift span to consider the START char
+  span.first++;
+  span.second++;
+  return mediator_.get_substring_of_document(span);
 }
 
 std::string Match::group(int variable_id) {
@@ -77,5 +81,5 @@ std::ostream& operator<<(std::ostream& os, Match& match) {
   return os;
 }
 
-}
+}  // namespace library_interface
 }  // namespace REMatch
