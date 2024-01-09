@@ -13,6 +13,7 @@ set(TEST_SOURCES
         output_enumeration/ecs_node.cpp
         output_enumeration/ecs.cpp
         output_enumeration/enumerator.cpp
+        output_enumeration/mapping.cpp
         parsing/parser.cpp
         parsing/logical_va.cpp
         filtering_module/segment_identification.cpp
