@@ -17,12 +17,11 @@ using namespace REMatch;
 
 class Mediator {
  public:
-  Mediator(ExtendedDetVA& extended_det_va,
+  Mediator(ExtendedVA& extended_va,
            std::shared_ptr<VariableCatalog> variable_catalog,
            SegmentManagerCreator& segment_manager_creator,
            std::string&& document, Flags flags = Flags());
   Mediator(MediationSubjects& mediation_subjects,
-           SegmentManagerCreator& segment_manager_creator,
            std::string&& document, Flags flags = Flags());
 
   mediator::Mapping* next();

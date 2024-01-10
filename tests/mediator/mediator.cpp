@@ -19,11 +19,10 @@ TEST_CASE("the mediator returns null pointer when there are no mappings") {
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va = ExtendedVA(logical_va);
   extended_va.clean_for_determinization();
-  auto extended_det_va = ExtendedDetVA(extended_va);
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
-  Mediator mediator = Mediator(extended_det_va, variable_catalog, segment_manager_creator, std::move(document));
+  Mediator mediator = Mediator(extended_va, variable_catalog, segment_manager_creator, std::move(document));
 
   mediator::Mapping* mapping = mediator.next();
   REQUIRE(mapping == nullptr);
@@ -37,11 +36,10 @@ TEST_CASE("the mediator returns an empty mapping if there are no captures") {
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va = ExtendedVA(logical_va);
   extended_va.clean_for_determinization();
-  auto extended_det_va = ExtendedDetVA(extended_va);
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
-  Mediator mediator = Mediator(extended_det_va, variable_catalog, segment_manager_creator, std::move(document));
+  Mediator mediator = Mediator(extended_va, variable_catalog, segment_manager_creator, std::move(document));
 
   mediator::Mapping* mapping = mediator.next();
   REQUIRE(mapping->get_spans_map().size() == 0);
@@ -188,11 +186,10 @@ void run_mediator_test(std::string regex, std::string document,
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va = ExtendedVA(logical_va);
   extended_va.clean_for_determinization();
-  auto extended_det_va = ExtendedDetVA(extended_va);
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
-  Mediator mediator = Mediator(extended_det_va, variable_catalog, segment_manager_creator, std::move(document));
+  Mediator mediator = Mediator(extended_va, variable_catalog, segment_manager_creator, std::move(document));
 
   std::ostringstream info_os;
   info_os << "Actual mappings:" << std::endl;

@@ -7,7 +7,6 @@
 namespace rematch::testing {
 using namespace REMatch::library_interface;
 
-ExtendedDetVA get_extended_det_va_from_regex(std::string_view input);
 std::string get_group_dict_info(std::map<std::string, Span> group_dict);
 Match construct_match(std::string&& document, std::string regex,
                            rematch::mediator::Mapping mapping);
@@ -19,15 +18,11 @@ TEST_CASE("match object returns the correct span indexes") {
   auto mapping = rematch::mediator::Mapping({{"x", {1, 2}}});
   Match match = construct_match(std::move(document), regex, mapping);
 
-  SECTION("when passing the variable id") {
-    REQUIRE(match.start(0) == 1);
-    REQUIRE(match.end(0) == 2);
-  }
+  REQUIRE(match.start(0) == 1);
+  REQUIRE(match.end(0) == 2);
 
-  SECTION("when passing the variable name") {
-    REQUIRE(match.start("x") == 1);
-    REQUIRE(match.end("x") == 2);
-  }
+  REQUIRE(match.start("x") == 1);
+  REQUIRE(match.end("x") == 2);
 }
 
 TEST_CASE("match object returns the correct span object") {
@@ -37,15 +32,11 @@ TEST_CASE("match object returns the correct span object") {
   auto mapping = rematch::mediator::Mapping({{"x", {1, 2}}});
   Match match = construct_match(std::move(document), regex, mapping);
 
-  SECTION("when passing the variable id") {
-    REQUIRE(match.span(0).first == 1);
-    REQUIRE(match.span(0).second == 2);
-  }
+  REQUIRE(match.span(0).first == 1);
+  REQUIRE(match.span(0).second == 2);
 
-  SECTION("when passing the variable name") {
-    REQUIRE(match.span("x").first == 1);
-    REQUIRE(match.span("x").second == 2);
-  }
+  REQUIRE(match.span("x").first == 1);
+  REQUIRE(match.span("x").second == 2);
 }
 
 TEST_CASE("match object returns the correct groups") {
@@ -56,23 +47,19 @@ TEST_CASE("match object returns the correct groups") {
   auto parser = Parser(regex);
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
   LogicalVA logical_va = parser.get_logical_va();
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex(regex);
+  auto extended_va = ExtendedVA(logical_va);
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
-  auto mediator = Mediator(extended_det_va, variable_catalog,
+  auto mediator = Mediator(extended_va, variable_catalog,
                            segment_manager_creator, std::move(document));
 
   auto mapping = rematch::mediator::Mapping({{"x", {0, 4}}, {"y", {4, 8}}});
   Match match = Match(mapping, variable_catalog, mediator);
 
-  SECTION("when passing the variable id") {
-    REQUIRE(match.group(0) == "aaaa");
-    REQUIRE(match.group(1) == "bbbb");
-  }
+  REQUIRE(match.group(0) == "aaaa");
+  REQUIRE(match.group(1) == "bbbb");
 
-  SECTION("when passing the variable name") {
-    REQUIRE(match.group("x") == "aaaa");
-    REQUIRE(match.group("y") == "bbbb");
-  }
+  REQUIRE(match.group("x") == "aaaa");
+  REQUIRE(match.group("y") == "bbbb");
 }
 
 TEST_CASE("match object returns the correct group dictionary") {
@@ -129,9 +116,9 @@ Match construct_match(std::string&& document, std::string regex,
   auto parser = Parser(regex);
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
   LogicalVA logical_va = parser.get_logical_va();
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex(regex);
+  ExtendedVA extended_va = ExtendedVA(logical_va);
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
-  auto mediator = Mediator(extended_det_va, variable_catalog,
+  auto mediator = Mediator(extended_va, variable_catalog,
                            segment_manager_creator, std::move(document));
   return Match(mapping, variable_catalog, mediator);
 }

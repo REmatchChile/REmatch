@@ -13,7 +13,7 @@ class ExtendedDetVA {
  private:
 
   ExtendedDetVAState* initial_state_;
-  ExtendedVA extended_va_;
+  ExtendedVA& extended_va_;
   std::unordered_map<StatesBitset, ExtendedDetVAState*>
       bitset_to_state_map;
 

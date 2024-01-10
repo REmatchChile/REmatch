@@ -51,12 +51,11 @@ void run_match_iterator_test(std::string regex, std::string document, std::vecto
   LogicalVA logical_va = parser.get_logical_va();
   auto extended_va = ExtendedVA(logical_va);
   extended_va.clean_for_determinization();
-  auto extended_det_va = ExtendedDetVA(extended_va);
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
-  Mediator mediator = Mediator(extended_det_va, variable_catalog, segment_manager_creator, std::move(document));
-  auto match_iterator = MatchIterator(std::move(mediator), variable_catalog);
+  auto mediation_subjects = MediationSubjects(std::move(segment_manager_creator), std::move(extended_va), variable_catalog);
+  auto match_iterator = MatchIterator(mediation_subjects, std::move(document));
 
   std::ostringstream info_os;
   info_os << "Actual mappings:" << std::endl;

@@ -12,7 +12,7 @@ using namespace REMatch;
 
 class AlgorithmClass {
  public:
-  AlgorithmClass(ExtendedDetVA& extended_det_va, std::string_view document,
+  AlgorithmClass(ExtendedVA& extended_va, std::string_view document,
                  Flags flags = Flags());
 
   void initialize_algorithm();
@@ -33,7 +33,7 @@ class AlgorithmClass {
 
   std::string_view document_;
 
-  ExtendedDetVA& extended_det_va_;
+  ExtendedDetVA extended_det_va_;
   ECS* ECS_interface_;
   Enumerator* enumerator_;
   ECSNode* ECS_root_node_ = nullptr;
