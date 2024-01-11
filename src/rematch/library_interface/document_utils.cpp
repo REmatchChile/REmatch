@@ -52,11 +52,4 @@ std::string read_file(std::ifstream& file) {
   return result;
 }
 
-std::string_view get_document_as_string_view(std::string&& document) {
-  size_t end_index = document.size() - 1;
-  // it represents the document without including the START and END
-  std::string_view document_view(document.data() + 1, end_index - 1);
-  return document_view;
-}
-
 }  // namespace rematch

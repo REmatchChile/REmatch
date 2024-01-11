@@ -8,11 +8,11 @@
 #include "filtering_module/segment_identificator.hpp"
 #include "library_interface/match.hpp"
 #include "match_iterator.hpp"
-#include "mediator/mediation_subjects.hpp"
 #include "mediator/mediator.hpp"
 #include "mediator/segment_manager/segment_manager_creator.hpp"
 #include "statistics.hpp"
 #include "stats_collector.hpp"
+#include "regex_data/regex_data_utils.hpp"
 
 namespace REMatch {
 
@@ -20,12 +20,15 @@ inline namespace library_interface {
 class MatchIterator {
 
  private:
+  std::optional<rematch::RegexData> regex_data_ = std::nullopt;
   rematch::Mediator mediator_;
   std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog_;
 
  public:
-  MatchIterator(rematch::MediationSubjects& mediation_subjects,
+  MatchIterator(rematch::RegexData& regex_data,
                 std::string&& document, Flags flags = Flags());
+  MatchIterator(const std::string& pattern, std::string&& document,
+                Flags flags = Flags());
 
   std::unique_ptr<Match> next();
   std::vector<std::string> variables();

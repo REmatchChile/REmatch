@@ -25,10 +25,10 @@ Mediator::Mediator(ExtendedVA& extended_va,
   }
 }
 
-Mediator::Mediator(MediationSubjects& mediation_subjects,
+Mediator::Mediator(RegexData& regex_data,
                    std::string&& document, Flags flags)
-    : Mediator(mediation_subjects.extended_va,
-               mediation_subjects.variable_catalog, mediation_subjects.segment_manager_creator,
+    : Mediator(regex_data.extended_va,
+               regex_data.variable_catalog, regex_data.segment_manager_creator,
                std::move(document), flags) {}
 
 mediator::Mapping* Mediator::next() {

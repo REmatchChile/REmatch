@@ -14,7 +14,7 @@ class LineIdentificator {
   std::unique_ptr<Span> next();
 
  private:
-  std::string document_;
+  std::string_view document_;
   size_t current_start_ = 0;
   size_t current_end_ = 0;
 };

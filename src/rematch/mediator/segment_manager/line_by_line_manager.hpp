@@ -11,7 +11,7 @@ namespace rematch {
 
 class LineByLineManager : public SegmentManager {
  public:
-  LineByLineManager(std::unique_ptr<SearchDFA> search_dfa, std::string_view document);
+  LineByLineManager(SearchDFA& search_dfa, std::string_view document);
 
   std::unique_ptr<Span> next() override;
   size_t get_search_dfa_size() override;

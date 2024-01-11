@@ -2,10 +2,16 @@
 
 namespace REMatch {
 inline namespace library_interface {
-MatchIterator::MatchIterator(rematch::MediationSubjects& mediation_subjects,
+MatchIterator::MatchIterator(rematch::RegexData& regex_data,
                              std::string&& document, Flags flags)
-    : mediator_(mediation_subjects, std::move(document), flags),
-      variable_catalog_(mediation_subjects.variable_catalog) {}
+    : mediator_(regex_data, std::move(document), flags),
+      variable_catalog_(regex_data.variable_catalog) {}
+
+MatchIterator::MatchIterator(const std::string& pattern, std::string&& document,
+                             Flags flags)
+    : regex_data_(rematch::get_regex_data(pattern, flags)),
+      mediator_(regex_data_.value(), std::move(document), flags),
+      variable_catalog_(regex_data_.value().variable_catalog) {}
 
 std::unique_ptr<Match> MatchIterator::next() {
   rematch::mediator::Mapping* mapping = mediator_.next();
@@ -25,4 +31,4 @@ std::vector<std::string> MatchIterator::variables() {
 }
 
 }  // end namespace library_interface
-} // end namespace rematch
+}  // namespace REMatch

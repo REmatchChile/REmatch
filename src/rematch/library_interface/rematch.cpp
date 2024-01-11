@@ -34,8 +34,8 @@ std::vector<Match> findall(const std::string& pattern, const std::string& docume
 
 MatchIterator finditer(const std::string& pattern, const std::string& document,
                     Flags flags) {
-  Regex regex = compile(pattern, flags);
-  return regex.finditer(document);
+  std::string document_with_delimiters = rematch::add_start_and_end_chars(document);
+  return MatchIterator(pattern, std::move(document_with_delimiters), flags);
 }
 
 std::unique_ptr<Match> search(const std::string& pattern, const std::string& document, Flags flags) {

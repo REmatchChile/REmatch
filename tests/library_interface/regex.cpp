@@ -8,7 +8,7 @@ namespace rematch::testing {
 using namespace REMatch::library_interface;
 
 TEST_CASE("find method returns the first match correctly") {
-  std::string_view pattern = "!x{ab}";
+  std::string pattern = "!x{ab}";
   auto regex = Regex(pattern);
   std::unique_ptr<Match> match = regex.find("abab");
 
@@ -16,7 +16,7 @@ TEST_CASE("find method returns the first match correctly") {
 }
 
 TEST_CASE("finditer method returns the iterator correctly") {
-  std::string_view pattern = "!x{ab}";
+  std::string pattern = "!x{ab}";
   std::string document = "abab";
   document += END_CHAR;
   auto regex = Regex(pattern);

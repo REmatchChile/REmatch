@@ -16,7 +16,7 @@ class DefaultSegmentManager : public SegmentManager {
   size_t get_search_nfa_size() override;
 
  private:
-  std::string document_;
+  std::string_view document_;
   bool already_read_ = false;
 };
 

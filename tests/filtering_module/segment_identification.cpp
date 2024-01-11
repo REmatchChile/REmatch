@@ -9,9 +9,9 @@ namespace rematch::testing {
 TEST_CASE("The regex 'a' will return the span 0,5 on the document 'aaaaa'") {
   Parser parser = Parser("a");
   LogicalVA logical_va = parser.get_logical_va();
-  auto search_dfa = std::make_unique<SearchDFA>(logical_va);
+  auto search_dfa = SearchDFA(logical_va);
   std::string_view document = "aaaaa";
-  auto segment_identificator = SegmentIdentificator(std::move(search_dfa), document);
+  auto segment_identificator = SegmentIdentificator(search_dfa, document);
   std::unique_ptr<Span> output_span = segment_identificator.next();
   REQUIRE(output_span != nullptr);
   REQUIRE(output_span->first == 0);
@@ -23,9 +23,9 @@ TEST_CASE("The regex 'a' will return the spans: 0,1 2,3 4,5 \
            on the document 'ababa'") {
   Parser parser = Parser("a");
   rematch::LogicalVA logical_va = parser.get_logical_va();
-  auto search_dfa = std::make_unique<SearchDFA>(logical_va);
+  auto search_dfa = SearchDFA(logical_va);
   std::string_view document = "ababa";
-  auto segment_identificator = SegmentIdentificator(std::move(search_dfa), document);
+  auto segment_identificator = SegmentIdentificator(search_dfa, document);
   std::unique_ptr<Span> output_span = segment_identificator.next();
   REQUIRE(output_span != nullptr);
   REQUIRE(output_span->first == 0);
@@ -46,8 +46,8 @@ TEST_CASE("The regex 'αβ' will return the span 6,10 \
   Parser parser = Parser("αβ");
   rematch::LogicalVA logical_va = parser.get_logical_va();
   std::string_view document = "δεζαβab";
-  auto search_dfa = std::make_unique<SearchDFA>(logical_va);
-  auto segment_identificator = SegmentIdentificator(std::move(search_dfa), document);
+  auto search_dfa = SearchDFA(logical_va);
+  auto segment_identificator = SegmentIdentificator(search_dfa, document);
   std::unique_ptr<Span> output_span = segment_identificator.next();
   REQUIRE(output_span != nullptr);
   INFO("first: " << output_span->first << " second: " << output_span->second);
@@ -61,8 +61,8 @@ TEST_CASE("The regex '[αβ]' will return the spans: 6,10 \
   Parser parser = Parser("αβ");
   rematch::LogicalVA logical_va = parser.get_logical_va();
   std::string_view document = "δεζαβab";
-  auto search_dfa = std::make_unique<SearchDFA>(logical_va);
-  auto segment_identificator = SegmentIdentificator(std::move(search_dfa), document);
+  auto search_dfa = SearchDFA(logical_va);
+  auto segment_identificator = SegmentIdentificator(search_dfa, document);
   std::unique_ptr<Span> output_span = segment_identificator.next();
   REQUIRE(output_span != nullptr);
   INFO("first: " << output_span->first << " second: " << output_span->second);
@@ -76,8 +76,8 @@ TEST_CASE("The regex '[α-ε]' will return the spans: <0,5> <6,10> \
   Parser parser = Parser("[α-ε]");
   rematch::LogicalVA logical_va = parser.get_logical_va();
   std::string_view document = "δεζαβab";
-  auto search_dfa = std::make_unique<SearchDFA>(logical_va);
-  auto segment_identificator = SegmentIdentificator(std::move(search_dfa), document);
+  auto search_dfa = SearchDFA(logical_va);
+  auto segment_identificator = SegmentIdentificator(search_dfa, document);
   std::unique_ptr<Span> output_span = segment_identificator.next();
   REQUIRE(output_span != nullptr);
   INFO("first: " << output_span->first << " second: " << output_span->second);
@@ -110,8 +110,8 @@ TEST_CASE("The regex .α returns 0,8 on the document: δεζαβab") {
   Parser parser = Parser(".α");
   rematch::LogicalVA logical_va = parser.get_logical_va();
   std::string_view document = "δεζαβab";
-  auto search_dfa = std::make_unique<SearchDFA>(logical_va);
-  auto segment_identificator = SegmentIdentificator(std::move(search_dfa), document);
+  auto search_dfa = SearchDFA(logical_va);
+  auto segment_identificator = SegmentIdentificator(search_dfa, document);
   std::unique_ptr<Span>  output_span = segment_identificator.next();
   REQUIRE(output_span != nullptr);
   REQUIRE(output_span->first == 0);

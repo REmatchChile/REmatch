@@ -326,22 +326,38 @@ TEST_CASE("client interface with special characters inside a character set") {
   run_client_test(match_iterator, expected_matches);
 }
 
-// TEST_CASE("the regex can be evaluated more than once") {
-//   std::string document = "aba";
-//   std::string pattern = "!x{a+}";
-//   REMatch::Regex regex = REMatch::compile(pattern);
+TEST_CASE("the finditer function works correctly") {
+  std::string document = "aaba";
+  std::string pattern = "!x{a+}";
 
-//   std::vector<DummyMapping> expected_matches = {
-//     DummyMapping({{"x", {0, 1}}}),
-//     DummyMapping({{"x", {2, 3}}}),
-//   };
+  MatchIterator match_iterator = finditer(pattern, document);
 
-//   MatchIterator match_iterator = regex.finditer(document);
-//   run_client_test(match_iterator, expected_matches);
+  std::vector<DummyMapping> expected_matches = {
+    DummyMapping({{"x", {0, 1}}}),
+    DummyMapping({{"x", {0, 2}}}),
+    DummyMapping({{"x", {1, 2}}}),
+    DummyMapping({{"x", {3, 4}}}),
+  };
 
-//   MatchIterator match_iterator2 = regex.finditer(document);
-//   run_client_test(match_iterator2, expected_matches);
-// }
+  run_client_test(match_iterator, expected_matches);
+}
+
+TEST_CASE("the regex can be evaluated more than once") {
+  std::string document = "aba";
+  std::string pattern = "!x{a+}";
+  REMatch::Regex regex = REMatch::compile(pattern);
+
+  std::vector<DummyMapping> expected_matches = {
+    DummyMapping({{"x", {0, 1}}}),
+    DummyMapping({{"x", {2, 3}}}),
+  };
+
+  MatchIterator match_iterator = regex.finditer(document);
+  run_client_test(match_iterator, expected_matches);
+
+  MatchIterator match_iterator2 = regex.finditer(document);
+  run_client_test(match_iterator2, expected_matches);
+}
 
 void run_client_test(MatchIterator& match_iterator, std::vector<DummyMapping> expected_matches) {
   std::unique_ptr<Match> match = match_iterator.next();
