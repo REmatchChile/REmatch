@@ -10,7 +10,7 @@ using namespace REMatch::library_interface;
 TEST_CASE("find method returns the first match correctly") {
   std::string pattern = "!x{ab}";
   auto regex = Regex(pattern);
-  std::unique_ptr<Match> match = regex.find("abab");
+  std::unique_ptr<Match> match = regex.findone("abab");
 
   REQUIRE(match->span("x") == Span(0, 2));
 }

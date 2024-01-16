@@ -15,19 +15,17 @@ namespace REMatch {
 
 inline namespace library_interface {
 
-// using Span = std::pair<size_t, size_t>;
-
 class Match {
 
  private:
   rematch::mediator::Mapping mapping_;
   std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog_;
-  rematch::Mediator& mediator_;
+  const std::string& document_;
 
  public:
   Match(rematch::mediator::Mapping mapping,
         std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog,
-        rematch::Mediator& mediator);
+        const std::string& document);
 
   int start(std::string variable_name);
   int start(int variable_id);

@@ -1,4 +1,3 @@
-#include "library_interface/match.hpp"
 #include "match.hpp"
 
 namespace REMatch {
@@ -7,10 +6,10 @@ inline namespace library_interface {
 Match::Match(
     rematch::mediator::Mapping mapping,
     std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog,
-    rematch::Mediator& mediator)
+    const std::string& document)
     : mapping_(mapping),
       variable_catalog_(variable_catalog),
-      mediator_(mediator) {}
+      document_(document) {}
 
 int Match::start(std::string variable_name) {
   Span span = this->span(variable_name);
@@ -40,10 +39,7 @@ Span Match::span(int variable_id) {
 
 std::string Match::group(std::string variable_name) {
   Span span = this->span(variable_name);
-  // shift span to consider the START char
-  span.first++;
-  span.second++;
-  return mediator_.get_substring_of_document(span);
+  return document_.substr(span.first, span.second - span.first);
 }
 
 std::string Match::group(int variable_id) {

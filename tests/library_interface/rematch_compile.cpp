@@ -16,7 +16,7 @@ TEST_CASE("find method simple test") {
   std::string document = "This is a document";
   std::string pattern = "!x{doc|document}";
   Regex regex = REMatch::compile(pattern);
-  std::unique_ptr<Match> match = regex.find(document);
+  std::unique_ptr<Match> match = regex.findone(document);
 
   REQUIRE(match != nullptr);
   REQUIRE(match->span("x") == Span(10, 13));

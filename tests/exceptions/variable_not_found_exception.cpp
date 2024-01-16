@@ -34,7 +34,7 @@ TEST_CASE(
     "the regex object raises an exception when the variable is not in the "
     "regex") {
   auto regex = REMatch::Regex("!x{a}");
-  std::unique_ptr<Match> match = regex.find("a");
+  std::unique_ptr<Match> match = regex.findone("a");
 
   REQUIRE_THROWS_AS(match->span("y"), VariableNotFoundException);
 }

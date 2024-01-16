@@ -23,11 +23,10 @@ class Regex {
   rematch::RegexData regex_data_;
 
  public:
-  Regex(std::string_view pattern, Flags flags = Flags());
+  Regex(const std::string& pattern, Flags flags = Flags());
 
-  std::unique_ptr<Match> find(std::string_view text);
-  MatchIterator finditer(std::string_view text);
-  MatchIterator finditer(std::ifstream& file);
+  std::unique_ptr<Match> findone(const std::string& text);
+  MatchIterator finditer(const std::string& text);
 };
 
 }  // end namespace library_interface
