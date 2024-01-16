@@ -8,25 +8,24 @@
 
 #include <memory>
 #include "mediator/mapping.hpp"
+#include "mediator/mediator.hpp"
 #include "parsing/variable_catalog.hpp"
 
 namespace REMatch {
 
 inline namespace library_interface {
 
-// using Span = std::pair<size_t, size_t>;
-
 class Match {
 
  private:
   rematch::mediator::Mapping mapping_;
   std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog_;
-  std::string_view document_;
+  const std::string& document_;
 
  public:
   Match(rematch::mediator::Mapping mapping,
         std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog,
-        std::string_view document);
+        const std::string& document);
 
   int start(std::string variable_name);
   int start(int variable_id);

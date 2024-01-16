@@ -29,10 +29,7 @@ inline namespace filtering_module {
 class SegmentIdentificator {
 
  public:
-  SegmentIdentificator(
-      std::unique_ptr<SearchDFA> search_dfa,
-      std::string_view document
-  );
+  SegmentIdentificator(SearchDFA& search_dfa, std::string_view document);
 
   /**
    * next_is_computed_successfully() MUST be called before, if not, next() has undefined
@@ -52,7 +49,7 @@ class SegmentIdentificator {
    */
   bool next_is_computed_successfully();
 
-  std::unique_ptr<SearchDFA> search_dfa;
+  SearchDFA& search_dfa;
   std::string_view document;
 
   uint64_t doc_start_i_ = 0;

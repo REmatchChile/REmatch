@@ -13,6 +13,7 @@ set(TEST_SOURCES
         output_enumeration/ecs_node.cpp
         output_enumeration/ecs.cpp
         output_enumeration/enumerator.cpp
+        output_enumeration/mapping.cpp
         parsing/parser.cpp
         parsing/logical_va.cpp
         filtering_module/segment_identification.cpp
@@ -29,7 +30,8 @@ set(TEST_SOURCES
         library_interface/match.cpp
         library_interface/match_iterator.cpp
         library_interface/regex.cpp
-        library_interface/rematch.cpp
+        library_interface/rematch_compile.cpp
+        library_interface/rematch_functions.cpp
         library_interface/flags.cpp
         exceptions/anchor_inside_capture_exception.cpp
         exceptions/complex_query_exception.cpp

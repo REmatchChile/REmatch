@@ -3,22 +3,18 @@
 namespace REMatch {
 inline namespace library_interface {
 
-Regex compile(std::string_view pattern, Flags flags) {
+Regex compile(const std::string& pattern, Flags flags) {
   return Regex(pattern, flags);
 }
 
-Regex compile(std::ifstream& pattern_file, Flags flags) {
-  std::string pattern = rematch::read_file(pattern_file);
-  return Regex(pattern, flags);
-}
-
-std::unique_ptr<Match> find(std::string_view pattern, std::string_view document, Flags flags) {
+std::unique_ptr<Match> findone(const std::string& pattern,
+                               const std::string& document, Flags flags) {
   Regex regex = compile(pattern, flags);
-  return regex.find(document);
+  return regex.findone(document);
 }
 
-std::vector<Match> findall(std::string_view pattern, std::string_view document,
-                        Flags flags) {
+std::vector<Match> findall(const std::string& pattern,
+                           const std::string& document, Flags flags) {
   Regex regex = compile(pattern, flags);
   MatchIterator iterator = regex.finditer(document);
 
@@ -32,26 +28,12 @@ std::vector<Match> findall(std::string_view pattern, std::string_view document,
   return match_vector;
 }
 
-MatchIterator finditer(std::string_view pattern, std::string_view document,
-                    Flags flags) {
-  Regex regex = compile(pattern, flags);
-  return regex.finditer(document);
+MatchIterator finditer(const std::string& pattern, const std::string& document,
+                       Flags flags) {
+  std::string document_with_delimiters =
+      rematch::add_start_and_end_chars(document);
+  return {pattern, std::move(document_with_delimiters), document, flags};
 }
 
-std::unique_ptr<Match> search(std::string_view pattern, std::string_view document, Flags flags) {
-  Regex regex = compile(pattern, flags);
-  return regex.find(document);
-}
-
-std::unique_ptr<Match> match(std::string_view pattern, std::string_view document, Flags flags) {
-  Regex regex = compile(pattern, flags);
-  return regex.find(document);
-}
-
-std::unique_ptr<Match> fullmatch(std::string_view pattern, std::string_view document, Flags flags) {
-  Regex regex = compile(pattern, flags);
-  return regex.find(document);
-}
-
-}
-}
+}  // namespace library_interface
+}  // namespace REMatch

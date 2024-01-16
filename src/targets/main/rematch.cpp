@@ -4,8 +4,9 @@
 
 
 int main() {
-  std::string_view document = "This is a document";
-  REMatch::Regex word_regex = REMatch::compile("!x{doc|document}", REMatch::Flags());
+  std::string document = "This is a document";
+  std::string pattern = "!x{doc|document}";
+  REMatch::Regex word_regex = REMatch::compile(pattern, REMatch::Flags());
   REMatch::MatchIterator iterator = word_regex.finditer(document);
   auto match = iterator.next();
   while (match != nullptr) {

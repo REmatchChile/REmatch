@@ -30,7 +30,7 @@ std::map<int, std::vector<Span>> Mapping::construct_mapping() const {
 void Mapping::process_annotation(const Annotation& annotation,
                                  std::map<int, std::vector<Span>>& spans_map) const {
 
-  for (int bitset_index = 0;
+  for (size_t bitset_index = 0;
        bitset_index < annotation.variable_markers.size() - 2; bitset_index++) {
 
     if (annotation.variable_markers[bitset_index]) {

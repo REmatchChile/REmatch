@@ -3,7 +3,7 @@
 namespace rematch {
 
 LineIdentificator::LineIdentificator(std::string_view document)
-    : document_(std::string(document)) {}
+    : document_(document) {}
 
 std::unique_ptr<Span> LineIdentificator::next() {
   if (current_end_ >= document_.size()) {

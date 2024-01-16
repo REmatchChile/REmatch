@@ -11,13 +11,16 @@ int main(int argc, char* argv[]) {
     return 1;
   }
 
-  std::ifstream document(argv[1]);
-  std::ifstream regex(argv[2]);
+  std::ifstream document_file(argv[1]);
+  std::ifstream regex_file(argv[2]);
 
-  if (!document.is_open() || !regex.is_open()) {
+  if (!document_file.is_open() || !regex_file.is_open()) {
     std::cerr << "Error loading file\n";
     return 1;
   }
+
+  std::string document = rematch::read_file(document_file);
+  std::string regex = rematch::read_file(regex_file);
 
   REMatch::Flags flags{false, false, 12, 100000};
 
@@ -26,7 +29,7 @@ int main(int argc, char* argv[]) {
   auto match = iterator.next();
   size_t matches_count = 0;
   while (match != nullptr) {
-    matches_count ++;
+    matches_count++;
     match = iterator.next();
   }
   std::cout << matches_count << std::endl;

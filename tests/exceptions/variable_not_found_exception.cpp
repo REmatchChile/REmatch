@@ -21,11 +21,10 @@ TEST_CASE("the mediator throws an exception when the variable is not in the rege
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va = ExtendedVA(logical_va);
   extended_va.clean_for_determinization();
-  auto extended_det_va = ExtendedDetVA(extended_va);
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
-  Mediator mediator = Mediator(extended_det_va, variable_catalog, segment_manager_creator, std::move(document));
+  Mediator mediator = Mediator(extended_va, variable_catalog, segment_manager_creator, std::move(document));
 
   mediator::Mapping* mapping = mediator.next();
   REQUIRE_THROWS_AS(mapping->get_span_of_variable("y"), VariableNotFoundException);
@@ -35,7 +34,7 @@ TEST_CASE(
     "the regex object raises an exception when the variable is not in the "
     "regex") {
   auto regex = REMatch::Regex("!x{a}");
-  std::unique_ptr<Match> match = regex.find("a");
+  std::unique_ptr<Match> match = regex.findone("a");
 
   REQUIRE_THROWS_AS(match->span("y"), VariableNotFoundException);
 }

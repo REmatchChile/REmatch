@@ -2,11 +2,11 @@
 
 namespace rematch {
 
-AlgorithmClass::AlgorithmClass(ExtendedDetVA& extended_det_va,
+AlgorithmClass::AlgorithmClass(ExtendedVA& extended_va,
                                std::string_view document, Flags flags)
     : doc_end_i_(document.size()),
       document_(document),
-      extended_det_va_(extended_det_va) {
+      extended_det_va_(extended_va, flags) {
   ECS_interface_ = new ECS(flags);
   enumerator_ = new Enumerator();
 

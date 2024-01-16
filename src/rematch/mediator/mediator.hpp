@@ -4,7 +4,7 @@
 #include "mapping.hpp"
 #include "filtering_module/segment_identificator.hpp"
 #include "evaluation/algorithm_class.hpp"
-#include "mediation_subjects.hpp"
+#include "library_interface/regex_data/regex_data.hpp"
 #include "library_interface/flags.hpp"
 #include "segment_manager/segment_manager.hpp"
 #include "segment_manager/segment_identificator_manager.hpp"
@@ -17,12 +17,11 @@ using namespace REMatch;
 
 class Mediator {
  public:
-  Mediator(ExtendedDetVA& extended_det_va,
+  Mediator(ExtendedVA& extended_va,
            std::shared_ptr<VariableCatalog> variable_catalog,
            SegmentManagerCreator& segment_manager_creator,
            std::string&& document, Flags flags = Flags());
-  Mediator(MediationSubjects& mediation_subjects,
-           SegmentManagerCreator& segment_manager_creator,
+  Mediator(RegexData& regex_data,
            std::string&& document, Flags flags = Flags());
 
   mediator::Mapping* next();
