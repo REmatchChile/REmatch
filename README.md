@@ -48,13 +48,13 @@ To use REmatch, you have two options. You can create a `Regex` object through th
 ```cpp
 // Compile a regular expression using the compile method and find a match
 REMatch::Regex regex = REMatch::compile("!x{aba}");
-std::unique_ptr<REMatch::Match> regex_match = regex.find("aabaa");
+std::unique_ptr<REMatch::Match> regex_match = regex.findone("aabaa");
 
-// Equivalent to calling find directly
-std::unique_ptr<REMatch::Match> direct_match = REMatch::find("!x{aba}", "aabaa");
+// Equivalent to calling findone directly
+std::unique_ptr<REMatch::Match> direct_match = REMatch::findone("!x{aba}", "aabaa");
 ```
 
-The `Regex` provides the methods `find` and `finditer` that evaluate a document and return the matches found. The `find` method returns a pointer to the first encountered match, while `finditer` returns an iterator that allows you to access all matches. To retrieve all the matches at once, you can use the `findall` method. You can use the `start` and `end` methods to obtain the indices of the matched spans or `span` to get a string representation.
+The `Regex` provides the methods `findone` and `finditer` that evaluate a document and return the matches found. The `findone` method returns a pointer to the first encountered match, while `finditer` returns an iterator that allows you to access all matches. To retrieve all the matches at once, you can use the `findall` method. You can use the `start` and `end` methods to obtain the indices of the matched spans or `span` to get a string representation.
 
 ### Retrieving an iterator for the pattern aba
 
@@ -86,7 +86,7 @@ int main() {
 int main() {
   std::string document = "abaababa";
   REMatch::Regex regex = REMatch::compile("!x{aba}");
-  std::unique_ptr<REMatch::Match> match = regex.find(document);
+  std::unique_ptr<REMatch::Match> match = regex.findone(document);
   std::cout << "Span: " << match->span("x") << std::endl;
   return 0;
 }
