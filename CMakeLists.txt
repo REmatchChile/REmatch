@@ -9,10 +9,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Enable testing
 set(REMATCH_BUILD_TESTING ON)
 
-if (NOT CMAKE_BUILD_TYPE)
+# Enable profiling
+set(ENABLE_PROFILING OFF CACHE BOOL "Enable Profiling" FORCE)
+
+if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
   message(STATUS "Build type not specified. Using Release by default.")
-endif ()
+endif()
 
 message(STATUS "Using ${CMAKE_BUILD_TYPE} configuration")
 
@@ -27,9 +30,10 @@ include_directories(src/thirdparty/antlr4/runtime/src)
 include_directories(src/rematch)
 
 add_subdirectory(src/thirdparty)
+include(cmake/setup_tracy.cmake)
 add_subdirectory(src/rematch)
 add_subdirectory(src/targets)
 
-if (REMATCH_BUILD_TESTING)
+if(REMATCH_BUILD_TESTING)
   add_subdirectory(tests)
-endif (REMATCH_BUILD_TESTING)
+endif()
