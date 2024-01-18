@@ -1,0 +1,1 @@
+(\n[^\n]* DISTINCT [^\n]* WHERE [^\n]*\n[^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n)

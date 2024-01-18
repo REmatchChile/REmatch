@@ -1,0 +1,1 @@
+\n([^\n]* WHERE [^\n]* GROUP BY [^\n]* ORDER BY [^\n]*\n[^\n]* ORDER BY [^\n]*)\n

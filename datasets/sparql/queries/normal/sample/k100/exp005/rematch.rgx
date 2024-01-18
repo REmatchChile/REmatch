@@ -1,0 +1,1 @@
+!x{\n[^\n]* DISTINCT [^\n]* WHERE [^\n]* FILTER [^\n]*\n[^\n]* AS [^\n]*\n}

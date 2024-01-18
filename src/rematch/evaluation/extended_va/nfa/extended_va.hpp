@@ -7,6 +7,8 @@
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
 #include "parsing/parser.hpp"
 #include "extended_va_assert.hpp"
+#include "evaluation/start_end_chars.hpp"
+#include "tracy/Tracy.hpp"
 
 namespace rematch {
 

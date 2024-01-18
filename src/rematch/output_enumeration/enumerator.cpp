@@ -8,12 +8,7 @@ namespace rematch {
 inline namespace output_enumeration {
 
 Enumerator::Enumerator() {
-  current_mapping = new Mapping(MAXIMUM_AMOUNT_OF_VARIABLES);
-  amount_of_annotations_added_before_union.push_back(0);
-}
-
-Enumerator::Enumerator(int amount_of_variables) {
-  current_mapping = new Mapping(amount_of_variables);
+  current_mapping = new Mapping();
   amount_of_annotations_added_before_union.push_back(0);
 }
 
@@ -26,6 +21,7 @@ void Enumerator::reset() {
   amount_of_annotations_added_before_union.clear();
   amount_of_annotations_added_before_union.push_back(0);
   was_output_previously = false;
+  current_mapping->delete_all_annotations();
 }
 
 const Mapping *Enumerator::next(){

@@ -1,5 +1,5 @@
 
-// Generated from REmatchParser.g4 by ANTLR 4.11.1
+// Generated from REmatchParser.g4 by ANTLR 4.13.1
 
 #pragma once
 
@@ -51,6 +51,8 @@ public:
 
     virtual std::any visitCcOther(REmatchParser::CcOtherContext *context) = 0;
 
+    virtual std::any visitCcSpecial(REmatchParser::CcSpecialContext *context) = 0;
+
     virtual std::any visitSingleSharedAtom(REmatchParser::SingleSharedAtomContext *context) = 0;
 
     virtual std::any visitLiteral(REmatchParser::LiteralContext *context) = 0;
@@ -76,6 +78,12 @@ public:
     virtual std::any visitQuantMax(REmatchParser::QuantMaxContext *context) = 0;
 
     virtual std::any visitNumber(REmatchParser::NumberContext *context) = 0;
+
+    virtual std::any visitAnchor(REmatchParser::AnchorContext *context) = 0;
+
+    virtual std::any visitAnchorStart(REmatchParser::AnchorStartContext *context) = 0;
+
+    virtual std::any visitAnchorEnd(REmatchParser::AnchorEndContext *context) = 0;
 
 
 };

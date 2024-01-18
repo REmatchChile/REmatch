@@ -4,12 +4,13 @@
 #include <vector>
 #include <set>
 #include <iostream>
+#include "search_dfa.hpp"
 
 namespace rematch {
 inline namespace filtering_module {
 
-SearchDFA::SearchDFA(LogicalVA const &logical_va)
-    : sVA_(SearchNFA(logical_va)) {
+SearchDFA::SearchDFA(LogicalVA const &logical_va, DFAStateLimitChecker dfa_states_checker)
+    : sVA_(SearchNFA(logical_va)), dfa_states_checker_(dfa_states_checker) {
   initial_state = create_initial_dfa_state();
   current_state = initial_state;
   initial_nfa_states.push_back(sVA_.initial_state());
@@ -18,6 +19,7 @@ SearchDFA::SearchDFA(LogicalVA const &logical_va)
 SearchDFAState* SearchDFA::create_initial_dfa_state() {
   auto np = new SearchDFAState();
   states.push_back(np);
+  dfa_states_checker_.count_state();
 	np->set_initial();
   // To store that the state ends the sVA_size() position is used.
   std::vector<bool> initial_state_bitset(sVA_.size() + 1);
@@ -61,6 +63,7 @@ SearchDFAState* SearchDFA::next_state(char a) {
         newSubset, subsetBitset[sVA_.size()]);
     dfa_state_catalog[subsetBitset] = new_state;
     states.push_back(new_state);
+    dfa_states_checker_.count_state();
   }
 
   current_state->transitions[(uint8_t) a] = new_state;
@@ -81,6 +84,10 @@ void SearchDFA::visit_states(
       }
     }
   }
+}
+
+size_t SearchDFA::get_search_nfa_size() {
+  return sVA_.size();
 }
 
 }

@@ -7,10 +7,12 @@
 
 #include "output_enumeration/node_manager.hpp"
 #include "output_enumeration/ecs_node.hpp"
+#include "library_interface/flags.hpp"
 
 namespace rematch {
 
 inline namespace output_enumeration {
+using namespace REMatch;
 
   /**
    * An Enumerable Compact Set stores all combinations of outputs through
@@ -28,11 +30,12 @@ class ECS { // Enumerable Compact Set
  public:
   size_t get_amount_of_nodes_used() const;
   size_t amount_of_nodes_allocated() const { return node_manager.amount_of_nodes_allocated(); }
+  size_t get_amount_of_nodes_reused() const;
  private:
   NodeManager node_manager;
 
  public:
-  ECS() = default;
+  ECS(Flags flags = Flags());
   ~ECS() = default;
 
   /**

@@ -7,10 +7,9 @@
 #include "evaluation/extended_va/nfa/extended_va.hpp"
 #include "output_enumeration/ecs.hpp"
 #include "aliases.hpp"
+#include "capture_subset_pair.hpp"
 
 namespace rematch {
-
-struct CaptureSubsetPair;
 
 class ExtendedDetVAState {
  private:
@@ -22,14 +21,17 @@ class ExtendedDetVAState {
 
  public:
   uint32_t id;
-  std::vector<std::optional<std::vector<CaptureSubsetPair*>>> cached_transitions{256, std::nullopt};
+  std::vector<std::optional<std::vector<CaptureSubsetPair>>> cached_transitions{256, std::nullopt};
   ECSNode* output_node = nullptr;
   int phase = -1;
 
   ExtendedDetVAState();
   ExtendedDetVAState(StatesPtrSet &states_subset);
 
-  std::optional<std::vector<CaptureSubsetPair*>> get_transition(char letter);
+  std::optional<std::vector<CaptureSubsetPair>> get_transition(char letter);
+  void cache_transition(
+      char letter,
+      std::optional<std::vector<CaptureSubsetPair>> capture_subset_pairs);
 
   bool is_initial();
   void set_initial(bool initial);

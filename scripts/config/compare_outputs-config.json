@@ -1,0 +1,41 @@
+{
+  "benchmarks": {
+    "libraries-lookahead": {
+      "binarySet": "regex-libraries",
+      "experiments": {
+        "dna": {
+          "small-sample": "datasets/dna/queries/lookahead/sample",
+          "large-sample": "datasets/dna/queries/lookahead/sample",
+          "document": "datasets/dna/zebrafish.faa",
+          "results": "exp/crossings/dna/lookahead/results"
+        },
+        "morphemes": {
+          "small-sample": "datasets/literature/queries/lookahead/sample",
+          "large-sample": "datasets/literature/queries/lookahead/sample",
+          "document": "datasets/literature/english-authors.txt",
+          "results": "exp/crossings/morphemes/lookahead/results"
+        },
+        "sparql": {
+          "small-sample": "datasets/sparql/queries/lookahead/sample",
+          "large-sample": "datasets/sparql/queries/lookahead/sample",
+          "document": "datasets/sparql/sparql.log.1",
+          "results": "exp/crossings/sparql/1-var/lookahead/results"
+        }
+      }
+    }
+  },
+  "binarySets": {
+    "regex-libraries": {
+      "REmatch-cpp": {
+        "command": "rematch_matches",
+        "args": "{document} {regex}",
+        "rgx_type": "rematch"
+      },
+      "REmatch-paper": {
+        "command": "rematch_early-output --searching",
+        "args": "-d {document} -r {regex}",
+        "rgx_type": "rematch"
+      }
+    }
+  }
+}

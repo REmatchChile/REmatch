@@ -1,54 +1,39 @@
+cmake_minimum_required(VERSION 3.23.2)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-
-cmake_minimum_required(VERSION 3.23.2)
-
 project(rematch LANGUAGES CXX)
-
-set(CMAKE_BUILD_TYPE Debug)
-
-if (NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
-    message(STATUS "Build type not specified. Using Release by default.")
-endif ()
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Enable testing
-set(REMATCH_BUILD_TESTING OFF)
-# Enable benchmarks
-set(REMATCH_BUILD_BENCHMARKS OFF)
+set(REMATCH_BUILD_TESTING ON)
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -O0 -g3")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Wextra -O3 -g0 -pedantic")
+# Enable profiling
+set(ENABLE_PROFILING OFF CACHE BOOL "Enable Profiling" FORCE)
+
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+  message(STATUS "Build type not specified. Using Release by default.")
+endif()
+
+message(STATUS "Using ${CMAKE_BUILD_TYPE} configuration")
+
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wextra -pthread -O0 -g3")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Wextra -pthread -O3 -g0 -pedantic")
 
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
 set(LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
 
-# Rematch libs starts as empty list
-set(REMATCH_LIBS "")
-
-include_directories(src/rematch)
 include_directories(SYSTEM src/thirdparty)
 include_directories(src/thirdparty/antlr4/runtime/src)
-
-
-# Maybe remove boost
-# find_package(Boost 1.58)
-# include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
-# No need to add Boost's libraries, we're using only boost's headers
-# list(APPEND project_LIBS ${Boost_LIBRARIES})
+include_directories(src/rematch)
 
 add_subdirectory(src/thirdparty)
-
+include(cmake/setup_tracy.cmake)
 add_subdirectory(src/rematch)
-
-message("REmatch libs: ${REMATCH_LIBS}")
-
 add_subdirectory(src/targets)
 
-if (REMATCH_BUILD_TESTING)
-    include(CTest)
-    add_subdirectory(tests)
-endif (REMATCH_BUILD_TESTING)
+if(REMATCH_BUILD_TESTING)
+  add_subdirectory(tests)
+endif()

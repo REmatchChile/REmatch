@@ -1,0 +1,1 @@
+(?=(\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]*\n[^\n]* DISTINCT [^\n]* OPTIONAL [^\n]*))\n

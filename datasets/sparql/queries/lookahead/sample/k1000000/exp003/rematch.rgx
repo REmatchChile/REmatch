@@ -1,0 +1,1 @@
+\n!x{[^\n]* PREFIX [^\n]* SELECT [^\n]*\n[^\n]* WHERE [^\n]*}\n

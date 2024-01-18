@@ -5,7 +5,7 @@
 #include <string>
 #include <map>
 #include "output_enumeration/mapping.hpp"
-#include "variable_not_found_exception.hpp"
+#include "exceptions/variable_not_found_exception.hpp"
 
 namespace rematch {
 namespace mediator {

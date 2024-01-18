@@ -1,0 +1,1 @@
+(\n[^\n]* GROUP BY [^\n]* ORDER BY [^\n]*\n[^\n]* DISTINCT [^\n]*\n)

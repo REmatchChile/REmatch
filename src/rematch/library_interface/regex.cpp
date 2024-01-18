@@ -1,39 +1,20 @@
-#include "library_interface/regex.hpp"
-#include "parsing/parser.hpp"
-#include "evaluation/extended_va/dfa/extended_det_va.hpp"
-#include "evaluation/extended_va/nfa/extended_va.hpp"
-#include "mediator/mediator.hpp"
+#include "regex.hpp"
 
 namespace REMatch {
 inline namespace library_interface {
 
-rematch::MediationSubjects get_mediation_subjects(std::string_view pattern, Flags flags);
+Regex::Regex(const std::string& pattern, Flags flags)
+    : flags_(flags), regex_data_(rematch::get_regex_data(pattern, flags)) {}
 
-Regex::Regex(std::string_view pattern, Flags flags)
-    : mediation_subjects_(get_mediation_subjects(pattern, flags)) {}
-
-rematch::MediationSubjects get_mediation_subjects(std::string_view pattern, Flags flags) {
-  rematch::Parser parser = rematch::Parser(pattern);
-  rematch::LogicalVA logical_va = parser.get_logical_va();
-  std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog = parser.get_variable_catalog();
-  rematch::ExtendedVA extended_va = rematch::ExtendedVA(logical_va);
-  extended_va.clean_for_determinization();
-  auto search_dfa = rematch::SearchDFA(logical_va);
-  auto extended_det_va = rematch::ExtendedDetVA(extended_va);
-
-  return {search_dfa, extended_det_va, variable_catalog};
-}
-
-std::unique_ptr<Match> Regex::find(std::string_view text, Flags flags) {
-  MatchIterator iterator = finditer(text, flags);
+std::unique_ptr<Match> Regex::findone(const std::string& text) {
+  MatchIterator iterator = finditer(text);
   return iterator.next();
 }
 
-MatchIterator Regex::finditer(std::string_view text, Flags flags) {
-  std::string text_data(text);
-  text_data += (char)-1;
-  auto mediator = rematch::Mediator(mediation_subjects_, text_data, flags);
-  return {std::move(mediator), mediation_subjects_.variable_catalog, text};
+MatchIterator Regex::finditer(const std::string& document_view) {
+  std::string document = rematch::add_start_and_end_chars(document_view);
+
+  return {regex_data_, std::move(document), document_view, flags_};
 }
 
 MatchIterator Regex::finditer(const std::string& text, Flags flags) {

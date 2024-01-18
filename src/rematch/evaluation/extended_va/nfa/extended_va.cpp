@@ -3,8 +3,11 @@
 namespace rematch {
 
 ExtendedVA::ExtendedVA(LogicalVA const &logical_va) {
+  ZoneScoped;
+
   LogicalVA logical_va_prim(logical_va);
   logical_va_prim.remove_epsilon();
+  logical_va_prim.remove_useless_anchors();
   logical_va_prim.trim();
 
   assert(ExtendedVAAssert::initial_state_has_only_outgoing_transitions(&logical_va_prim));
@@ -53,14 +56,22 @@ void ExtendedVA::copy_transitions_from_logical_va
       eva_state->add_filter(filter->charclass, next_eva_state);
     }
 
-    for (auto&capture : state->captures) {
+    for (auto& capture : state->captures) {
       next_eva_state = lva_id_to_eva_state[capture->next->id];
       eva_state->add_capture(capture->code, next_eva_state);
+    }
+
+    for (auto& anchor : state->anchors) {
+      next_eva_state = lva_id_to_eva_state[anchor->next->id];
+      CharClass anchor_char = anchor->is_start() ? CharClass(START_CHAR) : CharClass(END_CHAR) ;
+      eva_state->add_filter(anchor_char, next_eva_state);
     }
   }
 }
 
 void ExtendedVA::clean_for_determinization() {
+  ZoneScoped;
+
   add_loop_to_initial_state();
   duplicate();
   relabel_states();
@@ -321,12 +332,24 @@ void ExtendedVA::trim() {
     }
   }
 
+  // add the initial and accepting state so they are not removed, in case
+  // the accepting state is unreachable due to anchors
+  if (!is_useful[initial_state_]) {
+    is_useful[initial_state_] = true;
+    remaining_states.push_back(initial_state_);
+  }
+
+  if (!is_reachable[accepting_state_]) {
+    is_reachable[accepting_state_] = true;
+  }
   remaining_states.push_back(accepting_state_);
 
   // Delete useless states
   for (auto& state : states) {
-    if (!(is_useful[state] && is_reachable[state]))
+    if (!(is_useful[state] && is_reachable[state])) {
+      state->delete_transitions();
       delete state;
+    }
   }
 
   states.swap(remaining_states);

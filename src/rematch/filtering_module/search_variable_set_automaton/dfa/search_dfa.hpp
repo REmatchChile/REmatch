@@ -9,8 +9,8 @@
 
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
 #include "filtering_module/search_variable_set_automaton/dfa/search_dfa_state.hpp"
-
 #include "filtering_module/search_variable_set_automaton/nfa/search_nfa.hpp"
+#include "exceptions/dfa_state_limit_checker.hpp"
 
 namespace rematch {
 inline namespace filtering_module {
@@ -32,11 +32,11 @@ class SearchDFA {
 
   SearchNFA sVA_;
   std::unordered_map<std::vector<bool>, SearchDFAState*> dfa_state_catalog;
-
+  DFAStateLimitChecker dfa_states_checker_;
 
  public:
-
-  SearchDFA(LogicalVA const &logical_va);
+  SearchDFA(LogicalVA const& logical_va,
+            DFAStateLimitChecker dfa_states_checker = DFAStateLimitChecker());
 
   SearchDFAState* get_initial_state() {return initial_state;}
 
@@ -50,6 +50,8 @@ class SearchDFA {
    */
   SearchDFAState* next_state(char a);
   void reset() { current_state = initial_state;}
+
+  size_t get_search_nfa_size();
 
  private:
 

@@ -3,14 +3,14 @@
 namespace rematch {
 
 LineIdentificator::LineIdentificator(std::string_view document)
-    : document_(std::string(document)) {}
+    : document_(document) {}
 
 std::unique_ptr<Span> LineIdentificator::next() {
   if (current_end_ >= document_.size()) {
     return nullptr;
   }
 
-  int64_t new_end_pos = document_.find('\n', current_end_);
+  size_t new_end_pos = document_.find('\n', current_end_);
 
   auto result_span = std::make_unique<Span>();
 

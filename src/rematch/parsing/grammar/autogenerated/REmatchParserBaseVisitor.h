@@ -1,5 +1,5 @@
 
-// Generated from REmatchParser.g4 by ANTLR 4.11.1
+// Generated from REmatchParser.g4 by ANTLR 4.13.1
 
 #pragma once
 
@@ -79,6 +79,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual std::any visitCcSpecial(REmatchParser::CcSpecialContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual std::any visitSingleSharedAtom(REmatchParser::SingleSharedAtomContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -128,6 +132,18 @@ public:
   }
 
   virtual std::any visitNumber(REmatchParser::NumberContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitAnchor(REmatchParser::AnchorContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitAnchorStart(REmatchParser::AnchorStartContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitAnchorEnd(REmatchParser::AnchorEndContext *ctx) override {
     return visitChildren(ctx);
   }
 

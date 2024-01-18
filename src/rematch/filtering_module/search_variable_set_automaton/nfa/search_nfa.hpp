@@ -5,6 +5,7 @@
 
 #include "filtering_module/search_variable_set_automaton/nfa/search_nfa_state.hpp"
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
+#include "tracy/Tracy.hpp"
 
 namespace rematch {
 inline namespace filtering_module {

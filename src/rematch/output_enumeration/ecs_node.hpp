@@ -3,6 +3,8 @@
 
 #include <cinttypes>
 #include <bitset>
+#include <iostream>
+#include <memory>
 
 namespace rematch {
 
@@ -38,7 +40,6 @@ class ECSNode {
             ECSNode *left = nullptr, ECSNode *right = nullptr,
             std::bitset<64> variable_markers = 0,
             int document_position = 0);
-
     /**
      * The reset function reinstantiates the node but recycling the memory
      * position that was used beforehand.
