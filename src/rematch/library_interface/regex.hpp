@@ -26,7 +26,7 @@ class Regex {
   Regex(const std::string& pattern, Flags flags = Flags());
 
   std::unique_ptr<Match> findone(const std::string& text);
-  MatchIterator finditer(const std::string& text);
+  std::unique_ptr<MatchIterator> finditer(const std::string& text);
 };
 
 }  // end namespace library_interface

@@ -14,15 +14,16 @@ EMSCRIPTEN_BINDINGS(REmatch) {
   class_<Flags>("Flags")
     .constructor<>();
   class_<MatchIterator>("MatchIterator")
-    .function("next", &MatchIterator::next);
+    .function("next", &MatchIterator::next)
+    .function("variables", &MatchIterator::variables);
   class_<Match>("Match")
     .function("variables", &Match::variables)
     .function("start", select_overload<int(std::string)>(&Match::start))
     .function("end", select_overload<int(std::string)>(&Match::end));
   class_<Regex>("Regex")
-    .function("finditer", select_overload<MatchIterator(const std::string&, Flags)>(&Regex::finditer));
+    .function("finditer", &Regex::finditer);
 
   register_vector<std::string>("VectorString");
 
-  function("compile", select_overload<Regex(const std::string&, Flags)>(&compile));
+  function("compile", &compile);
 };

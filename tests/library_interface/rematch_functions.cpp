@@ -8,7 +8,7 @@
 namespace rematch::testing {
 using namespace REMatch;
 
-void run_client_test(MatchIterator& match_iterator,
+void run_client_test(std::unique_ptr<MatchIterator>& match_iterator,
                      std::vector<DummyMapping> expected_matches);
 
 TEST_CASE("find function returns the correct match") {
@@ -59,7 +59,7 @@ TEST_CASE("matches obtained with findall return the correct groups") {
 TEST_CASE("the iterator obtained with finditer returns the correct matches") {
   std::string document = "qwerty";
   std::string pattern = "!x{.{3}}";
-  MatchIterator iterator = finditer(pattern, document);
+  std::unique_ptr<MatchIterator> iterator = finditer(pattern, document);
 
   std::vector<DummyMapping> expected_matches = {
       DummyMapping({{"x", {0, 3}}}),
@@ -74,11 +74,11 @@ TEST_CASE("the iterator obtained with finditer returns the correct matches") {
 TEST_CASE("the matches obtained with finditer return the correct groups") {
   std::string document = "qwerty";
   std::string pattern = "!x{.{3}}";
-  MatchIterator iterator = finditer(pattern, document);
+  std::unique_ptr<MatchIterator> iterator = finditer(pattern, document);
 
   std::vector<std::string> expected_groups = {"qwe", "wer", "ert", "rty"};
 
-  std::unique_ptr<Match> match = iterator.next();
+  std::unique_ptr<Match> match = iterator->next();
 
   while (match != nullptr) {
     std::string group = match->group("x");
@@ -87,7 +87,7 @@ TEST_CASE("the matches obtained with finditer return the correct groups") {
     REQUIRE(it != expected_groups.end());
     expected_groups.erase(it);
 
-    match = iterator.next();
+    match = iterator->next();
   }
 
   REQUIRE(expected_groups.empty());

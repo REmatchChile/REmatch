@@ -29,7 +29,7 @@ class Mediator {
  private:
   std::string document_;
   std::unique_ptr<SegmentManager> segment_manager_;
-  AlgorithmClass algorithm_;
+  std::unique_ptr<AlgorithmClass> algorithm_;
   std::shared_ptr<VariableCatalog> variable_catalog_;
   int number_of_variables_;
   const Mapping* mapping_;

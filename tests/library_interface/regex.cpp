@@ -20,17 +20,17 @@ TEST_CASE("finditer method returns the iterator correctly") {
   std::string document = "abab";
   document += END_CHAR;
   auto regex = Regex(pattern);
-  MatchIterator match_iterator = regex.finditer(document);
+  std::unique_ptr<MatchIterator> match_iterator = regex.finditer(document);
 
-  std::unique_ptr<Match> match = match_iterator.next();
+  std::unique_ptr<Match> match = match_iterator->next();
   REQUIRE(match != nullptr);
   REQUIRE(match->span("x") == Span(0, 2));
 
-  match = match_iterator.next();
+  match = match_iterator->next();
   REQUIRE(match != nullptr);
   REQUIRE(match->span("x") == Span(2, 4));
 
-  match = match_iterator.next();
+  match = match_iterator->next();
   REQUIRE(match == nullptr);
 }
 

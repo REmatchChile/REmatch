@@ -20,7 +20,7 @@ std::unique_ptr<Match> findone(const std::string& pattern,
                                Flags flags = Flags());
 std::vector<Match> findall(const std::string& pattern,
                            const std::string& document, Flags flags = Flags());
-MatchIterator finditer(const std::string& pattern, const std::string& document,
+std::unique_ptr<MatchIterator> finditer(const std::string& pattern, const std::string& document,
                        Flags flags = Flags());
 
 }  // namespace library_interface

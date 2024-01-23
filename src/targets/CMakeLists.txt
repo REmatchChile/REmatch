@@ -5,24 +5,23 @@ set(BUILD_TARGETS
   rematch_stats
 )
 
-if (EMSCRIPTEN)
+if(EMSCRIPTEN)
   message("Building emscripten target")
   add_executable(emscripten_binding ${CMAKE_CURRENT_SOURCE_DIR}/main/emscripten_binding.cpp ${sources})
-  target_link_libraries(emscripten_binding ${REMATCH_LIBS})
+  target_link_libraries(emscripten_binding ${PROJECT_NAME}lib)
   set_target_properties(emscripten_binding PROPERTIES LINK_FLAGS
     "-lembind \
-    -sASSERTIONS=1\
-    -sSAFE_HEAP=1\
-    -sNO_DISABLE_EXCEPTION_CATCHING=1\
+    -fwasm-exceptions \
     -sMODULARIZE=1 \
     -sENVIRONMENT=web \
     -sEXPORT_NAME=REmatch \
     -sEXPORT_ES6=1 \
     -sSINGLE_FILE=1 \
-    -sINITIAL_MEMORY=128MB \
+    -sINITIAL_MEMORY=512MB \
     -sALLOW_MEMORY_GROWTH=1 \
     -sMEMORY_GROWTH_GEOMETRIC_STEP=1.0 \
-    -sMEMORY_GROWTH_GEOMETRIC_CAP=0"
+    -sMEMORY_GROWTH_GEOMETRIC_CAP=0 \
+    -sEXPORT_EXCEPTION_HANDLING_HELPERS=1"
   )
   return()
 else()
@@ -30,4 +29,4 @@ else()
     add_executable(${target} ${CMAKE_CURRENT_SOURCE_DIR}/main/${target}.cpp ${sources})
     target_link_libraries(${target} PRIVATE ${PROJECT_NAME}lib)
   endforeach()
-endif(EMSCRIPTEN)
+endif()

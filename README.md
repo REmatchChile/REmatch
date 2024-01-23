@@ -125,7 +125,6 @@ To build the automatic documentation two packages are needed: graphviz and doxyg
 We are using the Tracy profiler to measure the time spent in specific code segments. To profile the code using the graphical user interface, follow these steps:
 
 * Set the `ENABLE_PROFILING` flag to ON in the CMakeLists.txt file.
-* Set the `REMATCH_BUILD_TESTING` flag to OFF.
 * Compile the code with the updated CMakeLists.
 * Navigate to `build/Debug/_deps/tracy-src/profiler/build/unix` and run `make` to generate the "Tracy-release" executable.
 * Execute the "Tracy-release" executable.
