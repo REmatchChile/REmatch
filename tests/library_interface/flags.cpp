@@ -8,7 +8,7 @@
 
 namespace rematch::testing {
 
-void run_client_test(MatchIterator& match_iterator,
+void run_client_test(std::unique_ptr<MatchIterator>& match_iterator,
                      std::vector<DummyMapping> expected_matches);
 void create_linked_list_node_of_depth(ECS* ecs, int depth);
 
@@ -21,7 +21,7 @@ TEST_CASE("flag line_by_line works correctly") {
 
   Flags flags{true, false, 8, 1000};
   REMatch::Regex regex = REMatch::compile(pattern, flags);
-  REMatch::MatchIterator match_iterator = regex.finditer(document);
+  std::unique_ptr<REMatch::MatchIterator> match_iterator = regex.finditer(document);
 
   run_client_test(match_iterator, expected_matches);
 }

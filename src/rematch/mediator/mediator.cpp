@@ -7,11 +7,11 @@ Mediator::Mediator(ExtendedVA& extended_va,
                    SegmentManagerCreator& segment_manager_creator,
                    std::string&& document, Flags flags)
     : document_(std::move(document)),
-      algorithm_(extended_va, document_, flags),
       variable_catalog_(variable_catalog) {
 
   ZoneScoped;
 
+  algorithm_ = std::make_unique<AlgorithmClass>(extended_va, document_, flags);
   segment_manager_creator.set_document(document_);
   segment_manager_ = segment_manager_creator.get_segment_manager();
 
@@ -21,7 +21,7 @@ Mediator::Mediator(ExtendedVA& extended_va,
   if (segment_span != nullptr) {
     update_algorithm(*segment_span);
   } else {
-    algorithm_.set_null_segment();
+    algorithm_->set_null_segment();
   }
 }
 
@@ -58,7 +58,7 @@ mediator::Mapping* Mediator::next() {
 bool Mediator::next_is_computed_successfully() {
 
   while (true) {
-    mapping_ = algorithm_.get_next_mapping();
+    mapping_ = algorithm_->get_next_mapping();
     if (mapping_ != nullptr) {
       return true;
     }
@@ -77,8 +77,8 @@ bool Mediator::next_is_computed_successfully() {
 void Mediator::update_algorithm(Span& segment_span) {
   // add 1 to the max index to include the EOF character
   segment_span.second++;
-  algorithm_.set_document_indexes(segment_span);
-  algorithm_.initialize_algorithm();
+  algorithm_->set_document_indexes(segment_span);
+  algorithm_->initialize_algorithm();
 }
 
 }

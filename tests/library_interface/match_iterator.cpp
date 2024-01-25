@@ -17,8 +17,8 @@ TEST_CASE("match iterator returns the correct variables") {
   std::string document = "This is a document";
   REMatch::Regex regex = REMatch::compile(pattern);
 
-  MatchIterator iterator = regex.finditer(document);
-  std::vector<std::string> variables = iterator.variables();
+  std::unique_ptr<MatchIterator> iterator = regex.finditer(document);
+  std::vector<std::string> variables = iterator->variables();
 
   REQUIRE(variables == std::vector<std::string>{"a", "b", "c", "d"});
 }

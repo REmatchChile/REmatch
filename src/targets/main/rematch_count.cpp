@@ -25,12 +25,12 @@ int main(int argc, char* argv[]) {
   REMatch::Flags flags{false, false, 12, 100000};
 
   REMatch::Regex word_regex = REMatch::compile(regex, flags);
-  REMatch::MatchIterator iterator = word_regex.finditer(document);
-  auto match = iterator.next();
+  std::unique_ptr<REMatch::MatchIterator> iterator = word_regex.finditer(document);
+  auto match = iterator->next();
   size_t matches_count = 0;
   while (match != nullptr) {
     matches_count++;
-    match = iterator.next();
+    match = iterator->next();
   }
   std::cout << matches_count << std::endl;
   return 0;
