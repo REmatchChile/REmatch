@@ -481,15 +481,15 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
       auto qty = ctx->quantity();
       int lo = 0, hi = -1;
       if (qty->quantExact()) {
-        lo = std::stoi(qty->getText());
+        lo = std::stoi(qty->quantExact()->number()->getText());
         hi = lo;
       } else if (qty->quantRange()) {
         lo = std::stoi(qty->quantRange()->number(0)->getText());
         hi = std::stoi(qty->quantRange()->number(1)->getText());
       } else if (qty->quantMin()) {
-        lo = std::stoi(qty->getText());
+        lo = std::stoi(qty->quantMin()->number()->getText());
       } else if (qty->quantMax()) {
-        hi = std::stoi(qty->getText());
+        hi = std::stoi(qty->quantMax()->number()->getText());
       }
       lva_ptr->repeat(lo, hi);
     }
