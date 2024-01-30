@@ -1,3 +1,4 @@
+from ._pyrematch import *
 
 
 def test():
