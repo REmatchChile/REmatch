@@ -11,7 +11,7 @@ namespace py = pybind11;
 using namespace REMatch;
 using namespace pybind11::literals;
 
-PYBIND11_MODULE(rematch_py, m) {
+PYBIND11_MODULE(_pyrematch, m) {
   m.doc() = "REmatch";
 
   py::class_<Flags>(m, "Flags")
@@ -45,15 +45,13 @@ PYBIND11_MODULE(rematch_py, m) {
       .def("variables", &MatchIterator::variables);
 
   py::class_<Regex>(m, "Regex")
-      .def(py::init<const std::string&, Flags>(), "pattern"_a,
-           "flags"_a = Flags())
       .def("findone", &Regex::findone, "document"_a)
       .def("finditer", &Regex::finditer, "document"_a);
 
-  m.def("compile", &compile, "document"_a, "flags"_a = Flags());
-  m.def("findone", &findone);
-  m.def("findall", &findall);
-  m.def("finditer", &finditer);
+  m.def("compile", &compile, "pattern"_a, "flags"_a = Flags());
+  m.def("findone", &findone, "pattern"_a, "document"_a, "flags"_a = Flags());
+  m.def("findall", &findall, "pattern"_a, "document"_a, "flags"_a = Flags());
+  m.def("finditer", &finditer, "pattern"_a, "document"_a, "flags"_a = Flags());
 
   py::register_exception<RegexSyntaxException>(m, "RegexSyntaxException");
   py::register_exception<AnchorInsideCaptureException>(m, "AnchorInsideCaptureException");

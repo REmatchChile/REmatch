@@ -8,7 +8,7 @@ set(BUILD_TARGETS
 if(EMSCRIPTEN)
   message("Building emscripten target")
   add_executable(emscripten_binding ${CMAKE_CURRENT_SOURCE_DIR}/main/emscripten_binding.cpp ${sources})
-  target_link_libraries(emscripten_binding ${PROJECT_NAME}lib)
+  target_link_libraries(emscripten_binding ${project_LIB})
   set_target_properties(emscripten_binding PROPERTIES LINK_FLAGS
     "-lembind \
     -fwasm-exceptions \
@@ -25,18 +25,31 @@ if(EMSCRIPTEN)
   )
   return()
 
-elseif(BUILD_PYTHON_MODULE)
+elseif(SKBUILD)
   message(STATUS "Building python target")
-  find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+  # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DCMAKE_POSITION_INDEPENDENT_CODE=ON")
+  # find_package(PythonLibs REQUIRED)
+  # include_directories(${PYTHON_INCLUDE_DIRS})
+  
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+  # find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+  find_package(PythonLibs REQUIRED)
+  include_directories(${PYTHON_INCLUDE_DIRS})
+
+  message("Python version: ${PYTHON_VERSION_STRING}")
+
   find_package(pybind11 CONFIG REQUIRED)
-  pybind11_add_module(rematch_py MODULE ${CMAKE_CURRENT_SOURCE_DIR}/main/python_binding.cpp)
-  target_compile_options(rematch_py PRIVATE -Wall -Wextra)
-  target_link_libraries(rematch_py PRIVATE ${PROJECT_NAME}lib)
+  pybind11_add_module(_pyrematch MODULE ${CMAKE_CURRENT_SOURCE_DIR}/main/python_binding.cpp)
+  set_target_properties(_pyrematch PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
+  # target_link_libraries(_pyrematch PRIVATE ${project_LIB})
+  target_link_libraries(_pyrematch PRIVATE ${project_LIB} ${PYTHON_LIBRARIES})
+
+  install(TARGETS _pyrematch DESTINATION .)
 
 else()
   message(STATUS "Building REmatch targets")
   foreach(target ${BUILD_TARGETS})
     add_executable(${target} ${CMAKE_CURRENT_SOURCE_DIR}/main/${target}.cpp ${sources})
-    target_link_libraries(${target} PRIVATE ${PROJECT_NAME}lib)
+    target_link_libraries(${target} PRIVATE ${project_LIB})
   endforeach()
 endif()

@@ -136,3 +136,5 @@ ENV/
 # .vscode/
 
 .DS_Store
+
+_skbuild

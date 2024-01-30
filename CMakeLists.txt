@@ -6,6 +6,16 @@ project(rematch LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+set(project_LIB ${PROJECT_NAME}lib)
+
+# Use all cores but one for compilation
+include(ProcessorCount)
+ProcessorCount(NUM_CORES)
+if(NUM_CORES GREATER 1)
+    math(EXPR PARALLEL_LEVEL "${NUM_CORES} - 1")
+    set(CMAKE_BUILD_PARALLEL_LEVEL ${PARALLEL_LEVEL})
+endif()
+
 # Enable testing
 set(REMATCH_BUILD_TESTING OFF)
 

@@ -21,15 +21,15 @@ class MatchIterator {
 
  private:
   std::optional<rematch::RegexData> regex_data_ = std::nullopt;
-  rematch::Mediator mediator_;
+  std::unique_ptr<rematch::Mediator> mediator_;
   std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog_;
-  const std::string& document_;
+  const std::string document_;
 
  public:
   MatchIterator(rematch::RegexData& regex_data, std::string&& document,
-                const std::string& document_view, Flags flags = Flags());
+                Flags flags = Flags());
   MatchIterator(const std::string& pattern, std::string&& document,
-                const std::string& document_view, Flags flags = Flags());
+                Flags flags = Flags());
 
   std::unique_ptr<Match> next();
   std::vector<std::string> variables();

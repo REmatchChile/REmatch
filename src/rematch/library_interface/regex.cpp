@@ -15,7 +15,7 @@ std::unique_ptr<MatchIterator> Regex::finditer(const std::string& document_view)
   std::string document = rematch::add_start_and_end_chars(document_view);
 
   return std::make_unique<MatchIterator>(regex_data_, std::move(document),
-                                         document_view, flags_);
+                                         flags_);
 }
 
 } // end namespace library_interface

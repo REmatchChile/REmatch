@@ -20,14 +20,14 @@ class Mediator {
   Mediator(ExtendedVA& extended_va,
            std::shared_ptr<VariableCatalog> variable_catalog,
            SegmentManagerCreator& segment_manager_creator,
-           std::string&& document, Flags flags = Flags());
+           std::string_view document, Flags flags = Flags());
   Mediator(RegexData& regex_data,
-           std::string&& document, Flags flags = Flags());
+           std::string_view document, Flags flags = Flags());
 
   mediator::Mapping* next();
 
  private:
-  std::string document_;
+  std::string_view document_;
   std::unique_ptr<SegmentManager> segment_manager_;
   std::unique_ptr<AlgorithmClass> algorithm_;
   std::shared_ptr<VariableCatalog> variable_catalog_;

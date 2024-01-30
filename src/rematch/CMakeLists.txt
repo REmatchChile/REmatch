@@ -18,7 +18,6 @@ file(GLOB_RECURSE glob_srcs
 
 set(sources ${fix_srcs} ${glob_srcs})
 
-set(project_LIB ${PROJECT_NAME}lib)
-add_library(${project_LIB} ${sources})
+add_library(${project_LIB} STATIC ${sources})
 
 target_link_libraries(${project_LIB} antlr4_cpp_runtime TracyClient)

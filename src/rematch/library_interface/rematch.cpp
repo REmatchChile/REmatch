@@ -32,7 +32,7 @@ std::unique_ptr<MatchIterator> finditer(const std::string& pattern, const std::s
                        Flags flags) {
   std::string document_with_delimiters =
       rematch::add_start_and_end_chars(document);
-  return std::make_unique<MatchIterator>(pattern, std::move(document_with_delimiters), document, flags);
+  return std::make_unique<MatchIterator>(pattern, std::move(document_with_delimiters), flags);
 }
 
 }  // namespace library_interface
