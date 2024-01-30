@@ -1,3 +1,3 @@
-from .pyrematch import test
+from .pyrematch import Flags, Regex
 
-__all__ = ["test"]
+__all__ = ["Regex", "Flags"]
