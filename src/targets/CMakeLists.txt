@@ -8,7 +8,7 @@ set(BUILD_TARGETS
 if(EMSCRIPTEN)
   message("Building emscripten target")
   add_executable(emscripten_binding ${CMAKE_CURRENT_SOURCE_DIR}/main/emscripten_binding.cpp ${sources})
-  target_link_libraries(emscripten_binding ${project_LIB})
+  target_link_libraries(emscripten_binding PRIVATE ${project_LIB})
   set_target_properties(emscripten_binding PROPERTIES LINK_FLAGS
     "-lembind \
     -fwasm-exceptions \
