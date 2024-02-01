@@ -20,12 +20,12 @@ class Match {
  private:
   rematch::mediator::Mapping mapping_;
   std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog_;
-  const std::string& document_;
+  std::string_view document_;
 
  public:
   Match(rematch::mediator::Mapping mapping,
         std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog,
-        const std::string& document);
+        std::string_view document);
 
   int start(std::string variable_name);
   int start(int variable_id);

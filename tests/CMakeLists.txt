@@ -45,7 +45,7 @@ set(TEST_SOURCES
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(${TEST_BINARY} ${TEST_SOURCES})
 
-target_link_libraries(${TEST_BINARY} PUBLIC ${PROJECT_NAME}lib PRIVATE Catch2::Catch2WithMain)
+target_link_libraries(${TEST_BINARY} PUBLIC ${project_LIB} PRIVATE Catch2::Catch2WithMain)
 
 include(CTest)
 include(Catch)

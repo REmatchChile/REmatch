@@ -6,7 +6,7 @@ inline namespace library_interface {
 Match::Match(
     rematch::mediator::Mapping mapping,
     std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog,
-    const std::string& document)
+    std::string_view document)
     : mapping_(mapping),
       variable_catalog_(variable_catalog),
       document_(document) {}
@@ -39,7 +39,10 @@ Span Match::span(int variable_id) {
 
 std::string Match::group(std::string variable_name) {
   Span span = this->span(variable_name);
-  return document_.substr(span.first, span.second - span.first);
+  size_t size = span.second - span.first;
+  // shift to skip the START_CHAR
+  span.first++;
+  return std::string(document_.substr(span.first, size));
 }
 
 std::string Match::group(int variable_id) {

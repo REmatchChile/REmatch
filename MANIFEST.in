@@ -1,0 +1,25 @@
+# Include directories and files
+graft src/
+graft python/
+graft tests/
+graft cmake/
+
+include CMakeLists.txt
+include LICENCE
+include setup.py
+include pyproject.toml
+
+
+# Exclude directories and files
+prune datasets/
+prune docs/
+prune scripts/
+prune _skbuild/
+
+exclude .clang-format
+exclude .clang-tidy
+excluce .gitignore
+exclude .pypirc
+exclude DoxyFile
+exclude MANIFEST.in
+exclude README.md

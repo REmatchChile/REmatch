@@ -5,9 +5,8 @@ namespace rematch {
 Mediator::Mediator(ExtendedVA& extended_va,
                    std::shared_ptr<VariableCatalog> variable_catalog,
                    SegmentManagerCreator& segment_manager_creator,
-                   std::string&& document, Flags flags)
-    : document_(std::move(document)),
-      variable_catalog_(variable_catalog) {
+                   std::string_view document, Flags flags)
+    : document_(document), variable_catalog_(variable_catalog) {
 
   ZoneScoped;
 
@@ -25,11 +24,10 @@ Mediator::Mediator(ExtendedVA& extended_va,
   }
 }
 
-Mediator::Mediator(RegexData& regex_data,
-                   std::string&& document, Flags flags)
-    : Mediator(regex_data.extended_va,
-               regex_data.variable_catalog, regex_data.segment_manager_creator,
-               std::move(document), flags) {}
+Mediator::Mediator(RegexData& regex_data, std::string_view document,
+                   Flags flags)
+    : Mediator(regex_data.extended_va, regex_data.variable_catalog,
+               regex_data.segment_manager_creator, document, flags) {}
 
 mediator::Mapping* Mediator::next() {
   ZoneScopedNC("Mediator::next", 0x008000);

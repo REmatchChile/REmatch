@@ -6,9 +6,10 @@ set(BUILD_TARGETS
 )
 
 if(EMSCRIPTEN)
-  message("Building emscripten target")
+  message("Building javascript target")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fwasm-exceptions")
   add_executable(emscripten_binding ${CMAKE_CURRENT_SOURCE_DIR}/main/emscripten_binding.cpp ${sources})
-  target_link_libraries(emscripten_binding ${PROJECT_NAME}lib)
+  target_link_libraries(emscripten_binding PRIVATE ${project_LIB})
   set_target_properties(emscripten_binding PROPERTIES LINK_FLAGS
     "-lembind \
     -fwasm-exceptions \
@@ -24,9 +25,17 @@ if(EMSCRIPTEN)
     -sEXPORT_EXCEPTION_HANDLING_HELPERS=1"
   )
   return()
+
+elseif(SKBUILD)
+  message(STATUS "Building python target")
+  include(${PROJECT_SOURCE_DIR}/cmake/setup_pybind11.cmake)
+  pybind11_add_module(_pyrematch MODULE ${CMAKE_CURRENT_SOURCE_DIR}/main/python_binding.cpp)
+  target_link_libraries(_pyrematch PRIVATE ${project_LIB} ${PYTHON_LIBRARIES})
+  install(TARGETS _pyrematch DESTINATION .)
 else()
+  message(STATUS "Building REmatch targets")
   foreach(target ${BUILD_TARGETS})
     add_executable(${target} ${CMAKE_CURRENT_SOURCE_DIR}/main/${target}.cpp ${sources})
-    target_link_libraries(${target} PRIVATE ${PROJECT_NAME}lib)
+    target_link_libraries(${target} PRIVATE ${project_LIB})
   endforeach()
 endif()
