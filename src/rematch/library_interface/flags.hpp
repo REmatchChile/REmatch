@@ -5,32 +5,14 @@
 #include <utility>
 #include <stdexcept>
 
-#include "invalid_flag_type_exception.hpp"
-
 namespace REMatch {
 inline namespace library_interface {
 
-class Flags {
-  /***************************************************************
-    * Linebyline  (default=false)                                 *
-    * El documento se carga línea por línea.                    *
-    *                                                             *
-    * Earlyoutput (default=false)                                 *
-    * El algoritmo entrega outputs a medida que los encuentra, de *
-    * otra forma el algoritmo escanea todo el documento y luego   *
-    * enumera.                                                    *
-    ***************************************************************/
-public:
-  enum FlagTypes {
-    LineByLine,
-    EarlyOutput
-  };
-
+struct Flags {
   bool line_by_line = false;
   bool early_output = false;
-
-  Flags() = default;
-  Flags(int num, ...);
+  size_t max_mempool_duplications = 8;
+  size_t max_deterministic_states = 1000;
 };
 
 }

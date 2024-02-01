@@ -1,0 +1,1 @@
+(\n[^\n]* PREFIX [^\n]* WHERE [^\n]* FILTER [^\n]*\n[^\n]* PREFIX [^\n]* DISTINCT [^\n]* FILTER [^\n]*\n)

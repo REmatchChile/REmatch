@@ -9,11 +9,15 @@ namespace rematch {
 inline namespace filtering_module {
 
 SearchNFA::SearchNFA(LogicalVA const &A) {
+  ZoneScoped;
+
   LogicalVA A_prim(A);
 
   A_prim.remove_captures();
 
   A_prim.remove_epsilon();
+
+  A_prim.remove_useless_anchors();
 
   A_prim.trim();
 

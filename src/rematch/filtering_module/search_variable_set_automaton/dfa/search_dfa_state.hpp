@@ -18,7 +18,7 @@ class SearchDFAState {
   std::vector<SearchDFAState*> transitions;
 
  private:
-  uint id;
+  uint32_t id;
   static int ID;
   std::string label_;
   std::vector<SearchNFAState*> states_subset_;

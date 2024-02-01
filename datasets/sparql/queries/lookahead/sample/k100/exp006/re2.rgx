@@ -1,0 +1,1 @@
+\n([^\n]* SELECT [^\n]* WHERE [^\n]* ORDER BY [^\n]*\n[^\n]* DISTINCT [^\n]* FILTER [^\n]*)\n

@@ -1,5 +1,5 @@
 
-// Generated from REmatchLexer.g4 by ANTLR 4.11.1
+// Generated from REmatchLexer.g4 by ANTLR 4.13.1
 
 #pragma once
 
@@ -17,7 +17,7 @@ public:
     NEWLINE = 9, VERTICAL_WHITESPACE = 10, FORM_FEED = 11, PIPE = 12, EXCLAMAITON = 13, 
     L_CURLY = 14, R_CURLY = 15, L_PAR = 16, R_PAR = 17, COMMA = 18, QUESTION = 19, 
     PLUS = 20, STAR = 21, HAT = 22, HYPHEN = 23, L_BRACK = 24, R_BRACK = 25, 
-    BACKSLASH = 26, ALPHA = 27, DIGIT = 28, DOT = 29, UNRECOGNIZED = 30
+    BACKSLASH = 26, ALPHA = 27, DIGIT = 28, DOT = 29, DOLLAR = 30, UNRECOGNIZED = 31
   };
 
   explicit REmatchLexer(antlr4::CharStream *input);

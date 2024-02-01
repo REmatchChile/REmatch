@@ -12,6 +12,7 @@
 
 #include "filtering_module/search_variable_set_automaton/dfa/search_dfa.hpp"
 #include "filtering_module/search_variable_set_automaton/dfa/search_dfa_state.hpp"
+#include "tracy/Tracy.hpp"
 
 namespace rematch {
 inline namespace filtering_module {
@@ -28,17 +29,16 @@ inline namespace filtering_module {
 class SegmentIdentificator {
 
  public:
-  SegmentIdentificator(
-      SearchDFA &search_dfa,
-      std::string_view document
-  );
+  SegmentIdentificator(SearchDFA& search_dfa, std::string_view document);
 
   /**
    * next_is_computed_successfully() MUST be called before, if not, next() has undefined
    * behavior.
    */
   std::unique_ptr<Span> next();
-  void set_document(std::string document);
+  void set_document_indexes(Span& span);
+  size_t get_search_dfa_size();
+  size_t get_search_nfa_size();
 
  private:
   /**
@@ -49,8 +49,11 @@ class SegmentIdentificator {
    */
   bool next_is_computed_successfully();
 
-  SearchDFA &search_dfa;
-  std::string document;
+  SearchDFA& search_dfa;
+  std::string_view document;
+
+  uint64_t doc_start_i_ = 0;
+  uint64_t doc_end_i_ = 0;
 
   uint64_t i_src = 0;
   uint64_t i_min = 0;

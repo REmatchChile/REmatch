@@ -5,12 +5,23 @@
 #include "library_interface/match_iterator.hpp"
 #include "../evaluation/dummy_mapping.hpp"
 #include "../evaluation/mapping_helpers.hpp"
+#include "library_interface/rematch.hpp"
 
 namespace rematch::testing {
 using namespace REMatch::library_interface;
-extern char EOF_char;
 
 void run_match_iterator_test(std::string regex, std::string document, std::vector<rematch::mediator::Mapping> expected_matches);
+
+TEST_CASE("match iterator returns the correct variables") {
+  std::string pattern = "!c{!b{!d{x}}!a{y}}";
+  std::string document = "This is a document";
+  REMatch::Regex regex = REMatch::compile(pattern);
+
+  std::unique_ptr<MatchIterator> iterator = regex.finditer(document);
+  std::vector<std::string> variables = iterator->variables();
+
+  REQUIRE(variables == std::vector<std::string>{"a", "b", "c", "d"});
+}
 
 TEST_CASE("match iterator returns the correct matches for a simple query") {
   std::string regex = "!x{a}";
@@ -35,18 +46,16 @@ TEST_CASE("match iterator returns the correct matches when there is more than on
 
 void run_match_iterator_test(std::string regex, std::string document, std::vector<rematch::mediator::Mapping> expected_matches) {
   Parser parser = Parser(regex);
-  document += EOF_char;
-  std::string_view document_view = document.c_str();
+  std::string document_with_delimiters = START_CHAR + document + END_CHAR;
 
   LogicalVA logical_va = parser.get_logical_va();
   auto extended_va = ExtendedVA(logical_va);
   extended_va.clean_for_determinization();
-  auto extended_det_va = ExtendedDetVA(extended_va);
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
-  auto search_dfa = SearchDFA(logical_va);
+  auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
-  auto mediator = Mediator(search_dfa, extended_det_va, variable_catalog, document);
-  auto match_iterator = MatchIterator(std::move(mediator), variable_catalog, document_view);
+  auto regex_data = RegexData(std::move(segment_manager_creator), std::move(extended_va), variable_catalog);
+  auto match_iterator = MatchIterator(regex_data, std::move(document_with_delimiters));
 
   std::ostringstream info_os;
   info_os << "Actual mappings:" << std::endl;

@@ -1,0 +1,25 @@
+{
+  "experiments": {
+    "dna": {
+      "queries": "datasets/dna/queries/lookahead/sample",
+      "document": "datasets/dna/zebrafish.faa",
+      "outputs": "datasets/dna/outputs"
+    },
+    "morphemes": {
+      "queries": "datasets/literature/queries/lookahead/sample",
+      "document": "datasets/literature/english-authors.txt",
+      "outputs": "datasets/literature/outputs"
+    },
+    "sparql": {
+      "queries": "datasets/sparql/queries/lookahead/sample",
+      "document": "datasets/sparql/sparql.log.1",
+      "outputs": "datasets/sparql/outputs"
+    }
+  },
+  "REmatchData": {
+    "command": "rematch_matches",
+    "args": "{document} {regex}",
+    "rgx_type": "rematch"
+  },
+  "summaryDirectory": "exp/correctness"
+}

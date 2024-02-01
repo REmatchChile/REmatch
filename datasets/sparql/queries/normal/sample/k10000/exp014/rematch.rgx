@@ -1,0 +1,1 @@
+!x{\n[^\n]* PREFIX [^\n]* PREFIX [^\n]* OPTIONAL [^\n]*\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* GROUP BY [^\n]*\n}

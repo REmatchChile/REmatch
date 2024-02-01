@@ -2,11 +2,14 @@
 #define OUTPUT_ENUMERATION__GARBAGE_COLLECTOR_HPP
 
 #include "output_enumeration/minipool.hpp"
+#include "exceptions/memory_limit_exceeded_exception.hpp"
+#include "library_interface/flags.hpp"
 
 namespace rematch {
 inline namespace output_enumeration {
+using namespace REMatch;
 
-const size_t MEMORY_POOL_STARTING_SIZE = 2048;
+const size_t MEMORY_POOL_STARTING_SIZE = 128;
 
 /**
  * The Node Manager class stores the pointers to all allocated
@@ -23,9 +26,12 @@ public:
 private:
   MiniPool *minipool_head_;
   ECSNode *recyclable_node_head;
+  size_t number_of_mempool_duplications = 0;
+  size_t max_number_of_mempool_duplications = 0;
 
 public:
-  NodeManager(size_t starting_size = MEMORY_POOL_STARTING_SIZE);
+  NodeManager(size_t starting_size, Flags flags = Flags());
+  NodeManager(Flags flags = Flags());
   ~NodeManager();
 
   template <class... Args> ECSNode *alloc(Args &&...args) {
@@ -41,12 +47,12 @@ public:
 
   void add_to_list_of_free_memory(ECSNode *node);
   size_t get_amount_of_nodes_used() const { return amount_of_nodes_used; }
-
-
+  size_t get_amount_of_nodes_reused() const;
 
 private:
   ECSNode *get_node_to_recycle_or_increase_mempool_size_if_necessary();
   void increase_mempool_size();
+  void throw_exception_if_mempool_duplications_exceeded();
   ECSNode *get_node_to_recycle();
   void decrease_references_to_children(ECSNode *children[2]);
   void advance_recyclable_nodes_list_head();

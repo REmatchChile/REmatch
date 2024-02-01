@@ -6,11 +6,11 @@
 #include <bitset>
 #include <memory>
 
-#include "parsing/exceptions/bad_regex_exception.hpp"
 #include "parsing/charclass.hpp"
 #include "parsing/logical_variable_set_automaton/logical_va_capture.hpp"
 #include "parsing/logical_variable_set_automaton/logical_va_filter.hpp"
 #include "parsing/logical_variable_set_automaton/logical_va_epsilon.hpp"
+#include "parsing/logical_variable_set_automaton/logical_va_anchor.hpp"
 
 namespace rematch {
 inline namespace parsing {
@@ -36,11 +36,12 @@ class LogicalVAState {
     std::list<LogicalVAFilter*> filters;
     std::list<LogicalVACapture*> captures;
     std::list<LogicalVAEpsilon*> epsilons;
+    std::list<LogicalVAAnchor*> anchors;
 
     std::list<LogicalVACapture*> backward_captures_;
     std::list<LogicalVAFilter*> backward_filters_;
     std::list<LogicalVAEpsilon*> backward_epsilons_;
-
+    std::list<LogicalVAAnchor*> backward_anchors_;
 
     /// For graph algorithms
     bool tempMark = false;
@@ -57,14 +58,10 @@ class LogicalVAState {
 
     LogicalVAState(const LogicalVAState& s);
 
-    void init();
-
-    LogicalVAState* nextFilter(CharClass charclass);
-    LogicalVAState* nextCapture(std::bitset<64> code);
-
     void add_capture(std::bitset<64> code, LogicalVAState* next);
     void add_filter(CharClass charclass, LogicalVAState* next);
     void add_epsilon(LogicalVAState* next);
+    void add_anchor(bool is_start, LogicalVAState* next);
 
     // Getters and setters
     bool initial() const { return flags & kInitialLogicalVAState; }

@@ -1,4 +1,3 @@
-#include "library_interface/match.hpp"
 #include "match.hpp"
 
 namespace REMatch {
@@ -8,7 +7,9 @@ Match::Match(
     rematch::mediator::Mapping mapping,
     std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog,
     std::string_view document)
-    : mapping_(mapping), variable_catalog_(variable_catalog), document_(document) {}
+    : mapping_(mapping),
+      variable_catalog_(variable_catalog),
+      document_(document) {}
 
 int Match::start(std::string variable_name) {
   Span span = this->span(variable_name);
@@ -38,8 +39,10 @@ Span Match::span(int variable_id) {
 
 std::string Match::group(std::string variable_name) {
   Span span = this->span(variable_name);
-  std::string_view group = document_.substr(span.first, span.second - span.first);
-  return std::string(group);
+  size_t size = span.second - span.first;
+  // shift to skip the START_CHAR
+  span.first++;
+  return std::string(document_.substr(span.first, size));
 }
 
 std::string Match::group(int variable_id) {
@@ -61,5 +64,21 @@ bool Match::empty() {
   return mapping_.get_spans_map().size() == 0;
 }
 
+std::ostream& operator<<(std::ostream& os, Match& match) {
+  int amount_of_variables = match.variable_catalog_->size();
+
+  for (unsigned int i = 0; i < match.variable_catalog_->size() - 1; i++) {
+    std::string variable_name = match.variable_catalog_->get_var(i);
+    Span span = match.span(variable_name);
+    os << variable_name << " = |" << span.first << "," << span.second << ">\t";
+  }
+
+  std::string variable_name = match.variable_catalog_->get_var(amount_of_variables - 1);
+  Span span = match.span(variable_name);
+  os << variable_name << " = |" << span.first << "," << span.second << ">";
+
+  return os;
 }
+
+}  // namespace library_interface
 }  // namespace REMatch

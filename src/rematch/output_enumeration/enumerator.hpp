@@ -20,7 +20,6 @@ const int MAXIMUM_AMOUNT_OF_VARIABLES = 31;
 class Enumerator {
 
  private:
-  int amount_of_variables = MAXIMUM_AMOUNT_OF_VARIABLES;
   std::vector<ECSNode*> stack = {};
   Mapping *current_mapping;
 
@@ -29,7 +28,6 @@ class Enumerator {
 
  public:
   Enumerator();
-  Enumerator(int amount_of_variables);
   Enumerator(const Enumerator&) = delete;
   ~Enumerator();
 

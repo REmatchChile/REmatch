@@ -18,12 +18,6 @@ file(GLOB_RECURSE glob_srcs
 
 set(sources ${fix_srcs} ${glob_srcs})
 
-set(project_LIB ${PROJECT_NAME}lib)
+add_library(${project_LIB} STATIC ${sources})
 
-add_library(${project_LIB} ${sources})
-target_link_libraries(${project_LIB} ${REMATCH_LIBS} antlr4_cpp_runtime)
-list(APPEND REMATCH_LIBS ${project_LIB})
-
-# Pass the variable to parent
-set(REMATCH_LIBS ${REMATCH_LIBS} PARENT_SCOPE)
-
+target_link_libraries(${project_LIB} PUBLIC antlr4_cpp_runtime TracyClient)

@@ -6,10 +6,11 @@
 
 namespace rematch::testing {
 
-ExtendedDetVA get_extended_det_va_from_regex(std::string_view input);
+ExtendedVA get_extended_va_from_regex(std::string input);
 
 TEST_CASE("initial state is created correctly") {
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("a");
+  ExtendedVA extended_va = get_extended_va_from_regex("a");
+  ExtendedDetVA extended_det_va(extended_va);
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
   std::vector<ExtendedVAState*> states_subset = initial_state->get_states_subset();
 
@@ -30,7 +31,7 @@ TEST_CASE("next state is computed correctly when there is a valid transition") {
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
-  std::vector<CaptureSubsetPair*> capture_subset_list;
+  std::vector<CaptureSubsetPair> capture_subset_list;
   capture_subset_list = extended_det_va.get_next_states(initial_state, 'a');
 
   // it has 3 states: initial state, the duplicate of the initial state and
@@ -38,14 +39,14 @@ TEST_CASE("next state is computed correctly when there is a valid transition") {
   REQUIRE(extended_det_va.states.size() == 3);
   REQUIRE(capture_subset_list.size() == 2);
 
-  std::bitset<64> det_va_empty_code = capture_subset_list[0]->capture;
-  ExtendedDetVAState* initial_state_duplicate = capture_subset_list[0]->subset;
+  std::bitset<64> det_va_empty_code = capture_subset_list[0].capture;
+  ExtendedDetVAState* initial_state_duplicate = capture_subset_list[0].subset;
 
   REQUIRE(initial_state_duplicate->get_subset_size() == 1);
   REQUIRE(det_va_empty_code == eva_empty_code);
 
-  std::bitset<64> det_va_open_x_code = capture_subset_list[1]->capture;
-  ExtendedDetVAState* second_state = capture_subset_list[1]->subset;
+  std::bitset<64> det_va_open_x_code = capture_subset_list[1].capture;
+  ExtendedDetVAState* second_state = capture_subset_list[1].subset;
 
   REQUIRE(second_state->get_subset_size() == 1);
   REQUIRE(det_va_open_x_code == eva_open_x_code);
@@ -53,106 +54,110 @@ TEST_CASE("next state is computed correctly when there is a valid transition") {
 
 TEST_CASE("next state is computed correctly when there are no valid transitions other \
            than the initial loop") {
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("!x{a}");
+  ExtendedVA extended_va = get_extended_va_from_regex("!x{a}");
+  ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
-  std::vector<CaptureSubsetPair*> capture_subset_list;
+  std::vector<CaptureSubsetPair> capture_subset_list;
   capture_subset_list = extended_det_va.get_next_states(initial_state, 'b');
 
   REQUIRE(extended_det_va.states.size() == 2);
   REQUIRE(capture_subset_list.size() == 1);
 
   std::bitset<64> empty_capture;
-  REQUIRE(capture_subset_list[0]->capture == empty_capture);
-  REQUIRE(capture_subset_list[0]->subset->get_subset_size() == 1);
+  REQUIRE(capture_subset_list[0].capture == empty_capture);
+  REQUIRE(capture_subset_list[0].subset->get_subset_size() == 1);
 }
 
 TEST_CASE("next state is computed correctly when there are two transitions with the same \
            capture and reading") {
 
   // the initial state of the extended VA has two 'a/[x' transitions
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("!x{a+}");
+  ExtendedVA extended_va = get_extended_va_from_regex("!x{a+|a}");
+  ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
-  std::vector<CaptureSubsetPair*> capture_subset_list;
+  std::vector<CaptureSubsetPair> capture_subset_list;
   capture_subset_list = extended_det_va.get_next_states(initial_state, 'a');
 
   REQUIRE(capture_subset_list.size() == 2);
 
-  ExtendedDetVAState* second_state = capture_subset_list[1]->subset;
+  ExtendedDetVAState* second_state = capture_subset_list[1].subset;
 
   REQUIRE(second_state->get_subset_size() == 2);
 }
 
 TEST_CASE("next state is computed correctly when the current subset has more than one state") {
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("!x{aa|aa}");
+  ExtendedVA extended_va = get_extended_va_from_regex("!x{aa|aa}");
+  ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
-  std::vector<CaptureSubsetPair*> capture_subset_list;
+  std::vector<CaptureSubsetPair> capture_subset_list;
   capture_subset_list = extended_det_va.get_next_states(initial_state, 'a');
 
-  ExtendedDetVAState* second_state = capture_subset_list[1]->subset;
+  ExtendedDetVAState* second_state = capture_subset_list[1].subset;
   capture_subset_list = extended_det_va.get_next_states(second_state, 'a');
 
   REQUIRE(capture_subset_list.size() == 1);
 
   std::bitset<64> empty_capture;
 
-  REQUIRE(capture_subset_list[0]->capture == empty_capture);
-  REQUIRE(capture_subset_list[0]->subset->get_subset_size() == 2);
+  REQUIRE(capture_subset_list[0].capture == empty_capture);
+  REQUIRE(capture_subset_list[0].subset->get_subset_size() == 2);
 }
 
 TEST_CASE("next state is returned immediately when it has already been computed before") {
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("!y{a}");
+  ExtendedVA extended_va = get_extended_va_from_regex("!y{a}");
+  ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
-  std::vector<CaptureSubsetPair*> capture_subset_list1;
+  std::vector<CaptureSubsetPair> capture_subset_list1;
   capture_subset_list1 = extended_det_va.get_next_states(initial_state, 'a');
-  ExtendedDetVAState* next_state1 = capture_subset_list1[1]->subset;
+  ExtendedDetVAState* next_state1 = capture_subset_list1[1].subset;
 
-  std::vector<CaptureSubsetPair*> capture_subset_list2;
+  std::vector<CaptureSubsetPair> capture_subset_list2;
   capture_subset_list2 = extended_det_va.get_next_states(initial_state, 'a');
-  ExtendedDetVAState* next_state2 = capture_subset_list1[1]->subset;
+  ExtendedDetVAState* next_state2 = capture_subset_list1[1].subset;
 
   REQUIRE(next_state1->id == next_state2->id);
 }
 
 TEST_CASE("the deterministic state is final if a state in the subset is final") {
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("a");
+  ExtendedVA extended_va = get_extended_va_from_regex("a");
+  ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
-  std::vector<CaptureSubsetPair*> capture_subset_list;
+  std::vector<CaptureSubsetPair> capture_subset_list;
   capture_subset_list = extended_det_va.get_next_states(initial_state, 'a');
 
-  ExtendedDetVAState* second_state = capture_subset_list[0]->subset;
+  ExtendedDetVAState* second_state = capture_subset_list[0].subset;
 
   REQUIRE(second_state->is_accepting());
 }
 
 TEST_CASE("non ascii characters are handled correctly") {
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("a");
+  ExtendedVA extended_va = get_extended_va_from_regex("a");
+  ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
-  std::vector<CaptureSubsetPair*> capture_subset_list;
-  char EOF_char = -1;
-  capture_subset_list = extended_det_va.get_next_states(initial_state, EOF_char);
+  std::vector<CaptureSubsetPair> capture_subset_list;
+  capture_subset_list = extended_det_va.get_next_states(initial_state, END_CHAR);
 
   REQUIRE(capture_subset_list.size() == 1);
 }
 
-ExtendedDetVA get_extended_det_va_from_regex(std::string_view input) {
-  Parser parser = Parser(input);
+ExtendedVA get_extended_va_from_regex(std::string regex) {
+  Parser parser(regex);
   LogicalVA logical_va = parser.get_logical_va();
-  ExtendedVA extended_va = ExtendedVA(logical_va);
+  ExtendedVA extended_va(logical_va);
   extended_va.clean_for_determinization();
-  
-  return ExtendedDetVA(extended_va);
+  return extended_va;
 }
 
 }  // namespace rematch::testing

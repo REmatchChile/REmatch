@@ -6,33 +6,31 @@
 
 namespace rematch::testing {
 using namespace REMatch::library_interface;
-extern char EOF_char;
 
 TEST_CASE("find method returns the first match correctly") {
-  std::string_view pattern = "!x{ab}";
+  std::string pattern = "!x{ab}";
   auto regex = Regex(pattern);
-  std::unique_ptr<Match> match = regex.find("abab");
+  std::unique_ptr<Match> match = regex.findone("abab");
 
-  REQUIRE(match->span("x") == (Span){0, 2});
+  REQUIRE(match->span("x") == Span(0, 2));
 }
 
 TEST_CASE("finditer method returns the iterator correctly") {
-  std::string_view pattern = "!x{ab}";
+  std::string pattern = "!x{ab}";
   std::string document = "abab";
-  document += EOF_char;
-  std::string_view document_view = document.c_str();
+  document += END_CHAR;
   auto regex = Regex(pattern);
-  MatchIterator match_iterator = regex.finditer(document_view);
+  std::unique_ptr<MatchIterator> match_iterator = regex.finditer(document);
 
-  std::unique_ptr<Match> match = match_iterator.next();
+  std::unique_ptr<Match> match = match_iterator->next();
   REQUIRE(match != nullptr);
-  REQUIRE(match->span("x") == (Span){0, 2});
+  REQUIRE(match->span("x") == Span(0, 2));
 
-  match = match_iterator.next();
+  match = match_iterator->next();
   REQUIRE(match != nullptr);
-  REQUIRE(match->span("x") == (Span){2, 4});
+  REQUIRE(match->span("x") == Span(2, 4));
 
-  match = match_iterator.next();
+  match = match_iterator->next();
   REQUIRE(match == nullptr);
 }
 

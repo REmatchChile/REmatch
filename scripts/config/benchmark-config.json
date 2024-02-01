@@ -1,0 +1,76 @@
+{
+  "benchmarks": {
+    "libraries-lookahead": {
+      "binarySet": "regex-libraries",
+      "experiments": {
+        "dna": {
+          "small-sample": "datasets/dna/queries/lookahead/sample",
+          "large-sample": "datasets/dna/queries/lookahead/sample",
+          "document": "datasets/dna/zebrafish.faa",
+          "results": "exp/crossings/dna/lookahead/results"
+        },
+        "morphemes": {
+          "small-sample": "datasets/literature/queries/lookahead/sample",
+          "large-sample": "datasets/literature/queries/lookahead/sample",
+          "document": "datasets/literature/english-authors.txt",
+          "results": "exp/crossings/morphemes/lookahead/results"
+        },
+        "sparql": {
+          "small-sample": "datasets/sparql/queries/lookahead/sample",
+          "large-sample": "datasets/sparql/queries/lookahead/sample",
+          "document": "datasets/sparql/sparql.log.1",
+          "results": "exp/crossings/sparql/1-var/lookahead/results"
+        }
+      }
+    },
+    "libraries-2-variables": {
+      "binarySet": "regex-libraries",
+      "experiments": {
+        "dna": {
+          "small-sample": "exp/crossings/dna/2vars/small-sample",
+          "large-sample": "exp/crossings/dna/2vars/sample",
+          "document": "datasets/dna/proteoms/cow.faa",
+          "results": "exp/crossings/dna/2vars/results"
+        },
+        "morphemes": {
+          "small-sample": "exp/crossings/morphemes/2vars/small-sample",
+          "large-sample": "exp/crossings/morphemes/2vars/sample",
+          "document": "datasets/english-works/english-authors.txt",
+          "results": "exp/crossings/morphemes/2vars/results"
+        }
+      }
+    },
+    "rematch-versions": {
+      "binarySet": "rematch-versions",
+      "experiments": {
+        "dna": {
+          "small-sample": "exp/crossings/dna/1var/small-sample",
+          "large-sample": "exp/crossings/dna/1var/sample",
+          "document": "datasets/dna/proteoms/zebrafish.faa",
+          "results": "exp/crossings/dna/1var/results"
+        },
+        "morphemes": {
+          "small-sample": "exp/crossings/morphemes/2grams/small-sample",
+          "large-sample": "exp/crossings/morphemes/2grams/sample",
+          "document": "datasets/english-works/english-authors.txt",
+          "results": "exp/crossings/morphemes/2grams/results"
+        },
+        "sparql": {
+          "small-sample": "exp/crossings/sparql/1-var/2lines/small-sample",
+          "large-sample": "exp/crossings/sparql/1-var/2lines/sample",
+          "document": "datasets/RKBExplorer/sparql.log.1",
+          "results": "exp/crossings/sparql/1-var/2lines/results"
+        }
+      }
+    }
+  },
+  "binarySets": {
+    "regex-libraries": {
+      "REmatch-cpp": {
+        "command": "rematch_count",
+        "args": "{document} {regex}",
+        "rgx_type": "rematch"
+      }
+    }
+  }
+}

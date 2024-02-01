@@ -12,7 +12,6 @@
 #include <utility>
 #include <vector>
 
-#include "exceptions/bad_regex_exception.hpp"
 #include "exceptions/variable_not_found_in_catalog_exception.hpp"
 #include "exceptions/variable_limit_exceeded_exception.hpp"
 
@@ -28,11 +27,11 @@ class VariableCatalog {
 	// Simple constructor
 	VariableCatalog();
 
-	size_t size() {return data_.size();}
+	size_t size() {return variables_.size();}
 
-	std::string get_var(uint position);
+	std::string get_var(uint32_t position);
 
-	std::vector<std::string> variables() {return data_;}
+	std::vector<std::string> variables() {return variables_;}
 
 	int position(std::string var) const;
 
@@ -67,7 +66,7 @@ class VariableCatalog {
 
  private:
 	// Ordered vector that stores the variables.
-	std::vector<std::string> data_;
+	std::vector<std::string> variables_;
 
 	// Offset capturing optimization. Maps each opening and closing
 	// capture variable to its computed offset. Then it's a vector of size
@@ -75,8 +74,6 @@ class VariableCatalog {
 	// 		- offsetMap[2*c]         is the opening (x<) offset.
 	//    - offsetMap[2*c + 1] 		 is the closing (x>) offset.
 	std::vector<int> offsetMap;
-
-	bool computedOffsets; // True iff offsetMap was computed.
 };
 
 }

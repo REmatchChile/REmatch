@@ -17,8 +17,6 @@ std::unique_ptr<Span> LineByLineManager::next() {
   while (true) {
     std::unique_ptr<Span> segment = segment_identificator_.next();
     if (segment != nullptr) {
-      segment->first += shift_;
-      segment->second += shift_;
       return segment;
     }
 
@@ -33,10 +31,15 @@ std::unique_ptr<Span> LineByLineManager::next() {
 }
 
 void LineByLineManager::update_line_in_segment_identificator(Span& line_span) {
-  shift_ = line_span.first;
-  std::string line =
-      document_.substr(line_span.first, line_span.second - line_span.first);
-  segment_identificator_.set_document(line);
+  segment_identificator_.set_document_indexes(line_span);
+}
+
+size_t LineByLineManager::get_search_dfa_size() {
+  return segment_identificator_.get_search_dfa_size();
+}
+
+size_t LineByLineManager::get_search_nfa_size() {
+  return segment_identificator_.get_search_nfa_size();
 }
 
 };  // namespace rematch

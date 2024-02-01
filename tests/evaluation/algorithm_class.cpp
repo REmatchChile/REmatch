@@ -2,36 +2,34 @@
 #include <catch2/generators/catch_generators.hpp>
 #undef private
 #include "evaluation/algorithm_class.hpp"
-#include "evaluation/extended_va/dfa/extended_det_va.hpp"
 #include "mapping_helpers.hpp"
 
 namespace rematch::testing {
 
-ExtendedDetVA get_extended_det_va_from_regex(std::string_view input);
+ExtendedVA get_extended_va_from_regex(std::string input);
 ECSNode* create_linked_list_node_of_depth(ECS* ecs, int depth);
 void run_algorithm_test(std::string regex, std::string document,
                         std::vector<DummyMapping> expected_mappings);
 std::string get_mapping_info(DummyMapping mapping);
 std::string create_document_with_repeated_string(std::string_view string, int times);
-char EOF_char = (char) -1;
 
 TEST_CASE("the algorithm returns a null pointer if there are no mappings") {
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("!x{a}");
+  ExtendedVA extended_va = get_extended_va_from_regex("!x{a}");
   std::string document = "b";
-  document += EOF_char;
+  document += END_CHAR;
 
-  AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
+  AlgorithmClass algorithm = AlgorithmClass(extended_va, document);
 
   const Mapping* mapping = algorithm.get_next_mapping();
   REQUIRE(mapping == nullptr);
 }
 
 TEST_CASE("the algorithm returns an empty mapping if there are no captures") {
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex("a");
+  ExtendedVA extended_va = get_extended_va_from_regex("a");
   std::string document = "a";
-  document += EOF_char;
+  document += END_CHAR;
 
-  AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
+  AlgorithmClass algorithm = AlgorithmClass(extended_va, document);
 
   const Mapping* mapping = algorithm.get_next_mapping();
   REQUIRE(mapping != nullptr);
@@ -148,14 +146,15 @@ TEST_CASE("the algorithm returns correct mappings") {
 }
 
 TEST_CASE("nodes used by the algorithm are recycled when creating a linked list") {
-  int size = 683;
+  // for each character, the algorithm adds 3 nodes to the ecs
+  int size = (MEMORY_POOL_STARTING_SIZE + 1) / 3;
   std::string document = create_document_with_repeated_string("a", size);
 
   std::string regex = "!x{a+}";
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex(regex);
+  ExtendedVA extended_va = get_extended_va_from_regex(regex);
 
   ECS ecs = ECS();
-  AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
+  AlgorithmClass algorithm = AlgorithmClass(extended_va, document);
   algorithm.set_ecs(ecs);
 
   const Mapping* mapping = algorithm.get_next_mapping();
@@ -173,10 +172,10 @@ TEST_CASE("nodes used by the algorithm are recycled when it is run again") {
   std::string document = create_document_with_repeated_string("aaac", 300);
 
   std::string regex = "!x{a+}";
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex(regex);
+  ExtendedVA extended_va = get_extended_va_from_regex(regex);
 
   ECS ecs = ECS();
-  AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
+  AlgorithmClass algorithm = AlgorithmClass(extended_va, document);
   algorithm.set_ecs(ecs);
 
   const Mapping* mapping = algorithm.get_next_mapping();
@@ -200,7 +199,7 @@ TEST_CASE("nodes used by the algorithm are recycled when, after constructing the
   // create nodes leaving 5 free nodes in the pool
   // the ecs should allocate no more than 5 nodes
   ECS ecs = ECS();
-  for (int i = 0; i < MEMORY_POOL_STARTING_SIZE - 5; i++)
+  for (size_t i = 0; i < MEMORY_POOL_STARTING_SIZE - 5; i++)
     ecs.create_bottom_node();
 
   // the document needs 6 nodes: bottom, open x at 0, at 1, at 2, union of open x
@@ -209,9 +208,9 @@ TEST_CASE("nodes used by the algorithm are recycled when, after constructing the
   std::string document = create_document_with_repeated_string("aaac", 3);
 
   std::string regex = "!x{a+b}";
-  ExtendedDetVA extended_det_va = get_extended_det_va_from_regex(regex);
+  ExtendedVA extended_va = get_extended_va_from_regex(regex);
 
-  AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
+  AlgorithmClass algorithm = AlgorithmClass(extended_va, document);
   algorithm.set_ecs(ecs);
 
   const Mapping* mapping = algorithm.get_next_mapping();
@@ -224,15 +223,14 @@ TEST_CASE("nodes used by the algorithm are recycled when, after constructing the
 
 void run_algorithm_test(std::string regex, std::string document,
                         std::vector<DummyMapping> expected_mappings) {
-  document += EOF_char;
+  document += END_CHAR;
   Parser parser = Parser(regex);
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va = ExtendedVA(logical_va);
   extended_va.clean_for_determinization();
-  auto extended_det_va = ExtendedDetVA(extended_va);
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
 
-  AlgorithmClass algorithm = AlgorithmClass(extended_det_va, document);
+  AlgorithmClass algorithm = AlgorithmClass(extended_va, document);
 
   std::ostringstream info_os;
   info_os << "Actual mappings:\n";
@@ -274,7 +272,7 @@ std::string create_document_with_repeated_string(std::string_view string, int ti
   for (int i = 0; i < times; i++)
       os << string;
 
-  return os.str() + EOF_char;
+  return os.str() + END_CHAR;
 }
 
 }  // namespace rematch::testing
