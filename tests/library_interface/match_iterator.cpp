@@ -55,7 +55,7 @@ void run_match_iterator_test(std::string regex, std::string document, std::vecto
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
   auto regex_data = RegexData(std::move(segment_manager_creator), std::move(extended_va), variable_catalog);
-  auto match_iterator = MatchIterator(regex_data, std::move(document_with_delimiters), document);
+  auto match_iterator = MatchIterator(regex_data, std::move(document_with_delimiters));
 
   std::ostringstream info_os;
   info_os << "Actual mappings:" << std::endl;
