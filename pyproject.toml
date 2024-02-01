@@ -2,7 +2,6 @@
 requires = [
     "setuptools",
     "scikit-build",
-    "pybind11",
     "wheel",
     "cmake>=3.23.2",
 ]

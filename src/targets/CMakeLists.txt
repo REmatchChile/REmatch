@@ -27,8 +27,6 @@ if(EMSCRIPTEN)
 
 elseif(SKBUILD)
   message(STATUS "Building python target")
-  find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
-  find_package(pybind11 CONFIG REQUIRED)
   pybind11_add_module(_pyrematch MODULE ${CMAKE_CURRENT_SOURCE_DIR}/main/python_binding.cpp)
   target_link_libraries(_pyrematch PRIVATE ${project_LIB} ${PYTHON_LIBRARIES})
   install(TARGETS _pyrematch DESTINATION .)
