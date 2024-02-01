@@ -32,13 +32,8 @@ PYBIND11_MODULE(_pyrematch, m) {
       .def("span", py::overload_cast<std::string>(&Match::span))
       .def("group", py::overload_cast<int>(&Match::group))
       .def("group", py::overload_cast<std::string>(&Match::group))
-      .def("groupdict", &Match::groupdict)
-      .def("empty", &Match::empty)
-      .def("__repr__", [](Match& match){
-        std::ostringstream oss;
-        oss << match;
-        return oss.str();
-      });
+      .def("variables", &Match::variables)
+      .def("empty", &Match::empty);
 
   py::class_<MatchIterator>(m, "PyMatchIterator")
       .def("next", &MatchIterator::next)

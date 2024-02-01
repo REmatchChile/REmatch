@@ -27,11 +27,11 @@ class VariableCatalog {
 	// Simple constructor
 	VariableCatalog();
 
-	size_t size() {return data_.size();}
+	size_t size() {return variables_.size();}
 
 	std::string get_var(uint32_t position);
 
-	std::vector<std::string> variables() {return data_;}
+	std::vector<std::string> variables() {return variables_;}
 
 	int position(std::string var) const;
 
@@ -66,7 +66,7 @@ class VariableCatalog {
 
  private:
 	// Ordered vector that stores the variables.
-	std::vector<std::string> data_;
+	std::vector<std::string> variables_;
 
 	// Offset capturing optimization. Maps each opening and closing
 	// capture variable to its computed offset. Then it's a vector of size
