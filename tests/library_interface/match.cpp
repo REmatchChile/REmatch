@@ -42,15 +42,13 @@ TEST_CASE("match object returns the correct span object") {
 
 TEST_CASE("match object returns the correct groups") {
   std::string document = "aaaabbbb";
+  document = START_CHAR + document + END_CHAR;
   std::string regex = "!x{a+}!y{b+}";
 
   auto parser = Parser(regex);
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
-  LogicalVA logical_va = parser.get_logical_va();
-  auto extended_va = ExtendedVA(logical_va);
-  auto segment_manager_creator = SegmentManagerCreator(logical_va);
   auto mapping = rematch::mediator::Mapping({{"x", {0, 4}}, {"y", {4, 8}}});
-  auto match = Match(mapping, variable_catalog, document);
+  Match match{mapping, variable_catalog, document};
 
   REQUIRE(match.group(0) == "aaaa");
   REQUIRE(match.group(1) == "bbbb");
@@ -112,9 +110,6 @@ Match construct_match(std::string& document, std::string regex,
                            rematch::mediator::Mapping mapping) {
   auto parser = Parser(regex);
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
-  LogicalVA logical_va = parser.get_logical_va();
-  ExtendedVA extended_va = ExtendedVA(logical_va);
-  auto segment_manager_creator = SegmentManagerCreator(logical_va);
   return Match(mapping, variable_catalog, document);
 }
 
