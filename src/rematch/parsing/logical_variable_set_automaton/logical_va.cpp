@@ -133,7 +133,7 @@ void LogicalVA::trim() {
         queue.push_back(f->next);
       }
     }
-    
+
     for(auto &e: p->epsilons) {
       if(!(e->next->visited_and_useful_marks & kReachable)) {
         e->next->visited_and_useful_marks |= kReachable;
@@ -199,7 +199,7 @@ void LogicalVA::trim() {
   // delete useless transitions
   for(auto state: states) {
     state->filters.remove_if(
-        [](LogicalVAFilter* filter) {
+        [&](LogicalVAFilter* filter) {
         if (filter->next->visited_and_useful_marks != (kReachable | kUseful)) {
           delete filter;
           return true;
@@ -208,7 +208,7 @@ void LogicalVA::trim() {
       });
 
     state->captures.remove_if(
-        [](LogicalVACapture* capture) {
+        [&](LogicalVACapture* capture) {
         if (capture->next->visited_and_useful_marks != (kReachable | kUseful)) {
           delete capture;
           return true;
@@ -217,7 +217,7 @@ void LogicalVA::trim() {
       });
 
     state->epsilons.remove_if(
-        [](LogicalVAEpsilon* epsilon) {
+        [&](LogicalVAEpsilon* epsilon) {
         if (epsilon->next->visited_and_useful_marks != (kReachable | kUseful)) {
           delete epsilon;
           return true;
@@ -226,7 +226,7 @@ void LogicalVA::trim() {
       });
 
     state->anchors.remove_if(
-        [](LogicalVAAnchor* anchor) {
+        [&](LogicalVAAnchor* anchor) {
         if (anchor->next->visited_and_useful_marks != (kReachable | kUseful)) {
           delete anchor;
           return true;
@@ -585,7 +585,7 @@ bool LogicalVA::is_accepting_state_reachable() {
     for (auto &capture: current->captures) {
       if (!capture->next->visited_and_useful_marks)
         stack.push_back(capture->next);
-    } 
+    }
 
     for (auto &anchor: current->anchors) {
       if (!anchor->next->visited_and_useful_marks)

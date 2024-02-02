@@ -4,8 +4,6 @@ project(rematch LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(project_LIB ${PROJECT_NAME}lib)
-# Set policy CMP0135 to NEW behavior (disables pybind11 fetch warning)
-cmake_policy(SET CMP0135 NEW)
 # Use all cores but one for compilation
 include(ProcessorCount)
 ProcessorCount(NUM_CORES)
@@ -33,18 +31,32 @@ if(SKBUILD)
   set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wextra -O0 -g3")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -Wextra -O3 -g0 -pedantic")
+if (MSVC)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /Od /Zi")
+  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /O2")
+else()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g3")
+  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -g0 -pedantic")
+endif()
 
 set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/bin")
 set(LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
 
-include_directories(SYSTEM src/thirdparty)
-include_directories(src/thirdparty/antlr4/runtime/src)
-include_directories(src/rematch)
 
+include_directories(src/rematch)
+include_directories(src/targets)
+
+# Tracy
 include(cmake/setup_tracy.cmake)
-add_subdirectory(src/thirdparty)
+# Antlr
+add_definitions(-DANTLR4CPP_STATIC)
+set(ANTLR4_WITH_STATIC_CRT OFF)
+set(ANTLR4_TAG 4.13.1)
+include(cmake/ExternalAntlr4Cpp.cmake)
+include_directories("${ANTLR4_INCLUDE_DIRS}")
+
 add_subdirectory(src/rematch)
 add_subdirectory(src/targets)
 
