@@ -44,7 +44,7 @@ jobs:
           python-version: "3.x"
 
       - name: Install Python development headers
-        run: sudo apt-get install python3-dev
+        run: sudo apt-get install python3.9-dev
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.16.5
