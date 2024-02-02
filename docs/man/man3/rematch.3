@@ -1,8 +1,8 @@
-.TH "rematch" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
+.TH "REMatch" 3 "Mon Jan 30 2023" "Version 1" "Rematch" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-rematch
+REMatch
 .SH SYNOPSIS
 .br
 .PP
@@ -10,172 +10,57 @@ rematch
 
 .in +1c
 .ti -1c
-.RI "namespace \fBoutput_enumeration\fP"
-.br
-.ti -1c
-.RI "namespace \fBvisitors\fP"
+.RI "namespace \fBlibrary_interface\fP"
 .br
 .in -1c
 .SS "Classes"
 
 .in +1c
 .ti -1c
-.RI "class \fBBadRegexException\fP"
+.RI "class \fBFlags\fP"
 .br
 .ti -1c
-.RI "class \fBCharClass\fP"
+.RI "class \fBMatch\fP"
 .br
 .ti -1c
-.RI "struct \fBCharRange\fP"
+.RI "class \fBMatchIterator\fP"
 .br
 .ti -1c
-.RI "struct \fBCharRangeLess\fP"
-.br
-.ti -1c
-.RI "class \fBECS\fP"
-.br
-.RI "An Enumerable Compact Set stores all combinations of outputs through the interface of creating bottom nodes, extend nodes and union nodes such that outputs can be enumerated with constant delay\&. "
-.ti -1c
-.RI "class \fBECSNode\fP"
-.br
-.ti -1c
-.RI "class \fBEndOfIterationException\fP"
-.br
-.ti -1c
-.RI "class \fBEnumerator\fP"
-.br
-.ti -1c
-.RI "class \fBLogicalVA\fP"
-.br
-.ti -1c
-.RI "class \fBLogicalVACapture\fP"
-.br
-.ti -1c
-.RI "class \fBLogicalVAEpsilon\fP"
-.br
-.ti -1c
-.RI "class \fBLogicalVAFilter\fP"
-.br
-.ti -1c
-.RI "class \fBLogicalVAState\fP"
-.br
-.ti -1c
-.RI "class \fBMapping\fP"
-.br
-.RI "A \fBMapping\fP is also known as an s-tuple, asigns a span to all it's variables\&. "
-.ti -1c
-.RI "class \fBMiniPool\fP"
-.br
-.RI "The \fBNodeManager\fP class stores its nodes through a linked list of MiniPools\&. "
-.ti -1c
-.RI "class \fBNodeManager\fP"
-.br
-.RI "The Node Manager class stores the pointers to all allocated \fBECSNode\fP's\&. "
-.ti -1c
-.RI "class \fBParser\fP"
-.br
-.ti -1c
-.RI "class \fBSearchDFA\fP"
-.br
-.ti -1c
-.RI "class \fBSearchDFAState\fP"
-.br
-.ti -1c
-.RI "class \fBSearchNFA\fP"
-.br
-.ti -1c
-.RI "class \fBSearchNFAFilter\fP"
-.br
-.ti -1c
-.RI "class \fBSearchNFAState\fP"
-.br
-.ti -1c
-.RI "class \fBSegmentIdentificator\fP"
-.br
-.ti -1c
-.RI "class \fBVariableFactory\fP"
+.RI "class \fBRegex\fP"
 .br
 .in -1c
 .SS "Typedefs"
 
 .in +1c
 .ti -1c
-.RI "using \fBDFAStatesTableBools\fP = std::unordered_map< std::vector< bool >, \fBSearchDFAState\fP * >"
-.br
-.ti -1c
-.RI "using \fBSpan\fP = std::pair< int64_t, int64_t >"
-.br
-.ti -1c
-.RI "using \fBCharRangeSet\fP = std::set< \fBCharRange\fP, \fBCharRangeLess\fP >"
-.br
-.in -1c
-.SS "Enumerations"
-
-.in +1c
-.ti -1c
-.RI "enum \fBSearchNFAStateFlags\fP { \fBkDefaultSearchNFAState\fP = 0, \fBkFinalSearchNFAState\fP = 1, \fBkSuperFinalSearchNFAState\fP = 1 << 1, \fBkInitialSearchNFAState\fP = 1 << 2 }"
-.br
-.ti -1c
-.RI "enum class \fBECSNodeType\fP { \fBkBottom\fP = 0, \fBkUnion\fP = 1, \fBkLabel\fP = 2 }"
+.RI "using \fBSpan\fP = std::pair< size_t, size_t >"
 .br
 .in -1c
 .SS "Functions"
 
 .in +1c
 .ti -1c
-.RI "std::ostream & \fBoperator<<\fP (std::ostream &os, const \fBECSNode\fP &n)"
+.RI "\fBRegex\fP \fBcompile\fP (std::string_view pattern, \fBFlags\fP flags)"
 .br
 .ti -1c
-.RI "std::ostream & \fBoperator<<\fP (std::ostream &os, \fBCharClass\fP const &cc)"
+.RI "std::optional< \fBMatch\fP > \fBfind\fP (std::string_view pattern, std::string_view document, \fBFlags\fP flags)"
 .br
 .ti -1c
-.RI "std::ostream & \fBoperator<<\fP (std::ostream &os, \fBLogicalVA\fP const &A)"
+.RI "std::vector< \fBMatch\fP > \fBfindall\fP (std::string_view pattern, std::string_view document, \fBFlags\fP flags)"
+.br
+.ti -1c
+.RI "\fBMatchIterator\fP \fBfinditer\fP (std::string_view pattern, std::string_view document, \fBFlags\fP flags)"
+.br
+.ti -1c
+.RI "std::optional< \fBMatch\fP > \fBsearch\fP (std::string_view pattern, std::string_view document, \fBFlags\fP flags)"
+.br
+.ti -1c
+.RI "std::optional< \fBMatch\fP > \fBmatch\fP (std::string_view pattern, std::string_view document, \fBFlags\fP flags)"
+.br
+.ti -1c
+.RI "std::optional< \fBMatch\fP > \fBfullmatch\fP (std::string_view pattern, std::string_view document, \fBFlags\fP flags)"
 .br
 .in -1c
-.SS "Variables"
-
-.in +1c
-.ti -1c
-.RI "const int \fBMAXIMUM_AMOUNT_OF_VARIABLES\fP = 31"
-.br
-.ti -1c
-.RI "const size_t \fBMEMORY_POOL_STARTING_SIZE\fP = 2048"
-.br
-.ti -1c
-.RI "const int \fBMAX_VARS\fP = 15"
-.br
-.in -1c
-.SH "Typedef Documentation"
-.PP 
-.SS "using \fBrematch::CharRangeSet\fP = typedef std::set<\fBCharRange\fP, \fBCharRangeLess\fP>"
-
-.SS "using \fBrematch::DFAStatesTableBools\fP = typedef std::unordered_map<std::vector<bool>, \fBSearchDFAState\fP*>"
-
-.SH "Enumeration Type Documentation"
-.PP 
-.SS "enum \fBrematch::SearchNFAStateFlags\fP"
-
-.PP
-\fBEnumerator\fP
-.in +1c
-.TP
-\fB\fIkDefaultSearchNFAState \fP\fP
-.TP
-\fB\fIkFinalSearchNFAState \fP\fP
-.TP
-\fB\fIkSuperFinalSearchNFAState \fP\fP
-.TP
-\fB\fIkInitialSearchNFAState \fP\fP
-.SH "Function Documentation"
-.PP 
-.SS "std::ostream & rematch::operator<< (std::ostream & os, \fBCharClass\fP const & cc)"
-
-.SS "std::ostream & rematch::operator<< (std::ostream & os, \fBLogicalVA\fP const & A)"
-
-.SH "Variable Documentation"
-.PP 
-.SS "const int rematch::MAX_VARS = 15"
-
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for Rematch from the source code\&.

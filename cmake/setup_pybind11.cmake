@@ -5,8 +5,8 @@ message("Fetching pybind11")
 set(FETCHCONTENT_QUIET FALSE)
 
 FetchContent_Declare(
-    pybind11
-    URL https://github.com/pybind/pybind11/archive/refs/tags/v2.11.1.tar.gz
+  pybind11
+  URL https://github.com/pybind/pybind11/archive/refs/tags/v2.11.1.tar.gz
 )
 
 FetchContent_GetProperties(pybind11)

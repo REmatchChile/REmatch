@@ -24,6 +24,7 @@
 // TODO: Test backward transitions if the type of transition is not changed.
 
 namespace rematch {
+class ExtendedVA;
 inline namespace parsing {
 
 class LogicalVA {
