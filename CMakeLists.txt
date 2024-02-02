@@ -51,6 +51,8 @@ include_directories(src/targets)
 # Tracy
 include(cmake/setup_tracy.cmake)
 # Antlr
+add_definitions(-DANTLR4CPP_STATIC)
+set(ANTLR4_WITH_STATIC_CRT OFF)
 set(ANTLR4_TAG 4.13.1)
 include(cmake/ExternalAntlr4Cpp.cmake)
 include_directories("${ANTLR4_INCLUDE_DIRS}")
