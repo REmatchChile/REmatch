@@ -9,7 +9,6 @@ FetchContent_Declare (
   GIT_REPOSITORY https://github.com/wolfpld/tracy.git
   GIT_TAG master
   GIT_SHALLOW TRUE
-  GIT_PROGRESS TRUE
 )
 
 if (ENABLE_PROFILING)
@@ -21,4 +20,3 @@ else()
 endif()
 
 FetchContent_MakeAvailable(tracy)
-target_compile_options(TracyClient PRIVATE -w)
