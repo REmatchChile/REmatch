@@ -45,5 +45,4 @@ jobs:
           CIBW_PRERELEASE_PYTHONS: True
           CIBW_BUILD: ${{ matrix.python }}-${{ matrix.buildplat[1] }}
           CIBW_ENVIRONMENT: >
-            # Needed for full C++17 support
             MACOSX_DEPLOYMENT_TARGET='10.14'
