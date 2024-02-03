@@ -25,17 +25,16 @@ jobs:
     name: Build wheel for ${{ matrix.python }}-${{ matrix.buildplat[1] }}
     runs-on: ${{ matrix.buildplat[0] }}
     strategy:
-      # Ensure that a wheel builder finishes even if another fails
+      # All wheels must be built in order to complete this job
       matrix:
-        # Github Actions doesn't support pairing matrix values together, let's improvise
-        # https://github.com/github/feedback/discussions/7835#discussioncomment-1769026
         buildplat:
-          - [macos-latest, macosx_x86_64]
-          - [windows-2019, win32]
-          # - [ubuntu-20.04, manylinux_x86_64] DONE
-          # - [ubuntu-20.04, musllinux_x86_64] DONE
-          # - [windows-2019, win_amd64] DONE
-        python: ["cp310"] # ["cp39", "cp310", "cp311", "cp312", ]
+          - [macos-latest, macosx_arm64]
+          # - [ubuntu-20.04, manylinux_x86_64]
+          # - [macos-latest, macosx_x86_64]
+          # - [windows-2019, win32]
+          # - [ubuntu-20.04, musllinux_x86_64]
+          # - [windows-2019, win_amd64]
+        python: ["cp39"] # ["cp38", "cp39", "cp310", "cp311", "cp312"]
     steps:
       - uses: actions/checkout@v4
 
