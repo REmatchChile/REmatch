@@ -31,10 +31,10 @@ jobs:
         # https://github.com/github/feedback/discussions/7835#discussioncomment-1769026
         buildplat:
           - [macos-latest, macosx_x86_64]
+          - [windows-2019, win32]
           # - [ubuntu-20.04, manylinux_x86_64] DONE
           # - [ubuntu-20.04, musllinux_x86_64] DONE
           # - [windows-2019, win_amd64] DONE
-          # - [windows-2019, win32]
         python: ["cp310"] # ["cp39", "cp310", "cp311", "cp312", ]
     steps:
       - uses: actions/checkout@v4
@@ -44,5 +44,6 @@ jobs:
         env:
           CIBW_PRERELEASE_PYTHONS: True
           CIBW_BUILD: ${{ matrix.python }}-${{ matrix.buildplat[1] }}
-          CIBW_ENVIRONMENT: >
+          # In order to have full C++17 support
+          CIBW_ENVIRONMENT_MACOS: >
             MACOSX_DEPLOYMENT_TARGET='10.14'
