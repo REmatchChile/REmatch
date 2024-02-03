@@ -1,10 +1,13 @@
+# Based on:
+# https://github.com/matplotlib/matplotlib/blob/main/.github/workflows/cibuildwheel.yml
+# https://github.com/numpy/numpy/blob/main/.github/workflows/wheels.yml
+
 name: Wheel builder
 on:
   workflow_dispatch:
 
 jobs:
   build_sdist:
-    if: false
     name: Build source distribution
     runs-on: ubuntu-latest
     steps:
@@ -20,21 +23,28 @@ jobs:
           cd .. # Can't import pyrematch within pyrematch's src directory
           python -c "import pyrematch, sys; print(pyrematch.Regex); sys.exit(0)" # TODO: Change this to pyrematch.__version__
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cibw-sdist
+          path: dist/*.gz
+          if-no-files-found: error
+
 
   build_wheels:
+    needs: build_sdist
     name: Build wheel for ${{ matrix.python }}-${{ matrix.buildplat[1] }}
     runs-on: ${{ matrix.buildplat[0] }}
     strategy:
       # All wheels must be built in order to complete this job
       matrix:
         buildplat:
+          - [windows-2019, win_amd64]
           - [macos-latest, macosx_x86_64]
-          # - [ubuntu-20.04, manylinux_x86_64]
-          # - [macos-latest, macosx_x86_64]
-          # - [windows-2019, win32]
-          # - [ubuntu-20.04, musllinux_x86_64]
-          # - [windows-2019, win_amd64]
-        python: ["cp39"] # ["cp38", "cp39", "cp310", "cp311", "cp312"]
+          - [ubuntu-20.04, manylinux_x86_64]
+          - [macos-latest, macosx_x86_64]
+          - [windows-2019, win32]
+          - [ubuntu-20.04, musllinux_x86_64]
+        python: ["cp39", "cp310", "cp311", "cp312"]
     steps:
       - uses: actions/checkout@v4
 
@@ -46,3 +56,24 @@ jobs:
           # In order to have full C++17 support
           CIBW_ENVIRONMENT_MACOS: >
             MACOSX_DEPLOYMENT_TARGET='10.14'
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cibw-wheels-${{ matrix.python }}-${{ startsWith(matrix.buildplat[1], 'macosx') && 'macosx' || matrix.buildplat[1] }}
+          path: ./wheelhouse/*.whl
+          if-no-files-found: error
+
+
+  publish:
+    needs: build_wheels
+    name: Upload to pypi
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download packages
+        uses: actions/download-artifact@v4
+        with:
+          pattern: cibw-*
+          path: dist
+          merge-multiple: true
+      - name: Print out all packages
+        run: ls -lhS dist
