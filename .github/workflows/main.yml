@@ -39,12 +39,13 @@ jobs:
       fail-fast: false # TODO: REMOVE
       matrix:
         buildplat:
-          - [ubuntu-22.04, manylinux_x86_64]
-          - [ubuntu-22.04, musllinux_x86_64]
-          - [windows-2022, win_amd64]
-          - [macos-13, macosx_x86_64]
           - [macos-13, macosx_arm_64]
-        python: ["cp39", "cp310", "cp311", "cp312"]
+          # - [ubuntu-22.04, manylinux_x86_64]
+          # - [ubuntu-22.04, musllinux_x86_64]
+          # - [windows-2022, win_amd64]
+          # - [macos-13, macosx_x86_64]
+          
+        python: ["cp310"] # ["cp39", "cp310", "cp311", "cp312"]
     steps:
       - uses: actions/checkout@v4
 
@@ -59,7 +60,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: cibw-wheels-${{ matrix.python }}-${{ startsWith(matrix.buildplat[1], 'macosx') && 'macosx' || matrix.buildplat[1] }}
+          name: cibw-wheels-${{ matrix.python }}-${{ matrix.buildplat[1] }}
           path: ./wheelhouse/*.whl
           if-no-files-found: error
 
