@@ -3,7 +3,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 project(rematch LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(CMAKE_OSX_DEPLOYMENT_TARGET "10.12" CACHE STRING "Minimum OS X deployment version")
+set(CMAKE_OSX_DEPLOYMENT_TARGET "10.13" CACHE STRING "Minimum OS X deployment version")
 set(project_LIB ${PROJECT_NAME}lib)
 # Use all cores but one for compilation
 include(ProcessorCount)
