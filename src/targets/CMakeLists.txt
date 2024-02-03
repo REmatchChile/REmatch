@@ -28,12 +28,9 @@ if(EMSCRIPTEN)
 
 elseif(SKBUILD)
   message(STATUS "Building python target")
-  # Add python dependencies
-  find_package(PythonLibs REQUIRED)
-  include_directories(${PYTHON_INCLUDE_DIRS})
   include(${PROJECT_SOURCE_DIR}/cmake/setup_pybind11.cmake)
   pybind11_add_module(_pyrematch MODULE ${CMAKE_CURRENT_SOURCE_DIR}/main/python_binding.cpp)
-  target_link_libraries(_pyrematch PRIVATE ${project_LIB} ${PYTHON_LIBRARIES})
+  target_link_libraries(_pyrematch PRIVATE ${project_LIB})
   install(TARGETS _pyrematch DESTINATION .)
 else()
   message(STATUS "Building REmatch targets")
