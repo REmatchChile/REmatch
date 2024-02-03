@@ -28,7 +28,7 @@ jobs:
       # All wheels must be built in order to complete this job
       matrix:
         buildplat:
-          - [macos-latest, macosx_arm64]
+          - [macos-latest, macosx_x86_64]
           # - [ubuntu-20.04, manylinux_x86_64]
           # - [macos-latest, macosx_x86_64]
           # - [windows-2019, win32]
