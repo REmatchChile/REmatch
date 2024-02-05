@@ -1,14 +1,13 @@
-import codecs
 import os
 
 from skbuild import setup
 
 PROJECT_NAME = "pyrematch"
 ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
-LONG_DESCRIPTION = codecs.open(
-    os.path.join(ROOT_DIR, "python/pyrematch/README.md")
-).read()
-VERSION = codecs.open(os.path.join(ROOT_DIR, "VERSION")).read()
+with open(os.path.join(ROOT_DIR, "VERSION"), "r") as f:
+    VERSION = f.read()
+with open(os.path.join(ROOT_DIR, "python/pyrematch/README.md"), "r") as f:
+    LONG_DESCRIPTION = f.read()
 
 setup(
     name=PROJECT_NAME,

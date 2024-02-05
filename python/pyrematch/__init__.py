@@ -1,10 +1,9 @@
-from .pyrematch import (
-    Flags,
-    Regex,
-)
+from .pyrematch import Flags, Regex
+
+with open(os.path.join(ROOT_DIR, "VERSION"), "r") as f:
+    __version__ = f.read()
 
 from ._pyrematch import (
-    RegexSyntaxException,
     AnchorInsideCaptureException,
     ComplexQueryException,
     EmptyWordCaptureException,
@@ -12,6 +11,7 @@ from ._pyrematch import (
     InvalidEscapeException,
     InvalidRangeException,
     MemoryLimitExceededException,
+    RegexSyntaxException,
     SameNestedVariableException,
     UnhandledExpressionException,
     VariableLimitExceededException,

@@ -8,6 +8,7 @@ include CMakeLists.txt
 include LICENCE
 include setup.py
 include pyproject.toml
+include VERSION
 
 
 # Exclude directories and files
