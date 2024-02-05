@@ -4,14 +4,23 @@ from skbuild import setup
 
 PROJECT_NAME = "pyrematch"
 ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(ROOT_DIR, "VERSION"), "r") as f:
-    VERSION = f.read()
 with open(os.path.join(ROOT_DIR, "python/pyrematch/README.md"), "r") as f:
     LONG_DESCRIPTION = f.read()
 
+
+def get_version():
+    with open(os.path.join(ROOT_DIR, "python/pyrematch/__init__.py")) as f:
+        for line in f:
+            if line.startswith("__version__"):
+                delim = '"' if '"' in line else "'"
+                return line.split(delim)[1]
+        else:
+            raise RuntimeError("Unable to find version string.")
+
+
 setup(
     name=PROJECT_NAME,
-    version=VERSION,
+    version=get_version(),
     description=(
         "Python bindings for REmatch, an information extraction focused regex library"
         " that uses constant delay algoirthms"
