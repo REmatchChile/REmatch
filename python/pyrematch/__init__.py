@@ -1,7 +1,6 @@
 from .pyrematch import Flags, Regex
 
-with open(os.path.join(ROOT_DIR, "VERSION"), "r") as f:
-    __version__ = f.read()
+__version__ = "2.0.4"
 
 from ._pyrematch import (
     AnchorInsideCaptureException,
