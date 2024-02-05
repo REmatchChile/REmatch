@@ -12,7 +12,6 @@ if(NUM_CORES GREATER 1)
     set(CMAKE_BUILD_PARALLEL_LEVEL ${PARALLEL_LEVEL})
 endif()
 
-
 # Enable testing
 set(REMATCH_BUILD_TESTING OFF)
 # Enable profiling

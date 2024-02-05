@@ -1,10 +1,8 @@
-from .pyrematch import (
-    Flags,
-    Regex,
-)
+from .pyrematch import Flags, Regex
+
+__version__ = "2.0.4"
 
 from ._pyrematch import (
-    RegexSyntaxException,
     AnchorInsideCaptureException,
     ComplexQueryException,
     EmptyWordCaptureException,
@@ -12,6 +10,7 @@ from ._pyrematch import (
     InvalidEscapeException,
     InvalidRangeException,
     MemoryLimitExceededException,
+    RegexSyntaxException,
     SameNestedVariableException,
     UnhandledExpressionException,
     VariableLimitExceededException,
