@@ -25,7 +25,9 @@ jobs:
           python -c "import pyrematch, sys; print(pyrematch.__version__); sys.exit(0)"
 
       - name: Check README rendering for PyPI
-        run: twine check dist/*.gz
+        run: |
+          python -mpip install twine
+          twine check dist/*.gz
 
       - uses: actions/upload-artifact@v4
         with:
