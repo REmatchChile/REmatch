@@ -4,19 +4,20 @@ import os
 from skbuild import setup
 
 PROJECT_NAME = "pyrematch"
-
-root_dir = os.path.abspath(os.path.dirname(__file__))
+ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
+LONG_DESCRIPTION = codecs.open(
+    os.path.join(ROOT_DIR, "python/pyrematch/README.md")
+).read()
+VERSION = codecs.open(os.path.join(ROOT_DIR, "VERSION")).read()
 
 setup(
     name=PROJECT_NAME,
-    version="2.0.1",
+    version=VERSION,
     description=(
         "Python bindings for REmatch, an information extraction focused regex library"
         " that uses constant delay algoirthms"
     ),
-    long_description=codecs.open(
-        os.path.join(root_dir, "python/pyrematch/README.md")
-    ).read(),
+    long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     url="https://rematch.cl/",
     author="Vicente Calisto, Oscar Cárcamo, Nicolás Van Sint Jan, Gustavo Toro",
