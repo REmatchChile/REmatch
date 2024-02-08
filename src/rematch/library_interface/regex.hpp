@@ -22,7 +22,7 @@ class Regex {
   rematch::RegexData regex_data_;
 
  public:
-  Regex(const std::string& pattern, Flags flags = Flags());
+  Regex(std::string_view pattern, Flags flags = Flags());
 
   std::unique_ptr<Match> findone(std::string_view str);
   std::unique_ptr<MatchIterator> finditer(std::string_view str);

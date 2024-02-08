@@ -21,4 +21,4 @@ set(sources ${fix_srcs} ${glob_srcs})
 add_library(${project_LIB} STATIC ${sources})
 
 target_link_libraries(${project_LIB} PUBLIC TracyClient)
-target_link_libraries(${project_LIB} PRIVATE antlr4_static)
+target_link_libraries(${project_LIB} PRIVATE antlr4_cpp_runtime)

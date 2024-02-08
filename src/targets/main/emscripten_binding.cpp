@@ -21,9 +21,8 @@ EMSCRIPTEN_BINDINGS(REmatch) {
     .function("start", select_overload<int(std::string)>(&Match::start))
     .function("end", select_overload<int(std::string)>(&Match::end));
   class_<Regex>("Regex")
+    .constructor<const std::string&, Flags>()
     .function("finditer", &Regex::finditer);
 
   register_vector<std::string>("VectorString");
-
-  function("compile", &compile);
 };

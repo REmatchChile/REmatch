@@ -3,8 +3,8 @@
 #include <string_view>
 
 int main() {
-  std::string pattern = "!a{a+}!b{b+}";
-  std::string document = "aabb";
+  std::string pattern = R"((,|^)!user{\w+}@!domain{\w+\.\w+}(,|$))";
+  std::string document = "vecalisto@uc.cl,test@gmail.com,jejjee@jaja.cl";
   REMatch::Flags flags;
 
   REMatch::Regex word_regex = REMatch::compile(pattern, flags);
