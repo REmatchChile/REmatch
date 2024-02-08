@@ -46,7 +46,6 @@ TEST_CASE("match iterator returns the correct matches when there is more than on
 
 void run_match_iterator_test(std::string regex, std::string document, std::vector<rematch::mediator::Mapping> expected_matches) {
   Parser parser = Parser(regex);
-  std::string document_with_delimiters = START_CHAR + document + END_CHAR;
 
   LogicalVA logical_va = parser.get_logical_va();
   auto extended_va = ExtendedVA(logical_va);
@@ -55,7 +54,7 @@ void run_match_iterator_test(std::string regex, std::string document, std::vecto
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
   auto regex_data = RegexData(std::move(segment_manager_creator), std::move(extended_va), variable_catalog);
-  auto match_iterator = MatchIterator(regex_data, std::move(document_with_delimiters));
+  auto match_iterator = MatchIterator(regex_data, document);
 
   std::ostringstream info_os;
   info_os << "Actual mappings:" << std::endl;

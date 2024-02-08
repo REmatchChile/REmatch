@@ -15,6 +15,8 @@
 #include "tracy/Tracy.hpp"
 
 namespace rematch {
+class Document;
+
 inline namespace filtering_module {
 
 /**
@@ -29,7 +31,7 @@ inline namespace filtering_module {
 class SegmentIdentificator {
 
  public:
-  SegmentIdentificator(SearchDFA& search_dfa, std::string_view document);
+  SegmentIdentificator(SearchDFA& search_dfa, std::shared_ptr<Document> document);
 
   /**
    * next_is_computed_successfully() MUST be called before, if not, next() has undefined
@@ -50,7 +52,7 @@ class SegmentIdentificator {
   bool next_is_computed_successfully();
 
   SearchDFA& search_dfa;
-  std::string_view document;
+  std::shared_ptr<Document> document;
 
   uint64_t doc_start_i_ = 0;
   uint64_t doc_end_i_ = 0;

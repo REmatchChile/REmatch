@@ -1,16 +1,18 @@
 #include "line_identificator.hpp"
 
+#include "evaluation/document.hpp"
+
 namespace rematch {
 
-LineIdentificator::LineIdentificator(std::string_view document)
+LineIdentificator::LineIdentificator(std::shared_ptr<Document> document)
     : document_(document) {}
 
 std::unique_ptr<Span> LineIdentificator::next() {
-  if (current_end_ >= document_.size()) {
+  if (current_end_ >= document_->size()) {
     return nullptr;
   }
 
-  size_t new_end_pos = document_.find('\n', current_end_);
+  size_t new_end_pos = document_->find('\n', current_end_);
 
   auto result_span = std::make_unique<Span>();
 
@@ -23,10 +25,10 @@ std::unique_ptr<Span> LineIdentificator::next() {
   }
   else {
     result_span->first = current_end_;
-    result_span->second = document_.size();
+    result_span->second = document_->size();
 
     current_start_ = current_end_;
-    current_end_ = document_.size();
+    current_end_ = document_->size();
   }
 
   current_end_++;

@@ -11,7 +11,6 @@
 #include "mediator/segment_manager/segment_manager_creator.hpp"
 #include "evaluation/start_end_chars.hpp"
 #include "statistics.hpp"
-#include "document_utils.hpp"
 #include "regex_data/regex_data_utils.hpp"
 
 namespace REMatch {
@@ -25,8 +24,8 @@ class Regex {
  public:
   Regex(const std::string& pattern, Flags flags = Flags());
 
-  std::unique_ptr<Match> findone(const std::string& text);
-  std::unique_ptr<MatchIterator> finditer(const std::string& text);
+  std::unique_ptr<Match> findone(const std::string& str);
+  std::unique_ptr<MatchIterator> finditer(const std::string& str);
 };
 
 }  // end namespace library_interface
