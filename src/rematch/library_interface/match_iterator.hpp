@@ -29,9 +29,11 @@ class MatchIterator {
   std::shared_ptr<rematch::Document> document_;
 
  public:
-  MatchIterator(rematch::RegexData& regex_data, const std::string& document,
+  MatchIterator(rematch::RegexData& regex_data,
+                std::string_view str,
                 Flags flags = Flags());
-  MatchIterator(const std::string& pattern, const std::string& document,
+  MatchIterator(const std::string& pattern,
+                std::string_view str,
                 Flags flags = Flags());
 
   std::unique_ptr<Match> next();

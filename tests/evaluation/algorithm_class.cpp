@@ -147,8 +147,8 @@ TEST_CASE("the algorithm returns correct mappings") {
 TEST_CASE("nodes used by the algorithm are recycled when creating a linked list") {
   // for each character, the algorithm adds 3 nodes to the ecs
   int size = (MEMORY_POOL_STARTING_SIZE + 1) / 3;
-  auto document = std::make_shared<Document>(
-      create_document_with_repeated_string("a", size));
+  auto document_ = create_document_with_repeated_string("a", size);
+  auto document = std::make_shared<Document>(document_);
 
   std::string regex = "!x{a+}";
   ExtendedVA extended_va = get_extended_va_from_regex(regex);
@@ -169,8 +169,8 @@ TEST_CASE("nodes used by the algorithm are recycled when creating a linked list"
 }
 
 TEST_CASE("nodes used by the algorithm are recycled when it is run again") {
-  auto document = std::make_shared<Document>(
-      create_document_with_repeated_string("aaac", 300));
+  auto document_ = create_document_with_repeated_string("aaac", 300);
+  auto document = std::make_shared<Document>(document_);
 
   std::string regex = "!x{a+}";
   ExtendedVA extended_va = get_extended_va_from_regex(regex);
@@ -206,8 +206,8 @@ TEST_CASE("nodes used by the algorithm are recycled when, after constructing the
   // the document needs 6 nodes: bottom, open x at 0, at 1, at 2, union of open x
   // at 0 and open x at 1, and union of previous union and open x at 2
   // note that the bottom node is created by the original ecs, not the one passed in the setter
-  auto document = std::make_shared<Document>(
-      create_document_with_repeated_string("aaac", 3));
+  auto document_ = create_document_with_repeated_string("aaac", 3);
+  auto document = std::make_shared<Document>(document_);
 
   std::string regex = "!x{a+b}";
   ExtendedVA extended_va = get_extended_va_from_regex(regex);

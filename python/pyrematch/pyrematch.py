@@ -1,12 +1,7 @@
 import enum
 from typing import List, Tuple, Union
 
-from ._pyrematch import (
-    PyFlags,
-    PyMatch,
-    PyMatchIterator,
-    PyRegex,
-)
+from ._pyrematch import PyFlags, PyMatch, PyMatchIterator, PyRegex
 
 
 class Flags(enum.Flag):
@@ -88,3 +83,6 @@ class Regex:
 
     def finditer(self, document: str) -> MatchIterator:
         return MatchIterator(document, self._pyregex)
+
+    def findone(self, document: str) -> "Match":
+        return Match(self._pyregex.findone(document))

@@ -24,8 +24,8 @@ class Regex {
  public:
   Regex(const std::string& pattern, Flags flags = Flags());
 
-  std::unique_ptr<Match> findone(const std::string& str);
-  std::unique_ptr<MatchIterator> finditer(const std::string& str);
+  std::unique_ptr<Match> findone(std::string_view str);
+  std::unique_ptr<MatchIterator> finditer(std::string_view str);
 };
 
 }  // end namespace library_interface
