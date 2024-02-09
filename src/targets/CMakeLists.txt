@@ -1,8 +1,5 @@
 set(BUILD_TARGETS
   rematch
-  rematch_matches
-  rematch_count
-  rematch_stats
 )
 
 if(EMSCRIPTEN)

@@ -1,6 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 #undef private
+#include "evaluation/document.hpp"
 #include "mediator/mediator.hpp"
 
 namespace rematch::testing {
@@ -8,8 +9,8 @@ namespace rematch::testing {
 TEST_CASE("an exception is thrown from SearchDFA when the query is too complex") {
   std::string regex = std::string(100, 'a');
   auto parser = Parser(regex);
-  auto document = std::string(100, 'a');
-  document += END_CHAR;
+  auto document_ = std::string(100, 'a');
+  auto document = std::make_shared<Document>(document_);
 
   LogicalVA logical_va = parser.get_logical_va();
   auto extended_va = ExtendedVA(logical_va);
@@ -29,8 +30,8 @@ TEST_CASE("a exception is thrown from ExtendedDetVA when the query is too comple
   // the regex contains an anchor, so the filtering process is skipped
   std::string regex = std::string(100, 'a') + '$';
   auto parser = Parser(regex);
-  auto document = std::string(100, 'a');
-  document += END_CHAR;
+  auto document_ = std::string(100, 'a');
+  auto document = std::make_shared<Document>(document_);
 
   LogicalVA logical_va = parser.get_logical_va();
   auto extended_va = ExtendedVA(logical_va);

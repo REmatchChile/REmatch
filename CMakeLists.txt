@@ -45,18 +45,17 @@ set(LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
 
 
 include_directories(src/rematch)
-include_directories(src/targets)
+add_subdirectory(src/rematch)
+
 
 # Tracy
 include(cmake/setup_tracy.cmake)
-# Antlr
-add_definitions(-DANTLR4CPP_STATIC)
-set(ANTLR4_WITH_STATIC_CRT OFF)
-set(ANTLR4_TAG 4.13.1)
-include(cmake/ExternalAntlr4Cpp.cmake)
-include_directories("${ANTLR4_INCLUDE_DIRS}")
+# ANTLR
+add_subdirectory("${CMAKE_SOURCE_DIR}/third_party/antlr4-cpp-runtime")
+include_directories("${CMAKE_SOURCE_DIR}/third_party/antlr4-cpp-runtime/src")
 
-add_subdirectory(src/rematch)
+
+include_directories(src/targets)
 add_subdirectory(src/targets)
 
 if(REMATCH_BUILD_TESTING)

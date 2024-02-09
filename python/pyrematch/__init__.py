@@ -1,6 +1,6 @@
 from .pyrematch import Flags, Regex
 
-__version__ = "2.0.5"
+__version__ = "2.0.6"
 
 from ._pyrematch import (
     AnchorInsideCaptureException,

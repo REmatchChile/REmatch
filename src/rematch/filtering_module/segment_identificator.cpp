@@ -1,15 +1,15 @@
 #include <iostream>
 
 #include "filtering_module/segment_identificator.hpp"
+#include "evaluation/document.hpp"
 
 namespace rematch {
 inline namespace filtering_module {
-SegmentIdentificator::SegmentIdentificator(
-    SearchDFA& search_dfa, std::string_view document
-  ) : search_dfa(search_dfa),
-      document(document), doc_end_i_(document.size()) {
-      search_dfa.reset();
-    }
+SegmentIdentificator::SegmentIdentificator(SearchDFA& search_dfa,
+                                           std::shared_ptr<Document> document)
+    : search_dfa(search_dfa), document(document), doc_end_i_(document->size()) {
+  search_dfa.reset();
+}
 
 bool SegmentIdentificator::next_is_computed_successfully() {
   i_min = i_src;
@@ -17,7 +17,7 @@ bool SegmentIdentificator::next_is_computed_successfully() {
 
   for (; i_src < doc_end_i_; i_src++) {
 
-    char a = (char) document[i_src];
+    char a = (*document)[i_src];
 
     SearchDFAState* current_state = search_dfa.next_state(a);
 
@@ -39,7 +39,7 @@ bool SegmentIdentificator::next_is_computed_successfully() {
     return true;
   }
 
-  i_min = document.size();
+  i_min = document->size();
 
   return false;
 }

@@ -3,6 +3,7 @@
 #undef private
 #include "evaluation/algorithm_class.hpp"
 #include "mapping_helpers.hpp"
+#include "evaluation/document.hpp"
 
 namespace rematch::testing {
 
@@ -15,8 +16,7 @@ std::string create_document_with_repeated_string(std::string_view string, int ti
 
 TEST_CASE("the algorithm returns a null pointer if there are no mappings") {
   ExtendedVA extended_va = get_extended_va_from_regex("!x{a}");
-  std::string document = "b";
-  document += END_CHAR;
+  auto document = std::make_shared<Document>("b");
 
   AlgorithmClass algorithm = AlgorithmClass(extended_va, document);
 
@@ -26,8 +26,7 @@ TEST_CASE("the algorithm returns a null pointer if there are no mappings") {
 
 TEST_CASE("the algorithm returns an empty mapping if there are no captures") {
   ExtendedVA extended_va = get_extended_va_from_regex("a");
-  std::string document = "a";
-  document += END_CHAR;
+  auto document = std::make_shared<Document>("a");
 
   AlgorithmClass algorithm = AlgorithmClass(extended_va, document);
 
@@ -148,7 +147,8 @@ TEST_CASE("the algorithm returns correct mappings") {
 TEST_CASE("nodes used by the algorithm are recycled when creating a linked list") {
   // for each character, the algorithm adds 3 nodes to the ecs
   int size = (MEMORY_POOL_STARTING_SIZE + 1) / 3;
-  std::string document = create_document_with_repeated_string("a", size);
+  auto document_ = create_document_with_repeated_string("a", size);
+  auto document = std::make_shared<Document>(document_);
 
   std::string regex = "!x{a+}";
   ExtendedVA extended_va = get_extended_va_from_regex(regex);
@@ -169,7 +169,8 @@ TEST_CASE("nodes used by the algorithm are recycled when creating a linked list"
 }
 
 TEST_CASE("nodes used by the algorithm are recycled when it is run again") {
-  std::string document = create_document_with_repeated_string("aaac", 300);
+  auto document_ = create_document_with_repeated_string("aaac", 300);
+  auto document = std::make_shared<Document>(document_);
 
   std::string regex = "!x{a+}";
   ExtendedVA extended_va = get_extended_va_from_regex(regex);
@@ -205,7 +206,8 @@ TEST_CASE("nodes used by the algorithm are recycled when, after constructing the
   // the document needs 6 nodes: bottom, open x at 0, at 1, at 2, union of open x
   // at 0 and open x at 1, and union of previous union and open x at 2
   // note that the bottom node is created by the original ecs, not the one passed in the setter
-  std::string document = create_document_with_repeated_string("aaac", 3);
+  auto document_ = create_document_with_repeated_string("aaac", 3);
+  auto document = std::make_shared<Document>(document_);
 
   std::string regex = "!x{a+b}";
   ExtendedVA extended_va = get_extended_va_from_regex(regex);
@@ -221,9 +223,9 @@ TEST_CASE("nodes used by the algorithm are recycled when, after constructing the
   REQUIRE(ecs.amount_of_nodes_allocated() == MEMORY_POOL_STARTING_SIZE);
 }
 
-void run_algorithm_test(std::string regex, std::string document,
+void run_algorithm_test(std::string regex, std::string document_,
                         std::vector<DummyMapping> expected_mappings) {
-  document += END_CHAR;
+  auto document = std::make_shared<Document>(document_);
   Parser parser = Parser(regex);
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va = ExtendedVA(logical_va);
@@ -243,6 +245,10 @@ void run_algorithm_test(std::string regex, std::string document,
 
     for (int variable_id = 0; variable_id < number_of_variables; variable_id++) {
       std::vector<Span> spans = result_mapping->get_spans_of_variable_id(variable_id);
+      for (auto& span : spans) {
+        --(span.first);
+        --(span.second);
+      }
 
       std::string variable_name = variable_catalog->get_var(variable_id);
       actual_mapping.add_span(variable_name, spans.back());
@@ -272,7 +278,7 @@ std::string create_document_with_repeated_string(std::string_view string, int ti
   for (int i = 0; i < times; i++)
       os << string;
 
-  return os.str() + END_CHAR;
+  return os.str();
 }
 
 }  // namespace rematch::testing

@@ -31,7 +31,7 @@ TEST_CASE("finditer method simple test") {
   std::unique_ptr<Match> match = match_iterator->next();
   REQUIRE(match != nullptr);
   REQUIRE(match->span("x") == Span(10, 13));
-  
+
   match = match_iterator->next();
   REQUIRE(match != nullptr);
   REQUIRE(match->span("x") == Span(10, 18));
@@ -70,7 +70,7 @@ TEST_CASE("client interface with alternation") {
   std::unique_ptr<Match> match = match_iterator->next();
   REQUIRE(match != nullptr);
   REQUIRE(match->span("x") == Span(10, 13));
-  
+
   match = match_iterator->next();
   REQUIRE(match != nullptr);
   REQUIRE(match->span("x") == Span(10, 18));
