@@ -42,36 +42,6 @@ void AlgorithmClass::set_null_segment() {
   doc_end_i_ = doc_start_i_;
 }
 
-const Mapping* AlgorithmClass::get_next_mapping() {
-  ZoneScopedC(0x808000);
-
-  if (enumerator_->has_next()) {
-    return enumerator_->next();
-  } else {
-    enumerator_->reset();
-  }
-
-  evaluate();
-  enumerate();
-
-  if (enumerator_->has_next())
-    return enumerator_->next();
-
-  return nullptr;
-}
-
-void AlgorithmClass::evaluate() {
-
-  while (pos_i_ < doc_end_i_) {
-    evaluate_single_character();
-    swap_state_lists();
-    pos_i_++;
-
-    if (!reached_final_states_.empty())
-      return;
-  }
-}
-
 void AlgorithmClass::evaluate_single_character() {
   char letter = document_[pos_i_];
 
@@ -117,61 +87,6 @@ void AlgorithmClass::update_sets(
   }
 
   ECS_interface_->unpin_node(current_state->get_node());
-}
-
-void AlgorithmClass::update_output_nodes(ExtendedDetVAState*& next_state,
-                                         ECSNode*& next_node) {
-
-  if (next_state->phase < (int64_t) pos_i_) {
-    next_state->set_phase(pos_i_);
-
-    next_state->set_node(next_node);
-    ECS_interface_->pin_node(next_node);
-
-    if (next_state->is_accepting()) {
-      reached_final_states_.push_back(next_state);
-    } else {
-      next_states_.push_back(next_state);
-    }
-
-  } else {
-    ECSNode* current_next_node = next_state->get_node();
-    ECSNode* union_node = ECS_interface_->create_union_node(current_next_node, next_node);
-
-    ECS_interface_->unpin_node(current_next_node);
-    next_state->set_node(union_node);
-    ECS_interface_->pin_node(union_node);
-  }
-}
-
-void AlgorithmClass::enumerate() {
-  create_root_node_to_enumerate();
-
-  if (ECS_root_node_ != nullptr)
-    enumerator_->add_node(ECS_root_node_);
-}
-
-ECSNode* AlgorithmClass::create_root_node_to_enumerate() {
-  if (ECS_root_node_ != nullptr) {
-    ECS_interface_->unpin_node(ECS_root_node_);
-    ECS_root_node_ = nullptr;
-  }
-
-  for (auto& state : reached_final_states_) {
-    if (ECS_root_node_ == nullptr){
-      // no need to pin/unpin the node here, it reuses the reference of the final state
-      ECS_root_node_ = state->get_node();
-    }
-    else {
-      ECSNode* union_node = ECS_interface_->create_union_node(ECS_root_node_, state->get_node());
-      ECS_interface_->pin_node(union_node);
-      ECS_interface_->unpin_node(ECS_root_node_);
-      ECS_interface_->unpin_node(state->get_node());
-      ECS_root_node_ = union_node;
-    }
-  }
-  reached_final_states_.clear();
-  return ECS_root_node_;
 }
 
 void AlgorithmClass::swap_state_lists() {

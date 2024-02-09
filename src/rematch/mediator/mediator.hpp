@@ -1,14 +1,15 @@
 #ifndef MEDIATOR_HPP
 #define MEDIATOR_HPP
 
-#include "mapping.hpp"
-#include "filtering_module/segment_identificator.hpp"
+#include "evaluation/algorithm/finditer_algorithm.hpp"
 #include "evaluation/algorithm_class.hpp"
-#include "library_interface/regex_data/regex_data.hpp"
+#include "filtering_module/segment_identificator.hpp"
 #include "library_interface/flags.hpp"
-#include "segment_manager/segment_manager.hpp"
-#include "segment_manager/segment_identificator_manager.hpp"
+#include "library_interface/regex_data/regex_data.hpp"
+#include "mapping.hpp"
 #include "segment_manager/line_by_line_manager.hpp"
+#include "segment_manager/segment_identificator_manager.hpp"
+#include "segment_manager/segment_manager.hpp"
 #include "segment_manager/segment_manager_creator.hpp"
 #include "tracy/Tracy.hpp"
 
@@ -21,12 +22,13 @@ class Mediator {
            std::shared_ptr<VariableCatalog> variable_catalog,
            SegmentManagerCreator& segment_manager_creator,
            std::string_view document, Flags flags = Flags());
-  Mediator(RegexData& regex_data,
-           std::string_view document, Flags flags = Flags());
+  Mediator(RegexData& regex_data, std::string_view document,
+           Flags flags = Flags());
+  virtual ~Mediator() = default;
 
-  mediator::Mapping* next();
+  virtual mediator::Mapping* next() = 0;
 
- private:
+ protected:
   std::string_view document_;
   std::unique_ptr<SegmentManager> segment_manager_;
   std::unique_ptr<AlgorithmClass> algorithm_;
@@ -35,11 +37,11 @@ class Mediator {
   const Mapping* mapping_;
   Flags flags_;
 
+  mediator::Mapping* construct_user_mapping();
   void update_algorithm(Span& segment_span);
-  bool next_is_computed_successfully();
 
   friend class StatsCollector;
 };
-}
+}  // namespace rematch
 
 #endif
