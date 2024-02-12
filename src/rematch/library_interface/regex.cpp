@@ -1,5 +1,6 @@
 #include "regex.hpp"
 #include "mediator/mediator/findone_mediator.hpp"
+#include "mediator/output_checker.hpp"
 
 namespace REMatch {
 inline namespace library_interface {
@@ -29,6 +30,15 @@ std::unique_ptr<MatchIterator> Regex::finditer(
 
   return std::make_unique<MatchIterator>(regex_data_, std::move(document),
                                          flags_);
+}
+
+bool Regex::check(const std::string& document_view) {
+  std::string document = rematch::add_start_and_end_chars(document_view);
+
+  std::unique_ptr<rematch::OutputChecker> mediator =
+      std::make_unique<rematch::OutputChecker>(regex_data_, document, flags_);
+
+  return mediator->check();
 }
 
 }  // end namespace library_interface

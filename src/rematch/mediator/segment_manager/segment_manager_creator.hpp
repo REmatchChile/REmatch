@@ -41,6 +41,15 @@ class SegmentManagerCreator {
       return std::make_unique<DefaultSegmentManager>(document_);
     }
   }
+
+  std::unique_ptr<SegmentManager> get_segment_manager_for_checking() {
+    ZoneScoped;
+    if (!lva_has_useful_anchors_ && flags.line_by_line) {
+      return std::make_unique<LineByLineManager>(*search_dfa_, document_);
+    } else {
+      return std::make_unique<SegmentIdentificatorManager>(*search_dfa_, document_);
+    }
+  }
 };
 
 }  // namespace rematch

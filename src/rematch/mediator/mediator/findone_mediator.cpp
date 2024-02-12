@@ -10,7 +10,7 @@ FindoneMediator::FindoneMediator(RegexData& regex_data,
   algorithm_ = std::make_unique<FindoneAlgorithm>(regex_data.extended_va,
                                                   document_, flags);
   regex_data.segment_manager_creator.set_document(document_);
-  segment_manager_ = regex_data.segment_manager_creator.get_segment_manager();
+  segment_manager_ = regex_data.segment_manager_creator.get_segment_manager_for_checking();
 
   number_of_variables_ = variable_catalog_->size();
 

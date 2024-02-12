@@ -27,6 +27,7 @@ class Regex {
 
   std::unique_ptr<Match> findone(const std::string& text);
   std::unique_ptr<MatchIterator> finditer(const std::string& text);
+  bool check(const std::string& text);
 };
 
 }  // end namespace library_interface
