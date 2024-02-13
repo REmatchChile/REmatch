@@ -9,7 +9,7 @@ namespace rematch {
 
 class FindoneMediator : public Mediator {
  public:
-  FindoneMediator(RegexData& regex_data, std::string_view document,
+  FindoneMediator(RegexData& regex_data, std::shared_ptr<Document> document,
                   Flags flags = Flags());
 
   mediator::Mapping* next() override;

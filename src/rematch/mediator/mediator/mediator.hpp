@@ -19,17 +19,13 @@ using namespace REMatch;
 
 class Mediator {
  public:
-  Mediator(ExtendedVA& extended_va,
-           std::shared_ptr<VariableCatalog> variable_catalog,
-           SegmentManagerCreator& segment_manager_creator,
-           std::shared_ptr<Document> document, Flags flags = Flags());
   Mediator(RegexData& regex_data,
-           std::shared_ptr<Document> document, Flags flags = Flags());
+           std::shared_ptr<Document> document);
 
   virtual ~Mediator() = default;
   virtual mediator::Mapping* next() = 0;
 
- private:
+ protected:
   std::shared_ptr<Document> document_;
   std::unique_ptr<SegmentManager> segment_manager_;
   std::unique_ptr<AlgorithmClass> algorithm_;

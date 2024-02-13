@@ -7,7 +7,7 @@ namespace rematch {
 
 class OutputChecker {
  public:
-  OutputChecker(RegexData& regex_data, std::string_view document, Flags flags)
+  OutputChecker(RegexData& regex_data, std::shared_ptr<Document> document)
       : document_(document) {
     regex_data.segment_manager_creator.set_document(document_);
     segment_manager_ =
@@ -18,7 +18,7 @@ class OutputChecker {
 
  private:
   std::unique_ptr<SegmentManager> segment_manager_;
-  std::string_view document_;
+  std::shared_ptr<Document> document_;
 };
 
 }  // namespace rematch

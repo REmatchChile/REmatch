@@ -4,8 +4,8 @@
 namespace rematch {
 
 FindoneMediator::FindoneMediator(RegexData& regex_data,
-                                 std::string_view document, Flags flags)
-    : Mediator(regex_data, document, flags) {
+                                 std::shared_ptr<Document> document, Flags flags)
+    : Mediator(regex_data, document) {
 
   algorithm_ = std::make_unique<FindoneAlgorithm>(regex_data.extended_va,
                                                   document_, flags);

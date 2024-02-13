@@ -12,8 +12,8 @@ inline namespace library_interface {
 Regex::Regex(std::string_view pattern, Flags flags)
     : flags_(flags), regex_data_(rematch::get_regex_data(pattern, flags)) {}
 
-std::unique_ptr<Match> Regex::findone(const std::string& text) {
-  std::string document = rematch::add_start_and_end_chars(text);
+std::unique_ptr<Match> Regex::findone(std::string_view text) {
+  std::shared_ptr<Document> document = std::make_shared<Document>(text);
 
   std::unique_ptr<rematch::FindoneMediator> mediator =
       std::make_unique<rematch::FindoneMediator>(regex_data_, document, flags_);
@@ -28,19 +28,14 @@ std::unique_ptr<Match> Regex::findone(const std::string& text) {
   return nullptr;
 }
 
-std::unique_ptr<MatchIterator> Regex::finditer(
-    const std::string& document_view) {
-  std::string document = rematch::add_start_and_end_chars(document_view);
-
-  return std::make_unique<MatchIterator>(regex_data_, std::move(document),
-                                         flags_);
+std::unique_ptr<MatchIterator> Regex::finditer(std::string_view text) {
+  return std::make_unique<MatchIterator>(regex_data_, text, flags_);
 }
 
-bool Regex::check(const std::string& document_view) {
-  std::string document = rematch::add_start_and_end_chars(document_view);
+bool Regex::check(std::string_view text) {
+  std::shared_ptr<Document> document = std::make_shared<Document>(text);
 
-  auto output_checker = rematch::OutputChecker(regex_data_, document, flags_);
-
+  auto output_checker = rematch::OutputChecker(regex_data_, document);
   return output_checker.check();
 }
 

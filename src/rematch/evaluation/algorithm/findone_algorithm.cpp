@@ -3,7 +3,8 @@
 namespace rematch {
 
 FindoneAlgorithm::FindoneAlgorithm(ExtendedVA& extended_va,
-                                   std::string_view document, Flags flags)
+                                   std::shared_ptr<Document> document,
+                                   Flags flags)
     : AlgorithmClass(extended_va, document, flags) {}
 
 const Mapping* FindoneAlgorithm::get_next_mapping() {

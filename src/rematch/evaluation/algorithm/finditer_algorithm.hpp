@@ -8,7 +8,7 @@ namespace rematch {
 
 class FinditerAlgorithm : public AlgorithmClass {
  public:
-  FinditerAlgorithm(ExtendedVA& extended_va, std::string_view document,
+  FinditerAlgorithm(ExtendedVA& extended_va, std::shared_ptr<Document> document,
                     Flags flags = Flags());
 
   const Mapping* get_next_mapping() override;

@@ -9,7 +9,7 @@ namespace rematch {
 
 class FindoneAlgorithm : public AlgorithmClass {
  public:
-  FindoneAlgorithm(ExtendedVA& extended_va, std::string_view document,
+  FindoneAlgorithm(ExtendedVA& extended_va, std::shared_ptr<Document> document,
                    Flags flags = Flags());
 
   const Mapping* get_next_mapping() override;

@@ -10,8 +10,7 @@ namespace rematch::testing {
 
 TEST_CASE("the findone mediator returns nullptr if there are no matches") {
   std::string regex = "!x{ab}";
-  std::string document = "bbb";
-  document = START_CHAR + document + END_CHAR;
+  auto document = std::make_shared<Document>("bbb");
   Parser parser(regex);
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va(logical_va);
@@ -27,8 +26,7 @@ TEST_CASE("the findone mediator returns nullptr if there are no matches") {
 
 TEST_CASE("the findone mediator returns the correct match") {
   std::string regex = "!x{b+}";
-  std::string document = "abba";
-  document = START_CHAR + document + END_CHAR;
+  auto document = std::make_shared<Document>("abba");
   Parser parser(regex);
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va(logical_va);

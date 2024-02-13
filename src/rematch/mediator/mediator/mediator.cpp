@@ -5,16 +5,8 @@
 
 namespace rematch {
 
-Mediator::Mediator(ExtendedVA&                      extended_va,
-                   std::shared_ptr<VariableCatalog> variable_catalog,
-                   SegmentManagerCreator& segment_manager_creator,
-                   std::shared_ptr<Document> document, Flags flags)
-    : document_(document), variable_catalog_(variable_catalog) {}
-
-Mediator::Mediator(RegexData& regex_data, std::shared_ptr<Document> document,
-                   Flags flags)
-    : Mediator(regex_data.extended_va, regex_data.variable_catalog,
-               regex_data.segment_manager_creator, document, flags) {}
+Mediator::Mediator(RegexData& regex_data, std::shared_ptr<Document> document)
+    : document_(document), variable_catalog_(regex_data.variable_catalog) {}
 
 mediator::Mapping* Mediator::construct_user_mapping() {
   static mediator::Mapping result_mapping;

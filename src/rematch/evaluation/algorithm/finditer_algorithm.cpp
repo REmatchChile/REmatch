@@ -3,7 +3,7 @@
 namespace rematch {
 
 FinditerAlgorithm::FinditerAlgorithm(ExtendedVA& extended_va,
-                                     std::string_view document,
+                                     std::shared_ptr<Document> document,
                                      Flags flags)
     : AlgorithmClass(extended_va, document, flags) {}
 
