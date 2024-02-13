@@ -2,10 +2,14 @@
 #include "mediator/mediator/findone_mediator.hpp"
 #include "mediator/output_checker.hpp"
 
+#include "evaluation/document.hpp"
+
+using namespace rematch;
+
 namespace REMatch {
 inline namespace library_interface {
 
-Regex::Regex(const std::string& pattern, Flags flags)
+Regex::Regex(std::string_view pattern, Flags flags)
     : flags_(flags), regex_data_(rematch::get_regex_data(pattern, flags)) {}
 
 std::unique_ptr<Match> Regex::findone(const std::string& text) {

@@ -14,8 +14,8 @@ void run_mediator_test(std::string regex, std::string document,
 
 TEST_CASE("the mediator throws an exception when the variable is not in the regex") {
   Parser parser = Parser("!x{a}");
-  std::string document = "a";
-  document += END_CHAR;
+  std::string document_ = "a";
+  auto document = std::make_shared<Document>(document_);
 
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va = ExtendedVA(logical_va);

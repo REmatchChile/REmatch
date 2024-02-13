@@ -1,15 +1,17 @@
 #include "mediator.hpp"
 #include "evaluation/algorithm/finditer_algorithm.hpp"
 
+#include "evaluation/document.hpp"
+
 namespace rematch {
 
-Mediator::Mediator(ExtendedVA& extended_va,
+Mediator::Mediator(ExtendedVA&                      extended_va,
                    std::shared_ptr<VariableCatalog> variable_catalog,
                    SegmentManagerCreator& segment_manager_creator,
-                   std::string_view document, Flags flags)
+                   std::shared_ptr<Document> document, Flags flags)
     : document_(document), variable_catalog_(variable_catalog) {}
 
-Mediator::Mediator(RegexData& regex_data, std::string_view document,
+Mediator::Mediator(RegexData& regex_data, std::shared_ptr<Document> document,
                    Flags flags)
     : Mediator(regex_data.extended_va, regex_data.variable_catalog,
                regex_data.segment_manager_creator, document, flags) {}

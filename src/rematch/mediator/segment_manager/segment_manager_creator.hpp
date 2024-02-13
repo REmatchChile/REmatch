@@ -6,14 +6,16 @@
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
 #include "segment_identificator_manager.hpp"
 #include "tracy/Tracy.hpp"
+#include "evaluation/document.hpp"
 
 namespace rematch {
+class Document;
 
 class SegmentManagerCreator {
  private:
   bool lva_has_useful_anchors_ = false;
   std::unique_ptr<SearchDFA> search_dfa_ = nullptr;
-  std::string_view document_;
+  std::shared_ptr<Document> document_;
   Flags flags;
 
  public:
@@ -25,7 +27,7 @@ class SegmentManagerCreator {
     search_dfa_ = std::make_unique<SearchDFA>(logical_va, dfa_states_checker);
   }
 
-  void set_document(std::string_view document) {
+  void set_document(std::shared_ptr<Document> document) {
     document_ = document;
   }
 

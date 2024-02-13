@@ -1,6 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 #undef private
+#include "evaluation/document.hpp"
 #include "evaluation/extended_va/dfa/extended_det_va.hpp"
 #include "mediator/mediator/finditer_mediator.hpp"
 #include "../evaluation/mapping_helpers.hpp"
@@ -12,8 +13,7 @@ void run_mediator_test(std::string regex, std::string document,
 
 TEST_CASE("the mediator returns null pointer when there are no mappings") {
   Parser parser = Parser("!x{a}");
-  std::string document = "b";
-  document += END_CHAR;
+  auto document = std::make_shared<Document>("b");
 
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va = ExtendedVA(logical_va);
@@ -31,8 +31,7 @@ TEST_CASE("the mediator returns null pointer when there are no mappings") {
 
 TEST_CASE("the mediator returns an empty mapping if there are no captures") {
   Parser parser = Parser("a");
-  std::string document = "a";
-  document += END_CHAR;
+  auto document = std::make_shared<Document>("a");
 
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va = ExtendedVA(logical_va);
@@ -181,10 +180,10 @@ TEST_CASE("the mediator returns the correct mappings when using different short 
   run_mediator_test(regex, document, expected_mappings);
 }
 
-void run_mediator_test(std::string regex, std::string document,
+void run_mediator_test(std::string regex, std::string document_,
                        std::vector<mediator::Mapping> expected_mappings) {
   Parser parser = Parser(regex);
-  document = START_CHAR + document + END_CHAR;
+  auto document = std::make_shared<Document>(document_);
 
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va = ExtendedVA(logical_va);

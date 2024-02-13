@@ -4,6 +4,7 @@
 #include <memory>
 #include "library_interface/match.hpp"
 #include "mediator/mapping.hpp"
+#include "evaluation/document.hpp"
 
 namespace rematch::testing {
 using namespace REMatch::library_interface;
@@ -41,8 +42,8 @@ TEST_CASE("match object returns the correct span object") {
 }
 
 TEST_CASE("match object returns the correct groups") {
-  std::string document = "aaaabbbb";
-  document = START_CHAR + document + END_CHAR;
+  std::string document_ = "aaaabbbb";
+  auto document = std::make_shared<Document>(document_);
   std::string regex = "!x{a+}!y{b+}";
 
   auto parser = Parser(regex);
@@ -60,7 +61,6 @@ TEST_CASE("match object returns the correct groups") {
 
 TEST_CASE("match object returns the correct group dictionary") {
   std::string document = "aaaabbbb";
-  document = START_CHAR + document + END_CHAR;
   std::string regex = "!x{a+}!y{b+}";
 
   std::map<std::string, Span> mapping_dict = {{"x", {0, 4}}, {"y", {4, 8}}};
@@ -108,11 +108,12 @@ TEST_CASE("match object returns empty when the mapping is empty") {
   REQUIRE(match.empty());
 }
 
-Match construct_match(std::string& document, std::string regex,
+Match construct_match(std::string& document_, std::string regex,
                       rematch::mediator::Mapping mapping) {
   auto parser = Parser(regex);
   std::shared_ptr<VariableCatalog> variable_catalog =
       parser.get_variable_catalog();
+  auto document = std::make_shared<Document>(document_);
   return Match(mapping, variable_catalog, document);
 }
 

@@ -3,6 +3,7 @@ graft src/
 graft python/
 graft tests/
 graft cmake/
+graft third_party/
 
 include CMakeLists.txt
 include LICENCE

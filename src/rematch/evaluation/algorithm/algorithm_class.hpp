@@ -3,15 +3,19 @@
 
 #include "evaluation/extended_va/dfa/extended_det_va.hpp"
 #include "library_interface/flags.hpp"
+#include <memory>
 #include "output_enumeration/ecs.hpp"
 #include "output_enumeration/enumerator.hpp"
 #include "tracy/Tracy.hpp"
 
 namespace rematch {
+class Document;
+
+using namespace REMatch;
 
 class AlgorithmClass {
  public:
-  AlgorithmClass(ExtendedVA& extended_va, std::string_view document,
+  AlgorithmClass(ExtendedVA& extended_va, std::shared_ptr<Document> document,
                  Flags flags = Flags());
 
   void initialize_algorithm();
@@ -33,7 +37,7 @@ class AlgorithmClass {
   uint64_t doc_start_i_ = 0;
   uint64_t doc_end_i_ = 0;
 
-  std::string_view document_;
+  std::shared_ptr<Document> document_;
 
   ExtendedDetVA extended_det_va_;
   ECS* ECS_interface_;

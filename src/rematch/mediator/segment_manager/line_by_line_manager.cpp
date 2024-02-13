@@ -1,9 +1,11 @@
 #include "line_by_line_manager.hpp"
 
+#include "evaluation/document.hpp"
+
 namespace rematch {
 
 LineByLineManager::LineByLineManager(SearchDFA& search_dfa,
-                                     std::string_view document)
+                                     std::shared_ptr<Document> document)
     : segment_identificator_(search_dfa, document),
       line_identificator_(document),
       document_(document) {

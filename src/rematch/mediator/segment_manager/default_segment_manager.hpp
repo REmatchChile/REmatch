@@ -5,10 +5,11 @@
 #include "filtering_module/segment_identificator.hpp"
 
 namespace rematch {
+class Document;
 
 class DefaultSegmentManager : public SegmentManager {
  public:
-  DefaultSegmentManager(std::string_view document);
+  DefaultSegmentManager(std::shared_ptr<Document> document);
 
   // Returns the span representing the entire document
   std::unique_ptr<Span> next() override;
@@ -16,7 +17,7 @@ class DefaultSegmentManager : public SegmentManager {
   size_t get_search_nfa_size() override;
 
  private:
-  std::string_view document_;
+  std::shared_ptr<Document> document_;
   bool already_read_ = false;
 };
 

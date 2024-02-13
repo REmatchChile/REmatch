@@ -1,10 +1,13 @@
 #include "algorithm_class.hpp"
 
-namespace rematch {
+#include "evaluation/document.hpp"
+
+using namespace rematch;
 
 AlgorithmClass::AlgorithmClass(ExtendedVA& extended_va,
-                               std::string_view document, Flags flags)
-    : doc_end_i_(document.size()),
+                               std::shared_ptr<Document> document,
+                               Flags flags)
+    : doc_end_i_(document->size()),
       document_(document),
       extended_det_va_(extended_va, flags) {
   ECS_interface_ = new ECS(flags);
@@ -43,7 +46,7 @@ void AlgorithmClass::set_null_segment() {
 }
 
 void AlgorithmClass::evaluate_single_character() {
-  char letter = document_[pos_i_];
+  char letter = (*document_)[pos_i_];
 
   for (auto& current_state : current_states_) {
 
@@ -114,4 +117,3 @@ size_t AlgorithmClass::get_amount_of_nodes_used() {
   return ECS_interface_->get_amount_of_nodes_used();
 }
 
-}

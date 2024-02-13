@@ -8,10 +8,11 @@
 #include "filtering_module/segment_identificator.hpp"
 
 namespace rematch {
+class Document;
 
 class LineByLineManager : public SegmentManager {
  public:
-  LineByLineManager(SearchDFA& search_dfa, std::string_view document);
+  LineByLineManager(SearchDFA& search_dfa, std::shared_ptr<Document> document);
 
   std::unique_ptr<Span> next() override;
   size_t get_search_dfa_size() override;
@@ -22,7 +23,7 @@ class LineByLineManager : public SegmentManager {
 
   SegmentIdentificator segment_identificator_;
   LineIdentificator line_identificator_;
-  std::string_view document_;
+  std::shared_ptr<Document> document_;
 };
 
 }  // namespace rematch

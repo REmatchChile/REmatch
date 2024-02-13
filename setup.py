@@ -1,22 +1,31 @@
-import codecs
 import os
 
 from skbuild import setup
 
 PROJECT_NAME = "pyrematch"
+ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(ROOT_DIR, "python/pyrematch/README.md"), "r") as f:
+    LONG_DESCRIPTION = f.read()
 
-root_dir = os.path.abspath(os.path.dirname(__file__))
+
+def get_version():
+    with open(os.path.join(ROOT_DIR, "python/pyrematch/__init__.py")) as f:
+        for line in f:
+            if line.startswith("__version__"):
+                delim = '"' if '"' in line else "'"
+                return line.split(delim)[1]
+        else:
+            raise RuntimeError("Unable to find version string.")
+
 
 setup(
     name=PROJECT_NAME,
-    version="2.0.1",
+    version=get_version(),
     description=(
         "Python bindings for REmatch, an information extraction focused regex library"
         " that uses constant delay algoirthms"
     ),
-    long_description=codecs.open(
-        os.path.join(root_dir, "python/pyrematch/README.md")
-    ).read(),
+    long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
     url="https://rematch.cl/",
     author="Vicente Calisto, Oscar Cárcamo, Nicolás Van Sint Jan, Gustavo Toro",

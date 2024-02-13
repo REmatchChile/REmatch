@@ -1,20 +1,27 @@
 #include "library_interface/rematch.hpp"
-#include <string_view>
+#include <cstdlib>
 #include <iostream>
+#include <string_view>
 
+int main(int argc, char* argv[]) {
+  if (argc < 3) {
+    std::cerr << "Usage: " << argv[0] << " <pattern> <document>" << std::endl;
+    return EXIT_FAILURE;
+  }
+  std::string pattern = argv[1];
+  std::string document = argv[2];
 
-int main() {
-  std::string document = "This is a document";
-  std::string pattern = "!x{doc|document}";
-  // REMatch::Regex word_regex = REMatch::compile(pattern, REMatch::Flags());
-  // std::unique_ptr<REMatch::MatchIterator> iterator = word_regex.finditer(document);
-  // auto match = iterator->next();
-  // while (match != nullptr) {
-  //   std::cout << "Span: <" << match->start("x") << ',' << match->end("x") << '>'
-  //             << std::endl;
-  //   std::cout << match->group("x") << std::endl;
-  //   match = iterator->next();
-  // }
+  REMatch::Flags flags;
+  REMatch::Regex regex = REMatch::compile(pattern, flags);
+  std::unique_ptr<REMatch::MatchIterator> iterator = regex.finditer(document);
 
-  return 0;
+  auto match = iterator->next();
+  auto variables = iterator->variables();
+  while (match != nullptr) {
+    for (auto& variable : variables)
+      std::cout << variable << ": \"" << match->group(variable) << "\" |" << match->start(variable) << "," << match->end(variable) <<  ">" << std::endl;
+    match = iterator->next();
+  }
+
+  return EXIT_SUCCESS;
 }
