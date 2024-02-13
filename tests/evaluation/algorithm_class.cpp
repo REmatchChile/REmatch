@@ -1,7 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 #undef private
-#include "evaluation/algorithm_class.hpp"
+#include "evaluation/algorithm/finditer_algorithm.hpp"
 #include "mapping_helpers.hpp"
 
 namespace rematch::testing {
@@ -18,7 +18,7 @@ TEST_CASE("the algorithm returns a null pointer if there are no mappings") {
   std::string document = "b";
   document += END_CHAR;
 
-  AlgorithmClass algorithm = AlgorithmClass(extended_va, document);
+  auto algorithm = FinditerAlgorithm(extended_va, document);
 
   const Mapping* mapping = algorithm.get_next_mapping();
   REQUIRE(mapping == nullptr);
@@ -29,7 +29,7 @@ TEST_CASE("the algorithm returns an empty mapping if there are no captures") {
   std::string document = "a";
   document += END_CHAR;
 
-  AlgorithmClass algorithm = AlgorithmClass(extended_va, document);
+  auto algorithm = FinditerAlgorithm(extended_va, document);
 
   const Mapping* mapping = algorithm.get_next_mapping();
   REQUIRE(mapping != nullptr);
@@ -154,7 +154,7 @@ TEST_CASE("nodes used by the algorithm are recycled when creating a linked list"
   ExtendedVA extended_va = get_extended_va_from_regex(regex);
 
   ECS ecs = ECS();
-  AlgorithmClass algorithm = AlgorithmClass(extended_va, document);
+  auto algorithm = FinditerAlgorithm(extended_va, document);
   algorithm.set_ecs(ecs);
 
   const Mapping* mapping = algorithm.get_next_mapping();
@@ -175,7 +175,7 @@ TEST_CASE("nodes used by the algorithm are recycled when it is run again") {
   ExtendedVA extended_va = get_extended_va_from_regex(regex);
 
   ECS ecs = ECS();
-  AlgorithmClass algorithm = AlgorithmClass(extended_va, document);
+  auto algorithm = FinditerAlgorithm(extended_va, document);
   algorithm.set_ecs(ecs);
 
   const Mapping* mapping = algorithm.get_next_mapping();
@@ -210,7 +210,7 @@ TEST_CASE("nodes used by the algorithm are recycled when, after constructing the
   std::string regex = "!x{a+b}";
   ExtendedVA extended_va = get_extended_va_from_regex(regex);
 
-  AlgorithmClass algorithm = AlgorithmClass(extended_va, document);
+  auto algorithm = FinditerAlgorithm(extended_va, document);
   algorithm.set_ecs(ecs);
 
   const Mapping* mapping = algorithm.get_next_mapping();
@@ -230,7 +230,7 @@ void run_algorithm_test(std::string regex, std::string document,
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
 
-  AlgorithmClass algorithm = AlgorithmClass(extended_va, document);
+  auto algorithm = FinditerAlgorithm(extended_va, document);
 
   std::ostringstream info_os;
   info_os << "Actual mappings:\n";

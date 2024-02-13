@@ -5,6 +5,7 @@ namespace rematch {
 RegexData get_regex_data(std::string_view pattern, Flags flags) {
   rematch::Parser parser = rematch::Parser(pattern);
   rematch::LogicalVA logical_va = parser.get_logical_va();
+  logical_va.remove_useless_anchors();
   std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog =
       parser.get_variable_catalog();
   rematch::ExtendedVA extended_va = rematch::ExtendedVA(logical_va);

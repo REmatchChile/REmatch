@@ -3,7 +3,7 @@
 #undef private
 #include "evaluation/algorithm_class.hpp"
 #include "evaluation/extended_va/dfa/extended_det_va.hpp"
-#include "mediator/mediator.hpp"
+#include "mediator/mediator/finditer_mediator.hpp"
 #include "../evaluation/mapping_helpers.hpp"
 #include "library_interface/regex.hpp"
 
@@ -24,7 +24,9 @@ TEST_CASE("the mediator throws an exception when the variable is not in the rege
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
-  Mediator mediator = Mediator(extended_va, variable_catalog, segment_manager_creator, std::move(document));
+  RegexData regex_data{std::move(segment_manager_creator),
+                       std::move(extended_va), variable_catalog};
+  auto mediator = FinditerMediator(regex_data, document);
 
   mediator::Mapping* mapping = mediator.next();
   REQUIRE_THROWS_AS(mapping->get_span_of_variable("y"), VariableNotFoundException);

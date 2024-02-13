@@ -42,7 +42,8 @@ PYBIND11_MODULE(_pyrematch, m) {
   py::class_<Regex>(m, "PyRegex")
       .def(py::init<const std::string&, Flags>())
       .def("findone", &Regex::findone, "document"_a)
-      .def("finditer", &Regex::finditer, "document"_a);
+      .def("finditer", &Regex::finditer, "document"_a)
+      .def("check", &Regex::check, "document"_a);
 
   m.def("compile", &compile, "pattern"_a, "flags"_a = Flags());
   m.def("findone", &findone, "pattern"_a, "document"_a, "flags"_a = Flags());

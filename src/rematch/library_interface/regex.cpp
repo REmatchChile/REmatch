@@ -35,10 +35,9 @@ std::unique_ptr<MatchIterator> Regex::finditer(
 bool Regex::check(const std::string& document_view) {
   std::string document = rematch::add_start_and_end_chars(document_view);
 
-  std::unique_ptr<rematch::OutputChecker> mediator =
-      std::make_unique<rematch::OutputChecker>(regex_data_, document, flags_);
+  auto output_checker = rematch::OutputChecker(regex_data_, document, flags_);
 
-  return mediator->check();
+  return output_checker.check();
 }
 
 }  // end namespace library_interface

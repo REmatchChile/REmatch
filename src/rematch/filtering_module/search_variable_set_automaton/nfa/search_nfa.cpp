@@ -4,6 +4,7 @@
 #include <map>
 
 #include "parsing/charclass.hpp"
+#include "evaluation/start_end_chars.hpp"
 
 namespace rematch {
 inline namespace filtering_module {
@@ -16,8 +17,6 @@ SearchNFA::SearchNFA(LogicalVA const &A) {
   A_prim.remove_captures();
 
   A_prim.remove_epsilon();
-
-  A_prim.remove_useless_anchors();
 
   A_prim.trim();
 
@@ -38,6 +37,15 @@ SearchNFA::SearchNFA(LogicalVA const &A) {
       SearchNFAState *next =
         logical_va_state_id_to_search_nfa_state
           [logical_va_filter->next->id];
+      from_state->add_filter(charclass, next);
+    }
+
+    for (LogicalVAAnchor* logical_va_anchor : logical_va_state->anchors) {
+      CharClass charclass = logical_va_anchor->is_start()
+                                ? CharClass(START_CHAR)
+                                : CharClass(END_CHAR);
+      SearchNFAState* next =
+          logical_va_state_id_to_search_nfa_state[logical_va_anchor->next->id];
       from_state->add_filter(charclass, next);
     }
   }

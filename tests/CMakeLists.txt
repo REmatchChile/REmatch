@@ -21,8 +21,10 @@ set(TEST_SOURCES
   evaluation/dummy_mapping.hpp
   evaluation/mapping_helpers.hpp
   evaluation/algorithm_class.cpp
+  evaluation/findone_algorithm.cpp
   evaluation/algorithm_utf8.cpp
   mediator/mediator.cpp
+  mediator/findone_mediator.cpp
   mediator/segment_manager_creator.cpp
   library_interface/match.cpp
   library_interface/match_iterator.cpp

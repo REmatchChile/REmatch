@@ -88,3 +88,6 @@ class Regex:
 
     def finditer(self, document: str) -> MatchIterator:
         return MatchIterator(document, self._pyregex)
+
+    def check(self, document: str) -> bool:
+        return self._pyregex.check(document)

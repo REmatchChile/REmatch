@@ -50,7 +50,6 @@ class AlgorithmClass {
   virtual void update_output_nodes(ExtendedDetVAState*& next_state,
                            ECSNode*& next_node) = 0;
 
-  ECSNode* create_root_node_to_enumerate();
   void swap_state_lists();
 };
 
