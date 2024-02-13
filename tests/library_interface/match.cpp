@@ -2,15 +2,15 @@
 #include <catch2/generators/catch_generators.hpp>
 #undef private
 #include <memory>
-#include "mediator/mediator.hpp"
 #include "library_interface/match.hpp"
+#include "mediator/mapping.hpp"
 
 namespace rematch::testing {
 using namespace REMatch::library_interface;
 
 std::string get_group_dict_info(std::map<std::string, Span> group_dict);
 Match construct_match(std::string& document, std::string regex,
-                           rematch::mediator::Mapping mapping);
+                      rematch::mediator::Mapping mapping);
 
 TEST_CASE("match object returns the correct span indexes") {
   std::string document = "aaa";
@@ -46,7 +46,8 @@ TEST_CASE("match object returns the correct groups") {
   std::string regex = "!x{a+}!y{b+}";
 
   auto parser = Parser(regex);
-  std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
+  std::shared_ptr<VariableCatalog> variable_catalog =
+      parser.get_variable_catalog();
   auto mapping = rematch::mediator::Mapping({{"x", {0, 4}}, {"y", {4, 8}}});
   Match match{mapping, variable_catalog, document};
 
@@ -83,7 +84,8 @@ TEST_CASE("match object returns the variables in the mapping") {
   std::string document = "abc";
   std::string regex = "!x{!z{a}b}!y{c}";
 
-  auto mapping = rematch::mediator::Mapping({{"x", {0, 2}}, {"y", {2, 3}}, {"z", {0, 1}}});
+  auto mapping =
+      rematch::mediator::Mapping({{"x", {0, 2}}, {"y", {2, 3}}, {"z", {0, 1}}});
   Match match = construct_match(document, regex, mapping);
   REQUIRE(match.variables() == std::vector<std::string>{"x", "y", "z"});
 }
@@ -107,9 +109,10 @@ TEST_CASE("match object returns empty when the mapping is empty") {
 }
 
 Match construct_match(std::string& document, std::string regex,
-                           rematch::mediator::Mapping mapping) {
+                      rematch::mediator::Mapping mapping) {
   auto parser = Parser(regex);
-  std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
+  std::shared_ptr<VariableCatalog> variable_catalog =
+      parser.get_variable_catalog();
   return Match(mapping, variable_catalog, document);
 }
 

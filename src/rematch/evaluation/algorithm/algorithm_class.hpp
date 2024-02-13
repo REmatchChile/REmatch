@@ -1,7 +1,7 @@
 #ifndef ALGORITHM_CLASS_HPP
 #define ALGORITHM_CLASS_HPP
 
-#include "extended_va/dfa/extended_det_va.hpp"
+#include "evaluation/extended_va/dfa/extended_det_va.hpp"
 #include "library_interface/flags.hpp"
 #include "output_enumeration/ecs.hpp"
 #include "output_enumeration/enumerator.hpp"

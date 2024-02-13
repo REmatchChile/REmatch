@@ -3,7 +3,7 @@
 
 #include <string_view>
 #include "mediator/mapping.hpp"
-#include "mediator/mediator.hpp"
+#include "mediator/mediator/mediator.hpp"
 
 namespace rematch {
 

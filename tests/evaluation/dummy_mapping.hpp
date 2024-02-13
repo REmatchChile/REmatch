@@ -1,7 +1,7 @@
 #ifndef DUMMY_MAPPING_HPP
 #define DUMMY_MAPPING_HPP
 
-#include "evaluation/algorithm_class.hpp"
+#include "evaluation/algorithm/algorithm_class.hpp"
 #include "evaluation/extended_va/dfa/extended_det_va.hpp"
 #include "exceptions/variable_not_found_exception.hpp"
 

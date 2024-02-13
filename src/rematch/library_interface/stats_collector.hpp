@@ -1,7 +1,7 @@
 #ifndef STATS_COLLECTOR_HPP
 #define STATS_COLLECTOR_HPP
 
-#include "mediator/mediator.hpp"
+#include "mediator/mediator/mediator.hpp"
 #include "statistics.hpp"
 
 namespace rematch {

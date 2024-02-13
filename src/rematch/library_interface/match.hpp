@@ -8,7 +8,7 @@
 
 #include <memory>
 #include "mediator/mapping.hpp"
-#include "mediator/mediator.hpp"
+#include "mediator/mediator/mediator.hpp"
 #include "parsing/variable_catalog.hpp"
 
 namespace REMatch {

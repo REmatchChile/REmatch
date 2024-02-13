@@ -8,7 +8,7 @@
 #include "filtering_module/segment_identificator.hpp"
 #include "library_interface/match.hpp"
 #include "match_iterator.hpp"
-#include "mediator/mediator.hpp"
+#include "mediator/mediator/mediator.hpp"
 #include "mediator/segment_manager/segment_manager_creator.hpp"
 #include "statistics.hpp"
 #include "stats_collector.hpp"

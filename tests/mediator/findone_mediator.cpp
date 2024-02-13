@@ -2,7 +2,6 @@
 #include <catch2/generators/catch_generators.hpp>
 #undef private
 #include "../evaluation/mapping_helpers.hpp"
-#include "evaluation/algorithm_class.hpp"
 #include "evaluation/extended_va/dfa/extended_det_va.hpp"
 #include "mediator/mediator/findone_mediator.hpp"
 #include "mediator/segment_manager/segment_manager_creator.hpp"

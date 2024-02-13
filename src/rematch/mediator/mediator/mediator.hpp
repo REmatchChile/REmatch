@@ -2,15 +2,15 @@
 #define MEDIATOR_HPP
 
 #include "evaluation/algorithm/finditer_algorithm.hpp"
-#include "evaluation/algorithm_class.hpp"
+#include "evaluation/algorithm/algorithm_class.hpp"
 #include "filtering_module/segment_identificator.hpp"
 #include "library_interface/flags.hpp"
 #include "library_interface/regex_data/regex_data.hpp"
-#include "mapping.hpp"
-#include "segment_manager/line_by_line_manager.hpp"
-#include "segment_manager/segment_identificator_manager.hpp"
-#include "segment_manager/segment_manager.hpp"
-#include "segment_manager/segment_manager_creator.hpp"
+#include "mediator/mapping.hpp"
+#include "mediator/segment_manager/line_by_line_manager.hpp"
+#include "mediator/segment_manager/segment_identificator_manager.hpp"
+#include "mediator/segment_manager/segment_manager.hpp"
+#include "mediator/segment_manager/segment_manager_creator.hpp"
 #include "tracy/Tracy.hpp"
 
 namespace rematch {
