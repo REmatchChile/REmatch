@@ -59,7 +59,7 @@ TEST_CASE(
 
   for (int i = 0; i < (int) MEMORY_POOL_STARTING_SIZE; i++) {
     REQUIRE(
-        original_nodes[MEMORY_POOL_STARTING_SIZE - i - 1]->document_position
+        (size_t) original_nodes[MEMORY_POOL_STARTING_SIZE - i - 1]->document_position
                                       ==
                           i + MEMORY_POOL_STARTING_SIZE
     );

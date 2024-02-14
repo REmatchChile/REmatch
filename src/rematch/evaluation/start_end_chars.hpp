@@ -3,8 +3,8 @@
 
 namespace rematch {
 
-const char START_CHAR = 0xFE;
-const char END_CHAR = 0xFF;
+constexpr char START_CHAR = '\xFE';
+constexpr char END_CHAR = '\xFF';
 
 }  // namespace rematch
 

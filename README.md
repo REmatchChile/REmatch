@@ -137,8 +137,27 @@ You should be able to view the results in the graphical interface.
 This implementation is based on the paper [REmatch: a novel regex engine for finding all matches](https://www.vldb.org/pvldb/vol16/p2792-vrgoc.pdf) by Cristian Riveros, Nicolar Van Sint Jan, and Domagoj Vrgoč.
 
 
-## Emscripten
+## Building bindings
 
+### Javascript/WASM
+
+First, install Emscripten:
 ```bash
 sudo apt-get install emscripten
+```
+
+Then, run command:
+```bash
+./scripts/compile_emscripten.sh
+```
+
+## Python
+To install the release version from PyPI, run:
+```bash
+pip install pyrematch
+```
+
+To build from the source code, clone this repository and run:
+```bash
+pip install .
 ```

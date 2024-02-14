@@ -1,8 +1,8 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 #undef private
-#include "mediator/mediator.hpp"
 #include "exceptions/anchor_inside_capture_exception.hpp"
+#include "parsing/parser.hpp"
 
 namespace rematch::testing {
 

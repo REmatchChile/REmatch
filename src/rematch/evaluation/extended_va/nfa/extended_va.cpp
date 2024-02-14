@@ -7,7 +7,6 @@ ExtendedVA::ExtendedVA(LogicalVA const &logical_va) {
 
   LogicalVA logical_va_prim(logical_va);
   logical_va_prim.remove_epsilon();
-  logical_va_prim.remove_useless_anchors();
   logical_va_prim.trim();
 
   assert(ExtendedVAAssert::initial_state_has_only_outgoing_transitions(&logical_va_prim));

@@ -48,6 +48,7 @@ namespace rematch::testing {
       switch (i % 2) {
         case 0:
           create_extend_node(ecs, i, i);
+          break;
         case 1:
           create_union_node(ecs);
       }

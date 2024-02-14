@@ -20,9 +20,11 @@ set(TEST_SOURCES
   evaluation/extended_det_va.cpp
   evaluation/dummy_mapping.hpp
   evaluation/mapping_helpers.hpp
-  evaluation/algorithm_class.cpp
+  evaluation/finditer_algorithm.cpp
+  evaluation/findone_algorithm.cpp
   evaluation/algorithm_utf8.cpp
-  mediator/mediator.cpp
+  mediator/finditer_mediator.cpp
+  mediator/findone_mediator.cpp
   mediator/segment_manager_creator.cpp
   library_interface/match.cpp
   library_interface/match_iterator.cpp

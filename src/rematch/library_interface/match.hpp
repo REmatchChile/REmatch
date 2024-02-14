@@ -8,8 +8,12 @@
 
 #include <memory>
 #include "mediator/mapping.hpp"
-#include "mediator/mediator.hpp"
+#include "mediator/mediator/mediator.hpp"
 #include "parsing/variable_catalog.hpp"
+
+namespace rematch {
+class Document;
+}
 
 namespace REMatch {
 
@@ -20,12 +24,12 @@ class Match {
  private:
   rematch::mediator::Mapping mapping_;
   std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog_;
-  std::string_view document_;
+  std::shared_ptr<rematch::Document> document_;
 
  public:
   Match(rematch::mediator::Mapping mapping,
         std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog,
-        std::string_view document);
+        std::shared_ptr<rematch::Document> document);
 
   int start(std::string variable_name);
   int start(int variable_id);
