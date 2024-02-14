@@ -39,5 +39,9 @@ bool Regex::check(std::string_view text) {
   return output_checker.check();
 }
 
+size_t Regex::count(std::string_view text) {
+  return 0;
+}
+
 }  // end namespace library_interface
 }  // namespace REMatch
