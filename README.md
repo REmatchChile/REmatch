@@ -1,6 +1,6 @@
-# REmatch C++
+# REmatch
 
-Here you can find the main implementation of REmatch library in C++. This version has been refactorized, tested, and developed for being ready for production.
+Here you can find the main implementation of REmatch library in C++, and its bindings for both python and javascript/WebAssembly. This version has been refactorized, tested, and developed for being ready for production.
 
 ## Directory structure
 
@@ -141,12 +141,9 @@ This implementation is based on the paper [REmatch: a novel regex engine for fin
 
 ### Javascript/WASM
 
-First, install Emscripten:
-```bash
-sudo apt-get install emscripten
-```
+To begin, follow the official installation tutorial for Emscripten available at https://emscripten.org/docs/getting_started/downloads.html
 
-Then, run command:
+Once the installation is complete, execute the following command:
 ```bash
 ./scripts/compile_emscripten.sh
 ```
