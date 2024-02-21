@@ -8,6 +8,8 @@
 
 namespace rematch {
 
+class ExtendedMapping;
+
 inline namespace output_enumeration {
 
 /**
@@ -17,16 +19,20 @@ inline namespace output_enumeration {
  * VariableCatalog class should be used.
  */
 class Mapping {
-
- private:
+ public:
 
   struct Annotation {
     std::bitset<64> variable_markers;
     size_t document_position;
+    bool operator==(const Annotation& other) const {
+      return document_position == other.document_position
+            && variable_markers == other.variable_markers;
+    }
+    bool operator<(const Annotation& other) const {
+      return document_position < other.document_position;
+    }
   };
-  std::vector<Annotation> inverted_annotations;
 
- public:
   Mapping();
 
   void add_annotations(std::bitset<64> variable_markers,
@@ -56,6 +62,10 @@ class Mapping {
   int get_next_variable_closure(int variable_id, int& current_position) const;
   int find_next_document_position_where_the_specified_marker_is_true(
       int marker_id, int& current_position) const;
+
+  std::vector<Annotation> inverted_annotations;
+
+  friend class rematch::ExtendedMapping;
 };
 }
 }
