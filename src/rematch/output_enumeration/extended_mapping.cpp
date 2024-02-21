@@ -36,8 +36,8 @@ void ExtendedMapping::process_annotation(
       int variable_id = bitset_index / 2;
 
       if (is_open_code(bitset_index)) {
-        add_span_with_opened_position(
-            spans_map, variable_id, annotation.document_position, spans_buffer);
+        add_span_with_opened_position(variable_id, annotation.document_position,
+                                      spans_buffer);
       } else {
         update_last_span_with_closed_position(
             spans_map, variable_id, annotation.document_position, spans_buffer);
@@ -51,8 +51,8 @@ inline bool ExtendedMapping::is_open_code(int bitset_index) const {
 }
 
 void ExtendedMapping::add_span_with_opened_position(
-    std::map<int, std::vector<Span>>& spans_map, int variable_id,
-    int document_position, std::map<int, Span>& spans_buffer) const {
+    int variable_id, int document_position,
+    std::map<int, Span>& spans_buffer) const {
   spans_buffer[variable_id].first = document_position;
   spans_buffer[variable_id].second = INVALID_POSITION;
 }
