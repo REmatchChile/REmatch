@@ -58,12 +58,4 @@ void MultiFinditerMediator::update_algorithm(Span& segment_span) {
   algorithm_->initialize_algorithm();
 }
 
-std::shared_ptr<Document> document_;
-std::shared_ptr<VariableCatalog> variable_catalog_;
-std::unique_ptr<SegmentManager> segment_manager_;
-std::unique_ptr<AlgorithmClass> algorithm_;
-int number_of_variables_;
-
-const output_enumeration::Mapping* mapping_;
-
 }  // namespace rematch
