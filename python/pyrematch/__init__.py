@@ -1,4 +1,4 @@
-from .pyrematch import Flags, Regex
+from .pyrematch import Flags, Regex, MultiRegex
 
 __version__ = "2.0.6"
 
@@ -16,10 +16,12 @@ from ._pyrematch import (
     VariableLimitExceededException,
     VariableNotFoundException,
     VariableNotFoundInCatalogException,
+    MultiSpannersNotAllowedException,
 )
 
 __all__ = [
     "Regex",
+    "MultiRegex",
     "Flags",
     "RegexSyntaxException",
     "AnchorInsideCaptureException",
@@ -34,4 +36,5 @@ __all__ = [
     "VariableLimitExceededException",
     "VariableNotFoundException",
     "VariableNotFoundInCatalogException",
+    "MultiSpannersNotAllowedException",
 ]

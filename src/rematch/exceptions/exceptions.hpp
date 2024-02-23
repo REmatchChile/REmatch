@@ -14,5 +14,6 @@
 #include "variable_limit_exceeded_exception.hpp"
 #include "variable_not_found_exception.hpp"
 #include "variable_not_found_in_catalog_exception.hpp"
+#include "multi_spanners_not_allowed_exception.hpp"
 
 #endif

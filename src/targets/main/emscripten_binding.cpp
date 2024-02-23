@@ -4,6 +4,7 @@
 #include "library_interface/match.hpp"
 #include "library_interface/match_iterator.hpp"
 #include "library_interface/regex.hpp"
+#include "library_interface/multi_regex.hpp"
 #include "library_interface/rematch.hpp"
 #include "output_enumeration/span.hpp"
 
@@ -24,6 +25,16 @@ class RegexEmscriptenWrapper : public Regex {
   }
 };
 
+class MultiRegexEmscriptenWrapper : public MultiRegex {
+ public:
+  explicit MultiRegexEmscriptenWrapper(std::string pattern)
+      : MultiRegex(std::string_view(pattern)) {}
+
+  std::unique_ptr<MultiMatchIterator> finditer_wrapper(std::string str) {
+    return finditer(std::string_view(str));
+  }
+};
+
 EMSCRIPTEN_BINDINGS(REmatch) {
   class_<RegexEmscriptenWrapper>("Regex")
       .constructor<std::string>()
@@ -37,6 +48,19 @@ EMSCRIPTEN_BINDINGS(REmatch) {
       .function("variables", &Match::variables)
       .function("start", select_overload<int(std::string)>(&Match::start))
       .function("end", select_overload<int(std::string)>(&Match::end));
+
+  class_<MultiRegexEmscriptenWrapper>("MultiRegex")
+      .constructor<std::string>()
+      .function("finditer", &MultiRegexEmscriptenWrapper::finditer_wrapper);
+
+  class_<MultiMatchIterator>("MultiMatchIterator")
+      .function("next", &MultiMatchIterator::next)
+      .function("variables", &MultiMatchIterator::variables);
+
+  class_<MultiMatch>("MultiMatch")
+      .function("spans", select_overload<std::vector<Span>(std::string)>(&MultiMatch::spans))
+      .function("groups", select_overload<std::vector<std::string>(std::string)>(&MultiMatch::groups))
+      .function("submatch", &MultiMatch::submatch);
 
   register_vector<std::string>("VectorString");
 };

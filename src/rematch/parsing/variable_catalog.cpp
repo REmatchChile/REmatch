@@ -1,4 +1,5 @@
 #include "parsing/variable_catalog.hpp"
+#include "exceptions/multi_spanners_not_allowed_exception.hpp"
 
 namespace rematch {
 inline namespace parsing {
@@ -100,7 +101,7 @@ std::string VariableCatalog::pprint() {
   return ss.str();
 }
 
-void VariableCatalog ::merge(VariableCatalog& rhs) {
+void VariableCatalog::merge(VariableCatalog& rhs) {
   for (auto& var : rhs.variables_) {
     auto it = std::lower_bound(variables_.begin(), variables_.end(), var);
     if (size() >= MAX_VARS) {
@@ -112,6 +113,24 @@ void VariableCatalog ::merge(VariableCatalog& rhs) {
       offsetMap.push_back(0);
     } else if (*it != var) {
       variables_.insert(it, var);
+    }
+  }
+}
+
+void VariableCatalog::merge_disjoint(VariableCatalog& rhs) {
+  for (auto& var : rhs.variables_) {
+    auto it = std::lower_bound(variables_.begin(), variables_.end(), var);
+    if (size() >= MAX_VARS) {
+      throw REMatch::VariableLimitExceededException();
+    }
+    if (it == variables_.end()) {
+      variables_.insert(it, var);
+      offsetMap.push_back(0);
+      offsetMap.push_back(0);
+    } else if (*it != var) {
+      variables_.insert(it, var);
+    } else {
+      throw REMatch::MultiSpannersNotAllowedException();
     }
   }
 }

@@ -2,10 +2,11 @@
 #include <pybind11/stl.h>
 #include <iostream>
 
-#include "library_interface/regex.hpp"
-#include "library_interface/rematch.hpp"
 #include "exceptions/anchor_inside_capture_exception.hpp"
 #include "exceptions/exceptions.hpp"
+#include "library_interface/multi_regex.hpp"
+#include "library_interface/regex.hpp"
+#include "library_interface/rematch.hpp"
 
 namespace py = pybind11;
 using namespace REMatch;
@@ -45,6 +46,24 @@ PYBIND11_MODULE(_pyrematch, m) {
       .def("finditer", &Regex::finditer, "document"_a)
       .def("check", &Regex::check, "document"_a);
 
+  py::class_<MultiMatch>(m, "PyMultiMatch")
+      .def("spans", py::overload_cast<int>(&MultiMatch::spans))
+      .def("spans", py::overload_cast<std::string>(&MultiMatch::spans))
+      .def("groups", py::overload_cast<int>(&MultiMatch::groups))
+      .def("groups", py::overload_cast<std::string>(&MultiMatch::groups))
+      .def("submatch", &MultiMatch::submatch)
+      .def("empty", &MultiMatch::empty);
+
+  py::class_<MultiMatchIterator>(m, "PyMultiMatchIterator")
+      .def("next", &MultiMatchIterator::next)
+      .def("variables", &MultiMatchIterator::variables);
+
+  py::class_<MultiRegex>(m, "PyMultiRegex")
+      .def(py::init<const std::string&, Flags>())
+      .def("findone", &MultiRegex::findone, "document"_a)
+      .def("finditer", &MultiRegex::finditer, "document"_a)
+      .def("check", &MultiRegex::check, "document"_a);
+
   m.def("compile", &compile, "pattern"_a, "flags"_a = Flags());
   m.def("findone", &findone, "pattern"_a, "document"_a, "flags"_a = Flags());
   m.def("findall", &findall, "pattern"_a, "document"_a, "flags"_a = Flags());
@@ -63,4 +82,5 @@ PYBIND11_MODULE(_pyrematch, m) {
   py::register_exception<VariableLimitExceededException>(m, "VariableLimitExceededException");
   py::register_exception<VariableNotFoundException>(m, "VariableNotFoundException");
   py::register_exception<VariableNotFoundInCatalogException>(m, "VariableNotFoundInCatalogException");
+  py::register_exception<MultiSpannersNotAllowedException>(m, "MultiSpannersNotAllowedException");
 }
