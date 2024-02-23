@@ -8,7 +8,8 @@
 namespace rematch {
 
 RegexData get_regex_data(std::string_view pattern, Flags flags = Flags());
+RegexData get_multi_regex_data(std::string_view pattern, Flags flags = Flags());
 
-}
+}  // namespace rematch
 
 #endif

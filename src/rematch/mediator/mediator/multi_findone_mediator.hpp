@@ -12,7 +12,8 @@ namespace rematch {
 class MultiFindoneMediator {
  public:
   MultiFindoneMediator(RegexData& regex_data,
-                       std::shared_ptr<Document> document, Flags flags);
+                       std::shared_ptr<Document> document,
+                       Flags flags = Flags());
 
   std::unique_ptr<ExtendedMapping> next();
 

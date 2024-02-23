@@ -20,6 +20,7 @@ class MultiMatch {
   std::vector<std::string> groups(int variable_id);
   std::vector<std::string> groups(std::string variable_name);
   MultiMatch submatch(Span span);
+  bool empty();
 
   bool operator==(const MultiMatch& other) const;
 

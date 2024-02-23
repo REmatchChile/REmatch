@@ -152,6 +152,33 @@ TEST_CASE("extended va with end anchor is constructed correctly") {
   REQUIRE(end_anchor_transition->captures_set == 0);
 }
 
+TEST_CASE("extended va with multi spanners is constructed correctly") {
+  Parser parser = Parser("!x{a}+", true);
+  LogicalVA logical_va = parser.get_logical_va();
+  ExtendedVA extended_va = ExtendedVA(logical_va);
+
+  std::bitset<64> open_code = logical_va.initial_state()->captures.front()->code;
+  std::bitset<64> close_code = get_close_code(open_code);
+
+  REQUIRE(extended_va.states.size() == 3);
+  ExtendedVAState* initial_state = extended_va.initial_state();
+  REQUIRE(initial_state->read_captures.size() == 1);
+  REQUIRE(initial_state->read_captures[0]->captures_set == open_code);
+
+  ExtendedVAState* middle_state = initial_state->read_captures[0]->next;
+  REQUIRE(middle_state->read_captures.size() == 2);
+
+  ExtendedVAReadCapture* loop_transition = middle_state->read_captures[1];
+  REQUIRE(loop_transition->next == middle_state);
+  REQUIRE(loop_transition->captures_set == (open_code | close_code));
+
+  ExtendedVAReadCapture* close_transition = middle_state->read_captures[0];
+  REQUIRE(close_transition->captures_set == close_code);
+
+  ExtendedVAState* final_state = close_transition->next;
+  REQUIRE(final_state->is_accepting());
+}
+
 TEST_CASE("initial state has a self loop") {
   Parser parser = Parser("a");
   LogicalVA logical_va = parser.get_logical_va();

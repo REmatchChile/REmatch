@@ -54,6 +54,8 @@ class VariableCatalog {
 	// Merges the variables present in another VariableCatalog inplace
 	void merge(VariableCatalog &rhs);
 
+	void merge_disjoint(VariableCatalog &rhs);
+
 	// Checks if a variable name is present
 	bool contains(std::string var);
 

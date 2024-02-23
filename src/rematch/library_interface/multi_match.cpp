@@ -1,4 +1,5 @@
 #include "multi_match.hpp"
+#include "exceptions/variable_not_found_in_catalog_exception.hpp"
 
 namespace REMatch {
 using namespace rematch;
@@ -12,6 +13,10 @@ MultiMatch::MultiMatch(
       extended_mapping_(extended_mapping) {}
 
 std::vector<Span> MultiMatch::spans(int variable_id) {
+  if ((size_t)variable_id >= variable_catalog_->size()) {
+    throw REMatch::VariableNotFoundInCatalogException("");
+  }
+
   if (mapping_cache_.has_value()) {
     return mapping_cache_.value()[variable_id];
   }
@@ -27,6 +32,10 @@ std::vector<Span> MultiMatch::spans(std::string variable_name) {
 }
 
 std::vector<std::string> MultiMatch::groups(int variable_id) {
+  if ((size_t)variable_id >= variable_catalog_->size()) {
+    throw REMatch::VariableNotFoundInCatalogException("");
+  }
+
   std::map<int, std::vector<Span>> mapping;
 
   if (mapping_cache_.has_value()) {
@@ -54,6 +63,17 @@ std::vector<std::string> MultiMatch::groups(std::string variable_name) {
 MultiMatch MultiMatch::submatch(Span span) {
   ExtendedMapping submapping = extended_mapping_.get_submapping(span);
   return MultiMatch(submapping, variable_catalog_, document_);
+}
+
+bool MultiMatch::empty() {
+  if (mapping_cache_.has_value()) {
+    return mapping_cache_.value().empty();
+  }
+
+  std::map<int, std::vector<Span>> mapping =
+      extended_mapping_.construct_mapping();
+  mapping_cache_ = mapping;
+  return mapping.empty();
 }
 
 bool MultiMatch::operator==(const MultiMatch& other) const {

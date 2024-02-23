@@ -8,9 +8,10 @@
 #include "mediator/output_checker.hpp"
 
 namespace REMatch {
+using namespace rematch;
 
 MultiRegex::MultiRegex(std::string_view pattern, Flags flags)
-    : flags_(flags), regex_data_(rematch::get_regex_data(pattern, flags)) {}
+    : flags_(flags), regex_data_(get_multi_regex_data(pattern, flags)) {}
 
 std::unique_ptr<MultiMatch> MultiRegex::findone(std::string_view text) {
   std::shared_ptr<Document> document = std::make_shared<Document>(text);

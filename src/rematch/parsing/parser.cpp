@@ -10,11 +10,11 @@
 namespace rematch {
 inline namespace parsing {
 
-Parser::Parser(const std::string_view input) {
-  create_logical_va(input);
+Parser::Parser(const std::string_view input, bool allow_multi_spanners) {
+  create_logical_va(input, allow_multi_spanners);
 }
 
-void Parser::create_logical_va(const std::string_view input) {
+void Parser::create_logical_va(const std::string_view input, bool allow_multi_spanners) {
   ZoneScoped;
 
   // * Parse Tree
@@ -29,6 +29,7 @@ void Parser::create_logical_va(const std::string_view input) {
 
   // Factories
   visitors::VariableCatalogVisitor vfv;
+  vfv.set_allow_multi_spanners(allow_multi_spanners);
   vfv.visit(root);
   vfact_ptr = vfv.vfact_ptr;
   visitors::CharClassVisitor ffv(vfact_ptr);
