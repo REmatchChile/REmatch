@@ -2,6 +2,10 @@
 #define DOCUMENT_HPP
 
 #include <string_view>
+#ifdef EMSCRIPTEN
+// Emscripten doesn't support std::string_view
+#include <string>
+#endif
 
 #include "evaluation/start_end_chars.hpp"
 
@@ -15,6 +19,9 @@ namespace rematch {
  *
  * The methods of this class are almost the same as std::string_view, only the ones
  * needed are implemented.
+ *
+ * As Emscripten doesn't support std::string_view, the string is stored in a std::string
+ * so this optimization can't be used.
  */
 class Document {
  public:
@@ -37,7 +44,12 @@ class Document {
       std::string_view::size_type count = std::string_view::npos) const;
 
  private:
+#ifdef EMSCRIPTEN
+  // Emscripten doesn't support std::string_view
+  std::string str;
+#else
   std::string_view str;
+#endif
 };
 
 }  // namespace rematch
