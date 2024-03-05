@@ -1,4 +1,5 @@
 #include "library_interface/match_iterator.hpp"
+#include "mediator/mediator/finditer_mediator.hpp"
 
 #include "evaluation/document.hpp"
 
@@ -10,7 +11,7 @@ MatchIterator::MatchIterator(rematch::RegexData& regex_data,
                              std::string_view str, Flags flags)
     : variable_catalog_(regex_data.variable_catalog),
       document_(std::make_shared<Document>(str)) {
-  mediator_ = std::make_unique<rematch::Mediator>(regex_data, document_, flags);
+  mediator_ = std::make_unique<rematch::FinditerMediator>(regex_data, document_, flags);
 }
 
 MatchIterator::MatchIterator(const std::string& pattern,
@@ -19,7 +20,7 @@ MatchIterator::MatchIterator(const std::string& pattern,
     : regex_data_(rematch::get_regex_data(pattern, flags)),
       variable_catalog_(regex_data_.value().variable_catalog),
       document_(std::make_shared<Document>(str)) {
-  mediator_ = std::make_unique<rematch::Mediator>(regex_data_.value(),
+  mediator_ = std::make_unique<rematch::FinditerMediator>(regex_data_.value(),
                                                   document_, flags);
 }
 

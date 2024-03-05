@@ -1,10 +1,9 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 #undef private
-#include "evaluation/algorithm_class.hpp"
 #include "evaluation/document.hpp"
 #include "evaluation/extended_va/dfa/extended_det_va.hpp"
-#include "mediator/mediator.hpp"
+#include "mediator/mediator/finditer_mediator.hpp"
 #include "../evaluation/mapping_helpers.hpp"
 
 namespace rematch::testing {
@@ -22,7 +21,9 @@ TEST_CASE("the mediator returns null pointer when there are no mappings") {
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
-  Mediator mediator = Mediator(extended_va, variable_catalog, segment_manager_creator, document);
+  RegexData regex_data{std::move(segment_manager_creator),
+                       std::move(extended_va), variable_catalog};
+  FinditerMediator mediator = FinditerMediator(regex_data, document);
 
   mediator::Mapping* mapping = mediator.next();
   REQUIRE(mapping == nullptr);
@@ -38,7 +39,9 @@ TEST_CASE("the mediator returns an empty mapping if there are no captures") {
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
-  Mediator mediator = Mediator(extended_va, variable_catalog, segment_manager_creator, document);
+  RegexData regex_data{std::move(segment_manager_creator),
+                       std::move(extended_va), variable_catalog};
+  FinditerMediator mediator = FinditerMediator(regex_data, document);
 
   mediator::Mapping* mapping = mediator.next();
   REQUIRE(mapping->get_spans_map().size() == 0);
@@ -188,7 +191,9 @@ void run_mediator_test(std::string regex, std::string document_,
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
-  Mediator mediator = Mediator(extended_va, variable_catalog, segment_manager_creator, std::move(document));
+  RegexData regex_data{std::move(segment_manager_creator),
+                       std::move(extended_va), variable_catalog};
+  FinditerMediator mediator = FinditerMediator(regex_data, document);
 
   std::ostringstream info_os;
   info_os << "Actual mappings:" << std::endl;

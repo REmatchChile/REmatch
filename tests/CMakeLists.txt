@@ -11,6 +11,7 @@ set(TEST_SOURCES
   output_enumeration/ecs.cpp
   output_enumeration/enumerator.cpp
   output_enumeration/mapping.cpp
+  output_enumeration/extended_mapping.cpp
   parsing/parser.cpp
   parsing/logical_va.cpp
   filtering_module/segment_identification.cpp
@@ -20,13 +21,20 @@ set(TEST_SOURCES
   evaluation/extended_det_va.cpp
   evaluation/dummy_mapping.hpp
   evaluation/mapping_helpers.hpp
-  evaluation/algorithm_class.cpp
+  evaluation/finditer_algorithm.cpp
+  evaluation/findone_algorithm.cpp
   evaluation/algorithm_utf8.cpp
-  mediator/mediator.cpp
+  mediator/finditer_mediator.cpp
+  mediator/findone_mediator.cpp
+  mediator/multi_finditer_mediator.cpp
+  mediator/multi_findone_mediator.cpp
   mediator/segment_manager_creator.cpp
   library_interface/match.cpp
+  library_interface/multi_match.cpp
   library_interface/match_iterator.cpp
+  library_interface/multi_match_iterator.cpp
   library_interface/regex.cpp
+  library_interface/multi_regex.cpp
   library_interface/rematch_compile.cpp
   library_interface/rematch_functions.cpp
   library_interface/flags.cpp
@@ -40,6 +48,7 @@ set(TEST_SOURCES
   exceptions/same_nested_variable_exception.cpp
   exceptions/variable_not_found_exception.cpp
   exceptions/variable_not_found_in_catalog_exception.cpp
+  exceptions/multi_spanners_not_allowed_exception.cpp
 )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})

@@ -1,7 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 #undef private
-#include "evaluation/algorithm_class.hpp"
 #include "evaluation/extended_va/dfa/extended_det_va.hpp"
 #include "dummy_mapping.hpp"
 

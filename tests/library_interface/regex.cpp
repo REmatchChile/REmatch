@@ -1,7 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 #undef private
-#include "mediator/mediator.hpp"
 #include "library_interface/regex.hpp"
 
 namespace rematch::testing {
@@ -32,6 +31,24 @@ TEST_CASE("finditer method returns the iterator correctly") {
 
   match = match_iterator->next();
   REQUIRE(match == nullptr);
+}
+
+TEST_CASE("check method returns true when there is an output") {
+  std::string pattern = "!x{ab}";
+  std::string document = "abab";
+  auto regex = Regex(pattern);
+
+  bool has_output = regex.check(document);
+  REQUIRE(has_output);
+}
+
+TEST_CASE("check method returns false when there is no output") {
+  std::string pattern = "!x{baa}";
+  std::string document = "abab";
+  auto regex = Regex(pattern);
+
+  bool has_output = regex.check(document);
+  REQUIRE_FALSE(has_output);
 }
 
 }  // namespace rematch::testing
