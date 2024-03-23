@@ -65,6 +65,8 @@ public:
   /// Atomic VA
   LogicalVA(CharClass charclass);
 
+  void destroy();
+
   /**
    * Transforms the automaton graph to a trimmed automaton. This being that every
    * state is reacheable from the initial state, and the final state is reachable

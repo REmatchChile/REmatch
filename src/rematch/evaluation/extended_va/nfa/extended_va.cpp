@@ -13,10 +13,25 @@ ExtendedVA::ExtendedVA(LogicalVA const &logical_va) {
   assert(ExtendedVAAssert::accepting_state_has_only_incoming_transitions(&logical_va_prim));
 
   copy_data_from_logical_va(logical_va_prim);
+  logical_va_prim.destroy();
 
   capture_closure();
 
   add_read_captures_transitions();
+}
+
+ExtendedVA::ExtendedVA(ExtendedVA&& other) noexcept
+    : states(std::move(other.states)),
+      initial_state_(other.initial_state_),
+      accepting_state_(other.accepting_state_) {
+  other.initial_state_ = nullptr;
+  other.accepting_state_ = nullptr;
+}
+
+ExtendedVA::~ExtendedVA() {
+  for (auto& state : states) {
+    delete state;
+  }
 }
 
 void ExtendedVA::copy_data_from_logical_va(LogicalVA &logical_va) {
@@ -104,7 +119,7 @@ void ExtendedVA::capture_closure() {
 }
 
 std::queue<ExtendedVAState*> ExtendedVA::inv_topological_sort() {
-  std::queue<ExtendedVAState*> *queue = new std::queue<ExtendedVAState*>();
+  std::queue<ExtendedVAState*> queue = std::queue<ExtendedVAState*>();
 
   for (auto &state : states) {
     state->visited = false;
@@ -112,11 +127,11 @@ std::queue<ExtendedVAState*> ExtendedVA::inv_topological_sort() {
 
   for (auto &state : states) {
     if (!state->visited) {
-      inv_topological_sort_util(state, queue);
+      inv_topological_sort_util(state, &queue);
     }
   }
 
-  return *queue;
+  return queue;
 }
 
 void ExtendedVA::inv_topological_sort_util(ExtendedVAState *state, std::queue<ExtendedVAState *> *queue) {
@@ -142,8 +157,8 @@ void ExtendedVA::remove_useless_capture_states() {
 
 		if (capture_state_is_useless) {
       (*state)->delete_transitions();
+      delete *state;
 			state = states.erase(state);
-
 		} else {
 			++state;
 		}
@@ -159,19 +174,21 @@ bool check_if_capture_state_is_useless(ExtendedVAState* state) {
 
 void ExtendedVA::remove_useless_capture_transitions() {
   for (auto &state : states) {
-    if (state->backward_filters.empty() && !state->backward_captures.empty())
+    if (state->backward_filters.empty() && !state->backward_captures.empty()) {
+      for (auto& capture : state->captures) {
+        delete capture;
+      }
       state->captures.clear();
+    }
 
-    state->captures.erase(
-      std::remove_if(
-        state->captures.begin(),
-        state->captures.end(),
-        [](ExtendedVACapture* capture) {
-          return capture->next->filters.empty() && !capture->next->is_accepting();
-        }
-      ),
-      state->captures.end()
-    );
+    for (auto it = state->captures.begin(); it != state->captures.end();) {
+      if ((*it)->next->filters.empty() && !(*it)->next->is_accepting()) {
+        delete *it;
+        it = state->captures.erase(it);
+      } else {
+        ++it;
+      }
+    }
   }
 }
 
@@ -279,6 +296,10 @@ void ExtendedVA::duplicate() {
 
   set_initial_state(states0[initial_state_idx]);
   set_accepting_state(states0[accepting_state_idx]);
+
+  for (auto& state : states) {
+    delete state;
+  }
 
   states.swap(states0);
   trim();

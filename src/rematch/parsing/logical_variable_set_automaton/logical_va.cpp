@@ -37,6 +37,12 @@ LogicalVA::LogicalVA(const LogicalVA &A)
   accepts_epsilon_ = A.accepts_epsilon_;
 }
 
+void LogicalVA::destroy() {
+  for (auto& state : states) {
+    delete state;
+  }
+}
+
 void LogicalVA::copy_states(
       const std::vector<LogicalVAState*> &old_states,
       std::unordered_map<LogicalVAState*, LogicalVAState*>
@@ -99,6 +105,9 @@ void LogicalVA::remove_captures() {
   }
 
   for(auto &state: states) {
+    for (auto& capture: state->captures) {
+      delete capture;
+    }
     state->captures.clear();
     state->backward_captures_.clear();
   }
@@ -387,16 +396,16 @@ void LogicalVA::repeat(int min, int max) {
 
   // This is the optional part
   if(max-min > 0) {
-    LogicalVA *copied_automaton, *copied_automaton2;
+    std::unique_ptr<LogicalVA> copied_automaton, copied_automaton2;
     if(min == 0) {
       if(max > 1) {
-        copied_automaton = new LogicalVA(copied);
+        copied_automaton = std::make_unique<LogicalVA>(copied);
         copied_automaton->optional();
         for(int i=min+1; i < max-1; i++) {
-          copied_automaton2 = new LogicalVA(copied);
+          copied_automaton2 = std::make_unique<LogicalVA>(copied);
           copied_automaton2->cat(*copied_automaton);
           copied_automaton2->optional();
-          copied_automaton = copied_automaton2;
+          copied_automaton = std::move(copied_automaton2);
        }
        cat(*copied_automaton);
        optional();
@@ -404,17 +413,18 @@ void LogicalVA::repeat(int min, int max) {
         optional();
       }
     } else {
-      copied_automaton = new LogicalVA(copied);
+      copied_automaton = std::make_unique<LogicalVA>(copied);
       copied_automaton->optional();
       for(int i=min+1; i < max; i++) {
-        copied_automaton2 = new LogicalVA(copied);
+        copied_automaton2 = std::make_unique<LogicalVA>(copied);
         copied_automaton2->cat(*copied_automaton);
         copied_automaton2->optional();
-        copied_automaton = copied_automaton2;
+        copied_automaton = std::move(copied_automaton2);
       }
       cat(*copied_automaton);
     }
   }
+  copied.destroy();
 }
 
 void LogicalVA::remove_epsilon() {
@@ -492,6 +502,9 @@ void LogicalVA::remove_epsilon() {
   }
 
   for(auto &state: states) {
+    for (auto& epsilon : state->epsilons) {
+      delete epsilon;
+    }
     state->epsilons.clear();
     state->backward_epsilons_.clear();
   }

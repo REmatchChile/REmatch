@@ -13,11 +13,18 @@ LogicalVAState::LogicalVAState(): flags(kDefaultLogicalVAState) { id = ID++; }
 LogicalVAState::LogicalVAState(const LogicalVAState& s): flags(s.flags) { id = ID++; }
 
 LogicalVAState::~LogicalVAState() {
-  // We remove every transition coming out and coming into the state.
-  for(auto &f: filters)
-    delete f;
-  for(auto &c: captures)
-    delete c;
+  for (auto& filter : filters) {
+    delete filter;
+  }
+  for (auto& capture : captures) {
+    delete capture;
+  }
+  for (auto& epsilon : epsilons) {
+    delete epsilon;
+  }
+  for (auto& anchor : anchors) {
+    delete anchor;
+  }
 }
 
 bool LogicalVAState::operator==(const LogicalVAState &rhs) const { return id == rhs.id;}

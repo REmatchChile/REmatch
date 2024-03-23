@@ -32,6 +32,8 @@ class ExtendedDetVA {
   DFAStateLimitChecker dfa_states_checker_;
   ExtendedDetVA(ExtendedVA& extended_va, DFAStateLimitChecker dfa_states_checker = DFAStateLimitChecker());
 
+  ~ExtendedDetVA();
+
   std::vector<ExtendedDetVAState*> states;
 
   std::vector<CaptureSubsetPair> get_next_states(

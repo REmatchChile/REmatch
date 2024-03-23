@@ -9,6 +9,12 @@ ExtendedDetVA::ExtendedDetVA(ExtendedVA& extended_va,
   create_initial_state();
 }
 
+ExtendedDetVA::~ExtendedDetVA() {
+  for (auto& state : states) {
+    delete state;
+  }
+}
+
 void ExtendedDetVA::create_initial_state() {
   StatesPtrSet initial_subset;
   initial_subset.insert(extended_va_.initial_state());
