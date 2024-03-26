@@ -153,19 +153,20 @@ TEST_CASE("nodes used by the algorithm are recycled when creating a linked list"
   std::string regex = "!x{a+}";
   ExtendedVA extended_va = get_extended_va_from_regex(regex);
 
-  ECS ecs = ECS();
   auto algorithm = FinditerAlgorithm(extended_va, document);
-  algorithm.set_ecs(ecs);
+  ECS& ecs = algorithm.get_ecs();
 
   const Mapping* mapping = algorithm.get_next_mapping();
-  while (mapping != nullptr)
+  while (mapping != nullptr) {
     mapping = algorithm.get_next_mapping();
+  }
 
-  CHECK(ecs.get_amount_of_nodes_used() == MEMORY_POOL_STARTING_SIZE);
+  CHECK(algorithm.get_amount_of_nodes_used() == MEMORY_POOL_STARTING_SIZE);
 
-  // -1 because it creates a linked list with depth+1 nodes
-  create_linked_list_node_of_depth(&ecs, MEMORY_POOL_STARTING_SIZE - 1);
-  REQUIRE(ecs.amount_of_nodes_allocated() == MEMORY_POOL_STARTING_SIZE);
+  // -2 because it creates a linked list with depth+1 nodes and
+  // the bottom node is always in use by the algorithm
+  create_linked_list_node_of_depth(&ecs, MEMORY_POOL_STARTING_SIZE - 2);
+  REQUIRE(algorithm.get_amount_of_nodes_allocated() == MEMORY_POOL_STARTING_SIZE);
 }
 
 TEST_CASE("nodes used by the algorithm are recycled when it is run again") {
@@ -175,15 +176,13 @@ TEST_CASE("nodes used by the algorithm are recycled when it is run again") {
   std::string regex = "!x{a+}";
   ExtendedVA extended_va = get_extended_va_from_regex(regex);
 
-  ECS ecs = ECS();
   auto algorithm = FinditerAlgorithm(extended_va, document);
-  algorithm.set_ecs(ecs);
 
   const Mapping* mapping = algorithm.get_next_mapping();
   while (mapping != nullptr)
     mapping = algorithm.get_next_mapping();
 
-  CHECK(ecs.get_amount_of_nodes_used() >= MEMORY_POOL_STARTING_SIZE);
+  CHECK(algorithm.get_amount_of_nodes_used() >= MEMORY_POOL_STARTING_SIZE);
 
   // run the algorithm again and verify that the nodes are reused
   algorithm.initialize_algorithm();
@@ -192,20 +191,13 @@ TEST_CASE("nodes used by the algorithm are recycled when it is run again") {
   while (mapping != nullptr)
     mapping = algorithm.get_next_mapping();
 
-  REQUIRE(ecs.amount_of_nodes_allocated() == MEMORY_POOL_STARTING_SIZE);
+  REQUIRE(algorithm.get_amount_of_nodes_allocated() == MEMORY_POOL_STARTING_SIZE);
 }
 
 TEST_CASE("nodes used by the algorithm are recycled when, after constructing the \
            ECS, there is no mapping") {
-  // create nodes leaving 5 free nodes in the pool
-  // the ecs should allocate no more than 5 nodes
-  ECS ecs = ECS();
-  for (size_t i = 0; i < MEMORY_POOL_STARTING_SIZE - 5; i++)
-    ecs.create_bottom_node();
-
   // the document needs 6 nodes: bottom, open x at 0, at 1, at 2, union of open x
   // at 0 and open x at 1, and union of previous union and open x at 2
-  // note that the bottom node is created by the original ecs, not the one passed in the setter
   auto document_ = create_document_with_repeated_string("aaac", 3);
   auto document = std::make_shared<Document>(document_);
 
@@ -213,11 +205,18 @@ TEST_CASE("nodes used by the algorithm are recycled when, after constructing the
   ExtendedVA extended_va = get_extended_va_from_regex(regex);
 
   auto algorithm = FinditerAlgorithm(extended_va, document);
-  algorithm.set_ecs(ecs);
+  ECS& ecs = algorithm.get_ecs();
+
+  // create nodes leaving 6 free nodes in the pool
+  // the ecs should allocate no more than 6 nodes
+  for (size_t i = 0; i < MEMORY_POOL_STARTING_SIZE - 6; i++) {
+    ecs.create_bottom_node();
+  }
 
   const Mapping* mapping = algorithm.get_next_mapping();
-  while (mapping != nullptr)
+  while (mapping != nullptr) {
     mapping = algorithm.get_next_mapping();
+  }
 
   CHECK(ecs.get_amount_of_nodes_used() >= MEMORY_POOL_STARTING_SIZE);
   REQUIRE(ecs.amount_of_nodes_allocated() == MEMORY_POOL_STARTING_SIZE);

@@ -55,6 +55,14 @@ SearchNFA::SearchNFA(LogicalVA const &A) {
   accepting_state_ =
     logical_va_state_id_to_search_nfa_state[A_prim.accepting_state()->id];
   relabel_states();
+
+  A_prim.destroy();
+}
+
+SearchNFA::~SearchNFA() {
+  for (auto& state : states) {
+    delete state;
+  }
 }
 
 void SearchNFA::relabel_states() {

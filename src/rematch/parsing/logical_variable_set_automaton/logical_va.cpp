@@ -94,8 +94,10 @@ void LogicalVA::remove_captures() {
 
       reached_state->tempMark = true;
 
-      if(!reached_state->filters.empty() || !reached_state->epsilons.empty() || reached_state->accepting())
+      if (!reached_state->filters.empty() || !reached_state->epsilons.empty() ||
+          !reached_state->anchors.empty() || reached_state->accepting()) {
         state->add_epsilon(reached_state);
+      }
 
       for(auto &capture: reached_state->captures) {
         if(!capture->next->tempMark)
