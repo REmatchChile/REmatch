@@ -31,6 +31,8 @@ class ExtendedVAState {
 
   ExtendedVAState() { id = ID++; }
 
+  ~ExtendedVAState();
+
   void add_capture(std::bitset<64> code, ExtendedVAState* next);
   void add_filter(parsing::CharClass charclass, ExtendedVAState* next);
   void add_read_capture(parsing::CharClass charclass, std::bitset<64> code,

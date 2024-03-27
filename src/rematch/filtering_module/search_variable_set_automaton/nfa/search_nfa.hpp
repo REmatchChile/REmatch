@@ -23,6 +23,7 @@ class SearchNFA {
  public:
   SearchNFA() = delete;
   SearchNFA(LogicalVA const &A);
+  ~SearchNFA();
 
   std::vector<SearchNFAState*> const & get_states() const;
 

@@ -16,6 +16,12 @@ SearchDFA::SearchDFA(LogicalVA const &logical_va, DFAStateLimitChecker dfa_state
   initial_nfa_states.push_back(sVA_.initial_state());
 }
 
+SearchDFA::~SearchDFA() {
+  for (auto& state : states) {
+    delete state;
+  }
+}
+
 SearchDFAState* SearchDFA::create_initial_dfa_state() {
   auto np = new SearchDFAState();
   states.push_back(np);

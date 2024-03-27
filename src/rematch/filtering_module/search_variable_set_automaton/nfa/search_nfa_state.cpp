@@ -13,10 +13,14 @@ SearchNFAState::SearchNFAState(const SearchNFAState& s): flags(s.flags) { id = I
 
 SearchNFAState::~SearchNFAState() {
   // We remove every transition coming out and coming into the state.
-  for(auto &f: filters)
+  for(auto &f: filters) {
     f->next->backward_filters_.remove(f);
-  for(auto &f: backward_filters_)
+    delete f;
+  }
+  for(auto &f: backward_filters_) {
     f->from->filters.remove(f);
+    delete f;
+  }
 }
 
 bool SearchNFAState::operator==(const SearchNFAState &rhs) const { return id == rhs.id;}

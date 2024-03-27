@@ -19,7 +19,7 @@ class AlgorithmClass {
                  Flags flags = Flags());
 
   void initialize_algorithm();
-  void set_ecs(ECS& ecs);
+  ECS& get_ecs();
   void set_document_indexes(Span& span);
   void set_null_segment();
   virtual const Mapping* get_next_mapping() = 0;
@@ -40,8 +40,8 @@ class AlgorithmClass {
   std::shared_ptr<Document> document_;
 
   ExtendedDetVA extended_det_va_;
-  ECS* ECS_interface_;
-  Enumerator* enumerator_;
+  std::unique_ptr<ECS> ECS_interface_;
+  std::unique_ptr<Enumerator> enumerator_;
   ECSNode* ECS_root_node_ = nullptr;
 
   std::vector<ExtendedDetVAState*> current_states_ = {};

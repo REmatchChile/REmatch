@@ -3,7 +3,7 @@
 namespace rematch {
 
 RegexData construct_regex_data(rematch::Parser& parser, Flags flags) {
-  rematch::LogicalVA logical_va = parser.get_logical_va();
+  rematch::LogicalVA& logical_va = parser.get_logical_va();
   logical_va.remove_useless_anchors();
   std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog =
       parser.get_variable_catalog();

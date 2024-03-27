@@ -10,8 +10,8 @@ AlgorithmClass::AlgorithmClass(ExtendedVA& extended_va,
     : doc_end_i_(document->size()),
       document_(document),
       extended_det_va_(extended_va, flags) {
-  ECS_interface_ = new ECS(flags);
-  enumerator_ = new Enumerator();
+  ECS_interface_ = std::make_unique<ECS>(flags);
+  enumerator_ = std::make_unique<Enumerator>();
 
   ExtendedDetVAState* initial_state = extended_det_va_.get_initial_state();
   ECSNode* bottom_node = ECS_interface_->create_bottom_node();
@@ -32,8 +32,8 @@ void AlgorithmClass::initialize_algorithm() {
   current_states_.push_back(initial_state);
 }
 
-void AlgorithmClass::set_ecs(ECS& ecs) {
-  ECS_interface_ = &ecs;
+ECS& AlgorithmClass::get_ecs() {
+  return *ECS_interface_;
 }
 
 void AlgorithmClass::set_document_indexes(Span& span) {

@@ -2,6 +2,12 @@
 
 namespace rematch {
 
+ExtendedVAState::~ExtendedVAState() {
+  for (auto& read_capture: read_captures) {
+    delete read_capture;
+  }
+}
+
 bool ExtendedVAState::is_initial() {
   return is_initial_;
 }

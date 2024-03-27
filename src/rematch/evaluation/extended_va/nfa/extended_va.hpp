@@ -21,6 +21,10 @@ public:
 
   ExtendedVA(LogicalVA const &logical_va);
 
+  ExtendedVA(ExtendedVA&& other) noexcept;
+
+  ~ExtendedVA();
+
   ExtendedVAState* initial_state() const { return initial_state_; }
   void set_initial_state(ExtendedVAState *s);
 
