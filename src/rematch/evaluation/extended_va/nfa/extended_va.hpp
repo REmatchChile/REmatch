@@ -51,7 +51,6 @@ private:
   void inv_topological_sort_util(ExtendedVAState* state, std::queue<ExtendedVAState*> *Q);
 
   void remove_useless_capture_states();
-  void remove_useless_capture_transitions();
 
   void add_read_captures_transitions();
   void remove_filter_transitions();

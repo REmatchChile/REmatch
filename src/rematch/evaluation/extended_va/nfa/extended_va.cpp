@@ -115,7 +115,6 @@ void ExtendedVA::capture_closure() {
   }
 
   remove_useless_capture_states();
-  remove_useless_capture_transitions();
 }
 
 std::queue<ExtendedVAState*> ExtendedVA::inv_topological_sort() {
@@ -170,26 +169,6 @@ bool check_if_capture_state_is_useless(ExtendedVAState* state) {
     state->filters.empty() &&
     !state->is_accepting() &&
     !state->is_initial();
-}
-
-void ExtendedVA::remove_useless_capture_transitions() {
-  for (auto &state : states) {
-    if (state->backward_filters.empty() && !state->backward_captures.empty()) {
-      for (auto& capture : state->captures) {
-        delete capture;
-      }
-      state->captures.clear();
-    }
-
-    for (auto it = state->captures.begin(); it != state->captures.end();) {
-      if ((*it)->next->filters.empty() && !(*it)->next->is_accepting()) {
-        delete *it;
-        it = state->captures.erase(it);
-      } else {
-        ++it;
-      }
-    }
-  }
 }
 
 void ExtendedVA::add_read_captures_transitions() {

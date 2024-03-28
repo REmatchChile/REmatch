@@ -80,6 +80,7 @@ void ExtendedVAState::delete_transitions() {
       else
         ++it;
     }
+    delete capture;
   }
 
   for (auto &capture: captures) {
@@ -89,6 +90,7 @@ void ExtendedVAState::delete_transitions() {
       else
         ++it;
     }
+    delete capture;
   }
 
   for (auto &filter: backward_filters) {
@@ -98,6 +100,7 @@ void ExtendedVAState::delete_transitions() {
       else
         ++it;
     }
+    delete filter;
   }
   
   for (auto &filter: filters) {
@@ -107,6 +110,7 @@ void ExtendedVAState::delete_transitions() {
       else
         ++it;
     }
+    delete filter;
   }
 
   for (auto& read_capture : backward_read_captures) {
@@ -117,6 +121,7 @@ void ExtendedVAState::delete_transitions() {
       else
         ++it;
     }
+    delete read_capture;
   }
 
   for (auto& read_capture : read_captures) {
@@ -127,7 +132,15 @@ void ExtendedVAState::delete_transitions() {
       else
         ++it;
     }
+    delete read_capture;
   }
+
+  backward_captures.clear();
+  captures.clear();
+  backward_captures.clear();
+  filters.clear();
+  backward_read_captures.clear();
+  read_captures.clear();
 }
 
 unsigned int ExtendedVAState::ID = 0;

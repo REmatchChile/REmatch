@@ -13,7 +13,7 @@ NodeManager::NodeManager(Flags flags)
 
 NodeManager::~NodeManager() {
   for (MiniPool *mp = minipool_head_; mp != nullptr;) {
-    MiniPool *next = mp->next();
+    MiniPool *next = mp->prev();
     delete mp;
     mp = next;
   }
