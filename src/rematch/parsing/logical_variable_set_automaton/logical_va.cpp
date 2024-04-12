@@ -385,25 +385,43 @@ void LogicalVA::repeat(int min, int max) {
 
   LogicalVA copied(*this);
 
-  // This is the necessary part
-  for(int i = 0; i < min - 1; ++i) {
-    LogicalVA copied_automaton(copied);
-    cat(copied_automaton);
-  }
-
-  // This is the optional part
-  if (max == -1) {
-    LogicalVA copied_automaton(copied);
-    copied_automaton.kleene();
-    cat(copied_automaton);
+  if (min == 0) {
+    if (max > 0) {
+      // {0, N}
+      optional();
+      for (int i = 0; i < max - 1; ++i) {
+        LogicalVA copied_automaton(copied);
+        copied_automaton.optional();
+        cat(copied_automaton);
+      }
+    }
+    else {
+      // {0, -1}
+      kleene();
+    }
   }
   else {
-    for (int i = min; i < max; ++i) {
+    // Strict part
+    for (int i = 0; i < min - 1; ++i) {
       LogicalVA copied_automaton(copied);
-      copied_automaton.optional();
+      cat(copied_automaton);
+    }
+    // Optional part
+    if (max > 0) {
+      // {N, M}
+      for (int i = min; i < max; ++i) {
+        LogicalVA copied_automaton(copied);
+        copied_automaton.optional();
+        cat(copied_automaton);
+      }
+    } else {
+      // {N, -1}
+      LogicalVA copied_automaton(copied);
+      copied_automaton.kleene();
       cat(copied_automaton);
     }
   }
+
   copied.destroy();
 }
 
