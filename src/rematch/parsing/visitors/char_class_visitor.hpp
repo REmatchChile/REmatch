@@ -1,6 +1,8 @@
 #pragma once
 
+#include <stdexcept>
 #include "antlr4-runtime.h"
+#include "exceptions/regex_syntax_exception.hpp"
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
 #include "exceptions/anchor_inside_capture_exception.hpp"
 #include "exceptions/unhandled_expression_exception.hpp"
@@ -480,17 +482,26 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
     else {
       auto qty = ctx->quantity();
       int lo = 0, hi = -1;
-      if (qty->quantExact()) {
-        lo = std::stoi(qty->quantExact()->number()->getText());
-        hi = lo;
-      } else if (qty->quantRange()) {
-        lo = std::stoi(qty->quantRange()->number(0)->getText());
-        hi = std::stoi(qty->quantRange()->number(1)->getText());
-      } else if (qty->quantMin()) {
-        lo = std::stoi(qty->quantMin()->number()->getText());
-      } else if (qty->quantMax()) {
-        hi = std::stoi(qty->quantMax()->number()->getText());
+      try {
+        if (qty->quantExact()) {
+          lo = std::stoi(qty->quantExact()->number()->getText());
+          hi = lo;
+        } else if (qty->quantRange()) {
+          lo = std::stoi(qty->quantRange()->number(0)->getText());
+          hi = std::stoi(qty->quantRange()->number(1)->getText());
+        } else if (qty->quantMin()) {
+          lo = std::stoi(qty->quantMin()->number()->getText());
+        } else if (qty->quantMax()) {
+          hi = std::stoi(qty->quantMax()->number()->getText());
+        }
+      } catch (std::out_of_range &e) {
+        throw RegexSyntaxException("Quantifier out of range: " + qty->getText());
       }
+
+      if (hi != -1 && lo > hi) {
+        throw RegexSyntaxException("Invalid quantifier range: " + qty->getText());
+      }
+
       lva_ptr->repeat(lo, hi);
     }
 
