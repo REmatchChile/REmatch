@@ -495,11 +495,11 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
           hi = std::stoi(qty->quantMax()->number()->getText());
         }
       } catch (std::out_of_range &e) {
-        throw RegexSyntaxException("Quantifier out of range: " + qty->getText());
+        throw RegexSyntaxException("Quantifier out of range: " + ctx->getText());
       }
 
-      if (hi != -1 && lo > hi) {
-        throw RegexSyntaxException("Invalid quantifier range: " + qty->getText());
+      if ((hi != -1 && lo > hi) || (lo == 0 && hi == 0)) {
+        throw RegexSyntaxException("Invalid quantifier range: " + ctx->getText());
       }
 
       lva_ptr->repeat(lo, hi);

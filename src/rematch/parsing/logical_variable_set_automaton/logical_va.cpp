@@ -379,51 +379,29 @@ void LogicalVA::assign(std::bitset<64> open_code, std::bitset<64> close_code) {
 }
 
 void LogicalVA::repeat(int min, int max) {
+  assert(min >= 0 && "min must be non-negative");
+  assert(max == -1 || max >= min && "max must be greater than min");
+  assert(!(max == 0 && min == 0) && "min and max cannot both be zero");
+
   LogicalVA copied(*this);
-  if (min == 0 && max == -1) {
-    kleene(); return;
-  }
 
-  for(int i=1; i < min-1; i++) {
+  // This is the necessary part
+  for(int i = 0; i < min - 1; ++i) {
     LogicalVA copied_automaton(copied);
-    cat(copied_automaton);
-  }
-
-  if(min > 1) {
-    LogicalVA copied_automaton(copied);
-    if(max == -1)
-      copied_automaton.strict_kleene();
     cat(copied_automaton);
   }
 
   // This is the optional part
-  if(max-min > 0) {
-    std::unique_ptr<LogicalVA> copied_automaton, copied_automaton2;
-    if(min == 0) {
-      if(max > 1) {
-        copied_automaton = std::make_unique<LogicalVA>(copied);
-        copied_automaton->optional();
-        for(int i=min+1; i < max-1; i++) {
-          copied_automaton2 = std::make_unique<LogicalVA>(copied);
-          copied_automaton2->cat(*copied_automaton);
-          copied_automaton2->optional();
-          copied_automaton = std::move(copied_automaton2);
-       }
-       cat(*copied_automaton);
-       optional();
-      } else {
-        optional();
-      }
-    } else {
-      copied_automaton = std::make_unique<LogicalVA>(copied);
-      copied_automaton->optional();
-      for(int i=min+1; i < max; i++) {
-        copied_automaton2 = std::make_unique<LogicalVA>(copied);
-        copied_automaton2->cat(*copied_automaton);
-        copied_automaton2->optional();
-        copied_automaton = std::move(copied_automaton2);
-      }
-      cat(*copied_automaton);
+  if (max == -1) {
+    LogicalVA copied_automaton(copied);
+    copied_automaton.kleene();
+    cat(copied_automaton);
+  }
+  else {
+    for (int i = min; i < max; ++i) {
+      LogicalVA copied_automaton(copied);
+      copied_automaton.optional();
+      cat(copied_automaton);
     }
   }
   copied.destroy();

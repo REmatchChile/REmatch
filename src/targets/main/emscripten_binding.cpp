@@ -36,6 +36,10 @@ class MultiRegexEmscriptenWrapper : public MultiRegex {
 };
 
 EMSCRIPTEN_BINDINGS(REmatch) {
+  value_array<Span>("Span")
+      .element(&Span::first)
+      .element(&Span::second);
+
   class_<RegexEmscriptenWrapper>("Regex")
       .constructor<std::string>()
       .function("finditer", &RegexEmscriptenWrapper::finditer_wrapper);
@@ -45,9 +49,7 @@ EMSCRIPTEN_BINDINGS(REmatch) {
       .function("variables", &MatchIterator::variables);
 
   class_<Match>("Match")
-      .function("variables", &Match::variables)
-      .function("start", select_overload<int(std::string)>(&Match::start))
-      .function("end", select_overload<int(std::string)>(&Match::end));
+      .function("span", select_overload<Span(std::string)>(&Match::span));
 
   class_<MultiRegexEmscriptenWrapper>("MultiRegex")
       .constructor<std::string>()
@@ -59,8 +61,9 @@ EMSCRIPTEN_BINDINGS(REmatch) {
 
   class_<MultiMatch>("MultiMatch")
       .function("spans", select_overload<std::vector<Span>(std::string)>(&MultiMatch::spans))
-      .function("groups", select_overload<std::vector<std::string>(std::string)>(&MultiMatch::groups))
       .function("submatch", &MultiMatch::submatch);
 
   register_vector<std::string>("VectorString");
+  register_vector<Span>("VectorSpan");
+
 };
