@@ -5,7 +5,7 @@
 #include "evaluation/algorithm/algorithm_class.hpp"
 #include "filtering_module/segment_identificator.hpp"
 #include "library_interface/flags.hpp"
-#include "library_interface/regex_data/regex_data.hpp"
+#include "library_interface/query_data/query_data.hpp"
 #include "mediator/mapping.hpp"
 #include "mediator/segment_manager/line_by_line_manager.hpp"
 #include "mediator/segment_manager/segment_identificator_manager.hpp"
@@ -19,7 +19,7 @@ using namespace REMatch;
 
 class Mediator {
  public:
-  Mediator(RegexData& regex_data,
+  Mediator(QueryData& query_data,
            std::shared_ptr<Document> document);
 
   virtual ~Mediator() = default;

@@ -5,8 +5,8 @@
 
 namespace rematch {
 
-Mediator::Mediator(RegexData& regex_data, std::shared_ptr<Document> document)
-    : document_(document), variable_catalog_(regex_data.variable_catalog) {}
+Mediator::Mediator(QueryData& query_data, std::shared_ptr<Document> document)
+    : document_(document), variable_catalog_(query_data.variable_catalog) {}
 
 mediator::Mapping* Mediator::construct_user_mapping() {
   static mediator::Mapping result_mapping;

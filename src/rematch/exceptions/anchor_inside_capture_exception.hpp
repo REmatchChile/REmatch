@@ -1,14 +1,14 @@
 #ifndef ANCHOR_INSIDE_CAPTURE_HPP
 #define ANCHOR_INSIDE_CAPTURE_HPP
 
-#include "regex_syntax_exception.hpp"
+#include "query_syntax_exception.hpp"
 
 namespace REMatch {
 
-class AnchorInsideCaptureException : public RegexSyntaxException {
+class AnchorInsideCaptureException : public QuerySyntaxException {
  public:
-  AnchorInsideCaptureException(std::string regex, size_t char_position)
-      : RegexSyntaxException("Anchor found inside capture.", regex, char_position) {}
+  AnchorInsideCaptureException(std::string query, size_t char_position)
+      : QuerySyntaxException("Anchor found inside capture.", query, char_position) {}
 };
 }  // namespace REMatch
 

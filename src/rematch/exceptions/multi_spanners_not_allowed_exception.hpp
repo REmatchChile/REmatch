@@ -10,7 +10,7 @@ class MultiSpannersNotAllowedException : public std::runtime_error {
  public:
   MultiSpannersNotAllowedException()
       : std::runtime_error(
-            "Multi spanners are not allowed when using Regex, use MultiRegex "
+            "Multi spanners are not allowed when using Query, use MultiQuery "
             "instead.") {}
 };
 

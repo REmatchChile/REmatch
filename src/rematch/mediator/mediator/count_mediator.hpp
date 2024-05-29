@@ -9,9 +9,9 @@ namespace rematch {
 
 class CountMediator : public Mediator {
  public:
-  CountMediator(RegexData& regex_data, std::shared_ptr<Document> document,
+  CountMediator(QueryData& query_data, std::shared_ptr<Document> document,
                 Flags flags = Flags())
-      : Mediator(regex_data, document){
+      : Mediator(query_data, document){
             // TODO: Implementar esta clase.
         };
 
