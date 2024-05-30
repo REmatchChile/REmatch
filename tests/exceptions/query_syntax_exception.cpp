@@ -2,7 +2,7 @@
 #include <catch2/generators/catch_generators.hpp>
 #undef private
 #include "library_interface/rematch.hpp"
-#include "exceptions/regex_syntax_exception.hpp"
+#include "exceptions/query_syntax_exception.hpp"
 
 namespace rematch::testing {
 
@@ -19,7 +19,7 @@ TEST_CASE("other parsing errors raise a syntax exception") {
 
   for (auto& regex : invalid_regexes) {
     SECTION("invalid regex: " + regex) {
-      REQUIRE_THROWS_AS(Parser(regex), REMatch::RegexSyntaxException);
+      REQUIRE_THROWS_AS(Parser(regex), REMatch::QuerySyntaxException);
     }
   }
 }

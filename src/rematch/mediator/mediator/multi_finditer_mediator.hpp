@@ -8,7 +8,7 @@ namespace rematch {
 
 class MultiFinditerMediator {
  public:
-  MultiFinditerMediator(RegexData& regex_data,
+  MultiFinditerMediator(QueryData& query_data,
                         std::shared_ptr<Document> document,
                         Flags flags = Flags());
 

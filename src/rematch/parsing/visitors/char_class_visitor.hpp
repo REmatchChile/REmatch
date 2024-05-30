@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 #include "antlr4-runtime.h"
-#include "exceptions/regex_syntax_exception.hpp"
+#include "exceptions/query_syntax_exception.hpp"
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
 #include "exceptions/anchor_inside_capture_exception.hpp"
 #include "exceptions/unhandled_expression_exception.hpp"
@@ -495,11 +495,11 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
           hi = std::stoi(qty->quantMax()->number()->getText());
         }
       } catch (std::out_of_range &e) {
-        throw RegexSyntaxException("Quantifier out of range: " + ctx->getText());
+        throw QuerySyntaxException("Quantifier out of range: " + ctx->getText());
       }
 
       if ((hi != -1 && lo > hi) || (lo == 0 && hi == 0)) {
-        throw RegexSyntaxException("Invalid quantifier range: " + ctx->getText());
+        throw QuerySyntaxException("Invalid quantifier range: " + ctx->getText());
       }
 
       lva_ptr->repeat(lo, hi);

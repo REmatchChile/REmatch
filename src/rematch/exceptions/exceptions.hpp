@@ -8,7 +8,7 @@
 #include "invalid_escape_exception.hpp"
 #include "invalid_range_exception.hpp"
 #include "memory_limit_exceeded_exception.hpp"
-#include "regex_syntax_exception.hpp"
+#include "query_syntax_exception.hpp"
 #include "same_nested_variable_exception.hpp"
 #include "unhandled_expression_exception.hpp"
 #include "variable_limit_exceeded_exception.hpp"

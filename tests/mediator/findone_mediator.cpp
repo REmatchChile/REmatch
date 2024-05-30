@@ -17,7 +17,7 @@ TEST_CASE("the findone mediator returns nullptr if there are no matches") {
   extended_va.clean_for_determinization();
 
   auto regex_data =
-      RegexData(SegmentManagerCreator(logical_va), std::move(extended_va),
+      QueryData(SegmentManagerCreator(logical_va), std::move(extended_va),
                 parser.get_variable_catalog());
   auto mediator = FindoneMediator(regex_data, document);
   mediator::Mapping* mapping = mediator.next();
@@ -33,7 +33,7 @@ TEST_CASE("the findone mediator returns the correct match") {
   extended_va.clean_for_determinization();
 
   auto regex_data =
-      RegexData(SegmentManagerCreator(logical_va), std::move(extended_va),
+      QueryData(SegmentManagerCreator(logical_va), std::move(extended_va),
                 parser.get_variable_catalog());
   auto mediator = FindoneMediator(regex_data, document);
   mediator::Mapping* mapping = mediator.next();

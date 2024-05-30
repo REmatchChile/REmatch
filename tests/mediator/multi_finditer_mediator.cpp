@@ -7,7 +7,7 @@
 
 namespace rematch::testing {
 
-void run_multi_mediator_test(std::string regex, std::string document,
+void run_multi_mediator_test(std::string query, std::string document,
                              std::vector<ExtendedMapping> expected_mappings);
 std::bitset<64> get_markers(std::string bits);
 
@@ -23,7 +23,7 @@ TEST_CASE(
       parser.get_variable_catalog();
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
-  RegexData regex_data{std::move(segment_manager_creator),
+  QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
   auto mediator = MultiFinditerMediator(regex_data, document);
 
@@ -43,7 +43,7 @@ TEST_CASE(
       parser.get_variable_catalog();
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
-  RegexData regex_data{std::move(segment_manager_creator),
+  QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
   auto mediator = MultiFinditerMediator(regex_data, document);
 
@@ -133,9 +133,9 @@ std::bitset<64> get_markers(std::string bits) {
   return variable_markers;
 }
 
-void run_multi_mediator_test(std::string regex, std::string document_,
+void run_multi_mediator_test(std::string query, std::string document_,
                              std::vector<ExtendedMapping> expected_mappings) {
-  Parser parser = Parser(regex, true);
+  Parser parser = Parser(query, true);
   auto document = std::make_shared<Document>(document_);
 
   LogicalVA logical_va = parser.get_logical_va();
@@ -146,7 +146,7 @@ void run_multi_mediator_test(std::string regex, std::string document_,
       parser.get_variable_catalog();
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
-  RegexData regex_data{std::move(segment_manager_creator),
+  QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
   auto mediator = MultiFinditerMediator(regex_data, document);
 

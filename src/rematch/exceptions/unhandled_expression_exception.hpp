@@ -1,11 +1,11 @@
-#include "regex_syntax_exception.hpp"
+#include "query_syntax_exception.hpp"
 
 namespace REMatch {
 
-class UnhandledExpressionException : public RegexSyntaxException {
+class UnhandledExpressionException : public QuerySyntaxException {
  public:
-  UnhandledExpressionException(std::string message, std::string regex,
+  UnhandledExpressionException(std::string message, std::string query,
                            size_t position)
-      : RegexSyntaxException(message, regex, position) {}
+      : QuerySyntaxException(message, query, position) {}
 };
 }  // namespace REMatch

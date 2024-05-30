@@ -1,13 +1,13 @@
-#include "regex_syntax_exception.hpp"
+#include "query_syntax_exception.hpp"
 
 namespace REMatch {
 
-class SameNestedVariableException : public RegexSyntaxException {
+class SameNestedVariableException : public QuerySyntaxException {
  public:
-  SameNestedVariableException(std::string variable_name, std::string regex,
+  SameNestedVariableException(std::string variable_name, std::string query,
                               size_t char_position)
-      : RegexSyntaxException(
+      : QuerySyntaxException(
             "Nested the same variables inside assignation: " + variable_name,
-            regex, char_position) {}
+            query, char_position) {}
 };
 }  // namespace REMatch

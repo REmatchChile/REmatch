@@ -3,20 +3,20 @@
 namespace REMatch {
 inline namespace library_interface {
 
-Regex compile(const std::string& pattern, Flags flags) {
-  return Regex(pattern, flags);
+Query compile(const std::string& pattern, Flags flags) {
+  return Query(pattern, flags);
 }
 
 std::unique_ptr<Match> findone(const std::string& pattern,
                                const std::string& document, Flags flags) {
-  Regex regex = compile(pattern, flags);
-  return regex.findone(document);
+  Query query = compile(pattern, flags);
+  return query.findone(document);
 }
 
 std::vector<Match> findall(const std::string& pattern,
                            const std::string& document, Flags flags) {
-  Regex regex = compile(pattern, flags);
-  std::unique_ptr<MatchIterator> iterator = regex.finditer(document);
+  Query query = compile(pattern, flags);
+  std::unique_ptr<MatchIterator> iterator = query.finditer(document);
 
   std::vector<Match> match_vector;
   std::unique_ptr<Match> output_match = iterator->next();

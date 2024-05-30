@@ -7,20 +7,20 @@ using namespace rematch;
 
 namespace REMatch {
 inline namespace library_interface {
-MatchIterator::MatchIterator(rematch::RegexData& regex_data,
+MatchIterator::MatchIterator(rematch::QueryData& query_data,
                              std::string_view str, Flags flags)
-    : variable_catalog_(regex_data.variable_catalog),
+    : variable_catalog_(query_data.variable_catalog),
       document_(std::make_shared<Document>(str)) {
-  mediator_ = std::make_unique<rematch::FinditerMediator>(regex_data, document_, flags);
+  mediator_ = std::make_unique<rematch::FinditerMediator>(query_data, document_, flags);
 }
 
 MatchIterator::MatchIterator(const std::string& pattern,
                              std::string_view str,
                              Flags flags)
-    : regex_data_(rematch::get_regex_data(pattern, flags)),
-      variable_catalog_(regex_data_.value().variable_catalog),
+    : query_data_(rematch::get_query_data(pattern, flags)),
+      variable_catalog_(query_data_.value().variable_catalog),
       document_(std::make_shared<Document>(str)) {
-  mediator_ = std::make_unique<rematch::FinditerMediator>(regex_data_.value(),
+  mediator_ = std::make_unique<rematch::FinditerMediator>(query_data_.value(),
                                                   document_, flags);
 }
 

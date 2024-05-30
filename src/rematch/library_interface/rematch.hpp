@@ -8,12 +8,12 @@
 #include "library_interface/flags.hpp"
 #include "library_interface/match.hpp"
 #include "library_interface/match_iterator.hpp"
-#include "library_interface/regex.hpp"
+#include "library_interface/query.hpp"
 
 namespace REMatch {
 inline namespace library_interface {
 
-Regex compile(const std::string& pattern, Flags flags = Flags());
+Query compile(const std::string& pattern, Flags flags = Flags());
 
 std::unique_ptr<Match> findone(const std::string& pattern,
                                const std::string& document,

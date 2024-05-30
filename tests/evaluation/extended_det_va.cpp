@@ -6,10 +6,10 @@
 
 namespace rematch::testing {
 
-ExtendedVA get_extended_va_from_regex(std::string input);
+ExtendedVA get_extended_va_from_query(std::string query);
 
 TEST_CASE("initial state is created correctly") {
-  ExtendedVA extended_va = get_extended_va_from_regex("a");
+  ExtendedVA extended_va = get_extended_va_from_query("a");
   ExtendedDetVA extended_det_va(extended_va);
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
   std::vector<ExtendedVAState*> states_subset = initial_state->get_states_subset();
@@ -54,7 +54,7 @@ TEST_CASE("next state is computed correctly when there is a valid transition") {
 
 TEST_CASE("next state is computed correctly when there are no valid transitions other \
            than the initial loop") {
-  ExtendedVA extended_va = get_extended_va_from_regex("!x{a}");
+  ExtendedVA extended_va = get_extended_va_from_query("!x{a}");
   ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
@@ -74,7 +74,7 @@ TEST_CASE("next state is computed correctly when there are two transitions with 
            capture and reading") {
 
   // the initial state of the extended VA has two 'a/[x' transitions
-  ExtendedVA extended_va = get_extended_va_from_regex("!x{a+|a}");
+  ExtendedVA extended_va = get_extended_va_from_query("!x{a+|a}");
   ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
@@ -90,7 +90,7 @@ TEST_CASE("next state is computed correctly when there are two transitions with 
 }
 
 TEST_CASE("next state is computed correctly when the current subset has more than one state") {
-  ExtendedVA extended_va = get_extended_va_from_regex("!x{aa|aa}");
+  ExtendedVA extended_va = get_extended_va_from_query("!x{aa|aa}");
   ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
@@ -110,7 +110,7 @@ TEST_CASE("next state is computed correctly when the current subset has more tha
 }
 
 TEST_CASE("next state is returned immediately when it has already been computed before") {
-  ExtendedVA extended_va = get_extended_va_from_regex("!y{a}");
+  ExtendedVA extended_va = get_extended_va_from_query("!y{a}");
   ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
@@ -127,7 +127,7 @@ TEST_CASE("next state is returned immediately when it has already been computed 
 }
 
 TEST_CASE("the deterministic state is final if a state in the subset is final") {
-  ExtendedVA extended_va = get_extended_va_from_regex("a");
+  ExtendedVA extended_va = get_extended_va_from_query("a");
   ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
@@ -141,7 +141,7 @@ TEST_CASE("the deterministic state is final if a state in the subset is final") 
 }
 
 TEST_CASE("non ascii characters are handled correctly") {
-  ExtendedVA extended_va = get_extended_va_from_regex("a");
+  ExtendedVA extended_va = get_extended_va_from_query("a");
   ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
@@ -152,8 +152,8 @@ TEST_CASE("non ascii characters are handled correctly") {
   REQUIRE(capture_subset_list.size() == 1);
 }
 
-ExtendedVA get_extended_va_from_regex(std::string regex) {
-  Parser parser(regex);
+ExtendedVA get_extended_va_from_query(std::string query) {
+  Parser parser(query);
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va(logical_va);
   extended_va.clean_for_determinization();

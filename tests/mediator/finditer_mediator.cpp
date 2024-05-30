@@ -8,7 +8,7 @@
 
 namespace rematch::testing {
 
-void run_mediator_test(std::string regex, std::string document,
+void run_mediator_test(std::string query, std::string document,
                        std::vector<mediator::Mapping> expected_mappings);
 
 TEST_CASE("the mediator returns null pointer when there are no mappings") {
@@ -21,7 +21,7 @@ TEST_CASE("the mediator returns null pointer when there are no mappings") {
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
-  RegexData regex_data{std::move(segment_manager_creator),
+  QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
   FinditerMediator mediator = FinditerMediator(regex_data, document);
 
@@ -39,7 +39,7 @@ TEST_CASE("the mediator returns an empty mapping if there are no captures") {
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
-  RegexData regex_data{std::move(segment_manager_creator),
+  QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
   FinditerMediator mediator = FinditerMediator(regex_data, document);
 
@@ -180,9 +180,9 @@ TEST_CASE("the mediator returns the correct mappings when using different short 
   run_mediator_test(regex, document, expected_mappings);
 }
 
-void run_mediator_test(std::string regex, std::string document_,
+void run_mediator_test(std::string query, std::string document_,
                        std::vector<mediator::Mapping> expected_mappings) {
-  Parser parser = Parser(regex);
+  Parser parser = Parser(query);
   auto document = std::make_shared<Document>(document_);
 
   LogicalVA logical_va = parser.get_logical_va();
@@ -191,7 +191,7 @@ void run_mediator_test(std::string regex, std::string document_,
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
-  RegexData regex_data{std::move(segment_manager_creator),
+  QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
   FinditerMediator mediator = FinditerMediator(regex_data, document);
 

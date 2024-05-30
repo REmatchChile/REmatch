@@ -13,13 +13,13 @@ inline namespace library_interface {
 class MultiMatchIterator {
 
  private:
-  std::optional<rematch::RegexData> regex_data_ = std::nullopt;
+std::optional<rematch::QueryData> query_data_ = std::nullopt;
   std::unique_ptr<MultiFinditerMediator> mediator_;
   std::shared_ptr<rematch::parsing::VariableCatalog> variable_catalog_;
   std::shared_ptr<rematch::Document> document_;
 
  public:
-  MultiMatchIterator(rematch::RegexData& regex_data, std::string_view str,
+  MultiMatchIterator(rematch::QueryData& query_data, std::string_view str,
                      Flags flags = Flags());
 
   std::unique_ptr<MultiMatch> next();

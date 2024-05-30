@@ -1,4 +1,4 @@
-from .pyrematch import Flags, Regex, MultiRegex
+from .pyrematch import Flags, reql
 
 __version__ = "2.0.7"
 
@@ -10,7 +10,7 @@ from ._pyrematch import (
     InvalidEscapeException,
     InvalidRangeException,
     MemoryLimitExceededException,
-    RegexSyntaxException,
+    QuerySyntaxException,
     SameNestedVariableException,
     UnhandledExpressionException,
     VariableLimitExceededException,
@@ -20,10 +20,9 @@ from ._pyrematch import (
 )
 
 __all__ = [
-    "Regex",
-    "MultiRegex",
+    "reql",
     "Flags",
-    "RegexSyntaxException",
+    "QuerySyntaxException",
     "AnchorInsideCaptureException",
     "ComplexQueryException",
     "EmptyWordCaptureException",

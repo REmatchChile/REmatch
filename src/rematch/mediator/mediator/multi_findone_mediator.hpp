@@ -3,7 +3,7 @@
 
 #include "evaluation/algorithm/algorithm_class.hpp"
 #include "evaluation/document.hpp"
-#include "library_interface/regex_data/regex_data.hpp"
+#include "library_interface/query_data/query_data.hpp"
 #include "output_enumeration/extended_mapping.hpp"
 #include "output_enumeration/mapping.hpp"
 
@@ -11,7 +11,7 @@ namespace rematch {
 
 class MultiFindoneMediator {
  public:
-  MultiFindoneMediator(RegexData& regex_data,
+  MultiFindoneMediator(QueryData& query_data,
                        std::shared_ptr<Document> document,
                        Flags flags = Flags());
 

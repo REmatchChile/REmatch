@@ -9,12 +9,12 @@ namespace REMatch {
 
 inline namespace library_interface {
 
-MultiMatchIterator::MultiMatchIterator(rematch::RegexData& regex_data,
+MultiMatchIterator::MultiMatchIterator(rematch::QueryData& query_data,
                                        std::string_view str, Flags flags)
-    : variable_catalog_(regex_data.variable_catalog),
+    : variable_catalog_(query_data.variable_catalog),
       document_(std::make_shared<Document>(str)) {
   mediator_ = std::make_unique<rematch::MultiFinditerMediator>(
-      regex_data, document_, flags);
+      query_data, document_, flags);
 }
 
 std::unique_ptr<MultiMatch> MultiMatchIterator::next() {

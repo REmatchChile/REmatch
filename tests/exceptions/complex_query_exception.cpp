@@ -20,7 +20,7 @@ TEST_CASE("an exception is thrown from SearchDFA when the query is too complex")
   Flags flags{false, false, 8, 100};
   auto segment_manager_creator = SegmentManagerCreator(logical_va, flags);
 
-  RegexData regex_data{std::move(segment_manager_creator),
+  QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
   // no need to evaluate the mediator, it searches for a segment in the constructor
   REQUIRE_THROWS_AS(FinditerMediator(regex_data, document),
@@ -42,7 +42,7 @@ TEST_CASE("a exception is thrown from ExtendedDetVA when the query is too comple
   Flags flags{false, false, 8, 100};
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
-  RegexData regex_data{std::move(segment_manager_creator),
+  QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
 
   auto evaluate_mediator = [&]() {

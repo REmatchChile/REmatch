@@ -11,13 +11,13 @@ namespace rematch::testing {
 using namespace REMatch::library_interface;
 
 void run_match_iterator_test(
-    std::string regex, std::string document,
+    std::string query, std::string document,
     std::vector<rematch::mediator::Mapping> expected_matches);
 
 TEST_CASE("match iterator returns the correct variables") {
   std::string pattern = "!c{!b{!d{x}}!a{y}}";
   std::string document = "This is a document";
-  REMatch::Regex regex = REMatch::compile(pattern);
+  REMatch::Query regex = REMatch::compile(pattern);
 
   std::unique_ptr<MatchIterator> iterator = regex.finditer(document);
   std::vector<std::string> variables = iterator->variables();
@@ -49,9 +49,9 @@ TEST_CASE(
 }
 
 void run_match_iterator_test(
-    std::string regex, std::string document,
+    std::string query, std::string document,
     std::vector<rematch::mediator::Mapping> expected_matches) {
-  Parser parser = Parser(regex);
+  Parser parser = Parser(query);
 
   LogicalVA logical_va = parser.get_logical_va();
   auto extended_va = ExtendedVA(logical_va);
@@ -60,7 +60,7 @@ void run_match_iterator_test(
       parser.get_variable_catalog();
   auto segment_manager_creator = SegmentManagerCreator(logical_va);
 
-  auto regex_data = RegexData(std::move(segment_manager_creator),
+  auto regex_data = QueryData(std::move(segment_manager_creator),
                               std::move(extended_va), variable_catalog);
   auto match_iterator = MatchIterator(regex_data, document);
 

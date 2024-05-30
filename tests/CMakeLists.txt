@@ -33,8 +33,8 @@ set(TEST_SOURCES
   library_interface/multi_match.cpp
   library_interface/match_iterator.cpp
   library_interface/multi_match_iterator.cpp
-  library_interface/regex.cpp
-  library_interface/multi_regex.cpp
+  library_interface/query.cpp
+  library_interface/multi_query.cpp
   library_interface/rematch_compile.cpp
   library_interface/rematch_functions.cpp
   library_interface/flags.cpp
@@ -44,7 +44,7 @@ set(TEST_SOURCES
   exceptions/invalid_escape_exception.cpp
   exceptions/invalid_range_exception.cpp
   exceptions/memory_limit_exceeded_exception.cpp
-  exceptions/regex_syntax_exception.cpp
+  exceptions/query_syntax_exception.cpp
   exceptions/same_nested_variable_exception.cpp
   exceptions/variable_not_found_exception.cpp
   exceptions/variable_not_found_in_catalog_exception.cpp

@@ -12,8 +12,8 @@ int main(int argc, char* argv[]) {
   std::string document = argv[2];
 
   REMatch::Flags flags;
-  REMatch::Regex regex = REMatch::compile(pattern, flags);
-  std::unique_ptr<REMatch::MatchIterator> iterator = regex.finditer(document);
+  REMatch::Query query = REMatch::compile(pattern, flags);
+  std::unique_ptr<REMatch::MatchIterator> iterator = query.finditer(document);
 
   auto match = iterator->next();
   auto variables = iterator->variables();

@@ -3,14 +3,14 @@
 
 namespace rematch {
 
-FindoneMediator::FindoneMediator(RegexData& regex_data,
+FindoneMediator::FindoneMediator(QueryData& query_data,
                                  std::shared_ptr<Document> document, Flags flags)
-    : Mediator(regex_data, document) {
+    : Mediator(query_data, document) {
 
-  algorithm_ = std::make_unique<FindoneAlgorithm>(regex_data.extended_va,
+  algorithm_ = std::make_unique<FindoneAlgorithm>(query_data.extended_va,
                                                   document_, flags);
-  regex_data.segment_manager_creator.set_document(document_);
-  segment_manager_ = regex_data.segment_manager_creator.get_segment_manager_for_checking();
+  query_data.segment_manager_creator.set_document(document_);
+  segment_manager_ = query_data.segment_manager_creator.get_segment_manager_for_checking();
 
   number_of_variables_ = variable_catalog_->size();
 
