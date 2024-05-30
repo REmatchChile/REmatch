@@ -10,7 +10,7 @@ namespace rematch::testing {
 using namespace REMatch::library_interface;
 
 std::string get_group_dict_info(std::map<std::string, Span> group_dict);
-Match construct_match(std::string& document, std::string regex,
+Match construct_match(std::string& document, std::string query,
                       rematch::mediator::Mapping mapping);
 
 TEST_CASE("match object returns the correct span indexes") {
@@ -108,9 +108,9 @@ TEST_CASE("match object returns empty when the mapping is empty") {
   REQUIRE(match.empty());
 }
 
-Match construct_match(std::string& document_, std::string regex,
+Match construct_match(std::string& document_, std::string query,
                       rematch::mediator::Mapping mapping) {
-  auto parser = Parser(regex);
+  auto parser = Parser(query);
   std::shared_ptr<VariableCatalog> variable_catalog =
       parser.get_variable_catalog();
   auto document = std::make_shared<Document>(document_);

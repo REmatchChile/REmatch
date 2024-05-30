@@ -4,7 +4,6 @@
 #include "../evaluation/dummy_mapping.hpp"
 #include "../evaluation/mapping_helpers.hpp"
 #include "library_interface/rematch.hpp"
-#include "regex"
 
 namespace rematch::testing {
 
@@ -20,8 +19,9 @@ TEST_CASE("flag line_by_line works correctly") {
       DummyMapping({{"x", {10, 15}}}), DummyMapping({{"x", {15, 20}}})};
 
   Flags flags{true, false, 8, 1000};
-  REMatch::Regex regex = REMatch::compile(pattern, flags);
-  std::unique_ptr<REMatch::MatchIterator> match_iterator = regex.finditer(document);
+  REMatch::Query regex = REMatch::compile(pattern, flags);
+  std::unique_ptr<REMatch::MatchIterator> match_iterator =
+      regex.finditer(document);
 
   run_client_test(match_iterator, expected_matches);
 }

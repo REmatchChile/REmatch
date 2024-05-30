@@ -4,8 +4,8 @@
 
 #include "exceptions/anchor_inside_capture_exception.hpp"
 #include "exceptions/exceptions.hpp"
-#include "library_interface/multi_regex.hpp"
-#include "library_interface/regex.hpp"
+#include "library_interface/multi_query.hpp"
+#include "library_interface/query.hpp"
 #include "library_interface/rematch.hpp"
 
 namespace py = pybind11;
@@ -40,11 +40,11 @@ PYBIND11_MODULE(_pyrematch, m) {
       .def("next", &MatchIterator::next)
       .def("variables", &MatchIterator::variables);
 
-  py::class_<Regex>(m, "PyRegex")
+  py::class_<Query>(m, "PyQuery")
       .def(py::init<const std::string&, Flags>())
-      .def("findone", &Regex::findone, "document"_a)
-      .def("finditer", &Regex::finditer, "document"_a)
-      .def("check", &Regex::check, "document"_a);
+      .def("findone", &Query::findone, "document"_a)
+      .def("finditer", &Query::finditer, "document"_a)
+      .def("check", &Query::check, "document"_a);
 
   py::class_<MultiMatch>(m, "PyMultiMatch")
       .def("spans", py::overload_cast<int>(&MultiMatch::spans))
@@ -58,18 +58,18 @@ PYBIND11_MODULE(_pyrematch, m) {
       .def("next", &MultiMatchIterator::next)
       .def("variables", &MultiMatchIterator::variables);
 
-  py::class_<MultiRegex>(m, "PyMultiRegex")
+  py::class_<MultiQuery>(m, "PyMultiQuery")
       .def(py::init<const std::string&, Flags>())
-      .def("findone", &MultiRegex::findone, "document"_a)
-      .def("finditer", &MultiRegex::finditer, "document"_a)
-      .def("check", &MultiRegex::check, "document"_a);
+      .def("findone", &MultiQuery::findone, "document"_a)
+      .def("finditer", &MultiQuery::finditer, "document"_a)
+      .def("check", &MultiQuery::check, "document"_a);
 
   m.def("compile", &compile, "pattern"_a, "flags"_a = Flags());
   m.def("findone", &findone, "pattern"_a, "document"_a, "flags"_a = Flags());
   m.def("findall", &findall, "pattern"_a, "document"_a, "flags"_a = Flags());
   m.def("finditer", &finditer, "pattern"_a, "document"_a, "flags"_a = Flags());
 
-  py::register_exception<RegexSyntaxException>(m, "RegexSyntaxException");
+  py::register_exception<QuerySyntaxException>(m, "QuerySyntaxException");
   py::register_exception<AnchorInsideCaptureException>(m, "AnchorInsideCaptureException");
   py::register_exception<ComplexQueryException>(m, "ComplexQueryException");
   py::register_exception<EmptyWordCaptureException>(m, "EmptyWordCaptureException");

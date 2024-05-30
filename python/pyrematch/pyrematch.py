@@ -5,24 +5,36 @@ from ._pyrematch import (
     PyFlags,
     PyMatch,
     PyMatchIterator,
-    PyMultiRegex,
+    PyMultiQuery,
     PyMultiMatch,
     PyMultiMatchIterator,
-    PyRegex,
+    PyQuery,
 )
 
 
 class Flags(enum.Flag):
     NOFLAG = enum.auto()
     LINE_BY_LINE = enum.auto()
-    EARLY_OUTPUT = enum.auto()
+    MULTI_MATCH = enum.auto()
 
     def _get_pyflags(self) -> "PyFlags":
         pyflags = PyFlags()
         pyflags.line_by_line = Flags.LINE_BY_LINE in self
-        pyflags.early_output = Flags.EARLY_OUTPUT in self
 
         return pyflags
+
+
+def reql(
+    pattern: str,
+    flags: Flags = Flags.NOFLAG,
+    max_mempool_duplications=8,
+    max_deterministic_states=1000,
+):
+    if Flags.MULTI_MATCH in flags:
+        return MultiQuery(
+            pattern, flags, max_mempool_duplications, max_deterministic_states
+        )
+    return Query(pattern, flags, max_mempool_duplications, max_deterministic_states)
 
 
 class Match:
@@ -60,8 +72,8 @@ class Match:
 
 
 class MatchIterator:
-    def __init__(self, document: str, pyregex: "PyRegex"):
-        self._match_iterator: "PyMatchIterator" = pyregex.finditer(document)
+    def __init__(self, document: str, pyquery: "PyQuery"):
+        self._match_iterator: "PyMatchIterator" = pyquery.finditer(document)
 
     def __iter__(self) -> "MatchIterator":
         return self
@@ -76,7 +88,7 @@ class MatchIterator:
         return self._match_iterator.variables()
 
 
-class Regex:
+class Query:
     def __init__(
         self,
         pattern: str,
@@ -87,16 +99,16 @@ class Regex:
         pyflags = flags._get_pyflags()
         pyflags.max_mempool_duplications = max_mempool_duplications
         pyflags.max_deterministic_states = max_deterministic_states
-        self._pyregex: "PyRegex" = PyRegex(pattern, pyflags)
+        self._pyquery: "PyQuery" = PyQuery(pattern, pyflags)
 
     def finditer(self, document: str) -> MatchIterator:
-        return MatchIterator(document, self._pyregex)
+        return MatchIterator(document, self._pyquery)
 
     def findone(self, document: str) -> "Match":
-        return Match(self._pyregex.findone(document))
+        return Match(self._pyquery.findone(document))
 
     def check(self, document: str) -> bool:
-        return self._pyregex.check(document)
+        return self._pyquery.check(document)
 
 
 class MultiMatch:
@@ -117,8 +129,8 @@ class MultiMatch:
 
 
 class MultiMatchIterator:
-    def __init__(self, document: str, pyregex: "PyMultiRegex"):
-        self._match_iterator: "PyMultiMatchIterator" = pyregex.finditer(document)
+    def __init__(self, document: str, pyquery: "PyMultiQuery"):
+        self._match_iterator: "PyMultiMatchIterator" = pyquery.finditer(document)
 
     def __iter__(self) -> "MultiMatchIterator":
         return self
@@ -133,7 +145,7 @@ class MultiMatchIterator:
         return self._match_iterator.variables()
 
 
-class MultiRegex:
+class MultiQuery:
     def __init__(
         self,
         pattern: str,
@@ -144,13 +156,13 @@ class MultiRegex:
         pyflags = flags._get_pyflags()
         pyflags.max_mempool_duplications = max_mempool_duplications
         pyflags.max_deterministic_states = max_deterministic_states
-        self._pyregex: "PyMultiRegex" = PyMultiRegex(pattern, pyflags)
+        self._pyquery: "PyMultiQuery" = PyMultiQuery(pattern, pyflags)
 
     def finditer(self, document: str) -> MultiMatchIterator:
-        return MultiMatchIterator(document, self._pyregex)
+        return MultiMatchIterator(document, self._pyquery)
 
     def findone(self, document: str) -> "MultiMatch":
-        return MultiMatch(self._pyregex.findone(document))
+        return MultiMatch(self._pyquery.findone(document))
 
     def check(self, document: str) -> bool:
-        return self._pyregex.check(document)
+        return self._pyquery.check(document)

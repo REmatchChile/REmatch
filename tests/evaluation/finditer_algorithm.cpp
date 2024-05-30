@@ -7,15 +7,15 @@
 
 namespace rematch::testing {
 
-ExtendedVA get_extended_va_from_regex(std::string input);
+ExtendedVA get_extended_va_from_query(std::string query);
 ECSNode* create_linked_list_node_of_depth(ECS* ecs, int depth);
-void run_algorithm_test(std::string regex, std::string document,
+void run_algorithm_test(std::string query, std::string document,
                         std::vector<DummyMapping> expected_mappings);
 std::string get_mapping_info(DummyMapping mapping);
 std::string create_document_with_repeated_string(std::string_view string, int times);
 
 TEST_CASE("the algorithm returns a null pointer if there are no mappings") {
-  ExtendedVA extended_va = get_extended_va_from_regex("!x{a}");
+  ExtendedVA extended_va = get_extended_va_from_query("!x{a}");
   auto document = std::make_shared<Document>("b");
 
   auto algorithm = FinditerAlgorithm(extended_va, document);
@@ -25,7 +25,7 @@ TEST_CASE("the algorithm returns a null pointer if there are no mappings") {
 }
 
 TEST_CASE("the algorithm returns an empty mapping if there are no captures") {
-  ExtendedVA extended_va = get_extended_va_from_regex("a");
+  ExtendedVA extended_va = get_extended_va_from_query("a");
   auto document = std::make_shared<Document>("a");
 
   auto algorithm = FinditerAlgorithm(extended_va, document);
@@ -151,7 +151,7 @@ TEST_CASE("nodes used by the algorithm are recycled when creating a linked list"
   auto document = std::make_shared<Document>(document_);
 
   std::string regex = "!x{a+}";
-  ExtendedVA extended_va = get_extended_va_from_regex(regex);
+  ExtendedVA extended_va = get_extended_va_from_query(regex);
 
   auto algorithm = FinditerAlgorithm(extended_va, document);
   ECS& ecs = algorithm.get_ecs();
@@ -174,7 +174,7 @@ TEST_CASE("nodes used by the algorithm are recycled when it is run again") {
   auto document = std::make_shared<Document>(document_);
 
   std::string regex = "!x{a+}";
-  ExtendedVA extended_va = get_extended_va_from_regex(regex);
+  ExtendedVA extended_va = get_extended_va_from_query(regex);
 
   auto algorithm = FinditerAlgorithm(extended_va, document);
 
@@ -202,7 +202,7 @@ TEST_CASE("nodes used by the algorithm are recycled when, after constructing the
   auto document = std::make_shared<Document>(document_);
 
   std::string regex = "!x{a+b}";
-  ExtendedVA extended_va = get_extended_va_from_regex(regex);
+  ExtendedVA extended_va = get_extended_va_from_query(regex);
 
   auto algorithm = FinditerAlgorithm(extended_va, document);
   ECS& ecs = algorithm.get_ecs();
@@ -222,10 +222,10 @@ TEST_CASE("nodes used by the algorithm are recycled when, after constructing the
   REQUIRE(ecs.amount_of_nodes_allocated() == MEMORY_POOL_STARTING_SIZE);
 }
 
-void run_algorithm_test(std::string regex, std::string document_,
+void run_algorithm_test(std::string query, std::string document_,
                         std::vector<DummyMapping> expected_mappings) {
   auto document = std::make_shared<Document>(document_);
-  Parser parser = Parser(regex);
+  Parser parser = Parser(query);
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va = ExtendedVA(logical_va);
   extended_va.clean_for_determinization();
