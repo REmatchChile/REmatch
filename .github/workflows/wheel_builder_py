@@ -1,0 +1,91 @@
+# Based on:
+# https://github.com/matplotlib/matplotlib/blob/main/.github/workflows/cibuildwheel.yml
+# https://github.com/numpy/numpy/blob/main/.github/workflows/wheels.yml
+
+name: Wheel builder
+on:
+  workflow_dispatch:
+
+jobs:
+  build_sdist:
+    name: Build source distribution
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build source distribution
+        run: |
+          python -m pip install -U pip build
+          python -m build --sdist
+  
+      - name: Test source distribution
+        run: |
+          python -m pip install dist/*.gz
+          cd .. # Can't import pyrematch within pyrematch's src directory
+          python -c "import pyrematch, sys; print(pyrematch.__version__); sys.exit(0)"
+
+      - name: Check README rendering for PyPI
+        run: |
+          python -mpip install twine
+          twine check dist/*.gz
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cibw-sdist
+          path: dist/*.gz
+          if-no-files-found: error
+
+
+  build_wheels:
+    needs: build_sdist
+    name: Build wheel for ${{ matrix.python }}-${{ matrix.buildplat[1] }}
+    runs-on: ${{ matrix.buildplat[0] }}
+    strategy:
+      # All wheels must be built in order to complete this job
+      matrix:
+        buildplat:
+          - [ubuntu-22.04, manylinux_x86_64]
+          - [ubuntu-22.04, musllinux_x86_64]
+          - [windows-2022, win_amd64]
+          - [windows-2022, win32]
+          - [macos-13, macosx_x86_64]
+        python: ["cp39", "cp310", "cp311", "cp312"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.16.5
+        env:
+          CIBW_PRERELEASE_PYTHONS: True
+          CIBW_BUILD: ${{ matrix.python }}-${{ matrix.buildplat[1] }}
+          # In order to have full C++17 support
+          CIBW_ENVIRONMENT_MACOS: >
+            MACOSX_DEPLOYMENT_TARGET='10.14'
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cibw-wheels-${{ matrix.python }}-${{ matrix.buildplat[1] }}
+          path: ./wheelhouse/*.whl
+          if-no-files-found: error
+
+
+  publish:
+    needs: [build_sdist, build_wheels]
+    name: Upload release to PyPI
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Download packages
+        uses: actions/download-artifact@v4
+        with:
+          pattern: cibw-*
+          path: dist
+          merge-multiple: true
+
+      - name: Print out all packages
+        run: ls -lhS dist
+
+      - name: Publish package distribuions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          username: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
