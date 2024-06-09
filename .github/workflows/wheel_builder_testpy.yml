@@ -2,7 +2,7 @@
 # https://github.com/matplotlib/matplotlib/blob/main/.github/workflows/cibuildwheel.yml
 # https://github.com/numpy/numpy/blob/main/.github/workflows/wheels.yml
 
-name: Wheel builder
+name: Wheel builder (Test PyiPI)
 on:
   workflow_dispatch:
 
