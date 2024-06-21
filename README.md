@@ -18,7 +18,7 @@ Dependencies:
 * CMake version 3.23.2 or newer
 * Catch2 (required for tests only)
 
-The setup of CMake, Catch2, Boost and Clang on a clean ubuntu system can be done using the following script:
+The setup of CMake, Catch2 and Clang on a clean ubuntu system can be done using the following script:
 
 ```bash
 ./scripts/setup/ubuntu/setup_cpp_to_execute_rematch.sh
