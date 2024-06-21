@@ -1,6 +1,6 @@
 # REmatch
 
-Here you can find the main implementation of REmatch library in C++, and its bindings for both python and javascript/WebAssembly. This version has been refactorized, tested, and developed for being ready for production.
+Here you can find the main implementation of REmatch library in C++, and its bindings for both Python and JavaScript/WebAssembly. This version has been refactorized, tested, and developed for being ready for production.
 
 ## Directory structure
 
@@ -16,7 +16,6 @@ Dependencies:
 
 * Clang version 11 or newer
 * CMake version 3.23.2 or newer
-* Boost version 1.58 or newer (required for tests only)
 * Catch2 (required for tests only)
 
 The setup of CMake, Catch2, Boost and Clang on a clean ubuntu system can be done using the following script:
@@ -134,12 +133,11 @@ You should be able to view the results in the graphical interface.
 
 ## Reference
 
-This implementation is based on the paper [REmatch: a novel regex engine for finding all matches](https://www.vldb.org/pvldb/vol16/p2792-vrgoc.pdf) by Cristian Riveros, Nicolar Van Sint Jan, and Domagoj Vrgoč.
-
+This implementation is based on the paper [REmatch: a novel regex engine for finding all matches](https://www.vldb.org/pvldb/vol16/p2792-vrgoc.pdf) by Cristian Riveros, Nicolás Van Sint Jan, and Domagoj Vrgoč.
 
 ## Building bindings
 
-### Javascript/WASM
+### JavaScript/WASM
 
 To begin, follow the official installation tutorial for Emscripten available at https://emscripten.org/docs/getting_started/downloads.html
 
