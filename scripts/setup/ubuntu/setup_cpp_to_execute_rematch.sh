@@ -21,10 +21,5 @@ sudo cmake --build build/ --target install
 cd ..
 rm -rf Catch2
 
-# Install boost
-
-sudo apt-get install -y libboost-all-dev
-
 # Update compiler to support c++20
-
 sudo apt install clang

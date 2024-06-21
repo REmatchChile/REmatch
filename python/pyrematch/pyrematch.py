@@ -105,7 +105,10 @@ class Query:
         return MatchIterator(document, self._pyquery)
 
     def findone(self, document: str) -> "Match":
-        return Match(self._pyquery.findone(document))
+        pymatch = self._pyquery.findone(document)
+        if pymatch:
+            return Match(self._pyquery.findone(document))
+        return None
 
     def check(self, document: str) -> bool:
         return self._pyquery.check(document)
@@ -162,7 +165,10 @@ class MultiQuery:
         return MultiMatchIterator(document, self._pyquery)
 
     def findone(self, document: str) -> "MultiMatch":
-        return MultiMatch(self._pyquery.findone(document))
+        pymatch = self._pyquery.findone(document)
+        if pymatch:
+            return MultiMatch(pymatch)
+        return None
 
     def check(self, document: str) -> bool:
         return self._pyquery.check(document)
