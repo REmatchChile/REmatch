@@ -10,7 +10,7 @@ namespace REMatch {
 inline namespace library_interface {
 
 MultiMatchIterator::MultiMatchIterator(rematch::QueryData& query_data,
-                                       std::string_view str, Flags flags)
+                                       const std::string& str, Flags flags)
     : variable_catalog_(query_data.variable_catalog),
       document_(std::make_shared<Document>(str)) {
   mediator_ = std::make_unique<rematch::MultiFinditerMediator>(

@@ -19,7 +19,7 @@ std::optional<rematch::QueryData> query_data_ = std::nullopt;
   std::shared_ptr<rematch::Document> document_;
 
  public:
-  MultiMatchIterator(rematch::QueryData& query_data, std::string_view str,
+  MultiMatchIterator(rematch::QueryData& query_data, const std::string& str,
                      Flags flags = Flags());
 
   std::unique_ptr<MultiMatch> next();

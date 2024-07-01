@@ -7,8 +7,8 @@
 
 namespace rematch {
 
-QueryData get_query_data(std::string_view pattern, Flags flags = Flags());
-QueryData get_multi_query_data(std::string_view pattern, Flags flags = Flags());
+QueryData get_query_data(const std::string& pattern, Flags flags = Flags());
+QueryData get_multi_query_data(const std::string& pattern, Flags flags = Flags());
 
 }  // namespace rematch
 

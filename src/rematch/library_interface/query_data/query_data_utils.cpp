@@ -17,12 +17,12 @@ QueryData construct_query_data(rematch::Parser& parser, Flags flags) {
           variable_catalog};
 }
 
-QueryData get_query_data(std::string_view pattern, Flags flags) {
+QueryData get_query_data(const std::string& pattern, Flags flags) {
   rematch::Parser parser = rematch::Parser(pattern);
   return construct_query_data(parser, flags);
 }
 
-QueryData get_multi_query_data(std::string_view pattern, Flags flags) {
+QueryData get_multi_query_data(const std::string& pattern, Flags flags) {
   rematch::Parser parser = rematch::Parser(pattern, true);
   return construct_query_data(parser, flags);
 }

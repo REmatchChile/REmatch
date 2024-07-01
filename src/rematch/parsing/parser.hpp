@@ -18,14 +18,14 @@ class Parser {
   std::unique_ptr<LogicalVA> logical_va;
 
  public:
-  Parser(const std::string_view input, bool allow_multi_spanners = false);
+  Parser(const std::string& input, bool allow_multi_spanners = false);
   ~Parser();
 
   LogicalVA& get_logical_va();
   std::shared_ptr<VariableCatalog> get_variable_catalog();
 
  private:
-  void create_logical_va(std::string_view input,
+  void create_logical_va(const std::string& input,
                          bool allow_multi_spanners = false);
 };
 

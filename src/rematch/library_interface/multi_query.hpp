@@ -15,10 +15,10 @@ class MultiQuery {
   QueryData query_data_;
 
  public:
-  explicit MultiQuery(std::string_view pattern, Flags flags = Flags());
-  std::unique_ptr<MultiMatch> findone(std::string_view text);
-  std::unique_ptr<REMatch::MultiMatchIterator> finditer(std::string_view text);
-  bool check(std::string_view text);
+  explicit MultiQuery(const std::string& pattern, Flags flags = Flags());
+  std::unique_ptr<MultiMatch> findone(const std::string& text);
+  std::unique_ptr<REMatch::MultiMatchIterator> finditer(const std::string& text);
+  bool check(const std::string& text);
 };
 
 }  // namespace REMatch
