@@ -1,6 +1,6 @@
 from .pyrematch import Flags, reql
 
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 
 from ._pyrematch import (
     AnchorInsideCaptureException,
