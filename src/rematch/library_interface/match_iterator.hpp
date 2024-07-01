@@ -1,7 +1,7 @@
 #ifndef MATCH_ITERATOR__REMATCH_HPP
 #define MATCH_ITERATOR__REMATCH_HPP
 
-#include <string_view>
+#include <string>
 
 #include "filtering_module/search_variable_set_automaton/dfa/search_dfa.hpp"
 #include "filtering_module/segment_identificator.hpp"
@@ -29,10 +29,10 @@ class MatchIterator {
 
  public:
   MatchIterator(rematch::QueryData& query_data,
-                std::string_view str,
+                const std::string& str,
                 Flags flags = Flags());
   MatchIterator(const std::string& pattern,
-                std::string_view str,
+                const std::string& str,
                 Flags flags = Flags());
 
   std::unique_ptr<Match> next();

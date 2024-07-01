@@ -22,12 +22,12 @@ class Query {
   rematch::QueryData query_data_;
 
  public:
-  explicit Query(std::string_view pattern, Flags flags = Flags());
+  explicit Query(const std::string& pattern, Flags flags = Flags());
 
-  std::unique_ptr<Match> findone(std::string_view text);
-  std::unique_ptr<MatchIterator> finditer(std::string_view text);
-  bool check(std::string_view text);
-  size_t count(std::string_view text);
+  std::unique_ptr<Match> findone(const std::string& text);
+  std::unique_ptr<MatchIterator> finditer(const std::string& text);
+  bool check(const std::string& text);
+  size_t count(const std::string& text);
 };
 
 }  // end namespace library_interface

@@ -10,10 +10,10 @@
 namespace REMatch {
 using namespace rematch;
 
-MultiQuery::MultiQuery(std::string_view pattern, Flags flags)
+MultiQuery::MultiQuery(const std::string& pattern, Flags flags)
     : flags_(flags), query_data_(get_multi_query_data(pattern, flags)) {}
 
-std::unique_ptr<MultiMatch> MultiQuery::findone(std::string_view text) {
+std::unique_ptr<MultiMatch> MultiQuery::findone(const std::string& text) {
   std::shared_ptr<Document> document = std::make_shared<Document>(text);
 
   auto mediator = MultiFindoneMediator(query_data_, document, flags_);
@@ -28,12 +28,12 @@ std::unique_ptr<MultiMatch> MultiQuery::findone(std::string_view text) {
 }
 
 std::unique_ptr<REMatch::MultiMatchIterator> MultiQuery::finditer(
-    std::string_view text) {
+    const std::string& text) {
   return std::make_unique<REMatch::MultiMatchIterator>(query_data_, text,
                                                        flags_);
 }
 
-bool MultiQuery::check(std::string_view text) {
+bool MultiQuery::check(const std::string& text) {
   std::shared_ptr<Document> document = std::make_shared<Document>(text);
   auto output_checker = OutputChecker(query_data_, document);
   return output_checker.check();

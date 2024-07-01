@@ -10,7 +10,7 @@
 namespace rematch {
 inline namespace parsing {
 
-Parser::Parser(const std::string_view input, bool allow_multi_spanners) {
+Parser::Parser(const std::string& input, bool allow_multi_spanners) {
   create_logical_va(input, allow_multi_spanners);
 }
 
@@ -19,7 +19,7 @@ Parser::~Parser() {
   logical_va = nullptr;
 }
 
-void Parser::create_logical_va(const std::string_view input, bool allow_multi_spanners) {
+void Parser::create_logical_va(const std::string& input, bool allow_multi_spanners) {
   ZoneScoped;
 
   // * Parse Tree
