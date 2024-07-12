@@ -50,11 +50,10 @@ class LogicalVA {
 
   bool accepts_epsilon_ = false;
 
-public:
+ public:
   LogicalVAState* initial_state() const { return init_state_; }
   LogicalVAState* accepting_state() const { return accepting_state_; }
 
- public:
   std::vector<LogicalVAState*> states;
 
   /// Empty LogicalVA construction (only one LogicalVAState)
@@ -65,11 +64,15 @@ public:
   /// Atomic VA
   LogicalVA(CharClass charclass);
 
-  void destroy();
+  LogicalVA(LogicalVA&& logical_va);
+
+  ~LogicalVA();
+
+  LogicalVA& operator=(LogicalVA&& other);
 
   /**
    * Transforms the automaton graph to a trimmed automaton. This being that every
-   * state is reacheable from the initial state, and the final state is reachable
+   * state is reachable from the initial state, and the final state is reachable
    * from every state.
    */
   void trim();

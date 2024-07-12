@@ -13,7 +13,6 @@ ExtendedVA::ExtendedVA(LogicalVA const &logical_va) {
   assert(ExtendedVAAssert::accepting_state_has_only_incoming_transitions(&logical_va_prim));
 
   copy_data_from_logical_va(logical_va_prim);
-  logical_va_prim.destroy();
 
   capture_closure();
 

@@ -66,7 +66,7 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
       if (it != ranges.end() && it->lo <= lo && hi <= it->hi) return false;
     }
 
-    // Look for an inmediate range to the left of [lo, hi]. If exists
+    // Look for an immediate range to the left of [lo, hi]. If exists
     // then erase and extend [lo, hi] accordingly
     if (lo > 0) {
       auto it = ranges.find(UnicodeRange(lo - 1, lo - 1));
@@ -77,14 +77,14 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
       }
     }
 
-    // Look for an inmediate range to the right of [lo, hi]. If exists
+    // Look for an immediate range to the right of [lo, hi]. If exists
     // then erase and extend [lo, hi] accordingly
     // Note: The last unicode code point is 0x10FFFF
     if (hi < UTF8MAX) {
       auto it = ranges.find(UnicodeRange(hi + 1, hi + 1));
       if (it != ranges.end()) {
         hi = it->hi;
-        // Not necesary to check for lo. Did it in previous step.
+        // Not necessary to check for lo. Did it in previous step.
         ranges.erase(it);
       }
     }
@@ -428,6 +428,7 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
     for (size_t i = 1; i < ctx->expr().size(); ++i) {
       visit(ctx->expr(i));
       A->alter(*lva_ptr);
+      lva_ptr = nullptr;
     }
     lva_ptr = std::move(A);
 
@@ -443,6 +444,7 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
     for (size_t i = 1; i < ctx->element().size(); ++i) {
       visit(ctx->element(i));
       A->cat(*lva_ptr);
+      lva_ptr = nullptr;
     }
     lva_ptr = std::move(A);
 

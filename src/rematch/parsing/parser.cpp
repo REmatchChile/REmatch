@@ -14,11 +14,6 @@ Parser::Parser(const std::string& input, bool allow_multi_spanners) {
   create_logical_va(input, allow_multi_spanners);
 }
 
-Parser::~Parser() {
-  logical_va->destroy();
-  logical_va = nullptr;
-}
-
 void Parser::create_logical_va(const std::string& input, bool allow_multi_spanners) {
   ZoneScoped;
 
