@@ -19,7 +19,6 @@ class Parser {
 
  public:
   Parser(const std::string& input, bool allow_multi_spanners = false);
-  ~Parser();
 
   LogicalVA& get_logical_va();
   std::shared_ptr<VariableCatalog> get_variable_catalog();

@@ -37,10 +37,34 @@ LogicalVA::LogicalVA(const LogicalVA &A)
   accepts_epsilon_ = A.accepts_epsilon_;
 }
 
-void LogicalVA::destroy() {
+LogicalVA::~LogicalVA() {
   for (auto& state : states) {
     delete state;
   }
+}
+
+LogicalVA::LogicalVA(LogicalVA&& other)
+    : init_state_(other.init_state_),
+      accepting_state_(other.accepting_state_),
+      accepts_epsilon_(other.accepts_epsilon_),
+      states(std::move(other.states)) {
+  init_state_ = nullptr;
+  accepting_state_ = nullptr;
+}
+
+LogicalVA& LogicalVA::operator=(LogicalVA&& other) {
+    if (this != &other) {
+        delete init_state_;
+        delete accepting_state_;
+
+        states = std::move(other.states);
+        init_state_ = other.init_state_;
+        accepting_state_ = other.accepting_state_;
+
+        other.init_state_ = nullptr;
+        other.accepting_state_ = nullptr;
+    }
+    return *this;
 }
 
 void LogicalVA::copy_states(
@@ -277,6 +301,7 @@ void LogicalVA::cat(LogicalVA &a2) {
 
   // Add a2 states to states list
   states.insert(states.end(), a2.states.begin(), a2.states.end());
+  a2.states.clear();
 
   // These lines are not redundant, handle the case when one lva accepts epsilon
   // and the other does not.
@@ -319,6 +344,7 @@ void LogicalVA::alter(LogicalVA &a2) {
 
   // Add a2 states to states list
   states.insert(states.end(), a2.states.begin(), a2.states.end());
+  a2.states.clear();
 
   accepts_epsilon_ = a2.accepts_epsilon_ || accepts_epsilon_;
 }
@@ -421,8 +447,6 @@ void LogicalVA::repeat(int min, int max) {
       cat(copied_automaton);
     }
   }
-
-  copied.destroy();
 }
 
 void LogicalVA::remove_epsilon() {
