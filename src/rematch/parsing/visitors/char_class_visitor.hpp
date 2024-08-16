@@ -326,6 +326,7 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
     auto it = ranges.begin();
     std::stack<UnicodeRange> stack;
     stack.push(*it);
+    lva_ptr = nullptr;
     // 1 byte automaton
     {
       CharClass ccb;
@@ -428,7 +429,6 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
     for (size_t i = 1; i < ctx->expr().size(); ++i) {
       visit(ctx->expr(i));
       A->alter(*lva_ptr);
-      lva_ptr = nullptr;
     }
     lva_ptr = std::move(A);
 
@@ -444,7 +444,6 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
     for (size_t i = 1; i < ctx->element().size(); ++i) {
       visit(ctx->element(i));
       A->cat(*lva_ptr);
-      lva_ptr = nullptr;
     }
     lva_ptr = std::move(A);
 

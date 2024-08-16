@@ -48,23 +48,23 @@ LogicalVA::LogicalVA(LogicalVA&& other)
       accepting_state_(other.accepting_state_),
       accepts_epsilon_(other.accepts_epsilon_),
       states(std::move(other.states)) {
-  init_state_ = nullptr;
-  accepting_state_ = nullptr;
+  other.init_state_ = nullptr;
+  other.accepting_state_ = nullptr;
 }
 
 LogicalVA& LogicalVA::operator=(LogicalVA&& other) {
-    if (this != &other) {
-        delete init_state_;
-        delete accepting_state_;
+  if (this != &other) {
+    delete init_state_;
+    delete accepting_state_;
 
-        states = std::move(other.states);
-        init_state_ = other.init_state_;
-        accepting_state_ = other.accepting_state_;
+    states = std::move(other.states);
+    init_state_ = other.init_state_;
+    accepting_state_ = other.accepting_state_;
 
-        other.init_state_ = nullptr;
-        other.accepting_state_ = nullptr;
-    }
-    return *this;
+    other.init_state_ = nullptr;
+    other.accepting_state_ = nullptr;
+  }
+  return *this;
 }
 
 void LogicalVA::copy_states(
