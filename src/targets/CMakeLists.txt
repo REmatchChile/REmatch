@@ -5,17 +5,15 @@ set(BUILD_TARGETS
 if(EMSCRIPTEN)
   message("Building javascript target")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fwasm-exceptions")
-  add_executable(emscripten_binding ${CMAKE_CURRENT_SOURCE_DIR}/main/emscripten_binding.cpp ${sources})
-  target_link_libraries(emscripten_binding PRIVATE ${project_LIB})
-  set_target_properties(emscripten_binding PROPERTIES LINK_FLAGS
+  add_executable(rematch-bindings ${CMAKE_CURRENT_SOURCE_DIR}/main/emscripten_binding.cpp ${sources})
+  target_link_libraries(rematch-bindings PRIVATE ${project_LIB})
+  set_target_properties(rematch-bindings PROPERTIES LINK_FLAGS
     "-lembind \
     -fwasm-exceptions \
     -sMODULARIZE=1 \
-    -sENVIRONMENT=web \
-    -sEXPORT_NAME=REmatch \
-    -sEXPORT_ES6=1 \
     -sSINGLE_FILE=1 \
-    -sINITIAL_MEMORY=512MB \
+    -sEXPORT_NAME=REmatchModule \
+    -sEXPORT_ES6=1 \
     -sALLOW_MEMORY_GROWTH=1 \
     -sMEMORY_GROWTH_GEOMETRIC_STEP=1.0 \
     -sMEMORY_GROWTH_GEOMETRIC_CAP=0 \
