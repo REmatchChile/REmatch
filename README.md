@@ -115,10 +115,6 @@ We are using Catch2 for unit testing.
 
 To add more tests, create files of the form: `tests/<module_name>/<class_tested>.cpp` and add these files to the TEST_SOURCES of `tests/CMakeLists.txt`.
 
-## Automatic documentation
-
-To build the automatic documentation two packages are needed: graphviz and doxygen. To build the documentation run `doxygen DoxyFile`.
-
 ## Profiler
 
 We are using the Tracy profiler to measure the time spent in specific code segments. To profile the code using the graphical user interface, follow these steps:
