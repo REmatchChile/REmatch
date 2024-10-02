@@ -5,12 +5,17 @@
 
 #include "parsing/charclass.hpp"
 #include "evaluation/start_end_chars.hpp"
+#ifdef TRACY_ENABLE
+#include "tracy/Tracy.hpp"
+#endif
 
 namespace rematch {
 inline namespace filtering_module {
 
 SearchNFA::SearchNFA(LogicalVA const &A) {
+  #ifdef TRACY_ENABLE
   ZoneScoped;
+  #endif
 
   LogicalVA A_prim(A);
 

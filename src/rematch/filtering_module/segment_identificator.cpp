@@ -2,6 +2,9 @@
 
 #include "filtering_module/segment_identificator.hpp"
 #include "evaluation/document.hpp"
+#ifdef TRACY_ENABLE
+#include "tracy/Tracy.hpp"
+#endif
 
 namespace rematch {
 inline namespace filtering_module {
@@ -45,7 +48,9 @@ bool SegmentIdentificator::next_is_computed_successfully() {
 }
 
 std::unique_ptr<Span> SegmentIdentificator::next() {
+  #ifdef TRACY_ENABLE
   ZoneScopedNC("SegmentIdentificator::next", 0x800080);
+  #endif
 
   if (!next_is_computed_successfully()) {
     return nullptr;

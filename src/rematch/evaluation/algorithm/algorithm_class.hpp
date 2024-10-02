@@ -6,7 +6,6 @@
 #include <memory>
 #include "output_enumeration/ecs.hpp"
 #include "output_enumeration/enumerator.hpp"
-#include "tracy/Tracy.hpp"
 
 namespace rematch {
 class Document;

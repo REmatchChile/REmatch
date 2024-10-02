@@ -7,7 +7,6 @@
 #include "parsing/variable_catalog.hpp"
 
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
-#include "tracy/Tracy.hpp"
 
 namespace rematch {
 inline namespace parsing {

@@ -11,7 +11,6 @@
 #include "mediator/segment_manager/segment_identificator_manager.hpp"
 #include "mediator/segment_manager/segment_manager.hpp"
 #include "mediator/segment_manager/segment_manager_creator.hpp"
-#include "tracy/Tracy.hpp"
 
 namespace rematch {
 class Document;

@@ -4,7 +4,6 @@
 #include <map>
 #include "output_enumeration/ecs.hpp"
 #include "span.hpp"
-#include "tracy/Tracy.hpp"
 
 namespace rematch {
 

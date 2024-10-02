@@ -1,6 +1,5 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-#include <iostream>
 
 #include "exceptions/anchor_inside_capture_exception.hpp"
 #include "exceptions/exceptions.hpp"
