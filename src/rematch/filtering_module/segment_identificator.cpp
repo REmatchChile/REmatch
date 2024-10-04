@@ -6,7 +6,7 @@
 #include "tracy/Tracy.hpp"
 #endif
 
-namespace rematch {
+namespace REmatch {
 inline namespace filtering_module {
 SegmentIdentificator::SegmentIdentificator(SearchDFA& search_dfa,
                                            std::shared_ptr<Document> document)

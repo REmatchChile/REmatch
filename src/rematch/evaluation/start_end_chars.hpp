@@ -1,11 +1,11 @@
 #ifndef START_END_CHAR_HPP
 #define START_END_CHAR_HPP
 
-namespace rematch {
+namespace REmatch {
 
 constexpr char START_CHAR = '\xFE';
 constexpr char END_CHAR = '\xFF';
 
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

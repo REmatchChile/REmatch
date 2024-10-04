@@ -3,12 +3,11 @@
 
 #include <string_view>
 
-#undef private
 #include "parsing/variable_catalog.hpp"
 
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
 
-namespace rematch {
+namespace REmatch {
 inline namespace parsing {
 
 class Parser {
@@ -28,6 +27,6 @@ class Parser {
 };
 
 }  // namespace parsing
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

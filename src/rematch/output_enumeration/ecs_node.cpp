@@ -1,6 +1,6 @@
 #include "output_enumeration/ecs_node.hpp"
 
-namespace rematch {
+namespace REmatch {
 inline namespace output_enumeration {
 
 ECSNode::ECSNode(ECSNodeType node_type, ECSNode *left,

@@ -10,7 +10,7 @@
 #include "tracy/Tracy.hpp"
 #endif
 
-namespace rematch {
+namespace REmatch {
 class Document;
 
 class SegmentManagerCreator {
@@ -57,6 +57,6 @@ class SegmentManagerCreator {
   }
 };
 
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

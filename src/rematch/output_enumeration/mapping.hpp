@@ -5,7 +5,7 @@
 #include "output_enumeration/ecs.hpp"
 #include "span.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 class ExtendedMapping;
 
@@ -64,7 +64,7 @@ class Mapping {
 
   std::vector<Annotation> inverted_annotations;
 
-  friend class rematch::ExtendedMapping;
+  friend class REmatch::ExtendedMapping;
 };
 }
 }

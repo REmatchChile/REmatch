@@ -9,7 +9,7 @@
 #include "tracy/Tracy.hpp"
 #endif
 
-namespace rematch {
+namespace REmatch {
 inline namespace filtering_module {
 
 SearchNFA::SearchNFA(LogicalVA const &A) {

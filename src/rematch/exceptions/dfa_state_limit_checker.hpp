@@ -3,16 +3,17 @@
 
 #include <cstddef>
 #include "exceptions/complex_query_exception.hpp"
-#include "library_interface/flags.hpp"
 
-namespace rematch {
+#include <REmatch/flags.hpp>
+
+namespace REmatch {
 
 class DFAStateLimitChecker {
  public:
   size_t current_amount_of_states = 0;
   size_t max_amount_of_states;
 
-  DFAStateLimitChecker(REMatch::Flags flags = REMatch::Flags()) {
+  DFAStateLimitChecker(REmatch::Flags flags = REmatch::Flags()) {
     max_amount_of_states = flags.max_deterministic_states;
   }
 
@@ -20,10 +21,10 @@ class DFAStateLimitChecker {
     current_amount_of_states++;
 
     if (current_amount_of_states > max_amount_of_states)
-      throw REMatch::ComplexQueryException();
+      throw REmatch::ComplexQueryException();
   }
 };
 
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

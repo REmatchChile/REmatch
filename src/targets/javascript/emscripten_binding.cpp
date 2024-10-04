@@ -1,15 +1,16 @@
 #include <emscripten/bind.h>
 
-#include "library_interface/flags.hpp"
-#include "library_interface/match.hpp"
-#include "library_interface/match_iterator.hpp"
-#include "library_interface/multi_query.hpp"
-#include "library_interface/query.hpp"
-#include "library_interface/rematch.hpp"
-#include "output_enumeration/span.hpp"
+#include <REmatch/REmatch.hpp>
+#include <REmatch/flags.hpp>
+#include <REmatch/match.hpp>
+#include <REmatch/match_iterator.hpp>
+#include <REmatch/multi_match.hpp>
+#include <REmatch/multi_match_iterator.hpp>
+#include <REmatch/multi_query.hpp>
+#include <REmatch/query.hpp>
 
 using namespace emscripten;
-using namespace REMatch;
+using namespace REmatch;
 
 EMSCRIPTEN_BINDINGS(REmatchModule) {
   value_array<Span>("Span").element(&Span::first).element(&Span::second);

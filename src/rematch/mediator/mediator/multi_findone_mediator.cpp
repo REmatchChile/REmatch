@@ -1,7 +1,7 @@
 #include "multi_findone_mediator.hpp"
 #include "evaluation/algorithm/findone_algorithm.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 MultiFindoneMediator::MultiFindoneMediator(QueryData& query_data,
                                            std::shared_ptr<Document> document,
@@ -42,4 +42,4 @@ void MultiFindoneMediator::update_algorithm(Span& segment_span) {
   algorithm_->initialize_algorithm();
 }
 
-}  // namespace rematch
+}  // namespace REmatch

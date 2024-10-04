@@ -2,7 +2,7 @@
 
 #include "evaluation/document.hpp"
 
-using namespace rematch;
+using namespace REmatch;
 
 AlgorithmClass::AlgorithmClass(ExtendedVA& extended_va,
                                std::shared_ptr<Document> document,

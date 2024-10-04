@@ -4,13 +4,13 @@
 #include <stdexcept>
 #include <string>
 
-namespace REMatch {
+namespace REmatch {
 
 class ComplexQueryException : public std::runtime_error {
  public:
   ComplexQueryException()
       : std::runtime_error("Query is too complex to evaluate.") {}
 };
-}  // namespace REMatch
+}  // namespace REmatch
 
 #endif

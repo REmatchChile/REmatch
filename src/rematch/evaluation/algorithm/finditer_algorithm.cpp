@@ -1,6 +1,6 @@
 #include "finditer_algorithm.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 FinditerAlgorithm::FinditerAlgorithm(ExtendedVA& extended_va,
                                      std::shared_ptr<Document> document,
@@ -89,4 +89,4 @@ ECSNode* FinditerAlgorithm::create_root_node_to_enumerate() {
   return ECS_root_node_;
 }
 
-}  // namespace rematch
+}  // namespace REmatch

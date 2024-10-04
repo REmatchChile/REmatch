@@ -1,6 +1,6 @@
 #include "query_syntax_exception.hpp"
 
-namespace REMatch {
+namespace REmatch {
 
 class InvalidRangeException : public QuerySyntaxException {
  public:
@@ -11,4 +11,4 @@ class InvalidRangeException : public QuerySyntaxException {
                 invalid_range,
             query, position) {}
 };
-}  // namespace REMatch
+}  // namespace REmatch

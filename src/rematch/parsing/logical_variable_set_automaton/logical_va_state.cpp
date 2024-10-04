@@ -5,7 +5,7 @@
 #include "parsing/logical_variable_set_automaton/logical_va_state.hpp"
 #include "parsing/logical_variable_set_automaton/logical_va_capture.hpp"
 
-namespace rematch {
+namespace REmatch {
 inline namespace parsing {
 
 LogicalVAState::LogicalVAState(): flags(kDefaultLogicalVAState) { id = ID++; }

@@ -7,7 +7,7 @@
 #include "capture_subset_pair.hpp"
 #include "exceptions/dfa_state_limit_checker.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 class ExtendedDetVA {
  private:
@@ -52,6 +52,6 @@ class ExtendedDetVA {
   size_t get_extended_va_size();
 };
 
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

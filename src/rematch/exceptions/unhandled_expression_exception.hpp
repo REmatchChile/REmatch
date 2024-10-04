@@ -1,6 +1,6 @@
 #include "query_syntax_exception.hpp"
 
-namespace REMatch {
+namespace REmatch {
 
 class UnhandledExpressionException : public QuerySyntaxException {
  public:
@@ -8,4 +8,4 @@ class UnhandledExpressionException : public QuerySyntaxException {
                            size_t position)
       : QuerySyntaxException(message, query, position) {}
 };
-}  // namespace REMatch
+}  // namespace REmatch

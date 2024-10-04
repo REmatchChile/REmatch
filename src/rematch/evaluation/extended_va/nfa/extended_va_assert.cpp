@@ -1,7 +1,7 @@
 
 #include "extended_va_assert.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 bool ExtendedVAAssert::initial_state_has_only_outgoing_transitions(LogicalVA* const& logical_va) {
   LogicalVAState* initial_state = logical_va->initial_state();
@@ -14,4 +14,4 @@ bool ExtendedVAAssert::accepting_state_has_only_incoming_transitions(LogicalVA* 
 
   return accepting_state->captures.empty() && accepting_state->filters.empty();
 }
-}  // namespace 
+}  // namespace

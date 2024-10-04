@@ -2,7 +2,7 @@
 
 #include "evaluation/document.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 DefaultSegmentManager::DefaultSegmentManager(std::shared_ptr<Document> document)
     : document_(document) {}
@@ -22,4 +22,4 @@ size_t DefaultSegmentManager::get_search_nfa_size() {
   return 0;
 }
 
-}  // namespace rematch
+}  // namespace REmatch

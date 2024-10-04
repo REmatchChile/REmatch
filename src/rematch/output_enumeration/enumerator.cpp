@@ -4,7 +4,7 @@
 
 #include "output_enumeration/enumerator.hpp"
 
-namespace rematch {
+namespace REmatch {
 inline namespace output_enumeration {
 
 Enumerator::Enumerator() {

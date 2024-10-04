@@ -1,14 +1,20 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include <REmatch/REmatch.hpp>
+#include <REmatch/flags.hpp>
+#include <REmatch/match.hpp>
+#include <REmatch/match_iterator.hpp>
+#include <REmatch/multi_match.hpp>
+#include <REmatch/multi_match_iterator.hpp>
+#include <REmatch/multi_query.hpp>
+#include <REmatch/query.hpp>
+
 #include "exceptions/anchor_inside_capture_exception.hpp"
 #include "exceptions/exceptions.hpp"
-#include "library_interface/multi_query.hpp"
-#include "library_interface/query.hpp"
-#include "library_interface/rematch.hpp"
 
 namespace py = pybind11;
-using namespace REMatch;
+using namespace REmatch;
 using namespace pybind11::literals;
 
 PYBIND11_MODULE(_pyrematch, m) {
@@ -69,17 +75,27 @@ PYBIND11_MODULE(_pyrematch, m) {
   m.def("finditer", &finditer, "pattern"_a, "document"_a, "flags"_a = Flags());
 
   py::register_exception<QuerySyntaxException>(m, "QuerySyntaxException");
-  py::register_exception<AnchorInsideCaptureException>(m, "AnchorInsideCaptureException");
+  py::register_exception<AnchorInsideCaptureException>(
+      m, "AnchorInsideCaptureException");
   py::register_exception<ComplexQueryException>(m, "ComplexQueryException");
-  py::register_exception<EmptyWordCaptureException>(m, "EmptyWordCaptureException");
-  py::register_exception<InvalidCharacterException>(m, "InvalidCharacterException");
+  py::register_exception<EmptyWordCaptureException>(
+      m, "EmptyWordCaptureException");
+  py::register_exception<InvalidCharacterException>(
+      m, "InvalidCharacterException");
   py::register_exception<InvalidEscapeException>(m, "InvalidEscapeException");
   py::register_exception<InvalidRangeException>(m, "InvalidRangeException");
-  py::register_exception<MemoryLimitExceededException>(m, "MemoryLimitExceededException");
-  py::register_exception<SameNestedVariableException>(m, "SameNestedVariableException");
-  py::register_exception<UnhandledExpressionException>(m, "UnhandledExpressionException");
-  py::register_exception<VariableLimitExceededException>(m, "VariableLimitExceededException");
-  py::register_exception<VariableNotFoundException>(m, "VariableNotFoundException");
-  py::register_exception<VariableNotFoundInCatalogException>(m, "VariableNotFoundInCatalogException");
-  py::register_exception<MultiSpannersNotAllowedException>(m, "MultiSpannersNotAllowedException");
+  py::register_exception<MemoryLimitExceededException>(
+      m, "MemoryLimitExceededException");
+  py::register_exception<SameNestedVariableException>(
+      m, "SameNestedVariableException");
+  py::register_exception<UnhandledExpressionException>(
+      m, "UnhandledExpressionException");
+  py::register_exception<VariableLimitExceededException>(
+      m, "VariableLimitExceededException");
+  py::register_exception<VariableNotFoundException>(
+      m, "VariableNotFoundException");
+  py::register_exception<VariableNotFoundInCatalogException>(
+      m, "VariableNotFoundInCatalogException");
+  py::register_exception<MultiSpannersNotAllowedException>(
+      m, "MultiSpannersNotAllowedException");
 }

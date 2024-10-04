@@ -1,7 +1,7 @@
 #include "output_enumeration/extended_mapping.hpp"
 #include <algorithm>
 
-namespace rematch {
+namespace REmatch {
 
 ExtendedMapping::ExtendedMapping(const output_enumeration::Mapping& mapping)
     : inverted_annotations_(mapping.inverted_annotations) {}
@@ -97,4 +97,4 @@ std::ostream& operator<<(std::ostream& os, ExtendedMapping& extended_mapping) {
   return os;
 }
 
-}  // namespace rematch
+}  // namespace REmatch

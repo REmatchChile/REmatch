@@ -1,6 +1,6 @@
 #ifndef LOGICAL_VA_EPSILON
 #define LOGICAL_VA_EPSILON
-namespace rematch {
+namespace REmatch {
 inline namespace parsing {
 
 class LogicalVAState;

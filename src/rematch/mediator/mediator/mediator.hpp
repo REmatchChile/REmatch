@@ -1,20 +1,20 @@
 #ifndef MEDIATOR_HPP
 #define MEDIATOR_HPP
 
+#include <REmatch/flags.hpp>
+#include <REmatch/query_data.hpp>
 #include "evaluation/algorithm/finditer_algorithm.hpp"
 #include "evaluation/algorithm/algorithm_class.hpp"
 #include "filtering_module/segment_identificator.hpp"
-#include "library_interface/flags.hpp"
-#include "library_interface/query_data/query_data.hpp"
 #include "mediator/mapping.hpp"
 #include "mediator/segment_manager/line_by_line_manager.hpp"
 #include "mediator/segment_manager/segment_identificator_manager.hpp"
 #include "mediator/segment_manager/segment_manager.hpp"
 #include "mediator/segment_manager/segment_manager_creator.hpp"
 
-namespace rematch {
+namespace REmatch {
 class Document;
-using namespace REMatch;
+using namespace REmatch;
 
 class Mediator {
  public:
@@ -38,6 +38,6 @@ class Mediator {
 
   friend class StatsCollector;
 };
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

@@ -5,7 +5,7 @@
 #include "evaluation/extended_va/dfa/extended_det_va.hpp"
 #include "output_enumeration/enumerator.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 class FindoneAlgorithm : public AlgorithmClass {
  public:
@@ -21,6 +21,6 @@ class FindoneAlgorithm : public AlgorithmClass {
   void enumerate();
 };
 
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

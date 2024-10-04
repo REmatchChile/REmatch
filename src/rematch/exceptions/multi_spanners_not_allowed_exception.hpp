@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace REMatch {
+namespace REmatch {
 
 class MultiSpannersNotAllowedException : public std::runtime_error {
  public:
@@ -14,6 +14,6 @@ class MultiSpannersNotAllowedException : public std::runtime_error {
             "instead.") {}
 };
 
-}  // namespace REMatch
+}  // namespace REmatch
 
 #endif

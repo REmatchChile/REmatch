@@ -1,6 +1,6 @@
 #include "findone_algorithm.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 FindoneAlgorithm::FindoneAlgorithm(ExtendedVA& extended_va,
                                    std::shared_ptr<Document> document,
@@ -56,4 +56,4 @@ void FindoneAlgorithm::enumerate() {
   }
 }
 
-}  // namespace rematch
+}  // namespace REmatch

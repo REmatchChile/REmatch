@@ -1,7 +1,7 @@
 #ifndef LOGICAL_VA_CAPTURE_HPP
 #define LOGICAL_VA_CAPTURE_HPP
 #include <bitset>
-namespace rematch {
+namespace REmatch {
 inline namespace parsing {
   class LogicalVAState;
 

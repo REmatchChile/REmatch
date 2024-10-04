@@ -1,6 +1,6 @@
 #include "finditer_mediator.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 FinditerMediator::FinditerMediator(QueryData& query_data,
                                    std::shared_ptr<Document> document,
@@ -47,4 +47,4 @@ bool FinditerMediator::next_is_computed_successfully() {
   return false;
 }
 
-}  // namespace rematch
+}  // namespace REmatch

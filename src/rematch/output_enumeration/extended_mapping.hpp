@@ -4,7 +4,7 @@
 #include <optional>
 #include "output_enumeration/mapping.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 constexpr int INVALID_POSITION = -1;
 
@@ -35,6 +35,6 @@ class ExtendedMapping {
   std::vector<Mapping::Annotation> inverted_annotations_ = {};
 };
 
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

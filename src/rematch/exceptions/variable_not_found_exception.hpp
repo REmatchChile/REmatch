@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace REMatch {
+namespace REmatch {
 
 class VariableNotFoundException : public std::invalid_argument {
  public:

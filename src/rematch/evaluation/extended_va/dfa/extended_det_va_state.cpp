@@ -1,7 +1,7 @@
 
 #include "extended_det_va_state.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 ExtendedDetVAState::ExtendedDetVAState() {
   id = ID++;
@@ -59,4 +59,4 @@ std::optional<std::vector<CaptureSubsetPair>> ExtendedDetVAState::get_transition
 
 unsigned int ExtendedDetVAState::ID = 0;
 
-}  // namespace rematch
+}  // namespace REmatch

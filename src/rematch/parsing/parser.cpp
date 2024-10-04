@@ -9,7 +9,7 @@
 #ifdef TRACY_ENABLE
 #include "tracy/Tracy.hpp"
 #endif
-namespace rematch {
+namespace REmatch {
 inline namespace parsing {
 
 Parser::Parser(const std::string& input, bool allow_multi_spanners) {

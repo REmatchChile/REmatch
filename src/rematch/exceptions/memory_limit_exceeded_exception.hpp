@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace REMatch {
+namespace REmatch {
 
 class MemoryLimitExceededException : public std::runtime_error {
  public:
@@ -12,6 +12,6 @@ class MemoryLimitExceededException : public std::runtime_error {
       : std::runtime_error("Memory limit exceeded during document evaluation.") {}
 };
 
-}  // namespace REMatch
+}  // namespace REmatch
 
 #endif

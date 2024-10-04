@@ -3,13 +3,13 @@
 
 #include "query_syntax_exception.hpp"
 
-namespace REMatch {
+namespace REmatch {
 
 class InvalidEscapeException : public QuerySyntaxException {
  public:
   InvalidEscapeException(std::string query, size_t char_position)
       : QuerySyntaxException("Invalid escape character.", query, char_position) {}
 };
-}  // namespace REMatch
+}  // namespace REmatch
 
 #endif

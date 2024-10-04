@@ -1,7 +1,9 @@
+#include <REmatch/query_data.hpp>
+
 #include "multi_finditer_mediator.hpp"
 #include "output_enumeration/extended_mapping.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 MultiFinditerMediator::MultiFinditerMediator(QueryData& query_data,
                                              std::shared_ptr<Document> document,
@@ -58,4 +60,4 @@ void MultiFinditerMediator::update_algorithm(Span& segment_span) {
   algorithm_->initialize_algorithm();
 }
 
-}  // namespace rematch
+}  // namespace REmatch

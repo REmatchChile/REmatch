@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 
-namespace REMatch {
+namespace REmatch {
 
 class VariableLimitExceededException : public std::runtime_error {
  public:
@@ -11,6 +11,6 @@ class VariableLimitExceededException : public std::runtime_error {
       : std::runtime_error("Variable limit exceeded in the regular expression.") {}
 };
 
-}  // namespace REMatch
+}  // namespace REmatch
 
 #endif

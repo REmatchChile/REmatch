@@ -6,7 +6,7 @@
 #include <iostream>
 #include <memory>
 
-namespace rematch {
+namespace REmatch {
 
 inline namespace output_enumeration {
 

@@ -13,7 +13,7 @@
 #include "filtering_module/search_variable_set_automaton/dfa/search_dfa.hpp"
 #include "filtering_module/search_variable_set_automaton/dfa/search_dfa_state.hpp"
 
-namespace rematch {
+namespace REmatch {
 class Document;
 
 inline namespace filtering_module {

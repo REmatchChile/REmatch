@@ -12,7 +12,7 @@
 #include "parsing/logical_variable_set_automaton/logical_va_epsilon.hpp"
 #include "parsing/logical_variable_set_automaton/logical_va_anchor.hpp"
 
-namespace rematch {
+namespace REmatch {
 inline namespace parsing {
 
 class LogicalVAState {
@@ -78,7 +78,7 @@ class LogicalVAState {
     bool operator==(const LogicalVAState &rhs) const;
 };
 
-} // end namespace rematch
+} // end namespace REmatch
 }
 
 #endif

@@ -7,7 +7,7 @@
 #include "filtering_module/search_variable_set_automaton/dfa/search_dfa.hpp"
 #include "filtering_module/segment_identificator.hpp"
 
-namespace rematch {
+namespace REmatch {
 class Document;
 
 class LineByLineManager : public SegmentManager {
@@ -26,6 +26,6 @@ class LineByLineManager : public SegmentManager {
   std::shared_ptr<Document> document_;
 };
 
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

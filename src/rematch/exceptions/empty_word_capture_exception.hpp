@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 
-namespace REMatch {
+namespace REmatch {
 
 class EmptyWordCaptureException : public std::runtime_error {
  public:
@@ -11,6 +11,6 @@ class EmptyWordCaptureException : public std::runtime_error {
       : std::runtime_error(error) {}
 };
 
-}  // namespace REMatch
+}  // namespace REmatch
 
 #endif

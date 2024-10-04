@@ -1,9 +1,13 @@
-message("Building JavaScript/WASM target")
+set(JAVASCRIPT_TARGET_NAME rematch-bindings)
+
+set(${JAVASCRIPT_TARGET_NAME}_SRC
+    emscripten_binding.cpp
+)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fwasm-exceptions")
-add_executable(rematch-bindings ${CMAKE_CURRENT_SOURCE_DIR}/src/targets/javascript/emscripten_binding.cpp ${COMMON_SRCS})
-target_link_libraries(rematch-bindings PRIVATE REmatch-lib antlr4_cpp_runtime)
-set_target_properties(rematch-bindings PROPERTIES LINK_FLAGS
+add_executable(${JAVASCRIPT_TARGET_NAME} ${${JAVASCRIPT_TARGET_NAME}_SRC})
+target_link_libraries(${JAVASCRIPT_TARGET_NAME} PRIVATE REmatch::REmatch antlr4_cpp_runtime)
+set_target_properties(${JAVASCRIPT_TARGET_NAME} PROPERTIES LINK_FLAGS
 "-lembind \
 -fwasm-exceptions \
 -sMODULARIZE=1 \

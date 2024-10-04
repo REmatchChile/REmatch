@@ -1,10 +1,11 @@
 #ifndef MULTI_FINDITER_MEDIATOR_HPP
 #define MULTI_FINDITER_MEDIATOR_HPP
 
+#include <REmatch/query_data.hpp>
 #include "finditer_mediator.hpp"
 #include "output_enumeration/extended_mapping.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 class MultiFinditerMediator {
  public:
@@ -27,6 +28,6 @@ class MultiFinditerMediator {
   const output_enumeration::Mapping* mapping_;
 };
 
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

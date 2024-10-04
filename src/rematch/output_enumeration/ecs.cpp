@@ -4,7 +4,7 @@
 #include "output_enumeration/ecs.hpp"
 #include "ecs.hpp"
 
-namespace rematch {
+namespace REmatch {
 inline namespace output_enumeration {
 
 ECS::ECS(Flags flags) : node_manager(flags) {}

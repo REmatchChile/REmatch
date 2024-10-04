@@ -15,7 +15,7 @@
 #include "exceptions/variable_not_found_in_catalog_exception.hpp"
 #include "exceptions/variable_limit_exceeded_exception.hpp"
 
-namespace rematch {
+namespace REmatch {
 inline namespace parsing {
 
 const int MAX_VARS = 15;

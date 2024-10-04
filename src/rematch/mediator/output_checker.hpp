@@ -1,9 +1,7 @@
 #ifndef OUTPUT_CHECKER_HPP
 #define OUTPUT_CHECKER_HPP
 
-#include "library_interface/query_data/query_data.hpp"
-
-namespace rematch {
+namespace REmatch {
 
 class OutputChecker {
  public:
@@ -21,6 +19,6 @@ class OutputChecker {
   std::shared_ptr<Document> document_;
 };
 
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

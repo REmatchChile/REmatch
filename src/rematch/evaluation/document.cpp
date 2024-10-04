@@ -2,7 +2,7 @@
 
 #include "evaluation/start_end_chars.hpp"
 
-using namespace rematch;
+using namespace REmatch;
 
 Document::Document(const std::string& str_) : str{str_} {}
 

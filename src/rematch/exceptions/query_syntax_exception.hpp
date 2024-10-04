@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace REMatch {
+namespace REmatch {
 
 class QuerySyntaxException : public std::logic_error {
  public:
@@ -22,6 +22,6 @@ class QuerySyntaxException : public std::logic_error {
   std::string error_;
 };
 
-}  // namespace REMatch
+}  // namespace REmatch
 
 #endif

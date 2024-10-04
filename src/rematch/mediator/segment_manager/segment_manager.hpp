@@ -4,7 +4,7 @@
 #include <memory>
 #include "output_enumeration/span.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 class SegmentManager {
  public:

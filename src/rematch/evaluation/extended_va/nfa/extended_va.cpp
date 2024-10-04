@@ -4,7 +4,7 @@
 #include "tracy/Tracy.hpp"
 #endif
 
-namespace rematch {
+namespace REmatch {
 
 ExtendedVA::ExtendedVA(LogicalVA const &logical_va) {
   #ifdef TRACY_ENABLE

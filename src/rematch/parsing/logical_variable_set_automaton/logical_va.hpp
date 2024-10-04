@@ -23,7 +23,7 @@
 //             (initial, type of transition, final)
 // TODO: Test backward transitions if the type of transition is not changed.
 
-namespace rematch {
+namespace REmatch {
 class ExtendedVA;
 inline namespace parsing {
 

@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace rematch {
+namespace REmatch {
 
 /**
  * Document is a wrapper around a string that logically simulates a document that
@@ -38,6 +38,6 @@ class Document {
   std::string str;
 };
 
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

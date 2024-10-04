@@ -4,7 +4,7 @@
 #include <set>
 #include <bitset>
 
-namespace rematch {
+namespace REmatch {
 inline namespace filtering_module {
 
 SearchNFAState::SearchNFAState(): flags(kDefaultSearchNFAState) { id = ID++; }

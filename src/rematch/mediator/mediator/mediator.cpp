@@ -1,9 +1,10 @@
-#include "mediator.hpp"
+#include <REmatch/query_data.hpp>
+
 #include "evaluation/algorithm/finditer_algorithm.hpp"
-
 #include "evaluation/document.hpp"
+#include "mediator.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 Mediator::Mediator(QueryData& query_data, std::shared_ptr<Document> document)
     : document_(document), variable_catalog_(query_data.variable_catalog) {}
@@ -33,4 +34,4 @@ void Mediator::update_algorithm(Span& segment_span) {
   algorithm_->initialize_algorithm();
 }
 
-}  // namespace rematch
+}  // namespace REmatch

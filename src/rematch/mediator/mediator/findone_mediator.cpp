@@ -1,7 +1,7 @@
 #include "findone_mediator.hpp"
 #include "evaluation/algorithm/findone_algorithm.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 FindoneMediator::FindoneMediator(QueryData& query_data,
                                  std::shared_ptr<Document> document, Flags flags)
@@ -31,4 +31,4 @@ mediator::Mapping* FindoneMediator::next() {
   return construct_user_mapping();
 }
 
-}  // namespace rematch
+}  // namespace REmatch

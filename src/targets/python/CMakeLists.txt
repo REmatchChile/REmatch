@@ -1,10 +1,14 @@
-message(STATUS "Building python target")
+set(PYTHON_TARGET_NAME _pyrematch)
+
+set(${PYTHON_TARGET_NAME}_SRC
+    python_binding.cpp
+)
 
 # Install pybind11
-include("${PROJECT_SOURCE_DIR}/cmake/setup_pybind11.cmake")
+include(${PROJECT_SOURCE_DIR}/cmake/setup_pybind11.cmake)
 
 # Add python binding module
-pybind11_add_module(_pyrematch MODULE ${CMAKE_CURRENT_SOURCE_DIR}/src/targets/python/python_binding.cpp)
-target_link_libraries(_pyrematch PRIVATE REmatch-lib antlr4_cpp_runtime)
+pybind11_add_module(${PYTHON_TARGET_NAME} MODULE ${${PYTHON_TARGET_NAME}_SRC})
+target_link_libraries(${PYTHON_TARGET_NAME} PRIVATE REmatch::REmatch antlr4_cpp_runtime)
 
-install(TARGETS _pyrematch DESTINATION .)
+install(TARGETS ${PYTHON_TARGET_NAME} DESTINATION .)

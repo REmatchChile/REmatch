@@ -59,15 +59,15 @@ The binary path instead will be at `build/Debug/bin`.
 
 ## Examples
 
-To use REmatch, you have two options. You can create a `Query` object through the method `REMatch::compile` and pass the regular expression as argument, or you can directly call the functions provided.
+To use REmatch, you have two options. You can create a `Query` object through the method `REmatch::compile` and pass the regular expression as argument, or you can directly call the functions provided.
 
 ```cpp
 // Compile a regular expression using the compile method and find a match
-REMatch::Query query = REMatch::compile("!x{aba}");
-std::unique_ptr<REMatch::Match> query_match = query.findone("aabaa");
+REmatch::Query query = REmatch::compile("!x{aba}");
+std::unique_ptr<REmatch::Match> query_match = query.findone("aabaa");
 
 // Equivalent to calling findone directly
-std::unique_ptr<REMatch::Match> direct_match = REMatch::findone("!x{aba}", "aabaa");
+std::unique_ptr<REmatch::Match> direct_match = REmatch::findone("!x{aba}", "aabaa");
 ```
 
 The `Query` provides the methods `findone` and `finditer` that evaluate a document and return the matches found. The `findone` method returns a pointer to the first encountered match, while `finditer` returns an iterator that allows you to access all matches. To retrieve all the matches at once, you can use the `findall` method. You can use the `start` and `end` methods to obtain the indices of the matched spans or `span` to get a string representation.
@@ -81,9 +81,9 @@ The `Query` provides the methods `findone` and `finditer` that evaluate a docume
 
 int main() {
   std::string document = "abaababa";
-  REMatch::Query query = REMatch::compile("!x{aba}");
-  std::unique_ptr<REMatch::MatchIterator> iterator = query.finditer(document);
-  std::unique_ptr<REMatch::Match> match = iterator->next();
+  REmatch::Query query = REmatch::compile("!x{aba}");
+  std::unique_ptr<REmatch::MatchIterator> iterator = query.finditer(document);
+  std::unique_ptr<REmatch::Match> match = iterator->next();
   while (match != nullptr) {
     std::cout << "Span: [" << match->start("x") << ", " << match->end("x") << ">" << std::endl;
     match = iterator->next();
@@ -101,8 +101,8 @@ int main() {
 
 int main() {
   std::string document = "abaababa";
-  REMatch::Query query = REMatch::compile("!x{aba}");
-  std::unique_ptr<REMatch::Match> match = query.findone(document);
+  REmatch::Query query = REmatch::compile("!x{aba}");
+  std::unique_ptr<REmatch::Match> match = query.findone(document);
   std::cout << "Span: " << match->span("x") << std::endl;
   return 0;
 }
@@ -118,8 +118,8 @@ int main() {
 int main() {
   std::string document = "aba";
   std::string query = "!x{aba}";
-  std::vector<REMatch::Match> matches = REMatch::library_interface::findall(query, document);
-  for (REMatch::Match& match: matches) {
+  std::vector<REmatch::Match> matches = REmatch::library_interface::findall(query, document);
+  for (REmatch::Match& match: matches) {
     std::cout << "Span: [" << match.start("x") << ", " << match.end("x") << ">" << std::endl;
   }
   return 0;
@@ -130,13 +130,7 @@ int main() {
 
 We are using Catch2 for unit testing. To add more tests, create files at: `tests/<module_name>/<class_tested>.cpp`.
 
-To build REmatch testing executable, run:
-
-```bash
-cmake -Bbuild/Release -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=1 && cmake --build build/Release/
-```
-
-Then you can run:
+To build REmatch testing executable, turn the `BUILD_TESTING` variable `ON` at `CMakeLists.txt`, and rebuild the project. Then you can run:
 
 ```bash
 ./build/Release/bin/rematch_test
@@ -146,11 +140,7 @@ Then you can run:
 
 We are using the Tracy profiler to measure the time spent in specific code segments. To profile the code using the graphical user interface, follow these steps:
 
-1. Compile with the following command:
-
-```bash
-cmake -Bbuild/Release -DCMAKE_BUILD_TYPE=Release -DENABLE_PROFILING=1 && cmake --build build/Release/
-```
+1. Turn the `ENABLE_PROFILING` variable `ON` at `CMakeLists.txt`, and rebuild the project.
 
 2. Navigate to `build/Release/_deps/tracy-src/profiler/build/unix` and run `make` to generate the "Tracy-release" executable.
 

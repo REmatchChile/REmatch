@@ -1,6 +1,6 @@
 #include "query_syntax_exception.hpp"
 
-namespace REMatch {
+namespace REmatch {
 
 class SameNestedVariableException : public QuerySyntaxException {
  public:
@@ -10,4 +10,4 @@ class SameNestedVariableException : public QuerySyntaxException {
             "Nested the same variables inside assignation: " + variable_name,
             query, char_position) {}
 };
-}  // namespace REMatch
+}  // namespace REmatch

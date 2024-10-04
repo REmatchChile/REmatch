@@ -18,10 +18,10 @@
 #define CHAR_CLASS_VISITOR__INFO(arg)
 #endif
 
-namespace rematch {
+namespace REmatch {
 namespace visitors {
 
-using namespace REMatch;
+using namespace REmatch;
 
 struct UnicodeRange {
   UnicodeRange() : lo(0), hi(0) {}
@@ -600,7 +600,7 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
       lva_ptr = std::make_unique<LogicalVA>(CharClass('\f'));
     } else {
       auto interval = ctx->getSourceInterval();
-      throw REMatch::UnhandledExpressionException(
+      throw REmatch::UnhandledExpressionException(
           "Unhandled Special Literal: " + ctx->getText(), regex, interval.a);
     }
 
@@ -705,7 +705,7 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
       add_range(123, UTF8MAX);
     } else {
       auto interval = ctx->getSourceInterval();
-      throw REMatch::UnhandledExpressionException(
+      throw REmatch::UnhandledExpressionException(
           "Unhandled Shared Atom: " + ctx->getText(), regex, interval.a);
     }
 
@@ -755,7 +755,7 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
                             ((str[2] & 0x3F) << 6) + (str[3] & 0x3F);
         break;
       default:
-        throw REMatch::InvalidCharacterException("Invalid UTF-8 character: " + str);
+        throw REmatch::InvalidCharacterException("Invalid UTF-8 character: " + str);
     }
 
     return 0;
@@ -775,7 +775,7 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
       current_codepoint = '\f';
     } else {
       auto interval = ctx->getSourceInterval();
-      throw REMatch::UnhandledExpressionException(
+      throw REmatch::UnhandledExpressionException(
           "Unhandled Special Literal: " + ctx->getText(), regex, interval.a);
     }
 
@@ -786,7 +786,7 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
     CHAR_CLASS_VISITOR__INFO("visitAnchor" << std::endl);
     if (open_variables_count > 0) {
       auto interval = ctx->getSourceInterval();
-      throw REMatch::AnchorInsideCaptureException(regex, interval.a);
+      throw REmatch::AnchorInsideCaptureException(regex, interval.a);
     }
 
     lva_ptr = std::make_unique<LogicalVA>();
@@ -801,4 +801,4 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
   }
 };
 }  // namespace visitors
-}  // namespace rematch
+}  // namespace REmatch

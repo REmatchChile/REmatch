@@ -12,7 +12,7 @@
 #include "filtering_module/search_variable_set_automaton/nfa/search_nfa.hpp"
 #include "exceptions/dfa_state_limit_checker.hpp"
 
-namespace rematch {
+namespace REmatch {
 inline namespace filtering_module {
 
 using DFAStatesTableBools = std::unordered_map<std::vector<bool>, SearchDFAState*>;

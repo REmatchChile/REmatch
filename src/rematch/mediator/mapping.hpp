@@ -7,7 +7,7 @@
 #include "output_enumeration/mapping.hpp"
 #include "exceptions/variable_not_found_exception.hpp"
 
-namespace rematch {
+namespace REmatch {
 namespace mediator {
 
 class Mapping {

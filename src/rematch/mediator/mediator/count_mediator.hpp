@@ -5,7 +5,7 @@
 #include "mediator/mapping.hpp"
 #include "mediator/mediator/mediator.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 class CountMediator : public Mediator {
  public:
@@ -18,6 +18,6 @@ class CountMediator : public Mediator {
   mediator::Mapping* next() override{};
 };
 
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

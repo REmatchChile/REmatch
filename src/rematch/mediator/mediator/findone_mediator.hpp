@@ -1,11 +1,12 @@
 #ifndef FINDONE_MEDIATOR_HPP
 #define FINDONE_MEDIATOR_HPP
 
+#include <REmatch/query_data.hpp>
 #include <string_view>
 #include "mediator/mapping.hpp"
 #include "mediator/mediator/mediator.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 class FindoneMediator : public Mediator {
  public:
@@ -18,6 +19,6 @@ class FindoneMediator : public Mediator {
   bool has_output = false;
 };
 
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

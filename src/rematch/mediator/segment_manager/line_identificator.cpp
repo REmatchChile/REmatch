@@ -2,7 +2,7 @@
 
 #include "evaluation/document.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 LineIdentificator::LineIdentificator(std::shared_ptr<Document> document)
     : document_(document) {}
@@ -36,4 +36,4 @@ std::unique_ptr<Span> LineIdentificator::next() {
   return result_span;
 }
 
-}  // namespace rematch
+}  // namespace REmatch

@@ -13,7 +13,7 @@
 #define VARIABLE_CATALOG_VISITOR__INFO(arg)
 #endif
 
-namespace rematch {
+namespace REmatch {
 namespace visitors {
 
 class VariableCatalogVisitor : public REmatchParserBaseVisitor {
@@ -47,7 +47,7 @@ private:
         std::any rhs = visit(ctx->expr(i));
         VariableCatalog &rhs_cast = std::any_cast<VariableCatalog &>(rhs);
         if (!allow_multi_spanners_ && rhs_cast.variables() != vfact_cast.variables()) {
-          throw REMatch::MultiSpannersNotAllowedException();
+          throw REmatch::MultiSpannersNotAllowedException();
         }
         vfact_cast.merge(rhs_cast);
       }
@@ -84,7 +84,7 @@ private:
     VariableCatalog &vfact_cast = std::any_cast<VariableCatalog &>(vfact);
 
     if (!vfact_cast.empty() && ctx->quantifier() && !allow_multi_spanners_) {
-      throw REMatch::MultiSpannersNotAllowedException();
+      throw REmatch::MultiSpannersNotAllowedException();
     }
     return vfact;
   }
@@ -117,7 +117,7 @@ private:
     std::string var = ctx->varname()->getText();
     if (vfact_cast.contains(var)) {
       auto interval = ctx->getSourceInterval();
-      throw REMatch::SameNestedVariableException(var, regex, interval.a);
+      throw REmatch::SameNestedVariableException(var, regex, interval.a);
     }
     vfact_cast.add(var);
 
@@ -130,4 +130,4 @@ private:
   }
 };
 } // namespace visitors
-} // namespace rematch
+} // namespace REmatch

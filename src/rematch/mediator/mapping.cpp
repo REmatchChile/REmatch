@@ -1,6 +1,6 @@
 #include "mapping.hpp"
 
-namespace rematch {
+namespace REmatch {
 namespace mediator {
 
 Mapping::Mapping(std::map<std::string, Span> spans_map) {
@@ -12,7 +12,7 @@ Span Mapping::get_span_of_variable(std::string variable_name) {
     return spans_map_[variable_name];
   }
 
-  throw REMatch::VariableNotFoundException(variable_name);
+  throw REmatch::VariableNotFoundException(variable_name);
 }
 
 void Mapping::add_span(std::string variable_name, Span span) {

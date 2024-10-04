@@ -1,6 +1,6 @@
 #include "extended_det_va.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 ExtendedDetVA::ExtendedDetVA(ExtendedVA& extended_va,
                              DFAStateLimitChecker dfa_states_checker)
@@ -49,7 +49,7 @@ std::vector<CaptureSubsetPair> ExtendedDetVA::get_next_states(
 
 std::unordered_map<std::bitset<64>, StatesPtrSet>
 ExtendedDetVA::get_map_with_next_subsets(ExtendedDetVAState*& current_state, char letter) {
-  
+
   std::unordered_map<std::bitset<64>, StatesPtrSet> captures_subset_map;
 
   for (auto& state_in_current_subset : current_state->get_states_subset()) {
@@ -134,4 +134,4 @@ size_t ExtendedDetVA::get_extended_va_size() {
   return extended_va_.size();
 }
 
-}  // namespace rematch
+}  // namespace REmatch

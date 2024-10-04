@@ -3,11 +3,12 @@
 
 #include "output_enumeration/minipool.hpp"
 #include "exceptions/memory_limit_exceeded_exception.hpp"
-#include "library_interface/flags.hpp"
 
-namespace rematch {
+#include <REmatch/flags.hpp>
+
+namespace REmatch {
 inline namespace output_enumeration {
-using namespace REMatch;
+using namespace REmatch;
 
 const size_t MEMORY_POOL_STARTING_SIZE = 128;
 

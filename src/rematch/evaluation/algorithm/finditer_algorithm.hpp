@@ -4,7 +4,7 @@
 #include "evaluation/algorithm/algorithm_class.hpp"
 #include "evaluation/extended_va/dfa/extended_det_va_state.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 class FinditerAlgorithm : public AlgorithmClass {
  public:
@@ -21,6 +21,6 @@ class FinditerAlgorithm : public AlgorithmClass {
   ECSNode* create_root_node_to_enumerate();
 };
 
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

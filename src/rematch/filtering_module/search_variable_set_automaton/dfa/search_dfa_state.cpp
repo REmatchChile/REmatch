@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-namespace rematch {
+namespace REmatch {
 inline namespace filtering_module {
 
 int SearchDFAState::ID = 0;

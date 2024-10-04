@@ -1,6 +1,6 @@
 #include "parsing/logical_variable_set_automaton/logical_va_capture.hpp"
 
-namespace rematch {
+namespace REmatch {
 inline namespace parsing {
 
 LogicalVACapture::LogicalVACapture(LogicalVAState* from, std::bitset<64> coding, LogicalVAState* next):

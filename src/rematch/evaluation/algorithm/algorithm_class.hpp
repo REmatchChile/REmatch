@@ -2,15 +2,15 @@
 #define ALGORITHM_CLASS_HPP
 
 #include "evaluation/extended_va/dfa/extended_det_va.hpp"
-#include "library_interface/flags.hpp"
+#include <REmatch/flags.hpp>
 #include <memory>
 #include "output_enumeration/ecs.hpp"
 #include "output_enumeration/enumerator.hpp"
 
-namespace rematch {
+namespace REmatch {
 class Document;
 
-using namespace REMatch;
+using namespace REmatch;
 
 class AlgorithmClass {
  public:
@@ -56,6 +56,6 @@ class AlgorithmClass {
   void swap_state_lists();
 };
 
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

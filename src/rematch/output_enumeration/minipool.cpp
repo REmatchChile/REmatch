@@ -1,6 +1,6 @@
 #include "output_enumeration/minipool.hpp"
 
-namespace rematch {
+namespace REmatch {
 inline namespace output_enumeration {
 
 MiniPool::MiniPool(size_t cap) : capacity_(cap) {

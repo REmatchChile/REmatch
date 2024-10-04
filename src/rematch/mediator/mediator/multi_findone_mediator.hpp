@@ -1,13 +1,14 @@
 #ifndef MULTI_FINDONE_MEDIATOR_HPP
 #define MULTI_FINDONE_MEDIATOR_HPP
 
+#include <REmatch/query_data.hpp>
+
 #include "evaluation/algorithm/algorithm_class.hpp"
 #include "evaluation/document.hpp"
-#include "library_interface/query_data/query_data.hpp"
 #include "output_enumeration/extended_mapping.hpp"
 #include "output_enumeration/mapping.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 class MultiFindoneMediator {
  public:
@@ -31,6 +32,6 @@ class MultiFindoneMediator {
   bool has_output;
 };
 
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif
