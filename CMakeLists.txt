@@ -84,7 +84,7 @@ if(BUILD_TESTING)
 endif()
 
 # Enable profiling?
-option(ENABLE_PROFILING "Enable profiling" ON)
+option(ENABLE_PROFILING "Enable profiling" OFF)
 
 # Enable RPATH support for installed binaries and libraries
 include(AddInstallRPATHSupport)
