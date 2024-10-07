@@ -2,62 +2,35 @@
 
 Here you can find the main implementation of REmatch library in C++, and its bindings for both Python and JavaScript/WebAssembly. This version has been refactorized, tested, and developed for being ready for production.
 
-## Directory structure
+## Table of contents
 
-- `/src`: The C++ implementation.
-- `/tests`: Contains all automatic tests for the code.
-- `/scripts`: Contains useful scripts for setting up the project, including compilation and other tasks.
+1. [Directory structure](#1-directory-structure)
+2. [Examples](#2-examples)
+3. [Build instructions](#3-build-instructions)
+4. [Javascript/WASM bindings](#4-javascriptwasm-bindings)
+5. [Python bindings](#5-python-bindings)
+6. [Reference](#6-reference)
 
-## Build instructions
+## 1. Directory structure
 
-### Setup
-
-Dependencies:
-
-- Git
-- Clang version 11 or newer
-- CMake version 3.23.2 or newer
-- Catch2 (required for tests only)
-
-On current Debian and Ubuntu based distributions this dependencies can be installed with the following command:
-
-```bash
-# Dependencies for REmatch
-sudo apt update
-sudo apt install git clang cmake
-
-# Install Catch2 (required for tests only)
-git clone https://github.com/catchorg/Catch2.git
-cd Catch2/
-cmake -Bbuild -H. -DBUILD_TESTING=OFF
-sudo cmake --build build/ --target install
-cd ..
-rm -rf Catch2
+```txt
+📦REmach
+├── 📂cmake/ ---------------------------- Multiple utilities for CMake
+├── 📂datasets/ ------------------------- Contains all datasets used for testing
+├── 📂python/ --------------------------- Python package interface for the bindings
+├── 📂scripts/ -------------------------- Contains useful scripts for testing and profiling
+├── 📂src/ ------------------------------ The C++ implementation.
+├── 📂test/ ----------------------------- Contains all tests for the code.
+├── 📂third_party/ ---------------------- Third-party libraries used in the project
+├── 📜CMakeLists.txt
+├── 📜LICENSE
+├── 📜MANIFEST.in
+├── 📜README.md
+├── 📜pyproject.toml
+└── 📜setup.py
 ```
 
-### Building
-
-The target executable file is located at `src/targets/bin/rematch.cpp`. To build, run:
-
-```bash
-cmake -Bbuild/Release -DCMAKE_BUILD_TYPE=Release && cmake --build build/Release/
-```
-
-After building, the binary file will be located in the `build/Release/bin` folder. To try it simply run:
-
-```bash
-./build/Release/bin/rematch
-```
-
-If you want to use a debugger such as `gdb`, then you should run the following command:
-
-```bash
-cmake -Bbuild/Debug -DCMAKE_BUILD_TYPE=Debug && cmake --build build/Debug/
-```
-
-The binary path instead will be at `build/Debug/bin`.
-
-## Examples
+## 2. Examples
 
 To use REmatch, you have two options. You can create a `Query` object through the method `REmatch::compile` and pass the regular expression as argument, or you can directly call the functions provided.
 
@@ -126,6 +99,55 @@ int main() {
 }
 ```
 
+## 3. Build instructions
+
+### Setup
+
+Dependencies:
+
+- Git
+- Clang version 11 or newer
+- CMake version 3.23.2 or newer
+- Catch2 (required for tests only)
+
+On current Debian and Ubuntu based distributions this dependencies can be installed with the following command:
+
+```bash
+# Dependencies for REmatch
+sudo apt update
+sudo apt install git clang cmake
+
+# Install Catch2 (required for tests only)
+git clone https://github.com/catchorg/Catch2.git
+cd Catch2/
+cmake -Bbuild -H. -DBUILD_TESTING=OFF
+sudo cmake --build build/ --target install
+cd ..
+rm -rf Catch2
+```
+
+### Building
+
+The target executable file is located at `src/targets/bin/rematch.cpp`. To build, run:
+
+```bash
+cmake -Bbuild/Release -DCMAKE_BUILD_TYPE=Release && cmake --build build/Release/
+```
+
+After building, the binary file will be located in the `build/Release/bin` folder. To try it simply run:
+
+```bash
+./build/Release/bin/rematch
+```
+
+If you want to use a debugger such as `gdb`, then you should run the following command:
+
+```bash
+cmake -Bbuild/Debug -DCMAKE_BUILD_TYPE=Debug && cmake --build build/Debug/
+```
+
+The binary path instead will be at `build/Debug/bin`.
+
 ## Testing
 
 We are using Catch2 for unit testing. To add more tests, create files at: `tests/<module_name>/<class_tested>.cpp`.
@@ -150,9 +172,7 @@ We are using the Tracy profiler to measure the time spent in specific code segme
 
 You should be able to view the results in the graphical interface.
 
-## Bindings
-
-### JavaScript/WASM
+### 4. JavaScript/WASM bindings
 
 To begin, follow the official installation tutorial for Emscripten available at <https://emscripten.org/docs/getting_started/downloads.html>
 
@@ -164,7 +184,7 @@ emcmake cmake -Bbuild/javascript -DCMAKE_BUILD_TYPE=Release && cmake --build bui
 
 Then the JavaScript/WASM bindings can be found in `./build/javascript/bin/`
 
-## Python
+### 5. Python bindings
 
 To install the latest release version from PyPI, run:
 
@@ -178,6 +198,6 @@ To build from the source code, clone this repository and run:
 pip install .
 ```
 
-## Reference
+## 6. Reference
 
 This implementation is based on the paper [REmatch: a novel regex engine for finding all matches](https://www.vldb.org/pvldb/vol16/p2792-vrgoc.pdf) by Cristian Riveros, Nicolás Van Sint Jan, and Domagoj Vrgoč.
