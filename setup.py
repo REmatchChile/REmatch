@@ -39,7 +39,8 @@ setup(
         "Programming Language :: Python :: 3",
     ],
     keywords=(
-        "regex, rematch, regular, information extraction, text search, pattern matching"
+        "regex, rematch, regular expression, information extraction, text search,"
+        " pattern matching"
     ),
     license="MIT",
     python_requires=">=3.9",
