@@ -4,8 +4,6 @@
 #include <cstddef>
 #include "exceptions/complex_query_exception.hpp"
 
-#include <REmatch/flags.hpp>
-
 namespace REmatch {
 
 class DFAStateLimitChecker {
@@ -13,9 +11,8 @@ class DFAStateLimitChecker {
   size_t current_amount_of_states = 0;
   size_t max_amount_of_states;
 
-  DFAStateLimitChecker(REmatch::Flags flags = REmatch::Flags()) {
-    max_amount_of_states = flags.max_deterministic_states;
-  }
+  DFAStateLimitChecker(uint_fast32_t max_amount_of_states) :
+      max_amount_of_states(max_amount_of_states) {}
 
   inline void count_state() {
     current_amount_of_states++;

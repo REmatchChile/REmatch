@@ -1,6 +1,7 @@
 #ifndef EXTENDED_DET_VA_HPP
 #define EXTENDED_DET_VA_HPP
 
+#include "aliases.hpp"
 #include "evaluation/extended_va/nfa/extended_va.hpp"
 #include "exceptions/complex_query_exception.hpp"
 #include "extended_det_va_state.hpp"
@@ -30,7 +31,7 @@ class ExtendedDetVA {
 
  public:
   DFAStateLimitChecker dfa_states_checker_;
-  ExtendedDetVA(ExtendedVA& extended_va, DFAStateLimitChecker dfa_states_checker = DFAStateLimitChecker());
+  ExtendedDetVA(ExtendedVA& extended_va, DFAStateLimitChecker dfa_states_checker = DFAStateLimitChecker(1000));
 
   ~ExtendedDetVA();
 

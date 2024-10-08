@@ -1,8 +1,9 @@
-#include <REmatch/query_data.hpp>
+#include "mediator.hpp"
 
 #include "evaluation/algorithm/finditer_algorithm.hpp"
 #include "evaluation/document.hpp"
-#include "mediator.hpp"
+
+#include <REmatch/query_data.hpp>
 
 namespace REmatch {
 

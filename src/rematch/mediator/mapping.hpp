@@ -6,6 +6,7 @@
 #include <map>
 #include "output_enumeration/mapping.hpp"
 #include "exceptions/variable_not_found_exception.hpp"
+#include "output_enumeration/span.hpp"
 
 namespace REmatch {
 namespace mediator {

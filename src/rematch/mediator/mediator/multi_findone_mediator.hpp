@@ -1,12 +1,13 @@
 #ifndef MULTI_FINDONE_MEDIATOR_HPP
 #define MULTI_FINDONE_MEDIATOR_HPP
 
-#include <REmatch/query_data.hpp>
 
 #include "evaluation/algorithm/algorithm_class.hpp"
 #include "evaluation/document.hpp"
 #include "output_enumeration/extended_mapping.hpp"
 #include "output_enumeration/mapping.hpp"
+
+#include <REmatch/query_data.hpp>
 
 namespace REmatch {
 
@@ -14,7 +15,7 @@ class MultiFindoneMediator {
  public:
   MultiFindoneMediator(QueryData& query_data,
                        std::shared_ptr<Document> document,
-                       Flags flags = Flags());
+                       uint_fast32_t max_mempool_duplications);
 
   std::unique_ptr<ExtendedMapping> next();
 

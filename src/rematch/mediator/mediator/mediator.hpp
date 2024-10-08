@@ -1,8 +1,8 @@
 #ifndef MEDIATOR_HPP
 #define MEDIATOR_HPP
 
-#include <REmatch/flags.hpp>
 #include <REmatch/query_data.hpp>
+
 #include "evaluation/algorithm/finditer_algorithm.hpp"
 #include "evaluation/algorithm/algorithm_class.hpp"
 #include "filtering_module/segment_identificator.hpp"

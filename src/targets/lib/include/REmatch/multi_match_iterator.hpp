@@ -23,7 +23,7 @@ class MultiMatchIterator {
 
  public:
   MultiMatchIterator(QueryData& query_data, const std::string& str,
-                     Flags flags = Flags());
+                     uint_fast32_t max_mempool_duplications);
 
   std::unique_ptr<MultiMatch> next();
 

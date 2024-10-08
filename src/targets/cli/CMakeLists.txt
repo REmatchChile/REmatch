@@ -6,6 +6,6 @@ set(${CLI_TARGET_NAME}_SRC
 
 add_executable(${CLI_TARGET_NAME} ${${CLI_TARGET_NAME}_SRC})
 
-target_link_libraries(${CLI_TARGET_NAME} PRIVATE REmatch::REmatch)
+target_link_libraries(${CLI_TARGET_NAME} PRIVATE REmatch::REmatch antlr4_cpp_runtime)
 
 install(TARGETS ${CLI_TARGET_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR})

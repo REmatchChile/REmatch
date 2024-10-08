@@ -2,7 +2,7 @@
 #define FINDONE_MEDIATOR_HPP
 
 #include <REmatch/query_data.hpp>
-#include <string_view>
+
 #include "mediator/mapping.hpp"
 #include "mediator/mediator/mediator.hpp"
 
@@ -11,7 +11,7 @@ namespace REmatch {
 class FindoneMediator : public Mediator {
  public:
   FindoneMediator(QueryData& query_data, std::shared_ptr<Document> document,
-                  Flags flags = Flags());
+                  uint_fast32_t max_mempool_duplications);
 
   mediator::Mapping* next() override;
 

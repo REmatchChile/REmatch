@@ -1,6 +1,6 @@
 #include "parsing/parser.hpp"
 
-#include "antlr4-runtime.h"
+#include <antlr4-runtime.h>
 #include "parsing/visitors/variable_catalog_visitor.hpp"
 #include "parsing/visitors/char_class_visitor.hpp"
 #include "parsing/error_listener.hpp"

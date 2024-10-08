@@ -1,9 +1,9 @@
 #ifndef ALGORITHM_CLASS_HPP
 #define ALGORITHM_CLASS_HPP
 
-#include "evaluation/extended_va/dfa/extended_det_va.hpp"
-#include <REmatch/flags.hpp>
 #include <memory>
+
+#include "evaluation/extended_va/dfa/extended_det_va.hpp"
 #include "output_enumeration/ecs.hpp"
 #include "output_enumeration/enumerator.hpp"
 
@@ -15,7 +15,7 @@ using namespace REmatch;
 class AlgorithmClass {
  public:
   AlgorithmClass(ExtendedVA& extended_va, std::shared_ptr<Document> document,
-                 Flags flags = Flags());
+                 uint_fast32_t max_mempool_duplications);
 
   void initialize_algorithm();
   ECS& get_ecs();
@@ -51,7 +51,7 @@ class AlgorithmClass {
   void update_sets(ExtendedDetVAState*& current_state,
                    std::vector<CaptureSubsetPair> capture_subset_pairs);
   virtual void update_output_nodes(ExtendedDetVAState*& next_state,
-                           ECSNode*& next_node) = 0;
+                                   ECSNode*& next_node) = 0;
 
   void swap_state_lists();
 };

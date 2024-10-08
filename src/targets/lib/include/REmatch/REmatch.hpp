@@ -1,30 +1,31 @@
+// Main REmatch header
 #pragma once
 
-#include <memory>
+#include <cstdint>
 #include <string>
-#include <vector>
 
+#include "common.hpp"
+#include "exceptions/exceptions.hpp"
 #include "flags.hpp"
+#include "match.hpp"
 #include "match_iterator.hpp"
+#include "multi_match.hpp"
+#include "multi_match_iterator.hpp"
+#include "multi_query.hpp"
+#include "query.hpp"
 
 namespace REmatch {
 
 inline namespace library_interface {
-class Match;
-class Query;
 
-Query compile(const std::string& pattern, Flags flags = Flags());
+Query reql(
+    const std::string& pattern, Flags flags = Flags::NONE,
+    uint_fast32_t max_mempool_duplications = DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+    uint_fast32_t max_deterministic_states = DEFAULT_MAX_DETERMINISTIC_STATES);
 
-std::unique_ptr<Match> findone(const std::string& pattern,
-                               const std::string& document,
-                               Flags flags = Flags());
-
-std::vector<Match> findall(const std::string& pattern,
-                           const std::string& document, Flags flags = Flags());
-
-std::unique_ptr<MatchIterator> finditer(const std::string& pattern,
-                                        const std::string& document,
-                                        Flags flags = Flags());
-
+MultiQuery multi_reql(
+    const std::string& pattern, Flags flags = Flags::NONE,
+    uint_fast32_t max_mempool_duplications = DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+    uint_fast32_t max_deterministic_states = DEFAULT_MAX_DETERMINISTIC_STATES);
 }  // namespace library_interface
 }  // namespace REmatch

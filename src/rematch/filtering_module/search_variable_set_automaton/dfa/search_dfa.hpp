@@ -36,7 +36,7 @@ class SearchDFA {
 
  public:
   SearchDFA(LogicalVA const& logical_va,
-            DFAStateLimitChecker dfa_states_checker = DFAStateLimitChecker());
+            DFAStateLimitChecker dfa_states_checker = DFAStateLimitChecker(1000));
   ~SearchDFA();
 
   SearchDFAState* get_initial_state() {return initial_state;}

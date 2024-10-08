@@ -120,6 +120,9 @@ endif()
 add_subdirectory(third_party/antlr4-cpp-runtime)
 include_directories(third_party/antlr4-cpp-runtime/src)
 
+# CLI11
+include_directories(third_party/cli11)
+
 file(GLOB_RECURSE COMMON_SRC src/rematch/*.cpp)
 file(GLOB_RECURSE COMMON_HDR src/rematch/*.hpp)
 include_directories(src/rematch)

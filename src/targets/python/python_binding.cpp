@@ -2,13 +2,6 @@
 #include <pybind11/stl.h>
 
 #include <REmatch/REmatch.hpp>
-#include <REmatch/flags.hpp>
-#include <REmatch/match.hpp>
-#include <REmatch/match_iterator.hpp>
-#include <REmatch/multi_match.hpp>
-#include <REmatch/multi_match_iterator.hpp>
-#include <REmatch/multi_query.hpp>
-#include <REmatch/query.hpp>
 
 #include "exceptions/anchor_inside_capture_exception.hpp"
 #include "exceptions/exceptions.hpp"
@@ -22,12 +15,7 @@ PYBIND11_MODULE(_pyrematch, m) {
 
   py::class_<Flags>(m, "PyFlags")
       .def(py::init<>())
-      .def_readwrite("line_by_line", &Flags::line_by_line)
-      .def_readwrite("early_output", &Flags::early_output)
-      .def_readwrite("max_mempool_duplications",
-                     &Flags::max_mempool_duplications)
-      .def_readwrite("max_deterministic_states",
-                     &Flags::max_deterministic_states);
+      .def_readwrite("line_by_line", &Flags::line_by_line);
 
   py::class_<Match>(m, "PyMatch")
       .def("start", py::overload_cast<int>(&Match::start))

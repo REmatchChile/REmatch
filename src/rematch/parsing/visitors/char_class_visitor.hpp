@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdexcept>
-#include "antlr4-runtime.h"
+#include <antlr4-runtime.h>
 #include "exceptions/query_syntax_exception.hpp"
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
 #include "exceptions/anchor_inside_capture_exception.hpp"

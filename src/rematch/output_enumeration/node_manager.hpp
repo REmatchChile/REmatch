@@ -1,10 +1,8 @@
 #ifndef OUTPUT_ENUMERATION__GARBAGE_COLLECTOR_HPP
 #define OUTPUT_ENUMERATION__GARBAGE_COLLECTOR_HPP
 
-#include "output_enumeration/minipool.hpp"
 #include "exceptions/memory_limit_exceeded_exception.hpp"
-
-#include <REmatch/flags.hpp>
+#include "output_enumeration/minipool.hpp"
 
 namespace REmatch {
 inline namespace output_enumeration {
@@ -31,8 +29,8 @@ private:
   size_t max_number_of_mempool_duplications = 0;
 
 public:
-  NodeManager(size_t starting_size, Flags flags = Flags());
-  NodeManager(Flags flags = Flags());
+  explicit NodeManager(size_t starting_size, uint_fast32_t max_mempool_duplications);
+  explicit NodeManager(uint_fast32_t max_mempool_duplications);
   ~NodeManager();
 
   template <class... Args> ECSNode *alloc(Args &&...args) {

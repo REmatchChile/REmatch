@@ -8,7 +8,7 @@
 #include "output_enumeration/node_manager.hpp"
 #include "output_enumeration/ecs_node.hpp"
 
-#include <REmatch/flags.hpp>
+#include <REmatch/common.hpp>
 
 namespace REmatch {
 
@@ -36,7 +36,7 @@ class ECS { // Enumerable Compact Set
   NodeManager node_manager;
 
  public:
-  ECS(Flags flags = Flags());
+  explicit ECS(uint_fast32_t max_mempool_duplications = REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
   ~ECS() = default;
 
   /**

@@ -1,9 +1,12 @@
 #ifndef MULTI_FINDITER_MEDIATOR_HPP
 #define MULTI_FINDITER_MEDIATOR_HPP
 
-#include <REmatch/query_data.hpp>
 #include "finditer_mediator.hpp"
+
 #include "output_enumeration/extended_mapping.hpp"
+
+#include <REmatch/query_data.hpp>
+
 
 namespace REmatch {
 
@@ -11,7 +14,7 @@ class MultiFinditerMediator {
  public:
   MultiFinditerMediator(QueryData& query_data,
                         std::shared_ptr<Document> document,
-                        Flags flags = Flags());
+                        uint_fast32_t max_mempool_duplications);
 
   std::unique_ptr<ExtendedMapping> next();
 

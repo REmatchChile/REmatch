@@ -13,11 +13,12 @@ namespace REmatch {
 inline namespace library_interface {
 
 MultiMatchIterator::MultiMatchIterator(QueryData& query_data,
-                                       const std::string& str, Flags flags)
+                                       const std::string& str,
+                                       uint_fast32_t max_mempool_duplications)
     : variable_catalog_(query_data.variable_catalog),
       document_(std::make_shared<Document>(str)) {
-  mediator_ =
-      std::make_unique<MultiFinditerMediator>(query_data, document_, flags);
+  mediator_ = std::make_unique<MultiFinditerMediator>(query_data, document_,
+                                                      max_mempool_duplications);
 }
 
 std::unique_ptr<MultiMatch> MultiMatchIterator::next() {

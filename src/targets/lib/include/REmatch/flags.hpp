@@ -1,16 +1,33 @@
 #pragma once
 
 #include <cstddef>
+#include <cstdint>
 
 namespace REmatch {
 inline namespace library_interface {
 
-struct Flags {
-  bool line_by_line = false;
-  bool early_output = false;
-  size_t max_mempool_duplications = 8;
-  size_t max_deterministic_states = 1000;
+enum class Flags : uint8_t {
+  NONE = 0U,
+  LINE_BY_LINE = 1U << 0,
 };
+
+inline Flags operator|(Flags lhs, Flags rhs) {
+  return static_cast<Flags>(static_cast<uint8_t>(lhs) |
+                            static_cast<uint8_t>(rhs));
+}
+
+inline Flags& operator|=(Flags& lhs, Flags rhs) {
+  return lhs = lhs | rhs;
+}
+
+inline Flags operator&(Flags lhs, Flags rhs) {
+  return static_cast<Flags>(static_cast<uint8_t>(lhs) &
+                            static_cast<uint8_t>(rhs));
+}
+
+inline Flags& operator&=(Flags& lhs, Flags rhs) {
+  return lhs = lhs & rhs;
+}
 
 }  // namespace library_interface
 }  // namespace REmatch

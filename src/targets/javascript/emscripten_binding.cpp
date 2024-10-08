@@ -1,13 +1,6 @@
 #include <emscripten/bind.h>
 
 #include <REmatch/REmatch.hpp>
-#include <REmatch/flags.hpp>
-#include <REmatch/match.hpp>
-#include <REmatch/match_iterator.hpp>
-#include <REmatch/multi_match.hpp>
-#include <REmatch/multi_match_iterator.hpp>
-#include <REmatch/multi_query.hpp>
-#include <REmatch/query.hpp>
 
 using namespace emscripten;
 using namespace REmatch;
@@ -21,7 +14,6 @@ EMSCRIPTEN_BINDINGS(REmatchModule) {
   class_<Flags>("Flags")
       .constructor<>()
       .property("line_by_line", &Flags::line_by_line)
-      .property("early_output", &Flags::early_output)
       .property("max_mempool_duplications", &Flags::max_mempool_duplications)
       .property("max_deterministic_states", &Flags::max_deterministic_states);
 

@@ -1,6 +1,9 @@
 #pragma once
 
+#include <cstdint>
+#include <optional>
 #include <string>
+#include <vector>
 
 #include "filtering_module/segment_identificator.hpp"
 #include "flags.hpp"
@@ -9,7 +12,6 @@
 #include "mediator/segment_manager/segment_manager_creator.hpp"
 #include "query_data.hpp"
 #include "statistics.hpp"
-#include "stats_collector.hpp"
 
 namespace REmatch {
 class Document;
@@ -25,9 +27,10 @@ class MatchIterator {
 
  public:
   MatchIterator(QueryData& query_data, const std::string& str,
-                Flags flags = Flags());
-  MatchIterator(const std::string& pattern, const std::string& str,
-                Flags flags = Flags());
+                uint_fast32_t max_mempool_duplications);
+  MatchIterator(const std::string& pattern, const std::string& str, Flags flags,
+                uint_fast32_t max_deterministic_states,
+                uint_fast32_t max_mempool_duplications);
 
   std::unique_ptr<Match> next();
   std::vector<std::string> variables();

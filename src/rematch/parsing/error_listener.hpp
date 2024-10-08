@@ -1,4 +1,4 @@
-#include "antlr4-runtime.h"
+#include <antlr4-runtime.h>
 #include "exceptions/invalid_escape_exception.hpp"
 
 #include <sstream>

@@ -1,6 +1,10 @@
 #ifndef OUTPUT_CHECKER_HPP
 #define OUTPUT_CHECKER_HPP
 
+#include <REmatch/query_data.hpp>
+
+#include "evaluation/document.hpp"
+
 namespace REmatch {
 
 class OutputChecker {

@@ -1,11 +1,12 @@
 #include "findone_algorithm.hpp"
+#include <cstdint>
 
 namespace REmatch {
 
 FindoneAlgorithm::FindoneAlgorithm(ExtendedVA& extended_va,
                                    std::shared_ptr<Document> document,
-                                   Flags flags)
-    : AlgorithmClass(extended_va, document, flags) {}
+                                   uint_fast32_t max_mempool_duplications)
+    : AlgorithmClass(extended_va, document, max_mempool_duplications) {}
 
 const Mapping* FindoneAlgorithm::get_next_mapping() {
   evaluate();

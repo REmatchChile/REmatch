@@ -1,6 +1,8 @@
 #ifndef FINDITER_ALGORITHM_HPP
 #define FINDITER_ALGORITHM_HPP
 
+#include <cstdint>
+
 #include "evaluation/algorithm/algorithm_class.hpp"
 #include "evaluation/extended_va/dfa/extended_det_va_state.hpp"
 
@@ -9,7 +11,7 @@ namespace REmatch {
 class FinditerAlgorithm : public AlgorithmClass {
  public:
   FinditerAlgorithm(ExtendedVA& extended_va, std::shared_ptr<Document> document,
-                    Flags flags = Flags());
+                    uint_fast32_t max_mempool_duplications);
 
   const Mapping* get_next_mapping() override;
 

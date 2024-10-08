@@ -6,11 +6,11 @@ using namespace REmatch;
 
 AlgorithmClass::AlgorithmClass(ExtendedVA& extended_va,
                                std::shared_ptr<Document> document,
-                               Flags flags)
+                               uint_fast32_t max_mempool_duplications)
     : doc_end_i_(document->size()),
       document_(document),
-      extended_det_va_(extended_va, flags) {
-  ECS_interface_ = std::make_unique<ECS>(flags);
+      extended_det_va_(extended_va, max_mempool_duplications) {
+  ECS_interface_ = std::make_unique<ECS>(max_mempool_duplications);
   enumerator_ = std::make_unique<Enumerator>();
 
   ExtendedDetVAState* initial_state = extended_det_va_.get_initial_state();

@@ -1,41 +1,21 @@
 #include <REmatch/REmatch.hpp>
 
-#include <REmatch/match.hpp>
-#include <REmatch/match_iterator.hpp>
-#include <REmatch/query.hpp>
-
 namespace REmatch {
 inline namespace library_interface {
 
-Query compile(const std::string& pattern, Flags flags) {
-  return Query(pattern, flags);
+Query reql(const std::string& pattern, Flags flags,
+           uint_fast32_t max_mempool_duplications,
+           uint_fast32_t max_deterministic_states) {
+  return Query(pattern, flags, max_mempool_duplications,
+               max_deterministic_states);
 }
 
-std::unique_ptr<Match> findone(const std::string& pattern,
-                               const std::string& document, Flags flags) {
-  Query query = compile(pattern, flags);
-  return query.findone(document);
+MultiQuery multi_reql(const std::string& pattern, Flags flags,
+                      uint_fast32_t max_mempool_duplications,
+                      uint_fast32_t max_deterministic_states) {
+  return MultiQuery(pattern, flags, max_mempool_duplications,
+                    max_deterministic_states);
 }
 
-std::vector<Match> findall(const std::string& pattern,
-                           const std::string& document, Flags flags) {
-  Query query = compile(pattern, flags);
-  std::unique_ptr<MatchIterator> iterator = query.finditer(document);
-
-  std::vector<Match> match_vector;
-  std::unique_ptr<Match> output_match = iterator->next();
-  while (output_match != nullptr) {
-    match_vector.push_back(*output_match);
-    output_match = iterator->next();
-  }
-
-  return match_vector;
-}
-
-std::unique_ptr<MatchIterator> finditer(const std::string& pattern,
-                                        const std::string& document,
-                                        Flags flags) {
-  return std::make_unique<MatchIterator>(pattern, document, flags);
-}
 }  // namespace library_interface
 }  // namespace REmatch
