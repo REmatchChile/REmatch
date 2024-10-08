@@ -1,16 +1,15 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 
-#include <REmatch/match.hpp>
-#include <REmatch/query.hpp>
+#include <REmatch/REmatch.hpp>
 
 namespace REmatch::testing {
 using namespace REmatch::library_interface;
 
 TEST_CASE("find method returns the first match correctly") {
   std::string pattern = "!x{ab}";
-  auto regex = Query(pattern);
-  std::unique_ptr<Match> match = regex.findone("abab");
+  auto query = reql(pattern);
+  std::unique_ptr<Match> match = query.findone("abab");
 
   REQUIRE(match->span("x") == Span(0, 2));
 }
@@ -19,8 +18,8 @@ TEST_CASE("finditer method returns the iterator correctly") {
   std::string pattern = "!x{ab}";
   std::string document = "abab";
   document += END_CHAR;
-  auto regex = Query(pattern);
-  std::unique_ptr<MatchIterator> match_iterator = regex.finditer(document);
+  auto query = reql(pattern);
+  std::unique_ptr<MatchIterator> match_iterator = query.finditer(document);
 
   std::unique_ptr<Match> match = match_iterator->next();
   REQUIRE(match != nullptr);
@@ -37,18 +36,18 @@ TEST_CASE("finditer method returns the iterator correctly") {
 TEST_CASE("check method returns true when there is an output") {
   std::string pattern = "!x{ab}";
   std::string document = "abab";
-  auto regex = Query(pattern);
+  auto query = reql(pattern);
 
-  bool has_output = regex.check(document);
+  bool has_output = query.check(document);
   REQUIRE(has_output);
 }
 
 TEST_CASE("check method returns false when there is no output") {
   std::string pattern = "!x{baa}";
   std::string document = "abab";
-  auto regex = Query(pattern);
+  auto query = reql(pattern);
 
-  bool has_output = regex.check(document);
+  bool has_output = query.check(document);
   REQUIRE_FALSE(has_output);
 }
 

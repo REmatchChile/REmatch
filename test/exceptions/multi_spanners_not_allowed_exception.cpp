@@ -2,7 +2,7 @@
 #include <catch2/generators/catch_generators.hpp>
 
 #include "exceptions/multi_spanners_not_allowed_exception.hpp"
-#include <REmatch/query.hpp>
+#include <REmatch/REmatch.hpp>
 
 namespace REmatch::testing {
 
@@ -16,8 +16,7 @@ TEST_CASE(
   };
   for (const auto& pattern : patterns) {
     INFO(pattern);
-    REQUIRE_THROWS_AS(Query(pattern),
-                    MultiSpannersNotAllowedException);
+    REQUIRE_THROWS_AS(reql(pattern), MultiSpannersNotAllowedException);
   }
 }
 

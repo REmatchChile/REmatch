@@ -1,6 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 
+#include <REmatch/REmatch.hpp>
 #include "evaluation/document.hpp"
 #include "parsing/parser.hpp"
 #include "mediator/segment_manager/segment_manager_creator.hpp"
@@ -18,7 +19,7 @@ TEST_CASE(
   auto document = std::make_shared<Document>("aaaaa");
   LogicalVA logical_va = parser.get_logical_va();
 
-  auto segment_manager_creator = SegmentManagerCreator(logical_va);
+  auto segment_manager_creator = SegmentManagerCreator(logical_va, Flags::NONE, REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
   segment_manager_creator.set_document(document);
   auto segment_manager = segment_manager_creator.get_segment_manager();
   REQUIRE(dynamic_cast<const SegmentIdentificatorManager*>(segment_manager.get()) != nullptr);
@@ -31,8 +32,8 @@ TEST_CASE(
   auto document = std::make_shared<Document>("aaaaa");
   LogicalVA logical_va = parser.get_logical_va();
 
-  Flags flags = {true, false, 8, 1000};
-  auto segment_manager_creator = SegmentManagerCreator(logical_va, flags);
+  Flags flags = Flags::LINE_BY_LINE;
+  auto segment_manager_creator = SegmentManagerCreator(logical_va, flags, REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
   segment_manager_creator.set_document(document);
   auto segment_manager = segment_manager_creator.get_segment_manager();
   REQUIRE(dynamic_cast<const LineByLineManager*>(segment_manager.get()) != nullptr);
@@ -45,8 +46,8 @@ TEST_CASE(
   auto document = std::make_shared<Document>("aaaaa");
   LogicalVA logical_va = parser.get_logical_va();
 
-  Flags flags = {true, false, 8, 1000};
-  auto segment_manager_creator = SegmentManagerCreator(logical_va, flags);
+  Flags flags = Flags::LINE_BY_LINE;
+  auto segment_manager_creator = SegmentManagerCreator(logical_va, flags, REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
   segment_manager_creator.set_document(document);
   auto segment_manager = segment_manager_creator.get_segment_manager();
   REQUIRE(dynamic_cast<const DefaultSegmentManager*>(segment_manager.get()) != nullptr);

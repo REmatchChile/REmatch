@@ -32,6 +32,18 @@ std::unique_ptr<Match> Query::findone(const std::string& text) {
   return nullptr;
 }
 
+std::vector<Match> Query::findall(const std::string& text) {
+  std::vector<Match> res;
+
+  auto match_iterator = finditer(text);
+
+  while (auto match = match_iterator->next()) {
+    res.push_back(*match);
+  }
+
+  return res;
+}
+
 std::unique_ptr<MatchIterator> Query::finditer(const std::string& text) {
   return std::make_unique<MatchIterator>(query_data_, text,
                                          max_mempool_duplications_);

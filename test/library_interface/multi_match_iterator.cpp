@@ -1,8 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 
-#include <REmatch/multi_match_iterator.hpp>
-#include <REmatch/multi_query.hpp>
+#include <REmatch/REmatch.hpp>
 
 namespace REmatch::testing {
 
@@ -10,9 +9,9 @@ TEST_CASE("multi match iterator returns the correct variables") {
   std::string pattern = "(a!x{a} !y{a})+";
   std::string document = "aa aaa aa a";
 
-  auto regex = REmatch::MultiQuery(pattern);
+  auto query = multi_reql(pattern);
   std::unique_ptr<REmatch::MultiMatchIterator> iterator =
-      regex.finditer(document);
+      query.finditer(document);
 
   REQUIRE(iterator->variables() == std::vector<std::string>{"x", "y"});
 }
@@ -21,9 +20,9 @@ TEST_CASE("multi match iterator returns the correct matches") {
   std::string pattern = "(^|[^\\w])!x{\\w+} !x{\\w+}($|[^\\w])";
   std::string document = "one two three";
 
-  auto regex = REmatch::MultiQuery(pattern);
+  auto query = multi_reql(pattern);
   std::unique_ptr<REmatch::MultiMatchIterator> iterator =
-      regex.finditer(document);
+      query.finditer(document);
 
   auto match = iterator->next();
   REQUIRE(match != nullptr);

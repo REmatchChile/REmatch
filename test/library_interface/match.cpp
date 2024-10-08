@@ -2,7 +2,7 @@
 #include <catch2/generators/catch_generators.hpp>
 
 #include <memory>
-#include <REmatch/match.hpp>
+#include <REmatch/REmatch.hpp>
 #include "mediator/mapping.hpp"
 #include "evaluation/document.hpp"
 

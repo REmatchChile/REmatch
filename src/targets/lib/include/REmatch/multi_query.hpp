@@ -22,6 +22,8 @@ class MultiQuery {
 
   std::unique_ptr<MultiMatch> findone(const std::string& text);
 
+  std::vector<MultiMatch> findall(const std::string& text);
+
   std::unique_ptr<MultiMatchIterator> finditer(const std::string& text);
 
   bool check(const std::string& text);

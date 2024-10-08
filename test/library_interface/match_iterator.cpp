@@ -3,9 +3,7 @@
 
 #include "../evaluation/dummy_mapping.hpp"
 #include "../evaluation/mapping_helpers.hpp"
-#include <REmatch/match_iterator.hpp>
 #include <REmatch/REmatch.hpp>
-#include <REmatch/query.hpp>
 #include "mediator/mapping.hpp"
 
 namespace REmatch::testing {
@@ -18,7 +16,7 @@ void run_match_iterator_test(
 TEST_CASE("match iterator returns the correct variables") {
   std::string pattern = "!c{!b{!d{x}}!a{y}}";
   std::string document = "This is a document";
-  REmatch::Query regex = REmatch::compile(pattern);
+  REmatch::Query regex = REmatch::reql(pattern);
 
   std::unique_ptr<MatchIterator> iterator = regex.finditer(document);
   std::vector<std::string> variables = iterator->variables();
@@ -59,11 +57,11 @@ void run_match_iterator_test(
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog =
       parser.get_variable_catalog();
-  auto segment_manager_creator = SegmentManagerCreator(logical_va);
+  auto segment_manager_creator = SegmentManagerCreator(logical_va, Flags::NONE, REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
 
   auto regex_data = QueryData(std::move(segment_manager_creator),
                               std::move(extended_va), variable_catalog);
-  auto match_iterator = MatchIterator(regex_data, document);
+  auto match_iterator = MatchIterator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
 
   std::ostringstream info_os;
   info_os << "Actual mappings:" << std::endl;

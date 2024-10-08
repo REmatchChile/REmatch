@@ -1,3 +1,6 @@
+#ifndef INVALID_RANGE_EXCEPTION_HPP
+#define INVALID_RANGE_EXCEPTION_HPP
+
 #include "query_syntax_exception.hpp"
 
 namespace REmatch {
@@ -12,3 +15,4 @@ class InvalidRangeException : public QuerySyntaxException {
             query, position) {}
 };
 }  // namespace REmatch
+#endif

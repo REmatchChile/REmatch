@@ -2,6 +2,7 @@
 #include <catch2/generators/catch_generators.hpp>
 
 #include <REmatch/REmatch.hpp>
+#include "parsing/parser.hpp"
 
 namespace REmatch::testing {
 

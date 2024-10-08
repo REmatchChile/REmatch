@@ -3,8 +3,7 @@
 #include "evaluation/extended_va/dfa/extended_det_va.hpp"
 #include "mediator/mediator/finditer_mediator.hpp"
 #include "../evaluation/mapping_helpers.hpp"
-#include <REmatch/query.hpp>
-#include <REmatch/match.hpp>
+#include <REmatch/REmatch.hpp>
 
 namespace REmatch::testing {
 using namespace REmatch;
@@ -21,11 +20,11 @@ TEST_CASE("the mediator throws an exception when the variable is not in the rege
   ExtendedVA extended_va = ExtendedVA(logical_va);
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
-  auto segment_manager_creator = SegmentManagerCreator(logical_va);
+  auto segment_manager_creator = SegmentManagerCreator(logical_va, Flags::NONE, REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
 
   QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
-  auto mediator = FinditerMediator(regex_data, document);
+  auto mediator = FinditerMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
 
   mediator::Mapping* mapping = mediator.next();
   REQUIRE_THROWS_AS(mapping->get_span_of_variable("y"), VariableNotFoundException);
@@ -34,8 +33,8 @@ TEST_CASE("the mediator throws an exception when the variable is not in the rege
 TEST_CASE(
     "the regex object raises an exception when the variable is not in the "
     "regex") {
-  auto regex = REmatch::Query("!x{a}");
-  std::unique_ptr<Match> match = regex.findone("a");
+  auto query = reql("!x{a}");
+  std::unique_ptr<Match> match = query.findone("a");
 
   REQUIRE_THROWS_AS(match->span("y"), VariableNotFoundException);
 }

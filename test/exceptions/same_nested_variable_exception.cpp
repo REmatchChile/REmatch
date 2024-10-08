@@ -3,6 +3,7 @@
 
 #include <REmatch/REmatch.hpp>
 #include "exceptions/same_nested_variable_exception.hpp"
+#include "parsing/parser.hpp"
 
 namespace REmatch::testing {
 

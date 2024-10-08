@@ -1,16 +1,15 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 
-#include <REmatch/multi_query.hpp>
-#include <REmatch/query.hpp>
+#include <REmatch/REmatch.hpp>
 
 namespace REmatch::testing {
 
 TEST_CASE("multi regex findone method returns the first match correctly") {
   std::string pattern = "^(a+ )*!x{a+} (a+ )*!x{a+}( a+)*$";
   std::string document = "aaa aa";
-  auto regex = MultiQuery(pattern);
-  std::unique_ptr<MultiMatch> match = regex.findone(document);
+  auto query = multi_reql(pattern);
+  std::unique_ptr<MultiMatch> match = query.findone(document);
 
   std::vector<Span> expected_spans = {{0, 3}, {4, 6}};
   REQUIRE(match->spans(0) == expected_spans);
@@ -20,8 +19,8 @@ TEST_CASE("multi regex findone method returns the first match correctly") {
 TEST_CASE("multi regex returns nullptr when there are no matches") {
   std::string pattern = "!x{b}!x{b}";
   std::string document = "aa";
-  auto regex = MultiQuery(pattern);
-  std::unique_ptr<MultiMatchIterator> match_iterator = regex.finditer(document);
+  auto query = multi_reql(pattern);
+  std::unique_ptr<MultiMatchIterator> match_iterator = query.finditer(document);
 
   REQUIRE(match_iterator->next() == nullptr);
 }
@@ -29,8 +28,8 @@ TEST_CASE("multi regex returns nullptr when there are no matches") {
 TEST_CASE("multi regex returns an empty match when nothing is captured") {
   std::string pattern = "!x{b}|a";
   std::string document = "a";
-  auto regex = MultiQuery(pattern);
-  std::unique_ptr<MultiMatchIterator> match_iterator = regex.finditer(document);
+  auto query = multi_reql(pattern);
+  std::unique_ptr<MultiMatchIterator> match_iterator = query.finditer(document);
 
   std::unique_ptr<MultiMatch> match = match_iterator->next();
   REQUIRE(match != nullptr);
@@ -40,8 +39,8 @@ TEST_CASE("multi regex returns an empty match when nothing is captured") {
 TEST_CASE("multi regex returns the expected result when using alternation") {
   std::string pattern = "!x{b}|!y{b}";
   std::string document = "b";
-  auto regex = MultiQuery(pattern);
-  auto iterator = regex.finditer(document);
+  auto query = multi_reql(pattern);
+  auto iterator = query.finditer(document);
 
   auto match = iterator->next();
   REQUIRE(match != nullptr);
@@ -60,8 +59,8 @@ TEST_CASE("multi regex returns the expected result when using alternation") {
 TEST_CASE("multi regex returns the correct result when using quantifiers") {
   std::string pattern = "!x{b}+";
   std::string document = "bb";
-  auto regex = MultiQuery(pattern);
-  auto iterator = regex.finditer(document);
+  auto query = multi_reql(pattern);
+  auto iterator = query.finditer(document);
 
   auto match = iterator->next();
   REQUIRE(match != nullptr);
@@ -85,8 +84,8 @@ TEST_CASE("multi regex returns the correct result when using char classes") {
   std::string document =
       " 1  git pull\n 2  python3 --version\n 3* apt install texlive";
 
-  auto regex = MultiQuery(pattern);
-  auto iterator = regex.finditer(document);
+  auto query = multi_reql(pattern);
+  auto iterator = query.finditer(document);
 
   auto match = iterator->next();
   REQUIRE(match != nullptr);
@@ -111,8 +110,8 @@ TEST_CASE("multi regex returns the correct result when using char classes") {
 TEST_CASE("multi regex returns the correct result when using anchors") {
   std::string pattern = "(^|;)!row{(-|!mark{O|X})(,(!mark{O|X}|-))+}($|;)";
   std::string document = "O,-,X;-,X,O;O,-,-";
-  auto regex = MultiQuery(pattern);
-  auto iterator = regex.finditer(document);
+  auto query = multi_reql(pattern);
+  auto iterator = query.finditer(document);
 
   auto match = iterator->next();
   REQUIRE(match != nullptr);
@@ -136,8 +135,8 @@ TEST_CASE("multi regex returns the correct result when using anchors") {
 TEST_CASE("multi regex finditer method returns iterator correctly") {
   std::string pattern = "(^|(\\. ))!x{!y{\\w+}([^\\w.]+!y{\\w+})*}\\.";
   std::string document = "Hi friend. Take care.";
-  auto regex = MultiQuery(pattern);
-  std::unique_ptr<MultiMatchIterator> match_iterator = regex.finditer(document);
+  auto query = multi_reql(pattern);
+  std::unique_ptr<MultiMatchIterator> match_iterator = query.finditer(document);
 
   std::vector<std::map<std::string, std::vector<std::string>>>
       expected_multispans = {{
@@ -163,17 +162,17 @@ TEST_CASE("multi regex finditer method returns iterator correctly") {
 TEST_CASE("multi regex check method returns true when there is an output") {
   std::string pattern = "^(a+ )*!x{a+} (a+ )*!x{a+}( a+)*$";
   std::string document = "aaa aa";
-  auto regex = MultiQuery(pattern);
+  auto query = multi_reql(pattern);
 
-  REQUIRE(regex.check(document));
+  REQUIRE(query.check(document));
 }
 
 TEST_CASE("multi regex check method returns true when there is no output") {
   std::string pattern = "^(a+ )*!x{a+} (a+ )*!x{a+}( a+)*$";
   std::string document = "bbb bb";
-  auto regex = MultiQuery(pattern);
+  auto query = multi_reql(pattern);
 
-  REQUIRE_FALSE(regex.check(document));
+  REQUIRE_FALSE(query.check(document));
 }
 
 }  // namespace REmatch::testing

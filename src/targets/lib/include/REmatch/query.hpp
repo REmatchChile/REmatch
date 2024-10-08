@@ -25,6 +25,8 @@ class Query {
 
   std::unique_ptr<Match> findone(const std::string& text);
 
+  std::vector<Match> findall(const std::string& text);
+
   std::unique_ptr<MatchIterator> finditer(const std::string& text);
 
   bool check(const std::string& text);

@@ -3,6 +3,7 @@
 
 #include <REmatch/REmatch.hpp>
 #include "exceptions/query_syntax_exception.hpp"
+#include "parsing/parser.hpp"
 
 namespace REmatch::testing {
 

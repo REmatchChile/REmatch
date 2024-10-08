@@ -1,9 +1,11 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 
+#include <REmatch/REmatch.hpp>
 #include "../evaluation/mapping_helpers.hpp"
 #include "mediator/mediator/multi_findone_mediator.hpp"
 #include "output_enumeration/extended_mapping.hpp"
+#include "parsing/parser.hpp"
 
 namespace REmatch::testing {
 
@@ -22,11 +24,11 @@ TEST_CASE(
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog =
       parser.get_variable_catalog();
-  auto segment_manager_creator = SegmentManagerCreator(logical_va);
+  auto segment_manager_creator = SegmentManagerCreator(logical_va, Flags::NONE, REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
 
   QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
-  auto mediator = MultiFindoneMediator(regex_data, document);
+  auto mediator = MultiFindoneMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
 
   std::unique_ptr<ExtendedMapping> mapping = mediator.next();
   REQUIRE(mapping == nullptr);
@@ -43,11 +45,11 @@ TEST_CASE(
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog =
       parser.get_variable_catalog();
-  auto segment_manager_creator = SegmentManagerCreator(logical_va);
+  auto segment_manager_creator = SegmentManagerCreator(logical_va, Flags::NONE, REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
 
   QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
-  auto mediator = MultiFindoneMediator(regex_data, document);
+  auto mediator = MultiFindoneMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
 
   std::unique_ptr<ExtendedMapping> mapping = mediator.next();
   REQUIRE(mapping != nullptr);

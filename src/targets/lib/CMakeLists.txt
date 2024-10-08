@@ -1,13 +1,5 @@
 set(LIBRARY_TARGET_NAME ${PROJECT_NAME})
 
-# set(${LIBRARY_TARGET_NAME}_SRC
-#     REmatch.cpp
-# )
-
-# set(${LIBRARY_TARGET_NAME}_HDR
-#     REmatch.hpp
-# )
-
 file(GLOB_RECURSE ${LIBRARY_TARGET_NAME}_SRC src/*.cpp)
 
 file(GLOB_RECURSE ${LIBRARY_TARGET_NAME}_HDR include/REmatch/*.hpp)

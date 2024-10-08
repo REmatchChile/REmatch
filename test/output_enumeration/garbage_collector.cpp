@@ -1,4 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
+#include <REmatch/REmatch.hpp>
 #include <vector>
 #include "output_enumeration/node_manager.hpp"
 
@@ -30,7 +31,7 @@ std::vector<ECSNode*> create_numbered_label_nodes_that_are_connected(
 }
 
 TEST_CASE("Garbage collector doesn't recycle nodes that are being used") {
-  auto *node_manager = new NodeManager();
+  auto *node_manager = new NodeManager(REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
   std::vector<ECSNode*> nodes = create_numbered_label_nodes_that_are_connected(
       node_manager, MEMORY_POOL_STARTING_SIZE, 0);
   for (int i = 1; i < (int) MEMORY_POOL_STARTING_SIZE; i++) {
@@ -44,7 +45,7 @@ TEST_CASE(
     and reused. no new memory will be used and the order of the new \
     nodes added will be from the tail to the head of the original \
     nodes.") {
-  auto *node_manager = new NodeManager();
+  auto *node_manager = new NodeManager(REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
   std::vector<ECSNode*> original_nodes =
     create_numbered_label_nodes_that_are_connected(node_manager,
                                                    MEMORY_POOL_STARTING_SIZE, 0);
@@ -77,8 +78,7 @@ size_t amount_of_nodes_that_n_minipool_should_allocate(int n) {
 }
 
 TEST_CASE("The duplication of memory is working correctly") {
-  Flags flags = {false, false, 4, 1000};
-  auto *node_manager = new NodeManager(flags);
+  auto *node_manager = new NodeManager(4);
 
   REQUIRE(node_manager->amount_of_nodes_allocated()
                       ==

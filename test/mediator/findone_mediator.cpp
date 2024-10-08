@@ -5,6 +5,7 @@
 #include "evaluation/extended_va/dfa/extended_det_va.hpp"
 #include "mediator/mediator/findone_mediator.hpp"
 #include "mediator/segment_manager/segment_manager_creator.hpp"
+#include "parsing/parser.hpp"
 
 namespace REmatch::testing {
 
@@ -16,10 +17,11 @@ TEST_CASE("the findone mediator returns nullptr if there are no matches") {
   ExtendedVA extended_va(logical_va);
   extended_va.clean_for_determinization();
 
-  auto regex_data =
-      QueryData(SegmentManagerCreator(logical_va), std::move(extended_va),
-                parser.get_variable_catalog());
-  auto mediator = FindoneMediator(regex_data, document);
+  auto regex_data = QueryData(
+      SegmentManagerCreator(logical_va, Flags::NONE,
+                            REmatch::DEFAULT_MAX_DETERMINISTIC_STATES),
+      std::move(extended_va), parser.get_variable_catalog());
+  auto mediator = FindoneMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
   mediator::Mapping* mapping = mediator.next();
   REQUIRE(mapping == nullptr);
 }
@@ -32,10 +34,11 @@ TEST_CASE("the findone mediator returns the correct match") {
   ExtendedVA extended_va(logical_va);
   extended_va.clean_for_determinization();
 
-  auto regex_data =
-      QueryData(SegmentManagerCreator(logical_va), std::move(extended_va),
-                parser.get_variable_catalog());
-  auto mediator = FindoneMediator(regex_data, document);
+  auto regex_data = QueryData(
+      SegmentManagerCreator(logical_va, Flags::NONE,
+                            REmatch::DEFAULT_MAX_DETERMINISTIC_STATES),
+      std::move(extended_va), parser.get_variable_catalog());
+  auto mediator = FindoneMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
   mediator::Mapping* mapping = mediator.next();
   std::map<std::string, Span> mapping_map = mapping->get_spans_map();
   REQUIRE(mapping_map == std::map<std::string, Span>{{"x", {1, 2}}});
