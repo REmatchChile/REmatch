@@ -5,8 +5,10 @@ namespace REmatch {
 
 FindoneAlgorithm::FindoneAlgorithm(ExtendedVA& extended_va,
                                    std::shared_ptr<Document> document,
-                                   uint_fast32_t max_mempool_duplications)
-    : AlgorithmClass(extended_va, document, max_mempool_duplications) {}
+                                   uint_fast32_t max_mempool_duplications,
+                                   uint_fast32_t max_deterministic_states)
+    : AlgorithmClass(extended_va, document, max_mempool_duplications,
+                     max_deterministic_states) {}
 
 const Mapping* FindoneAlgorithm::get_next_mapping() {
   evaluate();

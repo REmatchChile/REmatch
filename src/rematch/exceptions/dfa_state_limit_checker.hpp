@@ -1,5 +1,4 @@
-#ifndef DFA_MAXIMUM_AMOUNT_STATES_CHECKER_HPP
-#define DFA_MAXIMUM_AMOUNT_STATES_CHECKER_HPP
+#pragma once
 
 #include <cstddef>
 #include "exceptions/complex_query_exception.hpp"
@@ -11,7 +10,7 @@ class DFAStateLimitChecker {
   size_t current_amount_of_states = 0;
   size_t max_amount_of_states;
 
-  DFAStateLimitChecker(uint_fast32_t max_amount_of_states) :
+  explicit DFAStateLimitChecker(uint_fast32_t max_amount_of_states) :
       max_amount_of_states(max_amount_of_states) {}
 
   inline void count_state() {
@@ -23,5 +22,3 @@ class DFAStateLimitChecker {
 };
 
 }  // namespace REmatch
-
-#endif

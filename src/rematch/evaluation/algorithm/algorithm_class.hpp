@@ -1,5 +1,4 @@
-#ifndef ALGORITHM_CLASS_HPP
-#define ALGORITHM_CLASS_HPP
+#pragma once
 
 #include <memory>
 
@@ -15,7 +14,7 @@ using namespace REmatch;
 class AlgorithmClass {
  public:
   AlgorithmClass(ExtendedVA& extended_va, std::shared_ptr<Document> document,
-                 uint_fast32_t max_mempool_duplications);
+                 uint_fast32_t max_mempool_duplications, uint_fast32_t max_deterministic_states);
 
   void initialize_algorithm();
   ECS& get_ecs();
@@ -57,5 +56,3 @@ class AlgorithmClass {
 };
 
 }  // namespace REmatch
-
-#endif
