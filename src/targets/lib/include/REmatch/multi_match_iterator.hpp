@@ -20,7 +20,8 @@ class MultiMatchIterator {
 
  public:
   MultiMatchIterator(QueryData& query_data, const std::string& str,
-                     uint_fast32_t max_mempool_duplications);
+                     uint_fast32_t max_mempool_duplications,
+                     uint_fast32_t max_deterministic_states);
 
   ~MultiMatchIterator();
 

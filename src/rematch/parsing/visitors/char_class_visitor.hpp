@@ -18,8 +18,7 @@
 #define CHAR_CLASS_VISITOR__INFO(arg)
 #endif
 
-namespace REmatch {
-namespace visitors {
+namespace REmatch::visitors {
 
 using namespace REmatch;
 
@@ -800,5 +799,4 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
     return 0;
   }
 };
-}  // namespace visitors
-}  // namespace REmatch
+}  // namespace REmatch::visitors

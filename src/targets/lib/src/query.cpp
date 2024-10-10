@@ -13,7 +13,8 @@ Query::Query(const std::string& pattern, Flags flags,
              uint_fast32_t max_mempool_duplications,
              uint_fast32_t max_deterministic_states)
     : query_data_(get_query_data(pattern, flags, max_deterministic_states)),
-      max_mempool_duplications_(max_mempool_duplications) {}
+      max_mempool_duplications_(max_mempool_duplications),
+      max_deterministic_states_(max_deterministic_states) {}
 
 Query::~Query() = default;
 
@@ -21,7 +22,8 @@ std::unique_ptr<Match> Query::findone(const std::string& document_) {
   auto document = std::make_shared<Document>(document_);
 
   auto mediator = std::make_unique<FindoneMediator>(*query_data_, document,
-                                                    max_mempool_duplications_);
+                                                    max_mempool_duplications_,
+                                                    max_deterministic_states_);
 
   auto mapping = mediator->next();
 
@@ -48,7 +50,8 @@ std::vector<std::unique_ptr<Match>> Query::findall(
 
 std::unique_ptr<MatchIterator> Query::finditer(const std::string& document) {
   return std::make_unique<MatchIterator>(*query_data_, document,
-                                         max_mempool_duplications_);
+                                         max_mempool_duplications_,
+                                         max_deterministic_states_);
 }
 
 bool Query::check(const std::string& document_) {

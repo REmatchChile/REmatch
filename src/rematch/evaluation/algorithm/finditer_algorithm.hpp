@@ -1,5 +1,4 @@
-#ifndef FINDITER_ALGORITHM_HPP
-#define FINDITER_ALGORITHM_HPP
+#pragma once
 
 #include <cstdint>
 
@@ -11,7 +10,8 @@ namespace REmatch {
 class FinditerAlgorithm : public AlgorithmClass {
  public:
   FinditerAlgorithm(ExtendedVA& extended_va, std::shared_ptr<Document> document,
-                    uint_fast32_t max_mempool_duplications);
+                    uint_fast32_t max_mempool_duplications,
+                    uint_fast32_t max_deterministic_states);
 
   const Mapping* get_next_mapping() override;
 
@@ -24,5 +24,3 @@ class FinditerAlgorithm : public AlgorithmClass {
 };
 
 }  // namespace REmatch
-
-#endif

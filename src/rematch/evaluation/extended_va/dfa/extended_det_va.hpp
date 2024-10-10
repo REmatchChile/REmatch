@@ -1,5 +1,4 @@
-#ifndef EXTENDED_DET_VA_HPP
-#define EXTENDED_DET_VA_HPP
+#pragma once
 
 #include "aliases.hpp"
 #include "evaluation/extended_va/nfa/extended_va.hpp"
@@ -31,7 +30,8 @@ class ExtendedDetVA {
 
  public:
   DFAStateLimitChecker dfa_states_checker_;
-  ExtendedDetVA(ExtendedVA& extended_va, DFAStateLimitChecker dfa_states_checker = DFAStateLimitChecker(1000));
+  explicit ExtendedDetVA(ExtendedVA& extended_va,
+                         uint_fast32_t max_deterministic_states);
 
   ~ExtendedDetVA();
 
@@ -54,5 +54,3 @@ class ExtendedDetVA {
 };
 
 }  // namespace REmatch
-
-#endif
