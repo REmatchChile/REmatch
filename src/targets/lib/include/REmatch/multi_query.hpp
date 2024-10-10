@@ -14,6 +14,7 @@ class MultiQuery {
  private:
   QueryData query_data_;
   uint_fast32_t max_mempool_duplications_;
+  uint_fast32_t max_deterministic_states_;
 
  public:
   explicit MultiQuery(const std::string& pattern, Flags flags,

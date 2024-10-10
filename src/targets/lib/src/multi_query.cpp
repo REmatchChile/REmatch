@@ -15,13 +15,14 @@ MultiQuery::MultiQuery(const std::string& pattern, Flags flags,
                        uint_fast32_t max_deterministic_states)
     : query_data_(
           get_multi_query_data(pattern, flags, max_deterministic_states)),
-      max_mempool_duplications_(max_mempool_duplications) {}
+      max_mempool_duplications_(max_mempool_duplications),
+      max_deterministic_states_(max_deterministic_states) {}
 
 std::unique_ptr<MultiMatch> MultiQuery::findone(const std::string& text) {
   std::shared_ptr<Document> document = std::make_shared<Document>(text);
 
   auto mediator =
-      MultiFindoneMediator(query_data_, document, max_mempool_duplications_);
+      MultiFindoneMediator(query_data_, document, max_mempool_duplications_, max_deterministic_states_);
 
   std::unique_ptr<ExtendedMapping> mapping = mediator.next();
 
@@ -47,7 +48,7 @@ std::vector<MultiMatch> MultiQuery::findall(const std::string& text) {
 std::unique_ptr<MultiMatchIterator> MultiQuery::finditer(
     const std::string& text) {
   return std::make_unique<MultiMatchIterator>(query_data_, text,
-                                              max_mempool_duplications_);
+                                              max_mempool_duplications_, max_deterministic_states_);
 }
 
 bool MultiQuery::check(const std::string& text) {

@@ -27,10 +27,11 @@ class MatchIterator {
 
  public:
   MatchIterator(QueryData& query_data, const std::string& str,
-                uint_fast32_t max_mempool_duplications);
+                uint_fast32_t max_mempool_duplications,
+                uint_fast32_t max_deterministic_states);
   MatchIterator(const std::string& pattern, const std::string& str, Flags flags,
-                uint_fast32_t max_deterministic_states,
-                uint_fast32_t max_mempool_duplications);
+                uint_fast32_t max_mempool_duplications,
+                uint_fast32_t max_deterministic_states);
 
   std::unique_ptr<Match> next();
   std::vector<std::string> variables();

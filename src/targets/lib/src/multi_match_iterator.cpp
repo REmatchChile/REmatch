@@ -14,11 +14,13 @@ inline namespace library_interface {
 
 MultiMatchIterator::MultiMatchIterator(QueryData& query_data,
                                        const std::string& str,
-                                       uint_fast32_t max_mempool_duplications)
+                                       uint_fast32_t max_mempool_duplications,
+                                       uint_fast32_t max_deterministic_states)
     : variable_catalog_(query_data.variable_catalog),
       document_(std::make_shared<Document>(str)) {
   mediator_ = std::make_unique<MultiFinditerMediator>(query_data, document_,
-                                                      max_mempool_duplications);
+                                                      max_mempool_duplications,
+                                                      max_deterministic_states);
 }
 
 std::unique_ptr<MultiMatch> MultiMatchIterator::next() {
