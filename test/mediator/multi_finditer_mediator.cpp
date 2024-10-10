@@ -21,11 +21,14 @@ TEST_CASE(
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog =
       parser.get_variable_catalog();
-  auto segment_manager_creator = SegmentManagerCreator(logical_va, Flags::NONE, REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
+  auto segment_manager_creator = SegmentManagerCreator(
+      logical_va, Flags::NONE, REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
 
   QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
-  auto mediator = MultiFinditerMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  auto mediator = MultiFinditerMediator(
+      regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+      REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
 
   std::unique_ptr<ExtendedMapping> mapping = mediator.next();
   REQUIRE(mapping == nullptr);
@@ -45,7 +48,9 @@ TEST_CASE(
 
   QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
-  auto mediator = MultiFinditerMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  auto mediator = MultiFinditerMediator(
+      regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+      REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
 
   std::unique_ptr<ExtendedMapping> mapping = mediator.next();
   REQUIRE(mapping != nullptr);
@@ -148,7 +153,9 @@ void run_multi_mediator_test(std::string query, std::string document_,
 
   QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
-  auto mediator = MultiFinditerMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  auto mediator = MultiFinditerMediator(
+      regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+      REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
 
   std::ostringstream info_os;
   info_os << "Actual mappings:" << std::endl;
@@ -163,7 +170,7 @@ void run_multi_mediator_test(std::string query, std::string document_,
   }
 
   INFO(info_os.str());
-  REQUIRE(expected_mappings.size() == 0);
+  REQUIRE(expected_mappings.empty());
 }
 
 }  // namespace REmatch::testing

@@ -31,9 +31,9 @@ std::vector<ECSNode*> create_numbered_label_nodes_that_are_connected(
 }
 
 TEST_CASE("Garbage collector doesn't recycle nodes that are being used") {
-  auto *node_manager = new NodeManager(REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  auto node_manager = NodeManager(REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
   std::vector<ECSNode*> nodes = create_numbered_label_nodes_that_are_connected(
-      node_manager, MEMORY_POOL_STARTING_SIZE, 0);
+      &node_manager, MEMORY_POOL_STARTING_SIZE, 0);
   for (int i = 1; i < (int) MEMORY_POOL_STARTING_SIZE; i++) {
     REQUIRE(nodes[i]->document_position == i);
   }
@@ -45,18 +45,18 @@ TEST_CASE(
     and reused. no new memory will be used and the order of the new \
     nodes added will be from the tail to the head of the original \
     nodes.") {
-  auto *node_manager = new NodeManager(REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  auto node_manager = NodeManager(REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
   std::vector<ECSNode*> original_nodes =
-    create_numbered_label_nodes_that_are_connected(node_manager,
+    create_numbered_label_nodes_that_are_connected(&node_manager,
                                                    MEMORY_POOL_STARTING_SIZE, 0);
-  node_manager->decrease_ref_count(
+  node_manager.decrease_ref_count(
       original_nodes[MEMORY_POOL_STARTING_SIZE - 1]);
 
   create_numbered_label_nodes_that_are_connected(
-      node_manager, MEMORY_POOL_STARTING_SIZE, MEMORY_POOL_STARTING_SIZE);
+      &node_manager, MEMORY_POOL_STARTING_SIZE, MEMORY_POOL_STARTING_SIZE);
 
-  INFO("Recycled nodes: " << node_manager->amount_of_recycled_nodes);
-  INFO("Total nodes: " << node_manager->amount_of_nodes_used);
+  INFO("Recycled nodes: " << node_manager.amount_of_recycled_nodes);
+  INFO("Total nodes: " << node_manager.amount_of_nodes_used);
 
   for (int i = 0; i < (int) MEMORY_POOL_STARTING_SIZE; i++) {
     REQUIRE(
@@ -78,9 +78,9 @@ size_t amount_of_nodes_that_n_minipool_should_allocate(int n) {
 }
 
 TEST_CASE("The duplication of memory is working correctly") {
-  auto *node_manager = new NodeManager(4);
+  auto node_manager = NodeManager(4);
 
-  REQUIRE(node_manager->amount_of_nodes_allocated()
+  REQUIRE(node_manager.amount_of_nodes_allocated()
                       ==
           MEMORY_POOL_STARTING_SIZE
   );
@@ -89,13 +89,13 @@ TEST_CASE("The duplication of memory is working correctly") {
            memory_duplication_time < 5;
            memory_duplication_time++) {
     std::vector<ECSNode*> nodes = create_numbered_label_nodes_that_are_connected(
-        node_manager, amount_of_nodes_to_allocate, 0);
+        &node_manager, amount_of_nodes_to_allocate, 0);
     amount_of_nodes_to_allocate *= 2;
 
     REQUIRE(
         amount_of_nodes_that_n_minipool_should_allocate(memory_duplication_time)
                                        ==
-                  node_manager->amount_of_nodes_allocated()
+                  node_manager.amount_of_nodes_allocated()
     );
   }
 }

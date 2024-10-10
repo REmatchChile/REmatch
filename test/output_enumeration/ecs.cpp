@@ -42,15 +42,15 @@ namespace REmatch::testing {
   }
 
   TEST_CASE("Nodes created by ECS have correct odepth of 1") {
-    static ECS *ecs = new ECS();
+    static ECS ecs = ECS();
     int amount_of_nodes_created = 14;
     for (int i = 0; i < amount_of_nodes_created; i++) {
       switch (i % 2) {
         case 0:
-          create_extend_node(ecs, i, i);
+          create_extend_node(&ecs, i, i);
           break;
         case 1:
-          create_union_node(ecs);
+          create_union_node(&ecs);
       }
     }
   }
@@ -64,11 +64,11 @@ namespace REmatch::testing {
   }
 
   TEST_CASE("When all nodes are returned, no extra nodes are used: Bottom node") {
-    static ECS *ecs = new ECS();
-    fill_one_mempool_with_free_bottom_nodes(ecs);
-    REQUIRE(ecs->get_amount_of_nodes_used() == MEMORY_POOL_STARTING_SIZE);
-    fill_one_mempool_with_free_bottom_nodes(ecs);
-    REQUIRE(ecs->get_amount_of_nodes_used() == MEMORY_POOL_STARTING_SIZE);
+    static ECS ecs = ECS();
+    fill_one_mempool_with_free_bottom_nodes(&ecs);
+    REQUIRE(ecs.get_amount_of_nodes_used() == MEMORY_POOL_STARTING_SIZE);
+    fill_one_mempool_with_free_bottom_nodes(&ecs);
+    REQUIRE(ecs.get_amount_of_nodes_used() == MEMORY_POOL_STARTING_SIZE);
   }
 
   ECSNode* create_mempool_sized_linked_list_of_label_nodes(ECS *ecs) {
@@ -83,12 +83,12 @@ namespace REmatch::testing {
   // garbage_collector -> node_manager, return_node -> unpin, bottom_node -> pin_bottom_node,
 
   TEST_CASE("When all nodes are returned, no extra nodes are used: label node") {
-    static ECS *ecs = new ECS();
-    ECSNode* linked_list = create_mempool_sized_linked_list_of_label_nodes(ecs);
-    ecs->pin_node(linked_list);
-    ecs->unpin_node(linked_list);
-    create_mempool_sized_linked_list_of_label_nodes(ecs);
-    REQUIRE(ecs->get_amount_of_nodes_used() == MEMORY_POOL_STARTING_SIZE);
+    static ECS ecs = ECS();
+    ECSNode* linked_list = create_mempool_sized_linked_list_of_label_nodes(&ecs);
+    ecs.pin_node(linked_list);
+    ecs.unpin_node(linked_list);
+    create_mempool_sized_linked_list_of_label_nodes(&ecs);
+    REQUIRE(ecs.get_amount_of_nodes_used() == MEMORY_POOL_STARTING_SIZE);
   }
 
   int log2_rounded_up(int amount_of_nodes) {
@@ -144,15 +144,15 @@ namespace REmatch::testing {
   }
 
   TEST_CASE("When all nodes are returned, no extra nodes are used: union node") {
-    static ECS *ecs = new ECS(1000);
-    ECSNode* binary_tree = create_mempool_sized_linked_list_of_label_nodes(ecs);
-    ecs->pin_node(binary_tree);
-    ecs->unpin_node(binary_tree);
-    REQUIRE(ecs->get_amount_of_nodes_used() == MEMORY_POOL_STARTING_SIZE);
-    create_mempool_sized_linked_list_of_label_nodes(ecs);
-    REQUIRE(ecs->get_amount_of_nodes_used() == MEMORY_POOL_STARTING_SIZE);
-    create_mempool_sized_linked_list_of_label_nodes(ecs);
-    REQUIRE(ecs->get_amount_of_nodes_used() == 2 * MEMORY_POOL_STARTING_SIZE);
+    static ECS ecs = ECS(1000);
+    ECSNode* binary_tree = create_mempool_sized_linked_list_of_label_nodes(&ecs);
+    ecs.pin_node(binary_tree);
+    ecs.unpin_node(binary_tree);
+    REQUIRE(ecs.get_amount_of_nodes_used() == MEMORY_POOL_STARTING_SIZE);
+    create_mempool_sized_linked_list_of_label_nodes(&ecs);
+    REQUIRE(ecs.get_amount_of_nodes_used() == MEMORY_POOL_STARTING_SIZE);
+    create_mempool_sized_linked_list_of_label_nodes(&ecs);
+    REQUIRE(ecs.get_amount_of_nodes_used() == 2 * MEMORY_POOL_STARTING_SIZE);
   }
 
 }  // namespace REmatch::testing

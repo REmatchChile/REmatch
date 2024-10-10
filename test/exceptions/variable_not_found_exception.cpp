@@ -20,11 +20,14 @@ TEST_CASE("the mediator throws an exception when the variable is not in the rege
   ExtendedVA extended_va = ExtendedVA(logical_va);
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
-  auto segment_manager_creator = SegmentManagerCreator(logical_va, Flags::NONE, REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
+  auto segment_manager_creator = SegmentManagerCreator(
+      logical_va, Flags::NONE, REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
 
   QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
-  auto mediator = FinditerMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  auto mediator = FinditerMediator(regex_data, document,
+                                   REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+                                   REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
 
   mediator::Mapping* mapping = mediator.next();
   REQUIRE_THROWS_AS(mapping->get_span_of_variable("y"), VariableNotFoundException);

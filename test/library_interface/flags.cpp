@@ -28,10 +28,10 @@ TEST_CASE("flag LINE_BY_LINE works correctly") {
 
 TEST_CASE(
     "flag max_mempool_duplications allows creating more nodes correctly") {
-  auto ecs = new ECS(1000);
-  create_linked_list_node_of_depth(ecs, MEMORY_POOL_STARTING_SIZE - 1);
+  auto ecs = ECS(1000);
+  create_linked_list_node_of_depth(&ecs, MEMORY_POOL_STARTING_SIZE - 1);
   REQUIRE_NOTHROW(
-      create_linked_list_node_of_depth(ecs, MEMORY_POOL_STARTING_SIZE - 1));
+      create_linked_list_node_of_depth(&ecs, MEMORY_POOL_STARTING_SIZE - 1));
 }
 
 }  // namespace REmatch::testing

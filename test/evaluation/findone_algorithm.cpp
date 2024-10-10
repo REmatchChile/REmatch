@@ -17,7 +17,9 @@ TEST_CASE("the findone algorithm returns nullptr if there are no matches") {
   ExtendedVA extended_va(logical_va);
   extended_va.clean_for_determinization();
 
-  auto algorithm = FindoneAlgorithm(extended_va, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  auto algorithm = FindoneAlgorithm(extended_va, document,
+                                    REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+                                    REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
   const Mapping* mapping = algorithm.get_next_mapping();
   REQUIRE(mapping == nullptr);
 }
@@ -30,7 +32,9 @@ TEST_CASE("the findone algorithm returns the correct match") {
   ExtendedVA extended_va(logical_va);
   extended_va.clean_for_determinization();
 
-  auto algorithm = FindoneAlgorithm(extended_va, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  auto algorithm = FindoneAlgorithm(extended_va, document,
+                                    REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+                                    REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
   const Mapping* mapping = algorithm.get_next_mapping();
   REQUIRE(mapping != nullptr);
 

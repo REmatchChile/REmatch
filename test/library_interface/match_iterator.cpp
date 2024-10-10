@@ -61,7 +61,9 @@ void run_match_iterator_test(
 
   auto regex_data = QueryData(std::move(segment_manager_creator),
                               std::move(extended_va), variable_catalog);
-  auto match_iterator = MatchIterator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  auto match_iterator = MatchIterator(
+      regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+      REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
 
   std::ostringstream info_os;
   info_os << "Actual mappings:" << std::endl;
@@ -76,7 +78,7 @@ void run_match_iterator_test(
     match = match_iterator.next();
   }
   INFO(info_os.str());
-  REQUIRE(expected_matches.size() == 0);
+  REQUIRE(expected_matches.empty());
 }
 
 }  // namespace REmatch::testing

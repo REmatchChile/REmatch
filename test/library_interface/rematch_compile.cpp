@@ -328,7 +328,8 @@ TEST_CASE("the finditer function works correctly") {
   std::string document = "aaba";
   std::string pattern = "!x{a+}";
 
-  std::unique_ptr<MatchIterator> match_iterator = reql(pattern).finditer(document);
+  Query regex = reql(pattern);
+  std::unique_ptr<MatchIterator> match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
     DummyMapping({{"x", {0, 1}}}),

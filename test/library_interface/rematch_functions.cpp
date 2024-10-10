@@ -60,7 +60,8 @@ TEST_CASE("matches obtained with findall return the correct groups") {
 TEST_CASE("the iterator obtained with finditer returns the correct matches") {
   std::string document = "qwerty";
   std::string pattern = "!x{.{3}}";
-  std::unique_ptr<MatchIterator> iterator = reql(pattern).finditer(document);
+  Query regex = reql(pattern);
+  std::unique_ptr<MatchIterator> iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
       DummyMapping({{"x", {0, 3}}}),
@@ -75,7 +76,8 @@ TEST_CASE("the iterator obtained with finditer returns the correct matches") {
 TEST_CASE("the matches obtained with finditer return the correct groups") {
   std::string document = "qwerty";
   std::string pattern = "!x{.{3}}";
-  std::unique_ptr<MatchIterator> iterator = reql(pattern).finditer(document);
+  Query query = reql(pattern);
+  std::unique_ptr<MatchIterator> iterator = query.finditer(document);
 
   std::vector<std::string> expected_groups = {"qwe", "wer", "ert", "rty"};
 

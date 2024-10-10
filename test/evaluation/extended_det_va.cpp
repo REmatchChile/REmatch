@@ -10,7 +10,7 @@ ExtendedVA get_extended_va_from_query(std::string query);
 
 TEST_CASE("initial state is created correctly") {
   ExtendedVA extended_va = get_extended_va_from_query("a");
-  ExtendedDetVA extended_det_va(extended_va);
+  ExtendedDetVA extended_det_va(extended_va, DEFAULT_MAX_DETERMINISTIC_STATES);
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
   std::vector<ExtendedVAState*> states_subset = initial_state->get_states_subset();
 
@@ -24,7 +24,7 @@ TEST_CASE("next state is computed correctly when there is a valid transition") {
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va = ExtendedVA(logical_va);
   extended_va.clean_for_determinization();
-  ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
+  ExtendedDetVA extended_det_va(extended_va, DEFAULT_MAX_DETERMINISTIC_STATES);
 
   std::bitset<64> eva_open_x_code = extended_va.initial_state()->read_captures[0]->captures_set;
   std::bitset<64> eva_empty_code = extended_va.initial_state()->read_captures[1]->captures_set;
@@ -55,7 +55,7 @@ TEST_CASE("next state is computed correctly when there is a valid transition") {
 TEST_CASE("next state is computed correctly when there are no valid transitions other \
            than the initial loop") {
   ExtendedVA extended_va = get_extended_va_from_query("!x{a}");
-  ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
+  ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va, DEFAULT_MAX_DETERMINISTIC_STATES);
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
@@ -75,7 +75,7 @@ TEST_CASE("next state is computed correctly when there are two transitions with 
 
   // the initial state of the extended VA has two 'a/[x' transitions
   ExtendedVA extended_va = get_extended_va_from_query("!x{a+|a}");
-  ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
+  ExtendedDetVA extended_det_va(extended_va, DEFAULT_MAX_DETERMINISTIC_STATES);
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
@@ -91,7 +91,7 @@ TEST_CASE("next state is computed correctly when there are two transitions with 
 
 TEST_CASE("next state is computed correctly when the current subset has more than one state") {
   ExtendedVA extended_va = get_extended_va_from_query("!x{aa|aa}");
-  ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
+  ExtendedDetVA extended_det_va(extended_va, DEFAULT_MAX_DETERMINISTIC_STATES);
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
@@ -111,7 +111,7 @@ TEST_CASE("next state is computed correctly when the current subset has more tha
 
 TEST_CASE("next state is returned immediately when it has already been computed before") {
   ExtendedVA extended_va = get_extended_va_from_query("!y{a}");
-  ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
+  ExtendedDetVA extended_det_va(extended_va, DEFAULT_MAX_DETERMINISTIC_STATES);
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
@@ -128,7 +128,7 @@ TEST_CASE("next state is returned immediately when it has already been computed 
 
 TEST_CASE("the deterministic state is final if a state in the subset is final") {
   ExtendedVA extended_va = get_extended_va_from_query("a");
-  ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
+  ExtendedDetVA extended_det_va(extended_va, DEFAULT_MAX_DETERMINISTIC_STATES);
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
@@ -142,7 +142,7 @@ TEST_CASE("the deterministic state is final if a state in the subset is final") 
 
 TEST_CASE("non ascii characters are handled correctly") {
   ExtendedVA extended_va = get_extended_va_from_query("a");
-  ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
+  ExtendedDetVA extended_det_va(extended_va, DEFAULT_MAX_DETERMINISTIC_STATES);
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 

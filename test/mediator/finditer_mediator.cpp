@@ -24,7 +24,9 @@ TEST_CASE("the mediator returns null pointer when there are no mappings") {
 
   QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
-  FinditerMediator mediator = FinditerMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  FinditerMediator mediator = FinditerMediator(
+      regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+      REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
 
   mediator::Mapping* mapping = mediator.next();
   REQUIRE(mapping == nullptr);
@@ -42,10 +44,12 @@ TEST_CASE("the mediator returns an empty mapping if there are no captures") {
 
   QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
-  FinditerMediator mediator = FinditerMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  FinditerMediator mediator = FinditerMediator(
+      regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+      REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
 
   mediator::Mapping* mapping = mediator.next();
-  REQUIRE(mapping->get_spans_map().size() == 0);
+  REQUIRE(mapping->get_spans_map().empty());
 }
 
 TEST_CASE("the mediator returns the correct mappings for !x{a} over aaa") {
@@ -190,11 +194,14 @@ void run_mediator_test(std::string query, std::string document_,
   ExtendedVA extended_va = ExtendedVA(logical_va);
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
-  auto segment_manager_creator = SegmentManagerCreator(logical_va, Flags::NONE, REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
+  auto segment_manager_creator = SegmentManagerCreator(
+      logical_va, Flags::NONE, REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
 
   QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
-  FinditerMediator mediator = FinditerMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  FinditerMediator mediator = FinditerMediator(
+      regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+      DEFAULT_MAX_DETERMINISTIC_STATES);
 
   std::ostringstream info_os;
   info_os << "Actual mappings:" << std::endl;
@@ -209,7 +216,7 @@ void run_mediator_test(std::string query, std::string document_,
   }
 
   INFO(info_os.str());
-  REQUIRE(expected_mappings.size() == 0);
+  REQUIRE(expected_mappings.empty());
 }
 
 }  // namespace REmatch::testing
