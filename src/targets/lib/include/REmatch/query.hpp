@@ -17,6 +17,7 @@ class Query {
   QueryData query_data_;
 
   uint_fast32_t max_mempool_duplications_;
+  uint_fast32_t max_deterministic_states_;
 
  public:
   explicit Query(const std::string& pattern, Flags flags,

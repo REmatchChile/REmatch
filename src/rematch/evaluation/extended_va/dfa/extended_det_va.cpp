@@ -3,9 +3,9 @@
 namespace REmatch {
 
 ExtendedDetVA::ExtendedDetVA(ExtendedVA& extended_va,
-                             DFAStateLimitChecker dfa_states_checker)
+                             uint_fast32_t max_deterministic_states)
     : extended_va_(extended_va),
-      dfa_states_checker_(dfa_states_checker) {
+      dfa_states_checker_(max_deterministic_states) {
   create_initial_state();
 }
 

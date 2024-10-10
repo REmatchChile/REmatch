@@ -1,5 +1,4 @@
-#ifndef FINDITER_MEDIATOR_HPP
-#define FINDITER_MEDIATOR_HPP
+#pragma once
 
 #include <REmatch/query_data.hpp>
 
@@ -11,7 +10,8 @@ namespace REmatch {
 class FinditerMediator : public Mediator {
  public:
   FinditerMediator(QueryData& query_data, std::shared_ptr<Document> document,
-                   uint_fast32_t max_mempool_duplications);
+                   uint_fast32_t max_mempool_duplications,
+                   uint_fast32_t max_deterministic_states);
 
   mediator::Mapping* next() override;
 
@@ -20,5 +20,3 @@ class FinditerMediator : public Mediator {
 };
 
 }  // namespace REmatch
-
-#endif

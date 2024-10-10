@@ -4,11 +4,13 @@ namespace REmatch {
 
 FinditerMediator::FinditerMediator(QueryData& query_data,
                                    std::shared_ptr<Document> document,
-                                   uint_fast32_t max_mempool_duplications)
+                                   uint_fast32_t max_mempool_duplications,
+                                   uint_fast32_t max_deterministic_states)
     : Mediator(query_data, document) {
 
-  algorithm_ = std::make_unique<FinditerAlgorithm>(query_data.extended_va,
-                                                   document_, max_mempool_duplications);
+  algorithm_ = std::make_unique<FinditerAlgorithm>(
+      query_data.extended_va, document_, max_mempool_duplications,
+      max_deterministic_states);
   query_data.segment_manager_creator.set_document(document_);
   segment_manager_ = query_data.segment_manager_creator.get_segment_manager();
 
