@@ -2,7 +2,8 @@
 #define SEGMENT_MANAGER_HPP
 
 #include <memory>
-#include "output_enumeration/span.hpp"
+
+#include <REmatch/span.hpp>
 
 namespace REmatch {
 

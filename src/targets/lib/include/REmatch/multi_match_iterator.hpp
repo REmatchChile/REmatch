@@ -2,32 +2,36 @@
 
 #include <memory>
 
-#include "evaluation/document.hpp"
-#include "flags.hpp"
-#include "mediator/mediator/multi_finditer_mediator.hpp"
 #include "multi_match.hpp"
-#include "parsing/variable_catalog.hpp"
-#include "query_data.hpp"
 
 namespace REmatch {
+class Document;
+class MultiFinditerMediator;
+struct QueryData;
+
+inline namespace parsing {
+class VariableCatalog;
+}
 
 inline namespace library_interface {
 class MultiMatch;
-class MultiMatchIterator {
 
- private:
-  std::optional<QueryData> query_data_ = std::nullopt;
-  std::unique_ptr<MultiFinditerMediator> mediator_;
-  std::shared_ptr<parsing::VariableCatalog> variable_catalog_;
-  std::shared_ptr<Document> document_;
+class MultiMatchIterator {
 
  public:
   MultiMatchIterator(QueryData& query_data, const std::string& str,
                      uint_fast32_t max_mempool_duplications);
 
+  ~MultiMatchIterator();
+
   std::unique_ptr<MultiMatch> next();
 
   std::vector<std::string> variables();
+
+ private:
+  std::unique_ptr<MultiFinditerMediator> mediator_;
+  std::shared_ptr<parsing::VariableCatalog> variable_catalog_;
+  std::shared_ptr<Document> document_;
 };
 
 }  // end namespace library_interface

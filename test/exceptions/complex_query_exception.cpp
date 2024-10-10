@@ -2,7 +2,6 @@
 #include <catch2/generators/catch_generators.hpp>
 
 #include <REmatch/REmatch.hpp>
-#include <REmatch/query_data.hpp>
 
 #include "evaluation/document.hpp"
 #include "exceptions/complex_query_exception.hpp"
@@ -55,7 +54,7 @@ TEST_CASE(
 
   auto evaluate_mediator = [&]() {
     auto mediator = FinditerMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
-    mediator::Mapping* mapping = mediator.next();
+    auto mapping = mediator.next();
     while (mapping != nullptr) {
       mapping = mediator.next();
     }

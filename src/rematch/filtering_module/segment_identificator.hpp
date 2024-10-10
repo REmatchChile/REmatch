@@ -9,10 +9,11 @@
 
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
 #include "output_enumeration/mapping.hpp"
-#include "output_enumeration/span.hpp"
 
 #include "filtering_module/search_variable_set_automaton/dfa/search_dfa.hpp"
 #include "filtering_module/search_variable_set_automaton/dfa/search_dfa_state.hpp"
+
+#include <REmatch/span.hpp>
 
 namespace REmatch {
 class Document;

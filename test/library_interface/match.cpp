@@ -1,24 +1,26 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 
-#include <memory>
 #include <REmatch/REmatch.hpp>
-#include "mediator/mapping.hpp"
+#include <memory>
 #include "evaluation/document.hpp"
+#include "mediator/mapping.hpp"
+#include "parsing/parser.hpp"
 
 namespace REmatch::testing {
 using namespace REmatch::library_interface;
 
 std::string get_group_dict_info(std::map<std::string, Span> group_dict);
 Match construct_match(std::string& document, std::string query,
-                      mediator::Mapping mapping);
+                      std::unique_ptr<mediator::Mapping> mapping);
 
 TEST_CASE("match object returns the correct span indexes") {
   std::string document = "aaa";
   std::string regex = "!x{a}";
 
-  auto mapping = mediator::Mapping({{"x", {1, 2}}});
-  Match match = construct_match(document, regex, mapping);
+  std::map<std::string, Span> spans_map = {{"x", {1, 2}}};
+  auto mapping = std::make_unique<mediator::Mapping>(std::move(spans_map));
+  Match match = construct_match(document, regex, std::move(mapping));
 
   REQUIRE(match.start(0) == 1);
   REQUIRE(match.end(0) == 2);
@@ -31,8 +33,10 @@ TEST_CASE("match object returns the correct span object") {
   std::string document = "aba";
   std::string regex = "!x{b}";
 
-  auto mapping = mediator::Mapping({{"x", {1, 2}}});
-  Match match = construct_match(document, regex, mapping);
+  std::map<std::string, Span> spans_map = {{"x", {1, 2}}};
+  auto mapping = std::make_unique<mediator::Mapping>(std::move(spans_map));
+
+  Match match = construct_match(document, regex, std::move(mapping));
 
   REQUIRE(match.span(0).first == 1);
   REQUIRE(match.span(0).second == 2);
@@ -49,8 +53,10 @@ TEST_CASE("match object returns the correct groups") {
   auto parser = Parser(regex);
   std::shared_ptr<VariableCatalog> variable_catalog =
       parser.get_variable_catalog();
-  auto mapping = mediator::Mapping({{"x", {0, 4}}, {"y", {4, 8}}});
-  Match match{mapping, variable_catalog, document};
+
+  std::map<std::string, Span> spans_map = {{"x", {0, 4}}, {"y", {4, 8}}};
+  auto mapping = std::make_unique<mediator::Mapping>(std::move(spans_map));
+  Match match{std::move(mapping), variable_catalog, document};
 
   REQUIRE(match.group(0) == "aaaa");
   REQUIRE(match.group(1) == "bbbb");
@@ -64,8 +70,9 @@ TEST_CASE("match object returns the correct group dictionary") {
   std::string regex = "!x{a+}!y{b+}";
 
   std::map<std::string, Span> mapping_dict = {{"x", {0, 4}}, {"y", {4, 8}}};
-  auto mapping = mediator::Mapping({{"x", {0, 4}}, {"y", {4, 8}}});
-  Match match = construct_match(document, regex, mapping);
+  std::map<std::string, Span> spans_map = {{"x", {0, 4}}, {"y", {4, 8}}};
+  auto mapping = std::make_unique<mediator::Mapping>(std::move(spans_map));
+  Match match = construct_match(document, regex, std::move(mapping));
 
   std::map<std::string, Span> group_dict = match.groupdict();
   INFO(get_group_dict_info(group_dict));
@@ -84,9 +91,9 @@ TEST_CASE("match object returns the variables in the mapping") {
   std::string document = "abc";
   std::string regex = "!x{!z{a}b}!y{c}";
 
-  auto mapping =
-      mediator::Mapping({{"x", {0, 2}}, {"y", {2, 3}}, {"z", {0, 1}}});
-  Match match = construct_match(document, regex, mapping);
+  std::map<std::string, Span> spans_map = {{"x", {0, 2}}, {"y", {2, 3}}, {"z", {0, 1}}};
+  auto mapping = std::make_unique<mediator::Mapping>(std::move(spans_map));
+  Match match = construct_match(document, regex, std::move(mapping));
   REQUIRE(match.variables() == std::vector<std::string>{"x", "y", "z"});
 }
 
@@ -94,27 +101,27 @@ TEST_CASE("match object returns an empty vector when there are no variables") {
   std::string document = "aa";
   std::string regex = "a";
 
-  auto mapping = mediator::Mapping();
-  Match match = construct_match(document, regex, mapping);
-  REQUIRE(match.variables() == std::vector<std::string>{});
+  auto mapping = std::unique_ptr<mediator::Mapping>();
+  Match match = construct_match(document, regex, std::move(mapping));
+  REQUIRE(match.variables().empty());
 }
 
 TEST_CASE("match object returns empty when the mapping is empty") {
   std::string document = "aa";
   std::string regex = "a";
 
-  auto mapping = mediator::Mapping();
-  Match match = construct_match(document, regex, mapping);
+  auto mapping = std::unique_ptr<mediator::Mapping>();
+  Match match = construct_match(document, regex, std::move(mapping));
   REQUIRE(match.empty());
 }
 
 Match construct_match(std::string& document_, std::string query,
-                      mediator::Mapping mapping) {
+                      std::unique_ptr<mediator::Mapping> mapping) {
   auto parser = Parser(query);
   std::shared_ptr<VariableCatalog> variable_catalog =
       parser.get_variable_catalog();
   auto document = std::make_shared<Document>(document_);
-  return Match(mapping, variable_catalog, document);
+  return Match(std::move(mapping), variable_catalog, document);
 }
 
 }  // namespace REmatch::testing

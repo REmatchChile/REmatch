@@ -2,17 +2,16 @@
 
 #include "evaluation/algorithm/finditer_algorithm.hpp"
 #include "evaluation/document.hpp"
-
-#include <REmatch/query_data.hpp>
+#include "mediator/mapping.hpp"
+#include "utils/query_data.hpp"
 
 namespace REmatch {
 
 Mediator::Mediator(QueryData& query_data, std::shared_ptr<Document> document)
     : document_(document), variable_catalog_(query_data.variable_catalog) {}
 
-mediator::Mapping* Mediator::construct_user_mapping() {
-  static mediator::Mapping result_mapping;
-  result_mapping.reset();
+std::unique_ptr<mediator::Mapping> Mediator::construct_user_mapping() {
+  auto res = std::unique_ptr<mediator::Mapping>();
 
   std::map<int, std::vector<Span>> spans_map = mapping_->construct_mapping();
 
@@ -20,12 +19,12 @@ mediator::Mapping* Mediator::construct_user_mapping() {
     Span span = spans_map[variable_id].back();
 
     std::string variable_name = variable_catalog_->get_var(variable_id);
-    result_mapping.add_span(variable_name, span);
+    res->add_span(variable_name, span);
   }
 
   // -1 because of the START_CHAR that was added to the document
-  result_mapping.shift_spans(-1);
-  return &result_mapping;
+  res->shift_spans(-1);
+  return res;
 }
 
 void Mediator::update_algorithm(Span& segment_span) {

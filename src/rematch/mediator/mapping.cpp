@@ -3,13 +3,14 @@
 namespace REmatch {
 namespace mediator {
 
-Mapping::Mapping(std::map<std::string, Span> spans_map) {
-  spans_map_ = spans_map;
+
+Mapping::Mapping(std::map<std::string, Span>&& spans_map) {
+  spans_map_ = std::move(spans_map);
 }
 
-Span Mapping::get_span_of_variable(std::string variable_name) {
+Span Mapping::get_span_of_variable(const std::string& variable_name) const {
   if (spans_map_.count(variable_name)) {
-    return spans_map_[variable_name];
+    return spans_map_.at(variable_name);
   }
 
   throw REmatch::VariableNotFoundException(variable_name);
@@ -31,7 +32,7 @@ void Mapping::reset() {
   spans_map_.clear();
 }
 
-std::map<std::string, Span> Mapping::get_spans_map() {
+std::map<std::string, Span> Mapping::get_spans_map() const {
   return spans_map_;
 }
 

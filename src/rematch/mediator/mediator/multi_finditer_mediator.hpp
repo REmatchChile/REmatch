@@ -5,7 +5,7 @@
 
 #include "output_enumeration/extended_mapping.hpp"
 
-#include <REmatch/query_data.hpp>
+#include "utils/query_data.hpp"
 
 
 namespace REmatch {

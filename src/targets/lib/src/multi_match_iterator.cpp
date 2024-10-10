@@ -1,6 +1,5 @@
-#include <REmatch/multi_match_iterator.hpp>
-
 #include <REmatch/multi_match.hpp>
+#include <REmatch/multi_match_iterator.hpp>
 
 #include <memory>
 
@@ -21,12 +20,14 @@ MultiMatchIterator::MultiMatchIterator(QueryData& query_data,
                                                       max_mempool_duplications);
 }
 
+MultiMatchIterator::~MultiMatchIterator() = default;
+
 std::unique_ptr<MultiMatch> MultiMatchIterator::next() {
   std::unique_ptr<ExtendedMapping> extended_mapping = mediator_->next();
 
   if (extended_mapping != nullptr) {
-    return std::make_unique<MultiMatch>(*extended_mapping, variable_catalog_,
-                                        document_);
+    return std::make_unique<MultiMatch>(std::move(extended_mapping),
+                                        variable_catalog_, document_);
   }
 
   return nullptr;

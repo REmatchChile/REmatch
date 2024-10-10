@@ -3,8 +3,8 @@
 #include <memory>
 #include <string>
 
+#include <REmatch/flags.hpp>
 #include "evaluation/extended_va/nfa/extended_va.hpp"
-#include "flags.hpp"
 #include "mediator/segment_manager/segment_manager_creator.hpp"
 #include "parsing/variable_catalog.hpp"
 
@@ -23,7 +23,8 @@ struct QueryData {
   std::shared_ptr<VariableCatalog> variable_catalog;
 };
 
-inline QueryData construct_query_data(Parser& parser, Flags flags, uint_fast32_t max_amount_of_states) {
+inline std::unique_ptr<QueryData> construct_query_data(
+    Parser& parser, Flags flags, uint_fast32_t max_amount_of_states) {
   LogicalVA& logical_va = parser.get_logical_va();
   logical_va.remove_useless_anchors();
   std::shared_ptr<parsing::VariableCatalog> variable_catalog =
@@ -31,18 +32,23 @@ inline QueryData construct_query_data(Parser& parser, Flags flags, uint_fast32_t
   ExtendedVA extended_va = ExtendedVA(logical_va);
   extended_va.clean_for_determinization();
 
-  auto segment_manager_creator = SegmentManagerCreator(logical_va, flags, max_amount_of_states);
+  auto segment_manager_creator =
+      SegmentManagerCreator(logical_va, flags, max_amount_of_states);
 
-  return {std::move(segment_manager_creator), std::move(extended_va),
-          variable_catalog};
+  return std::make_unique<QueryData>(std::move(segment_manager_creator),
+                                     std::move(extended_va), variable_catalog);
 }
 
-inline QueryData get_query_data(const std::string& pattern, Flags flags, uint_fast32_t max_amount_of_states) {
+inline std::unique_ptr<QueryData> get_query_data(
+    const std::string& pattern, Flags flags,
+    uint_fast32_t max_amount_of_states) {
   Parser parser = Parser(pattern);
   return construct_query_data(parser, flags, max_amount_of_states);
 }
 
-inline QueryData get_multi_query_data(const std::string& pattern, Flags flags, uint_fast32_t max_amount_of_states) {
+inline std::unique_ptr<QueryData> get_multi_query_data(
+    const std::string& pattern, Flags flags,
+    uint_fast32_t max_amount_of_states) {
   Parser parser = Parser(pattern, true);
   return construct_query_data(parser, flags, max_amount_of_states);
 }

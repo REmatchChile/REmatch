@@ -1,13 +1,12 @@
 #ifndef MULTI_FINDONE_MEDIATOR_HPP
 #define MULTI_FINDONE_MEDIATOR_HPP
 
-
 #include "evaluation/algorithm/algorithm_class.hpp"
 #include "evaluation/document.hpp"
+#include "mediator/segment_manager/segment_manager.hpp"
 #include "output_enumeration/extended_mapping.hpp"
 #include "output_enumeration/mapping.hpp"
-
-#include <REmatch/query_data.hpp>
+#include "utils/query_data.hpp"
 
 namespace REmatch {
 

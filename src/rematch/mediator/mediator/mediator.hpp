@@ -1,28 +1,26 @@
 #ifndef MEDIATOR_HPP
 #define MEDIATOR_HPP
 
-#include <REmatch/query_data.hpp>
-
-#include "evaluation/algorithm/finditer_algorithm.hpp"
 #include "evaluation/algorithm/algorithm_class.hpp"
+#include "evaluation/algorithm/finditer_algorithm.hpp"
 #include "filtering_module/segment_identificator.hpp"
 #include "mediator/mapping.hpp"
 #include "mediator/segment_manager/line_by_line_manager.hpp"
 #include "mediator/segment_manager/segment_identificator_manager.hpp"
 #include "mediator/segment_manager/segment_manager.hpp"
 #include "mediator/segment_manager/segment_manager_creator.hpp"
+#include "utils/query_data.hpp"
 
 namespace REmatch {
 class Document;
-using namespace REmatch;
-
+class StatisticsCollector;
+struct Statistics;
 class Mediator {
  public:
-  Mediator(QueryData& query_data,
-           std::shared_ptr<Document> document);
+  Mediator(QueryData& query_data, std::shared_ptr<Document> document);
 
   virtual ~Mediator() = default;
-  virtual mediator::Mapping* next() = 0;
+  virtual std::unique_ptr<mediator::Mapping> next() = 0;
 
  protected:
   std::shared_ptr<Document> document_;
@@ -33,10 +31,10 @@ class Mediator {
   const Mapping* mapping_;
   Flags flags_;
 
-  mediator::Mapping* construct_user_mapping();
+  std::unique_ptr<mediator::Mapping> construct_user_mapping();
   void update_algorithm(Span& segment_span);
 
-  friend class StatsCollector;
+  friend std::unique_ptr<Statistics> collect_statistics(Mediator* mediator);
 };
 }  // namespace REmatch
 

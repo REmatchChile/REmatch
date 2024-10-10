@@ -3,9 +3,6 @@
 
 #include <REmatch/REmatch.hpp>
 
-#include "exceptions/anchor_inside_capture_exception.hpp"
-#include "exceptions/exceptions.hpp"
-
 namespace py = pybind11;
 using namespace REmatch;
 using namespace pybind11::literals;
@@ -13,54 +10,63 @@ using namespace pybind11::literals;
 PYBIND11_MODULE(_pyrematch, m) {
   m.doc() = "REmatch";
 
-  py::class_<Flags>(m, "PyFlags")
-      .def(py::init<>())
-      .def_readwrite("line_by_line", &Flags::line_by_line);
+  m.attr("DEFAULT_MAX_MEMPOOL_DUPLICATIONS") = py::int_(DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  m.attr("DEFAULT_MAX_DETERMINISTIC_STATES") = py::int_(DEFAULT_MAX_DETERMINISTIC_STATES);
 
-  py::class_<Match>(m, "PyMatch")
-      .def("start", py::overload_cast<int>(&Match::start))
-      .def("start", py::overload_cast<std::string>(&Match::start))
-      .def("end", py::overload_cast<int>(&Match::end))
-      .def("end", py::overload_cast<std::string>(&Match::end))
-      .def("span", py::overload_cast<int>(&Match::span))
-      .def("span", py::overload_cast<std::string>(&Match::span))
-      .def("group", py::overload_cast<int>(&Match::group))
-      .def("group", py::overload_cast<std::string>(&Match::group))
+  py::enum_<Flags>(m, "cppFlags", py::arithmetic())
+      .value("NONE", Flags::NONE)
+      .value("LINE_BY_LINE", Flags::LINE_BY_LINE);
+
+  py::class_<Match>(m, "cppMatch")
+      .def("start", py::overload_cast<const std::string&>(&Match::start, py::const_))
+      .def("start", py::overload_cast<uint_fast32_t>(&Match::start, py::const_))
+      .def("end", py::overload_cast<const std::string&>(&Match::end, py::const_))
+      .def("end", py::overload_cast<uint_fast32_t>(&Match::end, py::const_))
+      .def("span", py::overload_cast<const std::string&>(&Match::span, py::const_))
+      .def("span", py::overload_cast<uint_fast32_t>(&Match::span, py::const_))
+      .def("group", py::overload_cast<const std::string&>(&Match::group, py::const_))
+      .def("group", py::overload_cast<uint_fast32_t>(&Match::group, py::const_))
       .def("variables", &Match::variables)
-      .def("empty", &Match::empty);
+      .def("empty", &Match::empty)
+      .def("to_string", &Match::to_string);
 
-  py::class_<MatchIterator>(m, "PyMatchIterator")
+  py::class_<MatchIterator>(m, "cppMatchIterator")
       .def("next", &MatchIterator::next)
       .def("variables", &MatchIterator::variables);
 
-  py::class_<Query>(m, "PyQuery")
-      .def(py::init<const std::string&, Flags>())
-      .def("findone", &Query::findone, "document"_a)
-      .def("finditer", &Query::finditer, "document"_a)
-      .def("check", &Query::check, "document"_a);
+  py::class_<Query>(m, "cppQuery")
+      .def("findone", &Query::findone)
+      .def("findall", &Query::findall)
+      .def("finditer", &Query::finditer)
+      .def("check", &Query::check);
 
-  py::class_<MultiMatch>(m, "PyMultiMatch")
-      .def("spans", py::overload_cast<int>(&MultiMatch::spans))
-      .def("spans", py::overload_cast<std::string>(&MultiMatch::spans))
-      .def("groups", py::overload_cast<int>(&MultiMatch::groups))
-      .def("groups", py::overload_cast<std::string>(&MultiMatch::groups))
+  py::class_<MultiMatch>(m, "cppMultiMatch")
+      .def("spans", py::overload_cast<const std::string&>(&MultiMatch::spans, py::const_))
+      .def("spans", py::overload_cast<uint_fast32_t>(&MultiMatch::spans, py::const_))
+      .def("groups", py::overload_cast<const std::string&>(&MultiMatch::groups, py::const_))
+      .def("groups", py::overload_cast<uint_fast32_t>(&MultiMatch::groups, py::const_))
       .def("submatch", &MultiMatch::submatch)
-      .def("empty", &MultiMatch::empty);
+      .def("empty", &MultiMatch::empty)
+      .def("variables", &MultiMatch::variables)
+      .def("to_string", &MultiMatch::to_string);
 
-  py::class_<MultiMatchIterator>(m, "PyMultiMatchIterator")
+  py::class_<MultiMatchIterator>(m, "cppMultiMatchIterator")
       .def("next", &MultiMatchIterator::next)
       .def("variables", &MultiMatchIterator::variables);
 
-  py::class_<MultiQuery>(m, "PyMultiQuery")
-      .def(py::init<const std::string&, Flags>())
-      .def("findone", &MultiQuery::findone, "document"_a)
-      .def("finditer", &MultiQuery::finditer, "document"_a)
-      .def("check", &MultiQuery::check, "document"_a);
+  py::class_<MultiQuery>(m, "cppMultiQuery")
+      .def("findone", &MultiQuery::findone)
+      .def("findall", &MultiQuery::findall)
+      .def("finditer", &MultiQuery::finditer)
+      .def("check", &MultiQuery::check);
 
-  m.def("compile", &compile, "pattern"_a, "flags"_a = Flags());
-  m.def("findone", &findone, "pattern"_a, "document"_a, "flags"_a = Flags());
-  m.def("findall", &findall, "pattern"_a, "document"_a, "flags"_a = Flags());
-  m.def("finditer", &finditer, "pattern"_a, "document"_a, "flags"_a = Flags());
+  m.def("cppreql", &reql, "pattern"_a, "flags"_a = Flags::NONE,
+        "max_mempool_duplications"_a = DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+        "max_deterministic_states"_a = DEFAULT_MAX_DETERMINISTIC_STATES);
+
+  m.def("cppmulti_reql", &multi_reql, "pattern"_a, "flags"_a = Flags::NONE,
+        "max_mempool_duplications"_a = DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+        "max_deterministic_states"_a = DEFAULT_MAX_DETERMINISTIC_STATES);
 
   py::register_exception<QuerySyntaxException>(m, "QuerySyntaxException");
   py::register_exception<AnchorInsideCaptureException>(

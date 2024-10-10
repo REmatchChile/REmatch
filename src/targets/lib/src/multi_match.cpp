@@ -1,22 +1,27 @@
-#include <sys/types.h>
 #include <REmatch/multi_match.hpp>
+
 #include <cstdint>
 
+#include "evaluation/document.hpp"
 #include "exceptions/variable_not_found_in_catalog_exception.hpp"
+#include "output_enumeration/extended_mapping.hpp"
+#include "parsing/variable_catalog.hpp"
 
 namespace REmatch {
 
 inline namespace library_interface {
 
 MultiMatch::MultiMatch(
-    ExtendedMapping extended_mapping,
+    std::unique_ptr<ExtendedMapping> extended_mapping,
     std::shared_ptr<parsing::VariableCatalog> variable_catalog,
     std::shared_ptr<Document> document)
-    : document_(document),
+    : extended_mapping_(std::move(extended_mapping)),
       variable_catalog_(variable_catalog),
-      extended_mapping_(extended_mapping) {}
+      document_(document) {}
 
-std::vector<Span> MultiMatch::spans(uint_fast32_t variable_id) {
+MultiMatch::~MultiMatch() = default;
+
+std::vector<Span> MultiMatch::spans(uint_fast32_t variable_id) const {
   if (variable_id >= variable_catalog_->size()) {
     throw VariableNotFoundInCatalogException("");
   }
@@ -26,16 +31,16 @@ std::vector<Span> MultiMatch::spans(uint_fast32_t variable_id) {
   }
 
   std::map<int, std::vector<Span>> mapping =
-      extended_mapping_.construct_mapping();
+      extended_mapping_->construct_mapping();
   mapping_cache_ = mapping;
   return mapping[int(variable_id)];
 }
 
-std::vector<Span> MultiMatch::spans(const std::string& variable_name) {
+std::vector<Span> MultiMatch::spans(const std::string& variable_name) const {
   return spans(variable_catalog_->position(variable_name));
 }
 
-std::vector<std::string> MultiMatch::groups(uint_fast32_t variable_id) {
+std::vector<std::string> MultiMatch::groups(uint_fast32_t variable_id) const {
   if ((size_t)variable_id >= variable_catalog_->size()) {
     throw VariableNotFoundInCatalogException("");
   }
@@ -45,7 +50,7 @@ std::vector<std::string> MultiMatch::groups(uint_fast32_t variable_id) {
   if (mapping_cache_.has_value()) {
     mapping = mapping_cache_.value();
   } else {
-    mapping = extended_mapping_.construct_mapping();
+    mapping = extended_mapping_->construct_mapping();
     mapping_cache_ = mapping;
   }
 
@@ -60,22 +65,28 @@ std::vector<std::string> MultiMatch::groups(uint_fast32_t variable_id) {
   return strings;
 }
 
-std::vector<std::string> MultiMatch::groups(const std::string& variable_name) {
+std::vector<std::string> MultiMatch::groups(
+    const std::string& variable_name) const {
   return groups(variable_catalog_->position(variable_name));
 }
 
-MultiMatch MultiMatch::submatch(Span span) {
-  ExtendedMapping submapping = extended_mapping_.get_submapping(span);
-  return {submapping, variable_catalog_, document_};
+MultiMatch MultiMatch::submatch(Span span) const {
+  std::unique_ptr<ExtendedMapping> submapping =
+      extended_mapping_->get_submapping(span);
+  return {std::move(submapping), variable_catalog_, document_};
 }
 
-bool MultiMatch::empty() {
+std::vector<std::string> MultiMatch::variables() const {
+  return variable_catalog_->variables();
+}
+
+bool MultiMatch::empty() const {
   if (mapping_cache_.has_value()) {
     return mapping_cache_.value().empty();
   }
 
   std::map<int, std::vector<Span>> mapping =
-      extended_mapping_.construct_mapping();
+      extended_mapping_->construct_mapping();
   mapping_cache_ = mapping;
   return mapping.empty();
 }
@@ -86,40 +97,50 @@ bool MultiMatch::operator==(const MultiMatch& other) const {
          this->variable_catalog_ == other.variable_catalog_;
 }
 
-std::ostream& operator<<(std::ostream& os, MultiMatch& match) {
-  const auto num_variables = match.variable_catalog_->size();
+std::string MultiMatch::to_string() const {
+  std::stringstream ss;
 
+  const auto num_variables = variable_catalog_->size();
+
+  ss << "{";
   for (unsigned int i = 0; i < num_variables - 1; i++) {
-    const auto variable_name = match.variable_catalog_->get_var(i);
-    const auto spans = match.spans(variable_name);
+    const auto variable_name = variable_catalog_->get_var(i);
+    const auto spans_ = spans(variable_name);
 
-    if (spans.empty()) {
+    if (spans_.empty()) {
+      ss << variable_name << ": {}\t";
       continue;
     }
 
-    os << variable_name << " = |" << spans[0].first << "," << spans[0].second
+    ss << variable_name << " = {|" << spans_[0].first << "," << spans_[0].second
        << ">";
-    for (unsigned int j = 1; j < spans.size(); j++) {
-      os << "; |" << spans[j].first << "," << spans[j].second << ">";
+    for (unsigned int j = 1; j < spans_.size(); j++) {
+      ss << ", |" << spans_[j].first << "," << spans_[j].second << ">";
     }
-    os << "\t";
+    ss << "}, ";
   }
 
-  const auto variable_name =
-      match.variable_catalog_->get_var(num_variables - 1);
-  const auto spans = match.spans(variable_name);
+  const auto variable_name = variable_catalog_->get_var(num_variables - 1);
+  const auto spans_ = spans(variable_name);
 
-  if (spans.empty()) {
-    return os;
+  ss << "{";
+  if (spans_.empty()) {
+    ss << variable_name << ": {}}";
+    return ss.str();
   }
 
-  os << variable_name << " = |" << spans[0].first << "," << spans[0].second
+  ss << variable_name << ": {|" << spans_[0].first << "," << spans_[0].second
      << ">";
-  for (unsigned int j = 1; j < spans.size(); j++) {
-    os << "; |" << spans[j].first << "," << spans[j].second << ">";
+  for (unsigned int j = 1; j < spans_.size(); j++) {
+    ss << ", |" << spans_.at(j).first << "," << spans_.at(j).second << ">";
   }
+  ss << "}}";
 
-  return os;
+  return ss.str();
+}
+
+std::ostream& operator<<(std::ostream& os, MultiMatch& match) {
+  return os << match.to_string();
 }
 
 }  // namespace library_interface

@@ -24,7 +24,7 @@ FindoneMediator::FindoneMediator(QueryData& query_data,
   }
 }
 
-mediator::Mapping* FindoneMediator::next() {
+std::unique_ptr<mediator::Mapping> FindoneMediator::next() {
   if (!has_output) {
     return nullptr;
   }

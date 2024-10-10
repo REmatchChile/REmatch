@@ -4,6 +4,8 @@
 #include <optional>
 #include "output_enumeration/mapping.hpp"
 
+#include <REmatch/span.hpp>
+
 namespace REmatch {
 
 constexpr int INVALID_POSITION = -1;
@@ -14,7 +16,7 @@ class ExtendedMapping {
   ExtendedMapping(std::vector<Mapping::Annotation> annotations);
 
   std::map<int, std::vector<Span>> construct_mapping() const;
-  ExtendedMapping get_submapping(Span span);
+  std::unique_ptr<ExtendedMapping> get_submapping(Span span) const;
   void shift_positions(int shift);
 
   bool operator==(const ExtendedMapping& other) const;

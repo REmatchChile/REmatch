@@ -66,7 +66,8 @@ void ExtendedMapping::update_last_span_with_closed_position(
   }
 }
 
-ExtendedMapping ExtendedMapping::get_submapping(Span span) {
+std::unique_ptr<ExtendedMapping> ExtendedMapping::get_submapping(
+    Span span) const {
   auto annotations_rbegin = std::lower_bound(
       inverted_annotations_.rbegin(), inverted_annotations_.rend(),
       Mapping::Annotation{{}, (size_t)span.first});
@@ -75,8 +76,8 @@ ExtendedMapping ExtendedMapping::get_submapping(Span span) {
       inverted_annotations_.rbegin(), inverted_annotations_.rend(),
       Mapping::Annotation{{}, (size_t)span.second});
 
-  return std::vector<Mapping::Annotation>(annotations_rend.base(),
-                                          annotations_rbegin.base());
+  return std::make_unique<ExtendedMapping>(std::vector<Mapping::Annotation>(
+      annotations_rbegin.base(), annotations_rend.base()));
 }
 
 void ExtendedMapping::shift_positions(int shift) {

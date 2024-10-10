@@ -1,12 +1,13 @@
 #include <REmatch/multi_query.hpp>
 
 #include <REmatch/flags.hpp>
-#include <REmatch/query_data.hpp>
+
 #include <cstdint>
 
 #include "evaluation/document.hpp"
 #include "mediator/mediator/multi_findone_mediator.hpp"
 #include "mediator/output_checker.hpp"
+#include "utils/query_data.hpp"
 
 namespace REmatch {
 
@@ -17,42 +18,45 @@ MultiQuery::MultiQuery(const std::string& pattern, Flags flags,
           get_multi_query_data(pattern, flags, max_deterministic_states)),
       max_mempool_duplications_(max_mempool_duplications) {}
 
-std::unique_ptr<MultiMatch> MultiQuery::findone(const std::string& text) {
-  std::shared_ptr<Document> document = std::make_shared<Document>(text);
+MultiQuery::~MultiQuery() = default;
+
+std::unique_ptr<MultiMatch> MultiQuery::findone(const std::string& document_) {
+  std::shared_ptr<Document> document = std::make_shared<Document>(document_);
 
   auto mediator =
-      MultiFindoneMediator(query_data_, document, max_mempool_duplications_);
+      MultiFindoneMediator(*query_data_, document, max_mempool_duplications_);
 
-  std::unique_ptr<ExtendedMapping> mapping = mediator.next();
+  auto mapping = mediator.next();
 
   if (mapping != nullptr) {
-    return std::make_unique<MultiMatch>(*mapping, query_data_.variable_catalog,
-                                        document);
+    return std::make_unique<MultiMatch>(
+        std::move(mapping), query_data_->variable_catalog, document);
   }
   return nullptr;
 }
 
-std::vector<MultiMatch> MultiQuery::findall(const std::string& text) {
-  std::vector<MultiMatch> res;
+std::vector<std::unique_ptr<MultiMatch>> MultiQuery::findall(
+    const std::string& document) {
+  std::vector<std::unique_ptr<MultiMatch>> res;
 
-  auto match_iterator = finditer(text);
+  auto match_iterator = finditer(document);
 
   while (auto match = match_iterator->next()) {
-    res.push_back(*match);
+    res.push_back(std::move(match));
   }
 
   return res;
 }
 
 std::unique_ptr<MultiMatchIterator> MultiQuery::finditer(
-    const std::string& text) {
-  return std::make_unique<MultiMatchIterator>(query_data_, text,
+    const std::string& document) {
+  return std::make_unique<MultiMatchIterator>(*query_data_, document,
                                               max_mempool_duplications_);
 }
 
-bool MultiQuery::check(const std::string& text) {
-  std::shared_ptr<Document> document = std::make_shared<Document>(text);
-  auto output_checker = OutputChecker(query_data_, document);
+bool MultiQuery::check(const std::string& document_) {
+  std::shared_ptr<Document> document = std::make_shared<Document>(document_);
+  auto output_checker = OutputChecker(*query_data_, document);
   return output_checker.check();
 }
 

@@ -58,12 +58,12 @@ TEST_CASE("the method get_submapping returns the correct extended mapping") {
                                            {std::bitset<64>("1100"), 2},
                                            {std::bitset<64>("0101"), 1}});
 
-  ExtendedMapping submapping = extended_mapping.get_submapping({2, 3});
+  auto submapping = extended_mapping.get_submapping({2, 3});
 
   auto expected_extended_mapping = ExtendedMapping(
       {{std::bitset<64>("1100"), 3}, {std::bitset<64>("1100"), 2}});
 
-  REQUIRE(submapping == expected_extended_mapping);
+  REQUIRE(*submapping == expected_extended_mapping);
 }
 
 TEST_CASE(
@@ -73,15 +73,13 @@ TEST_CASE(
                                            {std::bitset<64>("1100"), 6},
                                            {std::bitset<64>("1100"), 4},
                                            {std::bitset<64>("0101"), 2}});
-  ExtendedMapping submapping_exact_lower =
-      extended_mapping.get_submapping({4, 7});
-  ExtendedMapping submapping_exact_upper =
-      extended_mapping.get_submapping({3, 6});
+  auto submapping_exact_lower = extended_mapping.get_submapping({4, 7});
+  auto submapping_exact_upper = extended_mapping.get_submapping({3, 6});
 
-  ExtendedMapping expected_submapping = extended_mapping.get_submapping({4, 6});
+  auto expected_submapping = extended_mapping.get_submapping({4, 6});
 
-  REQUIRE(expected_submapping == submapping_exact_lower);
-  REQUIRE(expected_submapping == submapping_exact_upper);
+  REQUIRE(*expected_submapping == *submapping_exact_lower);
+  REQUIRE(*expected_submapping == *submapping_exact_upper);
 }
 
 }  // namespace REmatch::testing

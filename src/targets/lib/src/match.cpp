@@ -1,82 +1,92 @@
 #include <REmatch/match.hpp>
+
 #include <cstdint>
+#include <memory>
+#include <sstream>
 
 #include "evaluation/document.hpp"
+#include "mediator/mapping.hpp"
+#include "parsing/variable_catalog.hpp"
 
 namespace REmatch {
 inline namespace library_interface {
 
-Match::Match(mediator::Mapping mapping,
+Match::Match(std::unique_ptr<mediator::Mapping> mapping,
              std::shared_ptr<parsing::VariableCatalog> variable_catalog,
              std::shared_ptr<Document> document)
-    : mapping_(mapping),
+    : mapping_(std::move(mapping)),
       variable_catalog_(variable_catalog),
       document_(document) {}
 
-int64_t Match::start(const std::string& variable_name) {
+Match::~Match() = default;
+
+int64_t Match::start(const std::string& variable_name) const {
   return this->span(variable_name).first;
 }
 
-int64_t Match::start(uint_fast32_t variable_id) {
+int64_t Match::start(uint_fast32_t variable_id) const {
   return start(variable_catalog_->get_var(variable_id));
 }
 
-int64_t Match::end(const std::string& variable_name) {
+int64_t Match::end(const std::string& variable_name) const {
   const auto span = this->span(variable_name);
   return span.second;
 }
 
-int64_t Match::end(uint_fast32_t variable_id) {
+int64_t Match::end(uint_fast32_t variable_id) const {
   return end(variable_catalog_->get_var(variable_id));
 }
 
-Span Match::span(const std::string& variable_name) {
-  return mapping_.get_span_of_variable(variable_name);
+Span Match::span(const std::string& variable_name) const {
+  return mapping_->get_span_of_variable(variable_name);
 }
 
-Span Match::span(uint_fast32_t variable_id) {
+Span Match::span(uint_fast32_t variable_id) const {
   return span(variable_catalog_->get_var(variable_id));
 }
 
-std::string Match::group(const std::string& variable_name) {
+std::string Match::group(const std::string& variable_name) const {
   const auto span = this->span(variable_name);
   return document_->substr(span.first, span.second - span.first);
 }
 
-std::string Match::group(uint_fast32_t variable_id) {
+std::string Match::group(uint_fast32_t variable_id) const {
   return group(variable_catalog_->get_var(variable_id));
 }
 
-std::map<std::string, Span> Match::groupdict() {
-  return mapping_.get_spans_map();
+std::map<std::string, Span> Match::groupdict() const {
+  return mapping_->get_spans_map();
 }
 
-std::vector<std::string> Match::variables() {
-  if (empty())
-    return {};
-
+std::vector<std::string> Match::variables() const {
   return variable_catalog_->variables();
 }
 
-bool Match::empty() {
-  return mapping_.get_spans_map().empty();
+bool Match::empty() const {
+  return mapping_->get_spans_map().empty();
+}
+
+std::string Match::to_string() const {
+  std::stringstream ss;
+
+  const auto num_variables = variable_catalog_->size();
+
+  ss << "{";
+  for (unsigned int i = 0; i < num_variables - 1; i++) {
+    const auto variable_name = variable_catalog_->get_var(i);
+    const auto span_ = span(variable_name);
+    ss << variable_name << ": |" << span_.first << "," << span_.second << ">, ";
+  }
+
+  const auto variable_name = variable_catalog_->get_var(num_variables - 1);
+  const auto span_ = span(variable_name);
+  ss << variable_name << ": |" << span_.first << "," << span_.second << ">}";
+
+  return ss.str();
 }
 
 std::ostream& operator<<(std::ostream& os, Match& match) {
-  const auto num_variables = match.variable_catalog_->size();
-
-  for (unsigned int i = 0; i < num_variables - 1; i++) {
-    const auto variable_name = match.variable_catalog_->get_var(i);
-    const auto span = match.span(variable_name);
-    os << variable_name << " = |" << span.first << "," << span.second << ">\t";
-  }
-
-  const auto variable_name =
-      match.variable_catalog_->get_var(num_variables - 1);
-  const auto span = match.span(variable_name);
-  os << variable_name << " = |" << span.first << "," << span.second << ">";
-
-  return os;
+  return os << match.to_string();
 }
 
 }  // namespace library_interface

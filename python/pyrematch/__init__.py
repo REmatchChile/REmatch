@@ -1,6 +1,6 @@
-from .pyrematch import Flags, reql
+from .pyrematch import Flags, multi_reql, reql
 
-__version__ = "1.0.3"
+__version__ = "1.1.0"
 
 from ._pyrematch import (
     AnchorInsideCaptureException,
@@ -10,19 +10,19 @@ from ._pyrematch import (
     InvalidEscapeException,
     InvalidRangeException,
     MemoryLimitExceededException,
+    MultiSpannersNotAllowedException,
     QuerySyntaxException,
     SameNestedVariableException,
     UnhandledExpressionException,
     VariableLimitExceededException,
     VariableNotFoundException,
     VariableNotFoundInCatalogException,
-    MultiSpannersNotAllowedException,
 )
 
 __all__ = [
-    "reql",
     "Flags",
-    "QuerySyntaxException",
+    "multi_reql",
+    "reql",
     "AnchorInsideCaptureException",
     "ComplexQueryException",
     "EmptyWordCaptureException",
@@ -30,10 +30,11 @@ __all__ = [
     "InvalidEscapeException",
     "InvalidRangeException",
     "MemoryLimitExceededException",
+    "MultiSpannersNotAllowedException",
+    "QuerySyntaxException",
     "SameNestedVariableException",
     "UnhandledExpressionException",
     "VariableLimitExceededException",
     "VariableNotFoundException",
     "VariableNotFoundInCatalogException",
-    "MultiSpannersNotAllowedException",
 ]

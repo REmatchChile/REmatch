@@ -5,6 +5,8 @@
 #include "../evaluation/mapping_helpers.hpp"
 #include <REmatch/REmatch.hpp>
 #include "mediator/mapping.hpp"
+#include "mediator/segment_manager/segment_manager_creator.hpp"
+#include "utils/query_data.hpp"
 
 namespace REmatch::testing {
 using namespace REmatch::library_interface;

@@ -22,7 +22,7 @@ FinditerMediator::FinditerMediator(QueryData& query_data,
   }
 }
 
-mediator::Mapping* FinditerMediator::next() {
+std::unique_ptr<mediator::Mapping> FinditerMediator::next() {
   if (!next_is_computed_successfully()) {
     return nullptr;
   }

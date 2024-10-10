@@ -3,7 +3,8 @@
 
 #include <map>
 #include "output_enumeration/ecs.hpp"
-#include "span.hpp"
+
+#include <REmatch/span.hpp>
 
 namespace REmatch {
 

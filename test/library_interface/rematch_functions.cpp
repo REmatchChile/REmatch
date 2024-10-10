@@ -32,28 +32,28 @@ TEST_CASE("match obtained with find returns the correct group") {
 TEST_CASE("findall function returns the correct matches") {
   std::string document = "qwerty";
   std::string pattern = "!x{.{3}}";
-  std::vector<Match> matches = reql(pattern).findall(document);
+  auto matches = reql(pattern).findall(document);
 
   std::vector<Span> expected_matches = {{0, 3}, {1, 4}, {2, 5}, {3, 6}};
 
   REQUIRE(matches.size() == expected_matches.size());
 
   for (size_t i = 0; i < expected_matches.size(); i++) {
-    REQUIRE(matches[i].span("x") == expected_matches[i]);
+    REQUIRE(matches[i]->span("x") == expected_matches[i]);
   }
 }
 
 TEST_CASE("matches obtained with findall return the correct groups") {
   std::string document = "qwerty";
   std::string pattern = "!x{.{3}}";
-  std::vector<Match> matches = reql(pattern).findall(document);
+  auto matches = reql(pattern).findall(document);
 
   std::vector<std::string> expected_groups = {"qwe", "wer", "ert", "rty"};
 
   REQUIRE(matches.size() == expected_groups.size());
 
   for (size_t i = 0; i < expected_groups.size(); i++) {
-    REQUIRE(matches[i].group("x") == expected_groups[i]);
+    REQUIRE(matches[i]->group("x") == expected_groups[i]);
   }
 }
 

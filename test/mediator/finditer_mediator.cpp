@@ -26,7 +26,7 @@ TEST_CASE("the mediator returns null pointer when there are no mappings") {
                        std::move(extended_va), variable_catalog};
   FinditerMediator mediator = FinditerMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
 
-  mediator::Mapping* mapping = mediator.next();
+  auto mapping = mediator.next();
   REQUIRE(mapping == nullptr);
 }
 
@@ -44,8 +44,8 @@ TEST_CASE("the mediator returns an empty mapping if there are no captures") {
                        std::move(extended_va), variable_catalog};
   FinditerMediator mediator = FinditerMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
 
-  mediator::Mapping* mapping = mediator.next();
-  REQUIRE(mapping->get_spans_map().size() == 0);
+  auto mapping = mediator.next();
+  REQUIRE(mapping->get_spans_map().empty());
 }
 
 TEST_CASE("the mediator returns the correct mappings for !x{a} over aaa") {
@@ -199,7 +199,7 @@ void run_mediator_test(std::string query, std::string document_,
   std::ostringstream info_os;
   info_os << "Actual mappings:" << std::endl;
 
-  mediator::Mapping* actual_mapping = mediator.next();
+  auto actual_mapping = mediator.next();
   while (actual_mapping != nullptr) {
     info_os << *actual_mapping;
     INFO(info_os.str());
@@ -209,7 +209,7 @@ void run_mediator_test(std::string query, std::string document_,
   }
 
   INFO(info_os.str());
-  REQUIRE(expected_mappings.size() == 0);
+  REQUIRE(expected_mappings.empty());
 }
 
 }  // namespace REmatch::testing

@@ -4,7 +4,8 @@
 #include <iostream>
 #include <memory>
 #include <string>
-#include "output_enumeration/span.hpp"
+
+#include <REmatch/span.hpp>
 
 namespace REmatch {
 class Document;

@@ -4,8 +4,7 @@
 #include <cstdint>
 #include <string>
 
-#include "common.hpp"
-#include "exceptions/exceptions.hpp"
+#include "constants.hpp"
 #include "flags.hpp"
 #include "match.hpp"
 #include "match_iterator.hpp"
@@ -13,6 +12,7 @@
 #include "multi_match_iterator.hpp"
 #include "multi_query.hpp"
 #include "query.hpp"
+#include "span.hpp"
 
 namespace REmatch {
 

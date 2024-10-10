@@ -22,7 +22,7 @@ TEST_CASE("the findone mediator returns nullptr if there are no matches") {
                             REmatch::DEFAULT_MAX_DETERMINISTIC_STATES),
       std::move(extended_va), parser.get_variable_catalog());
   auto mediator = FindoneMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
-  mediator::Mapping* mapping = mediator.next();
+  auto mapping = mediator.next();
   REQUIRE(mapping == nullptr);
 }
 
@@ -39,7 +39,7 @@ TEST_CASE("the findone mediator returns the correct match") {
                             REmatch::DEFAULT_MAX_DETERMINISTIC_STATES),
       std::move(extended_va), parser.get_variable_catalog());
   auto mediator = FindoneMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
-  mediator::Mapping* mapping = mediator.next();
+  auto mapping = mediator.next();
   std::map<std::string, Span> mapping_map = mapping->get_spans_map();
   REQUIRE(mapping_map == std::map<std::string, Span>{{"x", {1, 2}}});
 }

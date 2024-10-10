@@ -192,7 +192,7 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
       B1->cat(*B2);
       B1->cat(*B3);
       A1->alter(*B1);
-      if (uint16_t(lo[0] << 8 | lo[1]) + 1 < uint16_t(hi[0] << 8 | hi[1])) {
+      if (uint16_t(uint8_t(lo[0]) << 8 | uint8_t(lo[1])) + 1 < uint16_t(uint8_t(hi[0]) << 8 | uint8_t(hi[1]))) {
         // There are more bytes between the first/second bytes
         char lo_mid[2];
         char hi_mid[2];
@@ -273,7 +273,7 @@ class CharClassVisitor : public REmatchParserBaseVisitor {
       B1->cat(*B3);
       B1->cat(*B4);
       A1->alter(*B1);
-      if (uint64_t(lo[0] << 16 | lo[1] << 8 | lo[2]) + 1 < uint64_t(hi[0] << 16 | hi[1] << 8 | hi[2])) {
+      if (uint64_t(uint8_t(lo[0]) << 16 | uint8_t(lo[1]) << 8 | uint8_t(lo[2])) + 1 < uint64_t(uint8_t(hi[0]) << 16 | uint8_t(hi[1]) << 8 | uint8_t(hi[2]))) {
         // There are more bytes between the first/second/third bytes
         char lo_mid[3];
         char hi_mid[3];
