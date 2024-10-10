@@ -24,7 +24,7 @@ TEST_CASE("the mediator returns null pointer when there are no mappings") {
 
   QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
-  FinditerMediator mediator = FinditerMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  FinditerMediator mediator = FinditerMediator(regex_data, document);
 
   auto mapping = mediator.next();
   REQUIRE(mapping == nullptr);
@@ -42,7 +42,7 @@ TEST_CASE("the mediator returns an empty mapping if there are no captures") {
 
   QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
-  FinditerMediator mediator = FinditerMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  FinditerMediator mediator = FinditerMediator(regex_data, document);
 
   auto mapping = mediator.next();
   REQUIRE(mapping->get_spans_map().empty());
@@ -194,7 +194,7 @@ void run_mediator_test(std::string query, std::string document_,
 
   QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
-  FinditerMediator mediator = FinditerMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  FinditerMediator mediator = FinditerMediator(regex_data, document);
 
   std::ostringstream info_os;
   info_os << "Actual mappings:" << std::endl;

@@ -78,7 +78,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static" OFF)
 
 # Build test related commands?
-option(BUILD_TESTING "Create tests using CMake" OFF)
+option(BUILD_TESTING "Create tests using CMake" ON)
 if(BUILD_TESTING)
     enable_testing()
 endif()
@@ -123,8 +123,8 @@ include_directories(third_party/antlr4-cpp-runtime/src)
 # CLI11
 include_directories(third_party/cli11)
 
-file(GLOB_RECURSE COMMON_SRC src/rematch/*.cpp)
-file(GLOB_RECURSE COMMON_HDR src/rematch/*.hpp)
+file(GLOB_RECURSE REMATCH_SRC src/rematch/*.cpp)
+file(GLOB_RECURSE REMATCH_HDR src/rematch/*.hpp)
 include_directories(src/rematch)
 
 ### Compile- and install-related commands.

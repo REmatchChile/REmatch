@@ -28,7 +28,7 @@ TEST_CASE(
 
   QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
-  auto mediator = MultiFindoneMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  auto mediator = MultiFindoneMediator(regex_data, document);
 
   std::unique_ptr<ExtendedMapping> mapping = mediator.next();
   REQUIRE(mapping == nullptr);
@@ -49,7 +49,7 @@ TEST_CASE(
 
   QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
-  auto mediator = MultiFindoneMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  auto mediator = MultiFindoneMediator(regex_data, document);
 
   std::unique_ptr<ExtendedMapping> mapping = mediator.next();
   REQUIRE(mapping != nullptr);

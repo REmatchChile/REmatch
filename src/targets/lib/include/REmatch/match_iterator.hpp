@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+#include "constants.hpp"
 #include "flags.hpp"
 #include "match.hpp"
 
@@ -27,12 +28,16 @@ class MatchIterator {
   std::shared_ptr<Document> document_;
 
  public:
-  MatchIterator(QueryData& query_data, const std::string& str,
-                uint_fast32_t max_mempool_duplications,
-                uint_fast32_t max_deterministic_states);
-  MatchIterator(const std::string& pattern, const std::string& str, Flags flags,
-                uint_fast32_t max_mempool_duplications,
-                uint_fast32_t max_deterministic_states);
+  MatchIterator(
+      QueryData& query_data, const std::string& str,
+      uint_fast32_t max_mempool_duplications = DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+      uint_fast32_t max_deterministic_states =
+          DEFAULT_MAX_DETERMINISTIC_STATES);
+  MatchIterator(
+      const std::string& pattern, const std::string& str, Flags flags,
+      uint_fast32_t max_mempool_duplications = DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+      uint_fast32_t max_deterministic_states =
+          DEFAULT_MAX_DETERMINISTIC_STATES);
 
   ~MatchIterator();
 

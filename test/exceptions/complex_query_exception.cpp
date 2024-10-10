@@ -29,7 +29,7 @@ TEST_CASE(
   QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
   // no need to evaluate the mediator, it searches for a segment in the constructor
-  REQUIRE_THROWS_AS(FinditerMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS),
+  REQUIRE_THROWS_AS(FinditerMediator(regex_data, document),
                     ComplexQueryException);
 }
 
@@ -53,7 +53,7 @@ TEST_CASE(
                        std::move(extended_va), variable_catalog};
 
   auto evaluate_mediator = [&]() {
-    auto mediator = FinditerMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+    auto mediator = FinditerMediator(regex_data, document);
     auto mapping = mediator.next();
     while (mapping != nullptr) {
       mapping = mediator.next();

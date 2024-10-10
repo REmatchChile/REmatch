@@ -33,6 +33,7 @@ class Query {
   std::unique_ptr<QueryData> query_data_;
 
   uint_fast32_t max_mempool_duplications_;
+  uint_fast32_t max_deterministic_states_;
 };
 
 }  // end namespace library_interface

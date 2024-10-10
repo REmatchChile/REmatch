@@ -20,7 +20,7 @@ TEST_CASE("the algorithm returns a null pointer if there are no mappings") {
   ExtendedVA extended_va = get_extended_va_from_query("!x{a}");
   auto document = std::make_shared<Document>("b");
 
-  auto algorithm = FinditerAlgorithm(extended_va, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  auto algorithm = FinditerAlgorithm(extended_va, document);
 
   const Mapping* mapping = algorithm.get_next_mapping();
   REQUIRE(mapping == nullptr);
@@ -30,7 +30,7 @@ TEST_CASE("the algorithm returns an empty mapping if there are no captures") {
   ExtendedVA extended_va = get_extended_va_from_query("a");
   auto document = std::make_shared<Document>("a");
 
-  auto algorithm = FinditerAlgorithm(extended_va, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  auto algorithm = FinditerAlgorithm(extended_va, document);
 
   const Mapping* mapping = algorithm.get_next_mapping();
   REQUIRE(mapping != nullptr);
@@ -155,7 +155,7 @@ TEST_CASE("nodes used by the algorithm are recycled when creating a linked list"
   std::string regex = "!x{a+}";
   ExtendedVA extended_va = get_extended_va_from_query(regex);
 
-  auto algorithm = FinditerAlgorithm(extended_va, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  auto algorithm = FinditerAlgorithm(extended_va, document);
   ECS& ecs = algorithm.get_ecs();
 
   const Mapping* mapping = algorithm.get_next_mapping();
@@ -178,7 +178,7 @@ TEST_CASE("nodes used by the algorithm are recycled when it is run again") {
   std::string regex = "!x{a+}";
   ExtendedVA extended_va = get_extended_va_from_query(regex);
 
-  auto algorithm = FinditerAlgorithm(extended_va, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  auto algorithm = FinditerAlgorithm(extended_va, document);
 
   const Mapping* mapping = algorithm.get_next_mapping();
   while (mapping != nullptr)
@@ -206,7 +206,7 @@ TEST_CASE("nodes used by the algorithm are recycled when, after constructing the
   std::string regex = "!x{a+b}";
   ExtendedVA extended_va = get_extended_va_from_query(regex);
 
-  auto algorithm = FinditerAlgorithm(extended_va, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  auto algorithm = FinditerAlgorithm(extended_va, document);
   ECS& ecs = algorithm.get_ecs();
 
   // create nodes leaving 6 free nodes in the pool
@@ -233,7 +233,7 @@ void run_algorithm_test(std::string query, std::string document_,
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
 
-  auto algorithm = FinditerAlgorithm(extended_va, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  auto algorithm = FinditerAlgorithm(extended_va, document);
 
   std::ostringstream info_os;
   info_os << "Actual mappings:\n";

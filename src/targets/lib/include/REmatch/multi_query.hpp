@@ -30,7 +30,9 @@ class MultiQuery {
 
  private:
   std::unique_ptr<QueryData> query_data_;
+
   uint_fast32_t max_mempool_duplications_;
+  uint_fast32_t max_deterministic_states_;
 };
 }  // namespace library_interface
 }  // namespace REmatch

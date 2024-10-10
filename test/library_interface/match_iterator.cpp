@@ -1,9 +1,9 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 
+#include <REmatch/REmatch.hpp>
 #include "../evaluation/dummy_mapping.hpp"
 #include "../evaluation/mapping_helpers.hpp"
-#include <REmatch/REmatch.hpp>
 #include "mediator/mapping.hpp"
 #include "mediator/segment_manager/segment_manager_creator.hpp"
 #include "utils/query_data.hpp"
@@ -11,9 +11,8 @@
 namespace REmatch::testing {
 using namespace REmatch::library_interface;
 
-void run_match_iterator_test(
-    std::string query, std::string document,
-    std::vector<mediator::Mapping> expected_matches);
+void run_match_iterator_test(std::string query, std::string document,
+                             std::vector<mediator::Mapping> expected_matches);
 
 TEST_CASE("match iterator returns the correct variables") {
   std::string pattern = "!c{!b{!d{x}}!a{y}}";
@@ -30,8 +29,7 @@ TEST_CASE("match iterator returns the correct matches for a simple query") {
   std::string regex = "!x{a}";
   std::string document = "all matches";
   std::vector<mediator::Mapping> expected_matches = {
-      mediator::Mapping({{"x", {0, 1}}}),
-      mediator::Mapping({{"x", {5, 6}}})};
+      mediator::Mapping({{"x", {0, 1}}}), mediator::Mapping({{"x", {5, 6}}})};
   run_match_iterator_test(regex, document, expected_matches);
 }
 
@@ -49,9 +47,8 @@ TEST_CASE(
   run_match_iterator_test(regex, document, expected_matches);
 }
 
-void run_match_iterator_test(
-    std::string query, std::string document,
-    std::vector<mediator::Mapping> expected_matches) {
+void run_match_iterator_test(std::string query, std::string document,
+                             std::vector<mediator::Mapping> expected_matches) {
   Parser parser = Parser(query);
 
   LogicalVA logical_va = parser.get_logical_va();
@@ -59,11 +56,12 @@ void run_match_iterator_test(
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog =
       parser.get_variable_catalog();
-  auto segment_manager_creator = SegmentManagerCreator(logical_va, Flags::NONE, REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
+  auto segment_manager_creator = SegmentManagerCreator(
+      logical_va, Flags::NONE, REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
 
   auto regex_data = QueryData(std::move(segment_manager_creator),
                               std::move(extended_va), variable_catalog);
-  auto match_iterator = MatchIterator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  auto match_iterator = MatchIterator(regex_data, document);
 
   std::ostringstream info_os;
   info_os << "Actual mappings:" << std::endl;
@@ -78,7 +76,7 @@ void run_match_iterator_test(
     match = match_iterator.next();
   }
   INFO(info_os.str());
-  REQUIRE(expected_matches.size() == 0);
+  REQUIRE(expected_matches.empty());
 }
 
 }  // namespace REmatch::testing

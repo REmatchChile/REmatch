@@ -5,13 +5,17 @@
 #include "evaluation/algorithm/algorithm_class.hpp"
 #include "evaluation/extended_va/dfa/extended_det_va_state.hpp"
 
+#include <REmatch/constants.hpp>
+
 namespace REmatch {
 
 class FinditerAlgorithm : public AlgorithmClass {
  public:
   FinditerAlgorithm(ExtendedVA& extended_va, std::shared_ptr<Document> document,
-                    uint_fast32_t max_mempool_duplications,
-                    uint_fast32_t max_deterministic_states);
+                    uint_fast32_t max_mempool_duplications =
+                        REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+                    uint_fast32_t max_deterministic_states =
+                        REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
 
   const Mapping* get_next_mapping() override;
 
