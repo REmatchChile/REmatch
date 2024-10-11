@@ -13,7 +13,7 @@ constexpr int INVALID_POSITION = -1;
 class ExtendedMapping {
  public:
   ExtendedMapping(const output_enumeration::Mapping& mapping);
-  ExtendedMapping(std::vector<Mapping::Annotation> annotations);
+  ExtendedMapping(std::vector<Mapping::Annotation>&& annotations);
 
   std::map<int, std::vector<Span>> construct_mapping() const;
   std::unique_ptr<ExtendedMapping> get_submapping(Span span) const;

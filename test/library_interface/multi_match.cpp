@@ -19,7 +19,7 @@ TEST_CASE("the spans method works correctly") {
                                                   {std::bitset<64>("01"), 3},
                                                   {std::bitset<64>("10"), 2},
                                                   {std::bitset<64>("01"), 0}};
-  auto extended_mapping = std::make_unique<ExtendedMapping>(annotations);
+  auto extended_mapping = std::make_unique<ExtendedMapping>(std::move(annotations));
   auto match =
       MultiMatch(std::move(extended_mapping), variable_catalog, document);
 
@@ -39,7 +39,7 @@ TEST_CASE("the groups method works correctly") {
                                                   {std::bitset<64>("01"), 3},
                                                   {std::bitset<64>("10"), 2},
                                                   {std::bitset<64>("01"), 0}};
-  auto extended_mapping = std::make_unique<ExtendedMapping>(annotations);
+  auto extended_mapping = std::make_unique<ExtendedMapping>(std::move(annotations));
   auto match =
       MultiMatch(std::move(extended_mapping), variable_catalog, document);
 
@@ -62,7 +62,7 @@ TEST_CASE("the submatch method returns the correct multi match") {
       {std::bitset<64>("0001"), 2},
       {std::bitset<64>("0100"), 0}};
   auto extended_mapping =
-      std::make_unique<ExtendedMapping>(expected_annotations);
+      std::make_unique<ExtendedMapping>(std::move(expected_annotations));
   auto match =
       MultiMatch(std::move(extended_mapping), variable_catalog, document);
 
@@ -71,7 +71,7 @@ TEST_CASE("the submatch method returns the correct multi match") {
       {std::bitset<64>("0011"), 3},
       {std::bitset<64>("0001"), 2}};
   auto expected_extended_mapping =
-      std::make_unique<ExtendedMapping>(expected_extended_annotations);
+      std::make_unique<ExtendedMapping>(std::move(expected_extended_annotations));
   auto expected_submatch = MultiMatch(std::move(expected_extended_mapping),
                                       variable_catalog, document);
 
@@ -93,7 +93,8 @@ TEST_CASE(
                                                   {std::bitset<64>("0011"), 4},
                                                   {std::bitset<64>("0011"), 2},
                                                   {std::bitset<64>("0101"), 0}};
-  auto extended_mapping = std::make_unique<ExtendedMapping>(annotations);
+
+  auto extended_mapping = std::make_unique<ExtendedMapping>(std::move(annotations));
   auto match = MultiMatch(std::move(extended_mapping), variable_catalog, document);
 
   MultiMatch submatch = match.submatch({2, 6});

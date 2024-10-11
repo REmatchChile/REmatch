@@ -6,9 +6,8 @@ namespace REmatch {
 ExtendedMapping::ExtendedMapping(const output_enumeration::Mapping& mapping)
     : inverted_annotations_(mapping.inverted_annotations) {}
 
-// TODO: Move?
-ExtendedMapping::ExtendedMapping(std::vector<Mapping::Annotation> annotations)
-    : inverted_annotations_(annotations) {}
+ExtendedMapping::ExtendedMapping(std::vector<Mapping::Annotation>&& annotations)
+    : inverted_annotations_(std::move(annotations)) {}
 
 std::map<int, std::vector<Span>> ExtendedMapping::construct_mapping() const {
   std::map<int, std::vector<Span>> spans_map;
@@ -69,16 +68,34 @@ void ExtendedMapping::update_last_span_with_closed_position(
 
 std::unique_ptr<ExtendedMapping> ExtendedMapping::get_submapping(
     Span span) const {
-  auto annotations_rbegin = std::lower_bound(
-      inverted_annotations_.rbegin(), inverted_annotations_.rend(),
-      Mapping::Annotation{{}, (size_t)span.first});
 
-  auto annotations_rend = std::upper_bound(
-      inverted_annotations_.rbegin(), inverted_annotations_.rend(),
-      Mapping::Annotation{{}, (size_t)span.second});
+  int64_t slice_start_index = -1;
+  int64_t slice_end_index = -1;
 
-  return std::make_unique<ExtendedMapping>(std::vector<Mapping::Annotation>(
-      annotations_rbegin.base(), annotations_rend.base()));
+  for (auto i=0U; i < inverted_annotations_.size(); ++i) {
+    if (inverted_annotations_[i].document_position <= size_t(span.second)) {
+      slice_start_index = i;
+      break;
+    }
+  }
+
+  for (auto i=inverted_annotations_.size() - 1; i >= 0; --i) {
+    if (inverted_annotations_[i].document_position >= size_t(span.first)) {
+      slice_end_index = i;
+      break;
+    }
+  }
+
+  std::vector<Mapping::Annotation> annotations_slice;
+  if (slice_start_index < 0 || slice_end_index < 0) {
+    return std::make_unique<ExtendedMapping>(std::move(annotations_slice));
+  }
+
+  for (auto i = slice_start_index; i <= slice_end_index; ++i) {
+    annotations_slice.push_back(inverted_annotations_[i]);
+  }
+
+  return std::make_unique<ExtendedMapping>(std::move(annotations_slice));
 }
 
 void ExtendedMapping::shift_positions(int shift) {

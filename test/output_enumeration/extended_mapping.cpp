@@ -19,7 +19,7 @@ TEST_CASE(
                                                   {std::bitset<64>("0100"), 7},
                                                   {std::bitset<64>("1000"), 4},
                                                   {std::bitset<64>("0101"), 3}};
-  auto extended_mapping = ExtendedMapping(annotations);
+  auto extended_mapping = ExtendedMapping(std::move(annotations));
 
   std::map<int, std::vector<Span>> expected_map = {
       {0, {Span{3, 8}}},
@@ -39,7 +39,7 @@ TEST_CASE(
                                                   {std::bitset<64>("1100"), 3},
                                                   {std::bitset<64>("1100"), 2},
                                                   {std::bitset<64>("0101"), 1}};
-  auto extended_mapping = ExtendedMapping(annotations);
+  auto extended_mapping = ExtendedMapping(std::move(annotations));
 
   std::map<int, std::vector<Span>> expected_map = {
       {0, {Span{1, 4}}},

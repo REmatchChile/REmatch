@@ -92,7 +92,7 @@ bool MultiMatch::empty() const {
 }
 
 bool MultiMatch::operator==(const MultiMatch& other) const {
-  return this->extended_mapping_ == other.extended_mapping_ &&
+  return *this->extended_mapping_ == *other.extended_mapping_ &&
          this->document_ == other.document_ &&
          this->variable_catalog_ == other.variable_catalog_;
 }
