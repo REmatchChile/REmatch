@@ -6,7 +6,7 @@ set(${JAVASCRIPT_TARGET_NAME}_SRC
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fwasm-exceptions")
 add_executable(${JAVASCRIPT_TARGET_NAME} ${${JAVASCRIPT_TARGET_NAME}_SRC})
-target_link_libraries(${JAVASCRIPT_TARGET_NAME} PRIVATE REmatch::REmatch antlr4_cpp_runtime)
+target_link_libraries(${JAVASCRIPT_TARGET_NAME} PRIVATE REmatch::REmatch)
 set_target_properties(${JAVASCRIPT_TARGET_NAME} PROPERTIES LINK_FLAGS
 "-lembind \
 -fwasm-exceptions \
