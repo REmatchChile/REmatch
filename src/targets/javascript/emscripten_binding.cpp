@@ -1,6 +1,8 @@
 #include <emscripten/bind.h>
 
 #include <REmatch/REmatch.hpp>
+#include <cstdint>
+#include "REmatch/flags.hpp"
 
 using namespace emscripten;
 using namespace REmatch;
@@ -11,60 +13,72 @@ EMSCRIPTEN_BINDINGS(REmatchModule) {
   register_vector<std::string>("VectorString");
   register_vector<Span>("VectorSpan");
 
-  class_<Flags>("Flags")
+  emscripten::constant("DEFAULT_MAX_MEMPOOL_DUPLICATIONS",
+                       DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  emscripten::constant("DEFAULT_MAX_DETERMINISTIC_STATES",
+                       DEFAULT_MAX_DETERMINISTIC_STATES);
+
+  enum_<Flags>("cppFlags")
       .constructor<>()
-      .property("line_by_line", &Flags::line_by_line)
-      .property("max_mempool_duplications", &Flags::max_mempool_duplications)
-      .property("max_deterministic_states", &Flags::max_deterministic_states);
+      .property("NONE", Flags::NONE)
+      .property("LINE_BY_LINE", Flags::LINE_BY_LINE);
 
-  class_<Match>("Match")
-      .function("start_index", select_overload<int(int)>(&Match::start))
-      .function("start_var", select_overload<int(std::string)>(&Match::start))
-      .function("end_index", select_overload<int(int)>(&Match::end))
-      .function("end_var", select_overload<int(std::string)>(&Match::end))
-      .function("span_index", select_overload<Span(int)>(&Match::span))
-      .function("span_var", select_overload<Span(std::string)>(&Match::span))
-      .function("group_index", select_overload<std::string(int)>(&Match::group))
-      .function("group_var",
-                select_overload<std::string(std::string)>(&Match::group))
+  class_<Match>("cppMatch")
+      .function("startIndex",
+                select_overload<int64_t(uint_fast32_t)>(&Match::start))
+      .function("startVar",
+                select_overload<int64_t(const std::string&)>(&Match::start))
+      .function("endIndex",
+                select_overload<int64_t(uint_fast32_t)>(&Match::end))
+      .function("endVar",
+                select_overload<int64_t(const std::string&)>(&Match::end))
+      .function("spanIndex", select_overload<Span(int)>(&Match::span))
+      .function("spanVar",
+                select_overload<Span(const std::string&)>(&Match::span))
+      .function("groupIndex",
+                select_overload<std::string(uint_fast32_t)>(&Match::group))
+      .function("groupVar",
+                select_overload<std::string(const std::string&)>(&Match::group))
       .function("variables", &Match::variables)
-      .function("empty", &Match::empty);
+      .function("empty", &Match::empty)
+      .function("toString", &Match::to_string);
 
-  class_<MatchIterator>("MatchIterator")
+  class_<MatchIterator>("cppMatchIterator")
       .function("next", &MatchIterator::next)
       .function("variables", &MatchIterator::variables);
 
-  class_<Query>("Query")
-      .constructor<const std::string&, Flags>()
+  class_<Query>("cppQuery")
       .function("findone", &Query::findone)
+      .function("findall", &Query::findall)
       .function("finditer", &Query::finditer)
       .function("check", &Query::check);
 
-  class_<MultiMatch>("MultiMatch")
-      .function("spans_index",
-                select_overload<std::vector<Span>(int)>(&MultiMatch::spans))
-      .function("spans_var", select_overload<std::vector<Span>(std::string)>(
-                                 &MultiMatch::spans))
-      .function("groups_index", select_overload<std::vector<std::string>(int)>(
-                                    &MultiMatch::groups))
-      .function("groups_var",
+  class_<MultiMatch>("cppMultiMatch")
+      .function("spansIndex", select_overload<std::vector<Span>(uint_fast32_t)>(
+                                  &MultiMatch::spans))
+      .function("spansVar", select_overload<std::vector<Span>(std::string)>(
+                                &MultiMatch::spans))
+      .function("groupsIndex",
+                select_overload<std::vector<std::string>(uint_fast32_t)>(
+                    &MultiMatch::groups))
+      .function("groupsVar",
                 select_overload<std::vector<std::string>(std::string)>(
                     &MultiMatch::groups))
       .function("submatch", &MultiMatch::submatch)
-      .function("empty", &MultiMatch::empty);
+      .function("empty", &MultiMatch::empty)
+      .function("variables", &MultiMatch::variables)
+      .function("toString", &MultiMatch::to_string);
 
-  class_<MultiMatchIterator>("MultiMatchIterator")
+  class_<MultiMatchIterator>("cppMultiMatchIterator")
       .function("next", &MultiMatchIterator::next)
       .function("variables", &MultiMatchIterator::variables);
 
-  class_<MultiQuery>("MultiQuery")
-      .constructor<const std::string&, Flags>()
+  class_<MultiQuery>("cppMultiQuery")
       .function("findone", &MultiQuery::findone)
+      .function("findall", &MultiQuery::findall)
       .function("finditer", &MultiQuery::finditer)
       .function("check", &MultiQuery::check);
 
-  function("compile", &compile);
-  function("findone", &findone);
-  function("findall", &findall);
-  function("finditer", &finditer);
+  function("cppreql", &reql);
+  function("cppmulti_reql", &multi_reql);
 };
