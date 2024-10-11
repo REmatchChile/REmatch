@@ -3,6 +3,7 @@
 
 #include <REmatch/REmatch.hpp>
 
+#include "REmatch/constants.hpp"
 #include "evaluation/document.hpp"
 #include "exceptions/complex_query_exception.hpp"
 #include "mediator/mediator/finditer_mediator.hpp"
@@ -36,9 +37,11 @@ TEST_CASE(
 TEST_CASE(
     "a exception is thrown from ExtendedDetVA when the query is too complex") {
   // the regex contains an anchor, so the filtering process is skipped
-  std::string regex = std::string(100, 'a') + '$';
+  uint_fast32_t max_states = 100;
+
+  std::string regex = std::string(max_states, 'a') + '$';
   auto parser = Parser(regex);
-  auto document_ = std::string(100, 'a');
+  auto document_ = std::string(max_states, 'a');
   auto document = std::make_shared<Document>(document_);
 
   LogicalVA logical_va = parser.get_logical_va();
@@ -47,13 +50,13 @@ TEST_CASE(
   std::shared_ptr<VariableCatalog> variable_catalog =
       parser.get_variable_catalog();
 
-  auto segment_manager_creator = SegmentManagerCreator(logical_va, Flags::NONE, 100);
+  auto segment_manager_creator = SegmentManagerCreator(logical_va, Flags::NONE, max_states);
 
   QueryData regex_data{std::move(segment_manager_creator),
                        std::move(extended_va), variable_catalog};
 
   auto evaluate_mediator = [&]() {
-    auto mediator = FinditerMediator(regex_data, document);
+    auto mediator = FinditerMediator(regex_data, document, REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS, max_states);
     auto mapping = mediator.next();
     while (mapping != nullptr) {
       mapping = mediator.next();

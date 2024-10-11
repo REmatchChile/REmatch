@@ -1,6 +1,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include "exceptions/exceptions.hpp"
+
 #include <REmatch/REmatch.hpp>
 
 namespace py = pybind11;
@@ -10,21 +12,27 @@ using namespace pybind11::literals;
 PYBIND11_MODULE(_pyrematch, m) {
   m.doc() = "REmatch";
 
-  m.attr("DEFAULT_MAX_MEMPOOL_DUPLICATIONS") = py::int_(DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
-  m.attr("DEFAULT_MAX_DETERMINISTIC_STATES") = py::int_(DEFAULT_MAX_DETERMINISTIC_STATES);
+  m.attr("DEFAULT_MAX_MEMPOOL_DUPLICATIONS") =
+      py::int_(DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
+  m.attr("DEFAULT_MAX_DETERMINISTIC_STATES") =
+      py::int_(DEFAULT_MAX_DETERMINISTIC_STATES);
 
   py::enum_<Flags>(m, "cppFlags", py::arithmetic())
       .value("NONE", Flags::NONE)
       .value("LINE_BY_LINE", Flags::LINE_BY_LINE);
 
   py::class_<Match>(m, "cppMatch")
-      .def("start", py::overload_cast<const std::string&>(&Match::start, py::const_))
+      .def("start",
+           py::overload_cast<const std::string&>(&Match::start, py::const_))
       .def("start", py::overload_cast<uint_fast32_t>(&Match::start, py::const_))
-      .def("end", py::overload_cast<const std::string&>(&Match::end, py::const_))
+      .def("end",
+           py::overload_cast<const std::string&>(&Match::end, py::const_))
       .def("end", py::overload_cast<uint_fast32_t>(&Match::end, py::const_))
-      .def("span", py::overload_cast<const std::string&>(&Match::span, py::const_))
+      .def("span",
+           py::overload_cast<const std::string&>(&Match::span, py::const_))
       .def("span", py::overload_cast<uint_fast32_t>(&Match::span, py::const_))
-      .def("group", py::overload_cast<const std::string&>(&Match::group, py::const_))
+      .def("group",
+           py::overload_cast<const std::string&>(&Match::group, py::const_))
       .def("group", py::overload_cast<uint_fast32_t>(&Match::group, py::const_))
       .def("variables", &Match::variables)
       .def("empty", &Match::empty)
@@ -41,10 +49,14 @@ PYBIND11_MODULE(_pyrematch, m) {
       .def("check", &Query::check);
 
   py::class_<MultiMatch>(m, "cppMultiMatch")
-      .def("spans", py::overload_cast<const std::string&>(&MultiMatch::spans, py::const_))
-      .def("spans", py::overload_cast<uint_fast32_t>(&MultiMatch::spans, py::const_))
-      .def("groups", py::overload_cast<const std::string&>(&MultiMatch::groups, py::const_))
-      .def("groups", py::overload_cast<uint_fast32_t>(&MultiMatch::groups, py::const_))
+      .def("spans", py::overload_cast<const std::string&>(&MultiMatch::spans,
+                                                          py::const_))
+      .def("spans",
+           py::overload_cast<uint_fast32_t>(&MultiMatch::spans, py::const_))
+      .def("groups", py::overload_cast<const std::string&>(&MultiMatch::groups,
+                                                           py::const_))
+      .def("groups",
+           py::overload_cast<uint_fast32_t>(&MultiMatch::groups, py::const_))
       .def("submatch", &MultiMatch::submatch)
       .def("empty", &MultiMatch::empty)
       .def("variables", &MultiMatch::variables)

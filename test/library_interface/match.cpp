@@ -110,7 +110,7 @@ TEST_CASE("match object returns empty when the mapping is empty") {
   std::string document = "aa";
   std::string regex = "a";
 
-  auto mapping = std::unique_ptr<mediator::Mapping>();
+  auto mapping = std::make_unique<mediator::Mapping>();
   Match match = construct_match(document, regex, std::move(mapping));
   REQUIRE(match.empty());
 }

@@ -14,7 +14,10 @@ void run_client_test(std::unique_ptr<MatchIterator>& match_iterator,
 TEST_CASE("find function returns the correct match") {
   std::string document = "qwerty";
   std::string pattern = "!x{.{3}}$";
-  std::unique_ptr<Match> match = reql(pattern).findone(document);
+
+  auto query = reql(pattern);
+  std::unique_ptr<Match> match = query.findone(document);
+
 
   REQUIRE(match != nullptr);
   REQUIRE(match->span("x") == Span{3, 6});
@@ -23,7 +26,9 @@ TEST_CASE("find function returns the correct match") {
 TEST_CASE("match obtained with find returns the correct group") {
   std::string document = "qwerty";
   std::string pattern = "!x{.{3}}$";
-  std::unique_ptr<Match> match = reql(pattern).findone(document);
+
+  auto query = reql(pattern);
+  std::unique_ptr<Match> match = query.findone(document);
 
   REQUIRE(match->span("x") == Span{3, 6});
   REQUIRE(match->group("x") == "rty");
@@ -32,7 +37,9 @@ TEST_CASE("match obtained with find returns the correct group") {
 TEST_CASE("findall function returns the correct matches") {
   std::string document = "qwerty";
   std::string pattern = "!x{.{3}}";
-  auto matches = reql(pattern).findall(document);
+
+  auto query = reql(pattern);
+  auto matches = query.findall(document);
 
   std::vector<Span> expected_matches = {{0, 3}, {1, 4}, {2, 5}, {3, 6}};
 
@@ -46,7 +53,9 @@ TEST_CASE("findall function returns the correct matches") {
 TEST_CASE("matches obtained with findall return the correct groups") {
   std::string document = "qwerty";
   std::string pattern = "!x{.{3}}";
-  auto matches = reql(pattern).findall(document);
+
+  auto query = reql(pattern);
+  auto matches = query.findall(document);
 
   std::vector<std::string> expected_groups = {"qwe", "wer", "ert", "rty"};
 
@@ -60,7 +69,9 @@ TEST_CASE("matches obtained with findall return the correct groups") {
 TEST_CASE("the iterator obtained with finditer returns the correct matches") {
   std::string document = "qwerty";
   std::string pattern = "!x{.{3}}";
-  std::unique_ptr<MatchIterator> iterator = reql(pattern).finditer(document);
+
+  auto query = reql(pattern);
+  std::unique_ptr<MatchIterator> iterator = query.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
       DummyMapping({{"x", {0, 3}}}),
@@ -75,7 +86,9 @@ TEST_CASE("the iterator obtained with finditer returns the correct matches") {
 TEST_CASE("the matches obtained with finditer return the correct groups") {
   std::string document = "qwerty";
   std::string pattern = "!x{.{3}}";
-  std::unique_ptr<MatchIterator> iterator = reql(pattern).finditer(document);
+
+  auto query = reql(pattern);
+  std::unique_ptr<MatchIterator> iterator = query.finditer(document);
 
   std::vector<std::string> expected_groups = {"qwe", "wer", "ert", "rty"};
 

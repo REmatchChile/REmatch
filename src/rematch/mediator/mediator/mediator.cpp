@@ -11,7 +11,7 @@ Mediator::Mediator(QueryData& query_data, std::shared_ptr<Document> document)
     : document_(document), variable_catalog_(query_data.variable_catalog) {}
 
 std::unique_ptr<mediator::Mapping> Mediator::construct_user_mapping() {
-  auto res = std::unique_ptr<mediator::Mapping>();
+  auto res = std::make_unique<mediator::Mapping>();
 
   std::map<int, std::vector<Span>> spans_map = mapping_->construct_mapping();
 

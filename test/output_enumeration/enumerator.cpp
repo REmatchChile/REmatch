@@ -7,15 +7,12 @@
 namespace REmatch::testing {
 
 ECSNode* create_linked_list_node_of_depth(ECS* ecs, int depth) {
-  if (depth == 0) {
-    return ecs->create_bottom_node();
-  } else {
-    return ecs->create_extend_node(
-        create_linked_list_node_of_depth(ecs, depth - 1),
-        depth,
-        depth
-    );
+  ECSNode* current = ecs->create_bottom_node();
+
+  for (int d = 0; d < depth; ++d) {
+    current = ecs->create_extend_node(current, d, d);
   }
+  return current;
 }
 
 TEST_CASE("Enumerator returns only one mapping when no unions are used") {

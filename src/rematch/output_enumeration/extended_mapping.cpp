@@ -6,6 +6,7 @@ namespace REmatch {
 ExtendedMapping::ExtendedMapping(const output_enumeration::Mapping& mapping)
     : inverted_annotations_(mapping.inverted_annotations) {}
 
+// TODO: Move?
 ExtendedMapping::ExtendedMapping(std::vector<Mapping::Annotation> annotations)
     : inverted_annotations_(annotations) {}
 
