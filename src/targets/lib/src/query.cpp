@@ -16,6 +16,11 @@ Query::Query(const std::string& pattern, Flags flags,
       max_mempool_duplications_(max_mempool_duplications),
       max_deterministic_states_(max_deterministic_states) {}
 
+Query::Query(Query&& other) noexcept
+    : query_data_(std::move(other.query_data_)),
+      max_mempool_duplications_(other.max_mempool_duplications_),
+      max_deterministic_states_(other.max_deterministic_states_) {}
+
 Query::~Query() = default;
 
 std::unique_ptr<Match> Query::findone(const std::string& document_) {

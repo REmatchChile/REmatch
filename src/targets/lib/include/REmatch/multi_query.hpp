@@ -18,6 +18,8 @@ class MultiQuery {
                       uint_fast32_t max_mempool_duplications,
                       uint_fast32_t max_deterministic_states);
 
+  MultiQuery(MultiQuery&& other) noexcept;
+
   ~MultiQuery();
 
   std::unique_ptr<MultiMatch> findone(const std::string& document);

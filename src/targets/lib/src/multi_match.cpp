@@ -112,7 +112,7 @@ std::string MultiMatch::to_string() const {
       continue;
     }
 
-    ss << variable_name << " = {|" << spans_[0].first << "," << spans_[0].second
+    ss << variable_name << ": {|" << spans_[0].first << "," << spans_[0].second
        << ">";
     for (unsigned int j = 1; j < spans_.size(); j++) {
       ss << ", |" << spans_[j].first << "," << spans_[j].second << ">";

@@ -19,6 +19,11 @@ MultiQuery::MultiQuery(const std::string& pattern, Flags flags,
       max_mempool_duplications_(max_mempool_duplications),
       max_deterministic_states_(max_deterministic_states) {}
 
+MultiQuery::MultiQuery(MultiQuery&& other) noexcept
+    : query_data_(std::move(other.query_data_)),
+      max_mempool_duplications_(other.max_mempool_duplications_),
+      max_deterministic_states_(other.max_deterministic_states_) {}
+
 MultiQuery::~MultiQuery() = default;
 
 std::unique_ptr<MultiMatch> MultiQuery::findone(const std::string& document_) {

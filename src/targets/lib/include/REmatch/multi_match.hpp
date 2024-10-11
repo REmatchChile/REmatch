@@ -19,8 +19,6 @@ class MultiMatch {
              std::shared_ptr<parsing::VariableCatalog> variable_catalog,
              std::shared_ptr<Document> document);
 
-  MultiMatch(const MultiMatch& other);
-
   ~MultiMatch();
 
   std::vector<Span> spans(uint_fast32_t variable_id) const;

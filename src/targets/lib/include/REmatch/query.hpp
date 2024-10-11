@@ -19,6 +19,8 @@ class Query {
                  uint_fast32_t max_mempool_duplications,
                  uint_fast32_t max_deterministic_states);
 
+  Query(Query&& other) noexcept;
+
   ~Query();
 
   std::unique_ptr<Match> findone(const std::string& document);
