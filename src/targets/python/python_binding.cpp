@@ -44,6 +44,7 @@ PYBIND11_MODULE(_pyrematch, m) {
 
   py::class_<Query>(m, "cppQuery")
       .def("findone", &Query::findone)
+      .def("findmany", &Query::findmany)
       .def("findall", &Query::findall)
       .def("finditer", &Query::finditer)
       .def("check", &Query::check);
@@ -68,6 +69,7 @@ PYBIND11_MODULE(_pyrematch, m) {
 
   py::class_<MultiQuery>(m, "cppMultiQuery")
       .def("findone", &MultiQuery::findone)
+      .def("findmany", &MultiQuery::findmany)
       .def("findall", &MultiQuery::findall)
       .def("finditer", &MultiQuery::finditer)
       .def("check", &MultiQuery::check);

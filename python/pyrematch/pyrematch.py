@@ -92,6 +92,11 @@ class Query:
             return Match(cpp_match)
         return None
 
+    def findmany(self, document: str, limit: int):
+        return [
+            Match(cpp_match) for cpp_match in self._cpp_query.findmany(document, limit)
+        ]
+
     def findall(self, document: str) -> List[Match]:
         return [Match(cpp_match) for cpp_match in self._cpp_query.findall(document)]
 
@@ -176,6 +181,12 @@ class MultiQuery:
         if cpp_multi_match:
             return MultiMatch(cpp_multi_match)
         return None
+
+    def findmany(self, document: str, limit: int):
+        return [
+            MultiMatch(cpp_multi_match)
+            for cpp_multi_match in self._cpp_multi_query.findmany(document, limit)
+        ]
 
     def findall(self, document: str) -> List[Match]:
         return [

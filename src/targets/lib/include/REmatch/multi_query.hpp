@@ -20,13 +20,19 @@ class MultiQuery {
 
   MultiQuery(MultiQuery&& other) noexcept;
 
+  MultiQuery& operator=(MultiQuery&& other) noexcept;
+
   ~MultiQuery();
 
   std::unique_ptr<MultiMatch> findone(const std::string& document);
 
+  // TODO: this should be changed to std::vector<MultiMatch>
+  std::vector<std::unique_ptr<MultiMatch>> findmany(const std::string& document, uint_fast32_t limit);
+
+  // TODO: this should be changed to std::vector<MultiMatch>
   std::vector<std::unique_ptr<MultiMatch>> findall(const std::string& document);
 
-  std::unique_ptr<MultiMatchIterator> finditer(const std::string& document);
+  MultiMatchIterator finditer(const std::string& document);
 
   bool check(const std::string& document);
 

@@ -18,10 +18,6 @@ target_include_directories(${LIBRARY_TARGET_NAME} PUBLIC
     $<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-target_include_directories(${LIBRARY_TARGET_NAME} PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src/rematch>
-    $<INSTALL_INTERFACE:$<INSTALL_PREFIX>>
-)
 
 # SKBUILD just needs to have the libREmatch.a file available at the same directory as the package
 if(SKBUILD)

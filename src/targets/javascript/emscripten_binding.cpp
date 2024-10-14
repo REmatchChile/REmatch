@@ -49,6 +49,7 @@ EMSCRIPTEN_BINDINGS(REmatchModule) {
 
   class_<Query>("cppQuery")
       .function("findone", &Query::findone)
+      .function("findmany", &Query::findmany)
       .function("findall", &Query::findall)
       .function("finditer", &Query::finditer)
       .function("check", &Query::check);
@@ -75,6 +76,7 @@ EMSCRIPTEN_BINDINGS(REmatchModule) {
 
   class_<MultiQuery>("cppMultiQuery")
       .function("findone", &MultiQuery::findone)
+      .function("findmany", &MultiQuery::findmany)
       .function("findall", &MultiQuery::findall)
       .function("finditer", &MultiQuery::finditer)
       .function("check", &MultiQuery::check);

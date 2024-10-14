@@ -1,13 +1,13 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 
+#include <REmatch/REmatch.hpp>
 #include "../evaluation/dummy_mapping.hpp"
 #include "../evaluation/mapping_helpers.hpp"
-#include <REmatch/REmatch.hpp>
 
 namespace REmatch::testing {
 
-void run_client_test(std::unique_ptr<MatchIterator>& match_iterator,
+void run_client_test(MatchIterator& match_iterator,
                      std::vector<DummyMapping> expected_matches);
 void create_linked_list_node_of_depth(ECS* ecs, int depth);
 
@@ -20,8 +20,7 @@ TEST_CASE("flag LINE_BY_LINE works correctly") {
 
   Flags flags = Flags::LINE_BY_LINE;
   REmatch::Query regex = REmatch::reql(pattern, flags);
-  std::unique_ptr<REmatch::MatchIterator> match_iterator =
-      regex.finditer(document);
+  auto match_iterator = regex.finditer(document);
 
   run_client_test(match_iterator, expected_matches);
 }

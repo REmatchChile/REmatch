@@ -10,10 +10,9 @@ TEST_CASE("multi match iterator returns the correct variables") {
   std::string document = "aa aaa aa a";
 
   auto query = multi_reql(pattern);
-  std::unique_ptr<REmatch::MultiMatchIterator> iterator =
-      query.finditer(document);
+  auto iterator = query.finditer(document);
 
-  REQUIRE(iterator->variables() == std::vector<std::string>{"x", "y"});
+  REQUIRE(iterator.variables() == std::vector<std::string>{"x", "y"});
 }
 
 TEST_CASE("multi match iterator returns the correct matches") {
@@ -21,18 +20,17 @@ TEST_CASE("multi match iterator returns the correct matches") {
   std::string document = "one two three";
 
   auto query = multi_reql(pattern);
-  std::unique_ptr<REmatch::MultiMatchIterator> iterator =
-      query.finditer(document);
+  auto iterator = query.finditer(document);
 
-  auto match = iterator->next();
+  auto match = iterator.next();
   REQUIRE(match != nullptr);
   REQUIRE(match->spans("x") == std::vector<Span>{{0, 3}, {4, 7}});
 
-  match = iterator->next();
+  match = iterator.next();
   REQUIRE(match != nullptr);
   REQUIRE(match->spans("x") == std::vector<Span>{{4, 7}, {8, 13}});
 
-  REQUIRE(iterator->next() == nullptr);
+  REQUIRE(iterator.next() == nullptr);
 }
 
 }  // namespace REmatch::testing

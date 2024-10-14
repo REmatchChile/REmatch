@@ -20,14 +20,19 @@ class Query {
                  uint_fast32_t max_deterministic_states);
 
   Query(Query&& other) noexcept;
+  Query& operator=(Query&& other) noexcept;
 
   ~Query();
 
   std::unique_ptr<Match> findone(const std::string& document);
 
+  // TODO: this should be changed to std::vector<Match>
+  std::vector<std::unique_ptr<Match>> findmany(const std::string& document, uint_fast32_t limit);
+
+  // TODO: this should be changed to std::vector<Match>
   std::vector<std::unique_ptr<Match>> findall(const std::string& document);
 
-  std::unique_ptr<MatchIterator> finditer(const std::string& document);
+  MatchIterator finditer(const std::string& document);
 
   bool check(const std::string& document);
 

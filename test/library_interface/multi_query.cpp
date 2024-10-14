@@ -20,18 +20,18 @@ TEST_CASE("multi regex returns nullptr when there are no matches") {
   std::string pattern = "!x{b}!x{b}";
   std::string document = "aa";
   auto query = multi_reql(pattern);
-  std::unique_ptr<MultiMatchIterator> match_iterator = query.finditer(document);
+  auto match_iterator = query.finditer(document);
 
-  REQUIRE(match_iterator->next() == nullptr);
+  REQUIRE(match_iterator.next() == nullptr);
 }
 
 TEST_CASE("multi regex returns an empty match when nothing is captured") {
   std::string pattern = "!x{b}|a";
   std::string document = "a";
   auto query = multi_reql(pattern);
-  std::unique_ptr<MultiMatchIterator> match_iterator = query.finditer(document);
+  auto match_iterator = query.finditer(document);
 
-  std::unique_ptr<MultiMatch> match = match_iterator->next();
+  std::unique_ptr<MultiMatch> match = match_iterator.next();
   REQUIRE(match != nullptr);
   REQUIRE(match->empty());
 }
@@ -42,17 +42,17 @@ TEST_CASE("multi regex returns the expected result when using alternation") {
   auto query = multi_reql(pattern);
   auto iterator = query.finditer(document);
 
-  auto match = iterator->next();
+  auto match = iterator.next();
   REQUIRE(match != nullptr);
   REQUIRE(match->spans("x") == std::vector<Span>{{0, 1}});
   REQUIRE(match->spans("y").empty());
 
-  match = iterator->next();
+  match = iterator.next();
   REQUIRE(match != nullptr);
   REQUIRE(match->spans("x").empty());
   REQUIRE(match->spans("y") == std::vector<Span>{{0, 1}});
 
-  match = iterator->next();
+  match = iterator.next();
   REQUIRE(match == nullptr);
 }
 
@@ -62,19 +62,19 @@ TEST_CASE("multi regex returns the correct result when using quantifiers") {
   auto query = multi_reql(pattern);
   auto iterator = query.finditer(document);
 
-  auto match = iterator->next();
+  auto match = iterator.next();
   REQUIRE(match != nullptr);
   REQUIRE(match->spans("x") == std::vector<Span>{{0, 1}});
 
-  match = iterator->next();
+  match = iterator.next();
   REQUIRE(match != nullptr);
   REQUIRE(match->spans("x") == std::vector<Span>{{1, 2}});
 
-  match = iterator->next();
+  match = iterator.next();
   REQUIRE(match != nullptr);
   REQUIRE(match->spans("x") == std::vector<Span>{{0, 1}, {1, 2}});
 
-  match = iterator->next();
+  match = iterator.next();
   REQUIRE(match == nullptr);
 }
 
@@ -87,23 +87,23 @@ TEST_CASE("multi regex returns the correct result when using char classes") {
   auto query = multi_reql(pattern);
   auto iterator = query.finditer(document);
 
-  auto match = iterator->next();
+  auto match = iterator.next();
   REQUIRE(match != nullptr);
   REQUIRE(match->groups("com") == std::vector<std::string>{"git"});
   REQUIRE(match->groups("args") == std::vector<std::string>{"pull"});
 
-  match = iterator->next();
+  match = iterator.next();
   REQUIRE(match != nullptr);
   REQUIRE(match->groups("com") == std::vector<std::string>{"python3"});
   REQUIRE(match->groups("args") == std::vector<std::string>{"--version"});
 
-  match = iterator->next();
+  match = iterator.next();
   REQUIRE(match != nullptr);
   REQUIRE(match->groups("com") == std::vector<std::string>{"apt"});
   REQUIRE(match->groups("args") ==
           std::vector<std::string>{"install", "texlive"});
 
-  match = iterator->next();
+  match = iterator.next();
   REQUIRE(match == nullptr);
 }
 
@@ -113,22 +113,22 @@ TEST_CASE("multi regex returns the correct result when using anchors") {
   auto query = multi_reql(pattern);
   auto iterator = query.finditer(document);
 
-  auto match = iterator->next();
+  auto match = iterator.next();
   REQUIRE(match != nullptr);
   REQUIRE(match->groups("row") == std::vector<std::string>{"O,-,X"});
   REQUIRE(match->spans("mark") == std::vector<Span>{{0, 1}, {4, 5}});
 
-  match = iterator->next();
+  match = iterator.next();
   REQUIRE(match != nullptr);
   REQUIRE(match->groups("row") == std::vector<std::string>{"-,X,O"});
   REQUIRE(match->spans("mark") == std::vector<Span>{{8, 9}, {10, 11}});
 
-  match = iterator->next();
+  match = iterator.next();
   REQUIRE(match != nullptr);
   REQUIRE(match->groups("row") == std::vector<std::string>{"O,-,-"});
   REQUIRE(match->spans("mark") == std::vector<Span>{{12, 13}});
 
-  match = iterator->next();
+  match = iterator.next();
   REQUIRE(match == nullptr);
 }
 
@@ -136,7 +136,7 @@ TEST_CASE("multi regex finditer method returns iterator correctly") {
   std::string pattern = "(^|(\\. ))!x{!y{\\w+}([^\\w.]+!y{\\w+})*}\\.";
   std::string document = "Hi friend. Take care.";
   auto query = multi_reql(pattern);
-  std::unique_ptr<MultiMatchIterator> match_iterator = query.finditer(document);
+  auto match_iterator = query.finditer(document);
 
   std::vector<std::map<std::string, std::vector<std::string>>>
       expected_multispans = {{
@@ -148,15 +148,15 @@ TEST_CASE("multi regex finditer method returns iterator correctly") {
                                  {"y", {"Take", "care"}},
                              }};
 
-  std::unique_ptr<MultiMatch> match = match_iterator->next();
+  auto match = match_iterator.next();
   REQUIRE(match->groups("x") == expected_multispans[0]["x"]);
   REQUIRE(match->groups("y") == expected_multispans[0]["y"]);
 
-  match = match_iterator->next();
+  match = match_iterator.next();
   REQUIRE(match->groups("x") == expected_multispans[1]["x"]);
   REQUIRE(match->groups("y") == expected_multispans[1]["y"]);
 
-  REQUIRE(match_iterator->next() == nullptr);
+  REQUIRE(match_iterator.next() == nullptr);
 }
 
 TEST_CASE("multi regex check method returns true when there is an output") {

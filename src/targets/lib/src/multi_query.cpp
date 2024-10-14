@@ -24,6 +24,13 @@ MultiQuery::MultiQuery(MultiQuery&& other) noexcept
       max_mempool_duplications_(other.max_mempool_duplications_),
       max_deterministic_states_(other.max_deterministic_states_) {}
 
+MultiQuery& MultiQuery::operator=(MultiQuery&& other) noexcept {
+  query_data_ = std::move(other.query_data_);
+  max_mempool_duplications_ = other.max_mempool_duplications_;
+  max_deterministic_states_ = other.max_deterministic_states_;
+  return *this;
+}
+
 MultiQuery::~MultiQuery() = default;
 
 std::unique_ptr<MultiMatch> MultiQuery::findone(const std::string& document_) {
@@ -42,23 +49,41 @@ std::unique_ptr<MultiMatch> MultiQuery::findone(const std::string& document_) {
   return nullptr;
 }
 
+std::vector<std::unique_ptr<MultiMatch>> MultiQuery::findmany(
+    const std::string& document, uint_fast32_t limit) {
+  std::vector<std::unique_ptr<MultiMatch>> res;
+
+  auto multi_match_iterator = finditer(document);
+
+  while (limit > 0) {
+    auto match = multi_match_iterator.next();
+    if (match == nullptr) {
+      break;
+    }
+
+    res.push_back(std::move(match));
+    --limit;
+  }
+
+  return res;
+}
+
 std::vector<std::unique_ptr<MultiMatch>> MultiQuery::findall(
     const std::string& document) {
   std::vector<std::unique_ptr<MultiMatch>> res;
 
-  auto match_iterator = finditer(document);
+  auto multi_match_iterator = finditer(document);
 
-  while (auto match = match_iterator->next()) {
+  while (auto match = multi_match_iterator.next()) {
     res.push_back(std::move(match));
   }
 
   return res;
 }
 
-std::unique_ptr<MultiMatchIterator> MultiQuery::finditer(
-    const std::string& text) {
-  return std::make_unique<MultiMatchIterator>(
-      *query_data_, text, max_mempool_duplications_, max_deterministic_states_);
+MultiMatchIterator MultiQuery::finditer(const std::string& document) {
+  return {*query_data_, document, max_mempool_duplications_,
+          max_deterministic_states_};
 }
 
 bool MultiQuery::check(const std::string& document_) {

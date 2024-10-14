@@ -1,14 +1,14 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 
+#include <REmatch/REmatch.hpp>
 #include "../evaluation/dummy_mapping.hpp"
 #include "../evaluation/mapping_helpers.hpp"
-#include <REmatch/REmatch.hpp>
 
 namespace REmatch::testing {
 using namespace REmatch;
 
-void run_client_test(std::unique_ptr<MatchIterator>& match_iterator,
+void run_client_test(MatchIterator& match_iterator,
                      std::vector<DummyMapping> expected_matches);
 
 TEST_CASE("find function returns the correct match") {
@@ -17,7 +17,6 @@ TEST_CASE("find function returns the correct match") {
 
   auto query = reql(pattern);
   std::unique_ptr<Match> match = query.findone(document);
-
 
   REQUIRE(match != nullptr);
   REQUIRE(match->span("x") == Span{3, 6});
@@ -71,7 +70,7 @@ TEST_CASE("the iterator obtained with finditer returns the correct matches") {
   std::string pattern = "!x{.{3}}";
 
   auto query = reql(pattern);
-  std::unique_ptr<MatchIterator> iterator = query.finditer(document);
+  auto iterator = query.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
       DummyMapping({{"x", {0, 3}}}),
@@ -88,11 +87,11 @@ TEST_CASE("the matches obtained with finditer return the correct groups") {
   std::string pattern = "!x{.{3}}";
 
   auto query = reql(pattern);
-  std::unique_ptr<MatchIterator> iterator = query.finditer(document);
+  auto iterator = query.finditer(document);
 
   std::vector<std::string> expected_groups = {"qwe", "wer", "ert", "rty"};
 
-  std::unique_ptr<Match> match = iterator->next();
+  std::unique_ptr<Match> match = iterator.next();
 
   while (match != nullptr) {
     std::string group = match->group("x");
@@ -101,7 +100,7 @@ TEST_CASE("the matches obtained with finditer return the correct groups") {
     REQUIRE(it != expected_groups.end());
     expected_groups.erase(it);
 
-    match = iterator->next();
+    match = iterator.next();
   }
 
   REQUIRE(expected_groups.empty());
