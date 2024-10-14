@@ -28,11 +28,9 @@ if(SKBUILD)
 else()
     install(TARGETS       ${LIBRARY_TARGET_NAME}
             EXPORT        ${PROJECT_NAME}
-            LIBRARY       DESTINATION ${CMAKE_INSTALL_LIBDIR}                            COMPONENT shlib
-            ARCHIVE       DESTINATION ${CMAKE_INSTALL_LIBDIR}                            COMPONENT lib
-            RUNTIME       DESTINATION ${CMAKE_INSTALL_BINDIR}                            COMPONENT bin
-            PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${LIBRARY_TARGET_NAME} COMPONENT dev)
+            LIBRARY       DESTINATION ${INSTALL_LIB}                            COMPONENT shlib
+            ARCHIVE       DESTINATION ${INSTALL_LIB}                            COMPONENT lib
+            RUNTIME       DESTINATION ${INSTALL_BIN}                            COMPONENT bin
+            PUBLIC_HEADER DESTINATION ${INSTALL_INCLUDE}/${LIBRARY_TARGET_NAME} COMPONENT dev)
 endif()
 
-
-message(STATUS "Created target ${LIBRARY_TARGET_NAME} for export ${PROJECT_NAME}.")
