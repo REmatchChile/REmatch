@@ -128,27 +128,102 @@ cd ..
 rm -rf Catch2
 ```
 
-### Building
+### Installation
 
-The target executable file is located at `src/targets/bin/rematch.cpp`. To build, run:
-
-```bash
-cmake -Bbuild/Release -DCMAKE_BUILD_TYPE=Release && cmake --build build/Release/
-```
-
-After building, the binary file will be located in the `build/Release/bin` folder. To try it simply run:
+Build REmatch in `Release` mode with one of the following command:
 
 ```bash
-./build/Release/bin/rematch
+# Unix system
+cmake -Bbuild/Release -DCMAKE_BUILD_TYPE=Release
+cmake --build build/Release/
+
+# Windows
+cmake -Bbuild/Release -DCMAKE_BUILD_TYPE=Release
+cmake --build build/Release/ --config Release
 ```
+
+After building, the library and binaries will be located in the `./build/Release/` folder. To install the library in your system, run the following command:
+
+```bash
+cmake --install build/Release/
+```
+
+### Usage
+
+After successfully installing the project, you can start using the library in your C++ programs.
+
+#### Quick usage with CMake
+
+Inside your project directory, lest say `hello-rematch`:
+
+Create `hello-rematch/main.cpp`:
+
+```cpp
+#include <iostream>
+#include <REmatch/REmatch.hpp>
+
+int main() {
+  auto query = REmatch::reql("!x{.+}");
+  auto match_iterator = query.findall("Hello world!");
+
+  while (auto match = match_iterator.next()) {
+    std::cout << *match << std::endl;
+  }
+
+  return 0;
+}
+```
+
+Create `hello-rematch/CMakeLists.txt`:
+
+```cmake
+cmake_minimum_required(VERSION 3.16)
+project(hello-rematch)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+find_package(REmatch REQUIRED)
+
+add_executable(main main.cc)
+target_link_libraries(main REmatch::REmatch)
+```
+
+Finally, compile your program using the following command:
+
+```bash
+mkdir build
+cd build
+cmake ..
+cmake --build .
+```
+
+#### Quick usage without build system
+
+Assuming that you have the file `hello-rematch/main.cpp` as the previous section, you can compile it with the following command:
+
+```bash
+# gcc
+g++ main.cpp -lREmatch -o main
+
+# clang
+clang++ main.cpp -lREmatch -o main
+```
+
+### Debugging
 
 If you want to use a debugger such as `gdb`, then you should run the following command:
 
 ```bash
-cmake -Bbuild/Debug -DCMAKE_BUILD_TYPE=Debug && cmake --build build/Debug/
+# Unix system
+cmake -Bbuild/Debug -DCMAKE_BUILD_TYPE=Debug
+cmake --build build/Debug/
+
+# Windows
+cmake -Bbuild/Debug -DCMAKE_BUILD_TYPE=Debug
+cmake --build build/Debug/ --config Debug
 ```
 
-The binary path instead will be at `build/Debug/bin`.
+In this case, the build path will be `build/Debug/bin`.
 
 ## Testing
 
@@ -181,7 +256,8 @@ To begin, follow the official installation tutorial for Emscripten available at 
 Once the installation is complete, execute the following command:
 
 ```bash
-emcmake cmake -Bbuild/javascript -DCMAKE_BUILD_TYPE=Release && cmake --build build/javascript/
+emcmake cmake -Bbuild/javascript -DCMAKE_BUILD_TYPE=Release
+cmake --build build/javascript/
 ```
 
 Then the JavaScript/WASM bindings can be found in `./build/javascript/bin/`

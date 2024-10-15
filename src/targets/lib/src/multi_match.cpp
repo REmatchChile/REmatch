@@ -1,6 +1,7 @@
 #include <REmatch/multi_match.hpp>
 
 #include <cstdint>
+#include <memory>
 
 #include "evaluation/document.hpp"
 #include "exceptions/variable_not_found_in_catalog_exception.hpp"
@@ -26,14 +27,13 @@ std::vector<Span> MultiMatch::spans(uint_fast32_t variable_id) const {
     throw VariableNotFoundInCatalogException("");
   }
 
-  if (mapping_cache_.has_value()) {
-    return mapping_cache_.value()[int(variable_id)];
+  if (mapping_cache_ == nullptr) {
+    auto mapping = extended_mapping_->construct_mapping();
+    mapping_cache_ =
+        std::make_unique<std::map<int, std::vector<Span>>>(std::move(mapping));
   }
 
-  std::map<int, std::vector<Span>> mapping =
-      extended_mapping_->construct_mapping();
-  mapping_cache_ = mapping;
-  return mapping[int(variable_id)];
+  return (*mapping_cache_)[int(variable_id)];
 }
 
 std::vector<Span> MultiMatch::spans(const std::string& variable_name) const {
@@ -45,17 +45,14 @@ std::vector<std::string> MultiMatch::groups(uint_fast32_t variable_id) const {
     throw VariableNotFoundInCatalogException("");
   }
 
-  std::map<int, std::vector<Span>> mapping;
-
-  if (mapping_cache_.has_value()) {
-    mapping = mapping_cache_.value();
-  } else {
-    mapping = extended_mapping_->construct_mapping();
-    mapping_cache_ = mapping;
+  if (mapping_cache_ == nullptr) {
+    auto mapping = extended_mapping_->construct_mapping();
+    mapping_cache_ =
+        std::make_unique<std::map<int, std::vector<Span>>>(std::move(mapping));
   }
 
   std::vector<std::string> strings;
-  std::vector<Span>& spans = mapping[int(variable_id)];
+  std::vector<Span>& spans = (*mapping_cache_)[int(variable_id)];
   strings.reserve(spans.size());
 
   for (const auto& span : spans) {
@@ -81,14 +78,13 @@ std::vector<std::string> MultiMatch::variables() const {
 }
 
 bool MultiMatch::empty() const {
-  if (mapping_cache_.has_value()) {
-    return mapping_cache_.value().empty();
+  if (mapping_cache_ == nullptr) {
+    auto mapping = extended_mapping_->construct_mapping();
+    mapping_cache_ =
+        std::make_unique<std::map<int, std::vector<Span>>>(std::move(mapping));
   }
 
-  std::map<int, std::vector<Span>> mapping =
-      extended_mapping_->construct_mapping();
-  mapping_cache_ = mapping;
-  return mapping.empty();
+  return mapping_cache_->empty();
 }
 
 bool MultiMatch::operator==(const MultiMatch& other) const {

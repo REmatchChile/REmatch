@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdint>
-#include <optional>
+#include <memory>
 #include <vector>
 
 #include "match.hpp"
@@ -43,8 +43,7 @@ class MultiMatch {
   std::unique_ptr<ExtendedMapping> extended_mapping_;
   std::shared_ptr<VariableCatalog> variable_catalog_;
   std::shared_ptr<Document> document_;
-  mutable std::optional<std::map<int, std::vector<Span>>> mapping_cache_ =
-      std::nullopt;
+  mutable std::unique_ptr<std::map<int, std::vector<Span>>> mapping_cache_;
 };
 }  // namespace library_interface
 }  // namespace REmatch
