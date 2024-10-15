@@ -4,12 +4,10 @@
 #include <REmatch/REmatch.hpp>
 #include "../evaluation/dummy_mapping.hpp"
 #include "../evaluation/mapping_helpers.hpp"
+#include "../tests_utils/tests_utils.hpp"
 
 namespace REmatch::testing {
 using namespace REmatch;
-
-void run_client_test(MatchIterator& match_iterator,
-                     std::vector<DummyMapping> expected_matches);
 
 TEST_CASE("find function returns the correct match") {
   std::string document = "qwerty";

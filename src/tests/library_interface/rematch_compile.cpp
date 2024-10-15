@@ -4,12 +4,9 @@
 #include <REmatch/REmatch.hpp>
 #include "../evaluation/dummy_mapping.hpp"
 #include "../evaluation/mapping_helpers.hpp"
+#include "../tests_utils/tests_utils.hpp"
 
 namespace REmatch::testing {
-
-void run_client_test(MatchIterator& match_iterator,
-                     std::vector<DummyMapping> expected_matches);
-std::string get_mapping_info(DummyMapping mapping);
 
 TEST_CASE("find method simple test") {
   std::string document = "This is a document";
@@ -348,31 +345,6 @@ TEST_CASE("the regex can be evaluated more than once") {
 
   auto match_iterator2 = regex.finditer(document);
   run_client_test(match_iterator2, expected_matches);
-}
-
-void run_client_test(MatchIterator& match_iterator,
-                     std::vector<DummyMapping> expected_matches) {
-  std::unique_ptr<Match> match = match_iterator.next();
-
-  std::ostringstream info_os;
-  info_os << "Actual mappings:\n";
-
-  while (match != nullptr) {
-    DummyMapping mapping({});
-
-    for (const auto& variable : match->variables()) {
-      mapping.add_span(variable, match->span(variable));
-    }
-    info_os << get_mapping_info(mapping);
-    INFO(info_os.str());
-    REQUIRE(contains_mapping(expected_matches, mapping));
-    remove_mapping_from_expected(expected_matches, mapping);
-
-    match = match_iterator.next();
-  }
-
-  INFO(info_os.str());
-  REQUIRE(expected_matches.size() == 0);
 }
 
 }  // namespace REmatch::testing

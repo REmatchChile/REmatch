@@ -2,14 +2,11 @@
 #include <catch2/generators/catch_generators.hpp>
 
 #include "../evaluation/mapping_helpers.hpp"
+#include "../tests_utils/tests_utils.hpp"
 #include "mediator/mediator/multi_finditer_mediator.hpp"
 #include "output_enumeration/extended_mapping.hpp"
 
 namespace REmatch::testing {
-
-void run_multi_mediator_test(std::string query, std::string document,
-                             std::vector<ExtendedMapping> expected_mappings);
-std::bitset<64> get_markers(std::string bits);
 
 TEST_CASE(
     "the multi mediator returns null pointer when there are no mappings") {
@@ -125,48 +122,6 @@ TEST_CASE(
       }),
   };
   run_multi_mediator_test(regex, document, expected_mappings);
-}
-
-std::bitset<64> get_markers(std::string bits) {
-  std::bitset<64> variable_markers(bits);
-  int size = variable_markers.size();
-  variable_markers[size - 1] = 1;
-  variable_markers[size - 2] = 1;
-  return variable_markers;
-}
-
-void run_multi_mediator_test(std::string query, std::string document_,
-                             std::vector<ExtendedMapping> expected_mappings) {
-  Parser parser = Parser(query, true);
-  auto document = std::make_shared<Document>(document_);
-
-  LogicalVA logical_va = parser.get_logical_va();
-
-  ExtendedVA extended_va = ExtendedVA(logical_va);
-  extended_va.clean_for_determinization();
-  std::shared_ptr<VariableCatalog> variable_catalog =
-      parser.get_variable_catalog();
-  auto segment_manager_creator = SegmentManagerCreator(
-      logical_va, Flags::NONE, REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
-
-  QueryData regex_data{std::move(segment_manager_creator),
-                       std::move(extended_va), variable_catalog};
-  auto mediator = MultiFinditerMediator(regex_data, document);
-
-  std::ostringstream info_os;
-  info_os << "Actual mappings:" << std::endl;
-
-  std::unique_ptr<ExtendedMapping> actual_mapping = mediator.next();
-  while (actual_mapping != nullptr) {
-    info_os << *actual_mapping << std::endl;
-    INFO(info_os.str());
-    REQUIRE(contains_mapping(expected_mappings, *actual_mapping));
-    remove_mapping_from_expected(expected_mappings, *actual_mapping);
-    actual_mapping = mediator.next();
-  }
-
-  INFO(info_os.str());
-  REQUIRE(expected_mappings.size() == 0);
 }
 
 }  // namespace REmatch::testing

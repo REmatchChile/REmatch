@@ -5,12 +5,7 @@
 #include "string_view"
 #include "filtering_module/segment_identificator.hpp"
 #include "evaluation/document.hpp"
-
-
-void shift_span(std::unique_ptr<Span>& span) {
-  --(span->first);
-  --(span->second);
-}
+#include "../tests_utils/tests_utils.hpp"
 
 namespace REmatch::testing {
 TEST_CASE("The regex 'a' will return the span 0,5 on the document 'aaaaa'") {

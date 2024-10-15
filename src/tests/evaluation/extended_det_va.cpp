@@ -1,18 +1,18 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 
+#include "../tests_utils/tests_utils.hpp"
 #include "evaluation/extended_va/dfa/extended_det_va.hpp"
 #include "parsing/parser.hpp"
 
 namespace REmatch::testing {
 
-ExtendedVA get_extended_va_from_query(std::string query);
-
 TEST_CASE("initial state is created correctly") {
   ExtendedVA extended_va = get_extended_va_from_query("a");
   ExtendedDetVA extended_det_va(extended_va);
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
-  std::vector<ExtendedVAState*> states_subset = initial_state->get_states_subset();
+  std::vector<ExtendedVAState*> states_subset =
+      initial_state->get_states_subset();
 
   REQUIRE(extended_det_va.states.size() == 1);
   REQUIRE(initial_state->is_initial());
@@ -26,8 +26,10 @@ TEST_CASE("next state is computed correctly when there is a valid transition") {
   extended_va.clean_for_determinization();
   ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
 
-  std::bitset<64> eva_open_x_code = extended_va.initial_state()->read_captures[0]->captures_set;
-  std::bitset<64> eva_empty_code = extended_va.initial_state()->read_captures[1]->captures_set;
+  std::bitset<64> eva_open_x_code =
+      extended_va.initial_state()->read_captures[0]->captures_set;
+  std::bitset<64> eva_empty_code =
+      extended_va.initial_state()->read_captures[1]->captures_set;
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
@@ -52,7 +54,8 @@ TEST_CASE("next state is computed correctly when there is a valid transition") {
   REQUIRE(det_va_open_x_code == eva_open_x_code);
 }
 
-TEST_CASE("next state is computed correctly when there are no valid transitions other \
+TEST_CASE(
+    "next state is computed correctly when there are no valid transitions other \
            than the initial loop") {
   ExtendedVA extended_va = get_extended_va_from_query("!x{a}");
   ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
@@ -70,7 +73,8 @@ TEST_CASE("next state is computed correctly when there are no valid transitions 
   REQUIRE(capture_subset_list[0].subset->get_subset_size() == 1);
 }
 
-TEST_CASE("next state is computed correctly when there are two transitions with the same \
+TEST_CASE(
+    "next state is computed correctly when there are two transitions with the same \
            capture and reading") {
 
   // the initial state of the extended VA has two 'a/[x' transitions
@@ -89,7 +93,9 @@ TEST_CASE("next state is computed correctly when there are two transitions with 
   REQUIRE(second_state->get_subset_size() == 2);
 }
 
-TEST_CASE("next state is computed correctly when the current subset has more than one state") {
+TEST_CASE(
+    "next state is computed correctly when the current subset has more than "
+    "one state") {
   ExtendedVA extended_va = get_extended_va_from_query("!x{aa|aa}");
   ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
 
@@ -109,7 +115,9 @@ TEST_CASE("next state is computed correctly when the current subset has more tha
   REQUIRE(capture_subset_list[0].subset->get_subset_size() == 2);
 }
 
-TEST_CASE("next state is returned immediately when it has already been computed before") {
+TEST_CASE(
+    "next state is returned immediately when it has already been computed "
+    "before") {
   ExtendedVA extended_va = get_extended_va_from_query("!y{a}");
   ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
 
@@ -126,7 +134,8 @@ TEST_CASE("next state is returned immediately when it has already been computed 
   REQUIRE(next_state1->id == next_state2->id);
 }
 
-TEST_CASE("the deterministic state is final if a state in the subset is final") {
+TEST_CASE(
+    "the deterministic state is final if a state in the subset is final") {
   ExtendedVA extended_va = get_extended_va_from_query("a");
   ExtendedDetVA extended_det_va = ExtendedDetVA(extended_va);
 
@@ -147,17 +156,10 @@ TEST_CASE("non ascii characters are handled correctly") {
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
   std::vector<CaptureSubsetPair> capture_subset_list;
-  capture_subset_list = extended_det_va.get_next_states(initial_state, END_CHAR);
+  capture_subset_list =
+      extended_det_va.get_next_states(initial_state, END_CHAR);
 
   REQUIRE(capture_subset_list.size() == 1);
-}
-
-ExtendedVA get_extended_va_from_query(std::string query) {
-  Parser parser(query);
-  LogicalVA logical_va = parser.get_logical_va();
-  ExtendedVA extended_va(logical_va);
-  extended_va.clean_for_determinization();
-  return extended_va;
 }
 
 }  // namespace REmatch::testing

@@ -3,11 +3,9 @@
 
 #include "evaluation/extended_va/dfa/extended_det_va.hpp"
 #include "dummy_mapping.hpp"
+#include "../tests_utils/tests_utils.hpp"
 
 namespace REmatch::testing {
-
-void run_algorithm_test(std::string query, std::string document,
-                        std::vector<DummyMapping> expected_mappings);
 
 TEST_CASE("the algorithm returns correct mappings when there are UTF-8 characters that use 2 bytes") {
   std::string regex = "!x{b}";

@@ -4,12 +4,9 @@
 #include <REmatch/REmatch.hpp>
 #include "../evaluation/dummy_mapping.hpp"
 #include "../evaluation/mapping_helpers.hpp"
+#include "../tests_utils/tests_utils.hpp"
 
 namespace REmatch::testing {
-
-void run_client_test(MatchIterator& match_iterator,
-                     std::vector<DummyMapping> expected_matches);
-void create_linked_list_node_of_depth(ECS* ecs, int depth);
 
 TEST_CASE("flag LINE_BY_LINE works correctly") {
   std::string pattern = "!x{([A-Z][a-z]+\\n)+}";

@@ -3,10 +3,9 @@
 
 #include "exceptions/memory_limit_exceeded_exception.hpp"
 #include "output_enumeration/ecs.hpp"
+#include "../tests_utils/tests_utils.hpp"
 
 namespace REmatch::testing {
-
-ECSNode* create_linked_list_node_of_depth(ECS* ecs, int depth);
 
 TEST_CASE(
     "if the number of mempool duplications exceeds the limit, an exception is "

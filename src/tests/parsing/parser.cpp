@@ -1,14 +1,32 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 
+#include "parsing/logical_variable_set_automaton/logical_va_filter.hpp"
 #include "parsing/parser.hpp"
 #include "parsing/visitors/char_class_visitor.hpp"
 
 namespace REmatch::testing {
 
-bool charclass_contains_range(LogicalVAFilter filter, char lower, char upper);
-bool charclass_contains_character(LogicalVAFilter filter, char character);
-bool state_has_transition_for_digit(LogicalVAState& state);
+bool charclass_contains_range(LogicalVAFilter filter, char lower, char upper) {
+  for (char current_char = lower; current_char < upper + 1; current_char++) {
+    if (filter.charclass.contains(current_char) == false)
+      return false;
+  }
+  return true;
+}
+
+bool state_has_transition_for_digit(LogicalVAState& state) {
+  for (auto& filter : state.filters) {
+    if (charclass_contains_range(*filter, '0', '9')) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool charclass_contains_character(LogicalVAFilter filter, char character) {
+  return charclass_contains_range(filter, character, character);
+}
 
 TEST_CASE("the regex 'a' is parsed correctly into a LogicalVA.") {
   Parser parser = Parser("a");
@@ -21,7 +39,8 @@ TEST_CASE("the regex 'a' is parsed correctly into a LogicalVA.") {
   REQUIRE(va.initial_state()->filters.back()->next == va.accepting_state());
   REQUIRE(va.accepting_state()->backward_filters_.size() == 1);
   REQUIRE(va.accepting_state()->accepting());
-  REQUIRE(va.accepting_state()->backward_filters_.back()->next == va.accepting_state());
+  REQUIRE(va.accepting_state()->backward_filters_.back()->next ==
+          va.accepting_state());
 }
 
 TEST_CASE("the regex '!x{a}' is parsed correctly into a LogicalVA.") {
@@ -31,16 +50,18 @@ TEST_CASE("the regex '!x{a}' is parsed correctly into a LogicalVA.") {
   REQUIRE(va.states.size() == 4);
   REQUIRE(va.initial_state()->captures.size() == 1);
   REQUIRE(va.initial_state()->captures.front()->next->filters.size() == 1);
-  LogicalVAState *second_state = va.initial_state() -> captures.front()->next;
+  LogicalVAState* second_state = va.initial_state()->captures.front()->next;
   REQUIRE(second_state->filters.back()->charclass.contains('a'));
-  LogicalVAState *third_state = second_state->filters.back()->next;
-  LogicalVAState *fourth_state = third_state->captures.back()->next;
+  LogicalVAState* third_state = second_state->filters.back()->next;
+  LogicalVAState* fourth_state = third_state->captures.back()->next;
   REQUIRE(fourth_state->accepting());
   REQUIRE((va.initial_state()->captures.back()->code << 1) != 0);
-  REQUIRE((va.initial_state()->captures.back()->code << 1) == third_state->captures.back()->code);
+  REQUIRE((va.initial_state()->captures.back()->code << 1) ==
+          third_state->captures.back()->code);
 }
 
-TEST_CASE("the regex 'ab' is parsed correctly into a LogicalVA. \
+TEST_CASE(
+    "the regex 'ab' is parsed correctly into a LogicalVA. \
         (after minimization)") {
   Parser parser = Parser("ab");
   LogicalVA va = parser.get_logical_va();
@@ -51,15 +72,16 @@ TEST_CASE("the regex 'ab' is parsed correctly into a LogicalVA. \
   REQUIRE(va.initial_state()->filters.size() == 1);
   REQUIRE(va.initial_state()->captures.empty());
   REQUIRE(va.initial_state()->filters.back()->charclass.contains('a'));
-  LogicalVAState *second_state = va.initial_state()->filters.back()->next;
+  LogicalVAState* second_state = va.initial_state()->filters.back()->next;
   REQUIRE(second_state->backward_filters_.size() == 1);
   REQUIRE(second_state->filters.size() == 1);
   REQUIRE(second_state->filters.back()->charclass.contains('b'));
-  LogicalVAState *final_state = second_state->filters.back()->next;
+  LogicalVAState* final_state = second_state->filters.back()->next;
   REQUIRE(final_state->accepting());
 }
 
-TEST_CASE("the regex 'α' is parsed correctly into a LogicalVA. \
+TEST_CASE(
+    "the regex 'α' is parsed correctly into a LogicalVA. \
           (after minimization)") {
   Parser parser = Parser("α");
   LogicalVA va = parser.get_logical_va();
@@ -69,11 +91,11 @@ TEST_CASE("the regex 'α' is parsed correctly into a LogicalVA. \
   REQUIRE(va.states.size() == 3);
   REQUIRE(va.initial_state()->captures.empty());
   REQUIRE(va.initial_state()->filters.size() == 1);
-  REQUIRE(va.initial_state()->filters.back()->charclass.contains((char) 0xce));
-  LogicalVAState *second_state = va.initial_state()->filters.back()->next;
+  REQUIRE(va.initial_state()->filters.back()->charclass.contains((char)0xce));
+  LogicalVAState* second_state = va.initial_state()->filters.back()->next;
   REQUIRE(second_state->backward_filters_.size() == 1);
   REQUIRE(second_state->filters.size() == 1);
-  REQUIRE(second_state->filters.back()->charclass.contains((char) 0xb1));
+  REQUIRE(second_state->filters.back()->charclass.contains((char)0xb1));
   REQUIRE(second_state->filters.back());
 }
 
@@ -226,27 +248,6 @@ TEST_CASE("regex with negated char classes") {
   LogicalVAState* initial_state = logical_va.initial_state();
 
   REQUIRE(state_has_transition_for_digit(*initial_state) == false);
-}
-
-bool state_has_transition_for_digit(LogicalVAState& state) {
-  for (auto& filter : state.filters) {
-    if (charclass_contains_range(*filter, '0', '9')) {
-      return true;
-    }
-  }
-  return false;
-}
-
-bool charclass_contains_range(LogicalVAFilter filter, char lower, char upper) {
-  for (char current_char = lower; current_char < upper + 1; current_char++) {
-    if (filter.charclass.contains(current_char) == false)
-      return false;
-  }
-  return true;
-}
-
-bool charclass_contains_character(LogicalVAFilter filter, char character) {
-  return charclass_contains_range(filter, character, character);
 }
 
 }  // namespace REmatch::testing

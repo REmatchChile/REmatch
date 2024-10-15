@@ -2,17 +2,12 @@
 #include <catch2/generators/catch_generators.hpp>
 
 #include "evaluation/extended_va/nfa/extended_va.hpp"
-#include "parsing/parser.hpp"
 #include "evaluation/start_end_chars.hpp"
+#include "parsing/parser.hpp"
+#include "../tests_utils/tests_utils.hpp"
 
 namespace REmatch::testing {
 
-bool extended_va_has_only_read_captures_transitions(ExtendedVA const& extended_va);
-bool state_has_self_loop(ExtendedVAState* state);
-std::bitset<64> get_close_code(std::bitset<64> code);
-int get_max_id(ExtendedVA const& extended_va);
-int get_min_id(ExtendedVA const& extended_va);
-bool charclass_contains_every_character(CharClass charclass);
 CharClass asterisk_class = CharClass({'\x80', '\x7F'});
 
 TEST_CASE("extended va from '!x{a}' is constructed correctly") {
@@ -30,24 +25,33 @@ TEST_CASE("extended va from '!x{!y{a}}' is constructed correctly") {
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va = ExtendedVA(logical_va);
 
-  LogicalVACapture* outer_open_capture = logical_va.initial_state()->captures.front();
-  LogicalVACapture* inner_open_capture = outer_open_capture->next->captures.front();
-  LogicalVAFilter* logical_va_filter = inner_open_capture->next->filters.front();
-  LogicalVACapture* inner_close_capture = logical_va_filter->next->captures.front();
-  LogicalVACapture* outer_close_capture = inner_close_capture->next->captures.front();
+  LogicalVACapture* outer_open_capture =
+      logical_va.initial_state()->captures.front();
+  LogicalVACapture* inner_open_capture =
+      outer_open_capture->next->captures.front();
+  LogicalVAFilter* logical_va_filter =
+      inner_open_capture->next->filters.front();
+  LogicalVACapture* inner_close_capture =
+      logical_va_filter->next->captures.front();
+  LogicalVACapture* outer_close_capture =
+      inner_close_capture->next->captures.front();
 
   ExtendedVAState* initial_state = extended_va.initial_state();
-  ExtendedVAReadCapture* read_capture_left = initial_state->read_captures.front();
-  ExtendedVAReadCapture* read_capture_right = read_capture_left->next->read_captures.front();
+  ExtendedVAReadCapture* read_capture_left =
+      initial_state->read_captures.front();
+  ExtendedVAReadCapture* read_capture_right =
+      read_capture_left->next->read_captures.front();
 
   REQUIRE(extended_va.states.size() == 3);
   REQUIRE(extended_va_has_only_read_captures_transitions(extended_va));
 
   REQUIRE(read_capture_left->charclass == logical_va_filter->charclass);
-  REQUIRE(read_capture_left->captures_set == (outer_open_capture->code | inner_open_capture->code));
+  REQUIRE(read_capture_left->captures_set ==
+          (outer_open_capture->code | inner_open_capture->code));
 
   REQUIRE(read_capture_right->charclass == asterisk_class);
-  REQUIRE(read_capture_right->captures_set == (inner_close_capture->code | outer_close_capture->code));
+  REQUIRE(read_capture_right->captures_set ==
+          (inner_close_capture->code | outer_close_capture->code));
 }
 
 TEST_CASE("extended va from '!x{(a!y{a}|!y{a}a)}' is constructed correctly") {
@@ -63,21 +67,29 @@ TEST_CASE("extended va from '!x{(a!y{a}|!y{a}a)}' is constructed correctly") {
   LogicalVAFilter* lva_filter_a = lva_open_x->next->filters.front();
 
   // extended va transitions
-  ExtendedVAReadCapture* eva_upper_open_x = extended_va.initial_state()->read_captures.front();
-  ExtendedVAReadCapture* eva_upper_open_y = eva_upper_open_x->next->read_captures.front();
-  ExtendedVAReadCapture* eva_upper_close_xy = eva_upper_open_y->next->read_captures.front();
+  ExtendedVAReadCapture* eva_upper_open_x =
+      extended_va.initial_state()->read_captures.front();
+  ExtendedVAReadCapture* eva_upper_open_y =
+      eva_upper_open_x->next->read_captures.front();
+  ExtendedVAReadCapture* eva_upper_close_xy =
+      eva_upper_open_y->next->read_captures.front();
 
-  ExtendedVAReadCapture* eva_lower_open_xy = extended_va.initial_state()->read_captures[1];
-  ExtendedVAReadCapture* eva_lower_close_y = eva_lower_open_xy->next->read_captures.front();
-  ExtendedVAReadCapture* eva_lower_close_x = eva_lower_close_y->next->read_captures.front();
+  ExtendedVAReadCapture* eva_lower_open_xy =
+      extended_va.initial_state()->read_captures[1];
+  ExtendedVAReadCapture* eva_lower_close_y =
+      eva_lower_open_xy->next->read_captures.front();
+  ExtendedVAReadCapture* eva_lower_close_x =
+      eva_lower_close_y->next->read_captures.front();
 
   REQUIRE(extended_va.states.size() == 6);
   REQUIRE(extended_va_has_only_read_captures_transitions(extended_va));
 
   REQUIRE(eva_upper_open_x->captures_set == lva_open_x->code);
   REQUIRE(eva_upper_open_y->captures_set == lva_open_y->code);
-  REQUIRE(eva_upper_close_xy->captures_set == get_close_code(lva_open_x->code | lva_open_y->code));
-  REQUIRE(eva_lower_open_xy->captures_set == (lva_open_x->code | lva_open_y->code));
+  REQUIRE(eva_upper_close_xy->captures_set ==
+          get_close_code(lva_open_x->code | lva_open_y->code));
+  REQUIRE(eva_lower_open_xy->captures_set ==
+          (lva_open_x->code | lva_open_y->code));
   REQUIRE(eva_lower_close_x->captures_set == get_close_code(lva_open_x->code));
   REQUIRE(eva_lower_close_y->captures_set == get_close_code(lva_open_y->code));
 
@@ -147,7 +159,8 @@ TEST_CASE("extended va with end anchor is constructed correctly") {
   ExtendedVAState* accepting_state = extended_va.accepting_state();
 
   REQUIRE(accepting_state->backward_read_captures.size() == 1);
-  ExtendedVAReadCapture* end_anchor_transition = accepting_state->backward_read_captures[0];
+  ExtendedVAReadCapture* end_anchor_transition =
+      accepting_state->backward_read_captures[0];
   REQUIRE(end_anchor_transition->charclass == CharClass(END_CHAR));
   REQUIRE(end_anchor_transition->captures_set == 0);
 }
@@ -157,7 +170,8 @@ TEST_CASE("extended va with multi spanners is constructed correctly") {
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va = ExtendedVA(logical_va);
 
-  std::bitset<64> open_code = logical_va.initial_state()->captures.front()->code;
+  std::bitset<64> open_code =
+      logical_va.initial_state()->captures.front()->code;
   std::bitset<64> close_code = get_close_code(open_code);
 
   REQUIRE(extended_va.states.size() == 3);
@@ -279,7 +293,8 @@ TEST_CASE("the capture reaching the final state reads any character") {
 
   ExtendedVAState* initial_state = extended_va.initial_state();
   ExtendedVAReadCapture* open_x_capture = initial_state->read_captures[0];
-  ExtendedVAReadCapture* close_x_capture = open_x_capture->next->read_captures[0];
+  ExtendedVAReadCapture* close_x_capture =
+      open_x_capture->next->read_captures[0];
 
   REQUIRE(charclass_contains_every_character(close_x_capture->charclass));
 }
@@ -294,58 +309,6 @@ TEST_CASE("relabel states is correct") {
   size_t max_id = get_max_id(extended_va);
   REQUIRE(get_min_id(extended_va) == 0);
   REQUIRE(extended_va.size() == max_id + 1);
-}
-
-bool extended_va_has_only_read_captures_transitions(ExtendedVA const& extended_va) {
-  for (auto& state : extended_va.states) {
-    if (!(state->filters.empty() && state->backward_filters.empty() &&
-          state->captures.empty() && state->backward_captures.empty()))
-      return false;
-  }
-
-  return true;
-}
-
-std::bitset<64> get_close_code(std::bitset<64> code) {
-  return code << 1;
-}
-
-bool state_has_self_loop(ExtendedVAState* state) {
-  for (auto& read_capture : state->read_captures) {
-    if (read_capture->next == state)
-      return true;
-  }
-
-  return false;
-}
-
-int get_max_id(ExtendedVA const& extended_va) {
-  unsigned int max_id = 0;
-
-  for (auto &state : extended_va.states) {
-    max_id = std::max(max_id, state->id);
-  }
-
-  return max_id;
-}
-
-int get_min_id(ExtendedVA const& extended_va) {
-  unsigned int min_id = extended_va.states.front()->id;
-
-  for (auto &state : extended_va.states) {
-    min_id = std::min(min_id, state->id);
-  }
-
-  return min_id;
-}
-
-bool charclass_contains_every_character(CharClass charclass) {
-  for (int i = 0; i < 0xFF; i++) {
-    if (!charclass.contains((char) i))
-      return false;
-  }
-
-  return true;
 }
 
 }  // namespace REmatch::testing
