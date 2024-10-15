@@ -46,6 +46,7 @@ PYBIND11_MODULE(_pyrematch, m) {
       .def("findone", &Query::findone)
       .def("findmany", &Query::findmany)
       .def("findall", &Query::findall)
+      // TODO: Fix
       .def("finditer", &Query::finditer)
       .def("check", &Query::check);
 

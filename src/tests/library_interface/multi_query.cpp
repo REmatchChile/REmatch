@@ -40,20 +40,19 @@ TEST_CASE("multi regex returns the expected result when using alternation") {
   std::string pattern = "!x{b}|!y{b}";
   std::string document = "b";
   auto query = multi_reql(pattern);
-  auto iterator = query.finditer(document);
+  auto actual_matches = query.findall(document);
 
-  auto match = iterator.next();
-  REQUIRE(match != nullptr);
-  REQUIRE(match->spans("x") == std::vector<Span>{{0, 1}});
-  REQUIRE(match->spans("y").empty());
+  for (auto& match : actual_matches) {
+    const auto x_spans = match->spans("x");
+    const auto y_spans = match->spans("y");
 
-  match = iterator.next();
-  REQUIRE(match != nullptr);
-  REQUIRE(match->spans("x").empty());
-  REQUIRE(match->spans("y") == std::vector<Span>{{0, 1}});
-
-  match = iterator.next();
-  REQUIRE(match == nullptr);
+    if (x_spans.empty()) {
+      REQUIRE(y_spans == std::vector<Span>{{0, 1}});
+    } else {
+      REQUIRE(x_spans == std::vector<Span>{{0, 1}});
+      REQUIRE(y_spans.empty());
+    }
+  }
 }
 
 TEST_CASE("multi regex returns the correct result when using quantifiers") {

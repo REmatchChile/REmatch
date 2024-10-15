@@ -15,3 +15,5 @@ include(CTest)
 include(Catch)
 
 catch_discover_tests(${TEST_BINARY})
+
+install(TARGETS ${TEST_BINARY} RUNTIME DESTINATION ${INSTALL_BIN} COMPONENT bin)

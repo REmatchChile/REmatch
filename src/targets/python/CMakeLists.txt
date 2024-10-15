@@ -11,4 +11,4 @@ include(${PROJECT_SOURCE_DIR}/cmake/setup_pybind11.cmake)
 pybind11_add_module(${PYTHON_TARGET_NAME} MODULE ${${PYTHON_TARGET_NAME}_SRC})
 target_link_libraries(${PYTHON_TARGET_NAME} PRIVATE REmatch::REmatch)
 
-install(TARGETS ${PYTHON_TARGET_NAME} DESTINATION .)
+install(TARGETS ${PYTHON_TARGET_NAME} LIBRARY DESTINATION . COMPONENT shlib)

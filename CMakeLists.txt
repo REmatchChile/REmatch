@@ -1,4 +1,6 @@
-# Based on https://github.com/robotology/how-to-export-cpp-library/
+# Based on:
+# - https://github.com/robotology/how-to-export-cpp-library/
+# - https://github.com/cginternals/cmake-init
 
 cmake_minimum_required(VERSION 3.2)
 
@@ -39,12 +41,6 @@ set(CMAKE_POSITION_INDEPENDENT_CODE                                  ON)
 cmake_print_variables(BUILD_TESTING)
 cmake_print_variables(ENABLE_PROFILING)
 
-# Set output directories
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
-
-
 # Under MSVC, we set CMAKE_DEBUG_POSTFIX to "d" to add a trailing "d" to library
 # built in debug mode. In this Windows user can compile, build and install the
 # library in both Release and Debug configuration avoiding naming clashes in the
@@ -65,32 +61,24 @@ if(UNIX AND SYSTEM_DIR_INSTALL)
     # Install into the system (/usr/bin or /usr/local/bin)
     set(INSTALL_ROOT      "share/${PROJECT_NAME}")       # /usr/[local]/share/<PROJECT_NAME>
     set(INSTALL_CMAKE     "share/${PROJECT_NAME}/cmake") # /usr/[local]/share/<PROJECT_NAME>/cmake
-    set(INSTALL_EXAMPLES  "share/${PROJECT_NAME}")       # /usr/[local]/share/<PROJECT_NAME>
-    set(INSTALL_DATA      "share/${PROJECT_NAME}")       # /usr/[local]/share/<PROJECT_NAME>
     set(INSTALL_BIN       "bin")                         # /usr/[local]/bin
     set(INSTALL_SHARED    "lib")                         # /usr/[local]/lib
     set(INSTALL_LIB       "lib")                         # /usr/[local]/lib
     set(INSTALL_INCLUDE   "include")                     # /usr/[local]/include
-    set(INSTALL_DOC       "share/doc/${PROJECT_NAME}")   # /usr/[local]/share/doc/<PROJECT_NAME>
-    set(INSTALL_SHORTCUTS "share/applications")          # /usr/[local]/share/applications
-    set(INSTALL_ICONS     "share/pixmaps")               # /usr/[local]/share/pixmaps
-    set(INSTALL_INIT      "/etc/init")                   # /etc/init (upstart init scripts)
 else()
     # Install into local directory
     set(INSTALL_ROOT      ".")                           # ./
     set(INSTALL_CMAKE     "cmake")                       # ./cmake
-    set(INSTALL_EXAMPLES  ".")                           # ./
-    set(INSTALL_DATA      ".")                           # ./
-    set(INSTALL_BIN       ".")                           # ./
+    set(INSTALL_BIN       "bin")                         # ./bin
     set(INSTALL_SHARED    "lib")                         # ./lib
     set(INSTALL_LIB       "lib")                         # ./lib
     set(INSTALL_INCLUDE   "include")                     # ./include
-    set(INSTALL_DOC       "doc")                         # ./doc
-    set(INSTALL_SHORTCUTS "misc")                        # ./misc
-    set(INSTALL_ICONS     "misc")                        # ./misc
-    set(INSTALL_INIT      "misc")                        # ./misc
 endif()
 
+# Set output directories
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${INSTALL_BIN})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${INSTALL_LIB})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${INSTALL_LIB})
 
 # Set runtime path
 set(CMAKE_SKIP_BUILD_RPATH            FALSE) # Add absolute path to all dependencies for BUILD

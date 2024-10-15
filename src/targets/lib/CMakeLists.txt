@@ -15,22 +15,14 @@ set_target_properties(${LIBRARY_TARGET_NAME} PROPERTIES
 
 target_include_directories(${LIBRARY_TARGET_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}>
+    $<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${INSTALL_INCLUDE}>
 )
 
-
-# SKBUILD just needs to have the libREmatch.a file available at the same directory as the package
-if(SKBUILD)
-    install(TARGETS ${LIBRARY_TARGET_NAME}
-            EXPORT  ${PROJECT_NAME}
-            LIBRARY DESTINATION . COMPONENT shlib
-            ARCHIVE DESTINATION . COMPONENT lib)
-else()
+if(NOT SKBUILD)
     install(TARGETS       ${LIBRARY_TARGET_NAME}
             EXPORT        ${PROJECT_NAME}
             LIBRARY       DESTINATION ${INSTALL_LIB}                            COMPONENT shlib
             ARCHIVE       DESTINATION ${INSTALL_LIB}                            COMPONENT lib
-            RUNTIME       DESTINATION ${INSTALL_BIN}                            COMPONENT bin
             PUBLIC_HEADER DESTINATION ${INSTALL_INCLUDE}/${LIBRARY_TARGET_NAME} COMPONENT dev)
 endif()
 
