@@ -18,7 +18,7 @@ namespace REmatch::testing {
 
 ECSNode* create_linked_list_node_of_depth(ECS* ecs, int depth);
 
-std::string get_mapping_info(DummyMapping mapping);
+std::string get_mapping_info(const DummyMapping& mapping);
 
 void run_algorithm_test(const std::string& query, const std::string& document_,
                         std::vector<DummyMapping> expected_mappings);

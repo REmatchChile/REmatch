@@ -16,7 +16,7 @@ using namespace REmatch::library_interface;
 std::string get_group_dict_info(const std::map<std::string, Span>& group_dict) {
   std::ostringstream stream;
   for (auto& pair : group_dict) {
-    stream << pair.first << " -> " << pair.second << std::endl;
+    stream << pair.first << " -> |" << pair.second.first << ", " << pair.second.second << ">\n";
   }
   return stream.str();
 }

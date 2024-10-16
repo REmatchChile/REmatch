@@ -209,6 +209,8 @@ g++ main.cpp -std=c++17 -lREmatch -o main
 clang++ main.cpp -std=c++17 -lREmatch -o main
 ```
 
+Depending on your system configuration you may need to add the include and library paths to the compilation command.
+
 ### Debugging
 
 If you want to use a debugger such as `gdb`, then you should run the following command:

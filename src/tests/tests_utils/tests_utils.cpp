@@ -29,10 +29,10 @@ ECSNode* create_linked_list_node_of_depth(ECS* ecs, int depth) {
   return current;
 }
 
-std::string get_mapping_info(DummyMapping mapping) {
+std::string get_mapping_info(const DummyMapping& mapping) {
   std::ostringstream os;
   for (auto& pair : mapping.spans_map) {
-    os << pair.first << " -> " << pair.second << "\n";
+    os << pair.first << " -> |" << pair.second.first << ", " << pair.second.second << ">\n";
   }
   return os.str();
 }
