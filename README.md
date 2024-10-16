@@ -133,12 +133,12 @@ rm -rf Catch2
 Build REmatch in `Release` mode with one of the following command:
 
 ```bash
-# Unix system
+# Unix
 cmake -Bbuild/Release -DCMAKE_BUILD_TYPE=Release
 cmake --build build/Release/
 
 # Windows
-cmake -Bbuild/Release -DCMAKE_BUILD_TYPE=Release
+cmake -Bbuild/Release
 cmake --build build/Release/ --config Release
 ```
 
@@ -214,12 +214,12 @@ clang++ main.cpp -std=c++17 -lREmatch -o main
 If you want to use a debugger such as `gdb`, then you should run the following command:
 
 ```bash
-# Unix system
+# Unix
 cmake -Bbuild/Debug -DCMAKE_BUILD_TYPE=Debug
 cmake --build build/Debug/
 
 # Windows
-cmake -Bbuild/Debug -DCMAKE_BUILD_TYPE=Debug
+cmake -Bbuild/Debug
 cmake --build build/Debug/ --config Debug
 ```
 
