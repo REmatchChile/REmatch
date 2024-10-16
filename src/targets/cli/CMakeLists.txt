@@ -1,3 +1,6 @@
+# ##############################################################################
+# Define target
+# ##############################################################################
 set(CLI_TARGET_NAME rematch-cli)
 
 set(${CLI_TARGET_NAME}_SRC
@@ -6,7 +9,18 @@ set(${CLI_TARGET_NAME}_SRC
 
 add_executable(${CLI_TARGET_NAME} ${${CLI_TARGET_NAME}_SRC})
 
-target_link_libraries(${CLI_TARGET_NAME} PRIVATE REmatch::REmatch)
+# ##############################################################################
+# Define target properties, flags and dependencies
+# ##############################################################################
+set_target_properties(${LIBRARY_TARGET_NAME} PROPERTIES
+    DEBUG_POSTFIX "-d"
+    MSVC_RUNTIME_LIBRARY "${MSVC_RUNTIME_TYPE}"
+)
 
-install(TARGETS ${CLI_TARGET_NAME}
-        RUNTIME DESTINATION ${INSTALL_BIN} COMPONENT bin)
+target_compile_options(${CLI_TARGET_NAME} PRIVATE ${COMPILER_OPTIONS})
+
+target_compile_definitions(${CLI_TARGET_NAME} PRIVATE ${COMPILER_DEFINITIONS})
+
+target_link_options(${CLI_TARGET_NAME} PRIVATE ${LINKER_FLAGS})
+
+target_link_libraries(${CLI_TARGET_NAME} PRIVATE REmatch)

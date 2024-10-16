@@ -2,7 +2,7 @@
 
 # REmatch
 
-Here you can find the main implementation of REmatch library in C++, and its bindings for both Python and JavaScript/WebAssembly. This version has been refactorized, tested, and developed for being ready for production.
+Here you can find the main implementation of REmatch library in C++, and its bindings for both Python and JavaScript/WebAssembly. This version has been refactorized, tested, and developed for being ready for production. Don't forget to visit our website [rematch.cl](https://rematch.cl)!
 
 ## Table of contents
 
@@ -163,10 +163,10 @@ Create `hello-rematch/main.cpp`:
 #include <REmatch/REmatch.hpp>
 
 int main() {
-  auto query = REmatch::reql("!x{.+}");
-  auto match_iterator = query.findall("Hello world!");
+  auto query = REmatch::reql("!x{Hello} !y{world}!z{!}");
+  auto all_matches = query.findall("Hello world!");
 
-  while (auto match = match_iterator.next()) {
+  while (auto match : all_matches) {
     std::cout << *match << std::endl;
   }
 
@@ -197,7 +197,7 @@ cmake ..
 cmake --build .
 ```
 
-#### Quick usage without build system
+#### Quick usage without build system (UNIX)
 
 Assuming that you have the file `hello-rematch/main.cpp` as the previous section, you can compile it with the following command:
 

@@ -1,79 +1,123 @@
-# Based on:
-# - https://github.com/robotology/how-to-export-cpp-library/
-# - https://github.com/cginternals/cmake-init
+# ##############################################################################
+# Project-Wide Settings
+# ##############################################################################
+cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
-cmake_minimum_required(VERSION 3.2)
-
-# Set project's name and version
-project(REmatch
-        LANGUAGES CXX C
-        VERSION 1.0.0)
-
-# Specify C++ standard
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(CMAKE_CXX_STANDARD 17)
-
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-include(CMakePrintHelpers)
-include(cmake/utils.cmake)
-
-# Set policies
-set_policy(CMP0054 NEW) # ENABLE  CMP0054: Only interpret if() arguments as variables or keywords when unquoted.
+# Set the required policies
+include(cmake/set_policy.cmake)
+set_policy(CMP0069 NEW) # ENABLE  CMP0069: IPO
+set_policy(CMP0054 NEW) # ENABLE  CMP0054: Only interpret if() arguments as
+                        # variables or keywords when unquoted.
 set_policy(CMP0042 NEW) # ENABLE  CMP0042: MACOSX_RPATH is enabled by default.
-set_policy(CMP0063 NEW) # ENABLE  CMP0063: Honor visibility properties for all target types.
+set_policy(CMP0063 NEW) # ENABLE  CMP0063: Honor visibility properties for all
+                        # target types.
 set_policy(CMP0077 NEW) # ENABLE  CMP0077: option() honors normal variables.
-set_policy(CMP0120 OLD) # DISABLE CMP0120: The WriteCompilerDetectionHeader module is removed.
+set_policy(CMP0120 OLD) # DISABLE CMP0120: The WriteCompilerDetectionHeader
+                        # module is removed.
+
+# Define the project name, language and description
+project(
+  REmatch
+  LANGUAGES CXX
+  DESCRIPTION
+    "REmatch: A C++ regex library for information extraction that uses constant delay algorithms"
+)
+
+# Set the project version
+set(CMAKE_PROJECT_VERSION_MAJOR 1)
+set(CMAKE_PROJECT_VERSION_MINOR 0)
+set(CMAKE_PROJECT_VERSION_PATCH 0)
+set(CMAKE_PROJECT_VERSION
+    ${CMAKE_PROJECT_VERSION_MAJOR}.${CMAKE_PROJECT_VERSION_MINOR}.${CMAKE_PROJECT_VERSION_PATCH}
+)
+
+# Set the required C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+
+# Generate compile_commands.json
+set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
+
+# Add absolute path to all dependencies
+set(CMAKE_SKIP_BUILD_RPATH FALSE)
+# Use CMAKE_INSTALL_RPATH for INSTALL
+set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+# Do NOT add path to dependencies for INSTALL
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE)
+
+# Configure the visibility of symbols in targets
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
+
+# TODO: Define installation folder and the module path (this one required by conan)?
+# set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
+# set(CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR} ${CMAKE_MODULE_PATH})
+# set(CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR} ${CMAKE_PREFIX_PATH})
+
+# ##############################################################################
+# Options
+# ##############################################################################
+option(BUILD_SHARED_LIBS "Build shared instead of static libraries" OFF)
+option(BUILD_TESTING     "Build tests"                              ON)
+option(ENABLE_PROFILING  "Enable profiling"                         OFF)
+
+# ##############################################################################
+# Import CMake modules
+# ##############################################################################
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+include(CMakePackageConfigHelpers)
+include(InstallRequiredSystemLibraries)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/compiler_options.cmake)
+
+include(CMakePrintHelpers)
 
 # Use all cores but one for compilation
 include(ProcessorCount)
 ProcessorCount(NUM_CORES)
 if(NUM_CORES GREATER 1)
-    math(EXPR PARALLEL_LEVEL "${NUM_CORES} - 1")
-    set(CMAKE_BUILD_PARALLEL_LEVEL ${PARALLEL_LEVEL})
+  math(EXPR PARALLEL_LEVEL "${NUM_CORES} - 1")
+  set(CMAKE_BUILD_PARALLEL_LEVEL ${PARALLEL_LEVEL})
 endif()
 
-# Project options
-option(BUILD_SHARED_LIBS "Build shared instead of static libraries." OFF)
-option(BUILD_TESTING     "Build tests."                              ON)
-option(ENABLE_PROFILING  "Enable profiling"                          OFF)
-
-set(CMAKE_POSITION_INDEPENDENT_CODE                                  ON)
-
+cmake_print_variables(BUILD_SHARED_LIBS)
 cmake_print_variables(BUILD_TESTING)
 cmake_print_variables(ENABLE_PROFILING)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# Under MSVC, we set CMAKE_DEBUG_POSTFIX to "d" to add a trailing "d" to library
-# built in debug mode. In this Windows user can compile, build and install the
-# library in both Release and Debug configuration avoiding naming clashes in the
-# installation directories.
-if(MSVC)
-    set(CMAKE_DEBUG_POSTFIX "d")
-endif()
+# Enable IPO optimization
+include(CheckIPOSupported)
+check_ipo_supported(RESULT ipo_result OUTPUT ipo_output)
+if(ipo_result)
+  set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+else()
+  message(WARNING "IPO is not supported:\n${ipo_output}")
+endif(ipo_result)
 
 # Check for system dir install
 set(SYSTEM_DIR_INSTALL FALSE)
-if("${CMAKE_INSTALL_PREFIX}" STREQUAL "/usr" OR "${CMAKE_INSTALL_PREFIX}" STREQUAL "/usr/local")
-    set(SYSTEM_DIR_INSTALL TRUE)
+if("${CMAKE_INSTALL_PREFIX}" STREQUAL "/usr" OR
+   "${CMAKE_INSTALL_PREFIX}" STREQUAL "/usr/local")
+  set(SYSTEM_DIR_INSTALL TRUE)
 endif()
-
 
 # Installation paths
 if(UNIX AND SYSTEM_DIR_INSTALL)
-    # Install into the system (/usr/bin or /usr/local/bin)
-    set(INSTALL_ROOT      "share/${PROJECT_NAME}")       # /usr/[local]/share/<PROJECT_NAME>
-    set(INSTALL_CMAKE     "share/${PROJECT_NAME}/cmake") # /usr/[local]/share/<PROJECT_NAME>/cmake
-    set(INSTALL_BIN       "bin")                         # /usr/[local]/bin
-    set(INSTALL_SHARED    "lib")                         # /usr/[local]/lib
-    set(INSTALL_LIB       "lib")                         # /usr/[local]/lib
-    set(INSTALL_INCLUDE   "include")                     # /usr/[local]/include
+  # Install into the system (/usr/bin or /usr/local/bin)
+  set(INSTALL_ROOT "share/${PROJECT_NAME}") # /usr/[local]/share/<PROJECT_NAME>
+  set(INSTALL_CMAKE "share/${PROJECT_NAME}/cmake"
+  )# /usr/[local]/share/<PROJECT_NAME>/cmake
+  set(INSTALL_BIN "bin") # /usr/[local]/bin
+  set(INSTALL_SHARED "lib") # /usr/[local]/lib
+  set(INSTALL_LIB "lib") # /usr/[local]/lib
+  set(INSTALL_INCLUDE "include") # /usr/[local]/include
 else()
-    # Install into local directory
-    set(INSTALL_ROOT      ".")                           # ./
-    set(INSTALL_CMAKE     "cmake")                       # ./cmake
-    set(INSTALL_BIN       "bin")                         # ./bin
-    set(INSTALL_SHARED    "lib")                         # ./lib
-    set(INSTALL_LIB       "lib")                         # ./lib
-    set(INSTALL_INCLUDE   "include")                     # ./include
+  # Install into local directory
+  set(INSTALL_ROOT ".") # ./
+  set(INSTALL_CMAKE "cmake") # ./cmake
+  set(INSTALL_BIN "bin") # ./bin
+  set(INSTALL_SHARED "lib") # ./lib
+  set(INSTALL_LIB "lib") # ./lib
+  set(INSTALL_INCLUDE "include") # ./include
 endif()
 
 # Set output directories
@@ -82,51 +126,21 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${INSTALL_LIB})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${INSTALL_LIB})
 # Prevent Windows autogenerated extra directories
 foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
-    string(TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_BINARY_DIR}/${INSTALL_BIN})
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_BINARY_DIR}/${INSTALL_LIB})
-    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_BINARY_DIR}/${INSTALL_LIB})
+  string(TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG)
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_BINARY_DIR}/${INSTALL_BIN})
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_BINARY_DIR}/${INSTALL_LIB})
+  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_BINARY_DIR}/${INSTALL_LIB})
 endforeach(OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
 
-# Set runtime path
-set(CMAKE_SKIP_BUILD_RPATH            FALSE) # Add absolute path to all dependencies for BUILD
-set(CMAKE_BUILD_WITH_INSTALL_RPATH    FALSE) # Use CMAKE_INSTALL_RPATH for INSTALL
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE) # Do NOT add path to dependencies for INSTALL
-
 if(NOT SYSTEM_DIR_INSTALL)
-    # Find libraries relative to binary
-    if(APPLE)
-        set(EXECUTABLE_INSTALL_RPATH "@loader_path/../../../${INSTALL_LIB}")
-        set(LIBRARY_INSTALL_RPATH    "@loader_path/../../../${INSTALL_LIB}")
-    else()
-        set(EXECUTABLE_INSTALL_RPATH "$ORIGIN/${INSTALL_LIB}")
-        set(LIBRARY_INSTALL_RPATH    "$ORIGIN")
-    endif()
-endif()
-
-
-# Define compiler flags
-if (MSVC)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /permissive-")
-  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /Od /Zi /RTC1")
-  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /O2 /GL /DNDEBUG")
-else()
-  # EMSCRIPTEN doesn't support -march=native flag
-  if(NOT EMSCRIPTEN)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
+  # Find libraries relative to binary
+  if(APPLE)
+    set(EXECUTABLE_INSTALL_RPATH "@loader_path/../../../${INSTALL_LIB}")
+    set(LIBRARY_INSTALL_RPATH "@loader_path/../../../${INSTALL_LIB}")
+  else()
+    set(EXECUTABLE_INSTALL_RPATH "$ORIGIN/${INSTALL_LIB}")
+    set(LIBRARY_INSTALL_RPATH "$ORIGIN")
   endif()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -funroll-loops -fno-operator-names")
-  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g3 -fsanitize=undefined,address -fno-omit-frame-pointer")
-  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -g0")
-endif()
-
-
-# Set default build type as Release if not specified
-if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
-  message(STATUS "Build type not specified. Using Release by default.")
-else()
-  message(STATUS "Using ${CMAKE_BUILD_TYPE} configuration")
 endif()
 
 # Third parties
@@ -136,36 +150,41 @@ include_directories(third_party/antlr4-cpp-runtime/src)
 include_directories(third_party/cli11)
 
 # Source code
-file(GLOB_RECURSE REMATCH_SRC src/rematch/*.cpp)
-file(GLOB_RECURSE REMATCH_HDR src/rematch/*.hpp)
-include_directories(src/rematch)
+file(GLOB_RECURSE REMATCH_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/rematch/*.cpp)
+file(GLOB_RECURSE REMATCH_HDR ${CMAKE_CURRENT_SOURCE_DIR}/src/rematch/*.hpp)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/rematch)
 
 # Compile and install related commands.
-add_subdirectory(src)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-if (NOT EMSCRPTEN AND NOT SKBUILD)
-    # Create and install CMake configuration files for your project that are
-    # necessary to for other projects to call find_package(LibTemplateCMake).
-    #
-    # Note that it is extremely important to use exactly the project name while
-    # installing configuration files (you can use PROJECT_NAME variable to avoid
-    # any possible error). This is required to allow find_package() to properly
-    # look for the installed library in system path, in particular in Windows when
-    # the installation is performed in the default path.
-    #
-    # install_basic_package_files() comes with many input parameters to customize
-    # the configuration files. The parameters used in the following call provide
-    # basic versions of CMake configuration files.
-    # See install_basic_package_files() documentation found in ./cmake folder.
-    #
-    # Note that if your library depends from other libraries, you are probably
-    # required to used the install_basic_package_files() DEPENDENCIES option.
-    include(InstallBasicPackageFiles)
-    install_basic_package_files(${PROJECT_NAME}
-        VERSION ${CMAKE_PROJECT_VERSION}
-        COMPATIBILITY AnyNewerVersion
-        VARS_PREFIX ${PROJECT_NAME}
-        NO_CHECK_REQUIRED_COMPONENTS_MACRO)
-    # Add the uninstall target
-    include(AddUninstallTarget)
+if(NOT EMSCRPTEN AND NOT SKBUILD)
+  # Create and install CMake configuration files for your project that are
+  # necessary to for other projects to call find_package(LibTemplateCMake).
+  #
+  # Note that it is extremely important to use exactly the project name while
+  # installing configuration files (you can use PROJECT_NAME variable to avoid
+  # any possible error). This is required to allow find_package() to properly
+  # look for the installed library in system path, in particular in Windows when
+  # the installation is performed in the default path.
+  #
+  # install_basic_package_files() comes with many input parameters to customize
+  # the configuration files. The parameters used in the following call provide
+  # basic versions of CMake configuration files. See
+  # install_basic_package_files() documentation found in ./cmake folder.
+  #
+  # Note that if your library depends from other libraries, you are probably
+  # required to used the install_basic_package_files() DEPENDENCIES option.
+  include(InstallBasicPackageFiles)
+  install_basic_package_files(
+    ${PROJECT_NAME}
+    VERSION
+    ${CMAKE_PROJECT_VERSION}
+    COMPATIBILITY
+    AnyNewerVersion
+    VARS_PREFIX
+    ${PROJECT_NAME}
+    NO_CHECK_REQUIRED_COMPONENTS_MACRO)
+
+  # Add the uninstall target
+  include(AddUninstallTarget)
 endif()
