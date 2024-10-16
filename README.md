@@ -203,10 +203,10 @@ Assuming that you have the file `hello-rematch/main.cpp` as the previous section
 
 ```bash
 # gcc
-g++ main.cpp -lREmatch -o main
+g++ main.cpp -std=c++17 -lREmatch -o main
 
 # clang
-clang++ main.cpp -lREmatch -o main
+clang++ main.cpp -std=c++17 -lREmatch -o main
 ```
 
 ### Debugging

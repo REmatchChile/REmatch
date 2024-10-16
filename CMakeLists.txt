@@ -13,6 +13,7 @@ project(REmatch
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_STANDARD 17)
 
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 include(CMakePrintHelpers)
 include(cmake/utils.cmake)
 
@@ -139,5 +140,32 @@ file(GLOB_RECURSE REMATCH_SRC src/rematch/*.cpp)
 file(GLOB_RECURSE REMATCH_HDR src/rematch/*.hpp)
 include_directories(src/rematch)
 
-### Compile and install related commands.
+# Compile and install related commands.
 add_subdirectory(src)
+
+if (NOT EMSCRPTEN AND NOT SKBUILD)
+    # Create and install CMake configuration files for your project that are
+    # necessary to for other projects to call find_package(LibTemplateCMake).
+    #
+    # Note that it is extremely important to use exactly the project name while
+    # installing configuration files (you can use PROJECT_NAME variable to avoid
+    # any possible error). This is required to allow find_package() to properly
+    # look for the installed library in system path, in particular in Windows when
+    # the installation is performed in the default path.
+    #
+    # install_basic_package_files() comes with many input parameters to customize
+    # the configuration files. The parameters used in the following call provide
+    # basic versions of CMake configuration files.
+    # See install_basic_package_files() documentation found in ./cmake folder.
+    #
+    # Note that if your library depends from other libraries, you are probably
+    # required to used the install_basic_package_files() DEPENDENCIES option.
+    include(InstallBasicPackageFiles)
+    install_basic_package_files(${PROJECT_NAME}
+        VERSION ${CMAKE_PROJECT_VERSION}
+        COMPATIBILITY AnyNewerVersion
+        VARS_PREFIX ${PROJECT_NAME}
+        NO_CHECK_REQUIRED_COMPONENTS_MACRO)
+    # Add the uninstall target
+    include(AddUninstallTarget)
+endif()
