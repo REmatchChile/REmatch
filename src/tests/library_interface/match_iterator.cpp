@@ -4,24 +4,13 @@
 #include <REmatch/REmatch.hpp>
 #include "../evaluation/dummy_mapping.hpp"
 #include "../evaluation/mapping_helpers.hpp"
+#include "../tests_utils/tests_utils.hpp"
 #include "mediator/mapping.hpp"
 #include "mediator/segment_manager/segment_manager_creator.hpp"
 #include "utils/query_data.hpp"
-#include "../tests_utils/tests_utils.hpp"
 
 namespace REmatch::testing {
 using namespace REmatch::library_interface;
-
-TEST_CASE("match iterator returns the correct variables") {
-  std::string pattern = "!c{!b{!d{x}}!a{y}}";
-  std::string document = "This is a document";
-  REmatch::Query regex = REmatch::reql(pattern);
-
-  auto iterator = regex.finditer(document);
-  std::vector<std::string> variables = iterator.variables();
-
-  REQUIRE(variables == std::vector<std::string>{"a", "b", "c", "d"});
-}
 
 TEST_CASE("match iterator returns the correct matches for a simple query") {
   std::string regex = "!x{a}";

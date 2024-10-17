@@ -42,7 +42,6 @@ class MatchIterator {
   ~MatchIterator();
 
   std::unique_ptr<Match> next();
-  std::vector<std::string> variables();
 
   std::unique_ptr<Statistics> stats;
 };

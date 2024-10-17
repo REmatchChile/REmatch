@@ -1,0 +1,87 @@
+#pragma once
+
+#include <cstddef>
+#include <cstdint>
+#include <iterator>
+#include <memory>
+
+#include "constants.hpp"
+#include "match.hpp"
+
+namespace REmatch {
+class Document;
+class FinditerMediator;
+struct QueryData;
+struct Statistics;
+
+inline namespace parsing {
+class VariableCatalog;
+}
+
+inline namespace library_interface {
+
+class MatchGenerator {
+ public:
+  struct iterator {
+   public:
+    using iterator_category = std::input_iterator_tag;
+    using difference_type = std::ptrdiff_t;
+    using value = Match;
+    using pointer = Match*;
+    using reference = Match&;
+
+    // called with begin()
+    explicit iterator(std::unique_ptr<FinditerMediator> mediator_,
+                      std::shared_ptr<VariableCatalog> variable_catalog_,
+                      std::shared_ptr<Document> document_);
+
+    // called with end()
+    iterator();
+
+    ~iterator();
+
+    reference operator*() const;
+    pointer operator->() const;
+
+    iterator& operator++();
+    void operator++(int);
+
+    bool operator==(const iterator& other) const;
+
+    bool operator!=(const iterator& other) const;
+
+   private:
+    std::unique_ptr<FinditerMediator> mediator;
+
+    std::shared_ptr<parsing::VariableCatalog> variable_catalog;
+
+    std::shared_ptr<Document> document;
+
+    std::unique_ptr<Statistics> stats;
+
+    std::unique_ptr<value> match_ptr;
+
+    void next();
+  };
+
+  MatchGenerator(
+      QueryData& query_data, const std::string& document,
+      uint_fast32_t max_mempool_duplications = DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+      uint_fast32_t max_deterministic_states =
+          DEFAULT_MAX_DETERMINISTIC_STATES);
+
+  iterator begin() const;
+
+  iterator end() const;
+
+ private:
+  QueryData& query_data;
+
+  std::shared_ptr<Document> document;
+
+  uint_fast32_t max_mempool_duplications;
+  uint_fast32_t max_deterministic_states;
+};
+
+}  // namespace library_interface
+}  // namespace REmatch

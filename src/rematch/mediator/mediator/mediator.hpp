@@ -34,7 +34,7 @@ class Mediator {
   std::unique_ptr<mediator::Mapping> construct_user_mapping();
   void update_algorithm(Span& segment_span);
 
-  friend std::unique_ptr<Statistics> collect_statistics(Mediator* mediator);
+  friend std::unique_ptr<Statistics> collect_statistics(const Mediator& mediator);
 };
 }  // namespace REmatch
 

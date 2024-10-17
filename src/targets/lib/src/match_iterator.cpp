@@ -39,13 +39,9 @@ std::unique_ptr<Match> MatchIterator::next() {
     return std::make_unique<Match>(std::move(mapping), variable_catalog_, document_);
   }
 
-  stats = collect_statistics(mediator_.get());
+  stats = collect_statistics(*mediator_);
 
   return nullptr;
-}
-
-std::vector<std::string> MatchIterator::variables() {
-  return variable_catalog_->variables();
 }
 
 }  // end namespace library_interface

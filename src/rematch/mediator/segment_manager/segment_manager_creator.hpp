@@ -37,7 +37,7 @@ class SegmentManagerCreator {
     document_ = document;
   }
 
-  std::unique_ptr<SegmentManager> get_segment_manager() {
+  std::unique_ptr<SegmentManager> get_segment_manager() const {
     #ifdef TRACY_ENABLE
     ZoneScoped;
     #endif
@@ -50,7 +50,7 @@ class SegmentManagerCreator {
     }
   }
 
-  std::unique_ptr<SegmentManager> get_segment_manager_for_checking() {
+  std::unique_ptr<SegmentManager> get_segment_manager_for_checking() const {
     if (!lva_has_useful_anchors_ && (flags & Flags::LINE_BY_LINE) != Flags::NONE) {
       return std::make_unique<LineByLineManager>(*search_dfa_, document_);
     } else {
