@@ -1,16 +1,14 @@
-#ifndef EMPTY_WORD_CAPTURE_EXCEPTION_HPP
-#define EMPTY_WORD_CAPTURE_EXCEPTION_HPP
+#pragma once
 
 #include <stdexcept>
+#include "query_syntax_exception.hpp"
 
 namespace REmatch {
 
-class EmptyWordCaptureException : public std::runtime_error {
+class EmptyWordCaptureException : public QuerySyntaxException {
  public:
-  EmptyWordCaptureException(const std::string& error)
-      : std::runtime_error(error) {}
+  explicit EmptyWordCaptureException(const std::string& message)
+      : QuerySyntaxException(message) {}
 };
 
 }  // namespace REmatch
-
-#endif

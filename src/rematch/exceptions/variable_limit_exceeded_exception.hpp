@@ -1,16 +1,14 @@
-#ifndef VARIABLE_LIMIT_EXCEEDED_EXCEPTION_HPP
-#define VARIABLE_LIMIT_EXCEEDED_EXCEPTION_HPP
+#pragma once
 
-#include <stdexcept>
+#include "evaluation_exception.hpp"
 
 namespace REmatch {
 
-class VariableLimitExceededException : public std::runtime_error {
+class VariableLimitExceededException : public EvaluationException {
  public:
   VariableLimitExceededException()
-      : std::runtime_error("Variable limit exceeded in the regular expression.") {}
+      : EvaluationException(
+            "Variable limit exceeded in the regular expression.") {}
 };
 
 }  // namespace REmatch
-
-#endif

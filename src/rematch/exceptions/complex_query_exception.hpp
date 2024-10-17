@@ -1,16 +1,15 @@
-#ifndef COMPLEX_QUERY_EXCEPTION_HPP
-#define COMPLEX_QUERY_EXCEPTION_HPP
+#pragma once
 
 #include <stdexcept>
 #include <string>
 
+#include "evaluation_exception.hpp"
+
 namespace REmatch {
 
-class ComplexQueryException : public std::runtime_error {
+class ComplexQueryException : public EvaluationException {
  public:
   ComplexQueryException()
-      : std::runtime_error("Query is too complex to evaluate.") {}
+      : EvaluationException("Query is too complex to evaluate.") {}
 };
 }  // namespace REmatch
-
-#endif

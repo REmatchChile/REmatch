@@ -1,17 +1,14 @@
-#ifndef MEMORY_LIMIT_EXCEEDED_EXCEPTION_HPP
-#define MEMORY_LIMIT_EXCEEDED_EXCEPTION_HPP
+#pragma once
 
-#include <stdexcept>
-#include <string>
+#include "evaluation_exception.hpp"
 
 namespace REmatch {
 
-class MemoryLimitExceededException : public std::runtime_error {
+class MemoryLimitExceededException : public EvaluationException {
  public:
   MemoryLimitExceededException()
-      : std::runtime_error("Memory limit exceeded during document evaluation.") {}
+      : EvaluationException(
+            "Memory limit exceeded during document evaluation.") {}
 };
 
 }  // namespace REmatch
-
-#endif

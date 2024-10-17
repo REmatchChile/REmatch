@@ -10,8 +10,8 @@ class DFAStateLimitChecker {
   size_t current_amount_of_states = 0;
   size_t max_amount_of_states;
 
-  explicit DFAStateLimitChecker(uint_fast32_t max_amount_of_states) :
-      max_amount_of_states(max_amount_of_states) {}
+  explicit DFAStateLimitChecker(uint_fast32_t max_amount_of_states)
+      : max_amount_of_states(max_amount_of_states) {}
 
   inline void count_state() {
     current_amount_of_states++;

@@ -1,27 +1,26 @@
-#ifndef QUERY_SYNTAX_EXCEPTION_HPP
-#define QUERY_SYNTAX_EXCEPTION_HPP
+#pragma once
 
-#include <exception>
-#include <stdexcept>
 #include <string>
+#include "rematch_exception.hpp"
 
 namespace REmatch {
 
-class QuerySyntaxException : public std::logic_error {
+class QuerySyntaxException : public REmatchException {
  public:
-  QuerySyntaxException(std::string message, std::string query, size_t position) : std::logic_error(message) {
+  QuerySyntaxException(const std::string& message, const std::string& query,
+                       size_t position)
+      : REmatchException(message) {
     std::string caret_line = std::string(position, ' ') + "^";
-    error_ = message + "\n" + query + "\n" + caret_line;
+    message_ = message + "\n" + query + "\n" + caret_line;
   }
 
-  QuerySyntaxException(std::string message) : std::logic_error(message), error_(message) {}
+  explicit QuerySyntaxException(const std::string& message)
+      : REmatchException(message), message_(message) {}
 
-  virtual const char* what() const noexcept { return error_.c_str(); }
+  const char* what() const noexcept override { return message_.c_str(); }
 
  protected:
-  std::string error_;
+  std::string message_;
 };
 
 }  // namespace REmatch
-
-#endif

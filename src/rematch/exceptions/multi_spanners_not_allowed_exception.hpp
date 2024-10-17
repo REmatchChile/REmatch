@@ -1,19 +1,17 @@
-#ifndef MULTI_SPANNERS_NOT_ALLOWED_EXCEPTION_HPP
-#define MULTI_SPANNERS_NOT_ALLOWED_EXCEPTION_HPP
+#pragma once
 
-#include <stdexcept>
 #include <string>
+
+#include "query_syntax_exception.hpp"
 
 namespace REmatch {
 
-class MultiSpannersNotAllowedException : public std::runtime_error {
+class MultiSpannersNotAllowedException : public QuerySyntaxException {
  public:
   MultiSpannersNotAllowedException()
-      : std::runtime_error(
+      : QuerySyntaxException(
             "Multi spanners are not allowed when using Query, use MultiQuery "
             "instead.") {}
 };
 
 }  // namespace REmatch
-
-#endif

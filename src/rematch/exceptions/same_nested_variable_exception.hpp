@@ -1,5 +1,4 @@
-#ifndef SAME_NESTED_VARIABLE_EXCEPTION_HPP
-#define SAME_NESTED_VARIABLE_EXCEPTION_HPP
+#pragma once
 
 #include "query_syntax_exception.hpp"
 
@@ -14,4 +13,3 @@ class SameNestedVariableException : public QuerySyntaxException {
             query, char_position) {}
 };
 }  // namespace REmatch
-#endif

@@ -1,15 +1,13 @@
-#ifndef VARIABLE_NOT_FOUND_IN_CATALOG_EXCEPTION_HPP
-#define VARIABLE_NOT_FOUND_IN_CATALOG_EXCEPTION_HPP
+#pragma once
 
-#include <stdexcept>
+#include "argument_exception.hpp"
 
 namespace REmatch {
 
-class VariableNotFoundInCatalogException : public std::runtime_error {
+class VariableNotFoundInCatalogException : public ArgumentException {
  public:
-  VariableNotFoundInCatalogException(const std::string& variable_name)
-      : std::runtime_error("Variable not found in VariableCatalog: " + variable_name) {}
+  explicit VariableNotFoundInCatalogException(const std::string& variable_name)
+      : ArgumentException("Variable not found in VariableCatalog: " +
+                          variable_name) {}
 };
 }  // namespace REmatch
-
-#endif

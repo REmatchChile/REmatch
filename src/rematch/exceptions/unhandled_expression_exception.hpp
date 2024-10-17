@@ -4,8 +4,8 @@ namespace REmatch {
 
 class UnhandledExpressionException : public QuerySyntaxException {
  public:
-  UnhandledExpressionException(std::string message, std::string query,
-                           size_t position)
+  UnhandledExpressionException(const std::string& message,
+                               const std::string& query, size_t position)
       : QuerySyntaxException(message, query, position) {}
 };
 }  // namespace REmatch
