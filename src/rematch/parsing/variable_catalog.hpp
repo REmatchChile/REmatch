@@ -1,5 +1,4 @@
-#ifndef VARIABLE_FACTORIES_HPP
-#define VARIABLE_FACTORIES_HPP
+#pragma once
 
 #include <algorithm>
 #include <bitset>
@@ -11,9 +10,6 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
-
-#include "exceptions/variable_not_found_in_catalog_exception.hpp"
-#include "exceptions/variable_limit_exceeded_exception.hpp"
 
 namespace REmatch {
 inline namespace parsing {
@@ -80,5 +76,3 @@ class VariableCatalog {
 
 }
 }
-
-#endif

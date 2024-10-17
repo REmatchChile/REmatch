@@ -2,7 +2,6 @@
 #include <catch2/generators/catch_generators.hpp>
 
 #include <REmatch/REmatch.hpp>
-#include "exceptions/invalid_range_exception.hpp"
 #include "parsing/parser.hpp"
 
 namespace REmatch::testing {

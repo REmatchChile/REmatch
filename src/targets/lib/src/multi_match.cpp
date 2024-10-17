@@ -1,10 +1,10 @@
 #include <REmatch/multi_match.hpp>
+#include <REmatch/exceptions.hpp>
 
 #include <cstdint>
 #include <memory>
 
 #include "evaluation/document.hpp"
-#include "exceptions/variable_not_found_in_catalog_exception.hpp"
 #include "output_enumeration/extended_mapping.hpp"
 #include "parsing/variable_catalog.hpp"
 

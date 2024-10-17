@@ -5,6 +5,7 @@
 #include <string>
 
 #include "constants.hpp"
+#include "exceptions.hpp"
 #include "flags.hpp"
 #include "match.hpp"
 #include "match_iterator.hpp"

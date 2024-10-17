@@ -1,11 +1,11 @@
 #include <antlr4-runtime.h>
-#include "exceptions/invalid_escape_exception.hpp"
 
 #include <sstream>
+#include <REmatch/exceptions.hpp>
 
 namespace antlr4 {
 
-void check_if_escapes_are_valid(std::string query, std::vector<std::string> rule_stack, size_t char_position);
+void check_if_escapes_are_valid(const std::string& query, std::vector<std::string> rule_stack, size_t char_position);
 
 // Custom error listener for handling parsing errors throwing exceptions
 // instead of continuing execution, which is the ANTLR's default behavior
@@ -31,7 +31,7 @@ class ParserErrorListener : public BaseErrorListener {
   }
 };
 
-void check_if_escapes_are_valid(std::string query, std::vector<std::string> rule_stack, size_t char_position) {
+void check_if_escapes_are_valid(const std::string& query, std::vector<std::string> rule_stack, size_t char_position) {
   if (rule_stack.front() == "escapes") {
     throw REmatch::InvalidEscapeException(query, char_position);
   }

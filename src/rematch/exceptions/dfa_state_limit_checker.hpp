@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstddef>
-#include "exceptions/complex_query_exception.hpp"
+#include <REmatch/exceptions.hpp>
 
 namespace REmatch {
 

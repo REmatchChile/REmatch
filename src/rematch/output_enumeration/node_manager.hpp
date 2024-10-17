@@ -1,7 +1,5 @@
-#ifndef OUTPUT_ENUMERATION__GARBAGE_COLLECTOR_HPP
-#define OUTPUT_ENUMERATION__GARBAGE_COLLECTOR_HPP
+#pragma once
 
-#include "exceptions/memory_limit_exceeded_exception.hpp"
 #include "output_enumeration/minipool.hpp"
 
 namespace REmatch {
@@ -64,5 +62,3 @@ private:
 };
 }
 }
-
-#endif

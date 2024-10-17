@@ -1,7 +1,8 @@
 #include "mapping.hpp"
 
-namespace REmatch {
-namespace mediator {
+#include <REmatch/exceptions.hpp>
+
+namespace REmatch::mediator {
 
 
 Mapping::Mapping(std::map<std::string, Span>&& spans_map) {
@@ -48,5 +49,4 @@ std::ostream& operator<<(std::ostream& os, Mapping const &mapping) {
   return os;
 }
 
-}
 }
