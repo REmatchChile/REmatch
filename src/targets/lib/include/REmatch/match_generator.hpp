@@ -75,6 +75,7 @@ class MatchGenerator {
   iterator end() const;
 
  private:
+  // TODO: Shared ptr
   QueryData& query_data;
 
   std::shared_ptr<Document> document;

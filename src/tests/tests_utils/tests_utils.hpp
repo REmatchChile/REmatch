@@ -50,7 +50,7 @@ bool charclass_contains_every_character(CharClass charclass);
 
 void shift_span(std::unique_ptr<Span>& span);
 
-void run_client_test(MatchIterator& match_iterator,
+void run_client_test(MatchGenerator& match_generator,
                      std::vector<DummyMapping> expected_matches);
 
 void run_multi_mediator_test(const std::string& query,

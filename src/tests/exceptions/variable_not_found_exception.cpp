@@ -39,9 +39,9 @@ TEST_CASE(
     "the regex object raises an exception when the variable is not in the "
     "regex") {
   auto query = reql("!x{a}");
-  std::unique_ptr<Match> match = query.findone("a");
+  auto match = query.findone("a");
 
-  REQUIRE_THROWS_AS(match->span("y"), VariableNotFoundException);
+  REQUIRE_THROWS_AS(match.span("y"), VariableNotFoundException);
 }
 
 }  // namespace REmatch::testing

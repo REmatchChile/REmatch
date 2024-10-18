@@ -12,38 +12,37 @@ TEST_CASE("find method simple test") {
   std::string document = "This is a document";
   std::string pattern = "!x{doc|document}";
   Query regex = reql(pattern);
-  std::unique_ptr<Match> match = regex.findone(document);
+  auto match = regex.findone(document);
 
-  REQUIRE(match != nullptr);
-  REQUIRE(match->span("x") == Span(10, 13));
+  REQUIRE(match.span("x") == Span(10, 13));
 }
 
 TEST_CASE("finditer method simple test") {
   std::string document = "This is a document";
   std::string pattern = "!x{doc|document}";
   Query regex = reql(pattern);
-  auto match_iterator = regex.finditer(document);
+  auto match_generator = regex.finditer(document);
+  auto it = match_generator.begin();
+  auto end = match_generator.end();
 
-  std::unique_ptr<Match> match = match_iterator.next();
-  REQUIRE(match != nullptr);
-  REQUIRE(match->span("x") == Span(10, 13));
+  Match match = *it;
+  REQUIRE(it != end);
+  REQUIRE(match.span("x") == Span(10, 13));
 
-  match = match_iterator.next();
-  REQUIRE(match != nullptr);
-  REQUIRE(match->span("x") == Span(10, 18));
+  match = *(++it);
+  REQUIRE(it != end);
+  REQUIRE(match.span("x") == Span(10, 18));
 
-  match = match_iterator.next();
-  REQUIRE(match == nullptr);
+  REQUIRE(++it == end);
 }
 
 TEST_CASE("client interface with no matches") {
   std::string document = "This is a document";
   std::string pattern = "!y{docx}";
   Query regex = reql(pattern);
-  auto match_iterator = regex.finditer(document);
+  auto match_generator = regex.finditer(document);
 
-  std::unique_ptr<Match> match = match_iterator.next();
-  REQUIRE(match == nullptr);
+  REQUIRE(match_generator.begin() == match_generator.end());
 }
 
 TEST_CASE(
@@ -51,11 +50,12 @@ TEST_CASE(
   std::string document = "This is a document";
   std::string pattern = "a document";
   Query regex = reql(pattern);
-  auto match_iterator = regex.finditer(document);
+  auto match_generator = regex.finditer(document);
+  auto it = match_generator.begin();
 
-  std::unique_ptr<Match> match = match_iterator.next();
-  REQUIRE(match != nullptr);
-  REQUIRE(match->empty());
+  Match match = *it;
+  REQUIRE(it != match_generator.end());
+  REQUIRE(match.empty());
 }
 
 TEST_CASE("client interface with alternation") {
@@ -63,17 +63,18 @@ TEST_CASE("client interface with alternation") {
   std::string pattern = "!x{doc|document}";
   Query regex = reql(pattern);
   auto match_iterator = regex.finditer(document);
+  auto it = match_iterator.begin();
+  auto end = match_iterator.end();
 
-  std::unique_ptr<Match> match = match_iterator.next();
-  REQUIRE(match != nullptr);
-  REQUIRE(match->span("x") == Span(10, 13));
+  Match match = *it;
+  REQUIRE(it != end);
+  REQUIRE(match.span("x") == Span(10, 13));
 
-  match = match_iterator.next();
-  REQUIRE(match != nullptr);
-  REQUIRE(match->span("x") == Span(10, 18));
+  match = *(++it);
+  REQUIRE(it != end);
+  REQUIRE(match.span("x") == Span(10, 18));
 
-  match = match_iterator.next();
-  REQUIRE(match == nullptr);
+  REQUIRE(++it == end);
 }
 
 TEST_CASE("client interface with + quantifier") {

@@ -2,15 +2,15 @@
 
 #include <memory>
 #include <string>
-
-#include "flags.hpp"
-#include "match.hpp"
-#include "match_iterator.hpp"
+#include <vector>
 
 namespace REmatch {
 struct QueryData;
 
 inline namespace library_interface {
+class Match;
+class MatchGenerator;
+enum class Flags : uint8_t;
 
 class Query {
 
@@ -24,15 +24,13 @@ class Query {
 
   ~Query();
 
-  std::unique_ptr<Match> findone(const std::string& document);
+  Match findone(const std::string& document);
 
-  // TODO: this should be changed to std::vector<Match>
-  std::vector<std::unique_ptr<Match>> findmany(const std::string& document, uint_fast32_t limit);
+  std::vector<Match> findmany(const std::string& document, uint_fast32_t limit);
 
-  // TODO: this should be changed to std::vector<Match>
-  std::vector<std::unique_ptr<Match>> findall(const std::string& document);
+  std::vector<Match> findall(const std::string& document);
 
-  MatchIterator finditer(const std::string& document);
+  MatchGenerator finditer(const std::string& document);
 
   bool check(const std::string& document);
 

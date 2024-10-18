@@ -17,9 +17,9 @@ TEST_CASE("flag LINE_BY_LINE works correctly") {
 
   Flags flags = Flags::LINE_BY_LINE;
   REmatch::Query regex = REmatch::reql(pattern, flags);
-  auto match_iterator = regex.finditer(document);
+  auto match_generator = regex.finditer(document);
 
-  run_client_test(match_iterator, expected_matches);
+  run_client_test(match_generator, expected_matches);
 }
 
 TEST_CASE(

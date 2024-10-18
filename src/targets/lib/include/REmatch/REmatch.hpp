@@ -7,7 +7,7 @@
 #include "constants.hpp"
 #include "flags.hpp"
 #include "match.hpp"
-#include "match_iterator.hpp"
+#include "match_generator.hpp"
 #include "multi_match.hpp"
 #include "multi_match_iterator.hpp"
 #include "multi_query.hpp"

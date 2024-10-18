@@ -32,7 +32,8 @@ ECSNode* create_linked_list_node_of_depth(ECS* ecs, int depth) {
 std::string get_mapping_info(const DummyMapping& mapping) {
   std::ostringstream os;
   for (auto& pair : mapping.spans_map) {
-    os << pair.first << " -> |" << pair.second.first << ", " << pair.second.second << ">\n";
+    os << pair.first << " -> |" << pair.second.first << ", "
+       << pair.second.second << ">\n";
   }
   return os.str();
 }
@@ -82,34 +83,21 @@ void run_algorithm_test(const std::string& query, const std::string& document_,
   REQUIRE(expected_mappings.empty());
 }
 
-void run_match_iterator_test(const std::string& query,
+void run_match_iterator_test(const std::string& query_,
                              const std::string& document,
                              std::vector<mediator::Mapping> expected_matches) {
-  Parser parser = Parser(query);
 
-  LogicalVA logical_va = parser.get_logical_va();
-  auto extended_va = ExtendedVA(logical_va);
-  extended_va.clean_for_determinization();
-  std::shared_ptr<VariableCatalog> variable_catalog =
-      parser.get_variable_catalog();
-  auto segment_manager_creator = SegmentManagerCreator(
-      logical_va, Flags::NONE, REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
-
-  auto regex_data = QueryData(std::move(segment_manager_creator),
-                              std::move(extended_va), variable_catalog);
-  auto match_iterator = MatchIterator(regex_data, document);
+  auto query = reql(query_);
+  auto match_generator = query.finditer(document);
 
   std::ostringstream info_os;
   info_os << "Actual mappings:" << std::endl;
-
-  std::unique_ptr<Match> match = match_iterator.next();
-  while (match != nullptr) {
-    auto actual_match = mediator::Mapping(match->groupdict());
+  for (const auto& match : match_generator) {
+    auto actual_match = mediator::Mapping(match.groupdict());
     info_os << actual_match;
     INFO(info_os.str());
     REQUIRE(contains_mapping(expected_matches, actual_match));
     remove_mapping_from_expected(expected_matches, actual_match);
-    match = match_iterator.next();
   }
   INFO(info_os.str());
   REQUIRE(expected_matches.empty());
@@ -223,32 +211,29 @@ void shift_span(std::unique_ptr<Span>& span) {
   --(span->second);
 }
 
-void run_client_test(MatchIterator& match_iterator,
+void run_client_test(MatchGenerator& match_generator,
                      std::vector<DummyMapping> expected_matches) {
-  std::unique_ptr<Match> match = match_iterator.next();
-
   std::ostringstream info_os;
   info_os << "Actual mappings:\n";
 
-  while (match != nullptr) {
+  for (const auto& match : match_generator) {
     DummyMapping mapping({});
 
-    for (const auto& variable : match->variables()) {
-      mapping.add_span(variable, match->span(variable));
+    for (const auto& variable : match.variables()) {
+      mapping.add_span(variable, match.span(variable));
     }
     info_os << get_mapping_info(mapping);
     INFO(info_os.str());
     REQUIRE(contains_mapping(expected_matches, mapping));
     remove_mapping_from_expected(expected_matches, mapping);
-
-    match = match_iterator.next();
   }
 
   INFO(info_os.str());
   REQUIRE(expected_matches.empty());
 }
 
-void run_multi_mediator_test(const std::string& query, const std::string& document_,
+void run_multi_mediator_test(const std::string& query,
+                             const std::string& document_,
                              std::vector<ExtendedMapping> expected_mappings) {
   Parser parser = Parser(query, true);
   auto document = std::make_shared<Document>(document_);

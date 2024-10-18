@@ -66,9 +66,9 @@ int main(int argc, char** argv) {
     } else {
       auto query = reql(pattern, flags, max_mempool_duplications,
                         max_deterministic_states);
-      auto match_iterator = query.finditer(document);
-      while (auto match = match_iterator.next()) {
-        std::cout << *match << "\n";
+      const auto match_generator = query.finditer(document);
+      for (auto& match : match_generator) {
+        std::cout << match << "\n";
       }
     }
   } catch (const std::exception& e) {

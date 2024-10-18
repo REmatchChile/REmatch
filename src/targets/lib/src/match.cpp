@@ -18,6 +18,34 @@ Match::Match(std::unique_ptr<mediator::Mapping> mapping,
       variable_catalog_(variable_catalog),
       document_(document) {}
 
+Match::Match(const Match& other)
+    : mapping_(std::make_unique<mediator::Mapping>(*other.mapping_)),
+      variable_catalog_(other.variable_catalog_),
+      document_(other.document_) {}
+
+Match& Match::operator=(const Match& other) {
+  if (this == &other) {
+    return *this;
+  }
+
+  mapping_ = std::make_unique<mediator::Mapping>(*other.mapping_);
+  variable_catalog_ = other.variable_catalog_;
+  document_ = other.document_;
+  return *this;
+}
+
+Match::Match(Match&& other) noexcept
+    : mapping_(std::move(other.mapping_)),
+      variable_catalog_(std::move(other.variable_catalog_)),
+      document_(std::move(other.document_)) {}
+
+Match& Match::operator=(Match&& other) noexcept {
+  mapping_ = std::move(other.mapping_);
+  variable_catalog_ = std::move(other.variable_catalog_);
+  document_ = std::move(other.document_);
+  return *this;
+}
+
 Match::~Match() = default;
 
 int64_t Match::start(const std::string& variable_name) const {

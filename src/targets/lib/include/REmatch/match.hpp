@@ -28,6 +28,13 @@ class Match {
         std::shared_ptr<parsing::VariableCatalog> variable_catalog,
         std::shared_ptr<Document> document);
 
+  // Copy and move constructors
+  Match(const Match& other);
+  Match& operator=(const Match& other);
+
+  Match(Match&& other) noexcept;
+  Match& operator=(Match&& other) noexcept;
+
   ~Match();
 
   int64_t start(const std::string& variable_name) const;

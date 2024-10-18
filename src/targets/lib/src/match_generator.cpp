@@ -14,7 +14,9 @@ MatchGenerator::iterator::iterator(
     : mediator(std::move(mediator_)),
       variable_catalog(variable_catalog_),
       document(document_),
-      match_ptr(nullptr) {}
+      match_ptr(nullptr) {
+  next();
+}
 
 MatchGenerator::iterator::iterator() : match_ptr(nullptr) {}
 
@@ -52,6 +54,7 @@ void MatchGenerator::iterator::next() {
   if (mapping) {
     match_ptr =
         std::make_unique<Match>(std::move(mapping), variable_catalog, document);
+    return;
   }
 
   match_ptr = nullptr;

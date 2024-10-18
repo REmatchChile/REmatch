@@ -1,5 +1,9 @@
 #include <REmatch/query.hpp>
-#include <memory>
+
+#include <REmatch/flags.hpp>
+#include <REmatch/match.hpp>
+#include <REmatch/match_generator.hpp>
+#include <stdexcept>
 
 #include "evaluation/document.hpp"
 #include "mediator/mediator/findone_mediator.hpp"
@@ -31,7 +35,7 @@ Query& Query::operator=(Query&& other) noexcept {
 
 Query::~Query() = default;
 
-std::unique_ptr<Match> Query::findone(const std::string& document_) {
+Match Query::findone(const std::string& document_) {
   auto document = std::make_shared<Document>(document_);
 
   auto mediator = std::make_unique<FindoneMediator>(*query_data_, document,
@@ -40,53 +44,46 @@ std::unique_ptr<Match> Query::findone(const std::string& document_) {
 
   auto mapping = mediator->next();
 
-  if (mapping != nullptr) {
-    return std::make_unique<Match>(std::move(mapping),
-                                   query_data_->variable_catalog, document);
+  if (mapping == nullptr) {
+    // TODO: Add correct exception/message
+    throw std::runtime_error("No match found");
   }
 
-  return nullptr;
+  return {std::move(mapping), query_data_->variable_catalog, document};
 }
 
-std::vector<std::unique_ptr<Match>> Query::findmany(const std::string& document,
+std::vector<Match> Query::findmany(const std::string& document,
                                    uint_fast32_t limit) {
-  std::vector<std::unique_ptr<Match>> res;
+  std::vector<Match> res;
+  res.reserve(limit);
 
-  auto match_iterator = finditer(document);
-
-  while (limit > 0) {
-    auto match = match_iterator.next();
-    if (match == nullptr) {
-      break;
-    }
-
-    res.emplace_back(std::move(match));
-    --limit;
+  const auto match_generator = finditer(document);
+  for (auto it = match_generator.begin();
+       it != match_generator.end() && limit > 0; ++it, --limit) {
+    res.emplace_back(std::move(*it));
   }
 
   return res;
 }
 
-std::vector<std::unique_ptr<Match>> Query::findall(
-    const std::string& document) {
-  std::vector<std::unique_ptr<Match>> res;
+std::vector<Match> Query::findall(const std::string& document) {
+  std::vector<Match> res;
 
-  auto match_iterator = finditer(document);
-
-  while (auto match = match_iterator.next()) {
+  const auto match_generator = finditer(document);
+  for (auto&& match : match_generator) {
     res.emplace_back(std::move(match));
   }
 
   return res;
 }
 
-MatchIterator Query::finditer(const std::string& document) {
+MatchGenerator Query::finditer(const std::string& document) {
   return {*query_data_, document, max_mempool_duplications_,
           max_deterministic_states_};
 }
 
 bool Query::check(const std::string& document_) {
-  std::shared_ptr<Document> document = std::make_shared<Document>(document_);
+  auto document = std::make_shared<Document>(document_);
 
   auto output_checker = OutputChecker(*query_data_, document);
   return output_checker.check();

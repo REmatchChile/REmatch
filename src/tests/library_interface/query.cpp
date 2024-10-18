@@ -11,9 +11,9 @@ using namespace REmatch::library_interface;
 TEST_CASE("find method returns the first match correctly") {
   std::string pattern = "!x{ab}";
   auto query = reql(pattern);
-  std::unique_ptr<Match> match = query.findone("abab");
+  auto match = query.findone("abab");
 
-  REQUIRE(match->span("x") == Span(0, 2));
+  REQUIRE(match.span("x") == Span(0, 2));
 }
 
 TEST_CASE("finditer method returns the iterator correctly") {
@@ -21,18 +21,18 @@ TEST_CASE("finditer method returns the iterator correctly") {
   std::string document = "abab";
   document += END_CHAR;
   auto query = reql(pattern);
-  auto match_iterator = query.finditer(document);
+  auto match_generator = query.finditer(document);
+  auto it = match_generator.begin();
+  auto end = match_generator.end();
 
-  std::unique_ptr<Match> match = match_iterator.next();
-  REQUIRE(match != nullptr);
-  REQUIRE(match->span("x") == Span(0, 2));
+  Match match = *it;
+  REQUIRE(match.span("x") == Span(0, 2));
 
-  match = match_iterator.next();
-  REQUIRE(match != nullptr);
-  REQUIRE(match->span("x") == Span(2, 4));
+  match = *(++it);
+  REQUIRE(it != end);
+  REQUIRE(match.span("x") == Span(2, 4));
 
-  match = match_iterator.next();
-  REQUIRE(match == nullptr);
+  REQUIRE(++it == end);
 }
 
 TEST_CASE("check method returns true when there is an output") {
