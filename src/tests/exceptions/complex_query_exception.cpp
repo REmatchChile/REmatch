@@ -5,7 +5,6 @@
 
 #include "REmatch/constants.hpp"
 #include "evaluation/document.hpp"
-#include "exceptions/complex_query_exception.hpp"
 #include "mediator/mediator/finditer_mediator.hpp"
 #include "parsing/parser.hpp"
 #include "parsing/variable_catalog.hpp"

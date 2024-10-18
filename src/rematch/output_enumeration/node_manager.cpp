@@ -1,6 +1,7 @@
 #include "node_manager.hpp"
 
 #include <cstdint>
+#include <REmatch/exceptions.hpp>
 
 namespace REmatch {
 inline namespace output_enumeration {

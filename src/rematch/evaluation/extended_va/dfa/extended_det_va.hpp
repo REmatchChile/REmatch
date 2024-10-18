@@ -3,11 +3,10 @@
 #include "aliases.hpp"
 #include "capture_subset_pair.hpp"
 #include "evaluation/extended_va/nfa/extended_va.hpp"
-#include "exceptions/complex_query_exception.hpp"
-#include "exceptions/dfa_state_limit_checker.hpp"
 #include "extended_det_va_state.hpp"
-
+#include "exceptions/dfa_state_limit_checker.hpp"
 #include <REmatch/constants.hpp>
+
 namespace REmatch {
 
 class ExtendedDetVA {

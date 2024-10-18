@@ -2,10 +2,6 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include "REmatch/match_generator.hpp"
-#include "REmatch/multi_match_generator.hpp"
-#include "exceptions/exceptions.hpp"
-
 #include <REmatch/REmatch.hpp>
 
 namespace py = pybind11;

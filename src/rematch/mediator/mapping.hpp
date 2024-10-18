@@ -1,10 +1,9 @@
-#ifndef MAPPING_HPP
-#define MAPPING_HPP
+#pragma once
 
 #include <iostream>
 #include <map>
 #include <string>
-#include "exceptions/variable_not_found_exception.hpp"
+
 #include "output_enumeration/mapping.hpp"
 
 #include <REmatch/span.hpp>
@@ -31,5 +30,3 @@ class Mapping {
 };
 }  // namespace mediator
 }  // namespace REmatch
-
-#endif

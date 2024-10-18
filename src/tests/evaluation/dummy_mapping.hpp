@@ -1,9 +1,8 @@
-#ifndef DUMMY_MAPPING_HPP
-#define DUMMY_MAPPING_HPP
+#pragma once
 
+#include <REmatch/exceptions.hpp>
 #include "evaluation/algorithm/algorithm_class.hpp"
 #include "evaluation/extended_va/dfa/extended_det_va.hpp"
-#include "exceptions/variable_not_found_exception.hpp"
 
 namespace REmatch::testing {
 
@@ -23,13 +22,11 @@ struct DummyMapping {
     if (spans_map.count(variable_name))
       return spans_map[variable_name];
 
-   throw REmatch::VariableNotFoundException(variable_name);
+    throw REmatch::VariableNotFoundException(variable_name);
   }
 
   bool operator==(const DummyMapping& other) const {
     return spans_map == other.spans_map;
   }
 };
-}
-
-#endif
+}  // namespace REmatch::testing

@@ -1,5 +1,5 @@
 #include "parsing/variable_catalog.hpp"
-#include "exceptions/multi_spanners_not_allowed_exception.hpp"
+#include <REmatch/exceptions.hpp>
 
 namespace REmatch {
 inline namespace parsing {
