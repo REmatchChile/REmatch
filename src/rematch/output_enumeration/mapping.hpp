@@ -3,10 +3,10 @@
 
 #include <map>
 #include "output_enumeration/ecs.hpp"
-#include "span.hpp"
-#include "tracy/Tracy.hpp"
 
-namespace rematch {
+#include <REmatch/span.hpp>
+
+namespace REmatch {
 
 class ExtendedMapping;
 
@@ -65,7 +65,7 @@ class Mapping {
 
   std::vector<Annotation> inverted_annotations;
 
-  friend class rematch::ExtendedMapping;
+  friend class REmatch::ExtendedMapping;
 };
 }
 }

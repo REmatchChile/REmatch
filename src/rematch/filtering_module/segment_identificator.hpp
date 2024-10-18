@@ -12,9 +12,10 @@
 
 #include "filtering_module/search_variable_set_automaton/dfa/search_dfa.hpp"
 #include "filtering_module/search_variable_set_automaton/dfa/search_dfa_state.hpp"
-#include "tracy/Tracy.hpp"
 
-namespace rematch {
+#include <REmatch/span.hpp>
+
+namespace REmatch {
 class Document;
 
 inline namespace filtering_module {

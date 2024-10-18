@@ -2,15 +2,15 @@
 
 #include "evaluation/document.hpp"
 
-using namespace rematch;
+using namespace REmatch;
 
 AlgorithmClass::AlgorithmClass(ExtendedVA& extended_va,
                                std::shared_ptr<Document> document,
-                               Flags flags)
+                               uint_fast32_t max_mempool_duplications, uint_fast32_t max_deterministic_states)
     : doc_end_i_(document->size()),
       document_(document),
-      extended_det_va_(extended_va, flags) {
-  ECS_interface_ = std::make_unique<ECS>(flags);
+      extended_det_va_(extended_va, max_deterministic_states) {
+  ECS_interface_ = std::make_unique<ECS>(max_mempool_duplications);
   enumerator_ = std::make_unique<Enumerator>();
 
   ExtendedDetVAState* initial_state = extended_det_va_.get_initial_state();

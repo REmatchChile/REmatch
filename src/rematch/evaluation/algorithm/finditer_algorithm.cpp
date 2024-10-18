@@ -1,11 +1,13 @@
 #include "finditer_algorithm.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 FinditerAlgorithm::FinditerAlgorithm(ExtendedVA& extended_va,
                                      std::shared_ptr<Document> document,
-                                     Flags flags)
-    : AlgorithmClass(extended_va, document, flags) {}
+                                     uint_fast32_t max_mempool_duplications,
+                                     uint_fast32_t max_deterministic_states)
+    : AlgorithmClass(extended_va, document, max_mempool_duplications,
+                     max_deterministic_states) {}
 
 const Mapping* FinditerAlgorithm::get_next_mapping() {
   if (enumerator_->has_next()) {
@@ -89,4 +91,4 @@ ECSNode* FinditerAlgorithm::create_root_node_to_enumerate() {
   return ECS_root_node_;
 }
 
-}  // namespace rematch
+}  // namespace REmatch

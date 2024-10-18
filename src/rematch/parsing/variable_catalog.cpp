@@ -1,7 +1,7 @@
 #include "parsing/variable_catalog.hpp"
-#include "exceptions/multi_spanners_not_allowed_exception.hpp"
+#include <REmatch/exceptions.hpp>
 
-namespace rematch {
+namespace REmatch {
 inline namespace parsing {
 
 VariableCatalog::VariableCatalog() {}
@@ -17,7 +17,7 @@ int VariableCatalog::position(std::string var) const {
     return it - variables_.begin();
   }
 
-  throw REMatch::VariableNotFoundInCatalogException(var);
+  throw REmatch::VariableNotFoundInCatalogException(var);
 }
 
 void VariableCatalog::add(std::string var) {
@@ -105,7 +105,7 @@ void VariableCatalog::merge(VariableCatalog& rhs) {
   for (auto& var : rhs.variables_) {
     auto it = std::lower_bound(variables_.begin(), variables_.end(), var);
     if (size() >= MAX_VARS) {
-      throw REMatch::VariableLimitExceededException();
+      throw REmatch::VariableLimitExceededException();
     }
     if (it == variables_.end()) {
       variables_.insert(it, var);
@@ -121,7 +121,7 @@ void VariableCatalog::merge_disjoint(VariableCatalog& rhs) {
   for (auto& var : rhs.variables_) {
     auto it = std::lower_bound(variables_.begin(), variables_.end(), var);
     if (size() >= MAX_VARS) {
-      throw REMatch::VariableLimitExceededException();
+      throw REmatch::VariableLimitExceededException();
     }
     if (it == variables_.end()) {
       variables_.insert(it, var);
@@ -130,7 +130,7 @@ void VariableCatalog::merge_disjoint(VariableCatalog& rhs) {
     } else if (*it != var) {
       variables_.insert(it, var);
     } else {
-      throw REMatch::MultiSpannersNotAllowedException();
+      throw REmatch::MultiSpannersNotAllowedException();
     }
   }
 }
@@ -148,4 +148,4 @@ bool VariableCatalog::operator==(const VariableCatalog& vf) const {
 }
 
 }  // namespace parsing
-}  // namespace rematch
+}  // namespace REmatch

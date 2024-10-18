@@ -4,7 +4,7 @@
 #include "output_enumeration/ecs.hpp"
 #include "output_enumeration/mapping.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 inline namespace output_enumeration {
 

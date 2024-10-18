@@ -5,7 +5,7 @@
 #include "filtering_module/segment_identificator.hpp"
 #include "filtering_module/search_variable_set_automaton/dfa/search_dfa.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 class SegmentIdentificatorManager : public SegmentManager {
  public:

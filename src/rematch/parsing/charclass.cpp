@@ -1,6 +1,6 @@
 #include "parsing/charclass.hpp"
 
-namespace rematch{
+namespace REmatch{
 inline namespace parsing {
 
 CharClass::CharClass(): nchars(0) {}

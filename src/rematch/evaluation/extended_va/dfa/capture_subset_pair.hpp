@@ -3,7 +3,7 @@
 
 #include <bitset>
 
-namespace rematch {
+namespace REmatch {
 
 class ExtendedDetVAState;
 
@@ -11,6 +11,6 @@ struct CaptureSubsetPair {
   std::bitset<64> capture;
   ExtendedDetVAState* subset;
 };
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

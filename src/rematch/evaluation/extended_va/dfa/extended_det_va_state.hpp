@@ -9,7 +9,7 @@
 #include "aliases.hpp"
 #include "capture_subset_pair.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 class ExtendedDetVAState {
  private:
@@ -46,6 +46,6 @@ class ExtendedDetVAState {
   std::vector<ExtendedVAState*> get_states_subset() const { return states_subset_; }
 };
 
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

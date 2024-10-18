@@ -4,10 +4,10 @@
 #include "output_enumeration/ecs.hpp"
 #include "ecs.hpp"
 
-namespace rematch {
+namespace REmatch {
 inline namespace output_enumeration {
 
-ECS::ECS(Flags flags) : node_manager(flags) {}
+ECS::ECS(uint_fast32_t max_mempool_duplications) : node_manager(max_mempool_duplications) {}
 
 size_t ECS::get_amount_of_nodes_used() const {
   return node_manager.get_amount_of_nodes_used();

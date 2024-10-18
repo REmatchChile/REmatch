@@ -1,11 +1,11 @@
-#include "antlr4-runtime.h"
-#include "exceptions/invalid_escape_exception.hpp"
+#include <antlr4-runtime.h>
 
 #include <sstream>
+#include <REmatch/exceptions.hpp>
 
 namespace antlr4 {
 
-void check_if_escapes_are_valid(std::string query, std::vector<std::string> rule_stack, size_t char_position);
+void check_if_escapes_are_valid(const std::string& query, std::vector<std::string> rule_stack, size_t char_position);
 
 // Custom error listener for handling parsing errors throwing exceptions
 // instead of continuing execution, which is the ANTLR's default behavior
@@ -27,13 +27,13 @@ class ParserErrorListener : public BaseErrorListener {
 
     check_if_escapes_are_valid(query, rule_stack, char_position_in_line);
 
-    throw REMatch::QuerySyntaxException("Syntax error in regular expression.", query, char_position_in_line);
+    throw REmatch::QuerySyntaxException("Syntax error in regular expression.", query, char_position_in_line);
   }
 };
 
-void check_if_escapes_are_valid(std::string query, std::vector<std::string> rule_stack, size_t char_position) {
+void check_if_escapes_are_valid(const std::string& query, std::vector<std::string> rule_stack, size_t char_position) {
   if (rule_stack.front() == "escapes") {
-    throw REMatch::InvalidEscapeException(query, char_position);
+    throw REmatch::InvalidEscapeException(query, char_position);
   }
 };
 }  // namespace antlr4

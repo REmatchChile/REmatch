@@ -1,19 +1,22 @@
-#ifndef MULTI_FINDONE_MEDIATOR_HPP
-#define MULTI_FINDONE_MEDIATOR_HPP
+#pragma once
 
 #include "evaluation/algorithm/algorithm_class.hpp"
 #include "evaluation/document.hpp"
-#include "library_interface/query_data/query_data.hpp"
+#include "mediator/segment_manager/segment_manager.hpp"
 #include "output_enumeration/extended_mapping.hpp"
 #include "output_enumeration/mapping.hpp"
+#include "utils/query_data.hpp"
 
-namespace rematch {
+#include <REmatch/constants.hpp>
+
+namespace REmatch {
 
 class MultiFindoneMediator {
  public:
   MultiFindoneMediator(QueryData& query_data,
                        std::shared_ptr<Document> document,
-                       Flags flags = Flags());
+                       uint_fast32_t max_mempool_duplications=REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+                       uint_fast32_t max_deterministic_states=REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
 
   std::unique_ptr<ExtendedMapping> next();
 
@@ -31,6 +34,4 @@ class MultiFindoneMediator {
   bool has_output;
 };
 
-}  // namespace rematch
-
-#endif
+}  // namespace REmatch

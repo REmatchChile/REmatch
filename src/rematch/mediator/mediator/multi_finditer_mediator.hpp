@@ -1,16 +1,23 @@
-#ifndef MULTI_FINDITER_MEDIATOR_HPP
-#define MULTI_FINDITER_MEDIATOR_HPP
+#pragma once
 
 #include "finditer_mediator.hpp"
+
 #include "output_enumeration/extended_mapping.hpp"
 
-namespace rematch {
+#include "utils/query_data.hpp"
+
+#include <REmatch/constants.hpp>
+
+namespace REmatch {
 
 class MultiFinditerMediator {
  public:
   MultiFinditerMediator(QueryData& query_data,
                         std::shared_ptr<Document> document,
-                        Flags flags = Flags());
+                        uint_fast32_t max_mempool_duplications =
+                            REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+                        uint_fast32_t max_deterministic_states =
+                            REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
 
   std::unique_ptr<ExtendedMapping> next();
 
@@ -27,6 +34,4 @@ class MultiFinditerMediator {
   const output_enumeration::Mapping* mapping_;
 };
 
-}  // namespace rematch
-
-#endif
+}  // namespace REmatch

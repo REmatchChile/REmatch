@@ -7,7 +7,7 @@
 #include "parsing/charclass.hpp"
 #include "evaluation/start_end_chars.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 class ExtendedVAState {
  private:
@@ -46,6 +46,6 @@ class ExtendedVAState {
   bool is_initial();
 };
 
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

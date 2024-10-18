@@ -4,7 +4,7 @@
 #include "segment_manager.hpp"
 #include "filtering_module/segment_identificator.hpp"
 
-namespace rematch {
+namespace REmatch {
 class Document;
 
 class DefaultSegmentManager : public SegmentManager {

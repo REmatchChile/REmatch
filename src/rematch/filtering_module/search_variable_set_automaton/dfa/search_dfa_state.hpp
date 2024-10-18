@@ -10,7 +10,7 @@
 #include "output_enumeration/ecs.hpp"
 #include "filtering_module/search_variable_set_automaton/nfa/search_nfa_state.hpp"
 
-namespace rematch {
+namespace REmatch {
 inline namespace filtering_module {
 
 class SearchDFAState {

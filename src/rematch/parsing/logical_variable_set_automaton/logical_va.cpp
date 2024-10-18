@@ -1,6 +1,8 @@
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
 
-namespace rematch {
+#include <REmatch/exceptions.hpp>
+
+namespace REmatch {
 inline namespace parsing {
 
 LogicalVA::LogicalVA()
@@ -381,7 +383,7 @@ void LogicalVA::assign(std::bitset<64> open_code, std::bitset<64> close_code) {
   /* Extends the LogicalVA so it can assign its pattern to a variable */
 
   if (has_epsilon()) {
-    throw REMatch::EmptyWordCaptureException("Empty word capturing is not allowed.");
+    throw REmatch::EmptyWordCaptureException("Empty word capturing is not allowed.");
   }
 
   // Create new states
@@ -406,7 +408,7 @@ void LogicalVA::assign(std::bitset<64> open_code, std::bitset<64> close_code) {
 
 void LogicalVA::repeat(int min, int max) {
   assert(min >= 0 && "min must be non-negative");
-  assert(max == -1 || max >= min && "max must be greater than min");
+  assert((max == -1 || max >= min) && "max must be greater than min");
   assert(!(max == 0 && min == 0) && "min and max cannot both be zero");
 
   LogicalVA copied(*this);
@@ -810,21 +812,26 @@ void LogicalVA::remove_useless_anchors() {
     }
   }
 
-  auto start_anchor_is_not_useful = [](LogicalVAAnchor* anchor) {
-    return !anchor->useful;
-  };
-
-  auto end_anchor_is_not_useful = [](LogicalVAAnchor* anchor) {
+  auto anchor_is_not_useful = [](LogicalVAAnchor* anchor) {
     return !anchor->useful;
   };
 
   // Remove transitions
+  std::vector<LogicalVAAnchor*> useless_anchors;
+  for (auto& state : states) {
+    for (auto& anchor : state->anchors) {
+      if (!anchor->useful) {
+        useless_anchors.push_back(anchor);
+      }
+    }
+  }
+
   for (auto& state : states) {
     state->anchors.erase(
       std::remove_if(
         state->anchors.begin(),
         state->anchors.end(),
-        start_anchor_is_not_useful
+        anchor_is_not_useful
       ),
       state->anchors.end()
     );
@@ -833,10 +840,14 @@ void LogicalVA::remove_useless_anchors() {
       std::remove_if(
         state->backward_anchors_.begin(),
         state->backward_anchors_.end(),
-        end_anchor_is_not_useful
+        anchor_is_not_useful
       ),
       state->backward_anchors_.end()
     );
+  }
+
+  for (auto anchor: useless_anchors) {
+    delete anchor;
   }
 }
 

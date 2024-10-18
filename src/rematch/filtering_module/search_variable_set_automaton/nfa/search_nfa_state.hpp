@@ -9,7 +9,7 @@
 #include "parsing/logical_variable_set_automaton/logical_va_state.hpp"
 #include "filtering_module/search_variable_set_automaton/nfa/search_nfa_filter.hpp"
 
-namespace rematch {
+namespace REmatch {
 inline namespace filtering_module {
 
 class SearchNFAState;

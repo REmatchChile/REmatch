@@ -2,7 +2,7 @@
 #define EXTENDED_VA_CAPTURE_HPP
 #include <bitset>
 
-namespace rematch {
+namespace REmatch {
 
 class ExtendedVAState;
 
@@ -16,6 +16,6 @@ class ExtendedVACapture {
                     ExtendedVAState* next)
       : from(from), code(code), next(next) {}
 };
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

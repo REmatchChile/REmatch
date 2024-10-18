@@ -1,9 +1,15 @@
 #include "extended_va.hpp"
 
-namespace rematch {
+#ifdef TRACY_ENABLE
+#include "tracy/Tracy.hpp"
+#endif
+
+namespace REmatch {
 
 ExtendedVA::ExtendedVA(LogicalVA const &logical_va) {
+  #ifdef TRACY_ENABLE
   ZoneScoped;
+  #endif
 
   LogicalVA logical_va_prim(logical_va);
   logical_va_prim.remove_epsilon();
@@ -83,7 +89,9 @@ void ExtendedVA::copy_transitions_from_logical_va
 }
 
 void ExtendedVA::clean_for_determinization() {
+  #ifdef TRACY_ENABLE
   ZoneScoped;
+  #endif
 
   add_loop_to_initial_state();
   duplicate();
@@ -252,7 +260,7 @@ void ExtendedVA::duplicate() {
     current_old = states[i];
     current_new0 = states0[i];
     current_new1 = states1[i];
-    
+
     for (auto& read_capture : current_old->read_captures) {
       next_old = read_capture->next;
       size_t next_old_idx = state_to_index[next_old];

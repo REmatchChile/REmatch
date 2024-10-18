@@ -3,7 +3,7 @@
 
 #include "parsing/charclass.hpp"
 
-namespace rematch {
+namespace REmatch {
 inline namespace filtering_module {
 
 class SearchNFAState;

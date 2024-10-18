@@ -1,15 +1,18 @@
 #include "node_manager.hpp"
 
-namespace rematch {
+#include <cstdint>
+#include <REmatch/exceptions.hpp>
+
+namespace REmatch {
 inline namespace output_enumeration {
 
-NodeManager::NodeManager(size_t starting_size, Flags flags)
+NodeManager::NodeManager(size_t starting_size, uint_fast32_t max_mempool_duplications)
     : minipool_head_(new MiniPool(starting_size)),
       recyclable_node_head(nullptr),
-      max_number_of_mempool_duplications(flags.max_mempool_duplications) {}
+      max_number_of_mempool_duplications(max_mempool_duplications) {}
 
-NodeManager::NodeManager(Flags flags)
-    : NodeManager(MEMORY_POOL_STARTING_SIZE, flags) {}
+NodeManager::NodeManager(uint_fast32_t max_mempool_duplications)
+    : NodeManager(MEMORY_POOL_STARTING_SIZE, max_mempool_duplications) {}
 
 NodeManager::~NodeManager() {
   for (MiniPool *mp = minipool_head_; mp != nullptr;) {
@@ -72,7 +75,7 @@ void NodeManager::increase_mempool_size() {
 void NodeManager::throw_exception_if_mempool_duplications_exceeded() {
   number_of_mempool_duplications++;
   if (number_of_mempool_duplications > max_number_of_mempool_duplications) {
-    throw REMatch::MemoryLimitExceededException();
+    throw REmatch::MemoryLimitExceededException();
   }
 }
 

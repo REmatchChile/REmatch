@@ -1,15 +1,19 @@
 #include "multi_finditer_mediator.hpp"
-#include "output_enumeration/extended_mapping.hpp"
 
-namespace rematch {
+#include "output_enumeration/extended_mapping.hpp"
+#include "utils/query_data.hpp"
+
+namespace REmatch {
 
 MultiFinditerMediator::MultiFinditerMediator(QueryData& query_data,
                                              std::shared_ptr<Document> document,
-                                             Flags flags)
+                                             uint_fast32_t max_mempool_duplications,
+                                             uint_fast32_t max_deterministic_states)
     : document_(document), variable_catalog_(query_data.variable_catalog) {
 
-  algorithm_ = std::make_unique<FinditerAlgorithm>(query_data.extended_va,
-                                                   document_, flags);
+  algorithm_ = std::make_unique<FinditerAlgorithm>(
+      query_data.extended_va, document_, max_mempool_duplications,
+      max_deterministic_states);
   query_data.segment_manager_creator.set_document(document_);
   segment_manager_ = query_data.segment_manager_creator.get_segment_manager();
 
@@ -58,4 +62,4 @@ void MultiFinditerMediator::update_algorithm(Span& segment_span) {
   algorithm_->initialize_algorithm();
 }
 
-}  // namespace rematch
+}  // namespace REmatch

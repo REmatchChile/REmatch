@@ -7,12 +7,13 @@
 
 #include "output_enumeration/node_manager.hpp"
 #include "output_enumeration/ecs_node.hpp"
-#include "library_interface/flags.hpp"
 
-namespace rematch {
+#include <REmatch/constants.hpp>
+
+namespace REmatch {
 
 inline namespace output_enumeration {
-using namespace REMatch;
+using namespace REmatch;
 
   /**
    * An Enumerable Compact Set stores all combinations of outputs through
@@ -35,7 +36,7 @@ class ECS { // Enumerable Compact Set
   NodeManager node_manager;
 
  public:
-  ECS(Flags flags = Flags());
+  explicit ECS(uint_fast32_t max_mempool_duplications = REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
   ~ECS() = default;
 
   /**

@@ -1,14 +1,16 @@
 #include "finditer_mediator.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 FinditerMediator::FinditerMediator(QueryData& query_data,
                                    std::shared_ptr<Document> document,
-                                   Flags flags)
+                                   uint_fast32_t max_mempool_duplications,
+                                   uint_fast32_t max_deterministic_states)
     : Mediator(query_data, document) {
 
-  algorithm_ = std::make_unique<FinditerAlgorithm>(query_data.extended_va,
-                                                   document_, flags);
+  algorithm_ = std::make_unique<FinditerAlgorithm>(
+      query_data.extended_va, document_, max_mempool_duplications,
+      max_deterministic_states);
   query_data.segment_manager_creator.set_document(document_);
   segment_manager_ = query_data.segment_manager_creator.get_segment_manager();
 
@@ -22,7 +24,7 @@ FinditerMediator::FinditerMediator(QueryData& query_data,
   }
 }
 
-mediator::Mapping* FinditerMediator::next() {
+std::unique_ptr<mediator::Mapping> FinditerMediator::next() {
   if (!next_is_computed_successfully()) {
     return nullptr;
   }
@@ -47,4 +49,4 @@ bool FinditerMediator::next_is_computed_successfully() {
   return false;
 }
 
-}  // namespace rematch
+}  // namespace REmatch

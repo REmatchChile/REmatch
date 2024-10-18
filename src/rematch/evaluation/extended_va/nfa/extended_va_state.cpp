@@ -1,6 +1,6 @@
 #include "extended_va_state.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 ExtendedVAState::~ExtendedVAState() {
   for (auto& read_capture: read_captures) {
@@ -102,7 +102,7 @@ void ExtendedVAState::delete_transitions() {
     }
     delete filter;
   }
-  
+
   for (auto &filter: filters) {
     for (auto it=filter->next->backward_filters.begin(); it != filter->next->backward_filters.end();) {
       if (filter->from == (*it)->from && filter->next == (*it)->next)

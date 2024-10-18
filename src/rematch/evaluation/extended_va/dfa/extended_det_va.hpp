@@ -1,21 +1,19 @@
-#ifndef EXTENDED_DET_VA_HPP
-#define EXTENDED_DET_VA_HPP
+#pragma once
 
-#include "evaluation/extended_va/nfa/extended_va.hpp"
-#include "exceptions/complex_query_exception.hpp"
-#include "extended_det_va_state.hpp"
+#include "aliases.hpp"
 #include "capture_subset_pair.hpp"
+#include "evaluation/extended_va/nfa/extended_va.hpp"
+#include "extended_det_va_state.hpp"
 #include "exceptions/dfa_state_limit_checker.hpp"
+#include <REmatch/constants.hpp>
 
-namespace rematch {
+namespace REmatch {
 
 class ExtendedDetVA {
  private:
-
   ExtendedDetVAState* initial_state_;
   ExtendedVA& extended_va_;
-  std::unordered_map<StatesBitset, ExtendedDetVAState*>
-      bitset_to_state_map;
+  std::unordered_map<StatesBitset, ExtendedDetVAState*> bitset_to_state_map;
 
   void create_initial_state();
 
@@ -25,12 +23,15 @@ class ExtendedDetVA {
   std::vector<CaptureSubsetPair> add_transitions_to_vector(
       std::unordered_map<std::bitset<64>, StatesPtrSet>& captures_subset_map);
 
-  ExtendedDetVAState* create_state(StatesPtrSet &states_set);
-  ExtendedDetVAState* create_state(StatesPtrSet &states_set, StatesBitset states_bitset);
+  ExtendedDetVAState* create_state(StatesPtrSet& states_set);
+  ExtendedDetVAState* create_state(StatesPtrSet& states_set,
+                                   StatesBitset states_bitset);
 
  public:
   DFAStateLimitChecker dfa_states_checker_;
-  ExtendedDetVA(ExtendedVA& extended_va, DFAStateLimitChecker dfa_states_checker = DFAStateLimitChecker());
+  explicit ExtendedDetVA(ExtendedVA& extended_va,
+                         uint_fast32_t max_deterministic_states =
+                             REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
 
   ~ExtendedDetVA();
 
@@ -41,17 +42,13 @@ class ExtendedDetVA {
 
   ExtendedDetVAState* get_initial_state() { return initial_state_; }
 
-  StatesBitset get_bitset_from_states_set(
-      StatesPtrSet& states_subset);
+  StatesBitset get_bitset_from_states_set(StatesPtrSet& states_subset);
 
-  ExtendedDetVAState* get_state_from_subset(
-      StatesPtrSet &states_set);
+  ExtendedDetVAState* get_state_from_subset(StatesPtrSet& states_set);
 
   void set_state_initial_phases();
 
   size_t get_extended_va_size();
 };
 
-}  // namespace rematch
-
-#endif
+}  // namespace REmatch

@@ -1,23 +1,25 @@
-#ifndef FINDONE_MEDIATOR_HPP
-#define FINDONE_MEDIATOR_HPP
+#pragma once
 
-#include <string_view>
 #include "mediator/mapping.hpp"
 #include "mediator/mediator/mediator.hpp"
+#include "utils/query_data.hpp"
 
-namespace rematch {
+#include <REmatch/constants.hpp>
+
+namespace REmatch {
 
 class FindoneMediator : public Mediator {
  public:
   FindoneMediator(QueryData& query_data, std::shared_ptr<Document> document,
-                  Flags flags = Flags());
+                  uint_fast32_t max_mempool_duplications =
+                      REmatch::DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+                  uint_fast32_t max_deterministic_states =
+                      REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
 
-  mediator::Mapping* next() override;
+  std::unique_ptr<mediator::Mapping> next() override;
 
  private:
   bool has_output = false;
 };
 
-}  // namespace rematch
-
-#endif
+}  // namespace REmatch

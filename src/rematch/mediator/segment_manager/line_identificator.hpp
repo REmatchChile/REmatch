@@ -4,9 +4,10 @@
 #include <iostream>
 #include <memory>
 #include <string>
-#include "output_enumeration/span.hpp"
 
-namespace rematch {
+#include <REmatch/span.hpp>
+
+namespace REmatch {
 class Document;
 
 class LineIdentificator {
@@ -20,6 +21,6 @@ class LineIdentificator {
   size_t current_end_ = 0;
 };
 
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

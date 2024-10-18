@@ -1,6 +1,6 @@
 #include "segment_identificator_manager.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 SegmentIdentificatorManager::SegmentIdentificatorManager(SearchDFA& search_dfa, std::shared_ptr<Document> document)
     : segment_identificator_(search_dfa, document) {}
@@ -17,4 +17,4 @@ size_t SegmentIdentificatorManager::get_search_nfa_size() {
   return segment_identificator_.get_search_nfa_size();
 }
 
-}  // namespace rematch
+}  // namespace REmatch

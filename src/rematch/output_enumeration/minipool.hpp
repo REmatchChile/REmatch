@@ -7,7 +7,7 @@
 #include <fstream>
 #include "output_enumeration/ecs_node.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 inline namespace output_enumeration {
 

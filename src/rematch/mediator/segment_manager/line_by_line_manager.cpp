@@ -2,7 +2,7 @@
 
 #include "evaluation/document.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 LineByLineManager::LineByLineManager(SearchDFA& search_dfa,
                                      std::shared_ptr<Document> document)
@@ -44,4 +44,4 @@ size_t LineByLineManager::get_search_nfa_size() {
   return segment_identificator_.get_search_nfa_size();
 }
 
-};  // namespace rematch
+};  // namespace REmatch

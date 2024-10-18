@@ -1,9 +1,8 @@
-#ifndef EXTENDED_VA_ASSERT_HPP
-#define EXTENDED_VA_ASSERT_HPP
+#pragma once
 
-#include "extended_va.hpp"
+#include "parsing/logical_variable_set_automaton/logical_va.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 class ExtendedVA;
 
@@ -12,6 +11,4 @@ class ExtendedVAAssert {
   static bool initial_state_has_only_outgoing_transitions(LogicalVA* const& logical_va);
   static bool accepting_state_has_only_incoming_transitions(LogicalVA* const& logical_va);
 };
-}  // namespace rematch
-
-#endif
+}  // namespace REmatch

@@ -1,7 +1,7 @@
 #ifndef LOGICAL_VA_ANCHOR
 #define LOGICAL_VA_ANCHOR
 
-namespace rematch {
+namespace REmatch {
 inline namespace parsing {
 
 class LogicalVAState;

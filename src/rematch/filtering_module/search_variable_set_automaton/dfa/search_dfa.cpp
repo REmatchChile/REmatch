@@ -6,7 +6,7 @@
 #include <iostream>
 #include "search_dfa.hpp"
 
-namespace rematch {
+namespace REmatch {
 inline namespace filtering_module {
 
 SearchDFA::SearchDFA(LogicalVA const &logical_va, DFAStateLimitChecker dfa_states_checker)

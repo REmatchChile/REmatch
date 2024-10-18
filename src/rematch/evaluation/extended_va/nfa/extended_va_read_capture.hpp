@@ -1,7 +1,7 @@
 #ifndef EXTENDED_VA_READ_CAPTURE_HPP
 #define EXTENDED_VA_READ_CAPTURE_HPP
 
-namespace rematch {
+namespace REmatch {
 
 class ExtendedVAState;
 
@@ -17,6 +17,6 @@ class ExtendedVAReadCapture {
       : next(next), from(from), charclass(charclass), captures_set(captures_set) {}
 
 };
-}  // namespace rematch
+}  // namespace REmatch
 
 #endif

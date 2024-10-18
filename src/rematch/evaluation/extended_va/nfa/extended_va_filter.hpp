@@ -3,7 +3,7 @@
 
 #include "parsing/charclass.hpp"
 
-namespace rematch {
+namespace REmatch {
 
 class ExtendedVAState;
 

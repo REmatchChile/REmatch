@@ -2,9 +2,10 @@
 #define SEGMENT_MANAGER_HPP
 
 #include <memory>
-#include "output_enumeration/span.hpp"
 
-namespace rematch {
+#include <REmatch/span.hpp>
+
+namespace REmatch {
 
 class SegmentManager {
  public:
