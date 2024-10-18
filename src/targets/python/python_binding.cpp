@@ -1,6 +1,9 @@
+#include <pybind11/attr.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include "REmatch/match_generator.hpp"
+#include "REmatch/multi_match_generator.hpp"
 #include "exceptions/exceptions.hpp"
 
 #include <REmatch/REmatch.hpp>
@@ -38,15 +41,21 @@ PYBIND11_MODULE(_pyrematch, m) {
       .def("empty", &Match::empty)
       .def("to_string", &Match::to_string);
 
-  py::class_<MatchIterator>(m, "cppMatchIterator")
-      .def("next", &MatchIterator::next)
-      .def("variables", &MatchIterator::variables);
+  py::class_<MatchGenerator::iterator>(m, "cppMatchGeneratorIterator")
+      .def("get", [](MatchGenerator::iterator& self) -> Match { return *self; })
+      .def("has_value",
+           [](MatchGenerator::iterator& self) -> bool {
+             return self.operator->() != nullptr;
+           })
+      .def("next", [](MatchGenerator::iterator& self) -> void { ++self; });
+
+  py::class_<MatchGenerator>(m, "cppMatchGenerator")
+      .def("begin", &MatchGenerator::begin);
 
   py::class_<Query>(m, "cppQuery")
       .def("findone", &Query::findone)
       .def("findmany", &Query::findmany)
       .def("findall", &Query::findall)
-      // TODO: Fix
       .def("finditer", &Query::finditer)
       .def("check", &Query::check);
 
@@ -64,9 +73,19 @@ PYBIND11_MODULE(_pyrematch, m) {
       .def("variables", &MultiMatch::variables)
       .def("to_string", &MultiMatch::to_string);
 
-  py::class_<MultiMatchIterator>(m, "cppMultiMatchIterator")
-      .def("next", &MultiMatchIterator::next)
-      .def("variables", &MultiMatchIterator::variables);
+  py::class_<MultiMatchGenerator::iterator>(m, "cppMultiMatchGeneratorIterator")
+      .def("get",
+           [](MultiMatchGenerator::iterator& self) -> MultiMatch {
+             return *self;
+           })
+      .def("has_value",
+           [](MultiMatchGenerator::iterator& self) -> bool {
+             return self.operator->() != nullptr;
+           })
+      .def("next", [](MultiMatchGenerator::iterator& self) -> void { ++self; });
+
+  py::class_<MultiMatchGenerator>(m, "cppMultiMatchGenerator")
+      .def("begin", &MultiMatchGenerator::begin);
 
   py::class_<MultiQuery>(m, "cppMultiQuery")
       .def("findone", &MultiQuery::findone)

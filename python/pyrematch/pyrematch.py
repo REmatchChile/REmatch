@@ -6,10 +6,12 @@ from ._pyrematch import (
     DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
     cppFlags,
     cppMatch,
-    cppMatchIterator,
+    cppMatchGenerator,
+    cppMatchGeneratorIterator,
     cppmulti_reql,
     cppMultiMatch,
-    cppMultiMatchIterator,
+    cppMultiMatchGenerator,
+    cppMultiMatchGeneratorIterator,
     cppMultiQuery,
     cppQuery,
     cppreql,
@@ -62,21 +64,19 @@ class Match:
         return str(self)
 
 
-class MatchIterator:
-    def __init__(self, cpp_match_iterator: cppMatchIterator):
-        self._cpp_match_iterator: cppMatchIterator = cpp_match_iterator
+class MatchGenerator:
+    def __init__(self, cpp_match_generator: cppMatchGenerator):
+        self._cpp_it: cppMatchGeneratorIterator = cpp_match_generator.begin()
 
-    def __iter__(self) -> "MatchIterator":
+    def __iter__(self) -> "MatchGenerator":
         return self
 
     def __next__(self) -> Match:
-        cpp_match = self._cpp_match_iterator.next()
-        if cpp_match:
+        if self._cpp_it.has_value():
+            cpp_match = self._cpp_it.get()
+            self._cpp_it.next()
             return Match(cpp_match)
         raise StopIteration
-
-    def variables(self) -> List[str]:
-        return self._cpp_match_iterator.variables()
 
 
 class Query:
@@ -100,9 +100,9 @@ class Query:
     def findall(self, document: str) -> List[Match]:
         return [Match(cpp_match) for cpp_match in self._cpp_query.findall(document)]
 
-    def finditer(self, document: str) -> MatchIterator:
-        cpp_match_iterator = self._cpp_query.finditer(document)
-        return MatchIterator(cpp_match_iterator)
+    def finditer(self, document: str) -> MatchGenerator:
+        cpp_match_generator = self._cpp_query.finditer(document)
+        return MatchGenerator(cpp_match_generator)
 
     def check(self, document: str) -> bool:
         return self._cpp_query.check(document)
@@ -152,21 +152,19 @@ class MultiMatch:
         return str(self)
 
 
-class MultiMatchIterator:
-    def __init__(self, cpp_multi_match_iterator: cppMultiMatchIterator):
-        self._multi_match_iterator: cppMultiMatchIterator = cpp_multi_match_iterator
+class MultiMatchGenerator:
+    def __init__(self, cpp_multi_match_generator: cppMultiMatchGenerator):
+        self._cpp_it: cppMultiMatchGeneratorIterator = cpp_multi_match_generator.begin()
 
-    def __iter__(self) -> "MultiMatchIterator":
+    def __iter__(self) -> "MatchGenerator":
         return self
 
-    def __next__(self) -> MultiMatch:
-        cpp_multi_match = self._multi_match_iterator.next()
-        if cpp_multi_match:
+    def __next__(self) -> Match:
+        if self._cpp_it.has_value():
+            cpp_multi_match = self._cpp_it.get()
+            self._cpp_it.next()
             return MultiMatch(cpp_multi_match)
         raise StopIteration
-
-    def variables(self) -> List[str]:
-        return self._multi_match_iterator.variables()
 
 
 class MultiQuery:
@@ -194,9 +192,9 @@ class MultiQuery:
             for cpp_multi_match in self._cpp_multi_query.findall(document)
         ]
 
-    def finditer(self, document: str) -> MultiMatchIterator:
-        cpp_multi_match_iterator = self._cpp_multi_query.finditer(document)
-        return MultiMatchIterator(cpp_multi_match_iterator)
+    def finditer(self, document: str) -> MultiMatchGenerator:
+        cpp_multi_match_generator = self._cpp_multi_query.finditer(document)
+        return MultiMatchGenerator(cpp_multi_match_generator)
 
     def check(self, document: str) -> bool:
         return self._cpp_multi_query.check(document)

@@ -35,6 +35,9 @@ class MatchGenerator {
                       std::shared_ptr<VariableCatalog> variable_catalog_,
                       std::shared_ptr<Document> document_);
 
+    iterator(iterator&& other) noexcept;
+    iterator& operator=(iterator&& other) noexcept;
+
     // called with end()
     iterator();
 

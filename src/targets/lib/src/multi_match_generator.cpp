@@ -20,6 +20,21 @@ MultiMatchGenerator::iterator::iterator(
   next();
 }
 
+MultiMatchGenerator::iterator::iterator(iterator&& other) noexcept
+    : mediator(std::move(other.mediator)),
+      variable_catalog(std::move(other.variable_catalog)),
+      document(std::move(other.document)),
+      multi_match_ptr(std::move(other.multi_match_ptr)) {}
+
+MultiMatchGenerator::iterator& MultiMatchGenerator::iterator::operator=(
+    iterator&& other) noexcept {
+  mediator = std::move(other.mediator);
+  variable_catalog = std::move(other.variable_catalog);
+  document = std::move(other.document);
+  multi_match_ptr = std::move(other.multi_match_ptr);
+  return *this;
+}
+
 MultiMatchGenerator::iterator::iterator() : multi_match_ptr(nullptr) {}
 
 MultiMatchGenerator::iterator::~iterator() = default;
