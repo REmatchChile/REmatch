@@ -17,7 +17,8 @@ inline namespace library_interface {
 Query::Query(const std::string& pattern, Flags flags,
              uint_fast32_t max_mempool_duplications,
              uint_fast32_t max_deterministic_states)
-    : query_data_(get_query_data(pattern, flags, max_deterministic_states)),
+    : query_data_(std::make_shared<QueryData>(
+          get_query_data(pattern, flags, max_deterministic_states))),
       max_mempool_duplications_(max_mempool_duplications),
       max_deterministic_states_(max_deterministic_states) {}
 
@@ -78,7 +79,7 @@ std::vector<Match> Query::findall(const std::string& document) {
 }
 
 MatchGenerator Query::finditer(const std::string& document) {
-  return {*query_data_, document, max_mempool_duplications_,
+  return {query_data_, document, max_mempool_duplications_,
           max_deterministic_states_};
 }
 

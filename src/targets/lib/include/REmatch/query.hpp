@@ -35,7 +35,7 @@ class Query {
   bool check(const std::string& document);
 
  private:
-  std::unique_ptr<QueryData> query_data_;
+  std::shared_ptr<QueryData> query_data_;
 
   uint_fast32_t max_mempool_duplications_;
   uint_fast32_t max_deterministic_states_;

@@ -14,8 +14,8 @@ namespace REmatch {
 MultiQuery::MultiQuery(const std::string& pattern, Flags flags,
                        uint_fast32_t max_mempool_duplications,
                        uint_fast32_t max_deterministic_states)
-    : query_data_(
-          get_multi_query_data(pattern, flags, max_deterministic_states)),
+    : query_data_(std::make_unique<QueryData>(
+          get_multi_query_data(pattern, flags, max_deterministic_states))),
       max_mempool_duplications_(max_mempool_duplications),
       max_deterministic_states_(max_deterministic_states) {}
 

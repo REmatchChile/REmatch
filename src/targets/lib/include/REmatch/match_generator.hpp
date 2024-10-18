@@ -65,7 +65,7 @@ class MatchGenerator {
   };
 
   MatchGenerator(
-      QueryData& query_data, const std::string& document,
+      std::shared_ptr<QueryData> query_data, const std::string& document,
       uint_fast32_t max_mempool_duplications = DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
       uint_fast32_t max_deterministic_states =
           DEFAULT_MAX_DETERMINISTIC_STATES);
@@ -75,8 +75,7 @@ class MatchGenerator {
   iterator end() const;
 
  private:
-  // TODO: Shared ptr
-  QueryData& query_data;
+  std::shared_ptr<QueryData> query_data;
 
   std::shared_ptr<Document> document;
 

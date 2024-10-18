@@ -61,7 +61,7 @@ void MatchGenerator::iterator::next() {
   stats = collect_statistics(*mediator);
 }
 
-MatchGenerator::MatchGenerator(QueryData& query_data,
+MatchGenerator::MatchGenerator(std::shared_ptr<QueryData> query_data,
                                const std::string& document,
                                uint_fast32_t max_mempool_duplications,
                                uint_fast32_t max_deterministic_states)
@@ -71,10 +71,11 @@ MatchGenerator::MatchGenerator(QueryData& query_data,
       max_deterministic_states(max_deterministic_states) {}
 
 MatchGenerator::iterator MatchGenerator::begin() const {
-  auto mediator = std::make_unique<FinditerMediator>(
-      query_data, document, max_mempool_duplications, max_deterministic_states);
+  auto mediator = std::make_unique<FinditerMediator>(*query_data, document,
+                                                     max_mempool_duplications,
+                                                     max_deterministic_states);
 
-  return iterator(std::move(mediator), query_data.variable_catalog, document);
+  return iterator(std::move(mediator), query_data->variable_catalog, document);
 }
 
 MatchGenerator::iterator MatchGenerator::end() const {
