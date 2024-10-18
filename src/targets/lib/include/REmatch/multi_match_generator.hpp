@@ -75,7 +75,7 @@ class MultiMatchGenerator {
 
   iterator begin() const;
 
-  constexpr iterator end() const;
+  iterator end() const;
 
  private:
   std::shared_ptr<QueryData> query_data;
