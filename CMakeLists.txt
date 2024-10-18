@@ -25,7 +25,7 @@ project(
 
 # Set the project version
 set(CMAKE_PROJECT_VERSION_MAJOR 1)
-set(CMAKE_PROJECT_VERSION_MINOR 0)
+set(CMAKE_PROJECT_VERSION_MINOR 1)
 set(CMAKE_PROJECT_VERSION_PATCH 0)
 set(CMAKE_PROJECT_VERSION
     ${CMAKE_PROJECT_VERSION_MAJOR}.${CMAKE_PROJECT_VERSION_MINOR}.${CMAKE_PROJECT_VERSION_PATCH}
@@ -58,7 +58,7 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 # Options
 # ##############################################################################
 option(BUILD_SHARED_LIBS "Build shared instead of static libraries" OFF)
-option(BUILD_TESTING     "Build tests"                              ON)
+option(BUILD_TESTING     "Build tests"                              OFF)
 option(ENABLE_PROFILING  "Enable profiling"                         OFF)
 
 # ##############################################################################

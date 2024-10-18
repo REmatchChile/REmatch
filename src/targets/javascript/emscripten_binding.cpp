@@ -7,6 +7,7 @@
 using namespace emscripten;
 using namespace REmatch;
 
+// TODO: Fix bindings for emscripten (MatchGenerator & MultiMatchGenerator)
 EMSCRIPTEN_BINDINGS(REmatchModule) {
   value_array<Span>("Span").element(&Span::first).element(&Span::second);
 
@@ -44,16 +45,11 @@ EMSCRIPTEN_BINDINGS(REmatchModule) {
       .function("empty", &Match::empty)
       .function("toString", &Match::to_string);
 
-  class_<MatchIterator>("cppMatchIterator")
-      .function("next", &MatchIterator::next)
-      .function("variables", &MatchIterator::variables);
-
   class_<Query>("cppQuery")
       .function("findone", &Query::findone)
       .function("findmany", &Query::findmany)
       .function("findall", &Query::findall)
-      // TODO: Fix
-      .function("finditer", &Query::finditer)
+      // .function("finditer", &Query::finditer)
       .function("check", &Query::check);
 
   class_<MultiMatch>("cppMultiMatch")
@@ -83,8 +79,7 @@ EMSCRIPTEN_BINDINGS(REmatchModule) {
       .function("findone", &MultiQuery::findone)
       .function("findmany", &MultiQuery::findmany)
       .function("findall", &MultiQuery::findall)
-      // TODO: Fix
-      .function("finditer", &MultiQuery::finditer)
+      // .function("finditer", &MultiQuery::finditer)
       .function("check", &MultiQuery::check);
 
   function("cppreql", &reql);
