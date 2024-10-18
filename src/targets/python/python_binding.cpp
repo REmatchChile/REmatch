@@ -98,28 +98,30 @@ PYBIND11_MODULE(_pyrematch, m) {
         "max_mempool_duplications"_a = DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
         "max_deterministic_states"_a = DEFAULT_MAX_DETERMINISTIC_STATES);
 
-  py::register_exception<QuerySyntaxException>(m, "QuerySyntaxException");
-  py::register_exception<AnchorInsideCaptureException>(
-      m, "AnchorInsideCaptureException");
-  py::register_exception<ComplexQueryException>(m, "ComplexQueryException");
-  py::register_exception<EmptyWordCaptureException>(
-      m, "EmptyWordCaptureException");
-  py::register_exception<InvalidCharacterException>(
-      m, "InvalidCharacterException");
-  py::register_exception<InvalidEscapeException>(m, "InvalidEscapeException");
-  py::register_exception<InvalidRangeException>(m, "InvalidRangeException");
-  py::register_exception<MemoryLimitExceededException>(
-      m, "MemoryLimitExceededException");
-  py::register_exception<SameNestedVariableException>(
-      m, "SameNestedVariableException");
-  py::register_exception<UnhandledExpressionException>(
-      m, "UnhandledExpressionException");
-  py::register_exception<VariableLimitExceededException>(
-      m, "VariableLimitExceededException");
-  py::register_exception<VariableNotFoundException>(
-      m, "VariableNotFoundException");
-  py::register_exception<VariableNotFoundInCatalogException>(
-      m, "VariableNotFoundInCatalogException");
-  py::register_exception<MultiSpannersNotAllowedException>(
-      m, "MultiSpannersNotAllowedException");
+  // TODO: In a future we would like to register all exceptions and keep the inheritance
+  py::register_exception<REmatchException>(m, "REmatchException");
+  //   py::register_exception<QuerySyntaxException>(m, "QuerySyntaxException");
+  //   py::register_exception<AnchorInsideCaptureException>(
+  //       m, "AnchorInsideCaptureException");
+  //   py::register_exception<ComplexQueryException>(m, "ComplexQueryException");
+  //   py::register_exception<EmptyWordCaptureException>(
+  //       m, "EmptyWordCaptureException");
+  //   py::register_exception<InvalidCharacterException>(
+  //       m, "InvalidCharacterException");
+  //   py::register_exception<InvalidEscapeException>(m, "InvalidEscapeException");
+  //   py::register_exception<InvalidRangeException>(m, "InvalidRangeException");
+  //   py::register_exception<MemoryLimitExceededException>(
+  //       m, "MemoryLimitExceededException");
+  //   py::register_exception<SameNestedVariableException>(
+  //       m, "SameNestedVariableException");
+  //   py::register_exception<UnhandledExpressionException>(
+  //       m, "UnhandledExpressionException");
+  //   py::register_exception<VariableLimitExceededException>(
+  //       m, "VariableLimitExceededException");
+  //   py::register_exception<VariableNotFoundException>(
+  //       m, "VariableNotFoundException");
+  //   py::register_exception<VariableNotFoundInCatalogException>(
+  //       m, "VariableNotFoundInCatalogException");
+  //   py::register_exception<MultiSpannersNotAllowedException>(
+  //       m, "MultiSpannersNotAllowedException");
 }

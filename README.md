@@ -1,5 +1,3 @@
-// TODO: Fix examples
-
 # REmatch
 
 Here you can find the main implementation of REmatch library in C++, and its bindings for both Python and JavaScript/WebAssembly. This version has been refactorized, tested, and developed for being ready for production. Don't forget to visit our website [rematch.cl](https://rematch.cl)!
@@ -34,34 +32,33 @@ Here you can find the main implementation of REmatch library in C++, and its bin
 
 ## 2. Examples
 
-To use REmatch, you have two options. You can create a `Query` object through the method `REmatch::compile` and pass the regular expression as argument, or you can directly call the functions provided.
+To use REmatch, you must use the entry-point function `reql` as follows:
 
 ```cpp
-// Compile a regular expression using the compile method and find a match
-REmatch::Query query = REmatch::compile("!x{aba}");
-std::unique_ptr<REmatch::Match> query_match = query.findone("aabaa");
+// Compile a regular expression and find a single match
+REmatch::Query query = REmatch::reql("!x{aba}");
 
-// Equivalent to calling findone directly
-std::unique_ptr<REmatch::Match> direct_match = REmatch::findone("!x{aba}", "aabaa");
+REmatch::Match match = query.findone("aabaa");
 ```
 
-The `Query` provides the methods `findone` and `finditer` that evaluate a document and return the matches found. The `findone` method returns a pointer to the first encountered match, while `finditer` returns an iterator that allows you to access all matches. To retrieve all the matches at once, you can use the `findall` method. You can use the `start` and `end` methods to obtain the indices of the matched spans or `span` to get a string representation.
+The `Query` provides the methods `findone`, `findmany`, `findall` and `finditer` that evaluate a document and return the matches found. The `findone` method returns a pointer to the first encountered match, while `finditer` returns an iterator that allows you to access all matches. To retrieve all the matches at once, you can use the `findall` method (or up to a limit with `findmany`). You can use the `start` and `end` methods to obtain the indices of the matched spans or `span` to get a pair representation.
+
+Notice that `finditer` generates the matches on the fly, so if you want to minimize the memory overhead while processing each match you should prefer this method over `findall`.
 
 ### Retrieving an iterator for the pattern aba
 
 ```cpp
 #include <memory>
 #include <string>
-#include "library_interface/rematch.hpp"
+
+#include <REmatch/REmatch.hpp>
 
 int main() {
   std::string document = "abaababa";
-  REmatch::Query query = REmatch::compile("!x{aba}");
-  std::unique_ptr<REmatch::MatchIterator> iterator = query.finditer(document);
-  std::unique_ptr<REmatch::Match> match = iterator->next();
-  while (match != nullptr) {
-    std::cout << "Span: [" << match->start("x") << ", " << match->end("x") << ">" << std::endl;
-    match = iterator->next();
+  REmatch::Query query = REmatch::reql("!x{aba}");
+  REmatch::MatchGenerator match_generator = query.finditer(document);
+  for (auto& match : match_generator) {
+    std::cout << "Match: " << match << std::endl;
   }
   return 0;
 }
@@ -72,13 +69,15 @@ int main() {
 ```cpp
 #include <iostream>
 #include <string>
-#include "library_interface/rematch.hpp"
+
+#include <REmatch/REmatch.hpp>
 
 int main() {
   std::string document = "abaababa";
-  REmatch::Query query = REmatch::compile("!x{aba}");
-  std::unique_ptr<REmatch::Match> match = query.findone(document);
-  std::cout << "Span: " << match->span("x") << std::endl;
+  REmatch::Query query = REmatch::reql("!x{aba}");
+  REmatch::Match match = query.findone(document);
+  std::cout << "Match: " << match << std::endl;
+
   return 0;
 }
 ```
@@ -88,18 +87,21 @@ int main() {
 ```cpp
 #include <iostream>
 #include <string>
-#include "library_interface/rematch.hpp"
+
+#include <REmatch/REmatch.hpp>
 
 int main() {
   std::string document = "aba";
-  std::string query = "!x{aba}";
-  std::vector<REmatch::Match> matches = REmatch::library_interface::findall(query, document);
-  for (REmatch::Match& match: matches) {
-    std::cout << "Span: [" << match.start("x") << ", " << match.end("x") << ">" << std::endl;
+  REmatch::Query query = REmatch::reql("!x{aba}");
+  std::vector<REmatch::Match> matches = query.findall(document);
+  for (auto& match : matches) {
+    std::cout << "Match: " << match << std::endl;
   }
   return 0;
 }
 ```
+
+Also we have an advanced interface for "MultiQuerying". You can read more about this in the [REmatch's wiki](https://github.com/REmatchChile/REmatch/wiki).
 
 ## 3. Build instructions
 
@@ -163,11 +165,11 @@ Create `hello-rematch/main.cpp`:
 #include <REmatch/REmatch.hpp>
 
 int main() {
-  auto query = REmatch::reql("!x{Hello} !y{world}!z{!}");
-  auto all_matches = query.findall("Hello world!");
+  auto query = REmatch::reql("!x{that}");
+  auto match_generator = query.finditer("thathathat");
 
-  while (auto match : all_matches) {
-    std::cout << *match << std::endl;
+  for (auto match : match_generator) {
+    std::cout << match << "\n";
   }
 
   return 0;
