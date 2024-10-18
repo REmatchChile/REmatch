@@ -5,32 +5,25 @@
 
 namespace REmatch::testing {
 
-TEST_CASE("multi match iterator returns the correct variables") {
-  std::string pattern = "(a!x{a} !y{a})+";
-  std::string document = "aa aaa aa a";
-
-  auto query = multi_reql(pattern);
-  auto iterator = query.finditer(document);
-
-  REQUIRE(iterator.variables() == std::vector<std::string>{"x", "y"});
-}
-
 TEST_CASE("multi match iterator returns the correct matches") {
   std::string pattern = "(^|[^\\w])!x{\\w+} !x{\\w+}($|[^\\w])";
   std::string document = "one two three";
 
   auto query = multi_reql(pattern);
-  auto iterator = query.finditer(document);
+  auto match_generator = query.finditer(document);
 
-  auto match = iterator.next();
-  REQUIRE(match != nullptr);
-  REQUIRE(match->spans("x") == std::vector<Span>{{0, 3}, {4, 7}});
+  auto it = match_generator.begin();
+  auto end = match_generator.end();
 
-  match = iterator.next();
-  REQUIRE(match != nullptr);
-  REQUIRE(match->spans("x") == std::vector<Span>{{4, 7}, {8, 13}});
+  REQUIRE(it != end);
+  auto match = *it;
+  REQUIRE(match.spans("x") == std::vector<Span>{{0, 3}, {4, 7}});
 
-  REQUIRE(iterator.next() == nullptr);
+  REQUIRE(++it != end);
+  match = *(it);
+  REQUIRE(match.spans("x") == std::vector<Span>{{4, 7}, {8, 13}});
+
+  REQUIRE(++it == end);
 }
 
 }  // namespace REmatch::testing

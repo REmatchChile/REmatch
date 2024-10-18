@@ -19,6 +19,13 @@ class MultiMatch {
              std::shared_ptr<parsing::VariableCatalog> variable_catalog,
              std::shared_ptr<Document> document);
 
+  // Copy and move constructors
+  MultiMatch(const MultiMatch& other);
+  MultiMatch& operator=(const MultiMatch& other);
+
+  MultiMatch(MultiMatch&& other) noexcept;
+  MultiMatch& operator=(MultiMatch&& other) noexcept;
+
   ~MultiMatch();
 
   std::vector<Span> spans(uint_fast32_t variable_id) const;

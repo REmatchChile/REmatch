@@ -25,11 +25,12 @@ TEST_CASE("finditer method returns the iterator correctly") {
   auto it = match_generator.begin();
   auto end = match_generator.end();
 
+  REQUIRE(it != end);
   Match match = *it;
   REQUIRE(match.span("x") == Span(0, 2));
 
-  match = *(++it);
-  REQUIRE(it != end);
+  REQUIRE(++it != end);
+  match = *(it);
   REQUIRE(match.span("x") == Span(2, 4));
 
   REQUIRE(++it == end);

@@ -59,9 +59,9 @@ int main(int argc, char** argv) {
     if (multi_spanners) {
       auto multi_query = multi_reql(pattern, flags, max_mempool_duplications,
                                     max_deterministic_states);
-      auto multi_match_iterator = multi_query.finditer(document);
-      while (auto multi_match = multi_match_iterator.next()) {
-        std::cout << *multi_match << "\n";
+      const auto multi_match_generator = multi_query.finditer(document);
+      for (auto& multi_match : multi_match_generator) {
+        std::cout << multi_match << "\n";
       }
     } else {
       auto query = reql(pattern, flags, max_mempool_duplications,

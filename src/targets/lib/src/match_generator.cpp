@@ -4,6 +4,8 @@
 #include "parsing/variable_catalog.hpp"
 #include "utils/statistics.hpp"
 
+#include <REmatch/match.hpp>
+
 namespace REmatch {
 inline namespace library_interface {
 

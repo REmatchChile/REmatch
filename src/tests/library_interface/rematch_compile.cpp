@@ -25,12 +25,12 @@ TEST_CASE("finditer method simple test") {
   auto it = match_generator.begin();
   auto end = match_generator.end();
 
-  Match match = *it;
   REQUIRE(it != end);
+  Match match = *it;
   REQUIRE(match.span("x") == Span(10, 13));
 
-  match = *(++it);
-  REQUIRE(it != end);
+  REQUIRE(++it != end);
+  match = *(it);
   REQUIRE(match.span("x") == Span(10, 18));
 
   REQUIRE(++it == end);
@@ -66,12 +66,12 @@ TEST_CASE("client interface with alternation") {
   auto it = match_iterator.begin();
   auto end = match_iterator.end();
 
-  Match match = *it;
   REQUIRE(it != end);
+  Match match = *it;
   REQUIRE(match.span("x") == Span(10, 13));
 
-  match = *(++it);
-  REQUIRE(it != end);
+  REQUIRE(++it != end);
+  match = *(it);
   REQUIRE(match.span("x") == Span(10, 18));
 
   REQUIRE(++it == end);

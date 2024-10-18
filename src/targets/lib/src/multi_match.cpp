@@ -20,6 +20,51 @@ MultiMatch::MultiMatch(
       variable_catalog_(variable_catalog),
       document_(document) {}
 
+MultiMatch::MultiMatch(const MultiMatch& other)
+    : extended_mapping_(
+          std::make_unique<ExtendedMapping>(*other.extended_mapping_)),
+      variable_catalog_(other.variable_catalog_),
+      document_(other.document_) {
+  if (other.mapping_cache_ != nullptr) {
+    mapping_cache_ = std::make_unique<std::map<int, std::vector<Span>>>(
+        *other.mapping_cache_);
+  }
+}
+
+MultiMatch& MultiMatch::operator=(const MultiMatch& other) {
+  if (this == &other) {
+    return *this;
+  }
+
+  extended_mapping_ =
+      std::make_unique<ExtendedMapping>(*other.extended_mapping_);
+  variable_catalog_ = other.variable_catalog_;
+  document_ = other.document_;
+
+  if (other.mapping_cache_ != nullptr) {
+    mapping_cache_ = std::make_unique<std::map<int, std::vector<Span>>>(
+        *other.mapping_cache_);
+  } else {
+    mapping_cache_ = nullptr;
+  }
+
+  return *this;
+}
+
+MultiMatch::MultiMatch(MultiMatch&& other) noexcept
+    : extended_mapping_(std::move(other.extended_mapping_)),
+      variable_catalog_(std::move(other.variable_catalog_)),
+      document_(std::move(other.document_)),
+      mapping_cache_(std::move(other.mapping_cache_)) {}
+
+MultiMatch& MultiMatch::operator=(MultiMatch&& other) noexcept {
+  extended_mapping_ = std::move(other.extended_mapping_);
+  variable_catalog_ = std::move(other.variable_catalog_);
+  document_ = std::move(other.document_);
+  mapping_cache_ = std::move(other.mapping_cache_);
+  return *this;
+}
+
 MultiMatch::~MultiMatch() = default;
 
 std::vector<Span> MultiMatch::spans(uint_fast32_t variable_id) const {

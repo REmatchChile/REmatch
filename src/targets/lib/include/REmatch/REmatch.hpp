@@ -9,7 +9,7 @@
 #include "match.hpp"
 #include "match_generator.hpp"
 #include "multi_match.hpp"
-#include "multi_match_iterator.hpp"
+#include "multi_match_generator.hpp"
 #include "multi_query.hpp"
 #include "query.hpp"
 #include "span.hpp"

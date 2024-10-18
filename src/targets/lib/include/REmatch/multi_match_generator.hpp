@@ -9,7 +9,7 @@
 
 namespace REmatch {
 class Document;
-class FinditerMediator;
+class MultiFinditerMediator;
 struct QueryData;
 struct Statistics;
 
@@ -18,20 +18,20 @@ class VariableCatalog;
 }
 
 inline namespace library_interface {
-class Match;
+class MultiMatch;
 
-class MatchGenerator {
+class MultiMatchGenerator {
  public:
   struct iterator {
    public:
     using iterator_category = std::input_iterator_tag;
     using difference_type = std::ptrdiff_t;
-    using value = Match;
-    using pointer = Match*;
-    using reference = Match&;
+    using value = MultiMatch;
+    using pointer = MultiMatch*;
+    using reference = MultiMatch&;
 
     // called with begin()
-    explicit iterator(std::unique_ptr<FinditerMediator> mediator_,
+    explicit iterator(std::unique_ptr<MultiFinditerMediator> mediator_,
                       std::shared_ptr<VariableCatalog> variable_catalog_,
                       std::shared_ptr<Document> document_);
 
@@ -51,7 +51,7 @@ class MatchGenerator {
     bool operator!=(const iterator& other) const;
 
    private:
-    std::unique_ptr<FinditerMediator> mediator;
+    std::unique_ptr<MultiFinditerMediator> mediator;
 
     std::shared_ptr<parsing::VariableCatalog> variable_catalog;
 
@@ -59,12 +59,12 @@ class MatchGenerator {
 
     std::unique_ptr<Statistics> stats;
 
-    std::unique_ptr<value> match_ptr;
+    std::unique_ptr<value> multi_match_ptr;
 
     void next();
   };
 
-  MatchGenerator(
+  MultiMatchGenerator(
       std::shared_ptr<QueryData> query_data, const std::string& document,
       uint_fast32_t max_mempool_duplications = DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
       uint_fast32_t max_deterministic_states =

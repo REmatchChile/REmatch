@@ -1,7 +1,5 @@
 #include <REmatch/multi_query.hpp>
 
-#include <REmatch/flags.hpp>
-
 #include <cstdint>
 
 #include "evaluation/document.hpp"
@@ -9,12 +7,18 @@
 #include "mediator/output_checker.hpp"
 #include "utils/query_data.hpp"
 
+#include <REmatch/flags.hpp>
+#include <REmatch/multi_match.hpp>
+#include <REmatch/multi_match_generator.hpp>
+
 namespace REmatch {
+
+inline namespace library_interface {
 
 MultiQuery::MultiQuery(const std::string& pattern, Flags flags,
                        uint_fast32_t max_mempool_duplications,
                        uint_fast32_t max_deterministic_states)
-    : query_data_(std::make_unique<QueryData>(
+    : query_data_(std::make_shared<QueryData>(
           get_multi_query_data(pattern, flags, max_deterministic_states))),
       max_mempool_duplications_(max_mempool_duplications),
       max_deterministic_states_(max_deterministic_states) {}
@@ -33,8 +37,8 @@ MultiQuery& MultiQuery::operator=(MultiQuery&& other) noexcept {
 
 MultiQuery::~MultiQuery() = default;
 
-std::unique_ptr<MultiMatch> MultiQuery::findone(const std::string& document_) {
-  std::shared_ptr<Document> document = std::make_shared<Document>(document_);
+MultiMatch MultiQuery::findone(const std::string& document_) {
+  auto document = std::make_shared<Document>(document_);
 
   auto mediator =
       MultiFindoneMediator(*query_data_, document, max_mempool_duplications_,
@@ -42,47 +46,40 @@ std::unique_ptr<MultiMatch> MultiQuery::findone(const std::string& document_) {
 
   auto mapping = mediator.next();
 
-  if (mapping != nullptr) {
-    return std::make_unique<MultiMatch>(
-        std::move(mapping), query_data_->variable_catalog, document);
+  if (mapping == nullptr) {
+    // TODO: Add correct exception/message
+    throw std::runtime_error("No match found");
   }
-  return nullptr;
+
+  return {std::move(mapping), query_data_->variable_catalog, document};
 }
 
-std::vector<std::unique_ptr<MultiMatch>> MultiQuery::findmany(
-    const std::string& document, uint_fast32_t limit) {
-  std::vector<std::unique_ptr<MultiMatch>> res;
+std::vector<MultiMatch> MultiQuery::findmany(const std::string& document,
+                                             uint_fast32_t limit) {
+  std::vector<MultiMatch> res;
 
-  auto multi_match_iterator = finditer(document);
-
-  while (limit > 0) {
-    auto match = multi_match_iterator.next();
-    if (match == nullptr) {
-      break;
-    }
-
-    res.push_back(std::move(match));
-    --limit;
+  const auto multi_match_generator = finditer(document);
+  for (auto it = multi_match_generator.begin();
+       it != multi_match_generator.end() && limit > 0; ++it, --limit) {
+    res.emplace_back(std::move(*it));
   }
 
   return res;
 }
 
-std::vector<std::unique_ptr<MultiMatch>> MultiQuery::findall(
-    const std::string& document) {
-  std::vector<std::unique_ptr<MultiMatch>> res;
+std::vector<MultiMatch> MultiQuery::findall(const std::string& document) {
+  std::vector<MultiMatch> res;
 
-  auto multi_match_iterator = finditer(document);
-
-  while (auto match = multi_match_iterator.next()) {
-    res.push_back(std::move(match));
+  const auto multi_match_generator = finditer(document);
+  for (auto&& match : multi_match_generator) {
+    res.emplace_back(std::move(match));
   }
 
   return res;
 }
 
-MultiMatchIterator MultiQuery::finditer(const std::string& document) {
-  return {*query_data_, document, max_mempool_duplications_,
+MultiMatchGenerator MultiQuery::finditer(const std::string& document) {
+  return {query_data_, document, max_mempool_duplications_,
           max_deterministic_states_};
 }
 
@@ -92,4 +89,5 @@ bool MultiQuery::check(const std::string& document_) {
   return output_checker.check();
 }
 
+}  // namespace library_interface
 }  // namespace REmatch
