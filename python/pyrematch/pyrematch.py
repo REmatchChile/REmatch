@@ -88,9 +88,7 @@ class Query:
 
     def findone(self, document: str) -> Match:
         cpp_match = self._cpp_query.findone(document)
-        if cpp_match:
-            return Match(cpp_match)
-        return None
+        return Match(cpp_match)
 
     def findmany(self, document: str, limit: int):
         return [
@@ -176,9 +174,7 @@ class MultiQuery:
 
     def findone(self, document: str) -> MultiMatch:
         cpp_multi_match = self._cpp_multi_query.findone(document)
-        if cpp_multi_match:
-            return MultiMatch(cpp_multi_match)
-        return None
+        return MultiMatch(cpp_multi_match)
 
     def findmany(self, document: str, limit: int):
         return [

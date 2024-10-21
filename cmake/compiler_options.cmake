@@ -68,6 +68,6 @@ else()
     $<$<AND:$<NOT:$<CXX_COMPILER_ID:AppleClang>>,$<NOT:$<CXX_COMPILER_ID:Clang>>>:-fstack-clash-protection>
     $<$<AND:$<NOT:$<CXX_COMPILER_ID:AppleClang>>,$<NOT:$<CXX_COMPILER_ID:Clang>>>:-fbounds-check>
     -fstack-protector
-    -fPIC
+    $<$<BOOL:${BUILD_SHARED_LIBS}>:-fpic>
   )
 endif()

@@ -24,3 +24,14 @@ target_compile_definitions(${CLI_TARGET_NAME} PRIVATE ${COMPILER_DEFINITIONS})
 target_link_options(${CLI_TARGET_NAME} PRIVATE ${LINKER_FLAGS})
 
 target_link_libraries(${CLI_TARGET_NAME} PRIVATE REmatch)
+
+# ##############################################################################
+# Executable install
+# ##############################################################################
+if (NOT SKBUILD AND NOT EMSCRIPTEN)
+    install(
+      TARGETS ${CLI_TARGET_NAME}
+      EXPORT ${PROJECT_NAME}
+      LIBRARY DESTINATION ${INSTALL_BIN} COMPONENT bin
+    )
+endif()

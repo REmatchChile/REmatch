@@ -24,13 +24,13 @@ class Query {
 
   ~Query();
 
-  Match findone(const std::string& document);
+  Match findone(const std::string& document) const;
 
-  std::vector<Match> findmany(const std::string& document, uint_fast32_t limit);
+  std::vector<Match> findmany(const std::string& document, uint_fast32_t limit) const;
 
-  std::vector<Match> findall(const std::string& document);
+  std::vector<Match> findall(const std::string& document) const;
 
-  MatchGenerator finditer(const std::string& document);
+  MatchGenerator finditer(const std::string& document) const;
 
   bool check(const std::string& document);
 

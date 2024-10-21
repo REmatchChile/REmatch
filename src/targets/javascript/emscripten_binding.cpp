@@ -1,18 +1,59 @@
+#include <cstdint>
+
 #include <emscripten/bind.h>
 
+
 #include <REmatch/REmatch.hpp>
-#include <cstdint>
-#include "REmatch/flags.hpp"
 
 using namespace emscripten;
 using namespace REmatch;
 
+template <class IteratorType, class ValueType>
+class EmscriptenIteratorWrapper {
+ public:
+  explicit EmscriptenIteratorWrapper(IteratorType&& it_) : it(std::move(it_)) {}
+
+  ValueType get() { return *it; }
+
+  bool hasValue() { return it.operator->() != nullptr; }
+
+  void next() { ++it; }
+
+ private:
+  IteratorType it;
+};
+
+template class EmscriptenIteratorWrapper<MatchGenerator::iterator, Match>;
+template class EmscriptenIteratorWrapper<MultiMatchGenerator::iterator,
+                                         MultiMatch>;
+
+using MatchGeneratorWrapper =
+    EmscriptenIteratorWrapper<MatchGenerator::iterator, Match>;
+using MultiMatchGeneratorWrapper =
+    EmscriptenIteratorWrapper<MultiMatchGenerator::iterator, MultiMatch>;
+
+MatchGeneratorWrapper finditer_wrapper(Query& query, const std::string& doc) {
+  const auto match_generator = query.finditer(doc);
+  auto it = match_generator.begin();
+  return MatchGeneratorWrapper(std::move(it));
+}
+
+MultiMatchGeneratorWrapper multi_finditer_wrapper(MultiQuery& multi_query,
+                                                  const std::string& doc) {
+  const auto multi_match_generator = multi_query.finditer(doc);
+  auto it = multi_match_generator.begin();
+  return MultiMatchGeneratorWrapper(std::move(it));
+}
+
 // TODO: Fix bindings for emscripten (MatchGenerator & MultiMatchGenerator)
 EMSCRIPTEN_BINDINGS(REmatchModule) {
-  value_array<Span>("Span").element(&Span::first).element(&Span::second);
+  emscripten::value_array<Span>("Span")
+      .element(&Span::first)
+      .element(&Span::second);
 
-  register_vector<std::string>("VectorString");
-  register_vector<Span>("VectorSpan");
+  register_vector<std::string>("cppVectorString");
+  register_vector<Span>("cppVectorSpan");
+  register_vector<Match>("cppVectorMatch");
 
   emscripten::constant("DEFAULT_MAX_MEMPOOL_DUPLICATIONS",
                        DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
@@ -45,11 +86,13 @@ EMSCRIPTEN_BINDINGS(REmatchModule) {
       .function("empty", &Match::empty)
       .function("toString", &Match::to_string);
 
+  class_<MatchGenerator>("cppMatchGenerator");
+
   class_<Query>("cppQuery")
       .function("findone", &Query::findone)
       .function("findmany", &Query::findmany)
       .function("findall", &Query::findall)
-      // .function("finditer", &Query::finditer)
+      .function("finditer", &finditer_wrapper)
       .function("check", &Query::check);
 
   class_<MultiMatch>("cppMultiMatch")
@@ -71,17 +114,28 @@ EMSCRIPTEN_BINDINGS(REmatchModule) {
       .function("variables", &MultiMatch::variables)
       .function("toString", &MultiMatch::to_string);
 
-  class_<MultiMatchIterator>("cppMultiMatchIterator")
-      .function("next", &MultiMatchIterator::next)
-      .function("variables", &MultiMatchIterator::variables);
-
   class_<MultiQuery>("cppMultiQuery")
       .function("findone", &MultiQuery::findone)
       .function("findmany", &MultiQuery::findmany)
       .function("findall", &MultiQuery::findall)
-      // .function("finditer", &MultiQuery::finditer)
+      .function("finditer", &multi_finditer_wrapper)
       .function("check", &MultiQuery::check);
 
   function("cppreql", &reql);
   function("cppmulti_reql", &multi_reql);
+
+  class_<MatchGeneratorWrapper>("cppEmscriptenIteratorWrapper")
+      .function("get", &MatchGeneratorWrapper::get)
+      .function("hasValue", &MatchGeneratorWrapper::hasValue)
+      .function("next", &MatchGeneratorWrapper::next);
+
+  class_<MatchGeneratorWrapper>("cppMatchGeneratorIterator")
+      .function("get", &MatchGeneratorWrapper::get)
+      .function("hasValue", &MatchGeneratorWrapper::hasValue)
+      .function("next", &MatchGeneratorWrapper::next);
+
+  class_<MultiMatchGeneratorWrapper>("cppMultiMatchGeneratorIterator")
+      .function("get", &MultiMatchGeneratorWrapper::get)
+      .function("hasValue", &MultiMatchGeneratorWrapper::hasValue)
+      .function("next", &MultiMatchGeneratorWrapper::next);
 };

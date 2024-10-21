@@ -36,7 +36,7 @@ Query& Query::operator=(Query&& other) noexcept {
 
 Query::~Query() = default;
 
-Match Query::findone(const std::string& document_) {
+Match Query::findone(const std::string& document_) const {
   auto document = std::make_shared<Document>(document_);
 
   auto mediator = std::make_unique<FindoneMediator>(*query_data_, document,
@@ -54,7 +54,7 @@ Match Query::findone(const std::string& document_) {
 }
 
 std::vector<Match> Query::findmany(const std::string& document,
-                                   uint_fast32_t limit) {
+                                   uint_fast32_t limit) const {
   std::vector<Match> res;
   res.reserve(limit);
 
@@ -67,7 +67,7 @@ std::vector<Match> Query::findmany(const std::string& document,
   return res;
 }
 
-std::vector<Match> Query::findall(const std::string& document) {
+std::vector<Match> Query::findall(const std::string& document) const {
   std::vector<Match> res;
 
   const auto match_generator = finditer(document);
@@ -78,7 +78,7 @@ std::vector<Match> Query::findall(const std::string& document) {
   return res;
 }
 
-MatchGenerator Query::finditer(const std::string& document) {
+MatchGenerator Query::finditer(const std::string& document) const {
   return {query_data_, document, max_mempool_duplications_,
           max_deterministic_states_};
 }

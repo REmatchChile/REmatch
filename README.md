@@ -140,7 +140,7 @@ cmake -Bbuild/Release -DCMAKE_BUILD_TYPE=Release
 cmake --build build/Release/
 
 # Windows
-cmake -Bbuild/Release
+cmake -Bbuild/Release -DCMAKE_BUILD_TYPE=Release
 cmake --build build/Release/ --config Release
 ```
 
@@ -223,7 +223,7 @@ cmake -Bbuild/Debug -DCMAKE_BUILD_TYPE=Debug
 cmake --build build/Debug/
 
 # Windows
-cmake -Bbuild/Debug
+cmake -Bbuild/Debug -DCMAKE_BUILD_TYPE=Debug
 cmake --build build/Debug/ --config Debug
 ```
 
@@ -264,7 +264,7 @@ emcmake cmake -Bbuild/javascript -DCMAKE_BUILD_TYPE=Release
 cmake --build build/javascript/
 ```
 
-Then the JavaScript/WASM bindings can be found in `./build/javascript/bin/`
+Then the JavaScript/WASM bindings can be found in `./build/javascript/bin/`. Notice that it is not intended to use this bindings directly. Prefer using the [REmatch's NPM package](https://www.npmjs.com/package/rematch-javascript).
 
 ### 5. Python bindings
 

@@ -57,7 +57,14 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 # ##############################################################################
 # Options
 # ##############################################################################
-option(BUILD_SHARED_LIBS "Build shared instead of static libraries" OFF)
+if (SKBUILD)
+  # SKBUILD target must be shared
+  option(BUILD_SHARED_LIBS "Build shared instead of static libraries" ON)
+  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+else()
+  option(BUILD_SHARED_LIBS "Build shared instead of static libraries" OFF)
+  set(CMAKE_POSITION_INDEPENDENT_CODE OFF)
+endif()
 option(BUILD_TESTING     "Build tests"                              OFF)
 option(ENABLE_PROFILING  "Enable profiling"                         OFF)
 
@@ -82,7 +89,6 @@ endif()
 cmake_print_variables(BUILD_SHARED_LIBS)
 cmake_print_variables(BUILD_TESTING)
 cmake_print_variables(ENABLE_PROFILING)
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # Enable IPO optimization
 include(CheckIPOSupported)
