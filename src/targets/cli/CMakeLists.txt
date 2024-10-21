@@ -14,6 +14,7 @@ add_executable(${CLI_TARGET_NAME} ${${CLI_TARGET_NAME}_SRC})
 # ##############################################################################
 set_target_properties(${LIBRARY_TARGET_NAME} PROPERTIES
     DEBUG_POSTFIX "-d"
+    INSTALL_RPATH "${LIBRARY_INSTALL_RPATH}"
     MSVC_RUNTIME_LIBRARY "${MSVC_RUNTIME_TYPE}"
 )
 
