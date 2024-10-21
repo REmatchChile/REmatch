@@ -124,11 +124,6 @@ EMSCRIPTEN_BINDINGS(REmatchModule) {
   function("cppreql", &reql);
   function("cppmulti_reql", &multi_reql);
 
-  class_<MatchGeneratorWrapper>("cppEmscriptenIteratorWrapper")
-      .function("get", &MatchGeneratorWrapper::get)
-      .function("hasValue", &MatchGeneratorWrapper::hasValue)
-      .function("next", &MatchGeneratorWrapper::next);
-
   class_<MatchGeneratorWrapper>("cppMatchGeneratorIterator")
       .function("get", &MatchGeneratorWrapper::get)
       .function("hasValue", &MatchGeneratorWrapper::hasValue)
