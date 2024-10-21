@@ -10,6 +10,9 @@ target_link_libraries(${JAVASCRIPT_TARGET_NAME} PRIVATE REmatch::REmatch)
 set_target_properties(${JAVASCRIPT_TARGET_NAME} PROPERTIES LINK_FLAGS
 "-lembind \
 -fwasm-exceptions \
+-sFILESYSTEM=0 \
+-sASSERTIONS=0 \
+-sINVOKE_RUN=0 \
 -sMODULARIZE=1 \
 -sSINGLE_FILE=1 \
 -sEXPORT_NAME=REmatchModule \

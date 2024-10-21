@@ -121,8 +121,8 @@ EMSCRIPTEN_BINDINGS(REmatchModule) {
       .function("finditer", &multi_finditer_wrapper)
       .function("check", &MultiQuery::check);
 
-  function("cppreql", &reql);
-  function("cppmulti_reql", &multi_reql);
+  function("cppReql", &reql);
+  function("cppMultiReql", &multi_reql);
 
   class_<MatchGeneratorWrapper>("cppMatchGeneratorIterator")
       .function("get", &MatchGeneratorWrapper::get)
