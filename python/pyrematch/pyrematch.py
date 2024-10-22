@@ -105,6 +105,9 @@ class Query:
     def check(self, document: str) -> bool:
         return self._cpp_query.check(document)
 
+    def variables(self) -> List[str]:
+        return self._cpp_query.variables()
+
 
 def reql(
     pattern: str,
@@ -194,6 +197,9 @@ class MultiQuery:
 
     def check(self, document: str) -> bool:
         return self._cpp_multi_query.check(document)
+
+    def variables(self) -> List[str]:
+        return self._cpp_multi_query.variables()
 
 
 def multi_reql(

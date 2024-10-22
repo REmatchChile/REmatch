@@ -53,7 +53,8 @@ PYBIND11_MODULE(_pyrematch, m) {
       .def("findmany", &Query::findmany)
       .def("findall", &Query::findall)
       .def("finditer", &Query::finditer)
-      .def("check", &Query::check);
+      .def("check", &Query::check)
+      .def("variables", &Query::variables);
 
   py::class_<MultiMatch>(m, "cppMultiMatch")
       .def("spans", py::overload_cast<const std::string&>(&MultiMatch::spans,
@@ -88,7 +89,8 @@ PYBIND11_MODULE(_pyrematch, m) {
       .def("findmany", &MultiQuery::findmany)
       .def("findall", &MultiQuery::findall)
       .def("finditer", &MultiQuery::finditer)
-      .def("check", &MultiQuery::check);
+      .def("check", &MultiQuery::check)
+      .def("variables", &MultiQuery::variables);
 
   m.def("cppreql", &reql, "pattern"_a, "flags"_a = Flags::NONE,
         "max_mempool_duplications"_a = DEFAULT_MAX_MEMPOOL_DUPLICATIONS,

@@ -90,5 +90,9 @@ bool Query::check(const std::string& document_) {
   return output_checker.check();
 }
 
+std::vector<std::string> Query::variables() const {
+  return query_data_->variable_catalog->variables();
+}
+
 }  // namespace library_interface
 }  // namespace REmatch

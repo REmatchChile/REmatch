@@ -34,6 +34,8 @@ class Query {
 
   bool check(const std::string& document);
 
+  std::vector<std::string> variables() const;
+
  private:
   std::shared_ptr<QueryData> query_data_;
 

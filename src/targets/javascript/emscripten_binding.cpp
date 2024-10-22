@@ -93,7 +93,8 @@ EMSCRIPTEN_BINDINGS(REmatchModule) {
       .function("findmany", &Query::findmany)
       .function("findall", &Query::findall)
       .function("finditer", &finditer_wrapper)
-      .function("check", &Query::check);
+      .function("check", &Query::check)
+      .function("variables", &Query::variables);
 
   class_<MultiMatch>("cppMultiMatch")
       .function("spansIndex",
@@ -119,7 +120,8 @@ EMSCRIPTEN_BINDINGS(REmatchModule) {
       .function("findmany", &MultiQuery::findmany)
       .function("findall", &MultiQuery::findall)
       .function("finditer", &multi_finditer_wrapper)
-      .function("check", &MultiQuery::check);
+      .function("check", &MultiQuery::check)
+      .function("variables", &MultiQuery::variables);
 
   function("cppReql", &reql);
   function("cppMultiReql", &multi_reql);
