@@ -7,8 +7,3 @@ elseif(EMSCRIPTEN)
 else()
   add_subdirectory(cli)
 endif()
-
-# if(NOT SKBUILD) endif()
-
-# install(TARGETS ${CLI_TARGET_NAME}
-# RUNTIME DESTINATION ${INSTALL_BIN} COMPONENT bin)

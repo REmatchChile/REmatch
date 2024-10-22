@@ -57,13 +57,13 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 # Options
 # ##############################################################################
 if (SKBUILD)
-  # SKBUILD target must be shared
-  option(BUILD_SHARED_LIBS "Build shared instead of static libraries" ON)
+  # SKBUILD target must use PIC
   set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 else()
-  option(BUILD_SHARED_LIBS "Build shared instead of static libraries" OFF)
   set(CMAKE_POSITION_INDEPENDENT_CODE OFF)
 endif()
+
+option(BUILD_SHARED_LIBS "Build shared instead of static libraries" OFF)
 option(BUILD_TESTING     "Build tests"                              OFF)
 option(ENABLE_PROFILING  "Enable profiling"                         OFF)
 
