@@ -5,7 +5,6 @@ cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
 # Set the required policies
 include(cmake/set_policy.cmake)
-set_policy(CMP0069 NEW) # ENABLE  CMP0069: IPO
 set_policy(CMP0054 NEW) # ENABLE  CMP0054: Only interpret if() arguments as
                         # variables or keywords when unquoted.
 set_policy(CMP0042 NEW) # ENABLE  CMP0042: MACOSX_RPATH is enabled by default.
@@ -89,15 +88,6 @@ endif()
 cmake_print_variables(BUILD_SHARED_LIBS)
 cmake_print_variables(BUILD_TESTING)
 cmake_print_variables(ENABLE_PROFILING)
-
-# Enable IPO optimization
-include(CheckIPOSupported)
-check_ipo_supported(RESULT ipo_result OUTPUT ipo_output)
-if(ipo_result)
-  set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
-else()
-  message(WARNING "IPO is not supported:\n${ipo_output}")
-endif(ipo_result)
 
 # Check for system dir install
 set(SYSTEM_DIR_INSTALL FALSE)
