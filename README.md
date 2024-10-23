@@ -239,7 +239,7 @@ To build REmatch testing executable, turn the `BUILD_TESTING` variable `ON` at `
 ./build/Release/bin/rematch_test
 ```
 
-## Profiler
+### Profiler
 
 We are using the Tracy profiler to measure the time spent in specific code segments. To profile the code using the graphical user interface, follow these steps:
 
@@ -253,7 +253,7 @@ We are using the Tracy profiler to measure the time spent in specific code segme
 
 You should be able to view the results in the graphical interface.
 
-### 4. JavaScript/WASM bindings
+## 4. JavaScript/WASM bindings
 
 To begin, follow the official installation tutorial for Emscripten available at <https://emscripten.org/docs/getting_started/downloads.html>
 
@@ -266,7 +266,7 @@ cmake --build build/javascript/
 
 Then the JavaScript/WASM bindings can be found in `./build/javascript/bin/`. Notice that it is not intended to use this bindings directly. Prefer using the [REmatch's NPM package](https://www.npmjs.com/package/rematch-javascript).
 
-### 5. Python bindings
+## 5. Python bindings
 
 To install the latest release version from PyPI, run:
 
