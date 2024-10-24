@@ -1,4 +1,4 @@
-<img alt="REmatch" style="height:48px;" src="https://raw.githubusercontent.com/REmatchChile/REmatch-web/refs/heads/main/src/assets/logo-dark.png"/>
+# REmatch
 
 ---
 
