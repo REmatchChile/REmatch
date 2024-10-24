@@ -172,7 +172,7 @@ To build REmatch testing executable, turn the `BUILD_TESTING` variable `ON` at `
 ./build/Release/bin/rematch_test
 ```
 
-## Profiler
+### Profiler
 
 We are using the Tracy profiler to measure the time spent in specific code segments. To profile the code using the graphical user interface, follow these steps:
 
