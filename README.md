@@ -28,7 +28,7 @@ Check out our library in different languages!
 ├── 📂src/ ------------------------------ The C++ implementation.
 ├── 📂test/ ----------------------------- Contains all tests for the code.
 ├── 📂third_party/ ---------------------- Third-party libraries used in the project
-├── 📜CMakeLists.txt
+├── 📜CMakeLists.txt -------------------- Main CMakeLists file. Here you can configure some building settings
 ├── 📜LICENSE
 ├── 📜MANIFEST.in
 ├── 📜README.md

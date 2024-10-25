@@ -17,8 +17,6 @@ target_compile_options(${PYTHON_TARGET_NAME} PRIVATE ${COMPILER_OPTIONS})
 
 target_compile_definitions(${PYTHON_TARGET_NAME} PRIVATE ${COMPILER_DEFINITIONS})
 
-target_link_options(${PYTHON_TARGET_NAME} PRIVATE ${LINKER_FLAGS})
-
 target_link_libraries(${PYTHON_TARGET_NAME} PRIVATE REmatch::REmatch)
 
 install(TARGETS ${PYTHON_TARGET_NAME} LIBRARY DESTINATION . COMPONENT shlib)
