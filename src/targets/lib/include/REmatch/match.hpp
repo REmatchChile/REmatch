@@ -8,6 +8,8 @@
 
 #include "span.hpp"
 
+#include "REmatch_export.hpp"
+
 namespace REmatch {
 class Document;
 
@@ -21,7 +23,7 @@ class VariableCatalog;
 
 inline namespace library_interface {
 
-class Match {
+class REMATCH_EXPORT Match {
 
  public:
   Match(std::unique_ptr<mediator::Mapping> mapping,
@@ -57,7 +59,8 @@ class Match {
 
   std::string to_string() const;
 
-  friend std::ostream& operator<<(std::ostream& os, Match& match);
+  friend REMATCH_EXPORT std::ostream& operator<<(std::ostream& os,
+                                                 const Match& match);
 
  private:
   std::unique_ptr<mediator::Mapping> mapping_;

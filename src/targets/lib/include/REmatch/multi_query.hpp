@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "REmatch_export.hpp"
+
 namespace REmatch {
 struct QueryData;
 
@@ -13,7 +15,7 @@ class MultiMatch;
 class MultiMatchGenerator;
 enum class Flags : uint8_t;
 
-class MultiQuery {
+class REMATCH_EXPORT MultiQuery {
 
  public:
   explicit MultiQuery(const std::string& pattern, Flags flags,

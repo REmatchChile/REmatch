@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <string>
 
+#include "REmatch_export.hpp"
+
 #include "constants.hpp"
 #include "exceptions.hpp"
 #include "flags.hpp"
@@ -19,12 +21,12 @@ namespace REmatch {
 
 inline namespace library_interface {
 
-Query reql(
+REMATCH_EXPORT Query reql(
     const std::string& pattern, Flags flags = Flags::NONE,
     uint_fast32_t max_mempool_duplications = DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
     uint_fast32_t max_deterministic_states = DEFAULT_MAX_DETERMINISTIC_STATES);
 
-MultiQuery multi_reql(
+REMATCH_EXPORT MultiQuery multi_reql(
     const std::string& pattern, Flags flags = Flags::NONE,
     uint_fast32_t max_mempool_duplications = DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
     uint_fast32_t max_deterministic_states = DEFAULT_MAX_DETERMINISTIC_STATES);

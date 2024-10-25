@@ -3,10 +3,12 @@
 #include <exception>
 #include <string>
 
+#include "REmatch_export.hpp"
+
 namespace REmatch {
 inline namespace library_interface {
 
-class REmatchException : public std::exception {
+class REMATCH_EXPORT REmatchException : public std::exception {
  public:
   explicit REmatchException(std::string message)
       : message_(std::move(message)) {}
@@ -17,7 +19,7 @@ class REmatchException : public std::exception {
   const std::string message_;
 };
 
-class QuerySyntaxException : public REmatchException {
+class REMATCH_EXPORT QuerySyntaxException : public REmatchException {
  public:
   QuerySyntaxException(const std::string& message, const std::string& query,
                        size_t position)
@@ -35,51 +37,52 @@ class QuerySyntaxException : public REmatchException {
   std::string message_;
 };
 
-class EvaluationException : public REmatchException {
+class REMATCH_EXPORT EvaluationException : public REmatchException {
  public:
   explicit EvaluationException(const std::string& message)
       : REmatchException(message) {}
 };
 
-class AnchorInsideCaptureException : public QuerySyntaxException {
+class REMATCH_EXPORT AnchorInsideCaptureException
+    : public QuerySyntaxException {
  public:
   AnchorInsideCaptureException(const std::string& query, size_t char_position)
       : QuerySyntaxException("Anchor found inside capture.", query,
                              char_position) {}
 };
 
-class ArgumentException : public REmatchException {
+class REMATCH_EXPORT ArgumentException : public REmatchException {
  public:
   explicit ArgumentException(const std::string& message)
       : REmatchException(message) {}
 };
 
-class ComplexQueryException : public EvaluationException {
+class REMATCH_EXPORT ComplexQueryException : public EvaluationException {
  public:
   ComplexQueryException()
       : EvaluationException("Query is too complex to evaluate.") {}
 };
 
-class EmptyWordCaptureException : public QuerySyntaxException {
+class REMATCH_EXPORT EmptyWordCaptureException : public QuerySyntaxException {
  public:
   explicit EmptyWordCaptureException(const std::string& message)
       : QuerySyntaxException(message) {}
 };
 
-class InvalidCharacterException : public QuerySyntaxException {
+class REMATCH_EXPORT InvalidCharacterException : public QuerySyntaxException {
  public:
   explicit InvalidCharacterException(const std::string& message)
       : QuerySyntaxException(message) {}
 };
 
-class InvalidEscapeException : public QuerySyntaxException {
+class REMATCH_EXPORT InvalidEscapeException : public QuerySyntaxException {
  public:
   InvalidEscapeException(const std::string& query, size_t char_position)
       : QuerySyntaxException("Invalid escape character.", query,
                              char_position) {}
 };
 
-class InvalidRangeException : public QuerySyntaxException {
+class REMATCH_EXPORT InvalidRangeException : public QuerySyntaxException {
  public:
   InvalidRangeException(const std::string& invalid_range,
                         const std::string& query, size_t position)
@@ -89,14 +92,15 @@ class InvalidRangeException : public QuerySyntaxException {
             query, position) {}
 };
 
-class MemoryLimitExceededException : public EvaluationException {
+class REMATCH_EXPORT MemoryLimitExceededException : public EvaluationException {
  public:
   MemoryLimitExceededException()
       : EvaluationException(
             "Memory limit exceeded during document evaluation.") {}
 };
 
-class MultiSpannersNotAllowedException : public QuerySyntaxException {
+class REMATCH_EXPORT MultiSpannersNotAllowedException
+    : public QuerySyntaxException {
  public:
   MultiSpannersNotAllowedException()
       : QuerySyntaxException(
@@ -104,7 +108,7 @@ class MultiSpannersNotAllowedException : public QuerySyntaxException {
             "instead.") {}
 };
 
-class SameNestedVariableException : public QuerySyntaxException {
+class REMATCH_EXPORT SameNestedVariableException : public QuerySyntaxException {
  public:
   SameNestedVariableException(const std::string& variable_name,
                               const std::string& query, size_t char_position)
@@ -113,27 +117,30 @@ class SameNestedVariableException : public QuerySyntaxException {
             query, char_position) {}
 };
 
-class UnhandledExpressionException : public QuerySyntaxException {
+class REMATCH_EXPORT UnhandledExpressionException
+    : public QuerySyntaxException {
  public:
   UnhandledExpressionException(const std::string& message,
                                const std::string& query, size_t position)
       : QuerySyntaxException(message, query, position) {}
 };
 
-class VariableLimitExceededException : public EvaluationException {
+class REMATCH_EXPORT VariableLimitExceededException
+    : public EvaluationException {
  public:
   VariableLimitExceededException()
       : EvaluationException(
             "Variable limit exceeded in the regular expression.") {}
 };
 
-class VariableNotFoundException : public ArgumentException {
+class REMATCH_EXPORT VariableNotFoundException : public ArgumentException {
  public:
   explicit VariableNotFoundException(const std::string& variable_name)
       : ArgumentException("Variable not found: " + variable_name) {}
 };
 
-class VariableNotFoundInCatalogException : public ArgumentException {
+class REMATCH_EXPORT VariableNotFoundInCatalogException
+    : public ArgumentException {
  public:
   explicit VariableNotFoundInCatalogException(const std::string& variable_name)
       : ArgumentException("Variable not found in VariableCatalog: " +

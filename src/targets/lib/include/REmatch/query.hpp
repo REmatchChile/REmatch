@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "REmatch_export.hpp"
+
 namespace REmatch {
 struct QueryData;
 
@@ -12,7 +14,7 @@ class Match;
 class MatchGenerator;
 enum class Flags : uint8_t;
 
-class Query {
+class REMATCH_EXPORT Query {
 
  public:
   explicit Query(const std::string& pattern, Flags flags,
