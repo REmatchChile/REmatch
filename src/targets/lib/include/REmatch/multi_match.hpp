@@ -45,7 +45,7 @@ class REMATCH_EXPORT MultiMatch {
 
   std::string to_string() const;
 
-  friend REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, MultiMatch& match);
+  friend REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, const MultiMatch& match);
 
  private:
   std::unique_ptr<ExtendedMapping> extended_mapping_;

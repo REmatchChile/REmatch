@@ -25,7 +25,7 @@ class Match;
 
 class REMATCH_EXPORT MatchGenerator {
  public:
-  struct iterator {
+  struct REMATCH_EXPORT iterator {
    public:
     using iterator_category = std::input_iterator_tag;
     using difference_type = std::ptrdiff_t;

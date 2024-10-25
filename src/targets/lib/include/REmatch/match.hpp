@@ -60,7 +60,7 @@ class REMATCH_EXPORT Match {
   std::string to_string() const;
 
   friend REMATCH_EXPORT std::ostream& operator<<(std::ostream& os,
-                                                 Match& match);
+                                                 const Match& match);
 
  private:
   std::unique_ptr<mediator::Mapping> mapping_;

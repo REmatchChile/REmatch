@@ -123,13 +123,29 @@ add_executable(main main.cc)
 target_link_libraries(main REmatch::REmatch)
 ```
 
-Finally, compile your program using the following command:
+Finally, compile your program using the following commands:
 
 ```bash
-mkdir build
-cd build
+# Unix
+mkdir build && cd build
 cmake ..
 cmake --build .
+
+# Windows
+mkdir build && cd build
+cmake ..
+cmake --build . --config Release
+```
+
+**IMPORTANT**: If you built REmatch as a shared library in Windows, the CMakeLists must also copy the necessary `.dll` files. This can be done by adding this lines at the end of `hello-rematch/CMakeLists.txt`:
+
+```cmake
+add_custom_command(TARGET main POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy -t
+        $<TARGET_FILE_DIR:main>
+        $<TARGET_RUNTIME_DLLS:main>
+    COMMAND_EXPAND_LISTS
+)
 ```
 
 #### Quick usage without build system (UNIX)

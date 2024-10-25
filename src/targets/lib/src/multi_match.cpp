@@ -182,7 +182,7 @@ std::string MultiMatch::to_string() const {
   return ss.str();
 }
 
-REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, MultiMatch& match) {
+REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, const MultiMatch& match) {
   return os << match.to_string();
 }
 

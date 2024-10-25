@@ -1,7 +1,7 @@
 # ##############################################################################
 # Project-Wide Settings
 # ##############################################################################
-cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.21 FATAL_ERROR)
 
 # Set the required policies
 include(cmake/set_policy.cmake)
@@ -11,6 +11,7 @@ set_policy(CMP0054 NEW) # ENABLE  CMP0054: Only interpret if() arguments as
 set_policy(CMP0063 NEW) # ENABLE  CMP0063: Honor visibility properties for all
                         # target types.
 set_policy(CMP0077 NEW) # ENABLE  CMP0077: option() honors normal variables.
+set_policy(CMP0091 NEW) # Enables the MSVC_RUNTIME_LIBRARY property on targets
 set_policy(CMP0120 OLD) # DISABLE CMP0120: The WriteCompilerDetectionHeader
                         # module is removed.
 
@@ -45,15 +46,13 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
 
-# TODO: Define installation folder and the module path (this one required by
-# conan)? set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
-# set(CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR} ${CMAKE_MODULE_PATH})
-# set(CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR} ${CMAKE_PREFIX_PATH})
+# Create a module definition with all global symbol definitions (Shared libraries)
+set(WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 # ##############################################################################
 # Options
 # ##############################################################################
-option(BUILD_SHARED_LIBS "Build shared instead of static libraries" ON)
+option(BUILD_SHARED_LIBS "Build shared instead of static libraries" OFF)
 option(BUILD_TESTING "Build tests" ON)
 option(ENABLE_PROFILING "Enable profiling" OFF)
 
@@ -102,7 +101,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
 foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
   string(TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG}
-      ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
+      ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${OUTPUTCONFIG}
       ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG}
