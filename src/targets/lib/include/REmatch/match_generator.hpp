@@ -8,6 +8,8 @@
 
 #include "constants.hpp"
 
+#include "REmatch_export.hpp"
+
 namespace REmatch {
 class Document;
 class FinditerMediator;
@@ -21,7 +23,7 @@ class VariableCatalog;
 inline namespace library_interface {
 class Match;
 
-class MatchGenerator {
+class REMATCH_EXPORT MatchGenerator {
  public:
   struct iterator {
    public:

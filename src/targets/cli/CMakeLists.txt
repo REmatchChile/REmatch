@@ -12,9 +12,8 @@ add_executable(${CLI_TARGET_NAME} ${${CLI_TARGET_NAME}_SRC})
 # ##############################################################################
 # Define target properties, flags and dependencies
 # ##############################################################################
-set_target_properties(${LIBRARY_TARGET_NAME} PROPERTIES
+set_target_properties(${CLI_TARGET_NAME} PROPERTIES
     DEBUG_POSTFIX "-d"
-    INSTALL_RPATH "${LIBRARY_INSTALL_RPATH}"
     MSVC_RUNTIME_LIBRARY "${MSVC_RUNTIME_TYPE}"
 )
 
@@ -33,6 +32,6 @@ if (NOT SKBUILD AND NOT EMSCRIPTEN)
     install(
       TARGETS ${CLI_TARGET_NAME}
       EXPORT ${PROJECT_NAME}
-      LIBRARY DESTINATION ${INSTALL_BIN} COMPONENT bin
+      LIBRARY DESTINATION COMPONENT bin
     )
 endif()

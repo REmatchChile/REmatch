@@ -1,4 +1,6 @@
 #include <REmatch/multi_match.hpp>
+
+#include <REmatch/REmatch_export.hpp>
 #include <REmatch/exceptions.hpp>
 
 #include <cstdint>
@@ -180,7 +182,7 @@ std::string MultiMatch::to_string() const {
   return ss.str();
 }
 
-std::ostream& operator<<(std::ostream& os, MultiMatch& match) {
+REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, MultiMatch& match) {
   return os << match.to_string();
 }
 
