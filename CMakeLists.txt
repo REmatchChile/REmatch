@@ -38,9 +38,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 # Generate compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
+# Configure RPATH
+# src: https://gitlab.kitware.com/cmake/community/-/wikis/doc/cmake/RPATH-handling
 set(CMAKE_SKIP_BUILD_RPATH FALSE)
 set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/lib" isSystemDir)
+if("${isSystemDir}" STREQUAL "-1")
+  set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+endif()
+
 
 # Configure the visibility of symbols in targets
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
@@ -53,7 +61,7 @@ set(WINDOWS_EXPORT_ALL_SYMBOLS ON)
 # Options
 # ##############################################################################
 option(BUILD_SHARED_LIBS "Build shared instead of static libraries" OFF)
-option(BUILD_TESTING "Build tests" ON)
+option(BUILD_TESTING "Build tests" OFF)
 option(ENABLE_PROFILING "Enable profiling" OFF)
 
 # PIC is necessary for shared libraries and SKBUILD target
