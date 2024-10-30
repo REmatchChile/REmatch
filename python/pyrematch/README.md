@@ -30,6 +30,8 @@ pip install .
 
 ## Usage
 
+Here is an example that prints all the matches using the `finditer` function.
+
 ```python
 import pyrematch as REmatch
 
@@ -44,3 +46,30 @@ query = REmatch.reql(pattern)
 for match in query.finditer(document):
     print(match)
 ```
+
+The `Query` object contains also other useful methods. To get a single match, you can use:
+
+```python
+query.findone(document)
+```
+
+To find all the matches, you can use:
+
+```python
+query.findall(document)
+```
+
+To find a limited number of matches, you can use:
+
+```python
+limit = 10
+query.findmany(document, limit)
+```
+
+To check if a match exists, you can use:
+
+```python
+query.check(document)
+```
+
+You can read more about this in the [PyREmatch Tutorial](https://github.com/REmatchChile/REmatch/wiki/pyREmatch-tutorial).
