@@ -1,5 +1,7 @@
 #include <REmatch/match.hpp>
 
+#include <REmatch/REmatch_export.hpp>
+
 #include <cstdint>
 #include <memory>
 #include <sstream>
@@ -113,7 +115,7 @@ std::string Match::to_string() const {
   return ss.str();
 }
 
-std::ostream& operator<<(std::ostream& os, Match& match) {
+REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, const Match& match) {
   return os << match.to_string();
 }
 

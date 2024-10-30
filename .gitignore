@@ -138,3 +138,5 @@ ENV/
 .DS_Store
 
 _skbuild
+
+**/*/REmatch_export.hpp

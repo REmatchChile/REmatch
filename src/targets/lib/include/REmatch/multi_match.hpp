@@ -5,15 +5,16 @@
 #include <vector>
 
 #include "match.hpp"
+#include "span.hpp"
 
-#include <REmatch/span.hpp>
+#include "REmatch_export.hpp"
 
 namespace REmatch {
 class ExtendedMapping;
 
 inline namespace library_interface {
 
-class MultiMatch {
+class REMATCH_EXPORT MultiMatch {
  public:
   MultiMatch(std::unique_ptr<ExtendedMapping> extended_mapping,
              std::shared_ptr<parsing::VariableCatalog> variable_catalog,
@@ -44,7 +45,7 @@ class MultiMatch {
 
   std::string to_string() const;
 
-  friend std::ostream& operator<<(std::ostream& os, MultiMatch& match);
+  friend REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, const MultiMatch& match);
 
  private:
   std::unique_ptr<ExtendedMapping> extended_mapping_;

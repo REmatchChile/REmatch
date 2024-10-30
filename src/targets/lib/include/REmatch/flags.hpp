@@ -2,10 +2,12 @@
 
 #include <cstdint>
 
+#include "REmatch_export.hpp"
+
 namespace REmatch {
 inline namespace library_interface {
 
-enum class Flags : uint8_t {
+enum class REMATCH_EXPORT Flags : uint8_t {
   NONE = 0U,
   LINE_BY_LINE = 1U << 0,
 };
