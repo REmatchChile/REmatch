@@ -1,5 +1,5 @@
 
-<p align="center"><img src="https://github.com/REmatchChile/REmatch-docs/blob/main/rematch2.png" alt="REmatch"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/REmatchChile/REmatch-docs/refs/heads/main/rematch2.png" alt="REmatch"></p>
 
 
 # PyREmatch: REmatch bindings for Python
