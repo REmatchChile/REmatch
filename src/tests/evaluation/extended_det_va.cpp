@@ -14,7 +14,7 @@ TEST_CASE("initial state is created correctly") {
   std::vector<ExtendedVAState*> states_subset =
       initial_state->get_states_subset();
 
-  REQUIRE(extended_det_va.states.size() == 1);
+  REQUIRE(extended_det_va.get_num_states() == 1);
   REQUIRE(initial_state->is_initial());
   REQUIRE(initial_state->get_states_subset().size() == 1);
 }
@@ -38,7 +38,7 @@ TEST_CASE("next state is computed correctly when there is a valid transition") {
 
   // it has 3 states: initial state, the duplicate of the initial state and
   // the state reached when reading 'a'
-  REQUIRE(extended_det_va.states.size() == 3);
+  REQUIRE(extended_det_va.get_num_states() == 3);
   REQUIRE(capture_subset_list.size() == 2);
 
   std::bitset<64> det_va_empty_code = capture_subset_list[0].capture;
@@ -65,7 +65,7 @@ TEST_CASE(
   std::vector<CaptureSubsetPair> capture_subset_list;
   capture_subset_list = extended_det_va.get_next_states(initial_state, 'b');
 
-  REQUIRE(extended_det_va.states.size() == 2);
+  REQUIRE(extended_det_va.get_num_states() == 2);
   REQUIRE(capture_subset_list.size() == 1);
 
   std::bitset<64> empty_capture;

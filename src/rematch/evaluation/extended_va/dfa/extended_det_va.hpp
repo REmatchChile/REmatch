@@ -14,7 +14,7 @@ class ExtendedDetVA {
   ExtendedDetVAState* initial_state_;
   ExtendedVA& extended_va_;
   std::unordered_map<StatesBitset, ExtendedDetVAState*> bitset_to_state_map;
-
+  
   void create_initial_state();
 
   std::unordered_map<std::bitset<64>, StatesPtrSet> get_map_with_next_subsets(
@@ -27,6 +27,13 @@ class ExtendedDetVA {
   ExtendedDetVAState* create_state(StatesPtrSet& states_set,
                                    StatesBitset states_bitset);
 
+
+  size_t num_states;
+
+  int phase;
+
+  size_t clock_pointer;
+
  public:
   DFAStateLimitChecker dfa_states_checker_;
   explicit ExtendedDetVA(ExtendedVA& extended_va,
@@ -35,8 +42,8 @@ class ExtendedDetVA {
 
   ~ExtendedDetVA();
 
-  std::vector<ExtendedDetVAState*> states;
-
+  ExtendedDetVAState* states[REmatch::DEFAULT_MAX_DETERMINISTIC_STATES];  
+ 
   std::vector<CaptureSubsetPair> get_next_states(
       ExtendedDetVAState*& current_state, char letter);
 
@@ -49,6 +56,17 @@ class ExtendedDetVA {
   void set_state_initial_phases();
 
   size_t get_extended_va_size();
+  
+  size_t get_num_states() const { return num_states; }
+
+  void set_phase(int new_phase);
+
+  int get_phase() const;
+
+  void set_clock_pointer(size_t new_clock_pointer);
+
+  ExtendedDetVAState* get_state_to_replace();
+
 };
 
 }  // namespace REmatch

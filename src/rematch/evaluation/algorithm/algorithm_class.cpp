@@ -97,8 +97,12 @@ void AlgorithmClass::swap_state_lists() {
   next_states_.clear();
 }
 
+size_t AlgorithmClass::get_num_states() {
+  return extended_det_va_.get_num_states();}
+
+
 size_t AlgorithmClass::get_extended_det_va_size() {
-  return extended_det_va_.states.size();
+  return extended_det_va_.get_num_states();
 }
 
 size_t AlgorithmClass::get_extended_va_size() {
@@ -116,4 +120,5 @@ size_t AlgorithmClass::get_amount_of_nodes_reused() {
 size_t AlgorithmClass::get_amount_of_nodes_used() {
   return ECS_interface_->get_amount_of_nodes_used();
 }
+
 

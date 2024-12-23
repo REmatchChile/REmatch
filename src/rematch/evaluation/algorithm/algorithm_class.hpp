@@ -27,6 +27,7 @@ class AlgorithmClass {
   size_t get_amount_of_nodes_allocated();
   size_t get_amount_of_nodes_reused();
   size_t get_amount_of_nodes_used();
+  size_t get_num_states(); 
 
   virtual ~AlgorithmClass() = default;
 

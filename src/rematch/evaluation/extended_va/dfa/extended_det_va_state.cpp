@@ -59,4 +59,24 @@ std::optional<std::vector<CaptureSubsetPair>> ExtendedDetVAState::get_transition
 
 unsigned int ExtendedDetVAState::ID = 0;
 
+void ExtendedDetVAState::reset(StatesPtrSet& new_states_subset) {
+  // Limpiar cualquier estado previo
+  cached_transitions = std::vector<std::optional<std::vector<CaptureSubsetPair>>>(256, std::nullopt);
+  output_node = nullptr;
+  phase = -1;
+  is_initial_ = false;
+  is_accepting_ = false;
+  id = ID++;
+
+  // Asignar el nuevo subconjunto de estados
+  states_subset_.assign(new_states_subset.begin(), new_states_subset.end());
+
+  // Verificar si el nuevo conjunto contiene estados de aceptación
+  for (auto& state : states_subset_) {
+    if (state->is_accepting()) {
+      is_accepting_ = true;
+    }
+  }
+}
+
 }  // namespace REmatch

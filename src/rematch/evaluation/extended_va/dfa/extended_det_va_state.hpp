@@ -24,6 +24,7 @@ class ExtendedDetVAState {
   std::vector<std::optional<std::vector<CaptureSubsetPair>>> cached_transitions{256, std::nullopt};
   ECSNode* output_node = nullptr;
   int phase = -1;
+  bool second_chance = true;
 
   ExtendedDetVAState();
   ExtendedDetVAState(StatesPtrSet &states_subset);
@@ -44,6 +45,8 @@ class ExtendedDetVAState {
   int get_subset_size() {return states_subset_.size(); }
 
   std::vector<ExtendedVAState*> get_states_subset() const { return states_subset_; }
+
+  void reset(StatesPtrSet& new_states_subset);
 };
 
 }  // namespace REmatch

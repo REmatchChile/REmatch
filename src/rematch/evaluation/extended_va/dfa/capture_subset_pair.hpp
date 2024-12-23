@@ -10,6 +10,8 @@ class ExtendedDetVAState;
 struct CaptureSubsetPair {
   std::bitset<64> capture;
   ExtendedDetVAState* subset;
+  uint32_t id;
+
 };
 }  // namespace REmatch
 
