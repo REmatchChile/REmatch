@@ -122,6 +122,11 @@ include_directories(third_party/antlr4-cpp-runtime/src)
 
 include_directories(third_party/cli11)
 
+if (ENABLE_PROFILING)
+  include(${PROJECT_SOURCE_DIR}/cmake/setup_tracy.cmake)
+endif()
+
+
 # Source code
 file(GLOB_RECURSE REMATCH_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/rematch/*.cpp)
 file(GLOB_RECURSE REMATCH_HDR ${CMAKE_CURRENT_SOURCE_DIR}/src/rematch/*.hpp)
