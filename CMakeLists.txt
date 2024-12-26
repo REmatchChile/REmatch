@@ -122,10 +122,8 @@ include_directories(third_party/antlr4-cpp-runtime/src)
 
 include_directories(third_party/cli11)
 
-if (ENABLE_PROFILING)
-  include(${PROJECT_SOURCE_DIR}/cmake/setup_tracy.cmake)
-endif()
-
+# Tracy will not be installed if profiling is disabled
+include(${PROJECT_SOURCE_DIR}/cmake/setup_tracy.cmake)
 
 # Source code
 file(GLOB_RECURSE REMATCH_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/rematch/*.cpp)
