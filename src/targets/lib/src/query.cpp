@@ -34,8 +34,6 @@ Query& Query::operator=(Query&& other) noexcept {
   return *this;
 }
 
-Query::~Query() = default;
-
 Match Query::findone(const std::string& document_) const {
   auto document = std::make_shared<Document>(document_);
 
@@ -46,8 +44,7 @@ Match Query::findone(const std::string& document_) const {
   auto mapping = mediator->next();
 
   if (mapping == nullptr) {
-    // TODO: Add correct exception/message
-    throw std::runtime_error("No match found");
+    throw REmatchException("No match found");
   }
 
   return {std::move(mapping), query_data_->variable_catalog, document};

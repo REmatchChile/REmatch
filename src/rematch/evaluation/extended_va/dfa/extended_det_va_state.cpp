@@ -23,11 +23,11 @@ void ExtendedDetVAState::set_initial(bool initial) {
   is_initial_ = initial;
 }
 
-bool ExtendedDetVAState::is_initial() {
+bool ExtendedDetVAState::is_initial() const {
   return is_initial_;
 }
 
-bool ExtendedDetVAState::is_accepting() {
+bool ExtendedDetVAState::is_accepting() const {
   return is_accepting_;
 }
 
@@ -39,11 +39,11 @@ void ExtendedDetVAState::unset_node() {
   output_node = nullptr;
 }
 
-ECSNode* ExtendedDetVAState::get_node() {
+ECSNode* ExtendedDetVAState::get_node() const {
   return output_node;
 }
 
-void ExtendedDetVAState::set_phase(int phase) {
+void ExtendedDetVAState::set_phase(int64_t phase) {
   this->phase = phase;
 }
 

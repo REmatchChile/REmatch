@@ -2,6 +2,10 @@
 #include <iostream>
 #include <sstream>
 
+#ifdef TRACY_ENABLE
+#include <tracy/Tracy.hpp>
+#endif
+
 #include "output_enumeration/enumerator.hpp"
 
 namespace REmatch {
@@ -25,6 +29,10 @@ void Enumerator::reset() {
 }
 
 const Mapping *Enumerator::next(){
+  #ifdef TRACY_ENABLE
+  ZoneScoped;
+  #endif
+
   if (was_output_previously) {
     delete_annotations_until_previous_union();
     was_output_previously = false;

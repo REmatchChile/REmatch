@@ -31,9 +31,9 @@ class AlgorithmClass {
   virtual ~AlgorithmClass() = default;
 
  protected:
-  uint64_t pos_i_ = 0;
-  uint64_t doc_start_i_ = 0;
-  uint64_t doc_end_i_ = 0;
+  int64_t pos_i_ = 0;
+  int64_t doc_start_i_ = 0;
+  int64_t doc_end_i_ = 0;
 
   std::shared_ptr<Document> document_;
 
@@ -47,10 +47,10 @@ class AlgorithmClass {
   std::vector<ExtendedDetVAState*> reached_final_states_ = {};
 
   void evaluate_single_character();
-  void update_sets(ExtendedDetVAState*& current_state,
+  void update_sets(ExtendedDetVAState* current_state,
                    std::vector<CaptureSubsetPair> capture_subset_pairs);
-  virtual void update_output_nodes(ExtendedDetVAState*& next_state,
-                                   ECSNode*& next_node) = 0;
+  virtual void update_output_nodes(ExtendedDetVAState* next_state,
+                                   ECSNode* next_node) = 0;
 
   void swap_state_lists();
 };

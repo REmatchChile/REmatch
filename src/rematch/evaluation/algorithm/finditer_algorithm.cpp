@@ -1,5 +1,9 @@
 #include "finditer_algorithm.hpp"
 
+#ifdef TRACY_ENABLE
+#include <tracy/Tracy.hpp>
+#endif
+
 namespace REmatch {
 
 FinditerAlgorithm::FinditerAlgorithm(ExtendedVA& extended_va,
@@ -36,18 +40,22 @@ void FinditerAlgorithm::evaluate() {
   }
 }
 
-void FinditerAlgorithm::update_output_nodes(ExtendedDetVAState*& next_state,
-                                            ECSNode*& next_node) {
-  if (next_state->phase < (int64_t)pos_i_) {
+void FinditerAlgorithm::update_output_nodes(ExtendedDetVAState* next_state,
+                                            ECSNode* next_node) {
+  #ifdef TRACY_ENABLE
+  ZoneScoped;
+  #endif
+
+  if (next_state->phase < pos_i_) {
     next_state->set_phase(pos_i_);
 
     next_state->set_node(next_node);
     ECS_interface_->pin_node(next_node);
 
     if (next_state->is_accepting()) {
-      reached_final_states_.push_back(next_state);
+      reached_final_states_.emplace_back(next_state);
     } else {
-      next_states_.push_back(next_state);
+      next_states_.emplace_back(next_state);
     }
 
   } else {

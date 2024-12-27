@@ -50,8 +50,8 @@ class ECS { // Enumerable Compact Set
    * variables and the position in the document that this annotation is
    * referring to.
    */
-  ECSNode *create_extend_node(ECSNode* node, std::bitset<64> variable_markers,
-                  int document_position);
+  ECSNode* create_extend_node(ECSNode* node, std::bitset<64> variable_markers,
+                              int64_t document_position);
   /**
    * Union nodes allow us to enumerate multiple outputs starting from a
    * single node.

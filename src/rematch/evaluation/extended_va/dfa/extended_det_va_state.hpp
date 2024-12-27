@@ -23,25 +23,26 @@ class ExtendedDetVAState {
   uint32_t id;
   std::vector<std::optional<std::vector<CaptureSubsetPair>>> cached_transitions{256, std::nullopt};
   ECSNode* output_node = nullptr;
-  int phase = -1;
+  int64_t phase = -1;
 
   ExtendedDetVAState();
-  ExtendedDetVAState(StatesPtrSet &states_subset);
+
+  explicit ExtendedDetVAState(StatesPtrSet &states_subset);
 
   std::optional<std::vector<CaptureSubsetPair>> get_transition(char letter);
   void cache_transition(
       char letter,
       std::optional<std::vector<CaptureSubsetPair>> capture_subset_pairs);
 
-  bool is_initial();
+  bool is_initial() const;
   void set_initial(bool initial);
-  bool is_accepting();
+  bool is_accepting() const;
   void set_node(ECSNode* node);
   void unset_node();
-  ECSNode* get_node();
-  void set_phase(int phase);
+  ECSNode* get_node() const;
+  void set_phase(int64_t phase);
 
-  int get_subset_size() {return states_subset_.size(); }
+  inline size_t get_subset_size() {return states_subset_.size(); }
 
   std::vector<ExtendedVAState*> get_states_subset() const { return states_subset_; }
 };

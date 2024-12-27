@@ -2,6 +2,10 @@
 
 #include "evaluation/document.hpp"
 
+#ifdef TRACY_ENABLE
+#include <tracy/Tracy.hpp>
+#endif
+
 using namespace REmatch;
 
 AlgorithmClass::AlgorithmClass(ExtendedVA& extended_va,
@@ -46,6 +50,10 @@ void AlgorithmClass::set_null_segment() {
 }
 
 void AlgorithmClass::evaluate_single_character() {
+  #ifdef TRACY_ENABLE
+  ZoneScoped;
+  #endif
+
   char letter = (*document_)[pos_i_];
 
   for (auto& current_state : current_states_) {
@@ -63,10 +71,11 @@ void AlgorithmClass::evaluate_single_character() {
 }
 
 void AlgorithmClass::update_sets(
-    ExtendedDetVAState*& current_state,
+    ExtendedDetVAState* current_state,
     std::vector<CaptureSubsetPair> capture_subset_pairs) {
-
-  auto it = capture_subset_pairs.begin();
+  #ifdef TRACY_ENABLE
+  ZoneScoped;
+  #endif
 
   // handle the empty capture
   if (capture_subset_pairs[0].capture.none()) {
@@ -74,19 +83,15 @@ void AlgorithmClass::update_sets(
 
     ECSNode* next_node = current_state->get_node();
     update_output_nodes(next_state, next_node);
-
-    it++;
   }
 
   // handle not empty captures, skip first pair if already updated
-  for (; it != capture_subset_pairs.end(); it++) {
-    auto pair = *it;
-    ExtendedDetVAState* next_state = pair.subset;
-    std::bitset<64> capture = pair.capture;
+  for (std::size_t i = 1; i < capture_subset_pairs.size(); i++) {
+    auto& subset_pair = capture_subset_pairs[i];
 
     ECSNode* next_node = ECS_interface_->create_extend_node(
-        current_state->get_node(), capture, pos_i_);
-    update_output_nodes(next_state, next_node);
+        current_state->get_node(), subset_pair.capture, pos_i_);
+    update_output_nodes(subset_pair.subset, next_node);
   }
 
   ECS_interface_->unpin_node(current_state->get_node());

@@ -31,7 +31,7 @@ public:
   explicit NodeManager(uint_fast32_t max_mempool_duplications);
   ~NodeManager();
 
-  template <class... Args> ECSNode *alloc(Args &&...args) {
+  template <class... Args> inline ECSNode *alloc(Args &&...args) {
     ECSNode *recycled_node =
       get_node_to_recycle_or_increase_mempool_size_if_necessary();
     if (recycled_node != nullptr)
@@ -51,13 +51,10 @@ private:
   void increase_mempool_size();
   void throw_exception_if_mempool_duplications_exceeded();
   ECSNode *get_node_to_recycle();
-  void decrease_references_to_children(ECSNode *children[2]);
-  void advance_recyclable_nodes_list_head();
-  template <class... Args> ECSNode *allocate_a_new_node(Args &&...args) {
+  template <class... Args> inline ECSNode *allocate_a_new_node(Args &&...args) {
     ++amount_of_nodes_used;
     return minipool_head_->alloc(std::forward<Args>(args)...);
   }
-  void try_to_mark_node_as_unused(ECSNode* node);
 
 };
 }

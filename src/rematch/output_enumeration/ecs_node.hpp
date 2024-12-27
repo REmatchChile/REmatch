@@ -59,8 +59,8 @@ class ECSNode {
     friend std::ostream& operator<<(std::ostream& os, const ECSNode& n);
 
  private:
-  void decrease_ref_count() { --ref_count; }
-  void increase_ref_count() { ++ref_count; }
+  inline void decrease_ref_count() { --ref_count; }
+  inline void increase_ref_count() { ++ref_count; }
 
   void assign_attributes(ECSNodeType node_type, ECSNode *left,
                      ECSNode *right, std::bitset<64> variable_markers,
