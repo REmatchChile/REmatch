@@ -29,9 +29,8 @@ ECSNode* ECS::create_extend_node(ECSNode* node,
       variable_markers, document_position);
 }
 
-ECSNode *ECS::pin_node(ECSNode *node) {
+void ECS::pin_node(ECSNode *node) {
   node_manager.increase_ref_count(node);
-  return node;
 }
 
 void ECS::unpin_node(ECSNode *node) {

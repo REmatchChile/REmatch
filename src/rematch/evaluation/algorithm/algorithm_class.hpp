@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
 #include "evaluation/extended_va/dfa/extended_det_va.hpp"
 #include "output_enumeration/ecs.hpp"
@@ -14,7 +15,8 @@ using namespace REmatch;
 class AlgorithmClass {
  public:
   AlgorithmClass(ExtendedVA& extended_va, std::shared_ptr<Document> document,
-                 uint_fast32_t max_mempool_duplications, uint_fast32_t max_deterministic_states);
+                 uint_fast32_t max_mempool_duplications,
+                 uint_fast32_t max_deterministic_states);
 
   void initialize_algorithm();
   ECS& get_ecs();
@@ -48,7 +50,7 @@ class AlgorithmClass {
 
   void evaluate_single_character();
   void update_sets(ExtendedDetVAState* current_state,
-                   std::vector<CaptureSubsetPair> capture_subset_pairs);
+                   const std::vector<CaptureSubsetPair>& capture_subset_pairs);
   virtual void update_output_nodes(ExtendedDetVAState* next_state,
                                    ECSNode* next_node) = 0;
 

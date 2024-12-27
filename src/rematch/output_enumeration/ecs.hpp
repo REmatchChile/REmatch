@@ -62,7 +62,7 @@ class ECS { // Enumerable Compact Set
    * If the node is going to be used in another scope, it is necessary to
    * pin it so that the memory manager does not recycle its memory location.
    */
-  ECSNode *pin_node(ECSNode *node);
+  void pin_node(ECSNode *node);
 
   /**
    * If a node is no longer used, it should be unpinned, this allows the

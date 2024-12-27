@@ -72,7 +72,7 @@ void AlgorithmClass::evaluate_single_character() {
 
 void AlgorithmClass::update_sets(
     ExtendedDetVAState* current_state,
-    std::vector<CaptureSubsetPair> capture_subset_pairs) {
+    const std::vector<CaptureSubsetPair>& capture_subset_pairs) {
   #ifdef TRACY_ENABLE
   ZoneScoped;
   #endif

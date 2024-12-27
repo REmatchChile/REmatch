@@ -47,8 +47,9 @@ void FinditerAlgorithm::update_output_nodes(ExtendedDetVAState* next_state,
   ZoneScoped;
   #endif
 
-  if (next_state->phase < (int64_t)pos_i_) {
-    next_state->set_phase(pos_i_);
+  const auto pos_i_int_ = static_cast<int>(pos_i_);
+  if (next_state->phase < pos_i_int_) {
+    next_state->set_phase(pos_i_int_);
 
     next_state->set_node(next_node);
     ECS_interface_->pin_node(next_node);
