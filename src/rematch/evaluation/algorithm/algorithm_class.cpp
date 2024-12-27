@@ -90,7 +90,7 @@ void AlgorithmClass::update_sets(
   // handle the non-empty captures
   while (it != capture_subset_pairs.end()) {
     ECSNode* next_node = ECS_interface_->create_extend_node(
-        current_state->get_node(), (*it).capture, pos_i_);
+        current_state->get_node(), (*it).capture, static_cast<int>(pos_i_));
     ExtendedDetVAState* next_state = (*it).subset;
     update_output_nodes(next_state, next_node);
     ++it;

@@ -2,8 +2,6 @@
 
 #include "output_enumeration/minipool.hpp"
 
-#include <tracy/Tracy.hpp>
-
 namespace REmatch {
 inline namespace output_enumeration {
 using namespace REmatch;
@@ -36,7 +34,6 @@ class NodeManager {
 
   template <class... Args>
   inline ECSNode* alloc(Args&&... args) {
-    ZoneScoped;
     ECSNode* recycled_node =
         get_node_to_recycle_or_increase_mempool_size_if_necessary();
     if (recycled_node != nullptr)
