@@ -22,7 +22,7 @@ class AlgorithmClass {
   void set_null_segment();
   virtual const Mapping* get_next_mapping() = 0;
 
-  size_t get_extended_det_va_size();
+  size_t get_extended_det_va_size() const;
   size_t get_extended_va_size();
   size_t get_amount_of_nodes_allocated();
   size_t get_amount_of_nodes_reused();
@@ -31,9 +31,9 @@ class AlgorithmClass {
   virtual ~AlgorithmClass() = default;
 
  protected:
-  int64_t pos_i_ = 0;
-  int64_t doc_start_i_ = 0;
-  int64_t doc_end_i_ = 0;
+  uint64_t pos_i_ = 0;
+  uint64_t doc_start_i_ = 0;
+  uint64_t doc_end_i_ = 0;
 
   std::shared_ptr<Document> document_;
 

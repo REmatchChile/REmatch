@@ -43,7 +43,7 @@ ECSNode* ExtendedDetVAState::get_node() const {
   return output_node;
 }
 
-void ExtendedDetVAState::set_phase(int64_t phase) {
+void ExtendedDetVAState::set_phase(int phase) {
   this->phase = phase;
 }
 

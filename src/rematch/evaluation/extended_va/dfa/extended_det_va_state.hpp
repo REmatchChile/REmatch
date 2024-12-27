@@ -23,7 +23,7 @@ class ExtendedDetVAState {
   uint32_t id;
   std::vector<std::optional<std::vector<CaptureSubsetPair>>> cached_transitions{256, std::nullopt};
   ECSNode* output_node = nullptr;
-  int64_t phase = -1;
+  int phase = -1;
 
   ExtendedDetVAState();
 
@@ -40,7 +40,7 @@ class ExtendedDetVAState {
   void set_node(ECSNode* node);
   void unset_node();
   ECSNode* get_node() const;
-  void set_phase(int64_t phase);
+  void set_phase(int phase);
 
   inline size_t get_subset_size() {return states_subset_.size(); }
 

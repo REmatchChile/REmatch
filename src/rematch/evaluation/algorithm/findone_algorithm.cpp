@@ -41,7 +41,7 @@ void FindoneAlgorithm::update_output_nodes(ExtendedDetVAState* next_state,
   ZoneScoped;
   #endif
 
-  if (next_state->phase < pos_i_) {
+  if (next_state->phase < (int64_t)pos_i_) {
     next_state->set_phase(pos_i_);
 
     next_state->set_node(next_node);

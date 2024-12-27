@@ -21,12 +21,12 @@ ECSNode* ECS::create_bottom_node() {
   return node_manager.alloc(ECSNodeType::kBottom);
 }
 
-ECSNode *ECS::create_extend_node(ECSNode *node,
-                     std::bitset<64> variable_markers, int64_t document_position) {
+ECSNode* ECS::create_extend_node(ECSNode* node,
+                                 std::bitset<64> variable_markers,
+                                 int document_position) {
   return node_manager.alloc(
       ECSNodeType::kLabel, node, nullptr,
       variable_markers, document_position);
-
 }
 
 ECSNode *ECS::pin_node(ECSNode *node) {

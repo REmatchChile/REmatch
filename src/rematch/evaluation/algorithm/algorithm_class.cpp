@@ -77,21 +77,23 @@ void AlgorithmClass::update_sets(
   ZoneScoped;
   #endif
 
-  // handle the empty capture
-  if (capture_subset_pairs[0].capture.none()) {
-    ExtendedDetVAState* next_state = capture_subset_pairs[0].subset;
+  auto it = capture_subset_pairs.begin();
 
+  // handle the empty capture
+  if ((*it).capture.none()) {
+    ExtendedDetVAState* next_state = capture_subset_pairs[0].subset;
     ECSNode* next_node = current_state->get_node();
     update_output_nodes(next_state, next_node);
+    ++it;
   }
 
-  // handle not empty captures, skip first pair if already updated
-  for (std::size_t i = 1; i < capture_subset_pairs.size(); i++) {
-    auto& subset_pair = capture_subset_pairs[i];
-
+  // handle the non-empty captures
+  while (it != capture_subset_pairs.end()) {
     ECSNode* next_node = ECS_interface_->create_extend_node(
-        current_state->get_node(), subset_pair.capture, pos_i_);
-    update_output_nodes(subset_pair.subset, next_node);
+        current_state->get_node(), (*it).capture, pos_i_);
+    ExtendedDetVAState* next_state = (*it).subset;
+    update_output_nodes(next_state, next_node);
+    ++it;
   }
 
   ECS_interface_->unpin_node(current_state->get_node());
@@ -102,7 +104,7 @@ void AlgorithmClass::swap_state_lists() {
   next_states_.clear();
 }
 
-size_t AlgorithmClass::get_extended_det_va_size() {
+size_t AlgorithmClass::get_extended_det_va_size() const {
   return extended_det_va_.states.size();
 }
 
