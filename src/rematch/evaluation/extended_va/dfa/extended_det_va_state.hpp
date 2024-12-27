@@ -21,7 +21,8 @@ class ExtendedDetVAState {
 
  public:
   uint32_t id;
-  std::vector<std::optional<std::vector<CaptureSubsetPair>>> cached_transitions{256, std::nullopt};
+  std::vector<std::unique_ptr<std::vector<CaptureSubsetPair>>>
+      cached_transitions{256};
   ECSNode* output_node = nullptr;
   int phase = -1;
 
@@ -29,10 +30,9 @@ class ExtendedDetVAState {
 
   explicit ExtendedDetVAState(StatesPtrSet &states_subset);
 
-  std::optional<std::vector<CaptureSubsetPair>> get_transition(char letter);
-  void cache_transition(
-      char letter,
-      std::optional<std::vector<CaptureSubsetPair>> capture_subset_pairs);
+  std::vector<CaptureSubsetPair>* get_transition(char letter);
+  void cache_transition(char letter,
+                        std::vector<CaptureSubsetPair>&& capture_subset_pairs);
 
   bool is_initial() const;
   void set_initial(bool initial);

@@ -7,12 +7,11 @@ ExtendedDetVAState::ExtendedDetVAState() {
   id = ID++;
 }
 
-ExtendedDetVAState::ExtendedDetVAState(
-    StatesPtrSet &states_subset)
+ExtendedDetVAState::ExtendedDetVAState(StatesPtrSet& states_subset)
     : states_subset_(states_subset.begin(), states_subset.end()) {
   id = ID++;
 
-  for (auto& state: states_subset_) {
+  for (auto& state : states_subset_) {
     if (state->is_accepting()) {
       is_accepting_ = true;
     }
@@ -48,13 +47,14 @@ void ExtendedDetVAState::set_phase(int phase) {
 }
 
 void ExtendedDetVAState::cache_transition(
-    char letter,
-    std::optional<std::vector<CaptureSubsetPair>> capture_subset_pairs) {
-  cached_transitions[(uint8_t)letter] = capture_subset_pairs;
+    char letter, std::vector<CaptureSubsetPair>&& capture_subset_pairs) {
+  cached_transitions[reinterpret_cast<uint8_t&>(letter)] =
+      std::make_unique<std::vector<CaptureSubsetPair>>(capture_subset_pairs);
 }
 
-std::optional<std::vector<CaptureSubsetPair>> ExtendedDetVAState::get_transition(char letter) {
-  return cached_transitions[(uint8_t)letter];
+std::vector<CaptureSubsetPair>* ExtendedDetVAState::get_transition(
+    char letter) {
+  return cached_transitions[reinterpret_cast<uint8_t&>(letter)].get();
 }
 
 unsigned int ExtendedDetVAState::ID = 0;

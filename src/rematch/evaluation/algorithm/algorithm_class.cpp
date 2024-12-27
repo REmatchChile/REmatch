@@ -58,11 +58,11 @@ void AlgorithmClass::evaluate_single_character() {
 
   for (auto& current_state : current_states_) {
 
-    std::vector<CaptureSubsetPair> capture_subset_pairs =
+    auto* capture_subset_pairs =
         extended_det_va_.get_next_states(current_state, letter);
 
-    if (!capture_subset_pairs.empty()) {
-      update_sets(current_state, capture_subset_pairs);
+    if (!capture_subset_pairs->empty()) {
+      update_sets(current_state, *capture_subset_pairs);
     }
     else {
       ECS_interface_->unpin_node(current_state->output_node);

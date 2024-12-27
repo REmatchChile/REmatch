@@ -28,27 +28,25 @@ void ExtendedDetVA::create_initial_state() {
   bitset_to_state_map[initial_state_bitset] = initial_state_;
 }
 
-std::vector<CaptureSubsetPair> ExtendedDetVA::get_next_states(
-    ExtendedDetVAState*& current_state, char letter) {
+std::vector<CaptureSubsetPair>* ExtendedDetVA::get_next_states(
+    ExtendedDetVAState* current_state, char letter) {
 
-  std::optional<std::vector<CaptureSubsetPair>> capture_subset_pairs =
-      current_state->get_transition(letter);
+  // Check if the transition is already cached
+  auto* cached_subset_pairs = current_state->get_transition(letter);
+  if (cached_subset_pairs != nullptr) {
+    return cached_subset_pairs;
+  }
 
-  if (capture_subset_pairs)
-    return capture_subset_pairs.value();
+  // Cache the transition and return it
+  auto captures_subset_map = get_map_with_next_subsets(current_state, letter);
+  auto computed_subset_pairs = add_transitions_to_vector(captures_subset_map);
+  current_state->cache_transition(letter, std::move(computed_subset_pairs));
 
-  std::unordered_map<std::bitset<64>, StatesPtrSet>
-      captures_subset_map = get_map_with_next_subsets(current_state, letter);
-
-  capture_subset_pairs = add_transitions_to_vector(captures_subset_map);
-
-  current_state->cache_transition(letter, capture_subset_pairs);
-
-  return capture_subset_pairs.value();
+  return current_state->get_transition(letter);
 }
 
 std::unordered_map<std::bitset<64>, StatesPtrSet>
-ExtendedDetVA::get_map_with_next_subsets(ExtendedDetVAState*& current_state, char letter) {
+ExtendedDetVA::get_map_with_next_subsets(ExtendedDetVAState* current_state, char letter) {
 
   std::unordered_map<std::bitset<64>, StatesPtrSet> captures_subset_map;
 
