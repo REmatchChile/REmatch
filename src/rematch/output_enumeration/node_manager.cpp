@@ -1,5 +1,9 @@
 #include "node_manager.hpp"
 
+#ifdef TRACY_ENABLE
+#include <tracy/Tracy.hpp>
+#endif
+
 #include <REmatch/exceptions.hpp>
 #include <cstdint>
 
