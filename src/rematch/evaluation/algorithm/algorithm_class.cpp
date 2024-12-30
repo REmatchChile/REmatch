@@ -80,18 +80,18 @@ void AlgorithmClass::update_sets(
   auto it = capture_subset_pairs.begin();
 
   // handle the empty capture
-  if ((*it).capture.none()) {
-    ExtendedDetVAState* next_state = capture_subset_pairs[0].subset;
-    ECSNode* next_node = current_state->get_node();
+  if (it->capture.none()) {
+    auto* next_state = capture_subset_pairs[0].subset;
+    auto* next_node = current_state->get_node();
     update_output_nodes(next_state, next_node);
     ++it;
   }
 
   // handle the non-empty captures
   while (it != capture_subset_pairs.end()) {
-    ECSNode* next_node = ECS_interface_->create_extend_node(
-        current_state->get_node(), (*it).capture, static_cast<int>(pos_i_));
-    ExtendedDetVAState* next_state = (*it).subset;
+    auto* next_node = ECS_interface_->create_extend_node(
+        current_state->get_node(), it->capture, static_cast<int>(pos_i_));
+    auto* next_state = it->subset;
     update_output_nodes(next_state, next_node);
     ++it;
   }
