@@ -72,14 +72,14 @@ std::unique_ptr<ExtendedMapping> ExtendedMapping::get_submapping(
   int64_t slice_start_index = -1;
   int64_t slice_end_index = -1;
 
-  for (auto i=0U; i < inverted_annotations_.size(); ++i) {
+  for (std::size_t i = 0; i < inverted_annotations_.size(); ++i) {
     if (inverted_annotations_[i].document_position <= size_t(span.second)) {
       slice_start_index = i;
       break;
     }
   }
 
-  for (auto i=inverted_annotations_.size() - 1; i >= 0; --i) {
+  for (int64_t i = static_cast<int64_t>(inverted_annotations_.size()) - 1; i >= 0; --i) {
     if (inverted_annotations_[i].document_position >= size_t(span.first)) {
       slice_end_index = i;
       break;

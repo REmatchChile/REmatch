@@ -24,8 +24,6 @@ class REMATCH_EXPORT Query {
   Query(Query&& other) noexcept;
   Query& operator=(Query&& other) noexcept;
 
-  ~Query();
-
   Match findone(const std::string& document) const;
 
   std::vector<Match> findmany(const std::string& document, uint_fast32_t limit) const;

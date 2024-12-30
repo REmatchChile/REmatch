@@ -141,48 +141,49 @@ bool MultiMatch::operator==(const MultiMatch& other) const {
 }
 
 std::string MultiMatch::to_string() const {
-  std::stringstream ss;
-
   const auto num_variables = variable_catalog_->size();
 
+  if (num_variables == 0) {
+    return "{}";
+  }
+
+  std::stringstream ss;
+
   ss << "{";
-  for (unsigned int i = 0; i < num_variables - 1; i++) {
-    const auto variable_name = variable_catalog_->get_var(i);
-    const auto spans_ = spans(variable_name);
-
-    if (spans_.empty()) {
-      ss << variable_name << ": {}\t";
-      continue;
-    }
-
+  const auto variable_name = variable_catalog_->get_var(0);
+  const auto spans_ = spans(0);
+  if (spans_.empty()) {
+    ss << variable_name << ": {}\t";
+  } else {
     ss << variable_name << ": {|" << spans_[0].first << "," << spans_[0].second
        << ">";
-    for (unsigned int j = 1; j < spans_.size(); j++) {
+    for (std::size_t j = 1; j < spans_.size(); j++) {
       ss << ", |" << spans_[j].first << "," << spans_[j].second << ">";
     }
-    ss << "}, ";
+    ss << "}";
   }
 
-  const auto variable_name = variable_catalog_->get_var(num_variables - 1);
-  const auto spans_ = spans(variable_name);
-
-  ss << "{";
-  if (spans_.empty()) {
-    ss << variable_name << ": {}}";
-    return ss.str();
+  for (std::size_t i = 1; i < num_variables; i++) {
+    const auto variable_name = variable_catalog_->get_var(i);
+    const auto spans_ = spans(variable_name);
+    if (spans_.empty()) {
+      ss << ", " << variable_name << ": {}\t";
+    } else {
+      ss << ", " << variable_name << ": {|" << spans_[0].first << ","
+         << spans_[0].second << ">";
+      for (std::size_t j = 1; j < spans_.size(); j++) {
+        ss << ", |" << spans_[j].first << "," << spans_[j].second << ">";
+      }
+      ss << "}";
+    }
   }
-
-  ss << variable_name << ": {|" << spans_[0].first << "," << spans_[0].second
-     << ">";
-  for (unsigned int j = 1; j < spans_.size(); j++) {
-    ss << ", |" << spans_.at(j).first << "," << spans_.at(j).second << ">";
-  }
-  ss << "}}";
+  ss << "}";
 
   return ss.str();
 }
 
-REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, const MultiMatch& match) {
+REMATCH_EXPORT std::ostream& operator<<(std::ostream& os,
+                                        const MultiMatch& match) {
   return os << match.to_string();
 }
 

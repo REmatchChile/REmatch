@@ -1,9 +1,7 @@
-#include <iostream>
-
 #include "filtering_module/segment_identificator.hpp"
 #include "evaluation/document.hpp"
 #ifdef TRACY_ENABLE
-#include "tracy/Tracy.hpp"
+#include <tracy/Tracy.hpp>
 #endif
 
 namespace REmatch {

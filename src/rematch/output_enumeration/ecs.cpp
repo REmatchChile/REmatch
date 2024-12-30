@@ -21,17 +21,16 @@ ECSNode* ECS::create_bottom_node() {
   return node_manager.alloc(ECSNodeType::kBottom);
 }
 
-ECSNode *ECS::create_extend_node(ECSNode *node,
-                     std::bitset<64> variable_markers, int document_position) {
+ECSNode* ECS::create_extend_node(ECSNode* node,
+                                 std::bitset<64> variable_markers,
+                                 int document_position) {
   return node_manager.alloc(
       ECSNodeType::kLabel, node, nullptr,
       variable_markers, document_position);
-
 }
 
-ECSNode *ECS::pin_node(ECSNode *node) {
+void ECS::pin_node(ECSNode *node) {
   node_manager.increase_ref_count(node);
-  return node;
 }
 
 void ECS::unpin_node(ECSNode *node) {

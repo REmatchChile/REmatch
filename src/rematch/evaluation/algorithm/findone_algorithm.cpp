@@ -1,6 +1,10 @@
 #include "findone_algorithm.hpp"
 #include <cstdint>
 
+#ifdef TRACY_ENABLE
+#include <tracy/Tracy.hpp>
+#endif
+
 namespace REmatch {
 
 FindoneAlgorithm::FindoneAlgorithm(ExtendedVA& extended_va,
@@ -31,19 +35,23 @@ void FindoneAlgorithm::evaluate() {
   }
 }
 
-void FindoneAlgorithm::update_output_nodes(ExtendedDetVAState*& next_state,
-                                           ECSNode*& next_node) {
+void FindoneAlgorithm::update_output_nodes(ExtendedDetVAState* next_state,
+                                           ECSNode* next_node) {
+  #ifdef TRACY_ENABLE
+  ZoneScoped;
+  #endif
 
-  if (next_state->phase < (int64_t)pos_i_) {
-    next_state->set_phase(pos_i_);
+  const auto pos_i_int_ = static_cast<int>(pos_i_);
+  if (next_state->phase < pos_i_int_) {
+    next_state->set_phase(pos_i_int_);
 
     next_state->set_node(next_node);
     ECS_interface_->pin_node(next_node);
 
     if (next_state->is_accepting()) {
-      reached_final_states_.push_back(next_state);
+      reached_final_states_.emplace_back(next_state);
     } else {
-      next_states_.push_back(next_state);
+      next_states_.emplace_back(next_state);
     }
   } else {
     // the node manager needs to unpin the node in order to free it

@@ -33,22 +33,21 @@ TEST_CASE("next state is computed correctly when there is a valid transition") {
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
-  std::vector<CaptureSubsetPair> capture_subset_list;
-  capture_subset_list = extended_det_va.get_next_states(initial_state, 'a');
+  auto* capture_subset_list = extended_det_va.get_next_states(initial_state, 'a');
 
   // it has 3 states: initial state, the duplicate of the initial state and
   // the state reached when reading 'a'
   REQUIRE(extended_det_va.states.size() == 3);
-  REQUIRE(capture_subset_list.size() == 2);
+  REQUIRE(capture_subset_list->size() == 2);
 
-  std::bitset<64> det_va_empty_code = capture_subset_list[0].capture;
-  ExtendedDetVAState* initial_state_duplicate = capture_subset_list[0].subset;
+  std::bitset<64> det_va_empty_code = (*capture_subset_list)[0].capture;
+  ExtendedDetVAState* initial_state_duplicate = (*capture_subset_list)[0].subset;
 
   REQUIRE(initial_state_duplicate->get_subset_size() == 1);
   REQUIRE(det_va_empty_code == eva_empty_code);
 
-  std::bitset<64> det_va_open_x_code = capture_subset_list[1].capture;
-  ExtendedDetVAState* second_state = capture_subset_list[1].subset;
+  std::bitset<64> det_va_open_x_code = (*capture_subset_list)[1].capture;
+  ExtendedDetVAState* second_state = (*capture_subset_list)[1].subset;
 
   REQUIRE(second_state->get_subset_size() == 1);
   REQUIRE(det_va_open_x_code == eva_open_x_code);
@@ -62,15 +61,14 @@ TEST_CASE(
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
-  std::vector<CaptureSubsetPair> capture_subset_list;
-  capture_subset_list = extended_det_va.get_next_states(initial_state, 'b');
+  auto* capture_subset_list = extended_det_va.get_next_states(initial_state, 'b');
 
   REQUIRE(extended_det_va.states.size() == 2);
-  REQUIRE(capture_subset_list.size() == 1);
+  REQUIRE(capture_subset_list->size() == 1);
 
   std::bitset<64> empty_capture;
-  REQUIRE(capture_subset_list[0].capture == empty_capture);
-  REQUIRE(capture_subset_list[0].subset->get_subset_size() == 1);
+  REQUIRE((*capture_subset_list)[0].capture == empty_capture);
+  REQUIRE((*capture_subset_list)[0].subset->get_subset_size() == 1);
 }
 
 TEST_CASE(
@@ -83,12 +81,11 @@ TEST_CASE(
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
-  std::vector<CaptureSubsetPair> capture_subset_list;
-  capture_subset_list = extended_det_va.get_next_states(initial_state, 'a');
+  auto* capture_subset_list = extended_det_va.get_next_states(initial_state, 'a');
 
-  REQUIRE(capture_subset_list.size() == 2);
+  REQUIRE(capture_subset_list->size() == 2);
 
-  ExtendedDetVAState* second_state = capture_subset_list[1].subset;
+  ExtendedDetVAState* second_state = (*capture_subset_list)[1].subset;
 
   REQUIRE(second_state->get_subset_size() == 2);
 }
@@ -101,18 +98,17 @@ TEST_CASE(
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
-  std::vector<CaptureSubsetPair> capture_subset_list;
-  capture_subset_list = extended_det_va.get_next_states(initial_state, 'a');
+  auto* capture_subset_list = extended_det_va.get_next_states(initial_state, 'a');
 
-  ExtendedDetVAState* second_state = capture_subset_list[1].subset;
+  ExtendedDetVAState* second_state = (*capture_subset_list)[1].subset;
   capture_subset_list = extended_det_va.get_next_states(second_state, 'a');
 
-  REQUIRE(capture_subset_list.size() == 1);
+  REQUIRE(capture_subset_list->size() == 1);
 
   std::bitset<64> empty_capture;
 
-  REQUIRE(capture_subset_list[0].capture == empty_capture);
-  REQUIRE(capture_subset_list[0].subset->get_subset_size() == 2);
+  REQUIRE((*capture_subset_list)[0].capture == empty_capture);
+  REQUIRE((*capture_subset_list)[0].subset->get_subset_size() == 2);
 }
 
 TEST_CASE(
@@ -123,13 +119,11 @@ TEST_CASE(
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
-  std::vector<CaptureSubsetPair> capture_subset_list1;
-  capture_subset_list1 = extended_det_va.get_next_states(initial_state, 'a');
-  ExtendedDetVAState* next_state1 = capture_subset_list1[1].subset;
+  auto* capture_subset_list1 = extended_det_va.get_next_states(initial_state, 'a');
+  ExtendedDetVAState* next_state1 = (*capture_subset_list1)[1].subset;
 
-  std::vector<CaptureSubsetPair> capture_subset_list2;
-  capture_subset_list2 = extended_det_va.get_next_states(initial_state, 'a');
-  ExtendedDetVAState* next_state2 = capture_subset_list1[1].subset;
+  auto* capture_subset_list2 = extended_det_va.get_next_states(initial_state, 'a');
+  ExtendedDetVAState* next_state2 = (*capture_subset_list2)[1].subset;
 
   REQUIRE(next_state1->id == next_state2->id);
 }
@@ -141,10 +135,9 @@ TEST_CASE(
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
-  std::vector<CaptureSubsetPair> capture_subset_list;
-  capture_subset_list = extended_det_va.get_next_states(initial_state, 'a');
+  auto* capture_subset_list = extended_det_va.get_next_states(initial_state, 'a');
 
-  ExtendedDetVAState* second_state = capture_subset_list[0].subset;
+  ExtendedDetVAState* second_state = (*capture_subset_list)[0].subset;
 
   REQUIRE(second_state->is_accepting());
 }
@@ -155,11 +148,10 @@ TEST_CASE("non ascii characters are handled correctly") {
 
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
 
-  std::vector<CaptureSubsetPair> capture_subset_list;
-  capture_subset_list =
+  auto* capture_subset_list =
       extended_det_va.get_next_states(initial_state, END_CHAR);
 
-  REQUIRE(capture_subset_list.size() == 1);
+  REQUIRE(capture_subset_list->size() == 1);
 }
 
 }  // namespace REmatch::testing

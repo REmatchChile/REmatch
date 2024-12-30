@@ -2,6 +2,10 @@
 
 #include "evaluation/document.hpp"
 
+#ifdef TRACY_ENABLE
+#include <tracy/Tracy.hpp>
+#endif
+
 using namespace REmatch;
 
 AlgorithmClass::AlgorithmClass(ExtendedVA& extended_va,
@@ -46,15 +50,19 @@ void AlgorithmClass::set_null_segment() {
 }
 
 void AlgorithmClass::evaluate_single_character() {
+  #ifdef TRACY_ENABLE
+  ZoneScoped;
+  #endif
+
   char letter = (*document_)[pos_i_];
 
   for (auto& current_state : current_states_) {
 
-    std::vector<CaptureSubsetPair> capture_subset_pairs =
+    auto* capture_subset_pairs =
         extended_det_va_.get_next_states(current_state, letter);
 
-    if (!capture_subset_pairs.empty()) {
-      update_sets(current_state, capture_subset_pairs);
+    if (!capture_subset_pairs->empty()) {
+      update_sets(current_state, *capture_subset_pairs);
     }
     else {
       ECS_interface_->unpin_node(current_state->output_node);
@@ -63,30 +71,29 @@ void AlgorithmClass::evaluate_single_character() {
 }
 
 void AlgorithmClass::update_sets(
-    ExtendedDetVAState*& current_state,
-    std::vector<CaptureSubsetPair> capture_subset_pairs) {
+    ExtendedDetVAState* current_state,
+    const std::vector<CaptureSubsetPair>& capture_subset_pairs) {
+  #ifdef TRACY_ENABLE
+  ZoneScoped;
+  #endif
 
   auto it = capture_subset_pairs.begin();
 
   // handle the empty capture
-  if (capture_subset_pairs[0].capture.none()) {
-    ExtendedDetVAState* next_state = capture_subset_pairs[0].subset;
-
-    ECSNode* next_node = current_state->get_node();
+  if (it->capture.none()) {
+    auto* next_state = capture_subset_pairs[0].subset;
+    auto* next_node = current_state->get_node();
     update_output_nodes(next_state, next_node);
-
-    it++;
+    ++it;
   }
 
-  // handle not empty captures, skip first pair if already updated
-  for (; it != capture_subset_pairs.end(); it++) {
-    auto pair = *it;
-    ExtendedDetVAState* next_state = pair.subset;
-    std::bitset<64> capture = pair.capture;
-
-    ECSNode* next_node = ECS_interface_->create_extend_node(
-        current_state->get_node(), capture, pos_i_);
+  // handle the non-empty captures
+  while (it != capture_subset_pairs.end()) {
+    auto* next_node = ECS_interface_->create_extend_node(
+        current_state->get_node(), it->capture, static_cast<int>(pos_i_));
+    auto* next_state = it->subset;
     update_output_nodes(next_state, next_node);
+    ++it;
   }
 
   ECS_interface_->unpin_node(current_state->get_node());
@@ -97,7 +104,7 @@ void AlgorithmClass::swap_state_lists() {
   next_states_.clear();
 }
 
-size_t AlgorithmClass::get_extended_det_va_size() {
+size_t AlgorithmClass::get_extended_det_va_size() const {
   return extended_det_va_.states.size();
 }
 

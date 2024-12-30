@@ -21,8 +21,8 @@ class FinditerAlgorithm : public AlgorithmClass {
 
  private:
   void evaluate();
-  void update_output_nodes(ExtendedDetVAState*& next_state,
-                           ECSNode*& next_node) override;
+  void update_output_nodes(ExtendedDetVAState* next_state,
+                           ECSNode* next_node) override;
   void enumerate();
   ECSNode* create_root_node_to_enumerate();
 };

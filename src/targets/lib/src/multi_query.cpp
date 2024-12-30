@@ -47,8 +47,7 @@ MultiMatch MultiQuery::findone(const std::string& document_) {
   auto mapping = mediator.next();
 
   if (mapping == nullptr) {
-    // TODO: Add correct exception/message
-    throw std::runtime_error("No match found");
+    throw REmatchException("No match found");
   }
 
   return {std::move(mapping), query_data_->variable_catalog, document};

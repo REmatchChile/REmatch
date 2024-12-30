@@ -50,8 +50,8 @@ class ECS { // Enumerable Compact Set
    * variables and the position in the document that this annotation is
    * referring to.
    */
-  ECSNode *create_extend_node(ECSNode* node, std::bitset<64> variable_markers,
-                  int document_position);
+  ECSNode* create_extend_node(ECSNode* node, std::bitset<64> variable_markers,
+                              int document_position);
   /**
    * Union nodes allow us to enumerate multiple outputs starting from a
    * single node.
@@ -62,7 +62,7 @@ class ECS { // Enumerable Compact Set
    * If the node is going to be used in another scope, it is necessary to
    * pin it so that the memory manager does not recycle its memory location.
    */
-  ECSNode *pin_node(ECSNode *node);
+  void pin_node(ECSNode *node);
 
   /**
    * If a node is no longer used, it should be unpinned, this allows the

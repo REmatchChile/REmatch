@@ -8,7 +8,7 @@
 #include "segment_identificator_manager.hpp"
 #include "evaluation/document.hpp"
 #ifdef TRACY_ENABLE
-#include "tracy/Tracy.hpp"
+#include <tracy/Tracy.hpp>
 #endif
 #include <REmatch/flags.hpp>
 
