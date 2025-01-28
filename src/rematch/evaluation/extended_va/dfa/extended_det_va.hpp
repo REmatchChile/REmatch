@@ -1,38 +1,31 @@
 #pragma once
 
+#include <REmatch/constants.hpp>
 #include "aliases.hpp"
 #include "capture_subset_pair.hpp"
+#include "evaluation/extended_va/dfa/state_manager/state_manager.hpp"
 #include "evaluation/extended_va/nfa/extended_va.hpp"
-#include "extended_det_va_state.hpp"
 #include "exceptions/dfa_state_limit_checker.hpp"
-#include <REmatch/constants.hpp>
+#include "extended_det_va_state.hpp"
 
 namespace REmatch {
 
 class ExtendedDetVA {
  private:
-  ExtendedDetVAState* initial_state_;
   ExtendedVA& extended_va_;
-  std::unordered_map<StatesBitset, ExtendedDetVAState*> bitset_to_state_map;
-  
-  void create_initial_state();
+  std::unique_ptr<StateManager> state_manager;
 
-  std::unordered_map<std::bitset<64>, StatesPtrSet> get_map_with_next_subsets(
+  std::unordered_map<std::bitset<64>, StatesPtrSet> get_next_subsets_map(
       ExtendedDetVAState*& current_state, char letter);
 
-  std::vector<CaptureSubsetPair> add_transitions_to_vector(
+  std::vector<CaptureSubsetPair> convert_to_dfa_states(
       std::unordered_map<std::bitset<64>, StatesPtrSet>& captures_subset_map);
 
   ExtendedDetVAState* create_state(StatesPtrSet& states_set);
   ExtendedDetVAState* create_state(StatesPtrSet& states_set,
                                    StatesBitset states_bitset);
 
-
-  size_t num_states;
-
-  int phase;
-
-  size_t clock_pointer;
+  int32_t phase = -1;
 
  public:
   DFAStateLimitChecker dfa_states_checker_;
@@ -40,24 +33,18 @@ class ExtendedDetVA {
                          uint_fast32_t max_deterministic_states =
                              REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
 
-  ~ExtendedDetVA();
-
-  ExtendedDetVAState* states[REmatch::DEFAULT_MAX_DETERMINISTIC_STATES];  
- 
   std::vector<CaptureSubsetPair> get_next_states(
       ExtendedDetVAState*& current_state, char letter);
 
-  ExtendedDetVAState* get_initial_state() { return initial_state_; }
-
-  StatesBitset get_bitset_from_states_set(StatesPtrSet& states_subset);
-
-  ExtendedDetVAState* get_state_from_subset(StatesPtrSet& states_set);
+  ExtendedDetVAState* get_initial_state() {
+    return state_manager->get_initial_state();
+  }
 
   void set_state_initial_phases();
 
   size_t get_extended_va_size();
-  
-  size_t get_num_states() const { return num_states; }
+
+  size_t get_num_states() const { return state_manager->get_num_states(); }
 
   void set_phase(int new_phase);
 
@@ -66,7 +53,6 @@ class ExtendedDetVA {
   void set_clock_pointer(size_t new_clock_pointer);
 
   ExtendedDetVAState* get_state_to_replace();
-
 };
 
 }  // namespace REmatch

@@ -1,5 +1,4 @@
-#ifndef EXTENDED_DET_VA_STATE_HPP
-#define EXTENDED_DET_VA_STATE_HPP
+#pragma once
 
 #include <optional>
 #include <set>
@@ -23,11 +22,11 @@ class ExtendedDetVAState {
   uint32_t id;
   std::vector<std::optional<std::vector<CaptureSubsetPair>>> cached_transitions{256, std::nullopt};
   ECSNode* output_node = nullptr;
-  int phase = -1;
+  int32_t phase = -1;
   bool second_chance = true;
 
   ExtendedDetVAState();
-  ExtendedDetVAState(StatesPtrSet &states_subset);
+  explicit ExtendedDetVAState(StatesPtrSet &states_subset);
 
   std::optional<std::vector<CaptureSubsetPair>> get_transition(char letter);
   void cache_transition(
@@ -42,7 +41,7 @@ class ExtendedDetVAState {
   ECSNode* get_node();
   void set_phase(int phase);
 
-  int get_subset_size() {return states_subset_.size(); }
+  uint64_t get_subset_size() {return states_subset_.size(); }
 
   std::vector<ExtendedVAState*> get_states_subset() const { return states_subset_; }
 
@@ -50,5 +49,3 @@ class ExtendedDetVAState {
 };
 
 }  // namespace REmatch
-
-#endif
