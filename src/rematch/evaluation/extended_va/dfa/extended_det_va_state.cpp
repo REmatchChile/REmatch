@@ -7,12 +7,11 @@ ExtendedDetVAState::ExtendedDetVAState() {
   id = ID++;
 }
 
-ExtendedDetVAState::ExtendedDetVAState(
-    StatesPtrSet &states_subset)
+ExtendedDetVAState::ExtendedDetVAState(StatesPtrSet& states_subset)
     : states_subset_(states_subset.begin(), states_subset.end()) {
   id = ID++;
 
-  for (auto& state: states_subset_) {
+  for (auto& state : states_subset_) {
     if (state->is_accepting()) {
       is_accepting_ = true;
     }
@@ -48,9 +47,8 @@ void ExtendedDetVAState::set_phase(int phase) {
 }
 
 void ExtendedDetVAState::cache_transition(
-    char letter,
-    std::optional<std::vector<CaptureSubsetPair>> capture_subset_pairs) {
-  cached_transitions[(uint8_t)letter] = capture_subset_pairs;
+    char letter, std::optional<std::vector<CaptureSubsetPair>> capture_subset_pairs) {
+  cached_transitions[(uint8_t)letter] = std::move(capture_subset_pairs);
 }
 
 std::optional<std::vector<CaptureSubsetPair>> ExtendedDetVAState::get_transition(char letter) {
@@ -61,7 +59,8 @@ unsigned int ExtendedDetVAState::ID = 0;
 
 void ExtendedDetVAState::reset(StatesPtrSet& new_states_subset) {
   // Limpiar cualquier estado previo
-  cached_transitions = std::vector<std::optional<std::vector<CaptureSubsetPair>>>(256, std::nullopt);
+  cached_transitions =
+      std::vector<std::optional<std::vector<CaptureSubsetPair>>>(256, std::nullopt);
   output_node = nullptr;
   phase = -1;
   is_initial_ = false;
@@ -69,7 +68,7 @@ void ExtendedDetVAState::reset(StatesPtrSet& new_states_subset) {
   id = ID++;
 
   // Asignar el nuevo subconjunto de estados
-  states_subset_.assign(new_states_subset.begin(), new_states_subset.end());
+  states_subset_ = new_states_subset;
 
   // Verificar si el nuevo conjunto contiene estados de aceptación
   for (auto& state : states_subset_) {

@@ -10,6 +10,7 @@ inline namespace library_interface {
 enum class REMATCH_EXPORT Flags : uint8_t {
   NONE = 0U,
   LINE_BY_LINE = 1U << 0,
+  CLOCK_POLICY = 1U << 1,
 };
 
 inline Flags operator|(Flags lhs, Flags rhs) {

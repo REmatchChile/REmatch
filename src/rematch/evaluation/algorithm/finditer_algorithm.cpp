@@ -4,9 +4,10 @@ namespace REmatch {
 
 FinditerAlgorithm::FinditerAlgorithm(ExtendedVA& extended_va,
                                      std::shared_ptr<Document> document,
+                                     Flags flags,
                                      uint_fast32_t max_mempool_duplications,
                                      uint_fast32_t max_deterministic_states)
-    : AlgorithmClass(extended_va, document, max_mempool_duplications,
+    : AlgorithmClass(extended_va, document, flags, max_mempool_duplications,
                      max_deterministic_states) {}
 
 const Mapping* FinditerAlgorithm::get_next_mapping() {

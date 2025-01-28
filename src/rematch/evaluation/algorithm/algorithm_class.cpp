@@ -4,12 +4,12 @@
 
 using namespace REmatch;
 
-AlgorithmClass::AlgorithmClass(ExtendedVA& extended_va,
-                               std::shared_ptr<Document> document,
-                               uint_fast32_t max_mempool_duplications, uint_fast32_t max_deterministic_states)
+AlgorithmClass::AlgorithmClass(ExtendedVA& extended_va, std::shared_ptr<Document> document,
+                               Flags flags, uint_fast32_t max_mempool_duplications,
+                               uint_fast32_t max_deterministic_states)
     : doc_end_i_(document->size()),
       document_(document),
-      extended_det_va_(extended_va, max_deterministic_states) {
+      extended_det_va_(extended_va, flags, max_deterministic_states) {
   ECS_interface_ = std::make_unique<ECS>(max_mempool_duplications);
   enumerator_ = std::make_unique<Enumerator>();
 
@@ -55,16 +55,14 @@ void AlgorithmClass::evaluate_single_character() {
 
     if (!capture_subset_pairs.empty()) {
       update_sets(current_state, capture_subset_pairs);
-    }
-    else {
+    } else {
       ECS_interface_->unpin_node(current_state->output_node);
     }
   }
 }
 
-void AlgorithmClass::update_sets(
-    ExtendedDetVAState*& current_state,
-    std::vector<CaptureSubsetPair> capture_subset_pairs) {
+void AlgorithmClass::update_sets(ExtendedDetVAState*& current_state,
+                                 std::vector<CaptureSubsetPair> capture_subset_pairs) {
 
   auto it = capture_subset_pairs.begin();
 
@@ -84,8 +82,8 @@ void AlgorithmClass::update_sets(
     ExtendedDetVAState* next_state = pair.subset;
     std::bitset<64> capture = pair.capture;
 
-    ECSNode* next_node = ECS_interface_->create_extend_node(
-        current_state->get_node(), capture, pos_i_);
+    ECSNode* next_node =
+        ECS_interface_->create_extend_node(current_state->get_node(), capture, pos_i_);
     update_output_nodes(next_state, next_node);
   }
 
@@ -98,8 +96,8 @@ void AlgorithmClass::swap_state_lists() {
 }
 
 size_t AlgorithmClass::get_num_states() {
-  return extended_det_va_.get_num_states();}
-
+  return extended_det_va_.get_num_states();
+}
 
 size_t AlgorithmClass::get_extended_det_va_size() {
   return extended_det_va_.get_num_states();
@@ -120,5 +118,3 @@ size_t AlgorithmClass::get_amount_of_nodes_reused() {
 size_t AlgorithmClass::get_amount_of_nodes_used() {
   return ECS_interface_->get_amount_of_nodes_used();
 }
-
-

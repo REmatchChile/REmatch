@@ -80,16 +80,18 @@ void MultiMatchGenerator::iterator::next() {
 
 MultiMatchGenerator::MultiMatchGenerator(std::shared_ptr<QueryData> query_data,
                                          const std::string& document,
+                                         Flags flags,
                                          uint_fast32_t max_mempool_duplications,
                                          uint_fast32_t max_deterministic_states)
     : query_data(query_data),
       document(std::make_shared<Document>(document)),
+      flags(flags),
       max_mempool_duplications(max_mempool_duplications),
       max_deterministic_states(max_deterministic_states) {}
 
 MultiMatchGenerator::iterator MultiMatchGenerator::begin() const {
   auto mediator = std::make_unique<MultiFinditerMediator>(
-      *query_data, document, max_mempool_duplications,
+      *query_data, document, flags, max_mempool_duplications,
       max_deterministic_states);
 
   return iterator(std::move(mediator), query_data->variable_catalog, document);

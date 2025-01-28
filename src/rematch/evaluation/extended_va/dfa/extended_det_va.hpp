@@ -1,6 +1,7 @@
 #pragma once
 
 #include <REmatch/constants.hpp>
+#include "REmatch/flags.hpp"
 #include "aliases.hpp"
 #include "capture_subset_pair.hpp"
 #include "evaluation/extended_va/dfa/state_manager/state_manager.hpp"
@@ -22,23 +23,17 @@ class ExtendedDetVA {
       std::unordered_map<std::bitset<64>, StatesPtrSet>& captures_subset_map);
 
   ExtendedDetVAState* create_state(StatesPtrSet& states_set);
-  ExtendedDetVAState* create_state(StatesPtrSet& states_set,
-                                   StatesBitset states_bitset);
+  ExtendedDetVAState* create_state(StatesPtrSet& states_set, StatesBitset states_bitset);
 
   int32_t phase = -1;
 
  public:
-  DFAStateLimitChecker dfa_states_checker_;
-  explicit ExtendedDetVA(ExtendedVA& extended_va,
-                         uint_fast32_t max_deterministic_states =
-                             REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
+  explicit ExtendedDetVA(ExtendedVA& extended_va, Flags flags = Flags() ,uint_fast32_t max_deterministic_states =
+                                                      REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
 
-  std::vector<CaptureSubsetPair> get_next_states(
-      ExtendedDetVAState*& current_state, char letter);
+  std::vector<CaptureSubsetPair> get_next_states(ExtendedDetVAState* current_state, char letter);
 
-  ExtendedDetVAState* get_initial_state() {
-    return state_manager->get_initial_state();
-  }
+  ExtendedDetVAState* get_initial_state() { return state_manager->get_initial_state(); }
 
   void set_state_initial_phases();
 

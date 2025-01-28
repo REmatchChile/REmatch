@@ -20,17 +20,19 @@ MultiQuery::MultiQuery(const std::string& pattern, Flags flags,
                        uint_fast32_t max_deterministic_states)
     : query_data_(std::make_shared<QueryData>(
           get_multi_query_data(pattern, flags, max_deterministic_states))),
+      flags(flags),
       max_mempool_duplications_(max_mempool_duplications),
       max_deterministic_states_(max_deterministic_states) {}
 
 MultiQuery::MultiQuery(MultiQuery&& other) noexcept
     : query_data_(std::move(other.query_data_)),
+      flags(other.flags),
       max_mempool_duplications_(other.max_mempool_duplications_),
       max_deterministic_states_(other.max_deterministic_states_) {}
 
 MultiQuery& MultiQuery::operator=(MultiQuery&& other) noexcept {
   query_data_ = std::move(other.query_data_);
-  max_mempool_duplications_ = other.max_mempool_duplications_;
+  flags = other.flags, max_mempool_duplications_ = other.max_mempool_duplications_;
   max_deterministic_states_ = other.max_deterministic_states_;
   return *this;
 }
@@ -40,9 +42,8 @@ MultiQuery::~MultiQuery() = default;
 MultiMatch MultiQuery::findone(const std::string& document_) {
   auto document = std::make_shared<Document>(document_);
 
-  auto mediator =
-      MultiFindoneMediator(*query_data_, document, max_mempool_duplications_,
-                           max_deterministic_states_);
+  auto mediator = MultiFindoneMediator(*query_data_, document, flags, max_mempool_duplications_,
+                                       max_deterministic_states_);
 
   auto mapping = mediator.next();
 
@@ -54,13 +55,12 @@ MultiMatch MultiQuery::findone(const std::string& document_) {
   return {std::move(mapping), query_data_->variable_catalog, document};
 }
 
-std::vector<MultiMatch> MultiQuery::findmany(const std::string& document,
-                                             uint_fast32_t limit) {
+std::vector<MultiMatch> MultiQuery::findmany(const std::string& document, uint_fast32_t limit) {
   std::vector<MultiMatch> res;
 
   const auto multi_match_generator = finditer(document);
-  for (auto it = multi_match_generator.begin();
-       it != multi_match_generator.end() && limit > 0; ++it, --limit) {
+  for (auto it = multi_match_generator.begin(); it != multi_match_generator.end() && limit > 0;
+       ++it, --limit) {
     res.emplace_back(std::move(*it));
   }
 
@@ -79,8 +79,7 @@ std::vector<MultiMatch> MultiQuery::findall(const std::string& document) {
 }
 
 MultiMatchGenerator MultiQuery::finditer(const std::string& document) {
-  return {query_data_, document, max_mempool_duplications_,
-          max_deterministic_states_};
+  return {query_data_, document, flags, max_mempool_duplications_, max_deterministic_states_};
 }
 
 bool MultiQuery::check(const std::string& document_) {

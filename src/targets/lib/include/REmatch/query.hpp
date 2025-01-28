@@ -41,6 +41,7 @@ class REMATCH_EXPORT Query {
  private:
   std::shared_ptr<QueryData> query_data_;
 
+  Flags flags;
   uint_fast32_t max_mempool_duplications_;
   uint_fast32_t max_deterministic_states_;
 };

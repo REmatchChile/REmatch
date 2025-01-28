@@ -2,14 +2,15 @@
 
 namespace REmatch {
 
-  // TODO: it should use a parameter here
-ClockStateManager::ClockStateManager(int32_t extended_va_size)
-    : dfa_states_checker_(REmatch::DEFAULT_MAX_DETERMINISTIC_STATES),
-      extended_va_size(extended_va_size) {}
+ClockStateManager::ClockStateManager(int32_t extended_va_size, uint32_t max_amount_of_states)
+    : states(max_amount_of_states),
+      extended_va_size(extended_va_size),
+      max_amount_of_states(max_amount_of_states) {}
 
 ClockStateManager::~ClockStateManager() {
-  // TODO:
-  for (auto& state : states) {}
+  for (uint32_t i = 0; i < num_states; ++i) {
+    delete states[i];
+  }
 }
 
 void ClockStateManager::create_initial_state(ExtendedVAState* nfa_initial_state) {
@@ -18,8 +19,8 @@ void ClockStateManager::create_initial_state(ExtendedVAState* nfa_initial_state)
   initial_subset.insert(nfa_initial_state);
   initial_state = new ExtendedDetVAState(initial_subset);
   initial_state->set_initial(true);
+  states[num_states++] = initial_state;
 
-  dfa_states_checker_.count_state();
   StatesBitset initial_state_bitset = get_bitset_from_states_set(initial_subset);
   bitset_to_state_map[initial_state_bitset] = initial_state;
 }
@@ -37,14 +38,11 @@ ExtendedDetVAState* ClockStateManager::create_state(StatesPtrSet& states_set,
     new_state = new ExtendedDetVAState(states_set);
     bitset_to_state_map[states_bitset] = new_state;
     states[num_states++] = new_state;
-    dfa_states_checker_.count_state();
-
   } else {
     ExtendedDetVAState* old_state = get_state_to_replace();
 
-    std::vector<ExtendedVAState*> old_subset_vector = old_state->get_states_subset();
-    StatesPtrSet old_subset_set(old_subset_vector.begin(), old_subset_vector.end());
-    StatesBitset old_bitset = get_bitset_from_states_set(old_subset_set);
+    StatesPtrSet old_subset = old_state->get_states_subset();
+    StatesBitset old_bitset = get_bitset_from_states_set(old_subset);
     bitset_to_state_map.erase(old_bitset);
 
     old_state->reset(states_set);
@@ -76,9 +74,9 @@ StatesBitset ClockStateManager::get_bitset_from_states_set(StatesPtrSet& states_
 }
 
 ExtendedDetVAState* ClockStateManager::get_state_to_replace() {
-  // Si da dos vueltas, se duplica el tamaño del buffer states
+  // TODO: Si da dos vueltas, se duplica el tamaño del buffer states
   while (true) {
-    clock_pointer = (clock_pointer + 1) % DEFAULT_MAX_DETERMINISTIC_STATES;
+    clock_pointer = (clock_pointer + 1) % max_amount_of_states;
 
     auto* candidate_state = states[clock_pointer];
 

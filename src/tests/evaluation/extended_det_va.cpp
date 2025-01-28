@@ -11,7 +11,7 @@ TEST_CASE("initial state is created correctly") {
   ExtendedVA extended_va = get_extended_va_from_query("a");
   ExtendedDetVA extended_det_va(extended_va);
   ExtendedDetVAState* initial_state = extended_det_va.get_initial_state();
-  std::vector<ExtendedVAState*> states_subset =
+  std::set<ExtendedVAState*> states_subset =
       initial_state->get_states_subset();
 
   REQUIRE(extended_det_va.get_num_states() == 1);

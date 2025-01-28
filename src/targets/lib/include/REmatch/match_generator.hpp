@@ -6,6 +6,7 @@
 #include <memory>
 #include <string>
 
+#include "REmatch/flags.hpp"
 #include "constants.hpp"
 
 #include "REmatch_export.hpp"
@@ -72,6 +73,7 @@ class REMATCH_EXPORT MatchGenerator {
 
   MatchGenerator(
       std::shared_ptr<QueryData> query_data, const std::string& document,
+      Flags flags = Flags(),
       uint_fast32_t max_mempool_duplications = DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
       uint_fast32_t max_deterministic_states =
           DEFAULT_MAX_DETERMINISTIC_STATES);
@@ -85,6 +87,7 @@ class REMATCH_EXPORT MatchGenerator {
 
   std::shared_ptr<Document> document;
 
+  Flags flags;
   uint_fast32_t max_mempool_duplications;
   uint_fast32_t max_deterministic_states;
 };

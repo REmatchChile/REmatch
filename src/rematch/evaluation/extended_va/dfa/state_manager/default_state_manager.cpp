@@ -2,8 +2,8 @@
 
 namespace REmatch {
 
-DefaultStateManager::DefaultStateManager(int32_t extended_va_size)
-    : dfa_states_checker_(REmatch::DEFAULT_MAX_DETERMINISTIC_STATES),
+DefaultStateManager::DefaultStateManager(int32_t extended_va_size, uint32_t max_deterministic_states)
+    : dfa_states_checker_(max_deterministic_states),
       extended_va_size(extended_va_size) {}
 
 DefaultStateManager::~DefaultStateManager() {

@@ -13,7 +13,7 @@ using namespace REmatch;
 
 class AlgorithmClass {
  public:
-  AlgorithmClass(ExtendedVA& extended_va, std::shared_ptr<Document> document,
+  AlgorithmClass(ExtendedVA& extended_va, std::shared_ptr<Document> document, Flags flags,
                  uint_fast32_t max_mempool_duplications, uint_fast32_t max_deterministic_states);
 
   void initialize_algorithm();
@@ -27,7 +27,7 @@ class AlgorithmClass {
   size_t get_amount_of_nodes_allocated();
   size_t get_amount_of_nodes_reused();
   size_t get_amount_of_nodes_used();
-  size_t get_num_states(); 
+  size_t get_num_states();
 
   virtual ~AlgorithmClass() = default;
 
@@ -50,8 +50,7 @@ class AlgorithmClass {
   void evaluate_single_character();
   void update_sets(ExtendedDetVAState*& current_state,
                    std::vector<CaptureSubsetPair> capture_subset_pairs);
-  virtual void update_output_nodes(ExtendedDetVAState*& next_state,
-                                   ECSNode*& next_node) = 0;
+  virtual void update_output_nodes(ExtendedDetVAState*& next_state, ECSNode*& next_node) = 0;
 
   void swap_state_lists();
 };

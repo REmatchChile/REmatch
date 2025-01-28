@@ -16,7 +16,7 @@ class ExtendedDetVAState {
   bool is_initial_ = false;
   bool is_accepting_ = false;
 
-  std::vector<ExtendedVAState*> states_subset_;
+  std::set<ExtendedVAState*> states_subset_;
 
  public:
   uint32_t id;
@@ -43,7 +43,7 @@ class ExtendedDetVAState {
 
   uint64_t get_subset_size() {return states_subset_.size(); }
 
-  std::vector<ExtendedVAState*> get_states_subset() const { return states_subset_; }
+  std::set<ExtendedVAState*> get_states_subset() const { return states_subset_; }
 
   void reset(StatesPtrSet& new_states_subset);
 };

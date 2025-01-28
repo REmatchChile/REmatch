@@ -2,10 +2,10 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <string>
 #include <iterator>
 #include <memory>
 
+#include "REmatch/flags.hpp"
 #include "constants.hpp"
 
 #include "REmatch_export.hpp"
@@ -70,11 +70,10 @@ class REMATCH_EXPORT MultiMatchGenerator {
     void next();
   };
 
-  MultiMatchGenerator(
-      std::shared_ptr<QueryData> query_data, const std::string& document,
-      uint_fast32_t max_mempool_duplications = DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
-      uint_fast32_t max_deterministic_states =
-          DEFAULT_MAX_DETERMINISTIC_STATES);
+  MultiMatchGenerator(std::shared_ptr<QueryData> query_data, const std::string& document,
+                      Flags flags = Flags(),
+                      uint_fast32_t max_mempool_duplications = DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+                      uint_fast32_t max_deterministic_states = DEFAULT_MAX_DETERMINISTIC_STATES);
 
   iterator begin() const;
 
@@ -85,6 +84,7 @@ class REMATCH_EXPORT MultiMatchGenerator {
 
   std::shared_ptr<Document> document;
 
+  Flags flags;
   uint_fast32_t max_mempool_duplications;
   uint_fast32_t max_deterministic_states;
 };
