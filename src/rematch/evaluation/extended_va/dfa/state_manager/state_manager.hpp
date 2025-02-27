@@ -13,5 +13,7 @@ class StateManager {
   virtual ExtendedDetVAState* get_state_from_subset(StatesPtrSet& subset) = 0;
   virtual uint32_t get_num_states() = 0;
   virtual void set_state_initial_phases() = 0;
+
+  virtual void set_phase(int32_t) {};
 };
 }  // namespace REmatch

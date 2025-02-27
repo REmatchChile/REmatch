@@ -34,8 +34,5 @@ class DefaultStateManager : public StateManager {
   uint32_t get_num_states() override { return states.size(); };
 
   ExtendedDetVAState* create_state(StatesPtrSet& states_set, StatesBitset& states_bitset);
-
-  void set_clock_pointer(uint64_t new_clock_pointer);
-  ExtendedDetVAState* get_state_to_replace();
 };
 }  // namespace REmatch

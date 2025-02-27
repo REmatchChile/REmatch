@@ -10,7 +10,8 @@ ExtendedDetVA::ExtendedDetVA(ExtendedVA& extended_va, Flags flags,
                              uint_fast32_t max_deterministic_states)
     : extended_va_(extended_va) {
   if ((flags & Flags::CLOCK_POLICY) != Flags::NONE) {
-    state_manager = std::make_unique<ClockStateManager>(extended_va.size());
+    state_manager =
+        std::make_unique<ClockStateManager>(extended_va.size(), max_deterministic_states);
   } else {
     state_manager =
         std::make_unique<DefaultStateManager>(extended_va.size(), max_deterministic_states);
@@ -20,8 +21,11 @@ ExtendedDetVA::ExtendedDetVA(ExtendedVA& extended_va, Flags flags,
 
 std::vector<CaptureSubsetPair> ExtendedDetVA::get_next_states(ExtendedDetVAState* current_state,
                                                               char letter) {
-  set_phase(current_state->phase);
-  // TODO: do i need to set second chance here?
+  state_manager->set_phase(current_state->phase);
+  // phase is used to prevent deleting states reached in the current iteration
+  phase = current_state->phase;
+
+  // TODO: do i need to set second chance here? maybe we should set this when reaching the state
   current_state->second_chance = true;
   std::optional<std::vector<CaptureSubsetPair>> capture_subset_pairs =
       current_state->get_transition(letter);
@@ -67,7 +71,14 @@ std::vector<CaptureSubsetPair> ExtendedDetVA::convert_to_dfa_states(
 
   auto it = captures_subset_map.find(empty_capture);
   if (it != captures_subset_map.end()) {
+    // TODO: this state cannot be deleted on this phase
     ExtendedDetVAState* next_state = state_manager->get_state_from_subset(it->second);
+
+    // change the phase so that this state is not deleted on the current iteration
+    if (next_state->phase < phase) {
+      next_state->set_phase(phase - 1);
+    }
+
     auto capture_subset_pair = CaptureSubsetPair{empty_capture, next_state, next_state->id};
     capture_subset_pairs.push_back(capture_subset_pair);
 
@@ -77,6 +88,12 @@ std::vector<CaptureSubsetPair> ExtendedDetVA::convert_to_dfa_states(
   for (auto& bitset_subset_pair : captures_subset_map) {
     ExtendedDetVAState* next_state =
         state_manager->get_state_from_subset(bitset_subset_pair.second);
+
+    // change the phase so that this state is not deleted on the current iteration
+    if (next_state->phase < phase) {
+      next_state->set_phase(phase - 1);
+    }
+
     auto capture_subset_pair =
         CaptureSubsetPair{bitset_subset_pair.first, next_state, next_state->id};
     capture_subset_pairs.push_back(capture_subset_pair);

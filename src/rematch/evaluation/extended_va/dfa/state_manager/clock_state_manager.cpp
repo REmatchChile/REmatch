@@ -34,13 +34,15 @@ ExtendedDetVAState* ClockStateManager::create_state(StatesPtrSet& states_set,
                                                     StatesBitset& states_bitset) {
   ExtendedDetVAState* new_state;
 
-  if (num_states < REmatch::DEFAULT_MAX_DETERMINISTIC_STATES) {
-    new_state = new ExtendedDetVAState(states_set);
-    bitset_to_state_map[states_bitset] = new_state;
-    states[num_states++] = new_state;
+  if (num_states < max_amount_of_states) {
+    return alloc_new_state(states_set, states_bitset);
+
   } else {
     ExtendedDetVAState* old_state = get_state_to_replace();
 
+    if (old_state == nullptr) {
+      return alloc_new_state(states_set, states_bitset);
+    }
     StatesPtrSet old_subset = old_state->get_states_subset();
     StatesBitset old_bitset = get_bitset_from_states_set(old_subset);
     bitset_to_state_map.erase(old_bitset);
@@ -50,6 +52,14 @@ ExtendedDetVAState* ClockStateManager::create_state(StatesPtrSet& states_set,
 
     new_state = old_state;
   }
+  return new_state;
+}
+
+ExtendedDetVAState* ClockStateManager::alloc_new_state(StatesPtrSet& states_set,
+                                                       StatesBitset& states_bitset) {
+  auto new_state = new ExtendedDetVAState(states_set);
+  bitset_to_state_map[states_bitset] = new_state;
+  states[num_states++] = new_state;
   return new_state;
 }
 
@@ -74,13 +84,25 @@ StatesBitset ClockStateManager::get_bitset_from_states_set(StatesPtrSet& states_
 }
 
 ExtendedDetVAState* ClockStateManager::get_state_to_replace() {
-  // TODO: Si da dos vueltas, se duplica el tamaño del buffer states
+  uint32_t initial_clock = clock_pointer;
+
   while (true) {
     clock_pointer = (clock_pointer + 1) % max_amount_of_states;
 
+    if (initial_clock == clock_pointer) {
+      if (second_round) {
+        second_round = false;
+        duplicate();
+        return nullptr;
+      } else {
+        second_round = true;
+      }
+    }
+
     auto* candidate_state = states[clock_pointer];
 
-    if (candidate_state->phase == phase || candidate_state->phase == phase - 1 ||
+    if (candidate_state->phase == phase + 1 || candidate_state->phase == phase ||
+        candidate_state->phase == phase - 1 || candidate_state->phase == -1 ||
         candidate_state->is_initial()) {
       continue;
     }
@@ -94,10 +116,19 @@ ExtendedDetVAState* ClockStateManager::get_state_to_replace() {
   }
 }
 
+void ClockStateManager::duplicate() {
+  max_amount_of_states *= 2;
+  states.resize(max_amount_of_states);
+}
+
 void ClockStateManager::set_state_initial_phases() {
   for (size_t i = 0; i < num_states; ++i) {
     states[i]->set_phase(-1);
   }
+}
+
+void ClockStateManager::set_phase(int32_t new_phase) {
+  phase = new_phase;
 }
 
 }  // namespace REmatch

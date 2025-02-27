@@ -11,17 +11,22 @@
 namespace REmatch {
 
 class ClockStateManager : public StateManager {
- public:
+ private:
+  uint32_t clock_pointer = 0;
+  bool second_round = false;
+  int32_t phase = -1;
+
   std::vector<ExtendedDetVAState*> states;
   std::unordered_map<StatesBitset, ExtendedDetVAState*> bitset_to_state_map;
-  ExtendedDetVAState* initial_state = nullptr;
 
+  void duplicate();
+  ExtendedDetVAState* alloc_new_state(StatesPtrSet& states_set, StatesBitset& states_bitset);
+
+ public:
+  ExtendedDetVAState* initial_state = nullptr;
   uint64_t extended_va_size;
   uint32_t num_states = 0;
   uint32_t max_amount_of_states;
-
-  uint32_t clock_pointer = 0;
-  int32_t phase = -1;
 
   explicit ClockStateManager(int32_t extended_va_size,
                              uint32_t max_amount_of_states = DEFAULT_MAX_DETERMINISTIC_STATES);
@@ -41,5 +46,7 @@ class ClockStateManager : public StateManager {
 
   void set_clock_pointer(uint64_t new_clock_pointer);
   ExtendedDetVAState* get_state_to_replace();
+
+  void set_phase(int32_t phase) override;
 };
 }  // namespace REmatch
