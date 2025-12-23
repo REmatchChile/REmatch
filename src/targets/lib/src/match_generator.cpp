@@ -1,6 +1,7 @@
 #include <REmatch/match_generator.hpp>
 
-#include "mediator/mediator/finditer_mediator.hpp"
+#include "mediator/finditer_mediator/finditer_mediator.hpp"
+#include "mediator/mediator_constructor.hpp"
 #include "parsing/variable_catalog.hpp"
 #include "utils/statistics.hpp"
 
@@ -9,13 +10,14 @@
 namespace REmatch {
 inline namespace library_interface {
 
-MatchGenerator::iterator::iterator(
-    std::unique_ptr<FinditerMediator> mediator_,
-    std::shared_ptr<VariableCatalog> variable_catalog_,
-    std::shared_ptr<Document> document_)
+/* MatchGenerator iterator */
+
+MatchGenerator::iterator::iterator(std::unique_ptr<Mediator> mediator_,
+                                   std::shared_ptr<VariableCatalog> variable_catalog_,
+                                   std::shared_ptr<Document> document)
     : mediator(std::move(mediator_)),
-      variable_catalog(variable_catalog_),
-      document(document_),
+      variable_catalog(std::move(variable_catalog_)),
+      document(std::move(document)),
       match_ptr(nullptr) {
   next();
 }
@@ -27,8 +29,7 @@ MatchGenerator::iterator::iterator(iterator&& other) noexcept
       stats(std::move(other.stats)),
       match_ptr(std::move(other.match_ptr)) {}
 
-MatchGenerator::iterator& MatchGenerator::iterator::operator=(
-    iterator&& other) noexcept {
+MatchGenerator::iterator& MatchGenerator::iterator::operator=(iterator&& other) noexcept {
   mediator = std::move(other.mediator);
   variable_catalog = std::move(other.variable_catalog);
   document = std::move(other.document);
@@ -41,8 +42,7 @@ MatchGenerator::iterator::iterator() : match_ptr(nullptr) {}
 
 MatchGenerator::iterator::~iterator() = default;
 
-MatchGenerator::iterator::reference MatchGenerator::iterator::operator*()
-    const {
+MatchGenerator::iterator::reference MatchGenerator::iterator::operator*() const {
   return *match_ptr;
 }
 
@@ -71,8 +71,7 @@ void MatchGenerator::iterator::next() {
   auto mapping = mediator->next();
 
   if (mapping) {
-    match_ptr =
-        std::make_unique<Match>(std::move(mapping), variable_catalog, document);
+    match_ptr = std::make_unique<Match>(std::move(mapping), variable_catalog, document);
     return;
   }
 
@@ -80,20 +79,15 @@ void MatchGenerator::iterator::next() {
   stats = collect_statistics(*mediator);
 }
 
+/* MatchGenerator */
+
 MatchGenerator::MatchGenerator(std::shared_ptr<QueryData> query_data,
-                               const std::string& document,
-                               uint_fast32_t max_mempool_duplications,
-                               uint_fast32_t max_deterministic_states)
-    : query_data(query_data),
-      document(std::make_shared<Document>(document)),
-      max_mempool_duplications(max_mempool_duplications),
-      max_deterministic_states(max_deterministic_states) {}
+                               std::shared_ptr<Document> document)
+    : query_data(std::move(query_data)), document(std::move(document)) {}
 
 MatchGenerator::iterator MatchGenerator::begin() const {
-  auto mediator = std::make_unique<FinditerMediator>(*query_data, document,
-                                                     max_mempool_duplications,
-                                                     max_deterministic_states);
-
+  std::unique_ptr<Mediator> mediator =
+      MediatorConstructor::create_finditer_mediator(*query_data, document);
   return iterator(std::move(mediator), query_data->variable_catalog, document);
 }
 

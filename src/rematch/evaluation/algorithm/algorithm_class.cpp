@@ -8,95 +8,8 @@
 
 using namespace REmatch;
 
-AlgorithmClass::AlgorithmClass(ExtendedVA& extended_va,
-                               std::shared_ptr<Document> document,
-                               uint_fast32_t max_mempool_duplications, uint_fast32_t max_deterministic_states)
-    : doc_end_i_(document->size()),
-      document_(document),
-      extended_det_va_(extended_va, max_deterministic_states) {
-  ECS_interface_ = std::make_unique<ECS>(max_mempool_duplications);
-  enumerator_ = std::make_unique<Enumerator>();
-
-  ExtendedDetVAState* initial_state = extended_det_va_.get_initial_state();
-  ECSNode* bottom_node = ECS_interface_->create_bottom_node();
-  initial_state->set_node(bottom_node);
-  ECS_interface_->pin_node(bottom_node);
-
-  initialize_algorithm();
-}
-
-void AlgorithmClass::initialize_algorithm() {
-  pos_i_ = doc_start_i_;
-  current_states_.clear();
-  next_states_.clear();
-  reached_final_states_.clear();
-
-  extended_det_va_.set_state_initial_phases();
-  ExtendedDetVAState* initial_state = extended_det_va_.get_initial_state();
-  current_states_.push_back(initial_state);
-}
-
-ECS& AlgorithmClass::get_ecs() {
+ECS& AlgorithmClass::get_ecs() const {
   return *ECS_interface_;
-}
-
-void AlgorithmClass::set_document_indexes(Span& span) {
-  doc_start_i_ = span.first;
-  doc_end_i_ = span.second;
-}
-
-void AlgorithmClass::set_null_segment() {
-  doc_end_i_ = doc_start_i_;
-}
-
-void AlgorithmClass::evaluate_single_character() {
-  #ifdef TRACY_ENABLE
-  ZoneScoped;
-  #endif
-
-  char letter = (*document_)[pos_i_];
-
-  for (auto& current_state : current_states_) {
-
-    auto* capture_subset_pairs =
-        extended_det_va_.get_next_states(current_state, letter);
-
-    if (!capture_subset_pairs->empty()) {
-      update_sets(current_state, *capture_subset_pairs);
-    }
-    else {
-      ECS_interface_->unpin_node(current_state->output_node);
-    }
-  }
-}
-
-void AlgorithmClass::update_sets(
-    ExtendedDetVAState* current_state,
-    const std::vector<CaptureSubsetPair>& capture_subset_pairs) {
-  #ifdef TRACY_ENABLE
-  ZoneScoped;
-  #endif
-
-  auto it = capture_subset_pairs.begin();
-
-  // handle the empty capture
-  if (it->capture.none()) {
-    auto* next_state = capture_subset_pairs[0].subset;
-    auto* next_node = current_state->get_node();
-    update_output_nodes(next_state, next_node);
-    ++it;
-  }
-
-  // handle the non-empty captures
-  while (it != capture_subset_pairs.end()) {
-    auto* next_node = ECS_interface_->create_extend_node(
-        current_state->get_node(), it->capture, static_cast<int>(pos_i_));
-    auto* next_state = it->subset;
-    update_output_nodes(next_state, next_node);
-    ++it;
-  }
-
-  ECS_interface_->unpin_node(current_state->get_node());
 }
 
 void AlgorithmClass::swap_state_lists() {
@@ -105,22 +18,21 @@ void AlgorithmClass::swap_state_lists() {
 }
 
 size_t AlgorithmClass::get_extended_det_va_size() const {
-  return extended_det_va_.states.size();
+  return extended_det_va_->states.size();
 }
 
-size_t AlgorithmClass::get_extended_va_size() {
-  return extended_det_va_.get_extended_va_size();
+size_t AlgorithmClass::get_extended_va_size() const {
+  return extended_det_va_->get_extended_va_size();
 }
 
-size_t AlgorithmClass::get_amount_of_nodes_allocated() {
+size_t AlgorithmClass::get_amount_of_nodes_allocated() const {
   return ECS_interface_->amount_of_nodes_allocated();
 }
 
-size_t AlgorithmClass::get_amount_of_nodes_reused() {
+size_t AlgorithmClass::get_amount_of_nodes_reused() const {
   return ECS_interface_->get_amount_of_nodes_reused();
 }
 
-size_t AlgorithmClass::get_amount_of_nodes_used() {
+size_t AlgorithmClass::get_amount_of_nodes_used() const {
   return ECS_interface_->get_amount_of_nodes_used();
 }
-

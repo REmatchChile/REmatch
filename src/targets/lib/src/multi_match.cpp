@@ -71,7 +71,8 @@ MultiMatch::~MultiMatch() = default;
 
 std::vector<Span> MultiMatch::spans(uint_fast32_t variable_id) const {
   if (variable_id >= variable_catalog_->size()) {
-    throw VariableNotFoundInCatalogException("");
+    std::string var_name = variable_catalog_->get_var(variable_id);
+    throw VariableNotFoundException(var_name);
   }
 
   if (mapping_cache_ == nullptr) {
@@ -89,7 +90,8 @@ std::vector<Span> MultiMatch::spans(const std::string& variable_name) const {
 
 std::vector<std::string> MultiMatch::groups(uint_fast32_t variable_id) const {
   if ((size_t)variable_id >= variable_catalog_->size()) {
-    throw VariableNotFoundInCatalogException("");
+    std::string var_name = variable_catalog_->get_var(variable_id);
+    throw VariableNotFoundException(var_name);
   }
 
   if (mapping_cache_ == nullptr) {

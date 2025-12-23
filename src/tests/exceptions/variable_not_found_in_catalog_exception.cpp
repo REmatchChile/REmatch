@@ -14,7 +14,7 @@ TEST_CASE("accessing nonexistent variable raises an exception") {
       parser.get_variable_catalog();
 
   REQUIRE_THROWS_AS(variable_catalog->position("y"),
-                    REmatch::VariableNotFoundInCatalogException);
+                    REmatch::VariableNotFoundException);
 }
 
 }  // namespace REmatch::testing

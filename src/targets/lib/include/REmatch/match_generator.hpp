@@ -12,7 +12,7 @@
 
 namespace REmatch {
 class Document;
-class FinditerMediator;
+class Mediator;
 struct QueryData;
 struct Statistics;
 
@@ -34,7 +34,7 @@ class REMATCH_EXPORT MatchGenerator {
     using reference = Match&;
 
     // called with begin()
-    explicit iterator(std::unique_ptr<FinditerMediator> mediator_,
+    explicit iterator(std::unique_ptr<Mediator> mediator_,
                       std::shared_ptr<VariableCatalog> variable_catalog_,
                       std::shared_ptr<Document> document_);
 
@@ -57,7 +57,7 @@ class REMATCH_EXPORT MatchGenerator {
     bool operator!=(const iterator& other) const;
 
    private:
-    std::unique_ptr<FinditerMediator> mediator;
+    std::unique_ptr<Mediator> mediator;
 
     std::shared_ptr<parsing::VariableCatalog> variable_catalog;
 
@@ -70,11 +70,7 @@ class REMATCH_EXPORT MatchGenerator {
     void next();
   };
 
-  MatchGenerator(
-      std::shared_ptr<QueryData> query_data, const std::string& document,
-      uint_fast32_t max_mempool_duplications = DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
-      uint_fast32_t max_deterministic_states =
-          DEFAULT_MAX_DETERMINISTIC_STATES);
+  MatchGenerator(std::shared_ptr<QueryData> query_data, std::shared_ptr<Document> document);
 
   iterator begin() const;
 
@@ -84,9 +80,6 @@ class REMATCH_EXPORT MatchGenerator {
   std::shared_ptr<QueryData> query_data;
 
   std::shared_ptr<Document> document;
-
-  uint_fast32_t max_mempool_duplications;
-  uint_fast32_t max_deterministic_states;
 };
 
 }  // namespace library_interface

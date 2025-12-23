@@ -141,7 +141,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/rematch)
 # Compile and install related commands.
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-if(NOT EMSCRPTEN AND NOT SKBUILD)
+if(NOT EMSCRIPTEN AND NOT SKBUILD)
   # Create and install CMake configuration files for your project that are
   # necessary to for other projects to call find_package(LibTemplateCMake).
   #

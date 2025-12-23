@@ -14,6 +14,9 @@ TEST_CASE("find method simple test") {
   Query regex = reql(pattern);
   auto match = regex.findone(document);
 
+  std::stringstream ss;
+  ss << match.span("x").first << " " << match.span("x").second;
+  INFO(ss.str());
   REQUIRE(match.span("x") == Span(10, 13));
 }
 
@@ -45,8 +48,7 @@ TEST_CASE("client interface with no matches") {
   REQUIRE(match_generator.begin() == match_generator.end());
 }
 
-TEST_CASE(
-    "client interface returns empty match if there are no variables in regex") {
+TEST_CASE("client interface returns empty match if there are no variables in regex") {
   std::string document = "This is a document";
   std::string pattern = "a document";
   Query regex = reql(pattern);
@@ -83,9 +85,9 @@ TEST_CASE("client interface with + quantifier") {
   Query regex = reql(pattern);
   auto match_iterator = regex.finditer(document);
 
-  std::vector<DummyMapping> expected_matches = {
-      DummyMapping({{"x", {0, 16}}}), DummyMapping({{"x", {6, 16}}}),
-      DummyMapping({{"x", {12, 16}}})};
+  std::vector<DummyMapping> expected_matches = {DummyMapping({{"x", {0, 16}}}),
+                                                DummyMapping({{"x", {6, 16}}}),
+                                                DummyMapping({{"x", {12, 16}}})};
 
   run_client_test(match_iterator, expected_matches);
 }
@@ -97,12 +99,9 @@ TEST_CASE("client interface with * quantifier") {
   auto match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
-      DummyMapping({{"x", {1, 2}}, {"y", {1, 2}}}),
-      DummyMapping({{"x", {0, 2}}, {"y", {1, 2}}}),
-      DummyMapping({{"x", {1, 3}}, {"y", {1, 2}}}),
-      DummyMapping({{"x", {0, 3}}, {"y", {1, 2}}}),
-      DummyMapping({{"x", {3, 4}}, {"y", {3, 4}}}),
-      DummyMapping({{"x", {2, 4}}, {"y", {3, 4}}})};
+      DummyMapping({{"x", {1, 2}}, {"y", {1, 2}}}), DummyMapping({{"x", {0, 2}}, {"y", {1, 2}}}),
+      DummyMapping({{"x", {1, 3}}, {"y", {1, 2}}}), DummyMapping({{"x", {0, 3}}, {"y", {1, 2}}}),
+      DummyMapping({{"x", {3, 4}}, {"y", {3, 4}}}), DummyMapping({{"x", {2, 4}}, {"y", {3, 4}}})};
 
   run_client_test(match_iterator, expected_matches);
 }
@@ -114,9 +113,8 @@ TEST_CASE("client interface with ? quantifier") {
   auto match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
-      DummyMapping({{"x", {1, 3}}}), DummyMapping({{"x", {0, 3}}}),
-      DummyMapping({{"x", {5, 7}}}), DummyMapping({{"x", {4, 7}}}),
-      DummyMapping({{"x", {5, 8}}})};
+      DummyMapping({{"x", {1, 3}}}), DummyMapping({{"x", {0, 3}}}), DummyMapping({{"x", {5, 7}}}),
+      DummyMapping({{"x", {4, 7}}}), DummyMapping({{"x", {5, 8}}})};
 
   run_client_test(match_iterator, expected_matches);
 }
@@ -152,8 +150,8 @@ TEST_CASE("client interface with short hand character classes (\\w)") {
   Query regex = reql(pattern);
   auto match_iterator = regex.finditer(document);
 
-  std::vector<DummyMapping> expected_matches = {
-      DummyMapping({{"var", {1, 10}}}), DummyMapping({{"var", {15, 24}}})};
+  std::vector<DummyMapping> expected_matches = {DummyMapping({{"var", {1, 10}}}),
+                                                DummyMapping({{"var", {15, 24}}})};
 
   run_client_test(match_iterator, expected_matches);
 }
@@ -165,10 +163,8 @@ TEST_CASE("client interface with short hand character classes (\\s)") {
   auto match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
-      DummyMapping({{"whitespace", {1, 3}}}),
-      DummyMapping({{"whitespace", {0, 3}}}),
-      DummyMapping({{"whitespace", {5, 7}}}),
-      DummyMapping({{"whitespace", {4, 7}}})};
+      DummyMapping({{"whitespace", {1, 3}}}), DummyMapping({{"whitespace", {0, 3}}}),
+      DummyMapping({{"whitespace", {5, 7}}}), DummyMapping({{"whitespace", {4, 7}}})};
 
   run_client_test(match_iterator, expected_matches);
 }
@@ -290,10 +286,8 @@ TEST_CASE("client interface with special characters inside a negated set") {
   auto match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
-      DummyMapping({{"x", {0, 1}}, {"y", {1, 2}}}),
-      DummyMapping({{"x", {0, 1}}, {"y", {2, 3}}}),
-      DummyMapping({{"x", {0, 1}}, {"y", {4, 5}}}),
-      DummyMapping({{"x", {2, 3}}, {"y", {4, 5}}}),
+      DummyMapping({{"x", {0, 1}}, {"y", {1, 2}}}), DummyMapping({{"x", {0, 1}}, {"y", {2, 3}}}),
+      DummyMapping({{"x", {0, 1}}, {"y", {4, 5}}}), DummyMapping({{"x", {2, 3}}, {"y", {4, 5}}}),
       DummyMapping({{"x", {3, 4}}, {"y", {4, 5}}}),
   };
 

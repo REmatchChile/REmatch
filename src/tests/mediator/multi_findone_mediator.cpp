@@ -4,7 +4,8 @@
 #include <REmatch/REmatch.hpp>
 #include "../evaluation/mapping_helpers.hpp"
 #include "../tests_utils/tests_utils.hpp"
-#include "mediator/mediator/multi_findone_mediator.hpp"
+#include "mediator/mediator_constructor.hpp"
+#include "mediator/multi_findone_mediator/multi_findone_mediator.hpp"
 #include "output_enumeration/extended_mapping.hpp"
 #include "parsing/parser.hpp"
 
@@ -19,16 +20,13 @@ TEST_CASE(
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va = ExtendedVA(logical_va);
   extended_va.clean_for_determinization();
-  std::shared_ptr<VariableCatalog> variable_catalog =
-      parser.get_variable_catalog();
-  auto segment_manager_creator = SegmentManagerCreator(
-      logical_va, Flags::NONE, REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
+  std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
 
-  QueryData regex_data{std::move(segment_manager_creator),
-                       std::move(extended_va), variable_catalog};
-  auto mediator = MultiFindoneMediator(regex_data, document);
+  QueryData regex_data{std::move(extended_va), variable_catalog, logical_va, Flags::NONE,
+                       DEFAULT_MAX_DETERMINISTIC_STATES};
+  auto mediator = MediatorConstructor::create_multi_findone_mediator(regex_data, document);
 
-  std::unique_ptr<ExtendedMapping> mapping = mediator.next();
+  std::unique_ptr<ExtendedMapping> mapping = mediator->next();
   REQUIRE(mapping == nullptr);
 }
 
@@ -41,16 +39,13 @@ TEST_CASE(
   LogicalVA logical_va = parser.get_logical_va();
   ExtendedVA extended_va = ExtendedVA(logical_va);
   extended_va.clean_for_determinization();
-  std::shared_ptr<VariableCatalog> variable_catalog =
-      parser.get_variable_catalog();
-  auto segment_manager_creator = SegmentManagerCreator(
-      logical_va, Flags::NONE, REmatch::DEFAULT_MAX_DETERMINISTIC_STATES);
+  std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
 
-  QueryData regex_data{std::move(segment_manager_creator),
-                       std::move(extended_va), variable_catalog};
-  auto mediator = MultiFindoneMediator(regex_data, document);
+  QueryData regex_data{std::move(extended_va), variable_catalog, logical_va, Flags::NONE,
+                       DEFAULT_MAX_DETERMINISTIC_STATES};
+  auto mediator = MediatorConstructor::create_findone_mediator(regex_data, document);
 
-  std::unique_ptr<ExtendedMapping> mapping = mediator.next();
+  std::unique_ptr<mediator::Mapping> mapping = mediator->next();
   REQUIRE(mapping != nullptr);
 }
 

@@ -6,7 +6,7 @@
 namespace REmatch::testing {
 
 TEST_CASE("multi match iterator returns the correct matches") {
-  std::string pattern = "(^|[^\\w])!x{\\w+} !x{\\w+}($|[^\\w])";
+  std::string pattern = R"((^|[^\w])!x{\w+} !x{\w+}($|[^\w]))";
   std::string document = "one two three";
 
   auto query = multi_reql(pattern);

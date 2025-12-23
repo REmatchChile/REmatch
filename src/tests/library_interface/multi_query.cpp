@@ -80,10 +80,8 @@ TEST_CASE("multi regex returns the correct result when using quantifiers") {
 }
 
 TEST_CASE("multi regex returns the correct result when using char classes") {
-  std::string pattern =
-      "(\\n|^) !line{[0-9]+(\\* |  )!com{\\w+}( !args{[^ \\n]+})*}(\\n|$)";
-  std::string document =
-      " 1  git pull\n 2  python3 --version\n 3* apt install texlive";
+  std::string pattern = R"((\n|^) !line{[0-9]+(\* |  )!com{\w+}( !args{[^ \n]+})*}(\n|$))";
+  std::string document = " 1  git pull\n 2  python3 --version\n 3* apt install texlive";
 
   auto query = multi_reql(pattern);
   auto match_generator = query.finditer(document);
@@ -103,8 +101,7 @@ TEST_CASE("multi regex returns the correct result when using char classes") {
   REQUIRE(++it != end);
   match = *(it);
   REQUIRE(match.groups("com") == std::vector<std::string>{"apt"});
-  REQUIRE(match.groups("args") ==
-          std::vector<std::string>{"install", "texlive"});
+  REQUIRE(match.groups("args") == std::vector<std::string>{"install", "texlive"});
 
   REQUIRE(++it == end);
 }
@@ -136,22 +133,22 @@ TEST_CASE("multi regex returns the correct result when using anchors") {
 }
 
 TEST_CASE("multi regex finditer method returns iterator correctly") {
-  std::string pattern = "(^|(\\. ))!x{!y{\\w+}([^\\w.]+!y{\\w+})*}\\.";
+  std::string pattern = R"((^|(\. ))!x{!y{\w+}([^\w.]+!y{\w+})*}\.)";
   std::string document = "Hi friend. Take care.";
   auto query = multi_reql(pattern);
   auto match_generator = query.finditer(document);
   auto it = match_generator.begin();
   auto end = match_generator.end();
 
-  std::vector<std::map<std::string, std::vector<std::string>>>
-      expected_multispans = {{
-                                 {"x", {"Hi friend"}},
-                                 {"y", {"Hi", "friend"}},
-                             },
-                             {
-                                 {"x", {"Take care"}},
-                                 {"y", {"Take", "care"}},
-                             }};
+  std::vector<std::map<std::string, std::vector<std::string>>> expected_multispans = {
+      {
+          {"x", {"Hi friend"}},
+          {"y", {"Hi", "friend"}},
+      },
+      {
+          {"x", {"Take care"}},
+          {"y", {"Take", "care"}},
+      }};
 
   auto match = *it;
   REQUIRE(match.groups("x") == expected_multispans[0]["x"]);

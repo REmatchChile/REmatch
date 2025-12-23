@@ -16,7 +16,8 @@ using namespace REmatch::library_interface;
 std::string get_group_dict_info(const std::map<std::string, Span>& group_dict) {
   std::ostringstream stream;
   for (auto& pair : group_dict) {
-    stream << pair.first << " -> |" << pair.second.first << ", " << pair.second.second << ">\n";
+    stream << pair.first << " -> |" << pair.second.first << ", "
+           << pair.second.second << ">\n";
   }
   return stream.str();
 }
@@ -34,7 +35,7 @@ TEST_CASE("match object returns the correct span indexes") {
   std::string document = "aaa";
   std::string regex = "!x{a}";
 
-  std::map<std::string, Span> spans_map = {{"x", {1, 2}}};
+  std::map<int, Span> spans_map = {{0, {1, 2}}};
   auto mapping = std::make_unique<mediator::Mapping>(std::move(spans_map));
   Match match = construct_match(document, regex, std::move(mapping));
 
@@ -49,7 +50,7 @@ TEST_CASE("match object returns the correct span object") {
   std::string document = "aba";
   std::string regex = "!x{b}";
 
-  std::map<std::string, Span> spans_map = {{"x", {1, 2}}};
+  std::map<int, Span> spans_map = {{0, {1, 2}}};
   auto mapping = std::make_unique<mediator::Mapping>(std::move(spans_map));
 
   Match match = construct_match(document, regex, std::move(mapping));
@@ -70,7 +71,7 @@ TEST_CASE("match object returns the correct groups") {
   std::shared_ptr<VariableCatalog> variable_catalog =
       parser.get_variable_catalog();
 
-  std::map<std::string, Span> spans_map = {{"x", {0, 4}}, {"y", {4, 8}}};
+  std::map<int, Span> spans_map = {{0, {0, 4}}, {1, {4, 8}}};
   auto mapping = std::make_unique<mediator::Mapping>(std::move(spans_map));
   Match match{std::move(mapping), variable_catalog, document};
 
@@ -85,22 +86,22 @@ TEST_CASE("match object returns the correct group dictionary") {
   std::string document = "aaaabbbb";
   std::string regex = "!x{a+}!y{b+}";
 
-  std::map<std::string, Span> mapping_dict = {{"x", {0, 4}}, {"y", {4, 8}}};
-  std::map<std::string, Span> spans_map = {{"x", {0, 4}}, {"y", {4, 8}}};
+  std::map<std::string, Span> expected_group_dict = {{"x", {0, 4}},
+                                                     {"y", {4, 8}}};
+  std::map<int, Span> spans_map = {{0, {0, 4}}, {1, {4, 8}}};
   auto mapping = std::make_unique<mediator::Mapping>(std::move(spans_map));
   Match match = construct_match(document, regex, std::move(mapping));
 
   std::map<std::string, Span> group_dict = match.groupdict();
   INFO(get_group_dict_info(group_dict));
-  REQUIRE(group_dict == mapping_dict);
+  REQUIRE(group_dict == expected_group_dict);
 }
 
 TEST_CASE("match object returns the variables in the mapping") {
   std::string document = "abc";
   std::string regex = "!x{!z{a}b}!y{c}";
 
-  std::map<std::string, Span> spans_map = {
-      {"x", {0, 2}}, {"y", {2, 3}}, {"z", {0, 1}}};
+  std::map<int, Span> spans_map = {{0, {0, 2}}, {1, {2, 3}}, {2, {0, 1}}};
   auto mapping = std::make_unique<mediator::Mapping>(std::move(spans_map));
   Match match = construct_match(document, regex, std::move(mapping));
   REQUIRE(match.variables() == std::vector<std::string>{"x", "y", "z"});

@@ -3,8 +3,7 @@
 #include <cstdint>
 
 #include "evaluation/document.hpp"
-#include "mediator/mediator/multi_findone_mediator.hpp"
-#include "mediator/output_checker.hpp"
+#include "mediator/mediator_constructor.hpp"
 #include "utils/query_data.hpp"
 
 #include <REmatch/flags.hpp>
@@ -40,11 +39,9 @@ MultiQuery::~MultiQuery() = default;
 MultiMatch MultiQuery::findone(const std::string& document_) {
   auto document = std::make_shared<Document>(document_);
 
-  auto mediator =
-      MultiFindoneMediator(*query_data_, document, max_mempool_duplications_,
-                           max_deterministic_states_);
+  auto mediator = MediatorConstructor::create_multi_findone_mediator(*query_data_, document);
 
-  auto mapping = mediator.next();
+  auto mapping = mediator->next();
 
   if (mapping == nullptr) {
     throw REmatchException("No match found");
@@ -53,13 +50,12 @@ MultiMatch MultiQuery::findone(const std::string& document_) {
   return {std::move(mapping), query_data_->variable_catalog, document};
 }
 
-std::vector<MultiMatch> MultiQuery::findmany(const std::string& document,
-                                             uint_fast32_t limit) {
+std::vector<MultiMatch> MultiQuery::findmany(const std::string& document, uint_fast32_t limit) {
   std::vector<MultiMatch> res;
 
   const auto multi_match_generator = finditer(document);
-  for (auto it = multi_match_generator.begin();
-       it != multi_match_generator.end() && limit > 0; ++it, --limit) {
+  for (auto it = multi_match_generator.begin(); it != multi_match_generator.end() && limit > 0;
+       ++it, --limit) {
     res.emplace_back(std::move(*it));
   }
 
@@ -78,14 +74,16 @@ std::vector<MultiMatch> MultiQuery::findall(const std::string& document) {
 }
 
 MultiMatchGenerator MultiQuery::finditer(const std::string& document) {
-  return {query_data_, document, max_mempool_duplications_,
-          max_deterministic_states_};
+  return {query_data_, std::make_shared<Document>(document)};
 }
 
 bool MultiQuery::check(const std::string& document_) {
   std::shared_ptr<Document> document = std::make_shared<Document>(document_);
-  auto output_checker = OutputChecker(*query_data_, document);
-  return output_checker.check();
+
+  auto search_dfa = std::make_unique<SearchDFA>(query_data_->logical_va);
+  SegmentChecker segment_checker(std::move(search_dfa), document);
+
+  return segment_checker.check({0, document->size()});
 }
 
 std::vector<std::string> MultiQuery::variables() const {

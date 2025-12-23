@@ -68,7 +68,8 @@ int64_t Match::end(uint_fast32_t variable_id) const {
 }
 
 Span Match::span(const std::string& variable_name) const {
-  return mapping_->get_span_of_variable(variable_name);
+  int variable_id = variable_catalog_->position(variable_name);
+  return mapping_->get_span_of_variable(variable_id);
 }
 
 Span Match::span(uint_fast32_t variable_id) const {
@@ -85,7 +86,14 @@ std::string Match::group(uint_fast32_t variable_id) const {
 }
 
 std::map<std::string, Span> Match::groupdict() const {
-  return mapping_->get_spans_map();
+  auto id_to_span = mapping_->get_spans_map();
+  std::map<std::string, Span> group_to_span;
+
+  for (auto&& [var_id, span] : id_to_span) {
+    group_to_span[variable_catalog_->get_var(var_id)] = span;
+  }
+
+  return group_to_span;
 }
 
 std::vector<std::string> Match::variables() const {

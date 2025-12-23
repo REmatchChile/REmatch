@@ -2,9 +2,9 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <string>
 #include <iterator>
 #include <memory>
+#include <string>
 
 #include "constants.hpp"
 
@@ -12,7 +12,7 @@
 
 namespace REmatch {
 class Document;
-class MultiFinditerMediator;
+class MultiMediator;
 struct QueryData;
 struct Statistics;
 
@@ -34,7 +34,7 @@ class REMATCH_EXPORT MultiMatchGenerator {
     using reference = MultiMatch&;
 
     // called with begin()
-    explicit iterator(std::unique_ptr<MultiFinditerMediator> mediator_,
+    explicit iterator(std::unique_ptr<MultiMediator> mediator_,
                       std::shared_ptr<VariableCatalog> variable_catalog_,
                       std::shared_ptr<Document> document_);
 
@@ -57,7 +57,7 @@ class REMATCH_EXPORT MultiMatchGenerator {
     bool operator!=(const iterator& other) const;
 
    private:
-    std::unique_ptr<MultiFinditerMediator> mediator;
+    std::unique_ptr<MultiMediator> mediator;
 
     std::shared_ptr<parsing::VariableCatalog> variable_catalog;
 
@@ -70,11 +70,7 @@ class REMATCH_EXPORT MultiMatchGenerator {
     void next();
   };
 
-  MultiMatchGenerator(
-      std::shared_ptr<QueryData> query_data, const std::string& document,
-      uint_fast32_t max_mempool_duplications = DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
-      uint_fast32_t max_deterministic_states =
-          DEFAULT_MAX_DETERMINISTIC_STATES);
+  MultiMatchGenerator(std::shared_ptr<QueryData> query_data, std::shared_ptr<Document> document);
 
   iterator begin() const;
 
@@ -84,9 +80,6 @@ class REMATCH_EXPORT MultiMatchGenerator {
   std::shared_ptr<QueryData> query_data;
 
   std::shared_ptr<Document> document;
-
-  uint_fast32_t max_mempool_duplications;
-  uint_fast32_t max_deterministic_states;
 };
 
 }  // namespace library_interface
