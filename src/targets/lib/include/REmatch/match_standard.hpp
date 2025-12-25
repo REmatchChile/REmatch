@@ -1,8 +1,10 @@
 #pragma once
 
+#include <cstdint>
+#include <map>
 #include <memory>
 #include <string>
-#include <utility>
+#include <vector>
 
 #include "match.hpp"
 #include "span.hpp"
@@ -10,6 +12,7 @@
 #include "REmatch_export.hpp"
 
 namespace REmatch {
+class Document;
 
 namespace mediator {
 class Mapping;
@@ -18,16 +21,24 @@ class Mapping;
 inline namespace parsing {
 class VariableCatalog;
 }
-class Stream;
 
 inline namespace library_interface {
 
-class REMATCH_EXPORT SMatch : public Match {
- public:
-  SMatch(std::unique_ptr<mediator::Mapping> mapping,
-         std::shared_ptr<VariableCatalog> variable_catalog, std::shared_ptr<Stream> stream);
+class REMATCH_EXPORT MatchStandard : public Match {
 
-  ~SMatch() override;
+ public:
+  MatchStandard(std::unique_ptr<mediator::Mapping> mapping,
+        std::shared_ptr<parsing::VariableCatalog> variable_catalog,
+        std::shared_ptr<Document> document);
+
+  // Copy and move constructors
+  MatchStandard(const MatchStandard& other);
+  MatchStandard& operator=(const MatchStandard& other);
+
+  MatchStandard(MatchStandard&& other) noexcept;
+  MatchStandard& operator=(MatchStandard&& other) noexcept;
+
+  ~MatchStandard() override;
 
   int64_t start(const std::string& variable_name) const override;
   int64_t start(uint_fast32_t variable_id) const override;
@@ -41,21 +52,21 @@ class REMATCH_EXPORT SMatch : public Match {
   std::string group(const std::string& variable_name) const override;
   std::string group(uint_fast32_t variable_id) const override;
 
-  std::vector<std::string> variables() const override;
-
   std::map<std::string, Span> groupdict() const override;
 
-  std::string to_string() const override;
+  std::vector<std::string> variables() const override;
 
   bool empty() const override;
 
-  friend REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, const SMatch& match);
+  std::string to_string() const override;
+
+  friend REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, const MatchStandard& match);
 
  private:
   std::unique_ptr<mediator::Mapping> mapping_;
-  std::shared_ptr<VariableCatalog> variable_catalog_;
-  std::shared_ptr<Stream> stream;
+  std::shared_ptr<parsing::VariableCatalog> variable_catalog_;
+  std::shared_ptr<Document> document_;
 };
+}  // end namespace library_interface
 
-}  // namespace library_interface
 }  // namespace REmatch

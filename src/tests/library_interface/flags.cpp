@@ -58,8 +58,8 @@ TEST_CASE("flag LINE_BY_LINE works correctly using findone") {
   Query regex = reql(pattern, flags);
 
   REQUIRE_NOTHROW([&]() {
-    Match match = regex.findone(document);
-    REQUIRE(match.span("x") == Span{2, 3});
+    auto match = regex.findone(document);
+    REQUIRE(match->span("x") == Span{2, 3});
   }());
 }
 
@@ -71,8 +71,8 @@ TEST_CASE("flag LINE_BY_LINE works correctly using findone and anchors") {
   Query regex = reql(pattern, flags);
 
   REQUIRE_NOTHROW([&]() {
-    Match match = regex.findone(document);
-    REQUIRE(match.span("x") == Span{0, 1});
+    auto match = regex.findone(document);
+    REQUIRE(match->span("x") == Span{0, 1});
   }());
 }
 

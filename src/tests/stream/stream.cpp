@@ -74,12 +74,12 @@ TEST_CASE("The increase buffer function works correctly") {
   REQUIRE(buffer_str == document);
 }
 
-TEST_CASE("reql_stream works with the regex \\d\\d") {
+TEST_CASE("reql works with the regex \\d\\d") {
   std::string pattern = R"(!x{\d\d})";
   std::string document = "01234567";
   std::istringstream string_stream(document);
 
-  SQuery query = reql_stream(pattern);
+  Query query = reql(pattern);
   FStreamReader reader(string_stream);
 
   auto iter = query.finditer(&reader);
@@ -87,9 +87,9 @@ TEST_CASE("reql_stream works with the regex \\d\\d") {
   std::vector<Span> actual_spans;
   std::vector<std::string> actual_strings;
 
-  for (auto& m : iter) {
-    actual_spans.push_back(m.span("x"));
-    actual_strings.push_back(m.group("x"));
+  for (auto m : iter) {
+    actual_spans.push_back(m->span("x"));
+    actual_strings.push_back(m->group("x"));
   }
 
   std::vector<Span> expected_spans = {{0, 2}, {1, 3}, {2, 4}, {3, 5}, {4, 6}, {5, 7}, {6, 8}};
@@ -98,22 +98,22 @@ TEST_CASE("reql_stream works with the regex \\d\\d") {
   REQUIRE(actual_strings == expected_groups);
 }
 
-TEST_CASE("reql_stream works when evaluating a file (without filtering)") {
+TEST_CASE("reql works when evaluating a file (without filtering)") {
   std::string pattern(R"((^|\W)!w{\w+}($|\W))");
 
   std::string document("You know about me.");
   std::istringstream string_stream(document);
 
-  SQuery query = reql_stream(pattern);
+  Query query = reql(pattern);
   FStreamReader reader(string_stream);
   auto iter = query.finditer(&reader);
 
   std::vector<Span> actual_spans;
   std::vector<std::string> actual_strings;
 
-  for (auto& m : iter) {
-    actual_spans.push_back(m.span("w"));
-    actual_strings.push_back(m.group("w"));
+  for (auto m : iter) {
+    actual_spans.push_back(m->span("w"));
+    actual_strings.push_back(m->group("w"));
   }
 
   std::vector<Span> expected_spans = {{0, 3}, {4, 8}, {9, 14}, {15, 17}};
@@ -123,22 +123,22 @@ TEST_CASE("reql_stream works when evaluating a file (without filtering)") {
   REQUIRE(actual_strings == expected_groups);
 }
 
-TEST_CASE("reql_stream works correctly when evaluating a file (with filtering)") {
+TEST_CASE("reql works correctly when evaluating a file (with filtering)") {
   std::string pattern(R"((=|\W)!w{\w+}(=|\W))");
 
   std::string document("=You know about me.=");
   std::istringstream string_stream(document);
 
-  SQuery query = reql_stream(pattern);
+  Query query = reql(pattern);
   FStreamReader reader(string_stream);
   auto iter = query.finditer(&reader);
 
   std::vector<Span> actual_spans;
   std::vector<std::string> actual_strings;
 
-  for (auto& m : iter) {
-    actual_spans.push_back(m.span("w"));
-    actual_strings.push_back(m.group("w"));
+  for (auto m : iter) {
+    actual_spans.push_back(m->span("w"));
+    actual_strings.push_back(m->group("w"));
   }
 
   std::vector<Span> expected_spans = {{1, 4}, {5, 9}, {10, 15}, {16, 18}};
@@ -153,14 +153,14 @@ TEST_CASE("An exception is thrown when the circular buffer is not big enough") {
   std::string document = "01234567";
   std::istringstream string_stream(document);
 
-  SQuery query = reql_stream(pattern, Flags::NONE, DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
-                             DEFAULT_MAX_DETERMINISTIC_STATES, 5);
+  Query query = reql(pattern, Flags::NONE, DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+                     DEFAULT_MAX_DETERMINISTIC_STATES, 5);
 
   FStreamReader reader(string_stream);
   auto iter = query.finditer(&reader);
 
   auto match{iter.begin()};
-  REQUIRE_THROWS_AS(match->group(0), EvaluationException);
+  REQUIRE_THROWS_AS((*match)->group(0), EvaluationException);
 }
 
 TEST_CASE("reql stream works when the filtering does not have enough buffer") {
@@ -168,8 +168,8 @@ TEST_CASE("reql stream works when the filtering does not have enough buffer") {
   std::string document = "-12-456---012345678901234567890-234-";
   std::istringstream string_stream(document);
 
-  SQuery query = reql_stream(pattern, Flags::NONE, DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
-                             DEFAULT_MAX_DETERMINISTIC_STATES, 8);
+  Query query = reql(pattern, Flags::NONE, DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+                     DEFAULT_MAX_DETERMINISTIC_STATES, 8);
 
   FStreamReader reader(string_stream);
   auto iter = query.finditer(&reader);
@@ -177,10 +177,10 @@ TEST_CASE("reql stream works when the filtering does not have enough buffer") {
   std::vector<Span> actual_spans;
   std::vector<std::string> actual_groups;
 
-  for (auto& m : iter) {
-    actual_spans.push_back(m.span(0));
+  for (auto m : iter) {
+    actual_spans.push_back(m->span(0));
     try {
-      actual_groups.push_back(m.group(0));
+      actual_groups.push_back(m->group(0));
     } catch (EvaluationException& e) {
       actual_groups.emplace_back("");
     }
@@ -198,8 +198,8 @@ TEST_CASE("reql stream works when a match is the same size as the buffer") {
   std::string document = "-12345-";
   std::istringstream string_stream(document);
 
-  SQuery query = reql_stream(pattern, Flags::NONE, DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
-                             DEFAULT_MAX_DETERMINISTIC_STATES, 5);
+  Query query = reql(pattern, Flags::NONE, DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+                     DEFAULT_MAX_DETERMINISTIC_STATES, 5);
 
   FStreamReader reader(string_stream);
   auto iter = query.finditer(&reader);
@@ -207,10 +207,10 @@ TEST_CASE("reql stream works when a match is the same size as the buffer") {
   std::set<Span> actual_spans;
   std::set<std::string> actual_groups;
 
-  for (auto& m : iter) {
-    actual_spans.insert(m.span(0));
+  for (auto m : iter) {
+    actual_spans.insert(m->span(0));
     try {
-      actual_groups.insert(m.group(0));
+      actual_groups.insert(m->group(0));
     } catch (EvaluationException& e) {
       actual_groups.insert("");
     }
@@ -235,7 +235,7 @@ TEST_CASE("reql stream line by line a") {
   std::string document = "012\n45\n6\n";
   std::istringstream string_stream(document);
 
-  SQuery query = reql_stream(pattern, Flags::LINE_BY_LINE);
+  Query query = reql(pattern, Flags::LINE_BY_LINE);
   FStreamReader reader(string_stream);
   auto iter = query.finditer(&reader);
 
@@ -244,11 +244,11 @@ TEST_CASE("reql stream line by line a") {
 
   std::stringstream info;
   info << "Actual spans:\n";
-  for (auto& m : iter) {
-    actual_spans.insert(m.span(0));
-    info << m.span(0).first << " " << m.span(0).second << "\n";
+  for (auto m : iter) {
+    actual_spans.insert(m->span(0));
+    info << m->span(0).first << " " << m->span(0).second << "\n";
     try {
-      actual_groups.insert(m.group(0));
+      actual_groups.insert(m->group(0));
     } catch (EvaluationException& e) {
       actual_groups.insert("");
     }
@@ -267,7 +267,7 @@ TEST_CASE("reql stream line by line b") {
   std::string document = "0\n23\n567";
   std::istringstream string_stream(document);
 
-  SQuery query = reql_stream(pattern, Flags::LINE_BY_LINE);
+  Query query = reql(pattern, Flags::LINE_BY_LINE);
   FStreamReader reader(string_stream);
   auto iter = query.finditer(&reader);
 
@@ -276,11 +276,11 @@ TEST_CASE("reql stream line by line b") {
 
   std::stringstream info;
   info << "Actual spans:\n";
-  for (auto& m : iter) {
-    actual_spans.insert(m.span(0));
-    info << m.span(0).first << " " << m.span(0).second << "\n";
+  for (auto m : iter) {
+    actual_spans.insert(m->span(0));
+    info << m->span(0).first << " " << m->span(0).second << "\n";
     try {
-      actual_groups.insert(m.group(0));
+      actual_groups.insert(m->group(0));
     } catch (EvaluationException& e) {
       actual_groups.insert("");
     }

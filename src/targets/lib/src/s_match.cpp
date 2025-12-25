@@ -17,6 +17,23 @@ SMatch::SMatch(std::unique_ptr<mediator::Mapping> mapping,
 
 SMatch::~SMatch() = default;
 
+int64_t SMatch::start(const std::string& variable_name) const {
+  return this->span(variable_name).first;
+}
+
+int64_t SMatch::start(uint_fast32_t variable_id) const {
+  return start(variable_catalog_->get_var(variable_id));
+}
+
+int64_t SMatch::end(const std::string& variable_name) const {
+  const auto span = this->span(variable_name);
+  return span.second;
+}
+
+int64_t SMatch::end(uint_fast32_t variable_id) const {
+  return end(variable_catalog_->get_var(variable_id));
+}
+
 Span SMatch::span(const std::string& variable_name) const {
   return mapping_->get_span_of_variable(variable_catalog_->position(variable_name));
 }
@@ -51,6 +68,25 @@ std::string SMatch::to_string() const {
   ss << variable_name << ": |" << span_.first << "," << span_.second << ">}";
 
   return ss.str();
+}
+
+std::vector<std::string> SMatch::variables() const {
+  return variable_catalog_->variables();
+}
+
+std::map<std::string, Span> SMatch::groupdict() const {
+  auto id_to_span = mapping_->get_spans_map();
+  std::map<std::string, Span> group_to_span;
+
+  for (auto&& [var_id, span] : id_to_span) {
+    group_to_span[variable_catalog_->get_var(var_id)] = span;
+  }
+
+  return group_to_span;
+}
+
+bool SMatch::empty() const {
+  return mapping_->get_spans_map().empty();
 }
 
 REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, const SMatch& match) {

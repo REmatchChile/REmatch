@@ -15,9 +15,9 @@ TEST_CASE("find method simple test") {
   auto match = regex.findone(document);
 
   std::stringstream ss;
-  ss << match.span("x").first << " " << match.span("x").second;
+  ss << match->span("x").first << " " << match->span("x").second;
   INFO(ss.str());
-  REQUIRE(match.span("x") == Span(10, 13));
+  REQUIRE(match->span("x") == Span(10, 13));
 }
 
 TEST_CASE("finditer method simple test") {
@@ -29,12 +29,12 @@ TEST_CASE("finditer method simple test") {
   auto end = match_generator.end();
 
   REQUIRE(it != end);
-  Match match = *it;
-  REQUIRE(match.span("x") == Span(10, 13));
+  auto match = *it;
+  REQUIRE(match->span("x") == Span(10, 13));
 
   REQUIRE(++it != end);
   match = *(it);
-  REQUIRE(match.span("x") == Span(10, 18));
+  REQUIRE(match->span("x") == Span(10, 18));
 
   REQUIRE(++it == end);
 }
@@ -55,9 +55,9 @@ TEST_CASE("client interface returns empty match if there are no variables in reg
   auto match_generator = regex.finditer(document);
   auto it = match_generator.begin();
 
-  Match match = *it;
   REQUIRE(it != match_generator.end());
-  REQUIRE(match.empty());
+  auto match = *it;
+  REQUIRE(match->empty());
 }
 
 TEST_CASE("client interface with alternation") {
@@ -69,12 +69,12 @@ TEST_CASE("client interface with alternation") {
   auto end = match_iterator.end();
 
   REQUIRE(it != end);
-  Match match = *it;
-  REQUIRE(match.span("x") == Span(10, 13));
+  auto match = *it;
+  REQUIRE(match->span("x") == Span(10, 13));
 
   REQUIRE(++it != end);
   match = *(it);
-  REQUIRE(match.span("x") == Span(10, 18));
+  REQUIRE(match->span("x") == Span(10, 18));
 
   REQUIRE(++it == end);
 }

@@ -11,62 +11,33 @@
 #include "REmatch_export.hpp"
 
 namespace REmatch {
-class Document;
-
-namespace mediator {
-class Mapping;
-}
-
-inline namespace parsing {
-class VariableCatalog;
-}
-
-inline namespace library_interface {
 
 class REMATCH_EXPORT Match {
 
  public:
-  Match(std::unique_ptr<mediator::Mapping> mapping,
-        std::shared_ptr<parsing::VariableCatalog> variable_catalog,
-        std::shared_ptr<Document> document);
+  virtual ~Match() = default;
 
-  // Copy and move constructors
-  Match(const Match& other);
-  Match& operator=(const Match& other);
+  virtual int64_t start(const std::string& variable_name) const = 0;
+  virtual int64_t start(uint_fast32_t variable_id) const = 0;
+  virtual int64_t end(const std::string& variable_name) const = 0;
+  virtual int64_t end(uint_fast32_t variable_id) const = 0;
+  virtual Span span(const std::string& variable_name) const = 0;
+  virtual Span span(uint_fast32_t variable_id) const = 0;
+  virtual std::string group(const std::string& variable_name) const = 0;
+  virtual std::string group(uint_fast32_t variable_id) const = 0;
 
-  Match(Match&& other) noexcept;
-  Match& operator=(Match&& other) noexcept;
+  virtual bool empty() const = 0;
 
-  ~Match();
+  virtual std::map<std::string, Span> groupdict() const = 0;
 
-  int64_t start(const std::string& variable_name) const;
-  int64_t start(uint_fast32_t variable_id) const;
+  virtual std::vector<std::string> variables() const = 0;
 
-  int64_t end(const std::string& variable_name) const;
-  int64_t end(uint_fast32_t variable_id) const;
-
-  Span span(const std::string& variable_name) const;
-  Span span(uint_fast32_t variable_id) const;
-
-  std::string group(const std::string& variable_name) const;
-  std::string group(uint_fast32_t variable_id) const;
-
-  std::map<std::string, Span> groupdict() const;
-
-  std::vector<std::string> variables() const;
-
-  bool empty() const;
-
-  std::string to_string() const;
-
-  friend REMATCH_EXPORT std::ostream& operator<<(std::ostream& os,
-                                                 const Match& match);
-
- private:
-  std::unique_ptr<mediator::Mapping> mapping_;
-  std::shared_ptr<parsing::VariableCatalog> variable_catalog_;
-  std::shared_ptr<Document> document_;
+  virtual std::string to_string() const = 0;
 };
-}  // end namespace library_interface
+
+inline std::ostream& operator<<(std::ostream& os, const Match& match) {
+  os << match.to_string();
+  return os;
+}
 
 }  // namespace REmatch

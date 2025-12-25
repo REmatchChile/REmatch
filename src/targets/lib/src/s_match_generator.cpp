@@ -36,12 +36,8 @@ SMatchGenerator::iterator::iterator() : match_ptr(nullptr) {}
 
 SMatchGenerator::iterator::~iterator() = default;
 
-SMatchGenerator::iterator::reference SMatchGenerator::iterator::operator*() const {
-  return *match_ptr;
-}
-
-SMatchGenerator::iterator::pointer SMatchGenerator::iterator::operator->() const {
-  return match_ptr.get();
+SMatchGenerator::iterator::value SMatchGenerator::iterator::operator*() {
+  return std::move(match_ptr);
 }
 
 SMatchGenerator::iterator& SMatchGenerator::iterator::operator++() {

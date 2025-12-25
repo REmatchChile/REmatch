@@ -5,9 +5,9 @@ inline namespace library_interface {
 
 Query reql(const std::string& pattern, Flags flags,
            uint_fast32_t max_mempool_duplications,
-           uint_fast32_t max_deterministic_states) {
+           uint_fast32_t max_deterministic_states, uint_fast32_t buffer_size) {
   return Query(pattern, flags, max_mempool_duplications,
-               max_deterministic_states);
+               max_deterministic_states, buffer_size);
 }
 
 SQuery reql_stream(const std::string& pattern, Flags flags,

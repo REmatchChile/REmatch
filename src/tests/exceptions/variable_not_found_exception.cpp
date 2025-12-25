@@ -7,8 +7,7 @@
 
 namespace REmatch::testing {
 
-TEST_CASE(
-    "the mediator throws an exception when the variable is not in the regex") {
+TEST_CASE("the mediator throws an exception when the variable is not in the regex") {
   Parser parser = Parser("!x{a}");
   std::string document_ = "a";
   auto document = std::make_shared<Document>(document_);
@@ -17,12 +16,12 @@ TEST_CASE(
   ExtendedVA extended_va = ExtendedVA(logical_va);
   extended_va.clean_for_determinization();
 
-  QueryData regex_data(std::move(extended_va), parser.get_variable_catalog(), logical_va, Flags::NONE, DEFAULT_MAX_DETERMINISTIC_STATES);
+  QueryData regex_data(std::move(extended_va), parser.get_variable_catalog(), logical_va,
+                       Flags::NONE, DEFAULT_MAX_DETERMINISTIC_STATES);
   auto mediator = MediatorConstructor::create_finditer_mediator(regex_data, document);
 
   auto mapping = mediator->next();
-  REQUIRE_THROWS_AS(mapping->get_span_of_variable(1),
-                    VariableNotFoundException);
+  REQUIRE_THROWS_AS(mapping->get_span_of_variable(1), VariableNotFoundException);
 }
 
 TEST_CASE(
@@ -31,7 +30,7 @@ TEST_CASE(
   auto query = reql("!x{a}");
   auto match = query.findone("a");
 
-  REQUIRE_THROWS_AS(match.span("y"), VariableNotFoundException);
+  REQUIRE_THROWS_AS(match->span("y"), VariableNotFoundException);
 }
 
 }  // namespace REmatch::testing

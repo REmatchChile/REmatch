@@ -5,6 +5,7 @@
 #include <REmatch/match_generator.hpp>
 #include <stdexcept>
 
+#include "REmatch/s_match_generator.hpp"
 #include "evaluation/document.hpp"
 #include "filtering_module/search_variable_set_automaton/dfa/search_dfa.hpp"
 #include "filtering_module/segment_checker.hpp"
@@ -15,25 +16,28 @@ namespace REmatch {
 inline namespace library_interface {
 
 Query::Query(const std::string& pattern, Flags flags, uint_fast32_t max_mempool_duplications,
-             uint_fast32_t max_deterministic_states)
+             uint_fast32_t max_deterministic_states, uint_fast32_t buffer_size)
     : query_data_(
           std::make_shared<QueryData>(get_query_data(pattern, flags, max_deterministic_states))),
       max_mempool_duplications_(max_mempool_duplications),
-      max_deterministic_states_(max_deterministic_states) {}
+      max_deterministic_states_(max_deterministic_states),
+      buffer_size(buffer_size) {}
 
 Query::Query(Query&& other) noexcept
     : query_data_(std::move(other.query_data_)),
       max_mempool_duplications_(other.max_mempool_duplications_),
-      max_deterministic_states_(other.max_deterministic_states_) {}
+      max_deterministic_states_(other.max_deterministic_states_),
+      buffer_size(other.buffer_size) {}
 
 Query& Query::operator=(Query&& other) noexcept {
   query_data_ = std::move(other.query_data_);
   max_mempool_duplications_ = other.max_mempool_duplications_;
   max_deterministic_states_ = other.max_deterministic_states_;
+  buffer_size = other.buffer_size;
   return *this;
 }
 
-Match Query::findone(const std::string& document_) const {
+std::unique_ptr<Match> Query::findone(const std::string& document_) const {
   auto document = std::make_shared<Document>(document_);
 
   auto mediator = MediatorConstructor::create_findone_mediator(*query_data_, document);
@@ -44,27 +48,42 @@ Match Query::findone(const std::string& document_) const {
     throw REmatchException("No match found");
   }
 
-  return {std::move(mapping), query_data_->variable_catalog, document};
+  return std::make_unique<MatchStandard>(std::move(mapping), query_data_->variable_catalog,
+                                         document);
 }
 
-std::vector<Match> Query::findmany(const std::string& document, uint_fast32_t limit) const {
-  std::vector<Match> res;
+std::unique_ptr<Match> Query::findone(Reader* reader) const {
+  auto stream = std::make_shared<Stream>(reader, buffer_size);
+  auto mediator = MediatorConstructor::create_stream_findone_mediator(*query_data_, stream);
+
+  std::unique_ptr<mediator::Mapping> mapping = mediator->next();
+
+  if (mapping == nullptr) {
+    throw REmatchException("No match found");
+  }
+
+  return std::make_unique<SMatch>(std::move(mapping), query_data_->variable_catalog, stream);
+}
+
+std::vector<std::unique_ptr<Match>> Query::findmany(const std::string& document,
+                                                    uint_fast32_t limit) const {
+  std::vector<std::unique_ptr<Match>> res;
   res.reserve(limit);
 
   const auto match_generator = finditer(document);
   for (auto it = match_generator.begin(); it != match_generator.end() && limit > 0; ++it, --limit) {
-    res.emplace_back(std::move(*it));
+    res.push_back(*it);
   }
 
   return res;
 }
 
-std::vector<Match> Query::findall(const std::string& document) const {
-  std::vector<Match> res;
+std::vector<std::unique_ptr<Match>> Query::findall(const std::string& document) const {
+  std::vector<std::unique_ptr<Match>> res;
 
   const auto match_generator = finditer(document);
-  for (auto&& match : match_generator) {
-    res.emplace_back(std::move(match));
+  for (auto match : match_generator) {
+    res.push_back(std::move(match));
   }
 
   return res;
@@ -72,6 +91,11 @@ std::vector<Match> Query::findall(const std::string& document) const {
 
 MatchGenerator Query::finditer(const std::string& document) const {
   return {query_data_, std::make_shared<Document>(document)};
+}
+
+SMatchGenerator Query::finditer(Reader* reader) const {
+  auto stream = std::make_shared<Stream>(reader, buffer_size);
+  return {query_data_, stream};
 }
 
 bool Query::check(const std::string& document_) {

@@ -83,12 +83,12 @@ int main(int argc, char** argv) {
       std::cout << "----STREAM----" << std::endl;
       std::string pattern_ = read_from_file(pattern);
       std::fstream document_stream(document, std::ios::in | std::ios::binary);
-      auto s_query = reql_stream(pattern_, flags, max_mempool_duplications,
-                                     max_deterministic_states, buffer_size);
+      auto s_query =
+          reql(pattern_, flags, max_mempool_duplications, max_deterministic_states, buffer_size);
       FStreamReader reader(document_stream);
       const auto match_generator = s_query.finditer(&reader);
-      for (auto& match : match_generator) {
-        std::cout << match << "\n";
+      for (auto match : match_generator) {
+        std::cout << *match << "\n";
       }
     } else if (findone) {
       std::string pattern_ = read_from_file(pattern);
@@ -98,7 +98,7 @@ int main(int argc, char** argv) {
 
       try {
         auto match = query.findone(document_);
-        std::cout << match << std::endl;
+        std::cout << *match << std::endl;
       } catch (const std::exception& e) {
         std::cout << e.what() << std::endl;
       }
@@ -109,8 +109,8 @@ int main(int argc, char** argv) {
 
       auto query = reql(pattern_, flags, max_mempool_duplications, max_deterministic_states);
       const auto match_generator = query.finditer(document_);
-      for (auto& match : match_generator) {
-        std::cout << match << "\n";
+      for (auto match : match_generator) {
+        std::cout << *match << "\n";
       }
     }
   } catch (const std::exception& e) {

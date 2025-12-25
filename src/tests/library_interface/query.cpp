@@ -13,7 +13,7 @@ TEST_CASE("find method returns the first match correctly") {
   auto query = reql(pattern);
   auto match = query.findone("abab");
 
-  REQUIRE(match.span("x") == Span(0, 2));
+  REQUIRE(match->span("x") == Span(0, 2));
 }
 
 TEST_CASE("finditer method returns the iterator correctly") {
@@ -26,12 +26,12 @@ TEST_CASE("finditer method returns the iterator correctly") {
   auto end = match_generator.end();
 
   REQUIRE(it != end);
-  Match match = *it;
-  REQUIRE(match.span("x") == Span(0, 2));
+  auto match = *it;
+  REQUIRE(match->span("x") == Span(0, 2));
 
   REQUIRE(++it != end);
-  match = *(it);
-  REQUIRE(match.span("x") == Span(2, 4));
+  match = *it;
+  REQUIRE(match->span("x") == Span(2, 4));
 
   REQUIRE(++it == end);
 }

@@ -42,12 +42,8 @@ MatchGenerator::iterator::iterator() : match_ptr(nullptr) {}
 
 MatchGenerator::iterator::~iterator() = default;
 
-MatchGenerator::iterator::reference MatchGenerator::iterator::operator*() const {
-  return *match_ptr;
-}
-
-MatchGenerator::iterator::pointer MatchGenerator::iterator::operator->() const {
-  return match_ptr.get();
+MatchGenerator::iterator::value MatchGenerator::iterator::operator*() {
+  return std::move(match_ptr);
 }
 
 MatchGenerator::iterator& MatchGenerator::iterator::operator++() {
@@ -71,7 +67,7 @@ void MatchGenerator::iterator::next() {
   auto mapping = mediator->next();
 
   if (mapping) {
-    match_ptr = std::make_unique<Match>(std::move(mapping), variable_catalog, document);
+    match_ptr = std::make_unique<MatchStandard>(std::move(mapping), variable_catalog, document);
     return;
   }
 

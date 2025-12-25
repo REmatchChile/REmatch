@@ -6,6 +6,7 @@
 
 #include "flags.hpp"
 #include "fstream_reader.hpp"
+#include "match.hpp"
 
 #include "REmatch_export.hpp"
 
@@ -29,9 +30,9 @@ class REMATCH_EXPORT SMatchGenerator {
    public:
     using iterator_category = std::input_iterator_tag;
     using difference_type = std::ptrdiff_t;
-    using value = SMatch;
-    using pointer = SMatch*;
-    using reference = SMatch&;
+    using value = std::unique_ptr<Match>;
+    using pointer = value*;
+    using reference = value;
 
     // called with begin()
     explicit iterator(std::unique_ptr<Mediator> mediator_,
@@ -46,8 +47,7 @@ class REMATCH_EXPORT SMatchGenerator {
 
     ~iterator();
 
-    reference operator*() const;
-    pointer operator->() const;
+    value operator*();
 
     iterator& operator++();
     void operator++(int);
@@ -62,7 +62,7 @@ class REMATCH_EXPORT SMatchGenerator {
     std::shared_ptr<parsing::VariableCatalog> variable_catalog;
     std::shared_ptr<Stream> stream;
 
-    std::unique_ptr<value> match_ptr;
+    std::unique_ptr<Match> match_ptr;
 
     void next();
   };

@@ -6,9 +6,10 @@
 #include <memory>
 #include <string>
 
-#include "constants.hpp"
-
+#include "REmatch/match_standard.hpp"
 #include "REmatch_export.hpp"
+#include "constants.hpp"
+#include "match.hpp"
 
 namespace REmatch {
 class Document;
@@ -21,7 +22,6 @@ class VariableCatalog;
 }
 
 inline namespace library_interface {
-class Match;
 
 class REMATCH_EXPORT MatchGenerator {
  public:
@@ -29,9 +29,9 @@ class REMATCH_EXPORT MatchGenerator {
    public:
     using iterator_category = std::input_iterator_tag;
     using difference_type = std::ptrdiff_t;
-    using value = Match;
-    using pointer = Match*;
-    using reference = Match&;
+    using value = std::unique_ptr<Match>;
+    using pointer = value*;
+    using reference = value;
 
     // called with begin()
     explicit iterator(std::unique_ptr<Mediator> mediator_,
@@ -46,8 +46,7 @@ class REMATCH_EXPORT MatchGenerator {
 
     ~iterator();
 
-    reference operator*() const;
-    pointer operator->() const;
+    value operator*();
 
     iterator& operator++();
     void operator++(int);
@@ -65,7 +64,7 @@ class REMATCH_EXPORT MatchGenerator {
 
     std::unique_ptr<Statistics> stats;
 
-    std::unique_ptr<value> match_ptr;
+    std::unique_ptr<Match> match_ptr;
 
     void next();
   };
@@ -78,7 +77,6 @@ class REMATCH_EXPORT MatchGenerator {
 
  private:
   std::shared_ptr<QueryData> query_data;
-
   std::shared_ptr<Document> document;
 };
 

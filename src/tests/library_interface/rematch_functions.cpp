@@ -16,7 +16,7 @@ TEST_CASE("find function returns the correct match") {
   auto query = reql(pattern);
   auto match = query.findone(document);
 
-  REQUIRE(match.span("x") == Span{3, 6});
+  REQUIRE(match->span("x") == Span{3, 6});
 }
 
 TEST_CASE("match obtained with find returns the correct group") {
@@ -26,8 +26,8 @@ TEST_CASE("match obtained with find returns the correct group") {
   auto query = reql(pattern);
   auto match = query.findone(document);
 
-  REQUIRE(match.span("x") == Span{3, 6});
-  REQUIRE(match.group("x") == "rty");
+  REQUIRE(match->span("x") == Span{3, 6});
+  REQUIRE(match->group("x") == "rty");
 }
 
 TEST_CASE("findall function returns the correct matches") {
@@ -42,7 +42,7 @@ TEST_CASE("findall function returns the correct matches") {
   REQUIRE(matches.size() == expected_matches.size());
 
   for (size_t i = 0; i < expected_matches.size(); i++) {
-    REQUIRE(matches[i].span("x") == expected_matches[i]);
+    REQUIRE(matches[i]->span("x") == expected_matches[i]);
   }
 }
 
@@ -58,7 +58,7 @@ TEST_CASE("matches obtained with findall return the correct groups") {
   REQUIRE(matches.size() == expected_groups.size());
 
   for (size_t i = 0; i < expected_groups.size(); i++) {
-    REQUIRE(matches[i].group("x") == expected_groups[i]);
+    REQUIRE(matches[i]->group("x") == expected_groups[i]);
   }
 }
 
@@ -88,8 +88,8 @@ TEST_CASE("the matches obtained with finditer return the correct groups") {
 
   std::vector<std::string> expected_groups = {"qwe", "wer", "ert", "rty"};
 
-  for (auto& match : match_generator) {
-    auto group = match.group("x");
+  for (auto match : match_generator) {
+    auto group = match->group("x");
     auto it = std::find(expected_groups.begin(), expected_groups.end(), group);
 
     REQUIRE(it != expected_groups.end());

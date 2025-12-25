@@ -1,4 +1,4 @@
-#include <REmatch/match.hpp>
+#include "REmatch/match_standard.hpp"
 
 #include <REmatch/REmatch_export.hpp>
 
@@ -13,19 +13,17 @@
 namespace REmatch {
 inline namespace library_interface {
 
-Match::Match(std::unique_ptr<mediator::Mapping> mapping,
-             std::shared_ptr<parsing::VariableCatalog> variable_catalog,
-             std::shared_ptr<Document> document)
-    : mapping_(std::move(mapping)),
-      variable_catalog_(variable_catalog),
-      document_(document) {}
+MatchStandard::MatchStandard(std::unique_ptr<mediator::Mapping> mapping,
+                             std::shared_ptr<parsing::VariableCatalog> variable_catalog,
+                             std::shared_ptr<Document> document)
+    : mapping_(std::move(mapping)), variable_catalog_(variable_catalog), document_(document) {}
 
-Match::Match(const Match& other)
+MatchStandard::MatchStandard(const MatchStandard& other)
     : mapping_(std::make_unique<mediator::Mapping>(*other.mapping_)),
       variable_catalog_(other.variable_catalog_),
       document_(other.document_) {}
 
-Match& Match::operator=(const Match& other) {
+MatchStandard& MatchStandard::operator=(const MatchStandard& other) {
   if (this == &other) {
     return *this;
   }
@@ -36,56 +34,56 @@ Match& Match::operator=(const Match& other) {
   return *this;
 }
 
-Match::Match(Match&& other) noexcept
+MatchStandard::MatchStandard(MatchStandard&& other) noexcept
     : mapping_(std::move(other.mapping_)),
       variable_catalog_(std::move(other.variable_catalog_)),
       document_(std::move(other.document_)) {}
 
-Match& Match::operator=(Match&& other) noexcept {
+MatchStandard& MatchStandard::operator=(MatchStandard&& other) noexcept {
   mapping_ = std::move(other.mapping_);
   variable_catalog_ = std::move(other.variable_catalog_);
   document_ = std::move(other.document_);
   return *this;
 }
 
-Match::~Match() = default;
+MatchStandard::~MatchStandard() = default;
 
-int64_t Match::start(const std::string& variable_name) const {
+int64_t MatchStandard::start(const std::string& variable_name) const {
   return this->span(variable_name).first;
 }
 
-int64_t Match::start(uint_fast32_t variable_id) const {
+int64_t MatchStandard::start(uint_fast32_t variable_id) const {
   return start(variable_catalog_->get_var(variable_id));
 }
 
-int64_t Match::end(const std::string& variable_name) const {
+int64_t MatchStandard::end(const std::string& variable_name) const {
   const auto span = this->span(variable_name);
   return span.second;
 }
 
-int64_t Match::end(uint_fast32_t variable_id) const {
+int64_t MatchStandard::end(uint_fast32_t variable_id) const {
   return end(variable_catalog_->get_var(variable_id));
 }
 
-Span Match::span(const std::string& variable_name) const {
+Span MatchStandard::span(const std::string& variable_name) const {
   int variable_id = variable_catalog_->position(variable_name);
   return mapping_->get_span_of_variable(variable_id);
 }
 
-Span Match::span(uint_fast32_t variable_id) const {
+Span MatchStandard::span(uint_fast32_t variable_id) const {
   return span(variable_catalog_->get_var(variable_id));
 }
 
-std::string Match::group(const std::string& variable_name) const {
+std::string MatchStandard::group(const std::string& variable_name) const {
   const auto span = this->span(variable_name);
   return document_->substr(span.first, span.second - span.first);
 }
 
-std::string Match::group(uint_fast32_t variable_id) const {
+std::string MatchStandard::group(uint_fast32_t variable_id) const {
   return group(variable_catalog_->get_var(variable_id));
 }
 
-std::map<std::string, Span> Match::groupdict() const {
+std::map<std::string, Span> MatchStandard::groupdict() const {
   auto id_to_span = mapping_->get_spans_map();
   std::map<std::string, Span> group_to_span;
 
@@ -96,18 +94,22 @@ std::map<std::string, Span> Match::groupdict() const {
   return group_to_span;
 }
 
-std::vector<std::string> Match::variables() const {
+std::vector<std::string> MatchStandard::variables() const {
   return variable_catalog_->variables();
 }
 
-bool Match::empty() const {
+bool MatchStandard::empty() const {
   return mapping_->get_spans_map().empty();
 }
 
-std::string Match::to_string() const {
+std::string MatchStandard::to_string() const {
   std::stringstream ss;
 
   const auto num_variables = variable_catalog_->size();
+
+  if (num_variables == 0) {
+    return "{}";
+  }
 
   ss << "{";
   for (unsigned int i = 0; i < num_variables - 1; i++) {
@@ -123,7 +125,7 @@ std::string Match::to_string() const {
   return ss.str();
 }
 
-REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, const Match& match) {
+REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, const MatchStandard& match) {
   return os << match.to_string();
 }
 
