@@ -46,7 +46,7 @@ void StreamAlgorithm::set_null_segment() {
   segment_result = NoSegmentFound;
 }
 
-const Mapping* StreamAlgorithm::get_next_mapping() {
+const Mapping* StreamAlgorithm::next() {
 #ifdef TRACY_ENABLE
   ZoneScopedNC("StreamAlgorithm::get_next_mapping", 0x8ec07c);
 #endif

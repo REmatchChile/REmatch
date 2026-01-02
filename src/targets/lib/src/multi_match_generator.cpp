@@ -4,7 +4,7 @@
 #include "parsing/variable_catalog.hpp"
 #include "utils/statistics.hpp"
 
-#include <REmatch/multi_match.hpp>
+#include <REmatch/multi_match_standard.hpp>
 #include <utility>
 
 namespace REmatch {
@@ -38,12 +38,8 @@ MultiMatchGenerator::iterator::iterator() : multi_match_ptr(nullptr) {}
 
 MultiMatchGenerator::iterator::~iterator() = default;
 
-MultiMatchGenerator::iterator::reference MultiMatchGenerator::iterator::operator*() const {
-  return *multi_match_ptr;
-}
-
-MultiMatchGenerator::iterator::pointer MultiMatchGenerator::iterator::operator->() const {
-  return multi_match_ptr.get();
+MultiMatchGenerator::iterator::value MultiMatchGenerator::iterator::operator*() {
+  return std::move(multi_match_ptr);
 }
 
 MultiMatchGenerator::iterator& MultiMatchGenerator::iterator::operator++() {
@@ -67,7 +63,7 @@ void MultiMatchGenerator::iterator::next() {
   auto mapping = mediator->next();
 
   if (mapping) {
-    multi_match_ptr = std::make_unique<MultiMatch>(std::move(mapping), variable_catalog, document);
+    multi_match_ptr = std::make_unique<MultiMatchStandard>(std::move(mapping), variable_catalog, document);
     return;
   }
 

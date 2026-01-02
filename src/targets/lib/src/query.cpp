@@ -5,6 +5,7 @@
 #include <REmatch/match_generator.hpp>
 #include <stdexcept>
 
+#include "REmatch/match_standard.hpp"
 #include "REmatch/s_match_generator.hpp"
 #include "evaluation/document.hpp"
 #include "filtering_module/search_variable_set_automaton/dfa/search_dfa.hpp"

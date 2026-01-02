@@ -6,14 +6,14 @@
 
 namespace REmatch {
 
-StreamLblMediator::StreamLblMediator(QueryData& query_data, const std::shared_ptr<Stream>& stream,
+StreamLblMediator::StreamLblMediator(QueryData& query_data, std::shared_ptr<Stream> stream,
                                      std::unique_ptr<LineSplitterStream> line_splitter,
                                      std::unique_ptr<SegmentCheckerStream> segment_checker)
     : Mediator(query_data),
       variable_catalog_(query_data.variable_catalog),
       segment_checker(std::move(segment_checker)),
       line_splitter(std::move(line_splitter)),
-      stream(stream) {
+      stream(std::move(stream)) {
 
   algorithm_ = std::make_unique<FinditerAlgorithm>(
       query_data.extended_va, query_data.max_mempool_duplications, query_data.max_amount_of_states);

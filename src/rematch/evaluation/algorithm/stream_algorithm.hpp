@@ -17,7 +17,7 @@ class StreamAlgorithm {
   void initialize_algorithm();
   void set_document_indexes(Span& span, SegmentResult segment_result);
   void set_null_segment();
-  const Mapping* get_next_mapping();
+  const Mapping* next();
 
   void evaluate_start_char();
 

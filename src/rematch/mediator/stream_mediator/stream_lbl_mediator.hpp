@@ -11,7 +11,7 @@ namespace REmatch {
 
 class StreamLblMediator : public Mediator {
  public:
-  StreamLblMediator(QueryData& query_data, const std::shared_ptr<Stream>& stream,
+  StreamLblMediator(QueryData& query_data, std::shared_ptr<Stream> stream,
                     std::unique_ptr<LineSplitterStream> line_splitter,
                     std::unique_ptr<SegmentCheckerStream> segment_checker);
 

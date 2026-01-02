@@ -1,57 +1,39 @@
 #pragma once
 
 #include <cstdint>
+#include <map>
 #include <memory>
+#include <string>
 #include <vector>
 
-#include "match_standard.hpp"
 #include "span.hpp"
 
 #include "REmatch_export.hpp"
 
 namespace REmatch {
-class ExtendedMapping;
-
-inline namespace library_interface {
 
 class REMATCH_EXPORT MultiMatch {
+
  public:
-  MultiMatch(std::unique_ptr<ExtendedMapping> extended_mapping,
-             std::shared_ptr<parsing::VariableCatalog> variable_catalog,
-             std::shared_ptr<Document> document);
+  virtual ~MultiMatch() = default;
 
-  // Copy and move constructors
-  MultiMatch(const MultiMatch& other);
-  MultiMatch& operator=(const MultiMatch& other);
+  virtual std::vector<Span> spans(const std::string& variable_name) const = 0;
+  virtual std::vector<Span> spans(uint_fast32_t variable_id) const = 0;
+  virtual std::vector<std::string> groups(const std::string& variable_name) const = 0;
+  virtual std::vector<std::string> groups(uint_fast32_t variable_id) const = 0;
 
-  MultiMatch(MultiMatch&& other) noexcept;
-  MultiMatch& operator=(MultiMatch&& other) noexcept;
+  virtual bool empty() const = 0;
 
-  ~MultiMatch();
+  virtual std::unique_ptr<MultiMatch> submatch(Span span) const = 0;
 
-  std::vector<Span> spans(uint_fast32_t variable_id) const;
-  std::vector<Span> spans(const std::string& variable_name) const;
+  virtual std::vector<std::string> variables() const = 0;
 
-  std::vector<std::string> groups(uint_fast32_t variable_id) const;
-  std::vector<std::string> groups(const std::string& variable_name) const;
-
-  MultiMatch submatch(Span span) const;
-
-  bool empty() const;
-
-  std::vector<std::string> variables() const;
-
-  bool operator==(const MultiMatch& other) const;
-
-  std::string to_string() const;
-
-  friend REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, const MultiMatch& match);
-
- private:
-  std::unique_ptr<ExtendedMapping> extended_mapping_;
-  std::shared_ptr<VariableCatalog> variable_catalog_;
-  std::shared_ptr<Document> document_;
-  mutable std::unique_ptr<std::map<int, std::vector<Span>>> mapping_cache_;
+  virtual std::string to_string() const = 0;
 };
-}  // namespace library_interface
+
+inline std::ostream& operator<<(std::ostream& os, const MultiMatch& match) {
+  os << match.to_string();
+  return os;
+}
+
 }  // namespace REmatch

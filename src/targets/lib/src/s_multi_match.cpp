@@ -1,4 +1,4 @@
-#include <REmatch/multi_match_standard.hpp>
+#include "REmatch/s_multi_match.hpp"
 
 #include <REmatch/REmatch_export.hpp>
 #include <REmatch/exceptions.hpp>
@@ -7,6 +7,7 @@
 #include <memory>
 
 #include "evaluation/document.hpp"
+#include "evaluation/stream.hpp"
 #include "output_enumeration/extended_mapping.hpp"
 #include "parsing/variable_catalog.hpp"
 
@@ -14,30 +15,30 @@ namespace REmatch {
 
 inline namespace library_interface {
 
-MultiMatchStandard::MultiMatchStandard(std::unique_ptr<ExtendedMapping> extended_mapping,
-                       std::shared_ptr<parsing::VariableCatalog> variable_catalog,
-                       std::shared_ptr<Document> document)
+SMultiMatch::SMultiMatch(std::unique_ptr<ExtendedMapping> extended_mapping,
+                         std::shared_ptr<parsing::VariableCatalog> variable_catalog,
+                         std::shared_ptr<Stream> stream)
     : extended_mapping_(std::move(extended_mapping)),
       variable_catalog_(variable_catalog),
-      document_(document) {}
+      stream(stream) {}
 
-MultiMatchStandard::MultiMatchStandard(const MultiMatchStandard& other)
+SMultiMatch::SMultiMatch(const SMultiMatch& other)
     : extended_mapping_(std::make_unique<ExtendedMapping>(*other.extended_mapping_)),
       variable_catalog_(other.variable_catalog_),
-      document_(other.document_) {
+      stream(other.stream) {
   if (other.mapping_cache_ != nullptr) {
     mapping_cache_ = std::make_unique<std::map<int, std::vector<Span>>>(*other.mapping_cache_);
   }
 }
 
-MultiMatchStandard& MultiMatchStandard::operator=(const MultiMatchStandard& other) {
+SMultiMatch& SMultiMatch::operator=(const SMultiMatch& other) {
   if (this == &other) {
     return *this;
   }
 
   extended_mapping_ = std::make_unique<ExtendedMapping>(*other.extended_mapping_);
   variable_catalog_ = other.variable_catalog_;
-  document_ = other.document_;
+  stream = other.stream;
 
   if (other.mapping_cache_ != nullptr) {
     mapping_cache_ = std::make_unique<std::map<int, std::vector<Span>>>(*other.mapping_cache_);
@@ -48,23 +49,23 @@ MultiMatchStandard& MultiMatchStandard::operator=(const MultiMatchStandard& othe
   return *this;
 }
 
-MultiMatchStandard::MultiMatchStandard(MultiMatchStandard&& other) noexcept
+SMultiMatch::SMultiMatch(SMultiMatch&& other) noexcept
     : extended_mapping_(std::move(other.extended_mapping_)),
       variable_catalog_(std::move(other.variable_catalog_)),
-      document_(std::move(other.document_)),
+      stream(std::move(other.stream)),
       mapping_cache_(std::move(other.mapping_cache_)) {}
 
-MultiMatchStandard& MultiMatchStandard::operator=(MultiMatchStandard&& other) noexcept {
+SMultiMatch& SMultiMatch::operator=(SMultiMatch&& other) noexcept {
   extended_mapping_ = std::move(other.extended_mapping_);
   variable_catalog_ = std::move(other.variable_catalog_);
-  document_ = std::move(other.document_);
+  stream = std::move(other.stream);
   mapping_cache_ = std::move(other.mapping_cache_);
   return *this;
 }
 
-MultiMatchStandard::~MultiMatchStandard() = default;
+SMultiMatch::~SMultiMatch() = default;
 
-std::vector<Span> MultiMatchStandard::spans(uint_fast32_t variable_id) const {
+std::vector<Span> SMultiMatch::spans(uint_fast32_t variable_id) const {
   if (variable_id >= variable_catalog_->size()) {
     std::string var_name = variable_catalog_->get_var(variable_id);
     throw VariableNotFoundException(var_name);
@@ -78,11 +79,11 @@ std::vector<Span> MultiMatchStandard::spans(uint_fast32_t variable_id) const {
   return (*mapping_cache_)[int(variable_id)];
 }
 
-std::vector<Span> MultiMatchStandard::spans(const std::string& variable_name) const {
+std::vector<Span> SMultiMatch::spans(const std::string& variable_name) const {
   return spans(variable_catalog_->position(variable_name));
 }
 
-std::vector<std::string> MultiMatchStandard::groups(uint_fast32_t variable_id) const {
+std::vector<std::string> SMultiMatch::groups(uint_fast32_t variable_id) const {
   if ((size_t)variable_id >= variable_catalog_->size()) {
     std::string var_name = variable_catalog_->get_var(variable_id);
     throw VariableNotFoundException(var_name);
@@ -98,26 +99,26 @@ std::vector<std::string> MultiMatchStandard::groups(uint_fast32_t variable_id) c
   strings.reserve(spans.size());
 
   for (const auto& span : spans) {
-    strings.push_back(document_->substr(span.first, span.second - span.first));
+    strings.push_back(stream->substr(span));
   }
 
   return strings;
 }
 
-std::vector<std::string> MultiMatchStandard::groups(const std::string& variable_name) const {
+std::vector<std::string> SMultiMatch::groups(const std::string& variable_name) const {
   return groups(variable_catalog_->position(variable_name));
 }
 
-std::unique_ptr<MultiMatch> MultiMatchStandard::submatch(Span span) const {
+std::unique_ptr<MultiMatch> SMultiMatch::submatch(Span span) const {
   std::unique_ptr<ExtendedMapping> submapping = extended_mapping_->get_submapping(span);
-  return std::make_unique<MultiMatchStandard>(std::move(submapping), variable_catalog_, document_);
+  return std::make_unique<SMultiMatch>(std::move(submapping), variable_catalog_, stream);
 }
 
-std::vector<std::string> MultiMatchStandard::variables() const {
+std::vector<std::string> SMultiMatch::variables() const {
   return variable_catalog_->variables();
 }
 
-bool MultiMatchStandard::empty() const {
+bool SMultiMatch::empty() const {
   if (mapping_cache_ == nullptr) {
     auto mapping = extended_mapping_->construct_mapping();
     mapping_cache_ = std::make_unique<std::map<int, std::vector<Span>>>(std::move(mapping));
@@ -126,12 +127,12 @@ bool MultiMatchStandard::empty() const {
   return mapping_cache_->empty();
 }
 
-bool MultiMatchStandard::operator==(const MultiMatchStandard& other) const {
-  return *this->extended_mapping_ == *other.extended_mapping_ &&
-         this->document_ == other.document_ && this->variable_catalog_ == other.variable_catalog_;
+bool SMultiMatch::operator==(const SMultiMatch& other) const {
+  return *this->extended_mapping_ == *other.extended_mapping_ && this->stream == other.stream &&
+         this->variable_catalog_ == other.variable_catalog_;
 }
 
-std::string MultiMatchStandard::to_string() const {
+std::string SMultiMatch::to_string() const {
   const auto num_variables = variable_catalog_->size();
 
   if (num_variables == 0) {
@@ -171,7 +172,7 @@ std::string MultiMatchStandard::to_string() const {
   return ss.str();
 }
 
-REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, const MultiMatchStandard& match) {
+REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, const SMultiMatch& match) {
   return os << match.to_string();
 }
 

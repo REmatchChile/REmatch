@@ -76,8 +76,8 @@ int main(int argc, char** argv) {
       auto multi_query =
           multi_reql(pattern, flags, max_mempool_duplications, max_deterministic_states);
       const auto multi_match_generator = multi_query.finditer(document);
-      for (auto& multi_match : multi_match_generator) {
-        std::cout << multi_match << "\n";
+      for (auto multi_match : multi_match_generator) {
+        std::cout << *multi_match << "\n";
       }
     } else if (stream) {
       std::cout << "----STREAM----" << std::endl;

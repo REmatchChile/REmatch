@@ -44,7 +44,7 @@ std::unique_ptr<mediator::Mapping> StreamMediator::next() {
 
 bool StreamMediator::next_is_computed_successfully() {
   while (true) {
-    mapping_ = algorithm_->get_next_mapping();
+    mapping_ = algorithm_->next();
     if (mapping_ != nullptr) {
       return true;
     }

@@ -1,41 +1,43 @@
 #pragma once
 
-#include <cstddef>
-#include <cstdint>
 #include <iterator>
 #include <memory>
-#include <string>
+#include <vector>
+
+#include "REmatch/multi_match.hpp"
+#include "flags.hpp"
+#include "fstream_reader.hpp"
 
 #include "REmatch_export.hpp"
-#include "constants.hpp"
-#include "match.hpp"
 
 namespace REmatch {
+
 class Document;
-class Mediator;
+class MultiMediator;
+class Stream;
 struct QueryData;
-struct Statistics;
 
 inline namespace parsing {
 class VariableCatalog;
 }
 
 inline namespace library_interface {
+class SMatch;
 
-class REMATCH_EXPORT MatchGenerator {
+class REMATCH_EXPORT SMultiMatchGenerator {
  public:
   struct REMATCH_EXPORT iterator {
    public:
     using iterator_category = std::input_iterator_tag;
     using difference_type = std::ptrdiff_t;
-    using value = std::unique_ptr<Match>;
+    using value = std::unique_ptr<MultiMatch>;
     using pointer = value*;
     using reference = value;
 
     // called with begin()
-    explicit iterator(std::unique_ptr<Mediator> mediator_,
+    explicit iterator(std::unique_ptr<MultiMediator> mediator_,
                       std::shared_ptr<VariableCatalog> variable_catalog_,
-                      std::shared_ptr<Document> document_);
+                      std::shared_ptr<Stream> stream);
 
     iterator(iterator&& other) noexcept;
     iterator& operator=(iterator&& other) noexcept;
@@ -55,20 +57,17 @@ class REMATCH_EXPORT MatchGenerator {
     bool operator!=(const iterator& other) const;
 
    private:
-    std::unique_ptr<Mediator> mediator;
+    std::unique_ptr<MultiMediator> mediator;
 
     std::shared_ptr<parsing::VariableCatalog> variable_catalog;
+    std::shared_ptr<Stream> stream;
 
-    std::shared_ptr<Document> document;
-
-    std::unique_ptr<Statistics> stats;
-
-    std::unique_ptr<Match> match_ptr;
+    std::unique_ptr<MultiMatch> match_ptr;
 
     void next();
   };
 
-  MatchGenerator(std::shared_ptr<QueryData> query_data, std::shared_ptr<Document> document);
+  SMultiMatchGenerator(std::shared_ptr<QueryData> query_data, std::shared_ptr<Stream> stream);
 
   iterator begin() const;
 
@@ -76,7 +75,7 @@ class REMATCH_EXPORT MatchGenerator {
 
  private:
   std::shared_ptr<QueryData> query_data;
-  std::shared_ptr<Document> document;
+  std::shared_ptr<Stream> stream;
 };
 
 }  // namespace library_interface

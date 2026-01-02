@@ -1,11 +1,10 @@
 #include <REmatch/match_generator.hpp>
 
+#include "REmatch/match_standard.hpp"
 #include "mediator/finditer_mediator/finditer_mediator.hpp"
 #include "mediator/mediator_constructor.hpp"
 #include "parsing/variable_catalog.hpp"
 #include "utils/statistics.hpp"
-
-#include <REmatch/match.hpp>
 
 namespace REmatch {
 inline namespace library_interface {

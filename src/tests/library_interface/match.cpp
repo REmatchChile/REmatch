@@ -4,6 +4,7 @@
 #include <memory>
 #include <sstream>
 
+#include "REmatch/match_standard.hpp"
 #include "evaluation/document.hpp"
 #include "mediator/mapping.hpp"
 #include "parsing/parser.hpp"
@@ -16,19 +17,17 @@ using namespace REmatch::library_interface;
 std::string get_group_dict_info(const std::map<std::string, Span>& group_dict) {
   std::ostringstream stream;
   for (auto& pair : group_dict) {
-    stream << pair.first << " -> |" << pair.second.first << ", "
-           << pair.second.second << ">\n";
+    stream << pair.first << " -> |" << pair.second.first << ", " << pair.second.second << ">\n";
   }
   return stream.str();
 }
 
 MatchStandard construct_match(const std::string& document_, const std::string& query,
-                      std::unique_ptr<mediator::Mapping> mapping) {
+                              std::unique_ptr<mediator::Mapping> mapping) {
   auto parser = Parser(query);
-  std::shared_ptr<VariableCatalog> variable_catalog =
-      parser.get_variable_catalog();
+  std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
   auto document = std::make_shared<Document>(document_);
-  return MatchStandard(std::move(mapping), variable_catalog, document);
+  return {std::move(mapping), variable_catalog, document};
 }
 
 TEST_CASE("match object returns the correct span indexes") {
@@ -68,8 +67,7 @@ TEST_CASE("match object returns the correct groups") {
   std::string regex = "!x{a+}!y{b+}";
 
   auto parser = Parser(regex);
-  std::shared_ptr<VariableCatalog> variable_catalog =
-      parser.get_variable_catalog();
+  std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
 
   std::map<int, Span> spans_map = {{0, {0, 4}}, {1, {4, 8}}};
   auto mapping = std::make_unique<mediator::Mapping>(std::move(spans_map));
@@ -86,8 +84,7 @@ TEST_CASE("match object returns the correct group dictionary") {
   std::string document = "aaaabbbb";
   std::string regex = "!x{a+}!y{b+}";
 
-  std::map<std::string, Span> expected_group_dict = {{"x", {0, 4}},
-                                                     {"y", {4, 8}}};
+  std::map<std::string, Span> expected_group_dict = {{"x", {0, 4}}, {"y", {4, 8}}};
   std::map<int, Span> spans_map = {{0, {0, 4}}, {1, {4, 8}}};
   auto mapping = std::make_unique<mediator::Mapping>(std::move(spans_map));
   MatchStandard match = construct_match(document, regex, std::move(mapping));

@@ -23,9 +23,9 @@ class Stream {
   // Reads from buffer
   void read_back(char& a, uint64_t pos) const;
 
-  std::string substr(Span& span) const;
+  std::string substr(const Span& span) const;
 
-  std::string_view get_segment(Span& span) const;
+  std::string_view get_segment(const Span& span) const;
 
   uint64_t get_buffer_size() const;
 

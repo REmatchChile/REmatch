@@ -28,11 +28,11 @@ void Stream::read_back(char& a, uint64_t pos) const {
   a = buffer->at(pos);
 }
 
-std::string Stream::substr(Span& span) const {
+std::string Stream::substr(const Span& span) const {
   return buffer->substr(span);
 }
 
-std::string_view Stream::get_segment(Span& span) const {
+std::string_view Stream::get_segment(const Span& span) const {
   return buffer->get_segment(span);
 }
 
