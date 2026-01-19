@@ -1,6 +1,6 @@
 #include "s_multi_match.hpp"
 
-namespace REmatch {
+namespace REmatch::internal {
 
 SMultiMatch::SMultiMatch(std::unique_ptr<ExtendedMapping> extended_mapping,
                          std::shared_ptr<parsing::VariableCatalog> variable_catalog,

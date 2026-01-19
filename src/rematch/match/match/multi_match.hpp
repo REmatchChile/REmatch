@@ -6,7 +6,7 @@
 
 #include "REmatch/span.hpp"
 
-namespace REmatch {
+namespace REmatch::internal {
 
 class MultiMatch {
  public:

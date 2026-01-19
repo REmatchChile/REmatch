@@ -3,16 +3,17 @@
 #include <sstream>
 
 #include "REmatch/constants.hpp"
+#include "REmatch_export.hpp"
 
 namespace REmatch {
 
-class Reader {
+class REMATCH_EXPORT Reader {
  public:
   virtual bool read(char& a) = 0;
   virtual ~Reader() = default;
 };
 
-class FStreamReader : public Reader {
+class REMATCH_EXPORT FStreamReader : public Reader {
  public:
   explicit FStreamReader(std::basic_istream<char>& input);
 

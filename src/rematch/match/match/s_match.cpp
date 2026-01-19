@@ -1,6 +1,6 @@
 #include "s_match.hpp"
 
-namespace REmatch {
+namespace REmatch::internal {
 
 SMatch::SMatch(std::unique_ptr<mediator::Mapping> mapping,
                std::shared_ptr<VariableCatalog> variable_catalog, std::shared_ptr<Stream> stream)

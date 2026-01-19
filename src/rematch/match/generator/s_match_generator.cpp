@@ -1,14 +1,13 @@
-#include "REmatch/s_match_generator.hpp"
+#include "s_match_generator.hpp"
 
-#include "match/stream/s_match.hpp"
+#include <utility>
+
+#include "match/match/s_match.hpp"
 #include "mediator/mediator.hpp"
 #include "mediator/mediator_constructor.hpp"
 #include "parsing/variable_catalog.hpp"
 
-#include <utility>
-
-namespace REmatch {
-inline namespace library_interface {
+namespace REmatch::internal {
 
 SMatchGenerator::iterator::iterator(std::unique_ptr<Mediator> mediator_,
                                     std::shared_ptr<VariableCatalog> variable_catalog_,
@@ -67,8 +66,8 @@ void SMatchGenerator::iterator::next() {
   auto mapping = mediator->next();
 
   if (mapping) {
-    auto match = std::make_unique<SMatch>(std::move(mapping), variable_catalog, stream);
-    match_ptr = std::make_unique<MatchTypeErased>(std::move(match));
+    auto match = std::make_unique<internal::SMatch>(std::move(mapping), variable_catalog, stream);
+    match_ptr = std::make_unique<REmatch::Match>(std::move(match));
     return;
   }
 
@@ -91,7 +90,5 @@ SMatchGenerator::iterator SMatchGenerator::begin() const {
 SMatchGenerator::iterator SMatchGenerator::end() const {
   return {};
 }
-
-}  // namespace library_interface
 
 }  // namespace REmatch

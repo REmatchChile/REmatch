@@ -5,11 +5,13 @@
 #include <sstream>
 
 #include "evaluation/document.hpp"
+#include "match/match/match_standard.hpp"
 #include "mediator/mapping.hpp"
 #include "parsing/parser.hpp"
-#include "match/standard/match_standard.hpp"
 
 namespace REmatch::testing {
+
+using namespace internal;
 
 std::string get_group_dict_info(const std::map<std::string, Span>& group_dict) {
   std::ostringstream stream;

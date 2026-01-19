@@ -97,7 +97,7 @@ int main(int argc, char** argv) {
       auto query = reql(pattern_, flags, max_mempool_duplications, max_deterministic_states);
 
       try {
-        MatchTypeErased match = query.findone(document_);
+        auto match = query.findone(document_);
         std::cout << match << std::endl;
       } catch (const std::exception& e) {
         std::cout << e.what() << std::endl;

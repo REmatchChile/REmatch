@@ -5,10 +5,10 @@
 #include <string>
 #include <vector>
 
+#include "REmatch/flags.hpp"
 #include "REmatch/fstream_reader.hpp"
-#include "REmatch/match_generator_type_erased.hpp"
-#include "REmatch/match_type_erased.hpp"
-#include "REmatch/s_match_generator.hpp"
+#include "REmatch/match_generator.hpp"
+#include "REmatch/match.hpp"
 #include "REmatch_export.hpp"
 
 namespace REmatch {
@@ -25,17 +25,17 @@ class REMATCH_EXPORT Query {
   Query(Query&& other) noexcept;
   Query& operator=(Query&& other) noexcept;
 
-  MatchTypeErased findone(const std::string& document) const;
-  MatchTypeErased findone(Reader* reader) const;
+  Match findone(const std::string& document) const;
+  Match findone(Reader* reader) const;
 
-  std::vector<MatchTypeErased> findmany(const std::string& document, uint_fast32_t limit) const;
-  std::vector<MatchTypeErased> findmany(Reader* reader, uint_fast32_t limit) const;
+  std::vector<Match> findmany(const std::string& document, uint_fast32_t limit) const;
+  std::vector<Match> findmany(Reader* reader, uint_fast32_t limit) const;
 
-  std::vector<MatchTypeErased> findall(const std::string& document) const;
-  std::vector<MatchTypeErased> findall(Reader* reader) const;
+  std::vector<Match> findall(const std::string& document) const;
+  std::vector<Match> findall(Reader* reader) const;
 
-  MatchGeneratorTypeErased finditer(const std::string& document) const;
-  MatchGeneratorTypeErased finditer(Reader* reader) const;
+  MatchGenerator finditer(const std::string& document) const;
+  MatchGenerator finditer(Reader* reader) const;
 
   bool check(const std::string& document);
   bool check(Reader* reader);

@@ -2,16 +2,16 @@
 
 #include <cstdint>
 
+#include "REmatch/flags.hpp"
+#include "REmatch/multi_match.hpp"
 #include "evaluation/document.hpp"
 #include "evaluation/stream.hpp"
+#include "match/generator/multi_match_generator.hpp"
+#include "match/generator/s_multi_match_generator.hpp"
+#include "match/match/multi_match_standard.hpp"
+#include "match/match/s_multi_match.hpp"
 #include "mediator/mediator_constructor.hpp"
 #include "utils/query_data.hpp"
-
-#include "REmatch/flags.hpp"
-#include "REmatch/multi_match_generator.hpp"
-#include "REmatch/multi_match_type_erased.hpp"
-#include "match/standard/multi_match_standard.hpp"
-#include "match/stream/s_multi_match.hpp"
 
 namespace REmatch {
 
@@ -42,7 +42,7 @@ MultiQuery& MultiQuery::operator=(MultiQuery&& other) noexcept {
 
 MultiQuery::~MultiQuery() = default;
 
-MultiMatchTypeErased MultiQuery::findone(const std::string& document_) {
+MultiMatch MultiQuery::findone(const std::string& document_) {
   auto document = std::make_shared<Document>(document_);
   auto mediator = MediatorConstructor::create_multi_findone_mediator(*query_data_, document);
 
@@ -51,12 +51,12 @@ MultiMatchTypeErased MultiQuery::findone(const std::string& document_) {
     throw REmatchException("No match found");
   }
 
-  auto match = std::make_unique<MultiMatchStandard>(std::move(mapping),
-                                                    query_data_->variable_catalog, document);
-  return MultiMatchTypeErased(std::move(match));
+  auto match = std::make_unique<internal::MultiMatchStandard>(
+      std::move(mapping), query_data_->variable_catalog, document);
+  return MultiMatch(std::move(match));
 }
 
-MultiMatchTypeErased MultiQuery::findone(Reader* reader) {
+MultiMatch MultiQuery::findone(Reader* reader) {
   auto stream = std::make_shared<Stream>(reader, buffer_size);
   auto mediator = MediatorConstructor::create_stream_multi_mediator(*query_data_, stream);
 
@@ -65,14 +65,13 @@ MultiMatchTypeErased MultiQuery::findone(Reader* reader) {
     throw REmatchException("No match found");
   }
 
-  auto match =
-      std::make_unique<SMultiMatch>(std::move(mapping), query_data_->variable_catalog, stream);
-  return MultiMatchTypeErased(std::move(match));
+  auto match = std::make_unique<internal::SMultiMatch>(std::move(mapping),
+                                                       query_data_->variable_catalog, stream);
+  return MultiMatch(std::move(match));
 }
 
-std::vector<MultiMatchTypeErased> MultiQuery::findmany(const std::string& document,
-                                                       uint_fast32_t limit) {
-  std::vector<MultiMatchTypeErased> res;
+std::vector<MultiMatch> MultiQuery::findmany(const std::string& document, uint_fast32_t limit) {
+  std::vector<MultiMatch> res;
 
   const auto multi_match_generator = finditer(document);
   for (auto it = multi_match_generator.begin(); it != multi_match_generator.end() && limit > 0;
@@ -83,8 +82,8 @@ std::vector<MultiMatchTypeErased> MultiQuery::findmany(const std::string& docume
   return res;
 }
 
-std::vector<MultiMatchTypeErased> MultiQuery::findmany(Reader* reader, uint_fast32_t limit) {
-  std::vector<MultiMatchTypeErased> res;
+std::vector<MultiMatch> MultiQuery::findmany(Reader* reader, uint_fast32_t limit) {
+  std::vector<MultiMatch> res;
 
   const auto multi_match_generator = finditer(reader);
   for (auto it = multi_match_generator.begin(); it != multi_match_generator.end() && limit > 0;
@@ -95,8 +94,8 @@ std::vector<MultiMatchTypeErased> MultiQuery::findmany(Reader* reader, uint_fast
   return res;
 }
 
-std::vector<MultiMatchTypeErased> MultiQuery::findall(const std::string& document) {
-  std::vector<MultiMatchTypeErased> res;
+std::vector<MultiMatch> MultiQuery::findall(const std::string& document) {
+  std::vector<MultiMatch> res;
 
   const auto multi_match_generator = finditer(document);
   for (const auto& match : multi_match_generator) {
@@ -106,8 +105,8 @@ std::vector<MultiMatchTypeErased> MultiQuery::findall(const std::string& documen
   return res;
 }
 
-std::vector<MultiMatchTypeErased> MultiQuery::findall(Reader* reader) {
-  std::vector<MultiMatchTypeErased> res;
+std::vector<MultiMatch> MultiQuery::findall(Reader* reader) {
+  std::vector<MultiMatch> res;
 
   const auto multi_match_generator = finditer(reader);
   for (const auto& match : multi_match_generator) {
@@ -117,15 +116,15 @@ std::vector<MultiMatchTypeErased> MultiQuery::findall(Reader* reader) {
   return res;
 }
 
-MultiMatchGeneratorTypeErased MultiQuery::finditer(const std::string& document) {
-  MultiMatchGenerator match_generator(query_data_, std::make_shared<Document>(document));
-  return MultiMatchGeneratorTypeErased(std::move(match_generator));
+MultiMatchGenerator MultiQuery::finditer(const std::string& document) {
+  internal::MultiMatchGenerator match_generator(query_data_, std::make_shared<Document>(document));
+  return MultiMatchGenerator(std::move(match_generator));
 }
 
-MultiMatchGeneratorTypeErased MultiQuery::finditer(Reader* reader) {
+MultiMatchGenerator MultiQuery::finditer(Reader* reader) {
   auto stream = std::make_shared<Stream>(reader, buffer_size);
-  SMultiMatchGenerator match_generator(query_data_, stream);
-  return MultiMatchGeneratorTypeErased(std::move(match_generator));
+  internal::SMultiMatchGenerator match_generator(query_data_, stream);
+  return MultiMatchGenerator(std::move(match_generator));
 }
 
 bool MultiQuery::check(const std::string& document_) {

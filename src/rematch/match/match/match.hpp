@@ -8,7 +8,7 @@
 
 #include "REmatch/span.hpp"
 
-namespace REmatch {
+namespace REmatch::internal {
 
 class Match {
  public:

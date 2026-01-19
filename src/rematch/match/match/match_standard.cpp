@@ -1,6 +1,6 @@
 #include "match_standard.hpp"
 
-namespace REmatch {
+namespace REmatch::internal {
 
 MatchStandard::MatchStandard(std::unique_ptr<mediator::Mapping> mapping,
                              std::shared_ptr<parsing::VariableCatalog> variable_catalog,

@@ -203,7 +203,7 @@ void shift_span(std::unique_ptr<Span>& span) {
   --(span->second);
 }
 
-void run_client_test(MatchGeneratorTypeErased& match_generator, std::vector<DummyMapping> expected_matches) {
+void run_client_test(MatchGenerator& match_generator, std::vector<DummyMapping> expected_matches) {
   std::ostringstream info_os;
   info_os << "Actual mappings:\n";
 

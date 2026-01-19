@@ -1,11 +1,11 @@
 #pragma once
 
 #include "evaluation/stream.hpp"
-#include "match/multi_match.hpp"
+#include "multi_match.hpp"
 #include "output_enumeration/extended_mapping.hpp"
 #include "parsing/variable_catalog.hpp"
 
-namespace REmatch {
+namespace REmatch::internal {
 
 class SMultiMatch : public MultiMatch {
  public:

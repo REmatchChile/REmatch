@@ -1,44 +1,33 @@
 #pragma once
 
+#include <cstddef>
+#include <cstdint>
 #include <iterator>
 #include <memory>
-#include <vector>
+#include <string>
 
-#include "REmatch/multi_match_type_erased.hpp"
-#include "flags.hpp"
-#include "fstream_reader.hpp"
+#include "REmatch/multi_match.hpp"
+#include "evaluation/document.hpp"
+#include "mediator/multi_mediator.hpp"
+#include "parsing/variable_catalog.hpp"
+#include "utils/statistics.hpp"
 
-#include "REmatch_export.hpp"
+namespace REmatch::internal {
 
-namespace REmatch {
-
-class Document;
-class MultiMediator;
-class Stream;
-struct QueryData;
-
-inline namespace parsing {
-class VariableCatalog;
-}
-
-class SMatch;
-
-inline namespace library_interface {
-
-class REMATCH_EXPORT SMultiMatchGenerator {
+class MultiMatchGenerator {
  public:
-  struct REMATCH_EXPORT iterator {
+  struct iterator {
    public:
     using iterator_category = std::input_iterator_tag;
     using difference_type = std::ptrdiff_t;
-    using value = MultiMatchTypeErased;
+    using value = REmatch::MultiMatch;
     using pointer = value*;
     using reference = value&;
 
     // called with begin()
     explicit iterator(std::unique_ptr<MultiMediator> mediator_,
                       std::shared_ptr<VariableCatalog> variable_catalog_,
-                      std::shared_ptr<Stream> stream);
+                      std::shared_ptr<Document> document_);
 
     iterator(iterator&& other) noexcept;
     iterator& operator=(iterator&& other) noexcept;
@@ -62,14 +51,17 @@ class REMATCH_EXPORT SMultiMatchGenerator {
     std::unique_ptr<MultiMediator> mediator;
 
     std::shared_ptr<parsing::VariableCatalog> variable_catalog;
-    std::shared_ptr<Stream> stream;
 
-    std::unique_ptr<MultiMatchTypeErased> match_ptr;
+    std::shared_ptr<Document> document;
+
+    std::unique_ptr<Statistics> stats;
+
+    std::unique_ptr<REmatch::MultiMatch> multi_match_ptr;
 
     void next();
   };
 
-  SMultiMatchGenerator(std::shared_ptr<QueryData> query_data, std::shared_ptr<Stream> stream);
+  MultiMatchGenerator(std::shared_ptr<QueryData> query_data, std::shared_ptr<Document> document);
 
   iterator begin() const;
 
@@ -77,8 +69,8 @@ class REMATCH_EXPORT SMultiMatchGenerator {
 
  private:
   std::shared_ptr<QueryData> query_data;
-  std::shared_ptr<Stream> stream;
+
+  std::shared_ptr<Document> document;
 };
 
-}  // namespace library_interface
-}  // namespace REmatch
+}  // namespace REmatch::internal

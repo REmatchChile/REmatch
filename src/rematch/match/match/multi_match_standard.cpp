@@ -1,10 +1,10 @@
 #include "multi_match_standard.hpp"
 
-#include <utility>
-
 #include "REmatch/exceptions.hpp"
 
-namespace REmatch {
+#include <utility>
+
+namespace REmatch::internal {
 
 MultiMatchStandard::MultiMatchStandard(std::unique_ptr<ExtendedMapping> extended_mapping,
                                        std::shared_ptr<parsing::VariableCatalog> variable_catalog,

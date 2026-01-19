@@ -1,11 +1,11 @@
 #pragma once
 
 #include "evaluation/document.hpp"
-#include "match/match.hpp"
+#include "match/match/match.hpp"
 #include "mediator/mapping.hpp"
 #include "parsing/variable_catalog.hpp"
 
-namespace REmatch {
+namespace REmatch::internal {
 
 class MatchStandard : public Match {
 

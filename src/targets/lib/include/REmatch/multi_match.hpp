@@ -3,40 +3,44 @@
 #include <memory>
 #include <string>
 #include <vector>
+
 #include "REmatch/span.hpp"
+#include "REmatch_export.hpp"
 
 namespace REmatch {
 
+namespace internal {
 class MultiMatch;
+}
 
-class MultiMatchTypeErased {
+class REMATCH_EXPORT MultiMatch {
  public:
-  explicit MultiMatchTypeErased(std::unique_ptr<MultiMatch> match);
+  explicit MultiMatch(std::unique_ptr<internal::MultiMatch> match);
 
-  MultiMatchTypeErased(const MultiMatchTypeErased& other);
+  MultiMatch(const MultiMatch& other);
 
-  MultiMatchTypeErased& operator=(const MultiMatchTypeErased& other);
+  MultiMatch& operator=(const MultiMatch& other);
 
-  MultiMatchTypeErased(MultiMatchTypeErased&& other) noexcept;
+  MultiMatch(MultiMatch&& other) noexcept;
 
-  MultiMatchTypeErased& operator=(MultiMatchTypeErased&& other) noexcept;
+  MultiMatch& operator=(MultiMatch&& other) noexcept;
 
-  ~MultiMatchTypeErased();
+  ~MultiMatch();
 
   std::vector<Span> spans(const std::string& variable_name) const;
   std::vector<Span> spans(uint_fast32_t variable_id) const;
   std::vector<std::string> groups(const std::string& variable_name) const;
   std::vector<std::string> groups(uint_fast32_t variable_id) const;
-  MultiMatchTypeErased submatch(Span span) const;
+  MultiMatch submatch(Span span) const;
   std::vector<std::string> variables() const;
   std::string to_string() const;
   bool empty() const;
 
  private:
-  std::unique_ptr<MultiMatch> self;
+  std::unique_ptr<internal::MultiMatch> self;
 };
 
-inline std::ostream& operator<<(std::ostream& os, const MultiMatchTypeErased& obj) {
+inline std::ostream& operator<<(std::ostream& os, const MultiMatch& obj) {
   os << obj.to_string();
   return os;
 }

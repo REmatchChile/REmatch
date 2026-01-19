@@ -1,11 +1,11 @@
 #pragma once
 
 #include "evaluation/stream.hpp"
-#include "match/match.hpp"
+#include "match.hpp"
 #include "mediator/mapping.hpp"
 #include "parsing/variable_catalog.hpp"
 
-namespace REmatch {
+namespace REmatch::internal {
 
 class SMatch : public Match {
  public:
@@ -48,4 +48,4 @@ class SMatch : public Match {
   std::shared_ptr<Stream> stream;
 };
 
-}  // namespace REmatch
+}  // namespace REmatch::internal

@@ -2,11 +2,13 @@
 #include <catch2/generators/catch_generators.hpp>
 
 #include "evaluation/document.hpp"
-#include "match/standard/multi_match_standard.hpp"
+#include "match/match/multi_match_standard.hpp"
 #include "output_enumeration/extended_mapping.hpp"
 #include "parsing/variable_catalog.hpp"
 
 namespace REmatch::testing {
+
+using namespace internal;
 
 TEST_CASE("the spans method works correctly") {
   std::string text = "Hi there";

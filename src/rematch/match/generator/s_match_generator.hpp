@@ -4,34 +4,19 @@
 #include <memory>
 #include <vector>
 
-#include "REmatch/match_type_erased.hpp"
-#include "flags.hpp"
-#include "fstream_reader.hpp"
+#include "REmatch/match.hpp"
+#include "evaluation/stream.hpp"
+#include "mediator/mediator.hpp"
 
-#include "REmatch_export.hpp"
+namespace REmatch::internal {
 
-namespace REmatch {
-
-class Document;
-class Mediator;
-class Stream;
-struct QueryData;
-
-inline namespace parsing {
-class VariableCatalog;
-}
-
-class SMatch;
-
-inline namespace library_interface {
-
-class REMATCH_EXPORT SMatchGenerator {
+class SMatchGenerator {
  public:
-  struct REMATCH_EXPORT iterator {
+  struct iterator {
    public:
     using iterator_category = std::input_iterator_tag;
     using difference_type = std::ptrdiff_t;
-    using value = MatchTypeErased;
+    using value = REmatch::Match;
     using pointer = value*;
     using reference = value&;
 
@@ -64,7 +49,7 @@ class REMATCH_EXPORT SMatchGenerator {
     std::shared_ptr<parsing::VariableCatalog> variable_catalog;
     std::shared_ptr<Stream> stream;
 
-    std::unique_ptr<MatchTypeErased> match_ptr;
+    std::unique_ptr<REmatch::Match> match_ptr;
 
     void next();
   };
@@ -80,5 +65,4 @@ class REMATCH_EXPORT SMatchGenerator {
   std::shared_ptr<Stream> stream;
 };
 
-}  // namespace library_interface
-}  // namespace REmatch
+}  // namespace REmatch::internal

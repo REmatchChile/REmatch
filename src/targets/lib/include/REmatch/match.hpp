@@ -6,24 +6,25 @@
 #include <string>
 #include <vector>
 #include "REmatch/span.hpp"
+#include "REmatch_export.hpp"
 
 namespace REmatch {
 
-class MatchStandard;
-class SMatch;
-class Match;
+namespace internal {
+  class Match;
+}
 
-class MatchTypeErased {
+class REMATCH_EXPORT Match {
  public:
-  explicit MatchTypeErased(std::unique_ptr<Match> match);
+  explicit Match(std::unique_ptr<internal::Match> match);
 
-  MatchTypeErased(const MatchTypeErased& other);
-  MatchTypeErased(MatchTypeErased&& other) noexcept;
+  Match(const Match& other);
+  Match(Match&& other) noexcept;
 
-  MatchTypeErased& operator=(const MatchTypeErased& other);
-  MatchTypeErased& operator=(MatchTypeErased&& other) noexcept;
+  Match& operator=(const Match& other);
+  Match& operator=(Match&& other) noexcept;
 
-  ~MatchTypeErased();
+  ~Match();
 
   int64_t start(const std::string& variable_name) const;
   int64_t start(uint_fast32_t variable_id) const;
@@ -40,10 +41,10 @@ class MatchTypeErased {
   bool empty() const;
 
  private:
-  std::unique_ptr<Match> self;
+  std::unique_ptr<internal::Match> self;
 };
 
-inline std::ostream& operator<<(std::ostream& os, const MatchTypeErased& obj) {
+inline std::ostream& operator<<(std::ostream& os, const Match& obj) {
   os << obj.to_string();
   return os;
 }
