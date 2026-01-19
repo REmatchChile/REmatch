@@ -1,35 +1,18 @@
 #pragma once
 
-#include <cstdint>
-#include <map>
-#include <memory>
-#include <string>
-#include <vector>
-
-#include "match.hpp"
-#include "span.hpp"
-
-#include "REmatch_export.hpp"
+#include "evaluation/document.hpp"
+#include "match/match.hpp"
+#include "mediator/mapping.hpp"
+#include "parsing/variable_catalog.hpp"
 
 namespace REmatch {
-class Document;
 
-namespace mediator {
-class Mapping;
-}
-
-inline namespace parsing {
-class VariableCatalog;
-}
-
-inline namespace library_interface {
-
-class REMATCH_EXPORT MatchStandard : public Match {
+class MatchStandard : public Match {
 
  public:
   MatchStandard(std::unique_ptr<mediator::Mapping> mapping,
-        std::shared_ptr<parsing::VariableCatalog> variable_catalog,
-        std::shared_ptr<Document> document);
+                std::shared_ptr<parsing::VariableCatalog> variable_catalog,
+                std::shared_ptr<Document> document);
 
   // Copy and move constructors
   MatchStandard(const MatchStandard& other);
@@ -60,13 +43,12 @@ class REMATCH_EXPORT MatchStandard : public Match {
 
   std::string to_string() const override;
 
-  friend REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, const MatchStandard& match);
+  std::unique_ptr<Match> clone() const override { return std::make_unique<MatchStandard>(*this); }
 
  private:
   std::unique_ptr<mediator::Mapping> mapping_;
   std::shared_ptr<parsing::VariableCatalog> variable_catalog_;
   std::shared_ptr<Document> document_;
 };
-}  // end namespace library_interface
 
 }  // namespace REmatch

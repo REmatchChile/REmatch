@@ -1,12 +1,10 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 
-#include "REmatch/multi_match_standard.hpp"
 #include "evaluation/document.hpp"
+#include "match/standard/multi_match_standard.hpp"
 #include "output_enumeration/extended_mapping.hpp"
 #include "parsing/variable_catalog.hpp"
-
-#include <REmatch/REmatch.hpp>
 
 namespace REmatch::testing {
 

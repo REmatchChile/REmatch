@@ -1,11 +1,12 @@
-#include <REmatch/multi_match_generator.hpp>
+#include "REmatch/multi_match_generator.hpp"
 
+#include <utility>
+
+#include "REmatch/multi_match_type_erased.hpp"
+#include "match/standard/multi_match_standard.hpp"
 #include "mediator/mediator_constructor.hpp"
 #include "parsing/variable_catalog.hpp"
 #include "utils/statistics.hpp"
-
-#include <REmatch/multi_match_standard.hpp>
-#include <utility>
 
 namespace REmatch {
 inline namespace library_interface {
@@ -38,8 +39,12 @@ MultiMatchGenerator::iterator::iterator() : multi_match_ptr(nullptr) {}
 
 MultiMatchGenerator::iterator::~iterator() = default;
 
-MultiMatchGenerator::iterator::value MultiMatchGenerator::iterator::operator*() {
-  return std::move(multi_match_ptr);
+MultiMatchGenerator::iterator::reference MultiMatchGenerator::iterator::operator*() const {
+  return *multi_match_ptr;
+}
+
+MultiMatchGenerator::iterator::pointer MultiMatchGenerator::iterator::operator->() const {
+  return multi_match_ptr.get();
 }
 
 MultiMatchGenerator::iterator& MultiMatchGenerator::iterator::operator++() {
@@ -63,7 +68,9 @@ void MultiMatchGenerator::iterator::next() {
   auto mapping = mediator->next();
 
   if (mapping) {
-    multi_match_ptr = std::make_unique<MultiMatchStandard>(std::move(mapping), variable_catalog, document);
+    auto match =
+        std::make_unique<MultiMatchStandard>(std::move(mapping), variable_catalog, document);
+    multi_match_ptr = std::make_unique<MultiMatchTypeErased>(std::move(match));
     return;
   }
 

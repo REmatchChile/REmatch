@@ -4,7 +4,6 @@
 #include "../evaluation/dummy_mapping.hpp"
 #include "../evaluation/mapping_helpers.hpp"
 #include "../tests_utils/tests_utils.hpp"
-#include "REmatch/match.hpp"
 
 namespace REmatch::testing {
 
@@ -59,7 +58,7 @@ TEST_CASE("flag LINE_BY_LINE works correctly using findone") {
 
   REQUIRE_NOTHROW([&]() {
     auto match = regex.findone(document);
-    REQUIRE(match->span("x") == Span{2, 3});
+    REQUIRE(match.span("x") == Span{2, 3});
   }());
 }
 
@@ -72,7 +71,7 @@ TEST_CASE("flag LINE_BY_LINE works correctly using findone and anchors") {
 
   REQUIRE_NOTHROW([&]() {
     auto match = regex.findone(document);
-    REQUIRE(match->span("x") == Span{0, 1});
+    REQUIRE(match.span("x") == Span{0, 1});
   }());
 }
 

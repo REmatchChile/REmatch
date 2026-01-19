@@ -30,7 +30,7 @@ TEST_CASE(
   auto query = reql("!x{a}");
   auto match = query.findone("a");
 
-  REQUIRE_THROWS_AS(match->span("y"), VariableNotFoundException);
+  REQUIRE_THROWS_AS(match.span("y"), VariableNotFoundException);
 }
 
 }  // namespace REmatch::testing

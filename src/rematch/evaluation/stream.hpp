@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 
-#include <REmatch/fstream_reader.hpp>
+#include "REmatch/fstream_reader.hpp"
 #include "circular_buffer.hpp"
 #include "evaluation/start_end_chars.hpp"
 

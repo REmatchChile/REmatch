@@ -1,7 +1,8 @@
 #include <antlr4-runtime.h>
 
 #include <sstream>
-#include <REmatch/exceptions.hpp>
+
+#include "REmatch/exceptions.hpp"
 
 namespace antlr4 {
 

@@ -78,6 +78,22 @@ class SegmentCheckerStream {
     return state->accepting();
   }
 
+  bool check() {
+    search_dfa->next_state(START_CHAR);
+
+    char a;
+    while (stream->read(a)) {
+      SearchDFAState* current_state = search_dfa->next_state(a);
+
+      if (current_state->accepting()) {
+        return true;
+      }
+    }
+
+    SearchDFAState* state = search_dfa->next_state(END_CHAR);
+    return state->accepting();
+  }
+
  private:
   std::unique_ptr<SearchDFA> search_dfa;
   std::shared_ptr<Stream> stream;

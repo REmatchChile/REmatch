@@ -6,8 +6,6 @@
 #include "mediator/mediator.hpp"
 #include "utils/query_data.hpp"
 
-#include <REmatch/constants.hpp>
-
 namespace REmatch {
 
 class FindoneMediator : public Mediator {

@@ -1,8 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 
-#include <REmatch/REmatch.hpp>
-
+#include "REmatch/REmatch.hpp"
 #include "evaluation/algorithm/findone_algorithm.hpp"
 #include "evaluation/document.hpp"
 #include "mapping_helpers.hpp"

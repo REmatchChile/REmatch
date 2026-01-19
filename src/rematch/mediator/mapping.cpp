@@ -1,6 +1,6 @@
 #include "mapping.hpp"
 
-#include <REmatch/exceptions.hpp>
+#include "REmatch/exceptions.hpp"
 
 namespace REmatch::mediator {
 

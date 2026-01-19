@@ -3,7 +3,7 @@
 #include <emscripten/bind.h>
 
 
-#include <REmatch/REmatch.hpp>
+#include "REmatch/REmatch.hpp"
 
 using namespace emscripten;
 using namespace REmatch;

@@ -5,10 +5,9 @@
 #include <string>
 #include <vector>
 
+#include "REmatch/constants.hpp"
 #include "output_enumeration/node_manager.hpp"
 #include "output_enumeration/ecs_node.hpp"
-
-#include <REmatch/constants.hpp>
 
 namespace REmatch {
 

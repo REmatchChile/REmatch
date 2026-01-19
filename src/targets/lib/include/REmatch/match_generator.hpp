@@ -6,9 +6,9 @@
 #include <memory>
 #include <string>
 
+#include "REmatch/match_type_erased.hpp"
 #include "REmatch_export.hpp"
 #include "constants.hpp"
-#include "match.hpp"
 
 namespace REmatch {
 class Document;
@@ -28,9 +28,9 @@ class REMATCH_EXPORT MatchGenerator {
    public:
     using iterator_category = std::input_iterator_tag;
     using difference_type = std::ptrdiff_t;
-    using value = std::unique_ptr<Match>;
+    using value = MatchTypeErased;
     using pointer = value*;
-    using reference = value;
+    using reference = value&;
 
     // called with begin()
     explicit iterator(std::unique_ptr<Mediator> mediator_,
@@ -45,7 +45,8 @@ class REMATCH_EXPORT MatchGenerator {
 
     ~iterator();
 
-    value operator*();
+    reference operator*() const;
+    pointer operator->() const;
 
     iterator& operator++();
     void operator++(int);
@@ -63,7 +64,7 @@ class REMATCH_EXPORT MatchGenerator {
 
     std::unique_ptr<Statistics> stats;
 
-    std::unique_ptr<Match> match_ptr;
+    std::unique_ptr<MatchTypeErased> match_ptr;
 
     void next();
   };

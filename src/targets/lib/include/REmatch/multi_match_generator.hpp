@@ -6,7 +6,7 @@
 #include <memory>
 #include <string>
 
-#include "REmatch/multi_match.hpp"
+#include "REmatch/multi_match_type_erased.hpp"
 #include "constants.hpp"
 
 #include "REmatch_export.hpp"
@@ -21,8 +21,9 @@ inline namespace parsing {
 class VariableCatalog;
 }
 
-inline namespace library_interface {
 class MultiMatchStandard;
+
+inline namespace library_interface {
 
 class REMATCH_EXPORT MultiMatchGenerator {
  public:
@@ -30,9 +31,9 @@ class REMATCH_EXPORT MultiMatchGenerator {
    public:
     using iterator_category = std::input_iterator_tag;
     using difference_type = std::ptrdiff_t;
-    using value = std::unique_ptr<MultiMatch>;
+    using value = MultiMatchTypeErased;
     using pointer = value*;
-    using reference = value;
+    using reference = value&;
 
     // called with begin()
     explicit iterator(std::unique_ptr<MultiMediator> mediator_,
@@ -47,7 +48,8 @@ class REMATCH_EXPORT MultiMatchGenerator {
 
     ~iterator();
 
-    value operator*();
+    reference operator*() const;
+    pointer operator->() const;
 
     iterator& operator++();
     void operator++(int);
@@ -65,7 +67,7 @@ class REMATCH_EXPORT MultiMatchGenerator {
 
     std::unique_ptr<Statistics> stats;
 
-    std::unique_ptr<MultiMatch> multi_match_ptr;
+    std::unique_ptr<MultiMatchTypeErased> multi_match_ptr;
 
     void next();
   };

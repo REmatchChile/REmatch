@@ -1,5 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
-#include <REmatch/REmatch.hpp>
+#include "REmatch/REmatch.hpp"
 #include <vector>
 #include "output_enumeration/node_manager.hpp"
 

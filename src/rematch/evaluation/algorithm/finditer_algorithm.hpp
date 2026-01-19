@@ -4,8 +4,7 @@
 
 #include "evaluation/algorithm/algorithm_class.hpp"
 #include "evaluation/extended_va/dfa/extended_det_va_state.hpp"
-
-#include <REmatch/constants.hpp>
+#include "REmatch/constants.hpp"
 
 namespace REmatch {
 

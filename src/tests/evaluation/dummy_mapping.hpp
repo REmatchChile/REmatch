@@ -1,6 +1,6 @@
 #pragma once
 
-#include <REmatch/exceptions.hpp>
+#include "REmatch/exceptions.hpp"
 #include "evaluation/algorithm/algorithm_class.hpp"
 #include "evaluation/extended_va/dfa/extended_det_va.hpp"
 

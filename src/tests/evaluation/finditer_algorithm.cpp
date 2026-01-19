@@ -1,7 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 
-#include <REmatch/REmatch.hpp>
+#include "REmatch/REmatch.hpp"
 
 #include "../tests_utils/tests_utils.hpp"
 #include "evaluation/algorithm/finditer_algorithm.hpp"

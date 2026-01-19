@@ -12,7 +12,7 @@
 #include "output_enumeration/ecs_node.hpp"
 #include "parsing/charclass.hpp"
 
-#include <REmatch/REmatch.hpp>
+#include "REmatch/REmatch.hpp"
 
 namespace REmatch::testing {
 
@@ -50,7 +50,7 @@ bool charclass_contains_every_character(CharClass charclass);
 
 void shift_span(std::unique_ptr<Span>& span);
 
-void run_client_test(MatchGenerator& match_generator,
+void run_client_test(MatchGeneratorTypeErased& match_generator,
                      std::vector<DummyMapping> expected_matches);
 
 void run_multi_mediator_test(const std::string& query,

@@ -1,6 +1,6 @@
-#include <REmatch/s_multi_match_generator.hpp>
+#include "REmatch/s_multi_match_generator.hpp"
 
-#include "REmatch/s_multi_match.hpp"
+#include "match/stream/s_multi_match.hpp"
 #include "mediator/mediator.hpp"
 #include "mediator/mediator_constructor.hpp"
 #include "parsing/variable_catalog.hpp"
@@ -37,8 +37,12 @@ SMultiMatchGenerator::iterator::iterator() : match_ptr(nullptr) {}
 
 SMultiMatchGenerator::iterator::~iterator() = default;
 
-SMultiMatchGenerator::iterator::value SMultiMatchGenerator::iterator::operator*() {
-  return std::move(match_ptr);
+SMultiMatchGenerator::iterator::reference SMultiMatchGenerator::iterator::operator*() const {
+  return *match_ptr;
+}
+
+SMultiMatchGenerator::iterator::pointer SMultiMatchGenerator::iterator::operator->() const {
+  return match_ptr.get();
 }
 
 SMultiMatchGenerator::iterator& SMultiMatchGenerator::iterator::operator++() {
@@ -62,7 +66,8 @@ void SMultiMatchGenerator::iterator::next() {
   auto mapping = mediator->next();
 
   if (mapping) {
-    match_ptr = std::make_unique<SMultiMatch>(std::move(mapping), variable_catalog, stream);
+    auto match = std::make_unique<SMultiMatch>(std::move(mapping), variable_catalog, stream);
+    match_ptr = std::make_unique<MultiMatchTypeErased>(std::move(match));
     return;
   }
 

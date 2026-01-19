@@ -3,15 +3,13 @@
 #include <memory>
 #include <string>
 
+#include "REmatch/span.hpp"
 #include "evaluation/document.hpp"
+#include "filtering_module/search_variable_set_automaton/dfa/search_dfa.hpp"
+#include "filtering_module/search_variable_set_automaton/dfa/search_dfa_state.hpp"
 #include "filtering_module/segment_identificator_base.hpp"
 #include "output_enumeration/mapping.hpp"
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
-
-#include "filtering_module/search_variable_set_automaton/dfa/search_dfa.hpp"
-#include "filtering_module/search_variable_set_automaton/dfa/search_dfa_state.hpp"
-
-#include <REmatch/span.hpp>
 
 namespace REmatch {
 

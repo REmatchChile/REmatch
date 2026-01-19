@@ -2,9 +2,9 @@
 
 #include <memory>
 #include <string>
-
-#include <REmatch/flags.hpp>
 #include <utility>
+
+#include "REmatch/flags.hpp"
 #include "evaluation/extended_va/nfa/extended_va.hpp"
 #include "parsing/variable_catalog.hpp"
 

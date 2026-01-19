@@ -6,15 +6,17 @@
 #include <vector>
 
 #include "REmatch/fstream_reader.hpp"
-#include "REmatch/multi_match.hpp"
+#include "REmatch/multi_match_generator_type_erased.hpp"
+#include "REmatch/multi_match_type_erased.hpp"
 #include "REmatch/s_multi_match_generator.hpp"
 #include "REmatch_export.hpp"
 
 namespace REmatch {
 struct QueryData;
 
-inline namespace library_interface {
 class MultiMatchStandard;
+
+inline namespace library_interface {
 class MultiMatchGenerator;
 enum class Flags : uint8_t;
 
@@ -31,18 +33,17 @@ class REMATCH_EXPORT MultiQuery {
 
   ~MultiQuery();
 
-  std::unique_ptr<MultiMatch> findone(const std::string& document);
-  std::unique_ptr<MultiMatch> findone(Reader* reader);
+  MultiMatchTypeErased findone(const std::string& document);
+  MultiMatchTypeErased findone(Reader* reader);
 
-  std::vector<std::unique_ptr<MultiMatch>> findmany(const std::string& document,
-                                                        uint_fast32_t limit);
-  std::vector<std::unique_ptr<MultiMatch>> findmany(Reader* reader, uint_fast32_t limit);
+  std::vector<MultiMatchTypeErased> findmany(const std::string& document, uint_fast32_t limit);
+  std::vector<MultiMatchTypeErased> findmany(Reader* reader, uint_fast32_t limit);
 
-  std::vector<std::unique_ptr<MultiMatch>> findall(const std::string& document);
-  std::vector<std::unique_ptr<MultiMatch>> findall(Reader* reader);
+  std::vector<MultiMatchTypeErased> findall(const std::string& document);
+  std::vector<MultiMatchTypeErased> findall(Reader* reader);
 
-  MultiMatchGenerator finditer(const std::string& document);
-  SMultiMatchGenerator finditer(Reader* reader);
+  MultiMatchGeneratorTypeErased finditer(const std::string& document);
+  MultiMatchGeneratorTypeErased finditer(Reader* reader);
 
   bool check(const std::string& document);
   bool check(Reader* reader);

@@ -6,14 +6,11 @@
 #include <string>
 #include <vector>
 
-#include "span.hpp"
-
-#include "REmatch_export.hpp"
+#include "REmatch/span.hpp"
 
 namespace REmatch {
 
-class REMATCH_EXPORT Match {
-
+class Match {
  public:
   virtual ~Match() = default;
 
@@ -25,19 +22,11 @@ class REMATCH_EXPORT Match {
   virtual Span span(uint_fast32_t variable_id) const = 0;
   virtual std::string group(const std::string& variable_name) const = 0;
   virtual std::string group(uint_fast32_t variable_id) const = 0;
-
   virtual bool empty() const = 0;
-
   virtual std::map<std::string, Span> groupdict() const = 0;
-
   virtual std::vector<std::string> variables() const = 0;
-
   virtual std::string to_string() const = 0;
+  virtual std::unique_ptr<Match> clone() const = 0;
 };
-
-inline std::ostream& operator<<(std::ostream& os, const Match& match) {
-  os << match.to_string();
-  return os;
-}
 
 }  // namespace REmatch

@@ -1,6 +1,6 @@
-#include <REmatch/match_generator.hpp>
+#include "REmatch/match_generator.hpp"
 
-#include "REmatch/match_standard.hpp"
+#include "match/standard/match_standard.hpp"
 #include "mediator/finditer_mediator/finditer_mediator.hpp"
 #include "mediator/mediator_constructor.hpp"
 #include "parsing/variable_catalog.hpp"
@@ -41,8 +41,12 @@ MatchGenerator::iterator::iterator() : match_ptr(nullptr) {}
 
 MatchGenerator::iterator::~iterator() = default;
 
-MatchGenerator::iterator::value MatchGenerator::iterator::operator*() {
-  return std::move(match_ptr);
+MatchGenerator::iterator::reference MatchGenerator::iterator::operator*() const {
+  return *match_ptr;
+}
+
+MatchGenerator::iterator::pointer MatchGenerator::iterator::operator->() const {
+  return match_ptr.get();
 }
 
 MatchGenerator::iterator& MatchGenerator::iterator::operator++() {
@@ -66,7 +70,8 @@ void MatchGenerator::iterator::next() {
   auto mapping = mediator->next();
 
   if (mapping) {
-    match_ptr = std::make_unique<MatchStandard>(std::move(mapping), variable_catalog, document);
+    auto match = std::make_unique<MatchStandard>(std::move(mapping), variable_catalog, document);
+    match_ptr = std::make_unique<MatchTypeErased>(std::move(match));
     return;
   }
 

@@ -88,8 +88,8 @@ void run_match_iterator_test(const std::string& query_, const std::string& docum
   std::ostringstream info_os;
   info_os << "Actual mappings:" << std::endl;
   for (const auto& match : match_generator) {
-    info_os << *match;
-    actual_matches.push_back(match->groupdict());
+    info_os << match;
+    actual_matches.push_back(match.groupdict());
     INFO(info_os.str());
   }
 
@@ -203,15 +203,15 @@ void shift_span(std::unique_ptr<Span>& span) {
   --(span->second);
 }
 
-void run_client_test(MatchGenerator& match_generator, std::vector<DummyMapping> expected_matches) {
+void run_client_test(MatchGeneratorTypeErased& match_generator, std::vector<DummyMapping> expected_matches) {
   std::ostringstream info_os;
   info_os << "Actual mappings:\n";
 
   for (const auto& match : match_generator) {
     DummyMapping mapping({});
 
-    for (const auto& variable : match->variables()) {
-      mapping.add_span(variable, match->span(variable));
+    for (const auto& variable : match.variables()) {
+      mapping.add_span(variable, match.span(variable));
     }
     info_os << get_mapping_info(mapping);
     INFO(info_os.str());

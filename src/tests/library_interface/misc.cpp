@@ -15,7 +15,7 @@ TEST_CASE("finditer w line by line wo anchors") {
   std::set<Span> actual_spans;
 
   for (auto match : it) {
-    actual_spans.insert(match->span("x"));
+    actual_spans.insert(match.span("x"));
   }
 
   std::set<Span> expected_spans = {{0, 1}, {2, 3}, {4, 5}};
@@ -31,7 +31,7 @@ TEST_CASE("finditer w line by line w start anchor") {
   std::set<Span> actual_spans;
 
   for (const auto& match : it) {
-    actual_spans.insert(match->span("x"));
+    actual_spans.insert(match.span("x"));
   }
 
   std::set<Span> expected_spans = {{0, 1}, {0, 2}, {3, 4}, {3, 5}, {6, 7}, {6, 8}};
@@ -47,7 +47,7 @@ TEST_CASE("finditer w line by line w end anchor") {
   std::set<Span> actual_spans;
 
   for (const auto& match : it) {
-    actual_spans.insert(match->span("x"));
+    actual_spans.insert(match.span("x"));
   }
 
   std::set<Span> expected_spans = {{1, 2}, {0, 2}, {4, 5}, {3, 5}, {7, 8}, {6, 8}};
@@ -60,7 +60,7 @@ TEST_CASE("findone w line by line wo anchors") {
 
   auto match = query.findone(document);
 
-  REQUIRE(match->span(0) == Span{1, 2});
+  REQUIRE(match.span(0) == Span{1, 2});
 }
 
 TEST_CASE("findone w line by line w end anchor") {
@@ -69,7 +69,7 @@ TEST_CASE("findone w line by line w end anchor") {
 
   auto match = query.findone(document);
 
-  REQUIRE(match->span(0) == Span{2, 3});
+  REQUIRE(match.span(0) == Span{2, 3});
 }
 
 TEST_CASE("findone w line by line w start anchor") {
@@ -78,7 +78,7 @@ TEST_CASE("findone w line by line w start anchor") {
 
   auto match = query.findone(document);
 
-  REQUIRE(match->span(0) == Span{4, 5});
+  REQUIRE(match.span(0) == Span{4, 5});
 }
 
 TEST_CASE("stream finditer w line by line wo anchors") {
@@ -91,7 +91,7 @@ TEST_CASE("stream finditer w line by line wo anchors") {
   std::set<Span> actual_spans;
 
   for (const auto& match : it) {
-    actual_spans.insert(match->span("x"));
+    actual_spans.insert(match.span("x"));
   }
 
   std::set<Span> expected_spans = {{0, 1}, {2, 3}, {4, 5}};
@@ -108,7 +108,7 @@ TEST_CASE("stream finditer w line by line w start anchor") {
   std::set<Span> actual_spans;
 
   for (const auto& match : it) {
-    actual_spans.insert(match->span("x"));
+    actual_spans.insert(match.span("x"));
   }
 
   std::set<Span> expected_spans = {{0, 1}, {0, 2}, {3, 4}, {3, 5}, {6, 7}, {6, 8}};
@@ -125,7 +125,7 @@ TEST_CASE("stream finditer w line by line w end anchor") {
   std::set<Span> actual_spans;
 
   for (const auto& match : it) {
-    actual_spans.insert(match->span("x"));
+    actual_spans.insert(match.span("x"));
   }
 
   std::set<Span> expected_spans = {{1, 2}, {0, 2}, {4, 5}, {3, 5}, {7, 8}, {6, 8}};
@@ -139,7 +139,7 @@ TEST_CASE("stream findone w line by line wo anchors") {
   auto reader = std::make_unique<FStreamReader>(document);
   auto match = query.findone(reader.get());
 
-  REQUIRE(match->span(0) == Span{1, 2});
+  REQUIRE(match.span(0) == Span{1, 2});
 }
 
 TEST_CASE("stream findone w line by line w end anchor") {
@@ -149,7 +149,7 @@ TEST_CASE("stream findone w line by line w end anchor") {
   auto reader = std::make_unique<FStreamReader>(document);
   auto match = query.findone(reader.get());
 
-  REQUIRE(match->span(0) == Span{2, 3});
+  REQUIRE(match.span(0) == Span{2, 3});
 }
 
 TEST_CASE("stream findone w line by line w start anchor") {
@@ -158,7 +158,7 @@ TEST_CASE("stream findone w line by line w start anchor") {
 
   auto match = query.findone(document);
 
-  REQUIRE(match->span(0) == Span{4, 5});
+  REQUIRE(match.span(0) == Span{4, 5});
 }
 
 TEST_CASE("findone empty lines") {
@@ -177,7 +177,7 @@ TEST_CASE("multi finditer w line by line wo anchors") {
   std::set<std::vector<Span>> actual_spans;
 
   for (const auto& match : it) {
-    actual_spans.insert(match->spans("x"));
+    actual_spans.insert(match.spans("x"));
   }
 
   std::set<std::vector<Span>> expected_spans = {
@@ -194,7 +194,7 @@ TEST_CASE("multi finditer w line by line w start anchor") {
   std::set<std::vector<Span>> actual_spans;
 
   for (const auto& match : it) {
-    actual_spans.insert(match->spans("x"));
+    actual_spans.insert(match.spans("x"));
   }
 
   std::set<std::vector<Span>> expected_spans = {
@@ -211,7 +211,7 @@ TEST_CASE("multi finditer w line by line w end anchor") {
   std::set<std::vector<Span>> actual_spans;
 
   for (const auto& match : it) {
-    actual_spans.insert(match->spans("x"));
+    actual_spans.insert(match.spans("x"));
   }
 
   std::set<std::vector<Span>> expected_spans = {
@@ -226,7 +226,7 @@ TEST_CASE("multi findone w line by line wo anchors") {
   auto match = query.findone(document);
 
   std::vector<Span> expected_match = {{1, 2}};
-  REQUIRE(match->spans(0) == expected_match);
+  REQUIRE(match.spans(0) == expected_match);
 }
 
 TEST_CASE("multi findone w line by line w end anchor") {
@@ -236,7 +236,7 @@ TEST_CASE("multi findone w line by line w end anchor") {
   auto match = query.findone(document);
 
   std::vector<Span> expected_match = {{2, 3}};
-  REQUIRE(match->spans(0) == expected_match);
+  REQUIRE(match.spans(0) == expected_match);
 }
 
 TEST_CASE("multi findone w line by line w start anchor") {
@@ -246,7 +246,7 @@ TEST_CASE("multi findone w line by line w start anchor") {
   auto match = query.findone(document);
 
   std::vector<Span> expected_match = {{5, 6}, {6, 7}};
-  REQUIRE(match->spans(0) == expected_match);
+  REQUIRE(match.spans(0) == expected_match);
 }
 
 TEST_CASE("an exception is thrown when a line does not fit in the buffer") {
@@ -269,7 +269,7 @@ TEST_CASE("stream single line") {
 
   auto m = iter.begin();
 
-  REQUIRE((*m)->group("x") == "t");
+  REQUIRE((*m).group("x") == "t");
 }
 
 TEST_CASE("stream multi finditer w lbl wo anchors") {
@@ -281,7 +281,7 @@ TEST_CASE("stream multi finditer w lbl wo anchors") {
 
   std::set<std::vector<Span>> actual;
   for (auto m : iter) {
-    actual.insert(m->spans("x"));
+    actual.insert(m.spans("x"));
   }
 
   std::set<std::vector<Span>> expected = {{{0, 1}}, {{0, 1}, {1, 2}}, {{0, 1}, {1, 2}, {2, 3}},
@@ -299,9 +299,9 @@ TEST_CASE("stream multi finditer w lbl w start anchor") {
 
   std::stringstream info;
   std::set<std::vector<Span>> actual;
-  for (auto m : iter) {
-    actual.insert(m->spans("x"));
-    for (auto s : m->spans("x")) {
+  for (const auto& m : iter) {
+    actual.insert(m.spans("x"));
+    for (auto s : m.spans("x")) {
       info << "{" << s.first << ", " << s.second << "} ";
     }
     info << "\n";
@@ -324,8 +324,8 @@ TEST_CASE("stream multi finditer w lbl w end anchor") {
   std::stringstream info;
   std::set<std::vector<Span>> actual;
   for (auto m : iter) {
-    actual.insert(m->spans("x"));
-    for (auto s : m->spans("x")) {
+    actual.insert(m.spans("x"));
+    for (auto s : m.spans("x")) {
       info << "{" << s.first << ", " << s.second << "} ";
     }
     info << "\n";

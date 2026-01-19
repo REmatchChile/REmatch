@@ -5,7 +5,7 @@
 #undef private
 #include <sstream>
 
-#include <REmatch/REmatch.hpp>
+#include "REmatch/REmatch.hpp"
 
 namespace REmatch::testing {
 
@@ -87,9 +87,9 @@ TEST_CASE("reql works with the regex \\d\\d") {
   std::vector<Span> actual_spans;
   std::vector<std::string> actual_strings;
 
-  for (auto m : iter) {
-    actual_spans.push_back(m->span("x"));
-    actual_strings.push_back(m->group("x"));
+  for (const auto& m : iter) {
+    actual_spans.push_back(m.span("x"));
+    actual_strings.push_back(m.group("x"));
   }
 
   std::vector<Span> expected_spans = {{0, 2}, {1, 3}, {2, 4}, {3, 5}, {4, 6}, {5, 7}, {6, 8}};
@@ -111,9 +111,9 @@ TEST_CASE("reql works when evaluating a file (without filtering)") {
   std::vector<Span> actual_spans;
   std::vector<std::string> actual_strings;
 
-  for (auto m : iter) {
-    actual_spans.push_back(m->span("w"));
-    actual_strings.push_back(m->group("w"));
+  for (const auto& m : iter) {
+    actual_spans.push_back(m.span("w"));
+    actual_strings.push_back(m.group("w"));
   }
 
   std::vector<Span> expected_spans = {{0, 3}, {4, 8}, {9, 14}, {15, 17}};
@@ -136,9 +136,9 @@ TEST_CASE("reql works correctly when evaluating a file (with filtering)") {
   std::vector<Span> actual_spans;
   std::vector<std::string> actual_strings;
 
-  for (auto m : iter) {
-    actual_spans.push_back(m->span("w"));
-    actual_strings.push_back(m->group("w"));
+  for (const auto& m : iter) {
+    actual_spans.push_back(m.span("w"));
+    actual_strings.push_back(m.group("w"));
   }
 
   std::vector<Span> expected_spans = {{1, 4}, {5, 9}, {10, 15}, {16, 18}};
@@ -160,7 +160,7 @@ TEST_CASE("An exception is thrown when the circular buffer is not big enough") {
   auto iter = query.finditer(&reader);
 
   auto match{iter.begin()};
-  REQUIRE_THROWS_AS((*match)->group(0), EvaluationException);
+  REQUIRE_THROWS_AS((*match).group(0), EvaluationException);
 }
 
 TEST_CASE("reql stream works when the filtering does not have enough buffer") {
@@ -177,10 +177,10 @@ TEST_CASE("reql stream works when the filtering does not have enough buffer") {
   std::vector<Span> actual_spans;
   std::vector<std::string> actual_groups;
 
-  for (auto m : iter) {
-    actual_spans.push_back(m->span(0));
+  for (const auto& m : iter) {
+    actual_spans.push_back(m.span(0));
     try {
-      actual_groups.push_back(m->group(0));
+      actual_groups.push_back(m.group(0));
     } catch (EvaluationException& e) {
       actual_groups.emplace_back("");
     }
@@ -207,10 +207,10 @@ TEST_CASE("reql stream works when a match is the same size as the buffer") {
   std::set<Span> actual_spans;
   std::set<std::string> actual_groups;
 
-  for (auto m : iter) {
-    actual_spans.insert(m->span(0));
+  for (const auto& m : iter) {
+    actual_spans.insert(m.span(0));
     try {
-      actual_groups.insert(m->group(0));
+      actual_groups.insert(m.group(0));
     } catch (EvaluationException& e) {
       actual_groups.insert("");
     }
@@ -244,11 +244,11 @@ TEST_CASE("reql stream line by line a") {
 
   std::stringstream info;
   info << "Actual spans:\n";
-  for (auto m : iter) {
-    actual_spans.insert(m->span(0));
-    info << m->span(0).first << " " << m->span(0).second << "\n";
+  for (const auto& m : iter) {
+    actual_spans.insert(m.span(0));
+    info << m.span(0).first << " " << m.span(0).second << "\n";
     try {
-      actual_groups.insert(m->group(0));
+      actual_groups.insert(m.group(0));
     } catch (EvaluationException& e) {
       actual_groups.insert("");
     }
@@ -276,11 +276,11 @@ TEST_CASE("reql stream line by line b") {
 
   std::stringstream info;
   info << "Actual spans:\n";
-  for (auto m : iter) {
-    actual_spans.insert(m->span(0));
-    info << m->span(0).first << " " << m->span(0).second << "\n";
+  for (const auto& m : iter) {
+    actual_spans.insert(m.span(0));
+    info << m.span(0).first << " " << m.span(0).second << "\n";
     try {
-      actual_groups.insert(m->group(0));
+      actual_groups.insert(m.group(0));
     } catch (EvaluationException& e) {
       actual_groups.insert("");
     }

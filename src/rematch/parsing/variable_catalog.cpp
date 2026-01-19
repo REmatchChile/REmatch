@@ -1,5 +1,6 @@
 #include "parsing/variable_catalog.hpp"
-#include <REmatch/exceptions.hpp>
+
+#include "REmatch/exceptions.hpp"
 
 namespace REmatch {
 inline namespace parsing {

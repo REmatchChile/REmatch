@@ -1,22 +1,13 @@
-#include "REmatch/match_standard.hpp"
-
-#include <REmatch/REmatch_export.hpp>
-
-#include <cstdint>
-#include <memory>
-#include <sstream>
-
-#include "evaluation/document.hpp"
-#include "mediator/mapping.hpp"
-#include "parsing/variable_catalog.hpp"
+#include "match_standard.hpp"
 
 namespace REmatch {
-inline namespace library_interface {
 
 MatchStandard::MatchStandard(std::unique_ptr<mediator::Mapping> mapping,
                              std::shared_ptr<parsing::VariableCatalog> variable_catalog,
                              std::shared_ptr<Document> document)
-    : mapping_(std::move(mapping)), variable_catalog_(variable_catalog), document_(document) {}
+    : mapping_(std::move(mapping)),
+      variable_catalog_(std::move(variable_catalog)),
+      document_(std::move(document)) {}
 
 MatchStandard::MatchStandard(const MatchStandard& other)
     : mapping_(std::make_unique<mediator::Mapping>(*other.mapping_)),
@@ -125,9 +116,4 @@ std::string MatchStandard::to_string() const {
   return ss.str();
 }
 
-REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, const MatchStandard& match) {
-  return os << match.to_string();
-}
-
-}  // namespace library_interface
 }  // namespace REmatch

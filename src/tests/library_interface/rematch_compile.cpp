@@ -1,7 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 
-#include <REmatch/REmatch.hpp>
+#include "REmatch/REmatch.hpp"
 #include "../evaluation/dummy_mapping.hpp"
 #include "../evaluation/mapping_helpers.hpp"
 #include "../tests_utils/tests_utils.hpp"
@@ -15,9 +15,9 @@ TEST_CASE("find method simple test") {
   auto match = regex.findone(document);
 
   std::stringstream ss;
-  ss << match->span("x").first << " " << match->span("x").second;
+  ss << match.span("x").first << " " << match.span("x").second;
   INFO(ss.str());
-  REQUIRE(match->span("x") == Span(10, 13));
+  REQUIRE(match.span("x") == Span(10, 13));
 }
 
 TEST_CASE("finditer method simple test") {
@@ -30,11 +30,10 @@ TEST_CASE("finditer method simple test") {
 
   REQUIRE(it != end);
   auto match = *it;
-  REQUIRE(match->span("x") == Span(10, 13));
+  REQUIRE(match.span("x") == Span(10, 13));
 
   REQUIRE(++it != end);
-  match = *(it);
-  REQUIRE(match->span("x") == Span(10, 18));
+  REQUIRE((*it).span("x") == Span(10, 18));
 
   REQUIRE(++it == end);
 }
@@ -56,8 +55,7 @@ TEST_CASE("client interface returns empty match if there are no variables in reg
   auto it = match_generator.begin();
 
   REQUIRE(it != match_generator.end());
-  auto match = *it;
-  REQUIRE(match->empty());
+  REQUIRE(it->empty());
 }
 
 TEST_CASE("client interface with alternation") {
@@ -70,11 +68,10 @@ TEST_CASE("client interface with alternation") {
 
   REQUIRE(it != end);
   auto match = *it;
-  REQUIRE(match->span("x") == Span(10, 13));
+  REQUIRE(match.span("x") == Span(10, 13));
 
   REQUIRE(++it != end);
-  match = *(it);
-  REQUIRE(match->span("x") == Span(10, 18));
+  REQUIRE((*it).span("x") == Span(10, 18));
 
   REQUIRE(++it == end);
 }
@@ -121,7 +118,7 @@ TEST_CASE("client interface with ? quantifier") {
 
 TEST_CASE("client interface with specified range of repetitions") {
   std::string document = " google.org or google.fr ";
-  std::string pattern = " !site{!name{\\w+}\\.\\w{2,3}} ";
+  std::string pattern = R"( !site{!name{\w+}\.\w{2,3}} )";
   Query regex = reql(pattern);
   auto match_iterator = regex.finditer(document);
 
@@ -253,7 +250,7 @@ TEST_CASE("client interface with start and end anchors") {
 
 TEST_CASE("client interface with escape characters") {
   std::string document = "^!?\\a+*";
-  std::string pattern = "^\\^!\\?\\\\!x{a\\+}\\*$";
+  std::string pattern = R"(^\^!\?\\!x{a\+}\*$)";
   Query regex = reql(pattern);
   auto match_iterator = regex.finditer(document);
 
@@ -296,7 +293,7 @@ TEST_CASE("client interface with special characters inside a negated set") {
 
 TEST_CASE("client interface with special characters inside a character set") {
   std::string document = "\ta\va\ra\na";
-  std::string pattern = "!x{[\\t].*\\v.*[\\r\\n]}";
+  std::string pattern = R"(!x{[\t].*\v.*[\r\n]})";
   Query regex = reql(pattern);
   auto match_iterator = regex.finditer(document);
 

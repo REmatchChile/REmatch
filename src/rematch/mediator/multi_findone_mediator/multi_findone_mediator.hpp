@@ -8,8 +8,6 @@
 #include "output_enumeration/mapping.hpp"
 #include "utils/query_data.hpp"
 
-#include <REmatch/constants.hpp>
-
 namespace REmatch {
 
 class MultiFindoneMediator : public MultiMediator {

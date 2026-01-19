@@ -1,6 +1,6 @@
 #include "parsing/logical_variable_set_automaton/logical_va.hpp"
 
-#include <REmatch/exceptions.hpp>
+#include "REmatch/exceptions.hpp"
 
 namespace REmatch {
 inline namespace parsing {

@@ -2,7 +2,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include <REmatch/REmatch.hpp>
+#include "REmatch/REmatch.hpp"
 
 namespace py = pybind11;
 using namespace REmatch;

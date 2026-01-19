@@ -5,8 +5,8 @@
 #include "evaluation/algorithm/algorithm_class.hpp"
 #include "evaluation/extended_va/dfa/extended_det_va.hpp"
 #include "output_enumeration/enumerator.hpp"
+#include "REmatch/constants.hpp"
 
-#include <REmatch/constants.hpp>
 namespace REmatch {
 
 class FindoneAlgorithm : public AlgorithmClass {

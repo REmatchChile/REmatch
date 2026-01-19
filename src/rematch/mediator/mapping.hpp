@@ -3,9 +3,8 @@
 #include <iostream>
 #include <map>
 
+#include "REmatch/span.hpp"
 #include "output_enumeration/mapping.hpp"
-
-#include <REmatch/span.hpp>
 
 namespace REmatch::mediator {
 class Mapping {

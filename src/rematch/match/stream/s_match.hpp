@@ -1,33 +1,24 @@
 #pragma once
 
-#include <memory>
-#include <string>
-#include <utility>
-
-#include "match.hpp"
-#include "span.hpp"
-
-#include "REmatch_export.hpp"
+#include "evaluation/stream.hpp"
+#include "match/match.hpp"
+#include "mediator/mapping.hpp"
+#include "parsing/variable_catalog.hpp"
 
 namespace REmatch {
 
-namespace mediator {
-class Mapping;
-}
-
-inline namespace parsing {
-class VariableCatalog;
-}
-class Stream;
-
-inline namespace library_interface {
-
-class REMATCH_EXPORT SMatch : public Match {
+class SMatch : public Match {
  public:
   SMatch(std::unique_ptr<mediator::Mapping> mapping,
          std::shared_ptr<VariableCatalog> variable_catalog, std::shared_ptr<Stream> stream);
 
   ~SMatch() override;
+
+  SMatch(const SMatch& other);
+  SMatch& operator=(const SMatch& other);
+
+  SMatch(SMatch&& other) noexcept;
+  SMatch& operator=(SMatch&& other) noexcept;
 
   int64_t start(const std::string& variable_name) const override;
   int64_t start(uint_fast32_t variable_id) const override;
@@ -49,7 +40,7 @@ class REMATCH_EXPORT SMatch : public Match {
 
   bool empty() const override;
 
-  friend REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, const SMatch& match);
+  std::unique_ptr<Match> clone() const override { return std::make_unique<SMatch>(*this); }
 
  private:
   std::unique_ptr<mediator::Mapping> mapping_;
@@ -57,5 +48,4 @@ class REMATCH_EXPORT SMatch : public Match {
   std::shared_ptr<Stream> stream;
 };
 
-}  // namespace library_interface
 }  // namespace REmatch

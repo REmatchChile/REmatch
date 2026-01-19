@@ -6,8 +6,6 @@
 #include "output_enumeration/extended_mapping.hpp"
 #include "utils/query_data.hpp"
 
-#include <REmatch/constants.hpp>
-
 namespace REmatch {
 
 class MultiFinditerMediator : public MultiMediator {

@@ -1,13 +1,6 @@
-#include <REmatch/s_match.hpp>
-
-#include <REmatch/REmatch_export.hpp>
-
-#include "evaluation/stream.hpp"
-#include "mediator/mapping.hpp"
-#include "parsing/variable_catalog.hpp"
+#include "s_match.hpp"
 
 namespace REmatch {
-inline namespace library_interface {
 
 SMatch::SMatch(std::unique_ptr<mediator::Mapping> mapping,
                std::shared_ptr<VariableCatalog> variable_catalog, std::shared_ptr<Stream> stream)
@@ -16,6 +9,34 @@ SMatch::SMatch(std::unique_ptr<mediator::Mapping> mapping,
       stream(std::move(stream)) {}
 
 SMatch::~SMatch() = default;
+
+SMatch::SMatch(const SMatch& other)
+    : mapping_(std::make_unique<mediator::Mapping>(*other.mapping_)),
+      variable_catalog_(other.variable_catalog_),
+      stream(other.stream) {}
+
+SMatch& SMatch::operator=(const SMatch& other) {
+  if (this == &other) {
+    return *this;
+  }
+
+  mapping_ = std::make_unique<mediator::Mapping>(*other.mapping_);
+  variable_catalog_ = other.variable_catalog_;
+  stream = other.stream;
+  return *this;
+}
+
+SMatch::SMatch(SMatch&& other) noexcept
+    : mapping_(std::move(other.mapping_)),
+      variable_catalog_(std::move(other.variable_catalog_)),
+      stream(std::move(other.stream)) {}
+
+SMatch& SMatch::operator=(SMatch&& other) noexcept {
+  mapping_ = std::move(other.mapping_);
+  variable_catalog_ = std::move(other.variable_catalog_);
+  stream = std::move(other.stream);
+  return *this;
+}
 
 int64_t SMatch::start(const std::string& variable_name) const {
   return this->span(variable_name).first;
@@ -56,6 +77,10 @@ std::string SMatch::to_string() const {
 
   const auto num_variables = variable_catalog_->size();
 
+  if (num_variables == 0) {
+    return "{}";
+  }
+
   ss << "{";
   for (unsigned int i = 0; i < num_variables - 1; i++) {
     const auto variable_name = variable_catalog_->get_var(i);
@@ -89,9 +114,4 @@ bool SMatch::empty() const {
   return mapping_->get_spans_map().empty();
 }
 
-REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, const SMatch& match) {
-  return os << match.to_string();
-}
-
-}  // namespace library_interface
 }  // namespace REmatch

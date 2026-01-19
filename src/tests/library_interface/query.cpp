@@ -3,17 +3,16 @@
 
 #include "evaluation/start_end_chars.hpp"
 
-#include <REmatch/REmatch.hpp>
+#include "REmatch/REmatch.hpp"
 
 namespace REmatch::testing {
-using namespace REmatch::library_interface;
 
 TEST_CASE("find method returns the first match correctly") {
   std::string pattern = "!x{ab}";
   auto query = reql(pattern);
   auto match = query.findone("abab");
 
-  REQUIRE(match->span("x") == Span(0, 2));
+  REQUIRE(match.span("x") == Span(0, 2));
 }
 
 TEST_CASE("finditer method returns the iterator correctly") {
@@ -27,11 +26,11 @@ TEST_CASE("finditer method returns the iterator correctly") {
 
   REQUIRE(it != end);
   auto match = *it;
-  REQUIRE(match->span("x") == Span(0, 2));
+  REQUIRE(match.span("x") == Span(0, 2));
 
   REQUIRE(++it != end);
   match = *it;
-  REQUIRE(match->span("x") == Span(2, 4));
+  REQUIRE(match.span("x") == Span(2, 4));
 
   REQUIRE(++it == end);
 }

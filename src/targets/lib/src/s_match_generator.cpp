@@ -1,6 +1,6 @@
-#include <REmatch/s_match_generator.hpp>
+#include "REmatch/s_match_generator.hpp"
 
-#include <REmatch/s_match.hpp>
+#include "match/stream/s_match.hpp"
 #include "mediator/mediator.hpp"
 #include "mediator/mediator_constructor.hpp"
 #include "parsing/variable_catalog.hpp"
@@ -23,11 +23,13 @@ SMatchGenerator::iterator::iterator(std::unique_ptr<Mediator> mediator_,
 SMatchGenerator::iterator::iterator(iterator&& other) noexcept
     : mediator(std::move(other.mediator)),
       variable_catalog(std::move(other.variable_catalog)),
+      stream(std::move(other.stream)),
       match_ptr(std::move(other.match_ptr)) {}
 
 SMatchGenerator::iterator& SMatchGenerator::iterator::operator=(iterator&& other) noexcept {
   mediator = std::move(other.mediator);
   variable_catalog = std::move(other.variable_catalog);
+  stream = std::move(other.stream);
   match_ptr = std::move(other.match_ptr);
   return *this;
 }
@@ -36,8 +38,12 @@ SMatchGenerator::iterator::iterator() : match_ptr(nullptr) {}
 
 SMatchGenerator::iterator::~iterator() = default;
 
-SMatchGenerator::iterator::value SMatchGenerator::iterator::operator*() {
-  return std::move(match_ptr);
+SMatchGenerator::iterator::reference SMatchGenerator::iterator::operator*() const {
+  return *match_ptr;
+}
+
+SMatchGenerator::iterator::pointer SMatchGenerator::iterator::operator->() const {
+  return match_ptr.get();
 }
 
 SMatchGenerator::iterator& SMatchGenerator::iterator::operator++() {
@@ -61,7 +67,8 @@ void SMatchGenerator::iterator::next() {
   auto mapping = mediator->next();
 
   if (mapping) {
-    match_ptr = std::make_unique<SMatch>(std::move(mapping), variable_catalog, stream);
+    auto match = std::make_unique<SMatch>(std::move(mapping), variable_catalog, stream);
+    match_ptr = std::make_unique<MatchTypeErased>(std::move(match));
     return;
   }
 

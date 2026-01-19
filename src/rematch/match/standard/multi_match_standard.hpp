@@ -1,25 +1,15 @@
 #pragma once
 
-#include <cstdint>
-#include <memory>
-#include <vector>
+#include <map>
 
-#include "multi_match.hpp"
-#include "span.hpp"
-
-#include "REmatch_export.hpp"
+#include "evaluation/document.hpp"
+#include "match/multi_match.hpp"
+#include "output_enumeration/extended_mapping.hpp"
+#include "parsing/variable_catalog.hpp"
 
 namespace REmatch {
-class ExtendedMapping;
-class Document;
 
-inline namespace parsing {
-class VariableCatalog;
-}
-
-inline namespace library_interface {
-
-class REMATCH_EXPORT MultiMatchStandard : public MultiMatch {
+class MultiMatchStandard : public MultiMatch {
  public:
   MultiMatchStandard(std::unique_ptr<ExtendedMapping> extended_mapping,
                      std::shared_ptr<parsing::VariableCatalog> variable_catalog,
@@ -50,7 +40,7 @@ class REMATCH_EXPORT MultiMatchStandard : public MultiMatch {
 
   std::string to_string() const override;
 
-  friend REMATCH_EXPORT std::ostream& operator<<(std::ostream& os, const MultiMatchStandard& match);
+  std::unique_ptr<MultiMatch> clone() const override;
 
  private:
   std::unique_ptr<ExtendedMapping> extended_mapping_;
@@ -58,5 +48,5 @@ class REMATCH_EXPORT MultiMatchStandard : public MultiMatch {
   std::shared_ptr<Document> document_;
   mutable std::unique_ptr<std::map<int, std::vector<Span>>> mapping_cache_;
 };
-}  // namespace library_interface
+
 }  // namespace REmatch

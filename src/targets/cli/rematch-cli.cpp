@@ -1,10 +1,10 @@
 
+#include <cli11.hpp>
 #include <cstdint>
 #include <cstdlib>
 #include <iostream>
 
-#include <REmatch/REmatch.hpp>
-#include <cli11.hpp>
+#include "REmatch/REmatch.hpp"
 
 using namespace REmatch;
 
@@ -76,8 +76,8 @@ int main(int argc, char** argv) {
       auto multi_query =
           multi_reql(pattern, flags, max_mempool_duplications, max_deterministic_states);
       const auto multi_match_generator = multi_query.finditer(document);
-      for (auto multi_match : multi_match_generator) {
-        std::cout << *multi_match << "\n";
+      for (const auto& multi_match : multi_match_generator) {
+        std::cout << multi_match << "\n";
       }
     } else if (stream) {
       std::cout << "----STREAM----" << std::endl;
@@ -87,8 +87,8 @@ int main(int argc, char** argv) {
           reql(pattern_, flags, max_mempool_duplications, max_deterministic_states, buffer_size);
       FStreamReader reader(document_stream);
       const auto match_generator = s_query.finditer(&reader);
-      for (auto match : match_generator) {
-        std::cout << *match << "\n";
+      for (auto& match : match_generator) {
+        std::cout << match << "\n";
       }
     } else if (findone) {
       std::string pattern_ = read_from_file(pattern);
@@ -97,8 +97,8 @@ int main(int argc, char** argv) {
       auto query = reql(pattern_, flags, max_mempool_duplications, max_deterministic_states);
 
       try {
-        auto match = query.findone(document_);
-        std::cout << *match << std::endl;
+        MatchTypeErased match = query.findone(document_);
+        std::cout << match << std::endl;
       } catch (const std::exception& e) {
         std::cout << e.what() << std::endl;
       }
@@ -109,8 +109,8 @@ int main(int argc, char** argv) {
 
       auto query = reql(pattern_, flags, max_mempool_duplications, max_deterministic_states);
       const auto match_generator = query.finditer(document_);
-      for (auto match : match_generator) {
-        std::cout << *match << "\n";
+      for (auto& match : match_generator) {
+        std::cout << match << "\n";
       }
     }
   } catch (const std::exception& e) {

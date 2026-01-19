@@ -2,9 +2,9 @@
 #define EXTENDED_MAPPING_HPP
 
 #include <optional>
-#include "output_enumeration/mapping.hpp"
 
-#include <REmatch/span.hpp>
+#include "REmatch/span.hpp"
+#include "output_enumeration/mapping.hpp"
 
 namespace REmatch {
 

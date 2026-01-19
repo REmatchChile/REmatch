@@ -2,9 +2,9 @@
 #define OUTPUT_ENUMERATOR__MAPPING_HPP
 
 #include <map>
-#include "output_enumeration/ecs.hpp"
 
-#include <REmatch/span.hpp>
+#include "REmatch/span.hpp"
+#include "output_enumeration/ecs.hpp"
 
 namespace REmatch {
 

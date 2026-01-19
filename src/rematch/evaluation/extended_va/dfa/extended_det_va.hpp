@@ -5,7 +5,7 @@
 #include "evaluation/extended_va/nfa/extended_va.hpp"
 #include "extended_det_va_state.hpp"
 #include "exceptions/dfa_state_limit_checker.hpp"
-#include <REmatch/constants.hpp>
+#include "REmatch/constants.hpp"
 
 namespace REmatch {
 
