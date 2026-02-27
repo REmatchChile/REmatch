@@ -37,8 +37,8 @@ class REMATCH_EXPORT Query {
   MatchGenerator finditer(const std::string& document) const;
   MatchGenerator finditer(Reader* reader) const;
 
-  bool check(const std::string& document);
-  bool check(Reader* reader);
+  bool check(const std::string& document) const;
+  bool check(Reader* reader) const;
 
   std::vector<std::string> variables() const;
 

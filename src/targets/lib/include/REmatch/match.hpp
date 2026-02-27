@@ -11,7 +11,7 @@
 namespace REmatch {
 
 namespace internal {
-  class Match;
+class Match;
 }
 
 class REMATCH_EXPORT Match {

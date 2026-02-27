@@ -1,5 +1,5 @@
 import enum
-from typing import List, Tuple, Union
+from typing import Union
 
 from ._pyrematch import (
     DEFAULT_MAX_DETERMINISTIC_STATES,
@@ -7,14 +7,15 @@ from ._pyrematch import (
     cppFlags,
     cppMatch,
     cppMatchGenerator,
-    cppMatchGeneratorIterator,
+    cppIterator,
     cppmulti_reql,
     cppMultiMatch,
     cppMultiMatchGenerator,
-    cppMultiMatchGeneratorIterator,
+    cppMultiIterator,
     cppMultiQuery,
     cppQuery,
     cppreql,
+    cppReaderWrapper,
 )
 
 
@@ -29,6 +30,11 @@ class Flags(enum.Flag):
         return cpp_flags
 
 
+class Reader:
+    def __init__(self, path):
+        self._cpp_reader = cppReaderWrapper(path)
+
+
 class Match:
     def __init__(self, cpp_match: cppMatch):
         self._cpp_match: cppMatch = cpp_match
@@ -39,7 +45,7 @@ class Match:
     def end(self, key: Union[str, int]) -> int:
         return self._cpp_match.end(key)
 
-    def span(self, key: Union[str, int]) -> Tuple[int, int]:
+    def span(self, key: Union[str, int]) -> tuple[int, int]:
         return self._cpp_match.span(key)
 
     def group(self, key: Union[str, int]) -> str:
@@ -51,7 +57,7 @@ class Match:
             res[variable] = self.group(variable)
         return res
 
-    def variables(self) -> List[str]:
+    def variables(self) -> list[str]:
         return self._cpp_match.variables()
 
     def empty(self) -> bool:
@@ -66,7 +72,7 @@ class Match:
 
 class MatchGenerator:
     def __init__(self, cpp_match_generator: cppMatchGenerator):
-        self._cpp_it: cppMatchGeneratorIterator = cpp_match_generator.begin()
+        self._cpp_it: cppIterator = cpp_match_generator.begin()
 
     def __iter__(self) -> "MatchGenerator":
         return self
@@ -86,26 +92,40 @@ class Query:
     ):
         self._cpp_query: cppQuery = cpp_query
 
-    def findone(self, document: str) -> Match:
-        cpp_match = self._cpp_query.findone(document)
+    def findone(self, document: Union[str, Reader]) -> Match:
+        if isinstance(document, Reader):
+            cpp_match = self._cpp_query.findone(document._cpp_reader)
+        else:
+            cpp_match = self._cpp_query.findone(document)
         return Match(cpp_match)
 
-    def findmany(self, document: str, limit: int):
-        return [
-            Match(cpp_match) for cpp_match in self._cpp_query.findmany(document, limit)
-        ]
+    def findmany(self, document: Union[str, Reader], limit: int):
+        if isinstance(document, Reader):
+            cpp_matches = self._cpp_query.findmany(document._cpp_reader, limit)
+        else:
+            cpp_matches = self._cpp_query.findmany(document, limit)
+        return [Match(cpp_match) for cpp_match in cpp_matches]
 
-    def findall(self, document: str) -> List[Match]:
-        return [Match(cpp_match) for cpp_match in self._cpp_query.findall(document)]
+    def findall(self, document: Union[str, Reader]) -> list[Match]:
+        if isinstance(document, Reader):
+            cpp_matches = self._cpp_query.findall(document._cpp_reader)
+        else:
+            cpp_matches = self._cpp_query.findall(document)
+        return [Match(cpp_match) for cpp_match in cpp_matches]
 
-    def finditer(self, document: str) -> MatchGenerator:
-        cpp_match_generator = self._cpp_query.finditer(document)
+    def finditer(self, document: Union[str, Reader]) -> MatchGenerator:
+        if isinstance(document, Reader):
+            cpp_match_generator = self._cpp_query.finditer(document._cpp_reader)
+        else:
+            cpp_match_generator = self._cpp_query.finditer(document)
         return MatchGenerator(cpp_match_generator)
 
-    def check(self, document: str) -> bool:
+    def check(self, document: Union[str, Reader]) -> bool:
+        if isinstance(document, Reader):
+            return self._cpp_query.check(document._cpp_reader)
         return self._cpp_query.check(document)
 
-    def variables(self) -> List[str]:
+    def variables(self) -> list[str]:
         return self._cpp_query.variables()
 
 
@@ -128,22 +148,22 @@ class MultiMatch:
     def __init__(self, cpp_multi_match: cppMultiMatch):
         self._cpp_multi_match: cppMultiMatch = cpp_multi_match
 
-    def spans(self, key: Union[str, int]) -> List[Tuple[int, int]]:
+    def spans(self, key: Union[str, int]) -> list[tuple[int, int]]:
         return self._cpp_multi_match.spans(key)
 
-    def groups(self, key: Union[str, int]) -> List[str]:
+    def groups(self, key: Union[str, int]) -> list[str]:
         return self._cpp_multi_match.groups(key)
 
     def groupdict(self) -> dict:
         pass
 
-    def submatch(self, span: Tuple[int, int]) -> "MultiMatch":
+    def submatch(self, span: tuple[int, int]) -> "MultiMatch":
         return MultiMatch(self._cpp_multi_match.submatch(span))
 
     def empty(self) -> bool:
         return self._cpp_multi_match.empty()
 
-    def variables(self) -> List[str]:
+    def variables(self) -> list[str]:
         return self._cpp_multi_match.variables()
 
     def __str__(self) -> str:
@@ -155,7 +175,7 @@ class MultiMatch:
 
 class MultiMatchGenerator:
     def __init__(self, cpp_multi_match_generator: cppMultiMatchGenerator):
-        self._cpp_it: cppMultiMatchGeneratorIterator = cpp_multi_match_generator.begin()
+        self._cpp_it: cppMultiIterator = cpp_multi_match_generator.begin()
 
     def __iter__(self) -> "MatchGenerator":
         return self
@@ -176,29 +196,39 @@ class MultiQuery:
         self._cpp_multi_query: cppMultiQuery = cpp_multi_query
 
     def findone(self, document: str) -> MultiMatch:
-        cpp_multi_match = self._cpp_multi_query.findone(document)
+        if isinstance(document, Reader):
+            cpp_multi_match = self._cpp_multi_query.findone(document._cpp_reader)
+        else:
+            cpp_multi_match = self._cpp_multi_query.findone(document)
         return MultiMatch(cpp_multi_match)
 
-    def findmany(self, document: str, limit: int):
-        return [
-            MultiMatch(cpp_multi_match)
-            for cpp_multi_match in self._cpp_multi_query.findmany(document, limit)
-        ]
+    def findmany(self, document: Union[str, Reader], limit: int):
+        if isinstance(document, Reader):
+            cpp_matches = self._cpp_multi_query.findmany(document._cpp_reader, limit)
+        else:
+            cpp_matches = self._cpp_multi_query.findmany(document, limit)
+        return [MultiMatch(cpp_match) for cpp_match in cpp_matches]
 
-    def findall(self, document: str) -> List[Match]:
-        return [
-            MultiMatch(cpp_multi_match)
-            for cpp_multi_match in self._cpp_multi_query.findall(document)
-        ]
+    def findall(self, document: Union[str, Reader]) -> list[MultiMatch]:
+        if isinstance(document, Reader):
+            cpp_matches = self._cpp_multi_query.findall(document._cpp_reader)
+        else:
+            cpp_matches = self._cpp_multi_query.findall(document)
+        return [MultiMatch(cpp_match) for cpp_match in cpp_matches]
 
-    def finditer(self, document: str) -> MultiMatchGenerator:
-        cpp_multi_match_generator = self._cpp_multi_query.finditer(document)
-        return MultiMatchGenerator(cpp_multi_match_generator)
+    def finditer(self, document: Union[str, Reader]) -> MultiMatchGenerator:
+        if isinstance(document, Reader):
+            cpp_match_generator = self._cpp_multi_query.finditer(document._cpp_reader)
+        else:
+            cpp_match_generator = self._cpp_multi_query.finditer(document)
+        return MultiMatchGenerator(cpp_match_generator)
 
-    def check(self, document: str) -> bool:
+    def check(self, document: Union[str, Reader]) -> bool:
+        if isinstance(document, Reader):
+            return self._cpp_multi_query.check(document._cpp_reader)
         return self._cpp_multi_query.check(document)
 
-    def variables(self) -> List[str]:
+    def variables(self) -> list[str]:
         return self._cpp_multi_query.variables()
 
 

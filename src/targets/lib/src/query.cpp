@@ -128,7 +128,7 @@ MatchGenerator Query::finditer(Reader* reader) const {
   return MatchGenerator(std::move(match_generator));
 }
 
-bool Query::check(const std::string& document_) {
+bool Query::check(const std::string& document_) const {
   auto document = std::make_shared<Document>(document_);
 
   auto search_dfa = std::make_unique<SearchDFA>(query_data_->logical_va);
@@ -137,7 +137,7 @@ bool Query::check(const std::string& document_) {
   return segment_checker.check({0, document->size()});
 }
 
-bool Query::check(Reader* reader_) {
+bool Query::check(Reader* reader_) const {
   auto stream = std::make_shared<Stream>(reader_, buffer_size);
 
   auto search_dfa = std::make_unique<SearchDFA>(query_data_->logical_va);

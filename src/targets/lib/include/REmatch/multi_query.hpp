@@ -6,8 +6,8 @@
 #include <vector>
 
 #include "REmatch/fstream_reader.hpp"
-#include "REmatch/multi_match_generator.hpp"
 #include "REmatch/multi_match.hpp"
+#include "REmatch/multi_match_generator.hpp"
 #include "REmatch_export.hpp"
 
 namespace REmatch {
@@ -31,20 +31,20 @@ class REMATCH_EXPORT MultiQuery {
 
   ~MultiQuery();
 
-  MultiMatch findone(const std::string& document);
-  MultiMatch findone(Reader* reader);
+  MultiMatch findone(const std::string& document) const;
+  MultiMatch findone(Reader* reader) const;
 
-  std::vector<MultiMatch> findmany(const std::string& document, uint_fast32_t limit);
-  std::vector<MultiMatch> findmany(Reader* reader, uint_fast32_t limit);
+  std::vector<MultiMatch> findmany(const std::string& document, uint_fast32_t limit) const;
+  std::vector<MultiMatch> findmany(Reader* reader, uint_fast32_t limit) const;
 
-  std::vector<MultiMatch> findall(const std::string& document);
-  std::vector<MultiMatch> findall(Reader* reader);
+  std::vector<MultiMatch> findall(const std::string& document) const;
+  std::vector<MultiMatch> findall(Reader* reader) const;
 
-  MultiMatchGenerator finditer(const std::string& document);
-  MultiMatchGenerator finditer(Reader* reader);
+  MultiMatchGenerator finditer(const std::string& document) const;
+  MultiMatchGenerator finditer(Reader* reader) const;
 
-  bool check(const std::string& document);
-  bool check(Reader* reader);
+  bool check(const std::string& document) const;
+  bool check(Reader* reader) const;
 
   std::vector<std::string> variables() const;
 

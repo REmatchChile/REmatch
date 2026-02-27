@@ -1,6 +1,6 @@
-from .pyrematch import Flags, multi_reql, reql
+from .pyrematch import Flags, multi_reql, reql, Reader
 
-__version__ = "1.1.4"
+__version__ = "1.1.5"
 
 from ._pyrematch import REmatchException
 
@@ -9,4 +9,5 @@ __all__ = [
     "multi_reql",
     "reql",
     "REmatchException",
+    "Reader"
 ]

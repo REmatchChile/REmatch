@@ -42,7 +42,7 @@ MultiQuery& MultiQuery::operator=(MultiQuery&& other) noexcept {
 
 MultiQuery::~MultiQuery() = default;
 
-MultiMatch MultiQuery::findone(const std::string& document_) {
+MultiMatch MultiQuery::findone(const std::string& document_) const {
   auto document = std::make_shared<Document>(document_);
   auto mediator = MediatorConstructor::create_multi_findone_mediator(*query_data_, document);
 
@@ -56,7 +56,7 @@ MultiMatch MultiQuery::findone(const std::string& document_) {
   return MultiMatch(std::move(match));
 }
 
-MultiMatch MultiQuery::findone(Reader* reader) {
+MultiMatch MultiQuery::findone(Reader* reader) const {
   auto stream = std::make_shared<Stream>(reader, buffer_size);
   auto mediator = MediatorConstructor::create_stream_multi_mediator(*query_data_, stream);
 
@@ -70,7 +70,8 @@ MultiMatch MultiQuery::findone(Reader* reader) {
   return MultiMatch(std::move(match));
 }
 
-std::vector<MultiMatch> MultiQuery::findmany(const std::string& document, uint_fast32_t limit) {
+std::vector<MultiMatch> MultiQuery::findmany(const std::string& document,
+                                             uint_fast32_t limit) const {
   std::vector<MultiMatch> res;
 
   const auto multi_match_generator = finditer(document);
@@ -82,7 +83,7 @@ std::vector<MultiMatch> MultiQuery::findmany(const std::string& document, uint_f
   return res;
 }
 
-std::vector<MultiMatch> MultiQuery::findmany(Reader* reader, uint_fast32_t limit) {
+std::vector<MultiMatch> MultiQuery::findmany(Reader* reader, uint_fast32_t limit) const {
   std::vector<MultiMatch> res;
 
   const auto multi_match_generator = finditer(reader);
@@ -94,7 +95,7 @@ std::vector<MultiMatch> MultiQuery::findmany(Reader* reader, uint_fast32_t limit
   return res;
 }
 
-std::vector<MultiMatch> MultiQuery::findall(const std::string& document) {
+std::vector<MultiMatch> MultiQuery::findall(const std::string& document) const {
   std::vector<MultiMatch> res;
 
   const auto multi_match_generator = finditer(document);
@@ -105,7 +106,7 @@ std::vector<MultiMatch> MultiQuery::findall(const std::string& document) {
   return res;
 }
 
-std::vector<MultiMatch> MultiQuery::findall(Reader* reader) {
+std::vector<MultiMatch> MultiQuery::findall(Reader* reader) const {
   std::vector<MultiMatch> res;
 
   const auto multi_match_generator = finditer(reader);
@@ -116,24 +117,33 @@ std::vector<MultiMatch> MultiQuery::findall(Reader* reader) {
   return res;
 }
 
-MultiMatchGenerator MultiQuery::finditer(const std::string& document) {
+MultiMatchGenerator MultiQuery::finditer(const std::string& document) const {
   internal::MultiMatchGenerator match_generator(query_data_, std::make_shared<Document>(document));
   return MultiMatchGenerator(std::move(match_generator));
 }
 
-MultiMatchGenerator MultiQuery::finditer(Reader* reader) {
+MultiMatchGenerator MultiQuery::finditer(Reader* reader) const {
   auto stream = std::make_shared<Stream>(reader, buffer_size);
   internal::SMultiMatchGenerator match_generator(query_data_, stream);
   return MultiMatchGenerator(std::move(match_generator));
 }
 
-bool MultiQuery::check(const std::string& document_) {
+bool MultiQuery::check(const std::string& document_) const {
   std::shared_ptr<Document> document = std::make_shared<Document>(document_);
 
   auto search_dfa = std::make_unique<SearchDFA>(query_data_->logical_va);
   SegmentChecker segment_checker(std::move(search_dfa), document);
 
   return segment_checker.check({0, document->size()});
+}
+
+bool MultiQuery::check(Reader* reader) const {
+  auto stream = std::make_shared<Stream>(reader, buffer_size);
+
+  auto search_dfa = std::make_unique<SearchDFA>(query_data_->logical_va);
+  SegmentCheckerStream segment_checker(std::move(search_dfa), stream);
+
+  return segment_checker.check();
 }
 
 std::vector<std::string> MultiQuery::variables() const {
