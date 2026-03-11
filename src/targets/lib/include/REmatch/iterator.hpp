@@ -5,6 +5,7 @@
 
 namespace REmatch {
 
+// Forward iterator over the matches found in the document.
 class REMATCH_EXPORT Iterator {
  public:
   template <typename T,

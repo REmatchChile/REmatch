@@ -22,12 +22,14 @@ SMultiMatchGenerator::iterator::iterator(std::unique_ptr<MultiMediator> mediator
 SMultiMatchGenerator::iterator::iterator(iterator&& other) noexcept
     : mediator(std::move(other.mediator)),
       variable_catalog(std::move(other.variable_catalog)),
+      stream(std::move(other.stream)),
       match_ptr(std::move(other.match_ptr)) {}
 
 SMultiMatchGenerator::iterator& SMultiMatchGenerator::iterator::operator=(
     iterator&& other) noexcept {
   mediator = std::move(other.mediator);
   variable_catalog = std::move(other.variable_catalog);
+  stream = std::move(other.stream);
   match_ptr = std::move(other.match_ptr);
   return *this;
 }

@@ -5,6 +5,7 @@
 
 namespace REmatch {
 
+// Forward iterator over the multi matches found in the document.
 class REMATCH_EXPORT MultiIterator {
  public:
   template <typename T, typename = std::enable_if_t<

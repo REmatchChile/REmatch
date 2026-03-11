@@ -7,18 +7,28 @@
 
 namespace REmatch {
 
+// Abstract interface to read a document character by character.
 class REMATCH_EXPORT Reader {
  public:
+
+  // Reads the next character from the document. Copies the next character to `a`. Returns true if
+  // successful, or false if it reached the end of the document.
   virtual bool read(char& a) = 0;
+
   virtual ~Reader() = default;
 };
 
+// Reader implementation to read a file.
 class REMATCH_EXPORT FStreamReader : public Reader {
  public:
+
+  // Creates a FStreamReader. Takes a basic_istream to read data from.
   explicit FStreamReader(std::basic_istream<char>& input);
 
   ~FStreamReader() override;
 
+  // Reads the next character from the stream. Copies the next character to `a`. Returns true if
+  // successful, or false if it reached the end of the document.
   bool read(char& a) override;
 
  private:

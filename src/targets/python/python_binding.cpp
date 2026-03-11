@@ -28,6 +28,7 @@ PYBIND11_MODULE(_pyrematch, m) {
 
   m.attr("DEFAULT_MAX_MEMPOOL_DUPLICATIONS") = py::int_(DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
   m.attr("DEFAULT_MAX_DETERMINISTIC_STATES") = py::int_(DEFAULT_MAX_DETERMINISTIC_STATES);
+  m.attr("DEFAULT_STREAM_BUFFER_SIZE") = py::int_(DEFAULT_STREAM_BUFFER_SIZE);
 
   py::enum_<Flags>(m, "cppFlags", py::arithmetic())
       .value("NONE", Flags::NONE)

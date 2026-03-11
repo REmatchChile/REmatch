@@ -134,7 +134,21 @@ bool Query::check(const std::string& document_) const {
   auto search_dfa = std::make_unique<SearchDFA>(query_data_->logical_va);
   SegmentChecker segment_checker(std::move(search_dfa), document);
 
-  return segment_checker.check({0, document->size()});
+  if ((query_data_->flags & Flags::LINE_BY_LINE) != Flags::NONE) {
+    auto line_splitter = LineSplitterStr(document);
+    std::unique_ptr<Span> line = line_splitter.get_line();
+
+    while (line != nullptr) {
+      if (segment_checker.check(*line)) {
+        return true;
+      }
+      line = line_splitter.get_line();
+    }
+    return false;
+
+  } else {
+    return segment_checker.check({0, document->size()});
+  }
 }
 
 bool Query::check(Reader* reader_) const {
@@ -143,7 +157,21 @@ bool Query::check(Reader* reader_) const {
   auto search_dfa = std::make_unique<SearchDFA>(query_data_->logical_va);
   SegmentCheckerStream segment_checker(std::move(search_dfa), stream);
 
-  return segment_checker.check();
+  if ((query_data_->flags & Flags::LINE_BY_LINE) != Flags::NONE) {
+    auto line_splitter = LineSplitterStream(stream);
+    std::unique_ptr<Span> line = line_splitter.get_line();
+
+    while (line != nullptr) {
+      if (segment_checker.check(*line)) {
+        return true;
+      }
+      line = line_splitter.get_line();
+    }
+    return false;
+
+  } else {
+    return segment_checker.check();
+  }
 }
 
 std::vector<std::string> Query::variables() const {
