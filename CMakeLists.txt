@@ -127,6 +127,15 @@ else()
     include_directories(third_party/antlr4-cpp-runtime/src)
 endif()
 
+# Fix missing headers
+set(FIX_HEADER_PATH ${CMAKE_SOURCE_DIR}/third_party/fix_header.hpp)
+if (TARGET antlr4_static)
+  target_compile_options(antlr4_static PRIVATE
+    "$<$<CXX_COMPILER_ID:MSVC>:/FI${FIX_HEADER_PATH}>"
+    "$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-include;${FIX_HEADER_PATH}>"
+  )
+endif()
+
 # Third parties
 include_directories(third_party/cli11)
 

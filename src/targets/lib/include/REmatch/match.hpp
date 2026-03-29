@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <iostream>
 #include "REmatch/span.hpp"
 #include "REmatch_export.hpp"
 

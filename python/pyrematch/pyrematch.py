@@ -4,6 +4,7 @@ from typing import Union
 from ._pyrematch import (
     DEFAULT_MAX_DETERMINISTIC_STATES,
     DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+    DEFAULT_STREAM_BUFFER_SIZE,
     cppFlags,
     cppMatch,
     cppMatchGenerator,
@@ -134,12 +135,14 @@ def reql(
     flags: Flags = Flags.NONE,
     max_mempool_duplications=DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
     max_deterministic_states=DEFAULT_MAX_DETERMINISTIC_STATES,
+    stream_buffer_size=DEFAULT_STREAM_BUFFER_SIZE,
 ) -> Query:
     cpp_query = cppreql(
         pattern,
         flags._as_cpp_flags(),
         max_mempool_duplications,
         max_deterministic_states,
+        stream_buffer_size,
     )
     return Query(cpp_query)
 
@@ -237,11 +240,13 @@ def multi_reql(
     flags: Flags = Flags.NONE,
     max_mempool_duplications=DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
     max_deterministic_states=DEFAULT_MAX_DETERMINISTIC_STATES,
+    stream_buffer_size=DEFAULT_STREAM_BUFFER_SIZE,
 ) -> MultiQuery:
     cpp_multi_query = cppmulti_reql(
         pattern,
         flags._as_cpp_flags(),
         max_mempool_duplications,
         max_deterministic_states,
+        stream_buffer_size,
     )
     return MultiQuery(cpp_multi_query)
