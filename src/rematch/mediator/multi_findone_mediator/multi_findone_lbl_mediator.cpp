@@ -17,13 +17,6 @@ MultiFindoneLblMediator::MultiFindoneLblMediator(QueryData& query_data,
 
   algorithm_ = std::make_unique<FindoneAlgorithm>(
       query_data.extended_va, query_data.max_mempool_duplications, query_data.max_amount_of_states);
-
-  std::unique_ptr<Span> line = this->line_splitter->get_line();
-
-  if (line != nullptr && this->segment_checker->check(*line)) {
-    has_output = true;
-    update_algorithm(*line);
-  }
 }
 
 std::unique_ptr<ExtendedMapping> MultiFindoneLblMediator::next() {

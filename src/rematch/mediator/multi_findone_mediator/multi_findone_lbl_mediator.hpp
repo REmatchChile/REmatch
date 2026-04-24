@@ -29,8 +29,6 @@ class MultiFindoneLblMediator : public MultiMediator {
   std::unique_ptr<FindoneAlgorithm> algorithm_;
 
   const output_enumeration::Mapping* mapping_ = nullptr;
-
-  bool has_output;
 };
 
 }  // namespace REmatch

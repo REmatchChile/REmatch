@@ -6,3 +6,7 @@ requires = [
     "cmake>=3.23.2",
 ]
 build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["python/tests"]
+addopts = ["--import-mode=importlib", "-ra", "--tb=no"]

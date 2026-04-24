@@ -39,12 +39,12 @@ class CircularBuffer {
       return std::string(buffer + substr_start, buffer_size - substr_start) +
              std::string(buffer, substr_end);
     }
-    uint64_t substr_size = span.second - span.first;
+    size_t substr_size = span.second - span.first;
     return {buffer + substr_start, substr_size};
   }
 
   std::string_view get_segment(const Span& span) {
-    uint64_t size = span.second - span.first;
+    size_t size = span.second - span.first;
     uint64_t offset = span.first % buffer_size;
     return std::string_view{buffer + offset, size};
   }
