@@ -1,5 +1,7 @@
 #include "stream_algorithm.hpp"
 
+#include "evaluation/log.hpp"
+
 #ifdef TRACY_ENABLE
 #include <tracy/Tracy.hpp>
 #endif
@@ -96,7 +98,10 @@ void StreamAlgorithm::evaluate() {
 }
 
 void StreamAlgorithm::evaluate_single_character() {
+  LOG("pos_i " << pos_i_ << ": " << current_char << '\n');
+
   for (auto& current_state : current_states_) {
+    LOG("  current: " << current_state->id << '\n');
 
     std::vector<CaptureSubsetPair>* capture_subset_pairs =
         extended_det_va_.get_next_states(current_state, current_char);
@@ -120,6 +125,7 @@ void StreamAlgorithm::update_sets(
   // handle the empty capture
   if (capture_subset_pairs[0].capture.none()) {
     ExtendedDetVAState* next_state = capture_subset_pairs[0].subset;
+    LOG("    reached: " << next_state->id << '\n');
 
     ECSNode* next_node = current_state->get_node();
     update_output_nodes(next_state, next_node);
@@ -132,6 +138,7 @@ void StreamAlgorithm::update_sets(
     auto pair = *it;
     ExtendedDetVAState* next_state = pair.subset;
     std::bitset<64> capture = pair.capture;
+    LOG("    reached: " << next_state->id << '\n');
 
     ECSNode* next_node = ECS_interface_->create_extend_node(
         current_state->get_node(), capture, pos_i_);

@@ -20,8 +20,8 @@ namespace REmatch {
 
 class MediatorConstructor {
  public:
-  static std::unique_ptr<Mediator> create_finditer_mediator(QueryData& query_data,
-                                                            std::shared_ptr<Document> document) {
+  static std::unique_ptr<Mediator> create_finditer_mediator(
+      QueryData& query_data, const std::shared_ptr<Document>& document) {
     DFAStateLimitChecker dfa_states_checker(query_data.max_amount_of_states);
     auto search_dfa = std::make_unique<SearchDFA>(query_data.logical_va, dfa_states_checker);
 
@@ -47,8 +47,8 @@ class MediatorConstructor {
                                               std::move(segment_identificator));
   }
 
-  static std::unique_ptr<Mediator> create_findone_mediator(QueryData& query_data,
-                                                           std::shared_ptr<Document> document) {
+  static std::unique_ptr<Mediator> create_findone_mediator(
+      QueryData& query_data, const std::shared_ptr<Document>& document) {
     DFAStateLimitChecker dfa_states_checker(query_data.max_amount_of_states);
     auto search_dfa = std::make_unique<SearchDFA>(query_data.logical_va, dfa_states_checker);
 
@@ -69,7 +69,7 @@ class MediatorConstructor {
   }
 
   static std::unique_ptr<MultiMediator> create_multi_finditer_mediator(
-      QueryData& query_data, std::shared_ptr<Document> document) {
+      QueryData& query_data, const std::shared_ptr<Document>& document) {
     DFAStateLimitChecker dfa_states_checker(query_data.max_amount_of_states);
     auto search_dfa = std::make_unique<SearchDFA>(query_data.logical_va, dfa_states_checker);
 
@@ -96,7 +96,7 @@ class MediatorConstructor {
   }
 
   static std::unique_ptr<MultiMediator> create_multi_findone_mediator(
-      QueryData& query_data, std::shared_ptr<Document> document) {
+      QueryData& query_data, const std::shared_ptr<Document>& document) {
     DFAStateLimitChecker dfa_states_checker(query_data.max_amount_of_states);
     auto search_dfa = std::make_unique<SearchDFA>(query_data.logical_va, dfa_states_checker);
 
@@ -117,7 +117,7 @@ class MediatorConstructor {
   }
 
   static std::unique_ptr<Mediator> create_stream_mediator(QueryData& query_data,
-                                                          std::shared_ptr<Stream> stream) {
+                                                          const std::shared_ptr<Stream>& stream) {
 
     DFAStateLimitChecker dfa_states_checker(query_data.max_amount_of_states);
     auto search_dfa = std::make_unique<SearchDFA>(query_data.logical_va, dfa_states_checker);
@@ -139,8 +139,8 @@ class MediatorConstructor {
     }
   }
 
-  static std::unique_ptr<Mediator> create_stream_findone_mediator(QueryData& query_data,
-                                                                  std::shared_ptr<Stream> stream) {
+  static std::unique_ptr<Mediator> create_stream_findone_mediator(
+      QueryData& query_data, const std::shared_ptr<Stream>& stream) {
 
     DFAStateLimitChecker dfa_states_checker(query_data.max_amount_of_states);
     auto search_dfa = std::make_unique<SearchDFA>(query_data.logical_va, dfa_states_checker);
@@ -163,7 +163,7 @@ class MediatorConstructor {
   }
 
   static std::unique_ptr<MultiMediator> create_stream_multi_mediator(
-      QueryData& query_data, std::shared_ptr<Stream> stream) {
+      QueryData& query_data, const std::shared_ptr<Stream>& stream) {
 
     DFAStateLimitChecker dfa_states_checker(query_data.max_amount_of_states);
     auto search_dfa = std::make_unique<SearchDFA>(query_data.logical_va, dfa_states_checker);

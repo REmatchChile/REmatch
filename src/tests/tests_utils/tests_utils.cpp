@@ -110,7 +110,7 @@ void run_mediator_test(const std::string& query, const std::string& document_,
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
 
   QueryData regex_data(std::move(extended_va), variable_catalog, logical_va, Flags::NONE,
-                       DEFAULT_MAX_DETERMINISTIC_STATES);
+                       DEFAULT_MAX_MEMPOOL_DUPLICATIONS, DEFAULT_MAX_DETERMINISTIC_STATES);
   std::unique_ptr<Mediator> mediator =
       MediatorConstructor::create_finditer_mediator(regex_data, document);
 
@@ -234,7 +234,11 @@ void run_multi_mediator_test(const std::string& query, const std::string& docume
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
 
-  QueryData regex_data{std::move(extended_va), variable_catalog, logical_va, Flags::NONE,
+  QueryData regex_data{std::move(extended_va),
+                       variable_catalog,
+                       logical_va,
+                       Flags::NONE,
+                       DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
                        DEFAULT_MAX_DETERMINISTIC_STATES};
 
   auto mediator = MediatorConstructor::create_multi_finditer_mediator(regex_data, document);

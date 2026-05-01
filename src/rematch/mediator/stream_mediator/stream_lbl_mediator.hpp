@@ -24,7 +24,7 @@ class StreamLblMediator : public Mediator {
   std::shared_ptr<VariableCatalog> variable_catalog_ = nullptr;
   std::unique_ptr<FinditerAlgorithm> algorithm_ = nullptr;
 
-  int64_t line_offset = 0;
+  uint64_t line_offset = 0;
 
   std::unique_ptr<SegmentCheckerStream> segment_checker;
   std::unique_ptr<LineSplitterStream> line_splitter;

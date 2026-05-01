@@ -1,9 +1,9 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 
-#include "REmatch/REmatch.hpp"
 #include "../evaluation/mapping_helpers.hpp"
 #include "../tests_utils/tests_utils.hpp"
+#include "REmatch/REmatch.hpp"
 #include "mediator/mediator_constructor.hpp"
 #include "mediator/multi_findone_mediator/multi_findone_mediator.hpp"
 #include "output_enumeration/extended_mapping.hpp"
@@ -22,7 +22,11 @@ TEST_CASE(
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
 
-  QueryData regex_data{std::move(extended_va), variable_catalog, logical_va, Flags::NONE,
+  QueryData regex_data{std::move(extended_va),
+                       variable_catalog,
+                       logical_va,
+                       Flags::NONE,
+                       DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
                        DEFAULT_MAX_DETERMINISTIC_STATES};
   auto mediator = MediatorConstructor::create_multi_findone_mediator(regex_data, document);
 
@@ -41,7 +45,11 @@ TEST_CASE(
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
 
-  QueryData regex_data{std::move(extended_va), variable_catalog, logical_va, Flags::NONE,
+  QueryData regex_data{std::move(extended_va),
+                       variable_catalog,
+                       logical_va,
+                       Flags::NONE,
+                       DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
                        DEFAULT_MAX_DETERMINISTIC_STATES};
   auto mediator = MediatorConstructor::create_findone_mediator(regex_data, document);
 

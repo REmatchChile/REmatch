@@ -7,7 +7,8 @@ namespace REmatch {
 
 class DocumentSegment : public SegmentIdentificatorBase {
  public:
-  explicit DocumentSegment(std::shared_ptr<Document>& document) : document_size(document->size()) {}
+  explicit DocumentSegment(const std::shared_ptr<Document>& document)
+      : document_size(document->size()) {}
 
   std::unique_ptr<Span> next() override {
     if (has_returned) {

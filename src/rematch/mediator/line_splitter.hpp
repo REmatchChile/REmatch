@@ -22,25 +22,24 @@ class LineSplitterStr {
       return nullptr;
     }
 
-    size_t new_end_pos = document->find('\n', current_end);
+    uint64_t new_end_pos = document->find('\n', current_end);
 
-    auto result_span = std::make_unique<Span>();
+    uint64_t first;
+    uint64_t second;
 
     if (new_end_pos != std::string::npos) {
-      result_span->first = current_end;
-      result_span->second = new_end_pos;
+      first = current_end;
+      second = new_end_pos;
 
-      current_end = new_end_pos;
     } else {
-      result_span->first = current_end;
-      result_span->second = document->size() - 1;
-
-      current_end = result_span->second;
+      first = current_end;
+      second = document->size() - 1;
     }
 
+    current_end = second;
     current_end++;
 
-    return result_span;
+    return std::make_unique<Span>(first, second);
   }
 
   const std::shared_ptr<Document> document;

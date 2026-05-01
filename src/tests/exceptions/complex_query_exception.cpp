@@ -14,6 +14,7 @@ namespace REmatch::testing {
 
 TEST_CASE("an exception is thrown from SearchDFA when the query is too complex") {
   uint_fast32_t max_states = 100;
+  uint_fast32_t max_dups = 100;
   std::string regex = std::string(max_states, 'a');
   auto parser = Parser(regex);
   auto document_ = std::string(max_states, 'a');
@@ -24,7 +25,7 @@ TEST_CASE("an exception is thrown from SearchDFA when the query is too complex")
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
 
-  QueryData regex_data(std::move(extended_va), variable_catalog, logical_va, Flags::NONE,
+  QueryData regex_data(std::move(extended_va), variable_catalog, logical_va, Flags::NONE, max_dups,
                        max_states);
 
   // no need to evaluate the mediator, it searches for a segment in the constructor
@@ -35,6 +36,7 @@ TEST_CASE("an exception is thrown from SearchDFA when the query is too complex")
 TEST_CASE("an exception is thrown from ExtendedDetVA when the query is too complex") {
   // the regex contains an anchor, so the filtering process is skipped
   uint_fast32_t max_states = 100;
+  uint_fast32_t max_dups = 100;
 
   std::string regex = std::string(max_states, 'a') + '$';
   auto parser = Parser(regex);
@@ -46,8 +48,8 @@ TEST_CASE("an exception is thrown from ExtendedDetVA when the query is too compl
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
 
-  QueryData regex_data{std::move(extended_va), variable_catalog, logical_va, Flags::NONE,
-                       max_states};
+  QueryData regex_data{
+      std::move(extended_va), variable_catalog, logical_va, Flags::NONE, max_dups, max_states};
 
   auto evaluate_mediator = [&]() {
     auto mediator = MediatorConstructor::create_finditer_mediator(regex_data, document);

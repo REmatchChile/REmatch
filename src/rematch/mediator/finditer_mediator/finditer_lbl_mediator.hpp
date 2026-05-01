@@ -20,7 +20,7 @@ class FinditerLblMediator : public Mediator {
   void update_algorithm(Span& span);
 
   bool keep = true;
-  int64_t line_offset = 0;
+  uint64_t line_offset = 0;
 
   std::unique_ptr<LineSplitterStr> line_splitter;
   std::unique_ptr<SegmentChecker> segment_checker;

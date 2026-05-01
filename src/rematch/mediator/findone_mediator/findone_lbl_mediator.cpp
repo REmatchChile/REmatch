@@ -23,13 +23,13 @@ std::unique_ptr<mediator::Mapping> FindoneLblMediator::next() {
 
   while (line != nullptr) {
     if (segment_checker->check(*line)) {
-      int64_t offset = line->first;
+      uint64_t offset = line->first;
       update_algorithm(*line);
       algorithm_->evaluate_start_char();
 
       mapping_ = algorithm_->next();
       auto final_mapping = construct_user_mapping();
-      final_mapping->shift(offset);
+      final_mapping->shift(static_cast<int64_t>(offset));
       return final_mapping;
     }
 

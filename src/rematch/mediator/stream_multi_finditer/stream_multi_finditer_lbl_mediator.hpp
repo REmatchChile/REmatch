@@ -22,7 +22,7 @@ class StreamMultiFinditerLblMediator : public MultiMediator {
   void update_algorithm(Span& span);
 
   bool keep = true;
-  int64_t line_offset = 0;
+  uint64_t line_offset = 0;
 
   const Mapping* mapping_ = nullptr;
 

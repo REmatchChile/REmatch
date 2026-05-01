@@ -18,7 +18,8 @@ TEST_CASE("the findone mediator returns nullptr if there are no matches") {
   extended_va.clean_for_determinization();
 
   QueryData regex_data(std::move(extended_va), parser.get_variable_catalog(), logical_va,
-                       Flags::NONE, DEFAULT_MAX_DETERMINISTIC_STATES);
+                       Flags::NONE, DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+                       DEFAULT_MAX_DETERMINISTIC_STATES);
 
   std::unique_ptr<Mediator> mediator =
       MediatorConstructor::create_findone_mediator(regex_data, document);
@@ -35,8 +36,9 @@ TEST_CASE("the findone mediator returns the correct match") {
   ExtendedVA extended_va(logical_va);
   extended_va.clean_for_determinization();
 
-  auto regex_data = QueryData(std::move(extended_va), parser.get_variable_catalog(), logical_va,
-                              Flags::NONE, DEFAULT_MAX_DETERMINISTIC_STATES);
+  auto regex_data =
+      QueryData(std::move(extended_va), parser.get_variable_catalog(), logical_va, Flags::NONE,
+                DEFAULT_MAX_MEMPOOL_DUPLICATIONS, DEFAULT_MAX_DETERMINISTIC_STATES);
   std::unique_ptr<Mediator> mediator =
       MediatorConstructor::create_findone_mediator(regex_data, document);
   auto mapping = mediator->next();

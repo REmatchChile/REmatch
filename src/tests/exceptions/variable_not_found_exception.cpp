@@ -17,7 +17,8 @@ TEST_CASE("the mediator throws an exception when the variable is not in the rege
   extended_va.clean_for_determinization();
 
   QueryData regex_data(std::move(extended_va), parser.get_variable_catalog(), logical_va,
-                       Flags::NONE, DEFAULT_MAX_DETERMINISTIC_STATES);
+                       Flags::NONE, DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
+                       DEFAULT_MAX_DETERMINISTIC_STATES);
   auto mediator = MediatorConstructor::create_finditer_mediator(regex_data, document);
 
   auto mapping = mediator->next();

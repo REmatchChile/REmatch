@@ -17,7 +17,11 @@ TEST_CASE("the multi mediator returns null pointer when there are no mappings") 
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
 
-  QueryData regex_data{std::move(extended_va), variable_catalog, logical_va, Flags::NONE,
+  QueryData regex_data{std::move(extended_va),
+                       variable_catalog,
+                       logical_va,
+                       Flags::NONE,
+                       DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
                        DEFAULT_MAX_DETERMINISTIC_STATES};
 
   auto mediator = MediatorConstructor::create_multi_finditer_mediator(regex_data, document);
@@ -35,7 +39,11 @@ TEST_CASE("the multi mediator returns an empty mapping if there are no captures"
   extended_va.clean_for_determinization();
   std::shared_ptr<VariableCatalog> variable_catalog = parser.get_variable_catalog();
 
-  QueryData regex_data{std::move(extended_va), variable_catalog, logical_va, Flags::NONE,
+  QueryData regex_data{std::move(extended_va),
+                       variable_catalog,
+                       logical_va,
+                       Flags::NONE,
+                       DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
                        DEFAULT_MAX_DETERMINISTIC_STATES};
   auto mediator = MediatorConstructor::create_multi_finditer_mediator(regex_data, document);
 

@@ -16,7 +16,7 @@ class Mediator {
   virtual std::unique_ptr<mediator::Mapping> next() = 0;
 
  protected:
-  int64_t number_of_variables_;
+  int number_of_variables_;
   const Mapping* mapping_ = nullptr;
 
   std::unique_ptr<mediator::Mapping> construct_user_mapping();

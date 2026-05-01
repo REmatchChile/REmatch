@@ -8,7 +8,7 @@
 namespace REmatch {
 
 Mediator::Mediator(QueryData& query_data)
-    : number_of_variables_(query_data.variable_catalog->size()) {}
+    : number_of_variables_(static_cast<int>(query_data.variable_catalog->size())) {}
 
 std::unique_ptr<mediator::Mapping> Mediator::construct_user_mapping() {
   auto res = std::make_unique<mediator::Mapping>();

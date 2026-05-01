@@ -34,7 +34,7 @@ std::unique_ptr<ExtendedMapping> MultiFinditerLblMediator::next() {
     return nullptr;
   }
   auto extended_mapping = std::make_unique<ExtendedMapping>(*mapping_);
-  extended_mapping->shift(line_offset);
+  extended_mapping->shift(static_cast<int64_t>(line_offset));
   return extended_mapping;
 }
 

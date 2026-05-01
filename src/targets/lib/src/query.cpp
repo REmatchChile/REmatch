@@ -19,8 +19,8 @@ inline namespace library_interface {
 
 Query::Query(const std::string& pattern, Flags flags, uint_fast32_t max_mempool_duplications,
              uint_fast32_t max_deterministic_states, uint_fast32_t buffer_size)
-    : query_data_(
-          std::make_shared<QueryData>(get_query_data(pattern, flags, max_deterministic_states))),
+    : query_data_(std::make_shared<QueryData>(
+          get_query_data(pattern, flags, max_mempool_duplications, max_deterministic_states))),
       max_mempool_duplications_(max_mempool_duplications),
       max_deterministic_states_(max_deterministic_states),
       buffer_size(buffer_size) {}

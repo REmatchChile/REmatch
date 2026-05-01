@@ -32,7 +32,7 @@ FinditerLblMediator::FinditerLblMediator(QueryData& query_data, std::shared_ptr<
 std::unique_ptr<mediator::Mapping> FinditerLblMediator::next() {
   if (next_is_computed_successfully()) {
     auto mapping = construct_user_mapping();
-    mapping->shift(line_offset);
+    mapping->shift(static_cast<int64_t>(line_offset));
     return mapping;
   }
   return nullptr;

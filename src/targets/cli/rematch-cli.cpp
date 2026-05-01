@@ -29,6 +29,7 @@ int main(int argc, char** argv) {
   bool line_by_line{false};
   bool stream{false};
   bool findone{false};
+  bool check{false};
 
   CLI::App app{"REmatch CLI"};
   app.get_formatter()->column_width(35);
@@ -64,6 +65,8 @@ int main(int argc, char** argv) {
 
   app.add_flag("-o,--findone", findone);
 
+  app.add_flag("-c", check);
+
   CLI11_PARSE(app, argc, argv);
 
   Flags flags = Flags::NONE;
@@ -72,13 +75,70 @@ int main(int argc, char** argv) {
   }
 
   try {
-    if (multi_spanners) {
-      auto multi_query =
-          multi_reql(pattern, flags, max_mempool_duplications, max_deterministic_states);
-      const auto multi_match_generator = multi_query.finditer(document);
-      for (const auto& multi_match : multi_match_generator) {
-        std::cout << multi_match << "\n";
+
+    if (check) {
+      if (stream) {
+        std::cout << "----CHECK STREAM----" << std::endl;
+        std::string pattern_ = read_from_file(pattern);
+        std::fstream document_stream(document, std::ios::in | std::ios::binary);
+        auto s_query =
+            reql(pattern_, flags, max_mempool_duplications, max_deterministic_states, buffer_size);
+        FStreamReader reader(document_stream);
+
+        if (s_query.check(&reader)) {
+          std::cout << "true" << std::endl;
+        } else {
+          std::cout << "false" << std::endl;
+        }
+
+      } else {
+        std::cout << "----CHECK----" << std::endl;
+
+        std::string pattern_ = read_from_file(pattern);
+        std::string document_ = read_from_file(document);
+
+        auto query = reql(pattern_, flags, max_mempool_duplications, max_deterministic_states);
+        if (query.check(document)) {
+          std::cout << "true" << std::endl;
+        } else {
+          std::cout << "false" << std::endl;
+        }
       }
+      return 0;
+    }
+
+    if (multi_spanners) {
+      if (stream) {
+        std::cout << "---MULTI STREAM----" << std::endl;
+        std::string pattern_ = read_from_file(pattern);
+        std::fstream document_stream(document, std::ios::in | std::ios::binary);
+        auto s_query = multi_reql(pattern_, flags, max_mempool_duplications,
+                                  max_deterministic_states, buffer_size);
+        FStreamReader reader(document_stream);
+        const auto match_generator = s_query.finditer(&reader);
+        for (auto& match : match_generator) {
+          std::cout << match << "\n";
+          for (auto g : match.groups(0)) {
+            std::cout << " " << g << std::endl;
+          }
+        }
+
+      } else {
+        std::cout << "--- MULTI ---" << std::endl;
+        std::string pattern_ = read_from_file(pattern);
+        std::string document_ = read_from_file(document);
+
+        auto multi_query =
+            multi_reql(pattern_, flags, max_mempool_duplications, max_deterministic_states);
+        const auto multi_match_generator = multi_query.finditer(document_);
+        for (const auto& multi_match : multi_match_generator) {
+          std::cout << multi_match << "\n";
+          for (auto g : multi_match.groups(0)) {
+            std::cout << " " << g << std::endl;
+          }
+        }
+      }
+
     } else if (stream) {
       std::cout << "----STREAM----" << std::endl;
       std::string pattern_ = read_from_file(pattern);
@@ -89,8 +149,10 @@ int main(int argc, char** argv) {
       const auto match_generator = s_query.finditer(&reader);
       for (auto& match : match_generator) {
         std::cout << match << "\n";
+        std::cout << " " << match.group(0) << std::endl;
       }
     } else if (findone) {
+      std::cout << "--- FINDONE" << std::endl;
       std::string pattern_ = read_from_file(pattern);
       std::string document_ = read_from_file(document);
 
@@ -99,11 +161,13 @@ int main(int argc, char** argv) {
       try {
         auto match = query.findone(document_);
         std::cout << match << std::endl;
+        std::cout << " " << match.group(0) << std::endl;
       } catch (const std::exception& e) {
         std::cout << e.what() << std::endl;
       }
 
     } else {
+      std::cout << "--- STANDARD ---" << std::endl;
       std::string pattern_ = read_from_file(pattern);
       std::string document_ = read_from_file(document);
 
@@ -111,6 +175,7 @@ int main(int argc, char** argv) {
       const auto match_generator = query.finditer(document_);
       for (auto& match : match_generator) {
         std::cout << match << "\n";
+        std::cout << " " << match.group(0) << std::endl;
       }
     }
   } catch (const std::exception& e) {
