@@ -24,7 +24,7 @@ FindoneAlgorithm::FindoneAlgorithm(ExtendedVA& extended_va, uint_fast32_t max_me
 
 void FindoneAlgorithm::begin(std::shared_ptr<TextWrapper> document) {
   document_ = document;
-  doc_end_i_ = document->size();
+  doc_end_i_ = static_cast<int64_t>(document->size());
 
   pos_i_ = doc_start_i_;
   current_states_.clear();
@@ -107,8 +107,8 @@ void FindoneAlgorithm::update_sets(ExtendedDetVAState* current_state,
 
   // handle the non-empty captures
   while (it != capture_subset_pairs.end()) {
-    auto* next_node = ECS_interface_->create_extend_node(current_state->get_node(), it->capture,
-                                                         static_cast<int>(pos_i_));
+    auto* next_node =
+        ECS_interface_->create_extend_node(current_state->get_node(), it->capture, pos_i_);
     auto* next_state = it->subset;
     LOG("    reached: " << next_state->id << '\n');
     update_output_nodes(next_state, next_node);
@@ -123,9 +123,8 @@ void FindoneAlgorithm::update_output_nodes(ExtendedDetVAState* next_state, ECSNo
   ZoneScoped;
 #endif
 
-  const auto pos_i_int_ = static_cast<int>(pos_i_);
-  if (next_state->phase < pos_i_int_) {
-    next_state->set_phase(pos_i_int_);
+  if (next_state->phase < pos_i_) {
+    next_state->set_phase(pos_i_);
 
     next_state->set_node(next_node);
     ECS_interface_->pin_node(next_node);

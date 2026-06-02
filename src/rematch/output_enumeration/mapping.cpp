@@ -9,8 +9,8 @@ Mapping::Mapping() :
     inverted_annotations() {}
 
 void Mapping::add_annotations(std::bitset<64> variable_markers,
-                     size_t document_position) {
-  inverted_annotations.push_back(Annotation{variable_markers, document_position});
+                     int64_t document_position) {
+  inverted_annotations.emplace_back(variable_markers, document_position);
 }
 
 void Mapping::delete_all_annotations() {
@@ -28,14 +28,15 @@ std::map<int, std::vector<Span>> Mapping::construct_mapping() const {
 }
 
 void Mapping::process_annotation(const Annotation& annotation,
-                                 std::map<int, std::vector<Span>>& spans_map) const {
+                                 std::map<int, std::vector<Span>>& spans_map) {
 
-  for (size_t bitset_index = 0;
-       bitset_index < annotation.variable_markers.size() - 2; bitset_index++) {
+  for (int bitset_index = 0;
+       bitset_index < VARIABLE_MARKERS_SIZE - 2; bitset_index++) {
 
     if (annotation.variable_markers[bitset_index]) {
       int variable_id = bitset_index / 2;
 
+      // TODO: remove ifs, use same iteration
       if (is_close_code(bitset_index)) {
         add_span(spans_map, variable_id, annotation.document_position);
       } else {
@@ -51,13 +52,19 @@ bool is_close_code(int bitset_index) {
 }
 
 void Mapping::add_span(std::map<int, std::vector<Span>>& spans_map,
-                            int variable_id, int document_position) const {
+                            int variable_id, int64_t document_position) {
   spans_map[variable_id].push_back({0, document_position});
 }
 
 void Mapping::update_last_span(std::map<int, std::vector<Span>>& spans_map,
-                                   int variable_id, int document_position) const {
+                                   int variable_id, int64_t document_position) {
   spans_map[variable_id].back().first = document_position;
+}
+
+void Mapping::delete_previous_annotation() {
+  inverted_annotations.pop_back();
+  // TODO: change this so that it goes back to the last
+  // annotation that was added
 }
 
 std::vector<Span> Mapping::get_spans_of_variable_id(int variable_id) const {
@@ -82,12 +89,6 @@ std::vector<Span> Mapping::get_spans_of_variable_id(int variable_id) const {
   return spans;
 }
 
-void Mapping::delete_previous_annotation() {
-  inverted_annotations.pop_back();
-  // TODO: change this so that it goes back to the last
-  // annotation that was added
-}
-
 // TODO: Change logic to have less function calls or make it cleaner.
 Span Mapping::get_next_span(int variable_id,
                    int &next_possible_opening_position,
@@ -100,14 +101,14 @@ Span Mapping::get_next_span(int variable_id,
    * one variable is oppened and closed at the same moment.
    */
   Span span;
-  span.first = get_next_variable_oppening(variable_id,
+  span.first = get_next_variable_opening(variable_id,
                                           next_possible_opening_position);
   span.second = get_next_variable_closure(variable_id,
                                           next_possible_closure_position);
   return span;
 }
 
-int Mapping::get_next_variable_oppening(int variable_id,
+int Mapping::get_next_variable_opening(int variable_id,
                                         int &current_position) const {
   return find_next_document_position_where_the_specified_marker_is_true(
       variable_id * 2, current_position

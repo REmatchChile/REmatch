@@ -10,7 +10,7 @@ inline namespace output_enumeration {
 
 class EndOfIterationException : public std::exception {
  public:
-  const char * what() const throw () {
+  const char * what() const noexcept override {
     return "Next was called on an empty enumerator";
   }
 };

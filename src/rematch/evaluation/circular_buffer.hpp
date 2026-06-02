@@ -44,6 +44,16 @@ class CircularBuffer {
   }
 
   std::string_view get_segment(const Span& span) {
+    uint64_t substr_start = span.first % buffer_size;
+    uint64_t substr_end = span.second % buffer_size;
+
+    if (substr_start > substr_end) {
+      tmp_segment = "";
+      tmp_segment.append(buffer + substr_start, buffer_size - substr_start);
+      tmp_segment.append(buffer, substr_end);
+      return {tmp_segment};
+    }
+
     size_t size = span.second - span.first;
     uint64_t offset = span.first % buffer_size;
     return std::string_view{buffer + offset, size};
@@ -65,6 +75,7 @@ class CircularBuffer {
   uint64_t buffer_size;
 
  private:
+  std::string tmp_segment;
   uint64_t file_pos = 0;
   char* buffer;
 };

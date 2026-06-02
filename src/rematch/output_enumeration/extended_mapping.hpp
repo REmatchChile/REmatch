@@ -23,15 +23,15 @@ class ExtendedMapping {
   friend std::ostream& operator<<(std::ostream& os, ExtendedMapping& extended_mapping);
 
  private:
-  void process_annotation(const Mapping::Annotation& annotation,
-                          std::map<int, std::vector<Span>>& spans_map,
-                          std::map<int, Span>& spans_buffer) const;
-  inline bool is_open_code(int bitset_index) const;
-  void add_span_with_opened_position(int variable_id, int document_position,
-                                     std::map<int, Span>& spans_buffer) const;
-  void update_last_span_with_closed_position(std::map<int, std::vector<Span>>& spans_map,
-                                             int variable_id, int document_position,
-                                             std::map<int, Span>& spans_buffer) const;
+  static void process_annotation(const Mapping::Annotation& annotation,
+                                 std::map<int, std::vector<Span>>& spans_map,
+                                 std::map<int, Span>& spans_buffer);
+  static inline bool is_open_code(int bitset_index);
+  static void add_span_with_opened_position(int variable_id, int64_t document_position,
+                                            std::map<int, Span>& spans_buffer);
+  static void update_last_span_with_closed_position(std::map<int, std::vector<Span>>& spans_map,
+                                                    int variable_id, int64_t document_position,
+                                                    std::map<int, Span>& spans_buffer);
 
   std::vector<Mapping::Annotation> inverted_annotations_ = {};
 };

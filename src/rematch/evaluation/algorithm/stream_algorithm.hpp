@@ -39,8 +39,8 @@ class StreamAlgorithm {
 
   char current_char{};
 
-  uint64_t pos_i_ = 0;
-  uint64_t end_i_ = 0;
+  int64_t pos_i_ = 0;
+  int64_t end_i_ = 0;
   SegmentResult segment_result = DoesNotFitInBuffer;
 
   std::shared_ptr<Stream> stream_;

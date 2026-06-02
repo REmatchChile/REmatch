@@ -23,16 +23,16 @@ std::map<int, std::vector<Span>> ExtendedMapping::construct_mapping() const {
 
 void ExtendedMapping::process_annotation(const Mapping::Annotation& annotation,
                                          std::map<int, std::vector<Span>>& spans_map,
-                                         std::map<int, Span>& spans_buffer) const {
+                                         std::map<int, Span>& spans_buffer) {
 
   // Iterate starting from the last index to process the closed variable first
   // in case the variable is opened and closed in the same position.
   // -3 because we skip the first 2 bits since they are used to label the ecs nodes
-  for (int bitset_index = annotation.variable_markers.size() - 3; bitset_index >= 0;
-       --bitset_index) {
+  for (int bitset_index = Mapping::VARIABLE_MARKERS_SIZE - 3; bitset_index >= 0; --bitset_index) {
     if (annotation.variable_markers[bitset_index]) {
       int variable_id = bitset_index / 2;
 
+      // TODO: remove ifs, use same iteration
       if (is_open_code(bitset_index)) {
         add_span_with_opened_position(variable_id, annotation.document_position, spans_buffer);
       } else {
@@ -43,19 +43,19 @@ void ExtendedMapping::process_annotation(const Mapping::Annotation& annotation,
   }
 }
 
-inline bool ExtendedMapping::is_open_code(int bitset_index) const {
+inline bool ExtendedMapping::is_open_code(int bitset_index) {
   return bitset_index % 2 == 0;
 }
 
-void ExtendedMapping::add_span_with_opened_position(int variable_id, int document_position,
-                                                    std::map<int, Span>& spans_buffer) const {
+void ExtendedMapping::add_span_with_opened_position(int variable_id, int64_t document_position,
+                                                    std::map<int, Span>& spans_buffer) {
   spans_buffer[variable_id].first = document_position;
   spans_buffer[variable_id].second = INVALID_POSITION;
 }
 
 void ExtendedMapping::update_last_span_with_closed_position(
-    std::map<int, std::vector<Span>>& spans_map, int variable_id, int document_position,
-    std::map<int, Span>& spans_buffer) const {
+    std::map<int, std::vector<Span>>& spans_map, int variable_id, int64_t document_position,
+    std::map<int, Span>& spans_buffer) {
   if (spans_buffer[variable_id].second == INVALID_POSITION) {
     spans_buffer[variable_id].second = document_position;
     spans_map[variable_id].push_back(spans_buffer[variable_id]);
@@ -67,15 +67,15 @@ std::unique_ptr<ExtendedMapping> ExtendedMapping::get_submapping(Span span) cons
   int64_t slice_start_index = -1;
   int64_t slice_end_index = -1;
 
-  for (std::size_t i = 0; i < inverted_annotations_.size(); ++i) {
-    if (inverted_annotations_[i].document_position <= size_t(span.second)) {
+  for (uint32_t i = 0; i < inverted_annotations_.size(); ++i) {
+    if (inverted_annotations_[i].document_position <= span.second) {
       slice_start_index = i;
       break;
     }
   }
 
-  for (int64_t i = static_cast<int64_t>(inverted_annotations_.size()) - 1; i >= 0; --i) {
-    if (inverted_annotations_[i].document_position >= size_t(span.first)) {
+  for (uint32_t i = inverted_annotations_.size() - 1; i >= 0; --i) {
+    if (inverted_annotations_[i].document_position >= span.first) {
       slice_end_index = i;
       break;
     }

@@ -31,9 +31,9 @@ class FindoneAlgorithm : public AlgorithmClass {
 
   std::shared_ptr<TextWrapper> document_;
   char current_char = 0;
-  uint64_t pos_i_ = 0;
-  uint64_t doc_start_i_ = 0;
-  uint64_t doc_end_i_ = 0;
+  int64_t pos_i_ = 0;
+  int64_t doc_start_i_ = 0;
+  int64_t doc_end_i_ = 0;
 };
 
 }  // namespace REmatch

@@ -20,13 +20,13 @@ class ECSNode {
     ECSNode *left = nullptr;
     union {
       ECSNode *right = nullptr;
-      int document_position;
+      int64_t document_position;
     };
     ECSNodeType type;
 
   private:
     /**
-     * Once the ref_count is 0, then the node is treated as a recycleable
+     * Once the ref_count is 0, then the node is treated as a recyclable
      * node, thus joining the linked list of free nodes used by the memory
      * manager.
      */
@@ -39,7 +39,7 @@ class ECSNode {
     ECSNode(ECSNodeType node_type,
             ECSNode *left = nullptr, ECSNode *right = nullptr,
             std::bitset<64> variable_markers = 0,
-            int document_position = 0);
+            int64_t document_position = 0);
     /**
      * The reset function reinstantiates the node but recycling the memory
      * position that was used beforehand.
@@ -47,7 +47,7 @@ class ECSNode {
     ECSNode *reset(ECSNodeType node_type,
                    ECSNode *left = nullptr, ECSNode *right = nullptr,
                    std::bitset<64> variable_markers = 0,
-                   int document_position = 0);
+                   int64_t document_position = 0);
 
     bool is_output() const;
     bool is_bottom() const;
@@ -64,7 +64,7 @@ class ECSNode {
 
   void assign_attributes(ECSNodeType node_type, ECSNode *left,
                      ECSNode *right, std::bitset<64> variable_markers,
-                     int document_position);
+                     int64_t document_position);
   void reset_attributes();
   void label_node_as_kBottom();
   void create_kUnion_node(ECSNode *left, ECSNode *right);
@@ -72,7 +72,7 @@ class ECSNode {
   void add_right_node(ECSNode *node);
   void label_node_as_kUnion();
   void create_kLabel_node(ECSNode *left, std::bitset<64> variable_markers,
-                          int document_position);
+                          int64_t document_position);
   void label_node_as_kLabel();
 
 };

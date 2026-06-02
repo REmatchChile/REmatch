@@ -60,9 +60,10 @@ void run_algorithm_test(const std::string& query, const std::string& document_,
     int number_of_variables = expected_mappings[0].number_of_variables;
 
     DummyMapping actual_mapping({});
+    std::map<int, std::vector<Span>> tmp_mapping = result_mapping->construct_mapping();
 
     for (int variable_id = 0; variable_id < number_of_variables; variable_id++) {
-      std::vector<Span> spans = result_mapping->get_spans_of_variable_id(variable_id);
+      std::vector<Span> spans = tmp_mapping[variable_id];
       std::string variable_name = variable_catalog->get_var(variable_id);
       actual_mapping.add_span(variable_name, spans.back());
     }

@@ -26,7 +26,7 @@ FinditerAlgorithm::FinditerAlgorithm(ExtendedVA& extended_va,
 
 void FinditerAlgorithm::begin(std::shared_ptr<TextWrapper> document) {
   document_ = std::move(document);
-  doc_end_i_ = document_->size();
+  doc_end_i_ = static_cast<int64_t>(document_->size());
   reset();
 }
 
@@ -119,8 +119,8 @@ void FinditerAlgorithm::update_sets(ExtendedDetVAState* current_state,
 
   // handle the non-empty captures
   while (it != capture_subset_pairs.end()) {
-    auto* next_node = ECS_interface_->create_extend_node(current_state->get_node(), it->capture,
-                                                         static_cast<int>(pos_i_));
+    auto* next_node =
+        ECS_interface_->create_extend_node(current_state->get_node(), it->capture, pos_i_);
 
     auto* next_state = it->subset;
     LOG("    reached: " << next_state->id << '\n');
@@ -136,9 +136,8 @@ void FinditerAlgorithm::update_output_nodes(ExtendedDetVAState* next_state, ECSN
   ZoneScoped;
 #endif
 
-  const auto pos_i_int_ = static_cast<int>(pos_i_);
-  if (next_state->phase < pos_i_int_) {
-    next_state->set_phase(pos_i_int_);
+  if (next_state->phase < pos_i_) {
+    next_state->set_phase(pos_i_);
 
     next_state->set_node(next_node);
     ECS_interface_->pin_node(next_node);
