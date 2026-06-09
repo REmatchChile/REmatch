@@ -12,7 +12,7 @@ TEST_CASE("find method returns the first match correctly") {
   auto query = reql(pattern);
   auto match = query.findone("abab");
 
-  REQUIRE(match.span("x") == Span(0, 2));
+  REQUIRE(match->span("x") == Span(0, 2));
 }
 
 TEST_CASE("finditer method returns the iterator correctly") {

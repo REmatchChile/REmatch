@@ -39,9 +39,5 @@ def test_findone_lbl(test_case: FindoneCase):
     """Test findone lbl"""
     regex = re.reql(test_case.pattern, re.Flags.LINE_BY_LINE)
 
-    try:
-        actual = regex.findone(test_case.document)
-    except re.REmatchException:
-        actual = None
-
+    actual = regex.findone(test_case.document)
     assert actual == test_case.expected

@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -28,10 +29,10 @@ class REMATCH_EXPORT Query {
   Query& operator=(Query&& other) noexcept;
 
   // Returns the first match in the document.
-  Match findone(const std::string& document) const;
+  std::optional<Match> findone(const std::string& document) const;
 
   // Returns the first match in the document. It takes a reader as document.
-  Match findone(Reader* reader) const;
+  std::optional<Match> findone(Reader* reader) const;
 
   // Returns a vector containing up to `limit` results from the document.
   std::vector<Match> findmany(const std::string& document, uint_fast32_t limit) const;

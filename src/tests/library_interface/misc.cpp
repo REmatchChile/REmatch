@@ -60,7 +60,7 @@ TEST_CASE("findone w line by line wo anchors") {
 
   auto match = query.findone(document);
 
-  REQUIRE(match.span(0) == Span{1, 2});
+  REQUIRE(match->span(0) == Span{1, 2});
 }
 
 TEST_CASE("findone w line by line w end anchor") {
@@ -69,7 +69,7 @@ TEST_CASE("findone w line by line w end anchor") {
 
   auto match = query.findone(document);
 
-  REQUIRE(match.span(0) == Span{2, 3});
+  REQUIRE(match->span(0) == Span{2, 3});
 }
 
 TEST_CASE("findone w line by line w start anchor") {
@@ -78,7 +78,7 @@ TEST_CASE("findone w line by line w start anchor") {
 
   auto match = query.findone(document);
 
-  REQUIRE(match.span(0) == Span{4, 5});
+  REQUIRE(match->span(0) == Span{4, 5});
 }
 
 TEST_CASE("stream finditer w line by line wo anchors") {
@@ -139,7 +139,7 @@ TEST_CASE("stream findone w line by line wo anchors") {
   auto reader = std::make_unique<FStreamReader>(document);
   auto match = query.findone(reader.get());
 
-  REQUIRE(match.span(0) == Span{1, 2});
+  REQUIRE(match->span(0) == Span{1, 2});
 }
 
 TEST_CASE("stream findone w line by line w end anchor") {
@@ -149,7 +149,7 @@ TEST_CASE("stream findone w line by line w end anchor") {
   auto reader = std::make_unique<FStreamReader>(document);
   auto match = query.findone(reader.get());
 
-  REQUIRE(match.span(0) == Span{2, 3});
+  REQUIRE(match->span(0) == Span{2, 3});
 }
 
 TEST_CASE("stream findone w line by line w start anchor") {
@@ -158,14 +158,14 @@ TEST_CASE("stream findone w line by line w start anchor") {
 
   auto match = query.findone(document);
 
-  REQUIRE(match.span(0) == Span{4, 5});
+  REQUIRE(match->span(0) == Span{4, 5});
 }
 
 TEST_CASE("findone empty lines") {
   std::string document("\n\n\n");
   auto query = reql("!x{.}", Flags::LINE_BY_LINE);
 
-  REQUIRE_THROWS(query.findone(document));
+  REQUIRE_FALSE(query.findone(document).has_value());
 }
 
 TEST_CASE("multi finditer w line by line wo anchors") {
@@ -226,7 +226,7 @@ TEST_CASE("multi findone w line by line wo anchors") {
   auto match = query.findone(document);
 
   std::vector<Span> expected_match = {{1, 2}};
-  REQUIRE(match.spans(0) == expected_match);
+  REQUIRE(match->spans(0) == expected_match);
 }
 
 TEST_CASE("multi findone w line by line w end anchor") {
@@ -236,7 +236,7 @@ TEST_CASE("multi findone w line by line w end anchor") {
   auto match = query.findone(document);
 
   std::vector<Span> expected_match = {{2, 3}};
-  REQUIRE(match.spans(0) == expected_match);
+  REQUIRE(match->spans(0) == expected_match);
 }
 
 TEST_CASE("multi findone w line by line w start anchor") {
@@ -246,7 +246,7 @@ TEST_CASE("multi findone w line by line w start anchor") {
   auto match = query.findone(document);
 
   std::vector<Span> expected_match = {{5, 6}, {6, 7}};
-  REQUIRE(match.spans(0) == expected_match);
+  REQUIRE(match->spans(0) == expected_match);
 }
 
 TEST_CASE("an exception is thrown when a line does not fit in the buffer") {

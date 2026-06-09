@@ -39,7 +39,7 @@ Query& Query::operator=(Query&& other) noexcept {
   return *this;
 }
 
-Match Query::findone(const std::string& document_) const {
+std::optional<Match> Query::findone(const std::string& document_) const {
   auto document = std::make_shared<Document>(document_);
 
   auto mediator = MediatorConstructor::create_findone_mediator(*query_data_, document);
@@ -47,7 +47,7 @@ Match Query::findone(const std::string& document_) const {
   auto mapping = mediator->next();
 
   if (mapping == nullptr) {
-    throw REmatchException("No match found");
+    return std::nullopt;
   }
 
   auto match = std::make_unique<internal::MatchStandard>(std::move(mapping),
@@ -55,14 +55,14 @@ Match Query::findone(const std::string& document_) const {
   return Match(std::move(match));
 }
 
-Match Query::findone(Reader* reader) const {
+std::optional<Match> Query::findone(Reader* reader) const {
   auto stream = std::make_shared<Stream>(reader, buffer_size);
   auto mediator = MediatorConstructor::create_stream_findone_mediator(*query_data_, stream);
 
   std::unique_ptr<mediator::Mapping> mapping = mediator->next();
 
   if (mapping == nullptr) {
-    throw REmatchException("No match found");
+    return std::nullopt;
   }
 
   auto match =

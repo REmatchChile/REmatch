@@ -45,9 +45,5 @@ def test_multi_findone(test_case: MultiFindoneCase):
     """Test multi findone lbl"""
     regex = re.multi_reql(test_case.pattern, re.Flags.LINE_BY_LINE)
 
-    try:
-        actual = regex.findone(test_case.document)
-    except re.REmatchException:
-        actual = None
-
+    actual = regex.findone(test_case.document)
     assert actual == test_case.expected

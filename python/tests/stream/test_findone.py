@@ -35,9 +35,5 @@ def test_findone(test_case: FindoneCase):
     regex = re.reql(test_case.pattern)
     reader = re.Reader(f"{options.DOCUMENTS_PATH}/{test_case.document}.txt")
 
-    try:
-        actual = regex.findone(reader)
-    except re.REmatchException:
-        actual = None
-
+    actual = regex.findone(reader)
     assert actual == test_case.expected

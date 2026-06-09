@@ -47,9 +47,5 @@ def test_multi_findone_lbl(test_case: MultiFindoneCase):
     regex = re.multi_reql(test_case.pattern, re.Flags.LINE_BY_LINE)
     reader = re.Reader(f"{options.DOCUMENTS_PATH}/{test_case.document}.txt")
 
-    try:
-        actual = regex.findone(reader)
-    except re.REmatchException:
-        actual = None
-
+    actual = regex.findone(reader)
     assert actual == test_case.expected

@@ -12,8 +12,8 @@ TEST_CASE("multi regex findone method returns the first match correctly") {
   auto match = query.findone(document);
 
   std::vector<Span> expected_spans = {{0, 3}, {4, 6}};
-  REQUIRE(match.spans(0) == expected_spans);
-  REQUIRE(match.spans("x") == expected_spans);
+  REQUIRE(match->spans(0) == expected_spans);
+  REQUIRE(match->spans("x") == expected_spans);
 }
 
 TEST_CASE("multi regex behaves correctly when there are no matches") {
@@ -184,7 +184,7 @@ TEST_CASE("multi regex submatch function") {
 
   auto match = query.findone(document);
 
-  auto submatch = match.submatch(Span(0, 3));
+  auto submatch = match->submatch(Span(0, 3));
   std::vector<Span> expected = {{0, 1}, {1, 3}};
   REQUIRE(submatch.spans("x") == expected);
 }

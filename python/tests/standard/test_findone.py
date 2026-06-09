@@ -141,11 +141,5 @@ def test_findone(test_case: FindoneCase):
     """Test findone"""
     regex = re.reql(test_case.pattern)
 
-    try:
-        actual = regex.findone(test_case.document)
-    except re.REmatchException:
-        actual = None
-
-    assert (
-        actual == test_case.expected
-    )
+    actual = regex.findone(test_case.document)
+    assert actual == test_case.expected

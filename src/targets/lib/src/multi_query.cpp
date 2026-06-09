@@ -20,13 +20,11 @@ inline namespace library_interface {
 MultiQuery::MultiQuery(const std::string& pattern, Flags flags,
                        uint_fast32_t max_mempool_duplications,
                        uint_fast32_t max_deterministic_states, uint_fast32_t buffer_size)
-    :
-    query_data_(std::make_shared<QueryData>(get_multi_query_data(
+    : query_data_(std::make_shared<QueryData>(get_multi_query_data(
           pattern, flags, max_mempool_duplications, max_deterministic_states))),
       max_mempool_duplications_(max_mempool_duplications),
       max_deterministic_states_(max_deterministic_states),
-      buffer_size(buffer_size) {
-}
+      buffer_size(buffer_size) {}
 
 MultiQuery::MultiQuery(MultiQuery&& other) noexcept
     : query_data_(std::move(other.query_data_)),
@@ -44,13 +42,13 @@ MultiQuery& MultiQuery::operator=(MultiQuery&& other) noexcept {
 
 MultiQuery::~MultiQuery() = default;
 
-MultiMatch MultiQuery::findone(const std::string& document_) const {
+std::optional<MultiMatch> MultiQuery::findone(const std::string& document_) const {
   auto document = std::make_shared<Document>(document_);
   auto mediator = MediatorConstructor::create_multi_findone_mediator(*query_data_, document);
 
   auto mapping = mediator->next();
   if (mapping == nullptr) {
-    throw REmatchException("No match found");
+    return std::nullopt;
   }
 
   auto match = std::make_unique<internal::MultiMatchStandard>(
@@ -58,13 +56,13 @@ MultiMatch MultiQuery::findone(const std::string& document_) const {
   return MultiMatch(std::move(match));
 }
 
-MultiMatch MultiQuery::findone(Reader* reader) const {
+std::optional<MultiMatch> MultiQuery::findone(Reader* reader) const {
   auto stream = std::make_shared<Stream>(reader, buffer_size);
   auto mediator = MediatorConstructor::create_stream_multi_mediator(*query_data_, stream);
 
   auto mapping = mediator->next();
   if (mapping == nullptr) {
-    throw REmatchException("No match found");
+    return std::nullopt;
   }
 
   auto match = std::make_unique<internal::SMultiMatch>(std::move(mapping),

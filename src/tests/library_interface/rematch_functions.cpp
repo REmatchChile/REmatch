@@ -16,7 +16,7 @@ TEST_CASE("find function returns the correct match") {
   auto query = reql(pattern);
   auto match = query.findone(document);
 
-  REQUIRE(match.span("x") == Span{3, 6});
+  REQUIRE(match->span("x") == Span{3, 6});
 }
 
 TEST_CASE("match obtained with find returns the correct group") {
@@ -26,8 +26,8 @@ TEST_CASE("match obtained with find returns the correct group") {
   auto query = reql(pattern);
   auto match = query.findone(document);
 
-  REQUIRE(match.span("x") == Span{3, 6});
-  REQUIRE(match.group("x") == "rty");
+  REQUIRE(match->span("x") == Span{3, 6});
+  REQUIRE(match->group("x") == "rty");
 }
 
 TEST_CASE("findall function returns the correct matches") {

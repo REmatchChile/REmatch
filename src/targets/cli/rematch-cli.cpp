@@ -118,9 +118,6 @@ int main(int argc, char** argv) {
         const auto match_generator = s_query.finditer(&reader);
         for (auto& match : match_generator) {
           std::cout << match << "\n";
-          // for (auto g : match.groups(0)) {
-          //   std::cout << " " << g << std::endl;
-          // }
         }
 
       } else {
@@ -133,9 +130,6 @@ int main(int argc, char** argv) {
         const auto multi_match_generator = multi_query.finditer(document_);
         for (const auto& multi_match : multi_match_generator) {
           std::cout << multi_match << "\n";
-          // for (auto g : multi_match.groups(0)) {
-          //   std::cout << " " << g << std::endl;
-          // }
         }
       }
 
@@ -149,7 +143,11 @@ int main(int argc, char** argv) {
 
         FStreamReader reader(document_stream);
         auto match = query.findone(&reader);
-        std::cout << match << std::endl;
+        if (match) {
+          std::cout << *match << std::endl;
+        } else {
+          std::cout << "No match found" << std::endl;
+        }
 
       } else {
         std::cout << "--- FINDONE" << std::endl;
@@ -159,8 +157,11 @@ int main(int argc, char** argv) {
         auto query = reql(pattern_, flags, max_mempool_duplications, max_deterministic_states);
 
         auto match = query.findone(document_);
-        std::cout << match << std::endl;
-        // std::cout << " " << match.group(0) << std::endl;
+        if (match) {
+          std::cout << *match << std::endl;
+        } else {
+          std::cout << "No match found" << std::endl;
+        }
       }
     } else {
       if (stream) {
@@ -173,7 +174,6 @@ int main(int argc, char** argv) {
         const auto match_generator = s_query.finditer(&reader);
         for (auto& match : match_generator) {
           std::cout << match << "\n";
-          // std::cout << " " << match.group(0) << std::endl;
         }
 
       } else {
@@ -185,7 +185,6 @@ int main(int argc, char** argv) {
         const auto match_generator = query.finditer(document_);
         for (auto& match : match_generator) {
           std::cout << match << "\n";
-          // std::cout << " " << match.group(0) << std::endl;
         }
       }
     }

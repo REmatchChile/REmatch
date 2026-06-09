@@ -15,9 +15,9 @@ TEST_CASE("find method simple test") {
   auto match = regex.findone(document);
 
   std::stringstream ss;
-  ss << match.span("x").first << " " << match.span("x").second;
+  ss << match->span("x").first << " " << match->span("x").second;
   INFO(ss.str());
-  REQUIRE(match.span("x") == Span(10, 13));
+  REQUIRE(match->span("x") == Span(10, 13));
 }
 
 TEST_CASE("finditer method simple test") {

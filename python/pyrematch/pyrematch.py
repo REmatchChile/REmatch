@@ -98,7 +98,10 @@ class Query:
             cpp_match = self._cpp_query.findone(document._cpp_reader)
         else:
             cpp_match = self._cpp_query.findone(document)
-        return Match(cpp_match)
+
+        if cpp_match:
+            return Match(cpp_match)
+        return None
 
     def findmany(self, document: Union[str, Reader], limit: int):
         if isinstance(document, Reader):
@@ -203,7 +206,10 @@ class MultiQuery:
             cpp_multi_match = self._cpp_multi_query.findone(document._cpp_reader)
         else:
             cpp_multi_match = self._cpp_multi_query.findone(document)
-        return MultiMatch(cpp_multi_match)
+
+        if cpp_multi_match:
+            return MultiMatch(cpp_multi_match)
+        return None
 
     def findmany(self, document: Union[str, Reader], limit: int):
         if isinstance(document, Reader):
