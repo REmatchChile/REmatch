@@ -47,6 +47,7 @@ class MultiMatchStandard : public MultiMatch {
   std::shared_ptr<parsing::VariableCatalog> variable_catalog_;
   std::shared_ptr<Document> document_;
   mutable std::unique_ptr<std::map<int, std::vector<Span>>> mapping_cache_;
+  uint32_t num_variables;
 };
 
 }  // namespace REmatch

@@ -42,6 +42,7 @@ cases = [
     ids=[c.name for c in cases],
 )
 def test_multi_findone(test_case: MultiFindoneCase):
+    """test_multi_findone"""
     regex = re.multi_reql(test_case.pattern)
 
     actual = regex.findone(test_case.document)

@@ -6,14 +6,16 @@ SMatch::SMatch(std::unique_ptr<mediator::Mapping> mapping,
                std::shared_ptr<VariableCatalog> variable_catalog, std::shared_ptr<Stream> stream)
     : mapping_(std::move(mapping)),
       variable_catalog_(std::move(variable_catalog)),
-      stream(std::move(stream)) {}
+      stream(std::move(stream)),
+      num_variables(variable_catalog_->size()) {}
 
 SMatch::~SMatch() = default;
 
 SMatch::SMatch(const SMatch& other)
     : mapping_(std::make_unique<mediator::Mapping>(*other.mapping_)),
       variable_catalog_(other.variable_catalog_),
-      stream(other.stream) {}
+      stream(other.stream),
+      num_variables(other.num_variables) {}
 
 SMatch& SMatch::operator=(const SMatch& other) {
   if (this == &other) {
@@ -23,18 +25,21 @@ SMatch& SMatch::operator=(const SMatch& other) {
   mapping_ = std::make_unique<mediator::Mapping>(*other.mapping_);
   variable_catalog_ = other.variable_catalog_;
   stream = other.stream;
+  num_variables = other.num_variables;
   return *this;
 }
 
 SMatch::SMatch(SMatch&& other) noexcept
     : mapping_(std::move(other.mapping_)),
       variable_catalog_(std::move(other.variable_catalog_)),
-      stream(std::move(other.stream)) {}
+      stream(std::move(other.stream)),
+      num_variables(other.num_variables) {}
 
 SMatch& SMatch::operator=(SMatch&& other) noexcept {
   mapping_ = std::move(other.mapping_);
   variable_catalog_ = std::move(other.variable_catalog_);
   stream = std::move(other.stream);
+  num_variables = other.num_variables;
   return *this;
 }
 
@@ -43,6 +48,10 @@ int64_t SMatch::start(const std::string& variable_name) const {
 }
 
 int64_t SMatch::start(uint_fast32_t variable_id) const {
+  if (variable_id >= num_variables) {
+    throw VariableNotFoundException("Variable id '" + std::to_string(variable_id) +
+                                    "' is out of range");
+  }
   return start(variable_catalog_->get_var(variable_id));
 }
 
@@ -52,6 +61,10 @@ int64_t SMatch::end(const std::string& variable_name) const {
 }
 
 int64_t SMatch::end(uint_fast32_t variable_id) const {
+  if (variable_id >= num_variables) {
+    throw VariableNotFoundException("Variable id '" + std::to_string(variable_id) +
+                                    "' is out of range");
+  }
   return end(variable_catalog_->get_var(variable_id));
 }
 
@@ -60,6 +73,10 @@ Span SMatch::span(const std::string& variable_name) const {
 }
 
 Span SMatch::span(uint_fast32_t variable_id) const {
+  if (variable_id >= num_variables) {
+    throw VariableNotFoundException("Variable id '" + std::to_string(variable_id) +
+                                    "' is out of range");
+  }
   return span(variable_catalog_->get_var(variable_id));
 }
 
@@ -69,13 +86,15 @@ std::string SMatch::group(const std::string& variable_name) const {
 }
 
 std::string SMatch::group(uint_fast32_t variable_id) const {
+  if (variable_id >= num_variables) {
+    throw VariableNotFoundException("Variable id '" + std::to_string(variable_id) +
+                                    "' is out of range");
+  }
   return group(variable_catalog_->get_var(variable_id));
 }
 
 std::string SMatch::to_string() const {
   std::stringstream ss;
-
-  const auto num_variables = variable_catalog_->size();
 
   if (num_variables == 0) {
     return "{}";
@@ -114,4 +133,4 @@ bool SMatch::empty() const {
   return mapping_->get_spans_map().empty();
 }
 
-}  // namespace REmatch
+}  // namespace REmatch::internal

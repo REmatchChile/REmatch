@@ -49,6 +49,7 @@ class MatchStandard : public Match {
   std::unique_ptr<mediator::Mapping> mapping_;
   std::shared_ptr<parsing::VariableCatalog> variable_catalog_;
   std::shared_ptr<Document> document_;
+  uint32_t num_variables;
 };
 
 }  // namespace REmatch

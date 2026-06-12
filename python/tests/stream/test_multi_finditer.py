@@ -3,6 +3,7 @@ import pyrematch as re
 import pytest
 from tests.match_mock import MultiMatch
 from tests import options
+from os import path
 
 
 @dataclass
@@ -48,7 +49,7 @@ cases = [
 def test_multi_finditer(test_case: MultiFinditerCase):
     """Test multi finditer"""
     regex = re.multi_reql(test_case.pattern)
-    reader = re.Reader(f"{options.DOCUMENTS_PATH}/{test_case.document}.txt")
+    reader = re.Reader(path.join(options.DOCUMENTS_PATH, f"{test_case.document}.txt"))
     iterator = regex.finditer(reader)
 
     for match in iterator:

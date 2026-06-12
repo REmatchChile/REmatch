@@ -7,12 +7,14 @@ SMultiMatch::SMultiMatch(std::unique_ptr<ExtendedMapping> extended_mapping,
                          std::shared_ptr<Stream> stream)
     : extended_mapping_(std::move(extended_mapping)),
       variable_catalog_(std::move(variable_catalog)),
-      stream(std::move(stream)) {}
+      stream(std::move(stream)),
+      num_variables(variable_catalog_->size()) {}
 
 SMultiMatch::SMultiMatch(const SMultiMatch& other)
     : extended_mapping_(std::make_unique<ExtendedMapping>(*other.extended_mapping_)),
       variable_catalog_(other.variable_catalog_),
-      stream(other.stream) {
+      stream(other.stream),
+      num_variables(other.num_variables) {
   if (other.mapping_cache_ != nullptr) {
     mapping_cache_ = std::make_unique<std::map<int, std::vector<Span>>>(*other.mapping_cache_);
   }
@@ -26,6 +28,7 @@ SMultiMatch& SMultiMatch::operator=(const SMultiMatch& other) {
   extended_mapping_ = std::make_unique<ExtendedMapping>(*other.extended_mapping_);
   variable_catalog_ = other.variable_catalog_;
   stream = other.stream;
+  num_variables = other.num_variables;
 
   if (other.mapping_cache_ != nullptr) {
     mapping_cache_ = std::make_unique<std::map<int, std::vector<Span>>>(*other.mapping_cache_);
@@ -40,22 +43,24 @@ SMultiMatch::SMultiMatch(SMultiMatch&& other) noexcept
     : extended_mapping_(std::move(other.extended_mapping_)),
       variable_catalog_(std::move(other.variable_catalog_)),
       stream(std::move(other.stream)),
-      mapping_cache_(std::move(other.mapping_cache_)) {}
+      mapping_cache_(std::move(other.mapping_cache_)),
+      num_variables(other.num_variables) {}
 
 SMultiMatch& SMultiMatch::operator=(SMultiMatch&& other) noexcept {
   extended_mapping_ = std::move(other.extended_mapping_);
   variable_catalog_ = std::move(other.variable_catalog_);
   stream = std::move(other.stream);
   mapping_cache_ = std::move(other.mapping_cache_);
+  num_variables = other.num_variables;
   return *this;
 }
 
 SMultiMatch::~SMultiMatch() = default;
 
 std::vector<Span> SMultiMatch::spans(uint_fast32_t variable_id) const {
-  if (variable_id >= variable_catalog_->size()) {
-    std::string var_name = variable_catalog_->get_var(variable_id);
-    throw VariableNotFoundException(var_name);
+  if (variable_id >= num_variables) {
+    throw VariableNotFoundException("Variable id '" + std::to_string(variable_id) +
+                                    "' is out of range");
   }
 
   if (mapping_cache_ == nullptr) {
@@ -71,9 +76,9 @@ std::vector<Span> SMultiMatch::spans(const std::string& variable_name) const {
 }
 
 std::vector<std::string> SMultiMatch::groups(uint_fast32_t variable_id) const {
-  if ((size_t)variable_id >= variable_catalog_->size()) {
-    std::string var_name = variable_catalog_->get_var(variable_id);
-    throw VariableNotFoundException(var_name);
+  if (variable_id >= num_variables) {
+    throw VariableNotFoundException("Variable id '" + std::to_string(variable_id) +
+                                    "' is out of range");
   }
 
   if (mapping_cache_ == nullptr) {
@@ -120,8 +125,6 @@ bool SMultiMatch::operator==(const SMultiMatch& other) const {
 }
 
 std::string SMultiMatch::to_string() const {
-  const auto num_variables = variable_catalog_->size();
-
   if (num_variables == 0) {
     return "{}";
   }
@@ -163,4 +166,4 @@ std::unique_ptr<MultiMatch> SMultiMatch::clone() const {
   return std::make_unique<SMultiMatch>(*this);
 }
 
-}  // namespace REmatch
+}  // namespace REmatch::internal

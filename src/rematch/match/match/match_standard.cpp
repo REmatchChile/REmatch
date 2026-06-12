@@ -1,4 +1,5 @@
 #include "match_standard.hpp"
+#include "REmatch/exceptions.hpp"
 
 namespace REmatch::internal {
 
@@ -7,12 +8,14 @@ MatchStandard::MatchStandard(std::unique_ptr<mediator::Mapping> mapping,
                              std::shared_ptr<Document> document)
     : mapping_(std::move(mapping)),
       variable_catalog_(std::move(variable_catalog)),
-      document_(std::move(document)) {}
+      document_(std::move(document)),
+      num_variables(variable_catalog_->size()) {}
 
 MatchStandard::MatchStandard(const MatchStandard& other)
     : mapping_(std::make_unique<mediator::Mapping>(*other.mapping_)),
       variable_catalog_(other.variable_catalog_),
-      document_(other.document_) {}
+      document_(other.document_),
+      num_variables(other.num_variables) {}
 
 MatchStandard& MatchStandard::operator=(const MatchStandard& other) {
   if (this == &other) {
@@ -22,18 +25,21 @@ MatchStandard& MatchStandard::operator=(const MatchStandard& other) {
   mapping_ = std::make_unique<mediator::Mapping>(*other.mapping_);
   variable_catalog_ = other.variable_catalog_;
   document_ = other.document_;
+  num_variables = other.num_variables;
   return *this;
 }
 
 MatchStandard::MatchStandard(MatchStandard&& other) noexcept
     : mapping_(std::move(other.mapping_)),
       variable_catalog_(std::move(other.variable_catalog_)),
-      document_(std::move(other.document_)) {}
+      document_(std::move(other.document_)),
+      num_variables(other.num_variables) {}
 
 MatchStandard& MatchStandard::operator=(MatchStandard&& other) noexcept {
   mapping_ = std::move(other.mapping_);
   variable_catalog_ = std::move(other.variable_catalog_);
   document_ = std::move(other.document_);
+  num_variables = other.num_variables;
   return *this;
 }
 
@@ -44,6 +50,10 @@ int64_t MatchStandard::start(const std::string& variable_name) const {
 }
 
 int64_t MatchStandard::start(uint_fast32_t variable_id) const {
+  if (variable_id >= num_variables) {
+    throw VariableNotFoundException("Variable id '" + std::to_string(variable_id) +
+                                    "' is out of range");
+  }
   return start(variable_catalog_->get_var(variable_id));
 }
 
@@ -53,6 +63,10 @@ int64_t MatchStandard::end(const std::string& variable_name) const {
 }
 
 int64_t MatchStandard::end(uint_fast32_t variable_id) const {
+  if (variable_id >= num_variables) {
+    throw VariableNotFoundException("Variable id '" + std::to_string(variable_id) +
+                                    "' is out of range");
+  }
   return end(variable_catalog_->get_var(variable_id));
 }
 
@@ -62,6 +76,10 @@ Span MatchStandard::span(const std::string& variable_name) const {
 }
 
 Span MatchStandard::span(uint_fast32_t variable_id) const {
+  if (variable_id >= num_variables) {
+    throw VariableNotFoundException("Variable id '" + std::to_string(variable_id) +
+                                    "' is out of range");
+  }
   return span(variable_catalog_->get_var(variable_id));
 }
 
@@ -71,6 +89,10 @@ std::string MatchStandard::group(const std::string& variable_name) const {
 }
 
 std::string MatchStandard::group(uint_fast32_t variable_id) const {
+  if (variable_id >= num_variables) {
+    throw VariableNotFoundException("Variable id '" + std::to_string(variable_id) +
+                                    "' is out of range");
+  }
   return group(variable_catalog_->get_var(variable_id));
 }
 
@@ -96,8 +118,6 @@ bool MatchStandard::empty() const {
 std::string MatchStandard::to_string() const {
   std::stringstream ss;
 
-  const auto num_variables = variable_catalog_->size();
-
   if (num_variables == 0) {
     return "{}";
   }
@@ -116,4 +136,4 @@ std::string MatchStandard::to_string() const {
   return ss.str();
 }
 
-}  // namespace REmatch
+}  // namespace REmatch::internal

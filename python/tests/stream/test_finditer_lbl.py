@@ -2,7 +2,8 @@ from dataclasses import dataclass
 import pyrematch as re
 import pytest
 from tests.match_mock import Match
-import tests.options as options
+from tests import options
+from os import path
 
 
 @dataclass
@@ -39,7 +40,7 @@ test_regex_finditer_cases = [
 def test_finditer_lbl(test_case: FinditerCase):
     """Test finditer lbl"""
     regex = re.reql(test_case.pattern, re.Flags.LINE_BY_LINE)
-    reader = re.Reader(f"{options.DOCUMENTS_PATH}/{test_case.document}.txt")
+    reader = re.Reader(path.join(options.DOCUMENTS_PATH, f"{test_case.document}.txt"))
     iterator = regex.finditer(reader)
 
     for match in iterator:

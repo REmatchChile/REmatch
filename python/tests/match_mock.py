@@ -1,3 +1,5 @@
+"""Match"""
+
 import pyrematch as re
 
 

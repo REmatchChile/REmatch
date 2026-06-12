@@ -1,5 +1,5 @@
 import enum
-from typing import Union
+from typing import Iterator, Union
 
 from ._pyrematch import (
     DEFAULT_MAX_DETERMINISTIC_STATES,
@@ -75,15 +75,11 @@ class MatchGenerator:
     def __init__(self, cpp_match_generator: cppMatchGenerator):
         self._cpp_it: cppIterator = cpp_match_generator.begin()
 
-    def __iter__(self) -> "MatchGenerator":
-        return self
-
-    def __next__(self) -> Match:
-        if self._cpp_it.has_value():
+    def __iter__(self) -> Iterator[Match]:
+        while self._cpp_it.has_value():
             cpp_match = self._cpp_it.get()
+            yield Match(cpp_match)
             self._cpp_it.next()
-            return Match(cpp_match)
-        raise StopIteration
 
 
 class Query:
@@ -161,7 +157,10 @@ class MultiMatch:
         return self._cpp_multi_match.groups(key)
 
     def groupdict(self) -> dict:
-        pass
+        res = {}
+        for variable in self._cpp_multi_match.variables():
+            res[variable] = self.groups(variable)
+        return res
 
     def submatch(self, span: tuple[int, int]) -> "MultiMatch":
         return MultiMatch(self._cpp_multi_match.submatch(span))
@@ -183,15 +182,11 @@ class MultiMatchGenerator:
     def __init__(self, cpp_multi_match_generator: cppMultiMatchGenerator):
         self._cpp_it: cppMultiIterator = cpp_multi_match_generator.begin()
 
-    def __iter__(self) -> "MatchGenerator":
-        return self
-
-    def __next__(self) -> Match:
-        if self._cpp_it.has_value():
+    def __iter__(self) -> Iterator[MultiMatch]:
+        while self._cpp_it.has_value():
             cpp_multi_match = self._cpp_it.get()
+            yield MultiMatch(cpp_multi_match)
             self._cpp_it.next()
-            return MultiMatch(cpp_multi_match)
-        raise StopIteration
 
 
 class MultiQuery:

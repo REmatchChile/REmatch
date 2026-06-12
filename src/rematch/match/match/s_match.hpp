@@ -46,6 +46,7 @@ class SMatch : public Match {
   std::unique_ptr<mediator::Mapping> mapping_;
   std::shared_ptr<VariableCatalog> variable_catalog_;
   std::shared_ptr<Stream> stream;
+  uint32_t num_variables;
 };
 
 }  // namespace REmatch::internal
