@@ -53,4 +53,22 @@ TEST_CASE("check method returns false when there is no output") {
   REQUIRE_FALSE(has_output);
 }
 
+TEST_CASE("standard check lbl") {
+  std::string pattern = "!x{..}";
+  std::string document = "0\n2\n4\n7";
+  auto query = reql(pattern, Flags::LINE_BY_LINE);
+
+  REQUIRE_FALSE(query.check(document));
+}
+
+TEST_CASE("stream check lbl") {
+  std::string pattern = "!x{..}";
+  std::string document = "0\n2\n4\n7";
+  std::stringstream document_stream(document);
+  auto reader = std::make_unique<FStreamReader>(document_stream);
+  auto query = reql(pattern, Flags::LINE_BY_LINE);
+
+  REQUIRE_FALSE(query.check(reader.get()));
+}
+
 }  // namespace REmatch::testing

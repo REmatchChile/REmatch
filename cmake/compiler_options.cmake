@@ -43,7 +43,7 @@ else()
     )
 
   # EMSCRIPTEN doesn't support -march=native flag
-  if (NOT EMSCRIPTEN)
+  if (NOT EMSCRIPTEN AND NOT SKBUILD)
     list(APPEND COMPILER_OPTIONS
       -march=native
     )

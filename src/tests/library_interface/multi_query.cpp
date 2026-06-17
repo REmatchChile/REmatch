@@ -189,4 +189,22 @@ TEST_CASE("multi regex submatch function") {
   REQUIRE(submatch.spans("x") == expected);
 }
 
+TEST_CASE("multi regex check lbl") {
+  std::string pattern = "!x{.}!x{.}";
+  std::string document = "0\n2\n4\n7";
+  auto query = multi_reql(pattern, Flags::LINE_BY_LINE);
+
+  REQUIRE_FALSE(query.check(document));
+}
+
+TEST_CASE("multi stream check lbl") {
+  std::string pattern = "!x{.}!x{.}";
+  std::string document = "0\n2\n4\n7";
+  std::stringstream document_stream(document);
+  auto reader = std::make_unique<FStreamReader>(document_stream);
+  auto query = multi_reql(pattern, Flags::LINE_BY_LINE);
+
+  REQUIRE_FALSE(query.check(reader.get()));
+}
+
 }  // namespace REmatch::testing
