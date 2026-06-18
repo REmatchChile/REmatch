@@ -1,5 +1,7 @@
 #pragma once
 
+#include "check_mediator/check_lbl_mediator.hpp"
+#include "check_mediator/check_mediator.hpp"
 #include "filtering_module/document_segment.hpp"
 #include "filtering_module/segment_identificator_stream.hpp"
 #include "finditer_mediator/finditer_lbl_mediator.hpp"
@@ -7,13 +9,19 @@
 #include "findone_mediator/findone_lbl_mediator.hpp"
 #include "findone_mediator/findone_mediator.hpp"
 #include "mediator.hpp"
-#include "mediator/stream_multi_finditer/stream_multi_finditer_lbl_mediator.hpp"
+#include "multi_check_mediator/multi_check_lbl_mediator.hpp"
+#include "multi_check_mediator/multi_check_mediator.hpp"
 #include "multi_finditer_mediator/multi_finditer_lbl_mediator.hpp"
 #include "multi_finditer_mediator/multi_finditer_mediator.hpp"
 #include "multi_findone_mediator/multi_findone_lbl_mediator.hpp"
 #include "multi_findone_mediator/multi_findone_mediator.hpp"
+#include "stream_check_mediator/stream_check_lbl_mediator.hpp"
+#include "stream_check_mediator/stream_check_mediator.hpp"
 #include "stream_mediator/stream_lbl_mediator.hpp"
 #include "stream_mediator/stream_mediator.hpp"
+#include "stream_multi_check_mediator/stream_multi_check_lbl_mediator.hpp"
+#include "stream_multi_check_mediator/stream_multi_check_mediator.hpp"
+#include "stream_multi_finditer/stream_multi_finditer_lbl_mediator.hpp"
 #include "stream_multi_finditer/stream_multi_finditer_mediator.hpp"
 
 namespace REmatch {
@@ -24,6 +32,16 @@ class MediatorConstructor {
       QueryData& query_data, const std::shared_ptr<Document>& document) {
     DFAStateLimitChecker dfa_states_checker(query_data.max_amount_of_states);
     auto search_dfa = std::make_unique<SearchDFA>(query_data.logical_va, dfa_states_checker);
+
+    if (query_data.variable_catalog->size() == 0) {
+      if ((query_data.flags & Flags::LINE_BY_LINE) != Flags::NONE) {
+        auto segment_checker = std::make_unique<SegmentChecker>(std::move(search_dfa), document);
+        return std::make_unique<CheckLblMediator>(query_data, document, std::move(segment_checker));
+      } else {
+        auto segment_checker = std::make_unique<SegmentChecker>(std::move(search_dfa), document);
+        return std::make_unique<CheckMediator>(query_data, document, std::move(segment_checker));
+      }
+    }
 
     if ((query_data.flags & Flags::LINE_BY_LINE) != Flags::NONE) {
       auto line_splitter = std::make_unique<LineSplitterStr>(document);
@@ -52,6 +70,16 @@ class MediatorConstructor {
     DFAStateLimitChecker dfa_states_checker(query_data.max_amount_of_states);
     auto search_dfa = std::make_unique<SearchDFA>(query_data.logical_va, dfa_states_checker);
 
+    if (query_data.variable_catalog->size() == 0) {
+      if ((query_data.flags & Flags::LINE_BY_LINE) != Flags::NONE) {
+        auto segment_checker = std::make_unique<SegmentChecker>(std::move(search_dfa), document);
+        return std::make_unique<CheckLblMediator>(query_data, document, std::move(segment_checker));
+      } else {
+        auto segment_checker = std::make_unique<SegmentChecker>(std::move(search_dfa), document);
+        return std::make_unique<CheckMediator>(query_data, document, std::move(segment_checker));
+      }
+    }
+
     if ((query_data.flags & Flags::LINE_BY_LINE) != Flags::NONE) {
       auto line_splitter = std::make_unique<LineSplitterStr>(document);
       auto segment_checker = std::make_unique<SegmentChecker>(std::move(search_dfa), document);
@@ -72,6 +100,16 @@ class MediatorConstructor {
       QueryData& query_data, const std::shared_ptr<Document>& document) {
     DFAStateLimitChecker dfa_states_checker(query_data.max_amount_of_states);
     auto search_dfa = std::make_unique<SearchDFA>(query_data.logical_va, dfa_states_checker);
+
+    if (query_data.variable_catalog->size() == 0) {
+      if ((query_data.flags & Flags::LINE_BY_LINE) != Flags::NONE) {
+        auto segment_checker = std::make_unique<SegmentChecker>(std::move(search_dfa), document);
+        return std::make_unique<MultiCheckLblMediator>(document, std::move(segment_checker));
+      } else {
+        auto segment_checker = std::make_unique<SegmentChecker>(std::move(search_dfa), document);
+        return std::make_unique<MultiCheckMediator>(document, std::move(segment_checker));
+      }
+    }
 
     if ((query_data.flags & Flags::LINE_BY_LINE) != Flags::NONE) {
       auto line_splitter = std::make_unique<LineSplitterStr>(document);
@@ -100,6 +138,16 @@ class MediatorConstructor {
     DFAStateLimitChecker dfa_states_checker(query_data.max_amount_of_states);
     auto search_dfa = std::make_unique<SearchDFA>(query_data.logical_va, dfa_states_checker);
 
+    if (query_data.variable_catalog->size() == 0) {
+      if ((query_data.flags & Flags::LINE_BY_LINE) != Flags::NONE) {
+        auto segment_checker = std::make_unique<SegmentChecker>(std::move(search_dfa), document);
+        return std::make_unique<MultiCheckLblMediator>(document, std::move(segment_checker));
+      } else {
+        auto segment_checker = std::make_unique<SegmentChecker>(std::move(search_dfa), document);
+        return std::make_unique<MultiCheckMediator>(document, std::move(segment_checker));
+      }
+    }
+
     if ((query_data.flags & Flags::LINE_BY_LINE) != Flags::NONE) {
       auto line_splitter = std::make_unique<LineSplitterStr>(document);
       auto segment_checker = std::make_unique<SegmentChecker>(std::move(search_dfa), document);
@@ -122,12 +170,22 @@ class MediatorConstructor {
     DFAStateLimitChecker dfa_states_checker(query_data.max_amount_of_states);
     auto search_dfa = std::make_unique<SearchDFA>(query_data.logical_va, dfa_states_checker);
 
+    if (query_data.variable_catalog->size() == 0) {
+      if ((query_data.flags & Flags::LINE_BY_LINE) != Flags::NONE) {
+        auto segment_checker =
+            std::make_unique<SegmentCheckerStream>(std::move(search_dfa), stream);
+        return std::make_unique<StreamCheckLblMediator>(query_data, stream,
+                                                        std::move(segment_checker));
+      } else {
+        auto segment_checker =
+            std::make_unique<SegmentCheckerStream>(std::move(search_dfa), stream);
+        return std::make_unique<StreamCheckMediator>(query_data, std::move(segment_checker));
+      }
+    }
+
     if ((query_data.flags & Flags::LINE_BY_LINE) != Flags::NONE) {
-
       auto line_splitter = std::make_unique<LineSplitterStream>(stream);
-
       auto segment_checker = std::make_unique<SegmentCheckerStream>(std::move(search_dfa), stream);
-
       return std::make_unique<StreamLblMediator>(query_data, stream, std::move(line_splitter),
                                                  std::move(segment_checker));
 
@@ -145,15 +203,24 @@ class MediatorConstructor {
     DFAStateLimitChecker dfa_states_checker(query_data.max_amount_of_states);
     auto search_dfa = std::make_unique<SearchDFA>(query_data.logical_va, dfa_states_checker);
 
+    if (query_data.variable_catalog->size() == 0) {
+      if ((query_data.flags & Flags::LINE_BY_LINE) != Flags::NONE) {
+        auto segment_checker =
+            std::make_unique<SegmentCheckerStream>(std::move(search_dfa), stream);
+        return std::make_unique<StreamCheckLblMediator>(query_data, stream,
+                                                        std::move(segment_checker));
+      } else {
+        auto segment_checker =
+            std::make_unique<SegmentCheckerStream>(std::move(search_dfa), stream);
+        return std::make_unique<StreamCheckMediator>(query_data, std::move(segment_checker));
+      }
+    }
+
     if ((query_data.flags & Flags::LINE_BY_LINE) != Flags::NONE) {
-
       auto line_splitter = std::make_unique<LineSplitterStream>(stream);
-
       auto segment_checker = std::make_unique<SegmentCheckerStream>(std::move(search_dfa), stream);
-
       return std::make_unique<StreamLblMediator>(query_data, stream, std::move(line_splitter),
                                                  std::move(segment_checker));
-
     } else {
       auto segment_identificator =
           std::make_unique<SegmentIdentificatorStream>(std::move(search_dfa), stream);
@@ -168,11 +235,21 @@ class MediatorConstructor {
     DFAStateLimitChecker dfa_states_checker(query_data.max_amount_of_states);
     auto search_dfa = std::make_unique<SearchDFA>(query_data.logical_va, dfa_states_checker);
 
+    if (query_data.variable_catalog->size() == 0) {
+      if ((query_data.flags & Flags::LINE_BY_LINE) != Flags::NONE) {
+        auto segment_checker =
+            std::make_unique<SegmentCheckerStream>(std::move(search_dfa), stream);
+        return std::make_unique<StreamMultiCheckLblMediator>(stream, std::move(segment_checker));
+      } else {
+        auto segment_checker =
+            std::make_unique<SegmentCheckerStream>(std::move(search_dfa), stream);
+        return std::make_unique<StreamMultiCheckMediator>(std::move(segment_checker));
+      }
+    }
+
     if ((query_data.flags & Flags::LINE_BY_LINE) != Flags::NONE) {
       auto line_splitter = std::make_unique<LineSplitterStream>(stream);
-
       auto segment_checker = std::make_unique<SegmentCheckerStream>(std::move(search_dfa), stream);
-
       return std::make_unique<StreamMultiFinditerLblMediator>(
           query_data, stream, std::move(line_splitter), std::move(segment_checker));
 

@@ -71,4 +71,50 @@ TEST_CASE("stream check lbl") {
   REQUIRE_FALSE(query.check(reader.get()));
 }
 
+TEST_CASE("standard no capture") {
+  std::string pattern = "a";
+  std::string document = "aabbaa";
+
+  auto query = reql(pattern);
+  auto matches = query.findall(document);
+
+  REQUIRE(matches.size() == 1);
+  REQUIRE(matches[0].empty());
+}
+
+TEST_CASE("standard no capture lbl") {
+  std::string pattern = "a";
+  std::string document = "aabbaa";
+
+  auto query = reql(pattern, Flags::LINE_BY_LINE);
+  auto matches = query.findall(document);
+
+  REQUIRE(matches.size() == 1);
+  REQUIRE(matches[0].empty());
+}
+
+TEST_CASE("stream no capture") {
+  std::string pattern = "a";
+  std::string document = "aabbaa";
+  std::stringstream document_stream(document);
+  auto reader = std::make_unique<FStreamReader>(document_stream);
+  auto query = reql(pattern);
+  auto matches = query.findall(reader.get());
+
+  REQUIRE(matches.size() == 1);
+  REQUIRE(matches[0].empty());
+}
+
+TEST_CASE("stream no capture lbl") {
+  std::string pattern = "a";
+  std::string document = "aabbaa";
+  std::stringstream document_stream(document);
+  auto reader = std::make_unique<FStreamReader>(document_stream);
+  auto query = reql(pattern, Flags::LINE_BY_LINE);
+  auto matches = query.findall(reader.get());
+
+  REQUIRE(matches.size() == 1);
+  REQUIRE(matches[0].empty());
+}
+
 }  // namespace REmatch::testing

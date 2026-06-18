@@ -15,7 +15,7 @@ namespace REmatch::testing {
 TEST_CASE("an exception is thrown from SearchDFA when the query is too complex") {
   uint_fast32_t max_states = 100;
   uint_fast32_t max_dups = 100;
-  std::string regex = std::string(max_states, 'a');
+  std::string regex = "!x{" + std::string(max_states, 'a') + "}";
   auto parser = Parser(regex);
   auto document_ = std::string(max_states, 'a');
   auto document = std::make_shared<Document>(document_);

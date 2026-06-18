@@ -132,46 +132,32 @@ bool Query::check(const std::string& document_) const {
   auto document = std::make_shared<Document>(document_);
 
   auto search_dfa = std::make_unique<SearchDFA>(query_data_->logical_va);
-  SegmentChecker segment_checker(std::move(search_dfa), document);
+  auto segment_checker = std::make_unique<SegmentChecker>(std::move(search_dfa), document);
 
   if ((query_data_->flags & Flags::LINE_BY_LINE) != Flags::NONE) {
-    auto line_splitter = LineSplitterStr(document);
-    std::unique_ptr<Span> line = line_splitter.get_line();
-
-    while (line != nullptr) {
-      if (segment_checker.check(*line)) {
-        return true;
-      }
-      line = line_splitter.get_line();
-    }
-    return false;
-
-  } else {
-    return segment_checker.check({0, document->size()});
+    auto mediator =
+        std::make_unique<CheckLblMediator>(*query_data_, document, std::move(segment_checker));
+    return mediator->next() != nullptr;
   }
+
+  auto mediator =
+      std::make_unique<CheckMediator>(*query_data_, document, std::move(segment_checker));
+  return mediator->next() != nullptr;
 }
 
-bool Query::check(Reader* reader_) const {
-  auto stream = std::make_shared<Stream>(reader_, buffer_size);
+bool Query::check(Reader* reader) const {
+  auto stream = std::make_shared<Stream>(reader, buffer_size);
 
   auto search_dfa = std::make_unique<SearchDFA>(query_data_->logical_va);
-  SegmentCheckerStream segment_checker(std::move(search_dfa), stream);
+  auto segment_checker = std::make_unique<SegmentCheckerStream>(std::move(search_dfa), stream);
 
   if ((query_data_->flags & Flags::LINE_BY_LINE) != Flags::NONE) {
-    auto line_splitter = LineSplitterStream(stream);
-    std::unique_ptr<Span> line = line_splitter.get_line();
-
-    while (line != nullptr) {
-      if (segment_checker.check(*line)) {
-        return true;
-      }
-      line = line_splitter.get_line();
-    }
-    return false;
-
-  } else {
-    return segment_checker.check();
+    auto mediator =
+        std::make_unique<StreamCheckLblMediator>(*query_data_, stream, std::move(segment_checker));
+    return mediator->next() != nullptr;
   }
+  auto mediator = std::make_unique<StreamCheckMediator>(*query_data_, std::move(segment_checker));
+  return mediator->next() != nullptr;
 }
 
 std::vector<std::string> Query::variables() const {
