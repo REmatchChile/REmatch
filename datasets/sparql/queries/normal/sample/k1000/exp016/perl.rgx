@@ -1,1 +1,0 @@
-(\n[^\n]* SELECT [^\n]* LIMIT [^\n]*\n[^\n]* SELECT [^\n]* GROUP BY [^\n]*\n)

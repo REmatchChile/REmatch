@@ -1,15 +1,13 @@
 
 <p align="center"><img src="https://raw.githubusercontent.com/REmatchChile/REmatch-docs/refs/heads/main/rematch2.png" alt="REmatch"></p>
 
-
 # PyREmatch: REmatch bindings for Python
 
 Python bindings for REmatch, an information extraction focused regex library that uses constant delay algorithms.
 
 * [REmatch's Official Website](https://rematch.cl/)
-* [GitHub Repository](https://github.com/REmatchChile/REmatch-javascript)
+* [GitHub Repository](https://github.com/REmatchChile/REmatch)
 * [PyREmatch Tutorial](https://github.com/REmatchChile/REmatch/wiki/pyREmatch-tutorial)
-
 
 ## Installation
 
@@ -24,9 +22,9 @@ Or you can build from the source code:
 ```bash
 git clone git@github.com:REmatchChile/REmatch.git
 cd REmatch
-pip install .
+python3 -m build --sdist
+python3 -m pip install dist/*.gz
 ```
-
 
 ## Usage
 

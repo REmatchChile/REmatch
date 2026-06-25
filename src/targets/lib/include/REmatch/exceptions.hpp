@@ -139,13 +139,5 @@ class REMATCH_EXPORT VariableNotFoundException : public ArgumentException {
       : ArgumentException("Variable not found: " + variable_name) {}
 };
 
-class REMATCH_EXPORT VariableNotFoundInCatalogException
-    : public ArgumentException {
- public:
-  explicit VariableNotFoundInCatalogException(const std::string& variable_name)
-      : ArgumentException("Variable not found in VariableCatalog: " +
-                          variable_name) {}
-};
-
 }  // namespace library_interface
 }  // namespace REmatch

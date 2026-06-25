@@ -1,16 +1,15 @@
-#ifndef AUTOMATA_DFA_SDFA_HPP
-#define AUTOMATA_DFA_SDFA_HPP
+#pragma once
 
-#include <string>
-#include <vector>
-#include <memory>
 #include <bitset>
+#include <memory>
+#include <string>
 #include <unordered_map>
+#include <vector>
 
-#include "parsing/logical_variable_set_automaton/logical_va.hpp"
+#include "exceptions/dfa_state_limit_checker.hpp"
 #include "filtering_module/search_variable_set_automaton/dfa/search_dfa_state.hpp"
 #include "filtering_module/search_variable_set_automaton/nfa/search_nfa.hpp"
-#include "exceptions/dfa_state_limit_checker.hpp"
+#include "parsing/logical_variable_set_automaton/logical_va.hpp"
 
 namespace REmatch {
 inline namespace filtering_module {
@@ -39,32 +38,26 @@ class SearchDFA {
             DFAStateLimitChecker dfa_states_checker = DFAStateLimitChecker(1000));
   ~SearchDFA();
 
-  SearchDFAState* get_initial_state() {return initial_state;}
+  SearchDFAState* get_initial_state() { return initial_state; }
 
   std::string pprint();
 
-  size_t size() const {return states.size();}
+  size_t size() const { return states.size(); }
 
   /**
    * next_state is the workhorse that allows DFASimulation, it returns
    * precomputed DFAState's or computes them and stores the result.
    */
   SearchDFAState* next_state(char a);
-  void reset() { current_state = initial_state;}
+  void reset() { current_state = initial_state; }
 
-  size_t get_search_nfa_size();
+  size_t get_search_nfa_size() const;
 
  private:
-
   SearchDFAState* create_initial_dfa_state();
-  void visit_states(
-    std::vector<SearchNFAState*> const &states_subset,
-    std::set<SearchNFAState*> &subset,
-    std::vector<bool> &subsetBitset,
-    char &a);
+  void visit_states(std::vector<SearchNFAState*> const& states_subset,
+                    std::set<SearchNFAState*>& subset, std::vector<bool>& subsetBitset, char& a);
 };
 
-}
-}
-
-#endif
+}  // namespace filtering_module
+}  // namespace REmatch

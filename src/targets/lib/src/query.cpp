@@ -1,64 +1,94 @@
-#include <REmatch/query.hpp>
+#include "REmatch/query.hpp"
 
-#include <REmatch/flags.hpp>
-#include <REmatch/match.hpp>
-#include <REmatch/match_generator.hpp>
 #include <stdexcept>
+#include "REmatch/flags.hpp"
 
+#include "REmatch/match.hpp"
 #include "evaluation/document.hpp"
-#include "mediator/mediator/findone_mediator.hpp"
-#include "mediator/output_checker.hpp"
-#include "mediator/segment_manager/segment_manager_creator.hpp"
+#include "filtering_module/search_variable_set_automaton/dfa/search_dfa.hpp"
+#include "filtering_module/segment_checker.hpp"
+#include "match/generator/match_standard_generator.hpp"
+#include "match/generator/s_match_generator.hpp"
+#include "match/match/match_standard.hpp"
+#include "match/match/s_match.hpp"
+#include "mediator/mediator_constructor.hpp"
 #include "utils/query_data.hpp"
 
 namespace REmatch {
 inline namespace library_interface {
 
-Query::Query(const std::string& pattern, Flags flags,
-             uint_fast32_t max_mempool_duplications,
-             uint_fast32_t max_deterministic_states)
+Query::Query(const std::string& pattern, Flags flags, uint_fast32_t max_mempool_duplications,
+             uint_fast32_t max_deterministic_states, uint_fast32_t buffer_size)
     : query_data_(std::make_shared<QueryData>(
-          get_query_data(pattern, flags, max_deterministic_states))),
+          get_query_data(pattern, flags, max_mempool_duplications, max_deterministic_states))),
       max_mempool_duplications_(max_mempool_duplications),
-      max_deterministic_states_(max_deterministic_states) {}
+      max_deterministic_states_(max_deterministic_states),
+      buffer_size(buffer_size) {}
 
 Query::Query(Query&& other) noexcept
     : query_data_(std::move(other.query_data_)),
       max_mempool_duplications_(other.max_mempool_duplications_),
-      max_deterministic_states_(other.max_deterministic_states_) {}
+      max_deterministic_states_(other.max_deterministic_states_),
+      buffer_size(other.buffer_size) {}
 
 Query& Query::operator=(Query&& other) noexcept {
   query_data_ = std::move(other.query_data_);
   max_mempool_duplications_ = other.max_mempool_duplications_;
   max_deterministic_states_ = other.max_deterministic_states_;
+  buffer_size = other.buffer_size;
   return *this;
 }
 
-Match Query::findone(const std::string& document_) const {
+std::optional<Match> Query::findone(const std::string& document_) const {
   auto document = std::make_shared<Document>(document_);
 
-  auto mediator = std::make_unique<FindoneMediator>(*query_data_, document,
-                                                    max_mempool_duplications_,
-                                                    max_deterministic_states_);
+  auto mediator = MediatorConstructor::create_findone_mediator(*query_data_, document);
 
   auto mapping = mediator->next();
 
   if (mapping == nullptr) {
-    throw REmatchException("No match found");
+    return std::nullopt;
   }
 
-  return {std::move(mapping), query_data_->variable_catalog, document};
+  auto match = std::make_unique<internal::MatchStandard>(std::move(mapping),
+                                                         query_data_->variable_catalog, document);
+  return Match(std::move(match));
 }
 
-std::vector<Match> Query::findmany(const std::string& document,
-                                   uint_fast32_t limit) const {
+std::optional<Match> Query::findone(Reader* reader) const {
+  auto stream = std::make_shared<Stream>(reader, buffer_size);
+  auto mediator = MediatorConstructor::create_stream_findone_mediator(*query_data_, stream);
+
+  std::unique_ptr<mediator::Mapping> mapping = mediator->next();
+
+  if (mapping == nullptr) {
+    return std::nullopt;
+  }
+
+  auto match =
+      std::make_unique<internal::SMatch>(std::move(mapping), query_data_->variable_catalog, stream);
+  return Match(std::move(match));
+}
+
+std::vector<Match> Query::findmany(const std::string& document, uint_fast32_t limit) const {
   std::vector<Match> res;
   res.reserve(limit);
 
   const auto match_generator = finditer(document);
-  for (auto it = match_generator.begin();
-       it != match_generator.end() && limit > 0; ++it, --limit) {
-    res.emplace_back(std::move(*it));
+  for (auto it = match_generator.begin(); it != match_generator.end() && limit > 0; ++it, --limit) {
+    res.emplace_back(*it);
+  }
+
+  return res;
+}
+
+std::vector<Match> Query::findmany(Reader* reader, uint_fast32_t limit) const {
+  std::vector<Match> res;
+  res.reserve(limit);
+
+  const auto match_generator = finditer(reader);
+  for (auto it = match_generator.begin(); it != match_generator.end() && limit > 0; ++it, --limit) {
+    res.emplace_back(*it);
   }
 
   return res;
@@ -68,7 +98,18 @@ std::vector<Match> Query::findall(const std::string& document) const {
   std::vector<Match> res;
 
   const auto match_generator = finditer(document);
-  for (auto&& match : match_generator) {
+  for (auto& match : match_generator) {
+    res.emplace_back(std::move(match));
+  }
+
+  return res;
+}
+
+std::vector<Match> Query::findall(Reader* reader) const {
+  std::vector<Match> res;
+
+  const auto match_generator = finditer(reader);
+  for (auto& match : match_generator) {
     res.emplace_back(std::move(match));
   }
 
@@ -76,15 +117,47 @@ std::vector<Match> Query::findall(const std::string& document) const {
 }
 
 MatchGenerator Query::finditer(const std::string& document) const {
-  return {query_data_, document, max_mempool_duplications_,
-          max_deterministic_states_};
+  internal::MatchStandardGenerator match_generator{query_data_,
+                                                   std::make_shared<Document>(document)};
+  return MatchGenerator(std::move(match_generator));
 }
 
-bool Query::check(const std::string& document_) {
+MatchGenerator Query::finditer(Reader* reader) const {
+  auto stream = std::make_shared<Stream>(reader, buffer_size);
+  internal::SMatchGenerator match_generator{query_data_, stream};
+  return MatchGenerator(std::move(match_generator));
+}
+
+bool Query::check(const std::string& document_) const {
   auto document = std::make_shared<Document>(document_);
 
-  auto output_checker = OutputChecker(*query_data_, document);
-  return output_checker.check();
+  auto search_dfa = std::make_unique<SearchDFA>(query_data_->logical_va);
+  auto segment_checker = std::make_unique<SegmentChecker>(std::move(search_dfa), document);
+
+  if ((query_data_->flags & Flags::LINE_BY_LINE) != Flags::NONE) {
+    auto mediator =
+        std::make_unique<CheckLblMediator>(*query_data_, document, std::move(segment_checker));
+    return mediator->next() != nullptr;
+  }
+
+  auto mediator =
+      std::make_unique<CheckMediator>(*query_data_, document, std::move(segment_checker));
+  return mediator->next() != nullptr;
+}
+
+bool Query::check(Reader* reader) const {
+  auto stream = std::make_shared<Stream>(reader, buffer_size);
+
+  auto search_dfa = std::make_unique<SearchDFA>(query_data_->logical_va);
+  auto segment_checker = std::make_unique<SegmentCheckerStream>(std::move(search_dfa), stream);
+
+  if ((query_data_->flags & Flags::LINE_BY_LINE) != Flags::NONE) {
+    auto mediator =
+        std::make_unique<StreamCheckLblMediator>(*query_data_, stream, std::move(segment_checker));
+    return mediator->next() != nullptr;
+  }
+  auto mediator = std::make_unique<StreamCheckMediator>(*query_data_, std::move(segment_checker));
+  return mediator->next() != nullptr;
 }
 
 std::vector<std::string> Query::variables() const {

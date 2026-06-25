@@ -1,7 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 
-#include <REmatch/REmatch.hpp>
+#include "REmatch/REmatch.hpp"
 #include "../evaluation/dummy_mapping.hpp"
 #include "../evaluation/mapping_helpers.hpp"
 #include "../tests_utils/tests_utils.hpp"
@@ -14,7 +14,10 @@ TEST_CASE("find method simple test") {
   Query regex = reql(pattern);
   auto match = regex.findone(document);
 
-  REQUIRE(match.span("x") == Span(10, 13));
+  std::stringstream ss;
+  ss << match->span("x").first << " " << match->span("x").second;
+  INFO(ss.str());
+  REQUIRE(match->span("x") == Span(10, 13));
 }
 
 TEST_CASE("finditer method simple test") {
@@ -26,12 +29,11 @@ TEST_CASE("finditer method simple test") {
   auto end = match_generator.end();
 
   REQUIRE(it != end);
-  Match match = *it;
+  auto match = *it;
   REQUIRE(match.span("x") == Span(10, 13));
 
   REQUIRE(++it != end);
-  match = *(it);
-  REQUIRE(match.span("x") == Span(10, 18));
+  REQUIRE((*it).span("x") == Span(10, 18));
 
   REQUIRE(++it == end);
 }
@@ -45,17 +47,15 @@ TEST_CASE("client interface with no matches") {
   REQUIRE(match_generator.begin() == match_generator.end());
 }
 
-TEST_CASE(
-    "client interface returns empty match if there are no variables in regex") {
+TEST_CASE("client interface returns empty match if there are no variables in regex") {
   std::string document = "This is a document";
   std::string pattern = "a document";
   Query regex = reql(pattern);
   auto match_generator = regex.finditer(document);
   auto it = match_generator.begin();
 
-  Match match = *it;
   REQUIRE(it != match_generator.end());
-  REQUIRE(match.empty());
+  REQUIRE(it->empty());
 }
 
 TEST_CASE("client interface with alternation") {
@@ -67,12 +67,11 @@ TEST_CASE("client interface with alternation") {
   auto end = match_iterator.end();
 
   REQUIRE(it != end);
-  Match match = *it;
+  auto match = *it;
   REQUIRE(match.span("x") == Span(10, 13));
 
   REQUIRE(++it != end);
-  match = *(it);
-  REQUIRE(match.span("x") == Span(10, 18));
+  REQUIRE((*it).span("x") == Span(10, 18));
 
   REQUIRE(++it == end);
 }
@@ -83,9 +82,9 @@ TEST_CASE("client interface with + quantifier") {
   Query regex = reql(pattern);
   auto match_iterator = regex.finditer(document);
 
-  std::vector<DummyMapping> expected_matches = {
-      DummyMapping({{"x", {0, 16}}}), DummyMapping({{"x", {6, 16}}}),
-      DummyMapping({{"x", {12, 16}}})};
+  std::vector<DummyMapping> expected_matches = {DummyMapping({{"x", {0, 16}}}),
+                                                DummyMapping({{"x", {6, 16}}}),
+                                                DummyMapping({{"x", {12, 16}}})};
 
   run_client_test(match_iterator, expected_matches);
 }
@@ -97,12 +96,9 @@ TEST_CASE("client interface with * quantifier") {
   auto match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
-      DummyMapping({{"x", {1, 2}}, {"y", {1, 2}}}),
-      DummyMapping({{"x", {0, 2}}, {"y", {1, 2}}}),
-      DummyMapping({{"x", {1, 3}}, {"y", {1, 2}}}),
-      DummyMapping({{"x", {0, 3}}, {"y", {1, 2}}}),
-      DummyMapping({{"x", {3, 4}}, {"y", {3, 4}}}),
-      DummyMapping({{"x", {2, 4}}, {"y", {3, 4}}})};
+      DummyMapping({{"x", {1, 2}}, {"y", {1, 2}}}), DummyMapping({{"x", {0, 2}}, {"y", {1, 2}}}),
+      DummyMapping({{"x", {1, 3}}, {"y", {1, 2}}}), DummyMapping({{"x", {0, 3}}, {"y", {1, 2}}}),
+      DummyMapping({{"x", {3, 4}}, {"y", {3, 4}}}), DummyMapping({{"x", {2, 4}}, {"y", {3, 4}}})};
 
   run_client_test(match_iterator, expected_matches);
 }
@@ -114,16 +110,15 @@ TEST_CASE("client interface with ? quantifier") {
   auto match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
-      DummyMapping({{"x", {1, 3}}}), DummyMapping({{"x", {0, 3}}}),
-      DummyMapping({{"x", {5, 7}}}), DummyMapping({{"x", {4, 7}}}),
-      DummyMapping({{"x", {5, 8}}})};
+      DummyMapping({{"x", {1, 3}}}), DummyMapping({{"x", {0, 3}}}), DummyMapping({{"x", {5, 7}}}),
+      DummyMapping({{"x", {4, 7}}}), DummyMapping({{"x", {5, 8}}})};
 
   run_client_test(match_iterator, expected_matches);
 }
 
 TEST_CASE("client interface with specified range of repetitions") {
   std::string document = " google.org or google.fr ";
-  std::string pattern = " !site{!name{\\w+}\\.\\w{2,3}} ";
+  std::string pattern = R"( !site{!name{\w+}\.\w{2,3}} )";
   Query regex = reql(pattern);
   auto match_iterator = regex.finditer(document);
 
@@ -152,8 +147,8 @@ TEST_CASE("client interface with short hand character classes (\\w)") {
   Query regex = reql(pattern);
   auto match_iterator = regex.finditer(document);
 
-  std::vector<DummyMapping> expected_matches = {
-      DummyMapping({{"var", {1, 10}}}), DummyMapping({{"var", {15, 24}}})};
+  std::vector<DummyMapping> expected_matches = {DummyMapping({{"var", {1, 10}}}),
+                                                DummyMapping({{"var", {15, 24}}})};
 
   run_client_test(match_iterator, expected_matches);
 }
@@ -165,10 +160,8 @@ TEST_CASE("client interface with short hand character classes (\\s)") {
   auto match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
-      DummyMapping({{"whitespace", {1, 3}}}),
-      DummyMapping({{"whitespace", {0, 3}}}),
-      DummyMapping({{"whitespace", {5, 7}}}),
-      DummyMapping({{"whitespace", {4, 7}}})};
+      DummyMapping({{"whitespace", {1, 3}}}), DummyMapping({{"whitespace", {0, 3}}}),
+      DummyMapping({{"whitespace", {5, 7}}}), DummyMapping({{"whitespace", {4, 7}}})};
 
   run_client_test(match_iterator, expected_matches);
 }
@@ -257,7 +250,7 @@ TEST_CASE("client interface with start and end anchors") {
 
 TEST_CASE("client interface with escape characters") {
   std::string document = "^!?\\a+*";
-  std::string pattern = "^\\^!\\?\\\\!x{a\\+}\\*$";
+  std::string pattern = R"(^\^!\?\\!x{a\+}\*$)";
   Query regex = reql(pattern);
   auto match_iterator = regex.finditer(document);
 
@@ -290,10 +283,8 @@ TEST_CASE("client interface with special characters inside a negated set") {
   auto match_iterator = regex.finditer(document);
 
   std::vector<DummyMapping> expected_matches = {
-      DummyMapping({{"x", {0, 1}}, {"y", {1, 2}}}),
-      DummyMapping({{"x", {0, 1}}, {"y", {2, 3}}}),
-      DummyMapping({{"x", {0, 1}}, {"y", {4, 5}}}),
-      DummyMapping({{"x", {2, 3}}, {"y", {4, 5}}}),
+      DummyMapping({{"x", {0, 1}}, {"y", {1, 2}}}), DummyMapping({{"x", {0, 1}}, {"y", {2, 3}}}),
+      DummyMapping({{"x", {0, 1}}, {"y", {4, 5}}}), DummyMapping({{"x", {2, 3}}, {"y", {4, 5}}}),
       DummyMapping({{"x", {3, 4}}, {"y", {4, 5}}}),
   };
 
@@ -302,7 +293,7 @@ TEST_CASE("client interface with special characters inside a negated set") {
 
 TEST_CASE("client interface with special characters inside a character set") {
   std::string document = "\ta\va\ra\na";
-  std::string pattern = "!x{[\\t].*\\v.*[\\r\\n]}";
+  std::string pattern = R"(!x{[\t].*\v.*[\r\n]})";
   Query regex = reql(pattern);
   auto match_iterator = regex.finditer(document);
 

@@ -1,8 +1,61 @@
-[build-system]
-requires = [
-    "setuptools",
-    "scikit-build",
-    "wheel",
-    "cmake>=3.23.2",
+[project]
+description = "Python bindings for REmatch, an information extraction focused regex library that uses constant delay algorithms"
+name = "pyrematch"
+dynamic = ["version"]
+authors = [
+    { name = "Vicente Calisto", email = "vecalisto@uc.cl" },
+    { name = "Oscar Cárcamo", email = "oscar.carcamoz@uc.cl" },
+    { name = "Nicolás Van Sint Jan", email = "nicovsj@uc.cl" },
+    { name = "Gustavo Toro", email = "gustavo.toro@uc.cl" },
 ]
-build-backend = "setuptools.build_meta"
+readme = "python/pyrematch/README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    # "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+license = "MIT"
+keywords = [
+    "regex",
+    "rematch",
+    "regular expression",
+    "information extraction",
+    "text search",
+    "pattern matching",
+]
+
+[project.urls]
+Homepage = "https://rematch.cl/"
+Repository = "https://github.com/REmatchChile/REmatch"
+
+[build-system]
+requires = ["scikit-build-core"]
+build-backend = "scikit_build_core.build"
+
+[tool.scikit-build.metadata.version]
+provider = "scikit_build_core.metadata.regex"
+input = "python/pyrematch/__init__.py"
+
+[tool.scikit-build]
+cmake.version = ">=3.23.2"
+build-dir = "_skbuild"
+wheel.install-dir = "pyrematch"
+wheel.packages = ["python/pyrematch"]
+sdist.exclude = [
+    "_skbuild",
+    ".github",
+    "datasets",
+    "scripts",
+    ".clang-format",
+    ".clang-tidy",
+    ".gitignore",
+    ".pypirc",
+    "DoxyFile",
+    "MANIFEST.in",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["python/tests"]
+addopts = ["--import-mode=importlib"]

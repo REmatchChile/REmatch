@@ -1,12 +1,19 @@
 
+#include <cli11.hpp>
 #include <cstdint>
 #include <cstdlib>
 #include <iostream>
 
-#include <REmatch/REmatch.hpp>
-#include <cli11.hpp>
+#include "REmatch/REmatch.hpp"
 
 using namespace REmatch;
+
+std::string read_from_file(const std::string& filename) {
+  std::ifstream t(filename);
+  std::stringstream buffer;
+  buffer << t.rdbuf();
+  return buffer.str();
+}
 
 // TODO: File input
 // TODO: Const methods if possible
@@ -16,9 +23,13 @@ int main(int argc, char** argv) {
 
   uint_fast32_t max_mempool_duplications{DEFAULT_MAX_MEMPOOL_DUPLICATIONS};
   uint_fast32_t max_deterministic_states{DEFAULT_MAX_DETERMINISTIC_STATES};
+  uint64_t buffer_size{DEFAULT_STREAM_BUFFER_SIZE};
 
   bool multi_spanners{false};
   bool line_by_line{false};
+  bool stream{false};
+  bool findone{false};
+  bool check{false};
 
   CLI::App app{"REmatch CLI"};
   app.get_formatter()->column_width(35);
@@ -42,11 +53,19 @@ int main(int argc, char** argv) {
       ->description("Maximum number of deterministic states allowed")
       ->type_name("<max-states>");
 
-  app.add_flag("-m,--multi-spanners", multi_spanners)
-      ->description("Enable Multi Spanners support");
+  app.add_option("--stream-buffer-size", buffer_size)
+      ->description("Size (bytes) for the buffer used in streams")
+      ->type_name("<buffer-size>");
 
-  app.add_flag("-l,--line-by-line", line_by_line)
-      ->description("Enable line by line");
+  app.add_flag("-m,--multi-spanners", multi_spanners)->description("Enable Multi Spanners support");
+
+  app.add_flag("-l,--line-by-line", line_by_line)->description("Enable line by line");
+
+  app.add_flag("-s,--stream", stream);
+
+  app.add_flag("-o,--findone", findone);
+
+  app.add_flag("-c", check);
 
   CLI11_PARSE(app, argc, argv);
 
@@ -56,19 +75,108 @@ int main(int argc, char** argv) {
   }
 
   try {
+
+    if (check) {
+      if (stream) {
+        std::string pattern_ = read_from_file(pattern);
+        std::fstream document_stream(document, std::ios::in | std::ios::binary);
+        auto s_query =
+            reql(pattern_, flags, max_mempool_duplications, max_deterministic_states, buffer_size);
+        FStreamReader reader(document_stream);
+
+        if (s_query.check(&reader)) {
+          std::cout << "true" << std::endl;
+        } else {
+          std::cout << "false" << std::endl;
+        }
+
+      } else {
+        std::string pattern_ = read_from_file(pattern);
+        std::string document_ = read_from_file(document);
+
+        auto query = reql(pattern_, flags, max_mempool_duplications, max_deterministic_states);
+        if (query.check(document)) {
+          std::cout << "true" << std::endl;
+        } else {
+          std::cout << "false" << std::endl;
+        }
+      }
+      return 0;
+    }
+
     if (multi_spanners) {
-      auto multi_query = multi_reql(pattern, flags, max_mempool_duplications,
-                                    max_deterministic_states);
-      const auto multi_match_generator = multi_query.finditer(document);
-      for (auto& multi_match : multi_match_generator) {
-        std::cout << multi_match << "\n";
+      if (stream) {
+        std::string pattern_ = read_from_file(pattern);
+        std::fstream document_stream(document, std::ios::in | std::ios::binary);
+        auto s_query = multi_reql(pattern_, flags, max_mempool_duplications,
+                                  max_deterministic_states, buffer_size);
+        FStreamReader reader(document_stream);
+        const auto match_generator = s_query.finditer(&reader);
+        for (auto& match : match_generator) {
+          std::cout << match << "\n";
+        }
+
+      } else {
+        std::string pattern_ = read_from_file(pattern);
+        std::string document_ = read_from_file(document);
+
+        auto multi_query =
+            multi_reql(pattern_, flags, max_mempool_duplications, max_deterministic_states);
+        const auto multi_match_generator = multi_query.finditer(document_);
+        for (const auto& multi_match : multi_match_generator) {
+          std::cout << multi_match << "\n";
+        }
+      }
+
+    } else if (findone) {
+      if (stream) {
+        std::string pattern_ = read_from_file(pattern);
+        std::fstream document_stream(document, std::ios::in | std::ios::binary);
+
+        auto query = reql(pattern_, flags, max_mempool_duplications, max_deterministic_states);
+
+        FStreamReader reader(document_stream);
+        auto match = query.findone(&reader);
+        if (match) {
+          std::cout << *match << std::endl;
+        } else {
+          std::cout << "No match found" << std::endl;
+        }
+
+      } else {
+        std::string pattern_ = read_from_file(pattern);
+        std::string document_ = read_from_file(document);
+
+        auto query = reql(pattern_, flags, max_mempool_duplications, max_deterministic_states);
+
+        auto match = query.findone(document_);
+        if (match) {
+          std::cout << *match << std::endl;
+        } else {
+          std::cout << "No match found" << std::endl;
+        }
       }
     } else {
-      auto query = reql(pattern, flags, max_mempool_duplications,
-                        max_deterministic_states);
-      const auto match_generator = query.finditer(document);
-      for (auto& match : match_generator) {
-        std::cout << match << "\n";
+      if (stream) {
+        std::string pattern_ = read_from_file(pattern);
+        std::fstream document_stream(document, std::ios::in | std::ios::binary);
+        auto s_query =
+            reql(pattern_, flags, max_mempool_duplications, max_deterministic_states, buffer_size);
+        FStreamReader reader(document_stream);
+        const auto match_generator = s_query.finditer(&reader);
+        for (auto& match : match_generator) {
+          std::cout << match << "\n";
+        }
+
+      } else {
+        std::string pattern_ = read_from_file(pattern);
+        std::string document_ = read_from_file(document);
+
+        auto query = reql(pattern_, flags, max_mempool_duplications, max_deterministic_states);
+        const auto match_generator = query.finditer(document_);
+        for (auto& match : match_generator) {
+          std::cout << match << "\n";
+        }
       }
     }
   } catch (const std::exception& e) {

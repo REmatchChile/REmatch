@@ -1,93 +1,51 @@
 #pragma once
 
-#include <cstddef>
-#include <cstdint>
-#include <iterator>
 #include <memory>
-#include <string>
 
-#include "constants.hpp"
-
+#include "REmatch/iterator.hpp"
 #include "REmatch_export.hpp"
 
 namespace REmatch {
-class Document;
-class FinditerMediator;
-struct QueryData;
-struct Statistics;
-
-inline namespace parsing {
-class VariableCatalog;
-}
-
-inline namespace library_interface {
-class Match;
 
 class REMATCH_EXPORT MatchGenerator {
  public:
-  struct REMATCH_EXPORT iterator {
-   public:
-    using iterator_category = std::input_iterator_tag;
-    using difference_type = std::ptrdiff_t;
-    using value = Match;
-    using pointer = Match*;
-    using reference = Match&;
+  template <typename T,
+            typename = std::enable_if_t<!std::is_same<std::decay_t<T>, MatchGenerator>::value>>
+  explicit MatchGenerator(T&& obj) : self(std::make_unique<Model<T>>(std::forward<T>(obj))) {}
 
-    // called with begin()
-    explicit iterator(std::unique_ptr<FinditerMediator> mediator_,
-                      std::shared_ptr<VariableCatalog> variable_catalog_,
-                      std::shared_ptr<Document> document_);
+  MatchGenerator(MatchGenerator& other) = delete;
+  MatchGenerator& operator=(const MatchGenerator&) = delete;
 
-    iterator(iterator&& other) noexcept;
-    iterator& operator=(iterator&& other) noexcept;
+  MatchGenerator(MatchGenerator&&) noexcept = default;
+  MatchGenerator& operator=(MatchGenerator&&) noexcept = default;
 
-    // called with end()
-    iterator();
-
-    ~iterator();
-
-    reference operator*() const;
-    pointer operator->() const;
-
-    iterator& operator++();
-    void operator++(int);
-
-    bool operator==(const iterator& other) const;
-
-    bool operator!=(const iterator& other) const;
-
-   private:
-    std::unique_ptr<FinditerMediator> mediator;
-
-    std::shared_ptr<parsing::VariableCatalog> variable_catalog;
-
-    std::shared_ptr<Document> document;
-
-    std::unique_ptr<Statistics> stats;
-
-    std::unique_ptr<value> match_ptr;
-
-    void next();
-  };
-
-  MatchGenerator(
-      std::shared_ptr<QueryData> query_data, const std::string& document,
-      uint_fast32_t max_mempool_duplications = DEFAULT_MAX_MEMPOOL_DUPLICATIONS,
-      uint_fast32_t max_deterministic_states =
-          DEFAULT_MAX_DETERMINISTIC_STATES);
-
-  iterator begin() const;
-
-  iterator end() const;
+  Iterator begin() const { return self->begin(); }
+  Iterator end() const { return self->end(); }
 
  private:
-  std::shared_ptr<QueryData> query_data;
+  struct Concept {
+    virtual ~Concept();
+    virtual Iterator begin() const = 0;
+    virtual Iterator end() const = 0;
+  };
 
-  std::shared_ptr<Document> document;
+  template <typename T>
+  struct Model : public Concept {
+    explicit Model(T&& obj) : object(std::forward<T>(obj)) {}
 
-  uint_fast32_t max_mempool_duplications;
-  uint_fast32_t max_deterministic_states;
+    Iterator begin() const override {
+      auto it = object.begin();
+      return Iterator(std::move(it));
+    }
+    Iterator end() const override {
+      auto it = object.end();
+      return Iterator(std::move(it));
+    }
+
+    T object;
+  };
+
+  std::unique_ptr<Concept> self;
 };
 
-}  // namespace library_interface
 }  // namespace REmatch

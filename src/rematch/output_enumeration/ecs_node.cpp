@@ -5,13 +5,13 @@ inline namespace output_enumeration {
 
 ECSNode::ECSNode(ECSNodeType node_type, ECSNode *left,
                  ECSNode *right, std::bitset<64> variable_markers,
-                 int document_position) {
+                 int64_t document_position) {
   assign_attributes(node_type, left, right, variable_markers, document_position);
 }
 
 ECSNode *ECSNode::reset(ECSNodeType node_type, ECSNode *left, ECSNode *right,
                         std::bitset<64> variable_markers,
-                        int document_position) {
+                        int64_t document_position) {
   reset_attributes();
   assign_attributes(node_type, left, right, variable_markers, document_position);
   return this;
@@ -42,7 +42,7 @@ std::ostream& operator<<(std::ostream& os, const ECSNode& n) {
 
 void ECSNode::assign_attributes(
     ECSNodeType node_type, ECSNode *left, ECSNode *right,
-    std::bitset<64> variable_markers, int document_position) {
+    std::bitset<64> variable_markers, int64_t document_position) {
   switch (node_type) {
   case ECSNodeType::kBottom:
     label_node_as_kBottom();
@@ -63,7 +63,7 @@ void ECSNode::reset_attributes() {
 }
 
 void ECSNode::label_node_as_kBottom() {
-    variable_markers[variable_markers.size() - 2] = 1;
+    variable_markers[variable_markers.size() - 2] = true;
     type = ECSNodeType::kBottom;
 }
 
@@ -85,18 +85,18 @@ void ECSNode::add_right_node(ECSNode *node) {
 
 void ECSNode::label_node_as_kUnion() {
     type = ECSNodeType::kUnion;
-    variable_markers[variable_markers.size() - 1] = 1;
+    variable_markers[variable_markers.size() - 1] = true;
 }
 
 void ECSNode::label_node_as_kLabel() {
-    variable_markers[variable_markers.size() - 1] = 1;
-    variable_markers[variable_markers.size() - 2] = 1;
+    variable_markers[variable_markers.size() - 1] = true;
+    variable_markers[variable_markers.size() - 2] = true;
     type = ECSNodeType::kLabel;
 }
 
 void ECSNode::create_kLabel_node(ECSNode *left,
                                  std::bitset<64> variable_markers,
-                                 int document_position) {
+                                 int64_t document_position) {
     add_left_node(left);
     this->variable_markers = variable_markers;
     label_node_as_kLabel();

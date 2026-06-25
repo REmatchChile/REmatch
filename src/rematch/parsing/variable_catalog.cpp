@@ -1,5 +1,6 @@
 #include "parsing/variable_catalog.hpp"
-#include <REmatch/exceptions.hpp>
+
+#include "REmatch/exceptions.hpp"
 
 namespace REmatch {
 inline namespace parsing {
@@ -17,7 +18,7 @@ int VariableCatalog::position(std::string var) const {
     return it - variables_.begin();
   }
 
-  throw REmatch::VariableNotFoundInCatalogException(var);
+  throw REmatch::VariableNotFoundException(var);
 }
 
 void VariableCatalog::add(std::string var) {

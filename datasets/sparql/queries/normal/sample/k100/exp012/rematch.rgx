@@ -1,1 +1,0 @@
-!x{\n[^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n[^\n]* SELECT [^\n]* GROUP BY [^\n]*\n}

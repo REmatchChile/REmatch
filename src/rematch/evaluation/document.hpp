@@ -1,7 +1,9 @@
-#ifndef DOCUMENT_HPP
-#define DOCUMENT_HPP
+#pragma once
 
 #include <string>
+
+#include "REmatch/span.hpp"
+#include "text_wrapper.hpp"
 
 namespace REmatch {
 
@@ -15,29 +17,28 @@ namespace REmatch {
  * needed are implemented.
  *
  */
-class Document {
+class Document : public TextWrapper {
  public:
   explicit Document(const std::string& str);
 
   // Get the character at the given index, including the bounding characters
-  const char& operator[](std::string::size_type pos) const;
+  const char& operator[](std::string::size_type pos) const override;
 
   // Get the size of the original string, including the bounding characters
-  std::string::size_type size() const noexcept;
+  std::string::size_type size() const noexcept override;
 
   // Find the first occurrence of the given character starting from the given
   // position, including the bounding characters
-  std::string::size_type find(std::string::value_type ch,
-                              std::string::size_type pos = 0) const;
+  std::string::size_type find(std::string::value_type ch, std::string::size_type pos = 0) const;
 
   // Get the substring of the original string
   std::string substr(std::string::size_type pos = 0,
                      std::string::size_type count = std::string::npos) const;
+
+  std::string_view get_segment(Span& span) const;
 
  private:
   std::string str;
 };
 
 }  // namespace REmatch
-
-#endif

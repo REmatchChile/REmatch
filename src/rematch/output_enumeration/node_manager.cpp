@@ -4,8 +4,9 @@
 #include <tracy/Tracy.hpp>
 #endif
 
-#include <REmatch/exceptions.hpp>
 #include <cstdint>
+
+#include "REmatch/exceptions.hpp"
 
 namespace REmatch {
 inline namespace output_enumeration {

@@ -12,7 +12,7 @@
 #include "output_enumeration/ecs_node.hpp"
 #include "parsing/charclass.hpp"
 
-#include <REmatch/REmatch.hpp>
+#include "REmatch/REmatch.hpp"
 
 namespace REmatch::testing {
 
@@ -23,9 +23,9 @@ std::string get_mapping_info(const DummyMapping& mapping);
 void run_algorithm_test(const std::string& query, const std::string& document_,
                         std::vector<DummyMapping> expected_mappings);
 
-void run_match_iterator_test(const std::string& query,
-                             const std::string& document,
-                             std::vector<mediator::Mapping> expected_matches);
+void run_match_iterator_test(
+    const std::string& query_, const std::string& document,
+    std::vector<std::map<std::string, Span>> expected_matches);
 
 void run_mediator_test(const std::string& query, const std::string& document,
                        std::vector<mediator::Mapping> expected_mappings);
@@ -42,9 +42,9 @@ bool state_has_self_loop(ExtendedVAState* state);
 
 std::bitset<64> get_close_code(std::bitset<64> code);
 
-int get_max_id(ExtendedVA const& extended_va);
+unsigned int get_max_id(ExtendedVA const& extended_va);
 
-int get_min_id(ExtendedVA const& extended_va);
+unsigned int get_min_id(ExtendedVA const& extended_va);
 
 bool charclass_contains_every_character(CharClass charclass);
 

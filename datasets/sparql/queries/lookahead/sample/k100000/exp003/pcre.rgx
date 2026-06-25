@@ -1,1 +1,0 @@
-(?=(\n[^\n]* SELECT [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*\n[^\n]* PREFIX [^\n]* OPTIONAL [^\n]* OPTIONAL [^\n]*))\n

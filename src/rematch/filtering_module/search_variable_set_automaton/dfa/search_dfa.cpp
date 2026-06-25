@@ -6,6 +6,10 @@
 #include <iostream>
 #include "search_dfa.hpp"
 
+#ifdef TRACY_ENABLE
+#include <tracy/Tracy.hpp>
+#endif
+
 namespace REmatch {
 inline namespace filtering_module {
 
@@ -40,6 +44,9 @@ SearchDFAState* SearchDFA::next_state(char a) {
  * Assumptions:
  *   the ids are from 0 upwards (necessary to use the subsetBitset.)
  */
+ #ifdef TRACY_ENABLE
+  ZoneScopedNC("SearchDFA::next_state", 0xcc241d);
+ #endif
 
   //std::cout << "Finding next state of " << (int) ((uint8_t) a) << std::endl;
   if (current_state->transitions[(uint8_t) a] != nullptr) {
@@ -92,7 +99,7 @@ void SearchDFA::visit_states(
   }
 }
 
-size_t SearchDFA::get_search_nfa_size() {
+size_t SearchDFA::get_search_nfa_size() const {
   return sVA_.size();
 }
 

@@ -1,22 +1,17 @@
-#ifndef EVALUATION__SEGMENT_EVALUATOR_HPP
-#define EVALUATION__SEGMENT_EVALUATOR_HPP
+#pragma once
 
-#include <string>
-#include <vector>
 #include <memory>
-#include <map>
-#include <sstream>
+#include <string>
 
-#include "parsing/logical_variable_set_automaton/logical_va.hpp"
-#include "output_enumeration/mapping.hpp"
-
+#include "REmatch/span.hpp"
+#include "evaluation/document.hpp"
 #include "filtering_module/search_variable_set_automaton/dfa/search_dfa.hpp"
 #include "filtering_module/search_variable_set_automaton/dfa/search_dfa_state.hpp"
-
-#include <REmatch/span.hpp>
+#include "filtering_module/segment_identificator_base.hpp"
+#include "output_enumeration/mapping.hpp"
+#include "parsing/logical_variable_set_automaton/logical_va.hpp"
 
 namespace REmatch {
-class Document;
 
 inline namespace filtering_module {
 
@@ -29,19 +24,20 @@ inline namespace filtering_module {
   * The SegmentIdentificator identifies through has_next() and next()
   * the next segment of the document that has at least one output.
   */
-class SegmentIdentificator {
+class SegmentIdentificator : public SegmentIdentificatorBase {
 
  public:
-  SegmentIdentificator(SearchDFA& search_dfa, std::shared_ptr<Document> document);
+  SegmentIdentificator(std::unique_ptr<SearchDFA> search_dfa, std::shared_ptr<Document> document);
 
   /**
    * next_is_computed_successfully() MUST be called before, if not, next() has undefined
    * behavior.
    */
-  std::unique_ptr<Span> next();
-  void set_document_indexes(Span& span);
-  size_t get_search_dfa_size();
-  size_t get_search_nfa_size();
+  std::unique_ptr<Span> next() override;
+  void set_document_indexes(Span& span) override;
+  void evaluate_start_char() override;
+  size_t get_search_dfa_size() const override;
+  size_t get_search_nfa_size() const override;
 
  private:
   /**
@@ -52,7 +48,7 @@ class SegmentIdentificator {
    */
   bool next_is_computed_successfully();
 
-  SearchDFA& search_dfa;
+  std::unique_ptr<SearchDFA> search_dfa;
   std::shared_ptr<Document> document;
 
   uint64_t doc_start_i_ = 0;
@@ -63,7 +59,5 @@ class SegmentIdentificator {
   uint64_t i_max = 0;
 };
 
-}
-}
-
-#endif // EVALUATION__EOFILTER_EVALUATOR_HPP
+}  // namespace filtering_module
+}  // namespace REmatch

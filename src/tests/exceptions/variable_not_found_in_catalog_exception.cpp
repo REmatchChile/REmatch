@@ -1,7 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 
-#include <REmatch/REmatch.hpp>
+#include "REmatch/REmatch.hpp"
 #include "parsing/parser.hpp"
 #include "parsing/variable_catalog.hpp"
 
@@ -14,7 +14,7 @@ TEST_CASE("accessing nonexistent variable raises an exception") {
       parser.get_variable_catalog();
 
   REQUIRE_THROWS_AS(variable_catalog->position("y"),
-                    REmatch::VariableNotFoundInCatalogException);
+                    REmatch::VariableNotFoundException);
 }
 
 }  // namespace REmatch::testing

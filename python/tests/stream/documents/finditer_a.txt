@@ -1,0 +1,25 @@
+public class Game
+{
+    public readonly Deck deck;
+    public readonly Card card;
+    private readonly List<Player> players;
+ 
+    public void Play1(Player p1, Card card) {
+        players.Add(p1);
+        this.card = card;
+    }
+
+    public void Play2(Player p1, Player p2, Card card) {
+        players.Add(p1);
+        players.Add(p2);
+        this.card = card;
+    }
+
+    public void Play3(Player p1, Player p2, Card card, Modifier mod) {
+        // todo: ...
+    }
+
+    public void Play() {
+        card = null;
+    }
+}
