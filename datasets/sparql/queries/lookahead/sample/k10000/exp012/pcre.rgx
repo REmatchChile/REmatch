@@ -1,1 +1,0 @@
-(?=(\n[^\n]* PREFIX [^\n]* GROUP BY [^\n]*\n[^\n]* PREFIX [^\n]* PREFIX [^\n]* OPTIONAL [^\n]*))\n

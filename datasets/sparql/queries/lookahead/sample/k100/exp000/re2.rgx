@@ -1,1 +1,0 @@
-\n([^\n]* OPTIONAL [^\n]* FILTER [^\n]*\n[^\n]* SELECT [^\n]* ORDER BY [^\n]*)\n

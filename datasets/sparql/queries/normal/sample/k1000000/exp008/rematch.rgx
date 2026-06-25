@@ -1,1 +1,0 @@
-!x{\n[^\n]* SELECT [^\n]*\n[^\n]* WHERE [^\n]*\n}

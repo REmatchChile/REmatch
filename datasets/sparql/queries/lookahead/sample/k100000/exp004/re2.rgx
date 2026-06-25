@@ -1,1 +1,0 @@
-\n([^\n]* SELECT [^\n]* WHERE [^\n]*\n[^\n]* PREFIX [^\n]* WHERE [^\n]* FILTER [^\n]*)\n

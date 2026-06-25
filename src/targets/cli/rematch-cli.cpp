@@ -78,7 +78,6 @@ int main(int argc, char** argv) {
 
     if (check) {
       if (stream) {
-        std::cout << "----CHECK STREAM----" << std::endl;
         std::string pattern_ = read_from_file(pattern);
         std::fstream document_stream(document, std::ios::in | std::ios::binary);
         auto s_query =
@@ -92,8 +91,6 @@ int main(int argc, char** argv) {
         }
 
       } else {
-        std::cout << "----CHECK----" << std::endl;
-
         std::string pattern_ = read_from_file(pattern);
         std::string document_ = read_from_file(document);
 
@@ -109,7 +106,6 @@ int main(int argc, char** argv) {
 
     if (multi_spanners) {
       if (stream) {
-        std::cout << "---MULTI STREAM----" << std::endl;
         std::string pattern_ = read_from_file(pattern);
         std::fstream document_stream(document, std::ios::in | std::ios::binary);
         auto s_query = multi_reql(pattern_, flags, max_mempool_duplications,
@@ -121,7 +117,6 @@ int main(int argc, char** argv) {
         }
 
       } else {
-        std::cout << "--- MULTI ---" << std::endl;
         std::string pattern_ = read_from_file(pattern);
         std::string document_ = read_from_file(document);
 
@@ -135,7 +130,6 @@ int main(int argc, char** argv) {
 
     } else if (findone) {
       if (stream) {
-        std::cout << "--- FINDONE STREAM ---" << std::endl;
         std::string pattern_ = read_from_file(pattern);
         std::fstream document_stream(document, std::ios::in | std::ios::binary);
 
@@ -150,7 +144,6 @@ int main(int argc, char** argv) {
         }
 
       } else {
-        std::cout << "--- FINDONE" << std::endl;
         std::string pattern_ = read_from_file(pattern);
         std::string document_ = read_from_file(document);
 
@@ -165,7 +158,6 @@ int main(int argc, char** argv) {
       }
     } else {
       if (stream) {
-        std::cout << "----STREAM----" << std::endl;
         std::string pattern_ = read_from_file(pattern);
         std::fstream document_stream(document, std::ios::in | std::ios::binary);
         auto s_query =
@@ -177,7 +169,6 @@ int main(int argc, char** argv) {
         }
 
       } else {
-        std::cout << "--- STANDARD ---" << std::endl;
         std::string pattern_ = read_from_file(pattern);
         std::string document_ = read_from_file(document);
 

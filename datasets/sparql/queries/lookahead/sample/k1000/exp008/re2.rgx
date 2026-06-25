@@ -1,1 +1,0 @@
-\n([^\n]* SELECT [^\n]* GROUP BY [^\n]*\n[^\n]* PREFIX [^\n]* SELECT [^\n]* FILTER [^\n]*)\n

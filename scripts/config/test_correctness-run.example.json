@@ -1,8 +1,0 @@
-{
-  "projectDir": "/home/gustavo/Documents/REmatch-cpp",
-  "binariesDir": "{projectDir}/build/Release/bin",
-  "timeoutInSeconds": 60,
-  "experimentsToRun": [
-    "dna", "morphemes", "sparql"
-  ]
-}

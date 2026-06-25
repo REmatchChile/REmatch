@@ -1,1 +1,0 @@
-(\n[^\n]* SELECT [^\n]* OPTIONAL [^\n]* ORDER BY [^\n]*\n[^\n]* AS [^\n]* WHERE [^\n]*\n)

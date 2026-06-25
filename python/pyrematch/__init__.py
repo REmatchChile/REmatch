@@ -1,6 +1,6 @@
 from .pyrematch import Flags, multi_reql, reql, Reader
 
-__version__ = "1.2.0"
+__version__ = "1.2.1"
 
 from ._pyrematch import REmatchException
 

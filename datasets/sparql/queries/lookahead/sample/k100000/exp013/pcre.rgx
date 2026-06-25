@@ -1,1 +1,0 @@
-(?=(\n[^\n]* DISTINCT [^\n]*\n[^\n]* PREFIX [^\n]* PREFIX [^\n]* WHERE [^\n]*))\n
