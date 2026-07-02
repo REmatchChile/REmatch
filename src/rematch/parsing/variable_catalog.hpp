@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <bitset>
+#include <cstdint>
 #include <iostream>
 #include <map>
 #include <ostream>
@@ -10,7 +11,6 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
-#include <cstdint>
 
 namespace REmatch {
 inline namespace parsing {
@@ -75,5 +75,5 @@ class VariableCatalog {
 	std::vector<int> offsetMap;
 };
 
-}
-}
+}  // namespace parsing
+}  // namespace REmatch
