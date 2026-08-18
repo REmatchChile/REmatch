@@ -114,7 +114,7 @@ foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
       ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${OUTPUTCONFIG}
       ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
-endforeach(OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
+endforeach()
 
 option(REMATCH_USE_BUNDLED_DEPS "Build and use the bundled third-party dependencies" ON)
 
@@ -128,7 +128,7 @@ else()
 endif()
 
 # Fix missing headers
-set(FIX_HEADER_PATH ${CMAKE_SOURCE_DIR}/third_party/fix_header.hpp)
+set(FIX_HEADER_PATH ${CMAKE_CURRENT_SOURCE_DIR}/third_party/fix_header.hpp)
 if (TARGET antlr4_static)
   target_compile_options(antlr4_static PRIVATE
     "$<$<CXX_COMPILER_ID:MSVC>:/FI${FIX_HEADER_PATH}>"
