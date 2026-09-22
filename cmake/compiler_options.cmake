@@ -30,7 +30,10 @@ if(MSVC)
     $<$<BOOL:${BUILD_SHARED_LIBS}>:/LTCG>
   )
 
-  set(MSVC_RUNTIME_TYPE $<IF:$<BOOL:${BUILD_WITH_MT}>,MultiThreaded$<$<CONFIG:Debug>:Debug>,MultiThreaded$<$<CONFIG:Debug>:Debug>>DLL)
+  set(MSVC_RUNTIME_TYPE "$<IF:$<BOOL:${BUILD_WITH_MT}>,MultiThreaded$<$<CONFIG:Debug>:Debug>,MultiThreaded$<$<CONFIG:Debug>:Debug>DLL>")
+
+  # Set MSVC runtime type globally
+  set(CMAKE_MSVC_RUNTIME_LIBRARY ${MSVC_RUNTIME_TYPE})
 else()
   list(APPEND COMPILER_OPTIONS
     -Wall

@@ -22,6 +22,7 @@ TEST_CASE("the mediator throws an exception when the variable is not in the rege
   auto mediator = MediatorConstructor::create_finditer_mediator(regex_data, document);
 
   auto mapping = mediator->next();
+  REQUIRE(mapping != nullptr);
   REQUIRE_THROWS_AS(mapping->get_span_of_variable(1), VariableNotFoundException);
 }
 
