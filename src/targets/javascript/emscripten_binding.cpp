@@ -19,6 +19,12 @@ class EmscriptenIteratorWrapper {
 
   void next() { ++it; }
 
+  EmscriptenIteratorWrapper(const EmscriptenIteratorWrapper&) = delete;
+  EmscriptenIteratorWrapper& operator=(const EmscriptenIteratorWrapper&) = delete;
+
+  EmscriptenIteratorWrapper(EmscriptenIteratorWrapper&&) noexcept = default;
+  EmscriptenIteratorWrapper& operator=(EmscriptenIteratorWrapper&&) noexcept = default;
+
  private:
   IteratorType it;
 };
@@ -72,6 +78,8 @@ EMSCRIPTEN_BINDINGS(REmatchModule) {
   register_vector<std::string>("cppVectorString");
   register_vector<Span>("cppVectorSpan");
   register_vector<Match>("cppVectorMatch");
+  register_optional<Match>();
+  register_optional<MultiMatch>();
 
   emscripten::constant("DEFAULT_MAX_MEMPOOL_DUPLICATIONS", DEFAULT_MAX_MEMPOOL_DUPLICATIONS);
   emscripten::constant("DEFAULT_MAX_DETERMINISTIC_STATES", DEFAULT_MAX_DETERMINISTIC_STATES);
@@ -94,12 +102,11 @@ EMSCRIPTEN_BINDINGS(REmatchModule) {
       .function("empty", &Match::empty)
       .function("toString", &Match::to_string);
 
-  class_<MatchGenerator>("cppMatchGenerator");
-
   class_<Query>("cppQuery")
-      .function("findone", select_overload<Match(const std::string&) const>(&Query::findone))
+      .function("findone",
+                select_overload<std::optional<Match>(const std::string&) const>(&Query::findone))
       .function("findoneStream",
-                std::function<Match(Query&, ReaderWrapper&)>(
+                std::function<std::optional<Match>(Query&, ReaderWrapper&)>(
                     [](Query& self, ReaderWrapper& r) { return self.findone(r.reader.get()); }))
       .function("findmany",
                 select_overload<std::vector<Match>(const std::string&, uint_fast32_t) const>(
@@ -114,11 +121,13 @@ EMSCRIPTEN_BINDINGS(REmatchModule) {
       .function("findallStream",
                 std::function<std::vector<Match>(Query&, ReaderWrapper&)>(
                     [](Query& self, ReaderWrapper& r) { return self.findall(r.reader.get()); }))
-      .function("finditer", &finditer_wrapper)
-      .function("finditerStream", std::function<MatchGeneratorWrapper(Query&, ReaderWrapper&)>(
-                                      [](Query& self, ReaderWrapper& r) {
-                                        return finditer_stream_wrapper(self, r.reader.get());
-                                      }))
+      .function("finditer", &finditer_wrapper, emscripten::return_value_policy::take_ownership())
+      .function("finditerStream",
+                std::function<MatchGeneratorWrapper(Query&, ReaderWrapper&)>(
+                    [](Query& self, ReaderWrapper& r) {
+                      return finditer_stream_wrapper(self, r.reader.get());
+                    }),
+                emscripten::return_value_policy::take_ownership())
       .function("check", select_overload<bool(const std::string&) const>(&Query::check))
       .function("checkStream",
                 std::function<bool(Query&, ReaderWrapper&)>(
@@ -140,12 +149,12 @@ EMSCRIPTEN_BINDINGS(REmatchModule) {
       .function("toString", &MultiMatch::to_string);
 
   class_<MultiQuery>("cppMultiQuery")
-      .function("findone",
-                select_overload<MultiMatch(const std::string&) const>(&MultiQuery::findone))
-      .function("findoneStream", std::function<MultiMatch(MultiQuery&, ReaderWrapper&)>(
-                                     [](MultiQuery& self, ReaderWrapper& r) {
-                                       return self.findone(r.reader.get());
-                                     }))
+      .function("findone", select_overload<std::optional<MultiMatch>(const std::string&) const>(
+                               &MultiQuery::findone))
+      .function(
+          "findoneStream",
+          std::function<std::optional<MultiMatch>(MultiQuery&, ReaderWrapper&)>(
+              [](MultiQuery& self, ReaderWrapper& r) { return self.findone(r.reader.get()); }))
       .function("findmany",
                 select_overload<std::vector<MultiMatch>(const std::string&, uint_fast32_t) const>(
                     &MultiQuery::findmany))
@@ -160,20 +169,22 @@ EMSCRIPTEN_BINDINGS(REmatchModule) {
           "findallStream",
           std::function<std::vector<MultiMatch>(MultiQuery&, ReaderWrapper&)>(
               [](MultiQuery& self, ReaderWrapper& r) { return self.findall(r.reader.get()); }))
-      .function("finditer", &multi_finditer_wrapper)
+      .function("finditer", &multi_finditer_wrapper,
+                emscripten::return_value_policy::take_ownership())
       .function("finditerStream",
                 std::function<MultiMatchGeneratorWrapper(MultiQuery&, ReaderWrapper&)>(
                     [](MultiQuery& self, ReaderWrapper& r) {
                       return multi_finditer_stream_wrapper(self, r.reader.get());
-                    }))
+                    }),
+                emscripten::return_value_policy::take_ownership())
       .function("check", select_overload<bool(const std::string&) const>(&MultiQuery::check))
       .function("checkStream",
                 std::function<bool(MultiQuery&, ReaderWrapper&)>(
                     [](MultiQuery& self, ReaderWrapper& r) { return self.check(r.reader.get()); }))
       .function("variables", &MultiQuery::variables);
 
-  function("cppReql", &reql);
-  function("cppMultiReql", &multi_reql);
+  function("cppReql", &reql, emscripten::return_value_policy::take_ownership());
+  function("cppMultiReql", &multi_reql, emscripten::return_value_policy::take_ownership());
 
   class_<MatchGeneratorWrapper>("cppMatchGeneratorIterator")
       .function("get", &MatchGeneratorWrapper::get)

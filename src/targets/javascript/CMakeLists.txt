@@ -11,9 +11,11 @@ target_link_libraries(${JAVASCRIPT_TARGET_NAME} PRIVATE REmatch::REmatch)
 set_target_properties(${JAVASCRIPT_TARGET_NAME} PROPERTIES
     MSVC_RUNTIME_LIBRARY "${MSVC_RUNTIME_TYPE}"
     LINK_FLAGS "-lembind \
+                -lworkerfs.js \
                 -fwasm-exceptions \
-                -sFILESYSTEM=0 \
-                -sASSERTIONS=0 \
+                -sFILESYSTEM=1 \
+                -sFORCE_FILESYSTEM=1 \
+                -sASSERTIONS=1 \
                 -sINVOKE_RUN=0 \
                 -sMODULARIZE=1 \
                 -sSINGLE_FILE=1 \
@@ -22,8 +24,7 @@ set_target_properties(${JAVASCRIPT_TARGET_NAME} PROPERTIES
                 -sALLOW_MEMORY_GROWTH=1 \
                 -sMEMORY_GROWTH_GEOMETRIC_STEP=1.0 \
                 -sMEMORY_GROWTH_GEOMETRIC_CAP=0 \
-                -sEXPORT_EXCEPTION_HANDLING_HELPERS=1 \
-                -sWASM_BIGINT=1"
+                -sEXPORTED_RUNTIME_METHODS=FS,WORKERFS"
 )
 
 target_compile_options(${JAVASCRIPT_TARGET_NAME} PRIVATE ${COMPILER_OPTIONS})
