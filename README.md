@@ -8,6 +8,7 @@ Check out our library in different languages!
 
 - [rematch-javascript on NPM](https://www.npmjs.com/package/rematch-javascript)
 - [pyrematch on PyPI](https://pypi.org/project/pyrematch/)
+- [rematch-platform on Maven Central](https://central.sonatype.com/artifact/cl.rematch/rematch-platform)
 
 ## Table of contents
 
